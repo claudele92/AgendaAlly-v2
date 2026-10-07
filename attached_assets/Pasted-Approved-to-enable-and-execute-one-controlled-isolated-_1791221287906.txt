@@ -1,0 +1,17 @@
+Approved to enable and execute one controlled isolated Admin SMTP Test Email.
+We now need to validate actual end-to-end SMTP delivery for the current AgendaAlly release candidate.
+1. Set AGENDAALLY_ISOLATED_ADMIN_SMTP_TEST=true only for the authorized isolated staging runtime and restart only the required isolated workflow.
+2. Do not change EMAIL_MODE; general application email delivery must remain log/disabled.
+3. Verify before sending that account verification, password reset, booking notifications, workers/schedulers, and all other outbound email paths remain suppressed.
+4. Use the SMTP provider configuration already saved through the isolated AgendaAlly Admin configuration. Do not print, expose, copy, retrieve, replace, or log the stored SMTP password.
+5. Send exactly one Admin Test Email to:
+cghotsa@gmail.com
+6. This must exercise the same hardened Admin sendTest() path exposed by the AgendaAlly Admin dashboard and make a real SMTP/TLS connection to the configured smtp.zoho.com provider.
+7. Do not send any other email. Do not trigger account verification, password reset, booking notifications, financial notifications, or background email jobs.
+8. Record only safe evidence: whether connection/authentication succeeded, whether the SMTP server accepted the message, safe error classification if it failed, and timestamp/message identifier if available without exposing credentials or sensitive SMTP dialogue.
+9. Do not automatically retry if the result is ambiguous or fails. Stop after the single attempt and report the result.
+10. After the attempt, set AGENDAALLY_ISOLATED_ADMIN_SMTP_TEST=false again and verify the Admin Test Email capability is disabled.
+11. Verify that general email delivery remained suppressed throughout and that no unrelated outbound messages were sent.
+12. Do not change booking, payment, Wallet, provider, payout/refund, SMS, push, or other application behavior.
+Success criteria: the single message is accepted by the configured Zoho SMTP service and I confirm that cghotsa@gmail.com actually received it. SMTP server acceptance alone is not final delivery confirmation.
+After the attempt, STOP and report the evidence. Do not make additional application changes unless the test reveals a specific defect.

@@ -1,0 +1,124 @@
+.aa-booking-details-modal {
+  z-index: 1100;
+}
+
+@media (min-width: 992px) {
+  .aa-booking-details-modal.ant-modal-wrap {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 24px 16px 24px 266px;
+  }
+
+  .aa-booking-details-modal .ant-modal {
+    top: 0;
+    width: min(1000px, calc(100vw - 298px)) !important;
+    max-width: 100%;
+    margin: 0 !important;
+  }
+}
+
+.aa-booking-details-modal .ant-modal-content {
+  display: flex;
+  max-height: calc(100dvh - 32px);
+  flex-direction: column;
+  min-width: 0;
+}
+
+.aa-booking-details-modal .ant-modal-header,
+.aa-booking-details-modal .ant-modal-footer {
+  flex: 0 0 auto;
+}
+
+.aa-booking-details-modal .ant-modal-body {
+  min-width: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.aa-booking-details-grid {
+  min-width: 0;
+}
+
+.aa-booking-description {
+  width: 100%;
+  min-width: 0;
+}
+
+.aa-booking-description .ant-descriptions-view {
+  width: 100%;
+  max-width: 100%;
+}
+
+.aa-booking-description a {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 991px) {
+  .aa-booking-details-modal.ant-modal-wrap {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 12px 8px;
+  }
+
+  .aa-booking-details-modal .ant-modal {
+    top: 0;
+    width: calc(100vw - 16px) !important;
+    max-width: 100%;
+    margin: 0 !important;
+  }
+
+  .aa-booking-details-modal .ant-modal-content {
+    max-height: calc(100dvh - 24px);
+  }
+}
+
+@media (max-width: 767px) {
+  .aa-booking-details-grid {
+    display: block;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .aa-booking-details-grid > .ant-col,
+  .aa-booking-details-grid .ant-row > .ant-col {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+    margin-bottom: 16px;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .aa-booking-details-grid .ant-descriptions-view > table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .aa-booking-details-grid .ant-descriptions-row {
+    display: block;
+  }
+
+  .aa-booking-details-grid .ant-descriptions-item-label,
+  .aa-booking-details-grid .ant-descriptions-item-content {
+    display: block;
+    width: 100% !important;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .aa-booking-details-grid .ant-descriptions-item-label {
+    padding-bottom: 3px;
+    border-bottom: 0 !important;
+  }
+
+  .aa-booking-details-grid .ant-descriptions-item-content {
+    padding-top: 3px;
+  }
+
+  .aa-booking-details-grid .ant-descriptions-title {
+    overflow-wrap: anywhere;
+  }
+}

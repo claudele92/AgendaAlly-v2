@@ -1,0 +1,86 @@
+{
+  "toolchain": {
+    "flutter": "3.38.5",
+    "dart": "3.10.4",
+    "java": "17.0.20.1",
+    "androidPackages": {
+      "cmdline-tools/latest": {
+        "revision": "19.0"
+      },
+      "platform-tools": {
+        "revision": "37.0.1"
+      },
+      "platforms/android-36": {
+        "revision": "2",
+        "apiLevel": 36
+      },
+      "build-tools/35.0.0": {
+        "revision": "35.0.0"
+      },
+      "ndk/29.0.14206865": {
+        "revision": "29.0.14206865"
+      }
+    },
+    "gradle": "8.13",
+    "androidGradlePlugin": "8.9.1",
+    "kotlin": "2.2.0"
+  },
+  "checks": {
+    "dependencyResolution": {
+      "exitCode": 0,
+      "status": "PASS",
+      "packageChanges": 0
+    },
+    "phase1Regression": {
+      "exitCode": 0,
+      "status": "PASS",
+      "passed": 36,
+      "failed": 0
+    },
+    "staticAnalysis": {
+      "exitCode": 0,
+      "status": "PASS",
+      "issues": 0
+    },
+    "androidDebugBuild": {
+      "wrapperReportedExitCode": 0,
+      "overallCommandExitCode": 124,
+      "gradleTaskExitCode": 143,
+      "apkProduced": false,
+      "status": "BLOCKED-ENVIRONMENT",
+      "target": "android-x64",
+      "buildMode": "debug",
+      "stallRootCause": "UNKNOWN"
+    },
+    "preservation": {
+      "baselineFiles": 5825,
+      "applicationChanges": 0,
+      "normalTablesIdentical": 214,
+      "schemaIdentical": true
+    }
+  },
+  "evidenceLevels": {
+    "secureConfiguration": "SOURCE-CONFIGURED",
+    "phase1Behavior": "TEST-VERIFIED",
+    "androidTokenPersistence": "NOT VERIFIED",
+    "androidTokenErasure": "NOT VERIFIED",
+    "androidJourneys": "NOT EXECUTED"
+  },
+  "acceptance": {
+    "androidQualification": "BLOCKED",
+    "p001": "CLOSED — application HTTP contract/logging",
+    "p002": "PARTIAL",
+    "androidFirstRemainingP0": 1,
+    "remainingP1": 9,
+    "iosNative": "NOT EXECUTED",
+    "phase2Recommended": false
+  },
+  "activity": {
+    "realCustomerCredentials": false,
+    "customerBackendRequests": false,
+    "realMailSms": false,
+    "providerActivation": false,
+    "financialActions": false,
+    "normalDatabaseWrites": false
+  }
+}

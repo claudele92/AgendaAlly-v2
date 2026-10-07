@@ -1,0 +1,17 @@
+{
+  "receipt.jpg": {
+    "bytes": 4316,
+    "sha256": "52a409062aadd6b2d308e8e7b32e8ae7aa24228ed4b1a3d2d597201cf936081e",
+    "mime": "image/jpeg"
+  },
+  "receipt.pdf": {
+    "bytes": 614,
+    "sha256": "881d58fc6d63352596ab5be572479afb0b334ed6a6e9315c3294dfb44a026af4",
+    "mime": "application/pdf"
+  },
+  "receipt.png": {
+    "bytes": 658,
+    "sha256": "33e79b8e63286ab2bc40a0a3ff81006ddfa6e30752e1991c7ad70178880cf0fd",
+    "mime": "image/png"
+  }
+}

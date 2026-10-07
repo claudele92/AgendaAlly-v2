@@ -1,0 +1,16 @@
+{
+  "dependencyGraph": "all existing package versions/checksums preserved; one direct-dependency classification",
+  "authCredentials": "body-only; no auth queryParameters outside non-secret language/currency settings",
+  "emailVerification": "recipient-bound POST email + otp",
+  "resetVerification": "recipient-bound POST email + otp",
+  "sharedPreferencesTokenAuthority": "removed; legacy key included in cleanup",
+  "releaseDiagnostics": "kDebugMode hard gate; metadata only; source validation, not native release execution",
+  "androidBackupExclusions": "dedicated Customer encrypted preference namespace only",
+  "financialSource": {
+    "booking": "unchanged after narrowly documented logging/format normalization",
+    "payments": "unchanged after narrowly documented logging/format normalization",
+    "order": "unchanged after narrowly documented logging/format normalization",
+    "products": "unchanged after narrowly documented logging/format normalization"
+  },
+  "lockedGraphSha256": "f3d3876e7f60b7629f12bf1a0ab6de2c5a9609d4702dffc317ad239cc0cc3a2f"
+}

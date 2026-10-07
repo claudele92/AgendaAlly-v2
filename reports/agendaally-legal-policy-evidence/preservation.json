@@ -1,0 +1,18 @@
+{
+    "schema_unchanged": true,
+    "changed_tables": [
+        "page_translations",
+        "pages",
+        "privacy_policy_translations",
+        "term_condition_translations"
+    ],
+    "unchanged_tables": 210,
+    "narrow_row_checks": {
+        "all_existing_page_rows_unchanged": true,
+        "all_existing_page_translations_unchanged": true,
+        "term_condition_translations_only_expected_title_description_delta": true,
+        "privacy_policy_translations_only_expected_title_description_delta": true
+    },
+    "new_legal_page_id": 4,
+    "recipe": "PHP serialize SHA256, PDO assoc, rowid order; exact pre-update public policy title\/description used to check other fields unchanged"
+}

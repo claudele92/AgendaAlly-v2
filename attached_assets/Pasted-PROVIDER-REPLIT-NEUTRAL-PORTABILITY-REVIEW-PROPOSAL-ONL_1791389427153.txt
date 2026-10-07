@@ -1,0 +1,267 @@
+PROVIDER / REPLIT-NEUTRAL PORTABILITY REVIEW — PROPOSAL ONLY
+
+Task #60 and the MySQL first-install validation track are CLOSED with
+PASS_FIRST_INSTALL.
+
+Do not reopen or repeat any accepted database, migration, bootstrap, media,
+recovery, JSON, financial, email, or first-install validation campaign.
+
+The next objective is to prepare AgendaAlly for a clean private GitHub
+repository and later deployment outside Replit.
+
+This task is REVIEW / PROPOSAL ONLY.
+
+Do not apply any cleanup changes yet.
+
+======================================================================
+OBJECTIVE
+======================================================================
+
+Identify unnecessary Replit-specific dependencies, branding, configuration,
+runtime assumptions, URLs, badges, scripts, metadata, or environment coupling
+that could interfere with running AgendaAlly after a normal GitHub clone on a
+standard supported Ubuntu LTS VPS.
+
+The immediate deployment target is Ubuntu 24.04 LTS, but the repository
+should avoid unnecessary OS-version coupling and remain suitable for newer
+compatible Ubuntu LTS releases, including Ubuntu 26.04 where the required
+application dependencies are supported.
+
+The repository should become provider-neutral rather than Hostinger-specific
+or Replit-specific.
+
+======================================================================
+REVIEW AREAS
+======================================================================
+
+Inspect the repository for items such as:
+
+- Replit branding or badges;
+- replit.com / repl.co / replit.dev URLs;
+- Replit-specific callback or application URLs;
+- .replit configuration;
+- replit.nix or equivalent Replit runtime configuration;
+- Replit-specific environment-variable assumptions;
+- REPL_ID, REPL_SLUG, REPL_OWNER or similar variables;
+- Replit-specific ports or host binding assumptions;
+- Replit proxy/domain assumptions;
+- Replit-specific startup commands;
+- Replit-specific development scripts;
+- deployment assumptions that only work inside Replit;
+- hard-coded workspace paths;
+- hard-coded /home/runner/workspace paths;
+- Replit-specific database/cache/session/storage assumptions;
+- temporary development tunnels or preview URLs;
+- Replit-specific CORS / trusted-host / callback configuration;
+- Replit-specific CAPTCHA or development bypass configuration;
+- Replit-specific secrets handling;
+- Replit-specific build/dependency behavior;
+- documentation instructing production users to rely on Replit;
+- package scripts/configuration that would prevent a normal clean clone from
+  building or running elsewhere.
+
+Also identify anything that currently originates from Replit but is generally
+useful outside Replit.
+
+Do NOT recommend deleting something solely because it was created while the
+project was hosted on Replit.
+
+======================================================================
+CLASSIFY EVERY FINDING
+======================================================================
+
+Classify each relevant item as exactly one of:
+
+REMOVE
+ADAPT
+PRESERVE
+
+REMOVE:
+Replit-specific material that is unnecessary outside Replit and has no
+historical/evidence value requiring preservation.
+
+ADAPT:
+Useful functionality that currently contains a Replit-specific assumption and
+should be made provider-neutral.
+
+PRESERVE:
+Material that should remain unchanged because it is:
+
+- generally useful outside Replit;
+- historical evidence;
+- accepted test/proof evidence;
+- documentation of previous work;
+- required development tooling;
+- required application configuration;
+- required first-install/reference evidence;
+- or otherwise harmless and useful.
+
+For every finding provide:
+
+- exact file/path;
+- relevant configuration/key/section;
+- classification;
+- reason;
+- proposed change, if REMOVE or ADAPT;
+- expected effect;
+- risk of the proposed change.
+
+======================================================================
+IMPORTANT PRESERVATION BOUNDARIES
+======================================================================
+
+Do NOT propose changes to accepted application behavior merely to make the
+repository look cleaner.
+
+Preserve:
+
+- application functionality;
+- UI/UX and visual design;
+- Customer/Vendor/Specialist/Admin behavior;
+- API behavior;
+- authentication/authorization behavior;
+- database schema;
+- 229 accepted migrations;
+- financial invariants;
+- payment/refund/payout containment;
+- Product NULL-media policy;
+- approved Service media;
+- canonical first-install baseline/reference artifacts;
+- accepted PASS_FIRST_INSTALL evidence;
+- accepted recovery/upgrade evidence;
+- accepted historical test evidence;
+- lockfiles;
+- deterministic dependency versions where already established;
+- security controls;
+- secrets exclusions;
+- Git ignore protections needed to prevent secrets/private runtime evidence
+  from being committed.
+
+Do not reopen historical findings that have already been accepted or closed.
+
+Historical evidence/test fixtures may contain the word "Replit" or historical
+Replit paths. That alone is NOT a reason to modify or delete them.
+
+======================================================================
+SECRETS AND ENVIRONMENT CONFIGURATION
+======================================================================
+
+Review configuration for portability, but do not expose or copy secret values.
+
+Determine whether production configuration can be supplied using standard
+environment variables or external secret files.
+
+Identify:
+
+- variables that are genuinely required;
+- variables that are development-only;
+- variables that are Replit-specific;
+- missing provider-neutral examples/documentation;
+- hard-coded secrets or credentials, if any.
+
+If examples are needed later, recommend placeholders only.
+
+Do not rotate, generate, reveal or activate credentials during this review.
+
+======================================================================
+DEPLOYMENT PORTABILITY TARGET
+======================================================================
+
+The repository should ultimately support this general architecture without
+requiring Replit:
+
+- Linux / supported Ubuntu LTS;
+- Nginx;
+- PHP-FPM / Laravel backend;
+- MySQL 8.x;
+- Node.js / Next.js web application;
+- Admin frontend;
+- supervised long-running processes where required;
+- persistent application/media storage;
+- HTTPS;
+- environment-provided secrets/configuration.
+
+Do NOT install or configure any of those components in this task.
+
+Do not make the repository Hostinger-specific.
+
+Hostinger is simply the planned first VPS provider.
+
+======================================================================
+DO NOT DO YET
+======================================================================
+
+Do NOT:
+
+- edit files;
+- delete files;
+- rename files;
+- move files;
+- modify application source;
+- modify migrations;
+- modify canonical manifests;
+- modify accepted evidence;
+- regenerate lockfiles;
+- upgrade dependencies;
+- change framework versions;
+- run another MySQL first-install campaign;
+- run another financial/security/media/recovery audit;
+- create production credentials;
+- connect to GitHub;
+- create or push AgendaAlly-v2;
+- access the Hostinger VPS;
+- deploy anything;
+- change DNS;
+- configure production services.
+
+This is discovery and classification only.
+
+======================================================================
+REQUIRED OUTPUT
+======================================================================
+
+Return a bounded portability review containing:
+
+1. Executive summary.
+
+2. A table of every relevant finding:
+
+   Path | Finding | Classification | Proposed action | Reason | Risk
+
+3. Separate totals for:
+
+   REMOVE
+   ADAPT
+   PRESERVE
+
+4. A proposed minimal cleanup change set.
+
+5. Explicit confirmation of which historical/evidence files containing Replit
+   references should remain untouched.
+
+6. Any portability blocker that would prevent a normal clean GitHub clone from
+   building or later running on a standard supported Ubuntu LTS VPS.
+
+7. Any configuration that should become environment-driven before deployment.
+
+8. Explicit confirmation that no files were changed.
+
+======================================================================
+STOP BOUNDARY
+======================================================================
+
+STOP after presenting the proposed cleanup plan.
+
+Do not implement anything.
+
+Do not start another audit or validation campaign.
+
+Wait for owner approval before applying any REMOVE or ADAPT action.
+
+The intended sequence after this review is:
+
+owner review/approval
+→ bounded provider-neutral cleanup
+→ one final clean-clone/build validation
+→ private AgendaAlly-v2 GitHub publication
+→ later Hostinger VPS deployment preparation.

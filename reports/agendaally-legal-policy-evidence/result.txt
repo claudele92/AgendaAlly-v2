@@ -1,0 +1,14 @@
+AgendaAlly legal policy follow-up — previously blocked checks completed
+Runtime: http://127.0.0.1:3002
+
+Location overlay: confirmed clean signed-out context before selection (Login links, empty sign-up email, country/city null, empty sessionStorage, no cart control/key). Used the existing dialog UI to select Cameroon / Douala and Save address; no business/account/registration action occurred. Overlay closed.
+
+Navigation: physically traversed Refund -> Terms -> Privacy using visible legal policy links. Link route/content transitions were asynchronous, but all three policy pages settled and displayed the expected body. Physically clicked the Information-footer Refund link on desktop and mobile; mobile click scrolled the footer link into view and reached /refund-cancellation. Signup Privacy and Refund links were both clicked and reached their policy routes; Terms checkbox remained unchecked, input empty, submit disabled, and no registration was submitted.
+
+Responsive: all three policies visibly readable in unobscured 390px captures; document client/scroll widths 375px at 390px viewport (15px scrollbar), so no horizontal page overflow. Refund title/text wrap normally; Terms/Privacy text are readable. A small floating devtools icon overlaps a small lower-left area in some screenshots. Desktop Refund, Terms, Privacy bodies also visibly rendered.
+
+Authenticated surfaces: not browser exercised. Static-only verification from exact ignored native files confirms LegalPolicyLinks placement: payment-list/payment-list.tsx lines 7 and 35-47 (after PaymentList); booking-detail.tsx lines 4 and 346-350 (cancellation section); manual-refunds/page.tsx lines 4 and 113-119 (account header).
+
+Console: repeated /_next/webpack-hmr WebSocket handshake ERR_INVALID_HTTP_RESPONSE left unrepaired as requested; these were separate from policy retrieval. One generic 404 resource was logged while Terms rendered, but requested policy text loaded.
+
+Persisted: reports/agendaally-legal-policy-evidence/result.json and result.txt. Final unobscured browser screenshot evidence IDs: desktop Refund v45o2w, Terms rlhryr, Privacy 35m62m; mobile Refund qr42a2/hwcsu6, Terms cz6iku, Privacy rqn9ki; mobile footer click mrsa5m; sign-up bqqf4f. The browser supplied screenshot observation IDs but not a supported local image-export operation, so image files were not created.

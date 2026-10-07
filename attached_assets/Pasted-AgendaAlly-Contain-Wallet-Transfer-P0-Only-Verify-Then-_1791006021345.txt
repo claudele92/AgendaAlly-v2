@@ -1,0 +1,409 @@
+AgendaAlly — Contain Wallet Transfer P0 Only, Verify, Then Stop
+
+I approve remediation ONLY for the newly confirmed Wallet transfer P0 documented
+in:
+
+docs/development/payment-system-full-audit.md
+
+Do not resume the broader payment architecture audit yet.
+
+The defect to contain is:
+
+A successful Wallet transfer debits the sender and credits the recipient, but
+the sender-side withdrawal remains `processed`. The sender can subsequently
+cancel that debit through their own Wallet history, restoring their balance
+without reversing the recipient credit and therefore creating unbacked Wallet
+value.
+
+============================================================
+1. OBJECTIVE
+============================================================
+
+Implement the minimum correct containment for this Wallet transfer lifecycle.
+
+The required invariant is:
+
+A COMPLETED TRANSFER MUST CONSERVE VALUE.
+
+Once the recipient has been successfully credited, the sender must not be able
+to independently cancel/reject/reverse the sender debit and restore their
+balance while leaving the recipient credit intact.
+
+Do not solve this merely with an ownership check.
+
+The current exploit uses the sender's OWN Wallet history, so ownership alone is
+not the missing accounting boundary.
+
+============================================================
+2. INVESTIGATE THE NATIVE MODEL FIRST
+============================================================
+
+Before changing code, trace the existing Wallet lifecycle and determine the
+smallest native-compatible correction.
+
+Inspect at minimum:
+
+POST /api/v1/dashboard/user/wallet/send
+
+GET /api/v1/dashboard/user/wallet/histories
+
+POST /api/v1/dashboard/user/wallet/history/{uuid}/status/change
+
+and the relevant:
+
+- WalletController;
+- WalletHistoryService;
+- WalletHistory model;
+- Transaction model;
+- observers/listeners;
+- status enums/constants;
+- existing Wallet tests.
+
+Establish whether the native model already has an appropriate terminal state or
+transfer relationship that should be used.
+
+Do not invent a large new Wallet architecture if a smaller correct lifecycle
+fix exists.
+
+============================================================
+3. REQUIRED ACCOUNTING BEHAVIOR
+============================================================
+
+For a successful internal transfer of x:
+
+Before:
+Sender = A
+Recipient = B
+
+After completed transfer:
+Sender = A - x
+Recipient = B + x
+
+Combined balance must remain:
+
+A + B
+
+A later sender action must NEVER result in:
+
+Sender = A
+Recipient = B + x
+
+unless a legitimate atomic reversal also removes x from the recipient according
+to an explicitly supported reversal workflow.
+
+For this containment, prefer making a successfully completed transfer FINAL /
+NON-CANCELLABLE from the ordinary customer history-status route unless the
+existing architecture clearly defines a safe paired reversal mechanism.
+
+Do not create a new customer-accessible reversal capability merely to preserve
+the existing cancellation action.
+
+============================================================
+4. TRANSFER PAIR INTEGRITY
+============================================================
+
+Determine whether the sender debit and recipient credit currently have a
+reliable shared transfer identity.
+
+If one already exists, use it appropriately.
+
+If none exists, determine whether introducing one is necessary for the minimum
+safe containment.
+
+Do not add schema merely for architectural elegance if preventing cancellation
+of completed transfers safely solves the P0.
+
+However, do not rely on fragile inference such as:
+
+- amount alone;
+- timestamp alone;
+- sender/recipient alone;
+- neighboring row IDs.
+
+Document the decision.
+
+============================================================
+5. STATUS LIFECYCLE
+============================================================
+
+Establish the correct state transitions for:
+
+- pending transfer;
+- failed transfer;
+- successfully completed transfer;
+- cancellable withdrawal;
+- rejected withdrawal;
+- canceled withdrawal.
+
+A transfer that has already credited its recipient must not remain in a state
+that the generic customer cancellation path interprets as cancellable.
+
+Preserve legitimate cancellation behavior for operations that truly remain
+cancellable.
+
+Do not globally disable Wallet cancellation unless that is actually required
+by the native model.
+
+============================================================
+6. ATOMICITY
+============================================================
+
+Preserve the existing atomic initial transfer behavior.
+
+A successful send must still behave as one financial operation:
+
+sender debit + recipient credit
+
+or neither.
+
+Verify that failures during recipient credit cannot leave only the sender debit
+committed.
+
+Also verify that the containment does not introduce a new partial-transfer
+state.
+
+============================================================
+7. IDEMPOTENCY / REPEAT ACTIONS
+============================================================
+
+Verify at minimum:
+
+- completed transfer cannot be canceled by sender;
+- completed transfer cannot be rejected by sender;
+- repeated cancellation attempts do not restore value;
+- repeated status-change requests do not restore value;
+- already-canceled legitimate cancellable operations do not restore value
+  repeatedly;
+- failed transfer cannot accidentally credit recipient;
+- successful transfer is not credited twice;
+- replaying relevant requests does not mint Wallet value.
+
+Use isolated test databases/fixtures only.
+
+Do not exercise the exploit against existing application data.
+
+============================================================
+8. AUTHORIZATION
+============================================================
+
+Preserve existing ownership/access controls, but do not mistake them for the
+accounting fix.
+
+Verify:
+
+- Customer cannot mutate another Customer's Wallet history;
+- Customer cannot cancel their own completed transfer debit;
+- legitimate native Admin behavior remains unchanged unless it would violate
+  the same money-conservation invariant;
+- Seller/Staff roles do not gain new Wallet authority.
+
+Do not broaden this into a general authorization audit.
+
+============================================================
+9. ACCOUNTING INVARIANTS
+============================================================
+
+Add focused regression tests proving Wallet conservation.
+
+For a transfer x:
+
+before_total =
+sender_balance_before + recipient_balance_before
+
+after_success_total =
+sender_balance_after + recipient_balance_after
+
+Require:
+
+after_success_total == before_total
+
+After every denied cancellation/rejection/replay attempt require:
+
+sender_balance + recipient_balance == before_total
+
+Also verify the relevant WalletHistory and Transaction statuses.
+
+Do not rely only on HTTP response codes.
+
+============================================================
+10. EXISTING DATA
+============================================================
+
+Do NOT rewrite historical Wallet records automatically.
+
+Do NOT repair, reverse or normalize existing transfers in this containment.
+
+Do NOT infer that historical exploitation occurred.
+
+If source inspection reveals existing records that could be structurally
+affected, report the COUNT using a read-only query only if it can be done
+without exposing Customer information or modifying data.
+
+Do not print identities, balances, transaction values or credentials.
+
+Any historical reconciliation must be proposed separately.
+
+============================================================
+11. FINANCIAL STATE PROTECTION
+============================================================
+
+Before remediation, capture the established protected-state snapshot.
+
+Maintain the existing 53-table protection set including:
+
+platform_fee_ledger_entries.
+
+Application verification must use isolated fixtures/databases.
+
+After remediation and verification, compare the existing development database
+against the pre-change snapshot.
+
+Require:
+
+- same protected table set;
+- same row counts;
+- same fingerprints;
+- zero unintended financial mutations.
+
+Clearly distinguish test-fixture mutations from existing application data.
+
+============================================================
+12. SCOPE BOUNDARY
+============================================================
+
+Do NOT during this task:
+
+- resume the broader payment architecture audit;
+- activate payment providers;
+- configure provider credentials;
+- modify provider capability;
+- modify country/currency policy;
+- modify Vendor-direct;
+- fix "Use my own payment gateway";
+- change commissions;
+- redesign Vendor balances;
+- redesign payouts;
+- issue refunds;
+- execute payouts;
+- submit real payments;
+- submit real Wallet transfers;
+- change Booking behavior;
+- change Product checkout;
+- change Service checkout;
+- investigate unrelated P1/P2/P3 findings;
+- redesign Wallet UI unless a minimal presentation change is strictly required
+  to prevent exposing an invalid action;
+- publish.
+
+============================================================
+13. NARROW SIBLING REVIEW
+============================================================
+
+Perform only a NARROW sibling review of the same WalletHistory status-change
+logic to ensure another route cannot perform the identical completed-transfer
+reversal.
+
+Do not expand into unrelated Wallet architecture.
+
+If an identical mutation path exists, contain it using the same invariant.
+
+Document exactly what was checked.
+
+============================================================
+14. VERIFICATION
+============================================================
+
+Add focused tests covering at minimum:
+
+1. successful transfer conserves total Wallet value;
+
+2. recipient receives exactly one credit;
+
+3. sender receives exactly one debit;
+
+4. completed sender transfer cannot be canceled;
+
+5. completed sender transfer cannot be rejected;
+
+6. denied cancellation leaves both balances unchanged;
+
+7. denied rejection leaves both balances unchanged;
+
+8. repeated attempts leave balances unchanged;
+
+9. legitimate cancellable non-transfer behavior still works where intended;
+
+10. failed transfer leaves recipient uncredited and does not lose sender funds;
+
+11. foreign Wallet history remains inaccessible;
+
+12. Transaction and WalletHistory statuses remain consistent.
+
+Exercise the real service/observer behavior in isolated fixtures where
+practical.
+
+Run the relevant focused Wallet/payment regression tests.
+
+Do not claim the entire project suite is green unless it was actually run and
+passed.
+
+============================================================
+15. REPORT
+============================================================
+
+Create/update a focused containment report, for example:
+
+docs/development/payment-wallet-transfer-p0-containment.md
+
+Document:
+
+- root cause;
+- exact files changed;
+- old lifecycle;
+- corrected lifecycle;
+- why ownership alone was insufficient;
+- whether a paired transfer identifier was required;
+- state-transition rules;
+- atomicity result;
+- idempotency result;
+- tests and assertions;
+- narrow sibling review;
+- any historical-data observation;
+- before/after 53-table fingerprint result;
+- limitations.
+
+Also update the main payment audit to mark this finding:
+
+FOUND AND CONTAINED / VERIFIED
+
+only after verification actually passes.
+
+============================================================
+16. FINAL STOP
+============================================================
+
+After the Wallet P0 containment and focused verification:
+
+STOP.
+
+Do NOT automatically resume the payment architecture audit.
+
+Do NOT begin another remediation.
+
+Do NOT activate providers.
+
+Do NOT implement optional follow-up work.
+
+Return a concise summary containing:
+
+- exact root cause;
+- containment implemented;
+- whether completed transfers are now terminal/non-cancellable;
+- whether any schema change was required;
+- conservation tests;
+- test/assertion totals;
+- narrow sibling result;
+- 53-table fingerprint result;
+- any remaining limitations.
+
+Wait for explicit approval before resuming the architecture audit.

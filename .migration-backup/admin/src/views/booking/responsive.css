@@ -1,0 +1,27 @@
+.mvp-bookings-page,
+.mvp-bookings-page .ant-card,
+.mvp-bookings-page .ant-table-wrapper,
+.mvp-bookings-page .ant-tabs {
+  min-width: 0;
+  max-width: 100%;
+}
+.mvp-bookings-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.mvp-bookings-controls > .ant-tabs {
+  flex: 1 1 200px;
+}
+.mvp-booking-type-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
+  gap: 6px;
+}
+.mvp-bookings-page .ant-table-content {
+  overflow-x: auto;
+}

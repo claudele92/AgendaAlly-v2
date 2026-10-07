@@ -1,0 +1,66 @@
+.root {
+  position: relative;
+  --gradient-from: rgb(137, 48, 253);
+  --gradient-to: var(--primary);
+  --gradient: linear-gradient(
+    90deg,
+    var(--gradient-from) 0%,
+    var(--gradient-to) 100%
+  );
+}
+
+.panelContainer {
+  position: absolute;
+  display: flex;
+  bottom: 100%;
+  right: 0;
+}
+
+.panel {
+  margin-left: auto;
+  padding: 0.2rem;
+  //background: var(--body-bg);
+  //border: 1px solid var(--anchor-before-bg);
+  //border-radius: 10px;
+  position: relative;
+}
+
+.translateBtn {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.3rem;
+  border-radius: 10px;
+  color: var(--primary);
+
+  &:hover {
+    background: var(--anchor-wrapper-bg);
+  }
+
+  //span {
+  //  background: var(--gradient);
+  //  background-clip: text;
+  //  -webkit-background-clip: text;
+  //  -webkit-text-fill-color: transparent;
+  //}
+
+  .icon {
+    color: var(--gradient-to);
+  }
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

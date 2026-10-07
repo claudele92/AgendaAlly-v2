@@ -1,0 +1,627 @@
+APPROVED — resume the Payment System Completion Program across the defined
+schema/identity boundary.
+
+The bounded proposal in
+`docs/development/payment-system-completion.md`
+is approved for implementation.
+
+This approval covers ONLY the minimum durable identity infrastructure required
+to complete the already-authorized payment work:
+
+1. Immutable global merchant configuration revisions.
+2. Generic durable electronic collection attempts.
+3. Durable refund operation identity and original-contribution linkage.
+4. Durable commission-receivable settlement operation/receipt identity.
+5. Durable Vendor-payable reservation and payout/settlement operation identity.
+
+The objective is to unblock the existing completion program, NOT redesign the
+accepted payment economics.
+
+============================================================
+1. ACCEPTED FINANCIAL MODEL REMAINS AUTHORITATIVE
+============================================================
+
+Do not change the accepted Phase 2 accounting model.
+
+Preserve:
+
+- one canonical Shop economic allocation;
+- frozen original collection/custody context;
+- commission calculated once;
+- platform-held funds satisfy commission first;
+- remaining eligible platform-held value creates Vendor payable;
+- Vendor-direct principal does not create platform principal payable;
+- Vendor-received Cash does not create platform principal payable;
+- unsatisfied commission becomes Vendor commission receivable;
+- replacement Transactions cannot duplicate canonical economics;
+- refunds follow original custody;
+- settlement/payout effects are append-only/once-only;
+- current Wallet conservation/finality;
+- current payout atomicity protections;
+- current fulfillment finality;
+- existing payment authorization containments.
+
+Do not reinterpret historical financial records.
+
+============================================================
+2. GLOBAL MERCHANT CONFIGURATION REVISIONS
+============================================================
+
+Implement immutable revisions for the existing global platform provider
+configurations used by:
+
+- Flutterwave
+- Paystack
+- Stripe
+- PayPal
+
+The revision must preserve the provider/merchant configuration identity needed
+to establish which configuration was used for a payment.
+
+A payment attempt/contribution must bind to the exact original revision.
+
+Later Admin credential/configuration rotation must create/use a new revision
+rather than rewriting the historical merchant identity used by an earlier
+payment.
+
+Do not fabricate revisions for historical payments where original evidence is
+insufficient.
+
+Do not silently classify legacy records.
+
+Secrets remain encrypted/redacted.
+
+Do not duplicate secrets into unnecessary financial/accounting records.
+
+============================================================
+3. GENERIC DURABLE COLLECTION ATTEMPT
+============================================================
+
+Implement a durable generic provider-attempt identity for non-MTN electronic
+providers.
+
+It must support the equivalent financial invariant already established for MTN:
+
+canonical funding identity
+→ durable provider attempt
+→ original configuration revision
+→ durable pre-dispatch claim
+→ provider dispatch
+→ pending/unknown/success/failure
+→ authoritative verification/reconciliation
+→ canonical funding exactly once.
+
+The attempt must exist before external provider dispatch.
+
+Do not treat a frontend request, eligible payment method or provider initiation
+response as paid authority.
+
+============================================================
+4. PROVIDER REFERENCE
+============================================================
+
+Retain the original provider reference/identity separately from internal
+attempt identity.
+
+Once provider dispatch can have occurred, the provider reference/configuration
+identity must not be silently replaced in a way that loses recovery of the
+original attempt.
+
+UNKNOWN must remain recoverable where the provider contract permits it.
+
+UNKNOWN is not paid.
+
+UNKNOWN must not cause blind resubmission.
+
+Provider-specific retry behavior must still follow the authoritative provider
+contract.
+
+============================================================
+5. MTN MUST REMAIN UNCHANGED
+============================================================
+
+Do not migrate MTN onto the generic attempt model merely for uniformity.
+
+The accepted typed MTN durable identity/recovery implementation remains
+authoritative unless an actual MTN contract requirement later proves a change
+necessary.
+
+The new generic infrastructure may share abstractions where safe, but must not
+weaken or rewrite the accepted MTN guarantees.
+
+MTN remains disabled.
+
+============================================================
+6. REFUND OPERATION IDENTITY
+============================================================
+
+Implement durable refund-operation identity.
+
+Every electronic refund must retain:
+
+- original canonical allocation;
+- original contribution(s);
+- original collector/custody;
+- original provider;
+- original merchant/configuration revision;
+- original provider payment identity;
+- requested refund amount;
+- provider refund reference when available;
+- operation state;
+- canonical refund effect identity.
+
+Retries, callbacks, polling and Admin retries must converge on the same
+operation rather than creating another economic refund.
+
+Partial refunds must retain cumulative/refundable limits.
+
+Do not use current provider settings to reinterpret an old payment.
+
+============================================================
+7. REFUND RESERVATION
+============================================================
+
+Prevent concurrent or repeated refund requests from authorizing more than the
+remaining refundable amount.
+
+The durable operation/reservation must fail closed when original custody or
+provider evidence is insufficient.
+
+A provider timeout/unknown result must not release authority in a way that
+allows another potentially duplicate provider refund.
+
+Do not mark a refund complete before authoritative provider evidence where an
+external provider refund is required.
+
+============================================================
+8. COMMISSION RECEIVABLE SETTLEMENT
+============================================================
+
+Implement the minimum durable operation/receipt identity required to settle a
+Vendor commission receivable legitimately.
+
+The workflow must distinguish:
+
+ACCOUNTING RECEIVABLE
+
+from:
+
+ACTUAL RECEIPT/COLLECTION OF THAT RECEIVABLE.
+
+A receivable may become settled only from legitimate retained evidence of
+receipt/collection.
+
+Do not invent an automatic Vendor debit.
+
+Do not debit an Admin Wallet merely because an Admin approves settlement.
+
+Prevent duplicate settlement of the same receivable amount.
+
+============================================================
+9. VENDOR PAYABLE / PAYOUT OPERATION
+============================================================
+
+Implement durable reservation/operation identity for Vendor payouts.
+
+The workflow must distinguish:
+
+VENDOR PAYABLE
+→ RESERVED FOR PAYOUT
+→ EXTERNAL PAYOUT ATTEMPT
+→ UNKNOWN/PENDING
+→ AUTHORITATIVE SUCCESS/FAILURE
+→ CANONICAL SETTLEMENT EFFECT.
+
+A Vendor payable must not be paid twice through concurrent requests, stale
+models, Admin retries or provider retry.
+
+Do not mark external payout success merely because internal bookkeeping
+succeeded.
+
+============================================================
+10. PAYOUT FUNDING
+============================================================
+
+Do not restore the previously incorrect model where an approving Admin's Wallet
+funds Vendor payout principal.
+
+Vendor payout principal must correspond to legitimate platform Vendor liability
+and legitimate platform-controlled funds.
+
+If the repository does not yet have an approved external payout rail or
+authoritative external platform-funding source:
+
+complete the durable internal workflow but retain:
+
+EXTERNAL PAYOUT NOT READY.
+
+Do not invent a rail.
+
+============================================================
+11. SCHEMA PRINCIPLES
+============================================================
+
+Prefer additive schema.
+
+New identity/operation records must have:
+
+- server-owned primary identity;
+- appropriate unique constraints;
+- immutable economic/merchant bindings;
+- explicit lifecycle state;
+- timestamps/auditability;
+- safe foreign-key retention behavior;
+- indexes required for lookup/reconciliation;
+- database-level uniqueness for once-only financial effects where appropriate.
+
+Do not rely solely on application-level "check then insert" for financial
+uniqueness.
+
+============================================================
+12. LEGACY DATA
+============================================================
+
+Do not backfill historical financial meaning that cannot be proven.
+
+Existing legacy provider/configuration/payment rows may remain:
+
+UNCLASSIFIED
+UNVERIFIED
+or
+LEGACY
+
+as appropriate.
+
+All existing 12 legacy Product Orders remain `unverified`.
+
+Do not delete them.
+
+Do not rewrite historical financial records to make the new schema appear
+complete.
+
+============================================================
+13. MIGRATION SAFETY
+============================================================
+
+Before applying migrations:
+
+- capture the current protected-state baseline;
+- inspect existing rows for uniqueness/foreign-key conflicts;
+- prove migration ordering;
+- prove rollback behavior where reasonably possible;
+- use nullable/additive linkage for unclassified historical records where
+  appropriate.
+
+Apply approved migrations only to the owned development database after
+disposable migration verification passes.
+
+No production database access.
+
+============================================================
+14. CONCURRENCY
+============================================================
+
+Test the new identities with controlled two-connection SQLite cases where
+applicable.
+
+Cover at minimum:
+
+- duplicate attempt creation;
+- concurrent dispatch claim;
+- duplicate provider finalization;
+- concurrent refund reservation;
+- duplicate refund finalization;
+- concurrent receivable settlement;
+- concurrent Vendor payable reservation;
+- duplicate payout finalization.
+
+The existing disposable MySQL harness should be extended/prepared for these
+identities.
+
+If no disposable MySQL instance is available, do not block application
+completion solely for that reason.
+
+Retain:
+
+PRODUCTION-ENGINE CONCURRENCY NOT CERTIFIED.
+
+============================================================
+15. AFTER THE COMMON BOUNDARY IS IMPLEMENTED
+============================================================
+
+Do NOT stop merely because the schema migration itself succeeds.
+
+Resume the existing Payment System Completion Program immediately.
+
+Continue the previously requested work order, using the new durable identity
+foundation.
+
+Complete as much application-side functionality as safely possible for:
+
+- Flutterwave;
+- Paystack;
+- Stripe;
+- PayPal;
+- MTN application-side configuration/readiness;
+- Orange where authoritative contract permits;
+- generic refund orchestration;
+- provider refund adapters;
+- reconciliation;
+- commission-receivable operations;
+- Vendor payout workflow;
+- Admin financial operations;
+- Vendor financial operations.
+
+Do not start another broad audit.
+
+============================================================
+16. FLUTTERWAVE / PAYSTACK / STRIPE / PAYPAL
+============================================================
+
+Bind new electronic attempts to the exact immutable global merchant
+configuration revision.
+
+Complete provider-specific initiation/verification/replay integration where
+the provider contract and existing implementation safely support it.
+
+Product and Booking must both use canonical accounting.
+
+Do not activate any provider.
+
+Do not use real credentials.
+
+Provider-specific external-contract gaps may remain explicit blockers without
+stopping independent work.
+
+============================================================
+17. PAYSTACK REFUND DEFECT
+============================================================
+
+After generic refund orchestration exists, revisit the documented Paystack
+credential/status refund defect.
+
+Correct it only through the new original-evidence refund operation.
+
+Do not patch the old current-settings dispatcher in a way that bypasses the
+new model.
+
+Verify:
+
+- correct original credential/configuration revision;
+- correct original provider payment identity;
+- status handling;
+- retry/idempotency;
+- partial/full limits where supported;
+- canonical refund effect exactly once.
+
+============================================================
+18. PAYPAL REFUND DEFECT
+============================================================
+
+After generic refund orchestration exists, revisit the documented PayPal
+refund-response defect.
+
+Correct it through the same durable original-evidence refund model.
+
+Do not rely on current merchant settings for historical refunds.
+
+Verify success, failure, pending/unknown behavior and replay according to the
+provider contract.
+
+============================================================
+19. ADMIN / VENDOR CONFIGURATION
+============================================================
+
+Preserve the newly completed secure configuration behavior:
+
+- encrypted secrets;
+- redacted API responses;
+- masked forms;
+- blank-preserves-secret editing;
+- provider-specific allowlists;
+- owner isolation;
+- capability/configuration/readiness/activation separation.
+
+Immutable revisions must integrate with this model without exposing historical
+secrets unnecessarily.
+
+============================================================
+20. VENDOR-DIRECT
+============================================================
+
+Do not invent Vendor-direct support for Flutterwave, Paystack, Stripe or PayPal
+merely because global platform configuration now has revision history.
+
+Vendor-direct requires an independently valid Shop-owned merchant model.
+
+Continue to support only provider/ownership models actually established by the
+application and provider contract.
+
+============================================================
+21. EXTERNAL BLOCKERS
+============================================================
+
+Continue to classify these independently:
+
+MTN Cameroon:
+external merchant/model/environment/UAT confirmation required.
+
+Orange:
+authoritative verification/refund contract required.
+
+Provider merchant/account/country/currency limitations:
+provider-specific certification required.
+
+These external blockers must not be "fixed" by application assumptions.
+
+============================================================
+22. TESTING
+============================================================
+
+Use focused tests.
+
+Do not repeatedly rerun enormous unrelated suites.
+
+At major milestones run:
+
+- new identity/migration tests;
+- canonical accounting regressions;
+- Product + Booking provider journeys;
+- refund tests;
+- receivable tests;
+- payout tests;
+- authorization/finality tests affected by changes;
+- one consolidated selected payment regression run.
+
+Report distinct test counts without double-counting overlapping runs.
+
+============================================================
+23. PROTECTED STATE
+============================================================
+
+For the approved migrations, distinguish intentional schema changes from
+financial-data changes.
+
+Existing financial values must remain unchanged unless a disposable synthetic
+fixture is being used.
+
+At completion report:
+
+- migrations/schema changes intentionally made;
+- existing protected financial records changed, if any;
+- legacy classification changes, if any;
+- status of all 12 legacy Orders.
+
+Do not claim identical schema fingerprints after intentionally approved
+migrations.
+
+============================================================
+24. STOP GATES
+============================================================
+
+STOP the affected path if implementation requires a material change to:
+
+- accepted economic allocation identity;
+- custody meaning;
+- commission calculation;
+- Vendor liability meaning;
+- MTN accepted identity model;
+- historical financial classification.
+
+Also stop for a new independent, source-confirmed immediately exploitable
+financial P0.
+
+Do not stop the entire program for a provider-specific external contract
+blocker if independent work can safely continue.
+
+============================================================
+25. FINAL OUTPUT
+============================================================
+
+Update:
+
+docs/development/payment-system-completion.md
+
+and the authoritative payment audit where necessary.
+
+Do not create another large fragmented audit series.
+
+At completion provide ONE concise final matrix covering:
+
+Cash
+Wallet
+MTN
+Orange
+Flutterwave
+Paystack
+Stripe
+PayPal
+Refunds
+Commission receivables
+Vendor payouts
+Reconciliation
+
+For each classify:
+
+COMPLETE
+FUNCTIONAL BUT NOT PRODUCTION-CERTIFIED
+PARTIAL
+EXTERNAL DEPENDENCY
+NOT IMPLEMENTED.
+
+Then answer:
+
+1. Is the common durable identity schema implemented?
+2. Are global merchant configuration revisions immutable?
+3. Can credential rotation reinterpret old payments?
+4. Do non-MTN electronic attempts exist before provider dispatch?
+5. Can ambiguous attempts be recovered without blind duplicate dispatch?
+6. Are Product and Booking integrated for each applicable provider?
+7. Is generic electronic refund orchestration implemented?
+8. Are refunds tied to original custody/configuration/payment evidence?
+9. Is over-refund/replay prevented?
+10. Is the Paystack refund defect fixed?
+11. Is the PayPal refund defect fixed?
+12. Is commission-receivable settlement operationally implemented?
+13. Can a receivable be settled twice?
+14. Is Vendor payable reservation implemented?
+15. Can a Vendor payable be paid twice?
+16. Is external payout success distinguished from internal accounting?
+17. Is an actual external payout rail implemented?
+18. What remains externally blocked for MTN?
+19. What remains externally blocked for Orange?
+20. Which providers are application-side ready for controlled UAT?
+21. Which providers remain contract-blocked?
+22. Which providers support platform-managed collection?
+23. Which providers safely support Vendor-direct?
+24. Are all electronic providers still disabled?
+25. Does Customer checkout remain Wallet/Cash only?
+26. Were any real credentials used?
+27. Were any real provider calls made?
+28. Were any real refunds/payouts performed?
+29. What intentional schema changes were made?
+30. Were existing financial values changed?
+31. Do all 12 legacy Orders remain `unverified`?
+32. What focused/consolidated tests passed?
+33. What SQLite contention was verified?
+34. What MySQL/production-engine concurrency remains uncertified?
+35. What application-side work still remains?
+36. What work now requires provider onboarding/credentials/UAT rather than
+    another payment-system redesign?
+37. What is the shortest path to the first controlled electronic payment?
+38. What is the shortest path to production activation?
+
+============================================================
+26. FINAL STOP
+============================================================
+
+After implementing the approved identity boundary and completing all remaining
+independent application-side work that can safely be completed:
+
+STOP.
+
+Do not activate providers.
+
+Do not enter real credentials.
+
+Do not contact providers.
+
+Do not perform real payments.
+
+Do not perform real refunds.
+
+Do not perform real Vendor payouts.
+
+Do not access production.
+
+Do not classify/delete legacy Orders.
+
+Do not publish.
+
+The intended end state is:
+
+APPLICATION-SIDE PAYMENT SYSTEM COMPLETE AS FAR AS POSSIBLE WITHOUT
+PROVIDER CREDENTIALS / CONTRACT CONFIRMATION / UAT / PRODUCTION CERTIFICATION.
+
+At that point, remaining work should be external onboarding and controlled
+provider certification—not another redesign of the payment architecture.

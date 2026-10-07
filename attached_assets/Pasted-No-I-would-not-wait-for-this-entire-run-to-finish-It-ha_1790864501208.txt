@@ -1,0 +1,31 @@
+No — I would not wait for this entire run to finish. It has moved into deep authorization testing while the basic preview you personally use is still broken.
+The agent is spending time on Staff → Master → Admin → Country Manager → Owner, protected branch reads, subscription behavior, etc. Those are useful eventually, but they are downstream of the blocker you have already demonstrated:
+- Your real Admin preview shows Network Error.
+- Its own Webview logs show Unable to initialize application translations: Network Error.
+- Your Customer preview still does not reliably load Cameroon → Douala and therefore cannot load the storefront correctly.
+- Yet its internal browser can authenticate. That means its browser environment is not reproducing your actual external-browser experience.
+I would interrupt it now and send this:
+Stop the current Task #16 role/authorization testing at the current checkpoint. Preserve all Staff/Master and other valid evidence already collected, but do not spend more time or credits on additional role tests right now.
+I have independently tested the actual public previews from my own browser, and the basic external user experience is still broken.
+Admin/Vendor preview: the page visibly shows Network Error. The Webview logs repeatedly show:
+Unable to initialize application translations: Network Error
+with Axios failing at XMLHttpRequest, even though Vite itself successfully connects.
+Customer preview: country/city initialization is still not working correctly for me. I cannot reliably load/select Cameroon → Douala and proceed into the fully seeded storefront.
+These are now the highest-priority blockers. Do not continue testing Staff, Master, Admin, Country Manager, Owner, branch authorization, production builds, or Stage 2 until the ordinary external previews work for me.
+Your internal browser being able to sign in does not establish acceptance because my actual public browser is still receiving the network failure.
+Fix only the external-preview connectivity now
+Trace the exact browser requests made by the native applications and determine why an ordinary external browser cannot communicate reliably with the Laravel API.
+For Admin, start with the failing translations/settings initialization and record the actual:
+frontend origin → requested API URL → preflight → response → CORS headers.
+Check the effective VITE_BASE_URL, Laravel public API URL, CORS_ALLOWED_ORIGINS, credentials/cookies, HTTPS/mixed-content behavior and Replit port/proxy URLs.
+For Customer, trace the actual country/city requests and make sure the UI can visibly perform:
+Open customer preview → select Cameroon → select Douala → save → reload → location remains selected → seeded storefront loads.
+Do not use wildcard CORS, mocked responses, hard-coded frontend geography, synthetic browser authentication or agent-only workarounds. Fix the portable development configuration so it works from a normal external browser.
+After the fix, restart/restore the previews and STOP. Give me the Customer preview URL and Admin/Vendor preview URL so I can manually verify them before you resume Task #16.
+Also provide all development test credentials
+Give me the reproducible synthetic development credentials you are using for:
+Super Admin, Country Manager/Admin, Vendor Owner, Vendor Staff, Master/Specialist, Finance, Customer, and any other seeded role.
+Provide:
+Role | Email/Username | Development Password | Country | Shop | Branch Scope | Expected Access
+These must be development-only synthetic accounts. Do not expose production credentials or secrets.
+Do not mark Stage 1 accepted and do not start Stage 2. Wait for my manual confirmation that both public previews work.

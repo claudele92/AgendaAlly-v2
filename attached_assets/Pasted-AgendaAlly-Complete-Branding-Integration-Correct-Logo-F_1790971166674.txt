@@ -1,0 +1,615 @@
+AgendaAlly — Complete Branding Integration + Correct Logo/Favicon Visual Sizing Across the Full Web Experience
+
+The previous AgendaAlly branding implementation is incomplete.
+
+There are now two issues to address:
+
+1. Some login/authentication/onboarding surfaces still render the old branding:
+   - old black square `a.` icon
+   - text-rendered `AgendaAlly`
+   instead of the configured AgendaAlly branding.
+
+2. The new AgendaAlly logo and/or compact/favicon mark appears visually too small on some surfaces.
+
+The attached screenshot demonstrates at least one remaining legacy auth header.
+
+The supplied AgendaAlly branding has a distinctive square bronze application symbol and a horizontal AgendaAlly wordmark. The implementation must respect the actual visual proportions of these assets rather than simply placing them inside arbitrary fixed-size image boxes.
+
+This is a focused branding-completion and visual-sizing task.
+
+Do NOT redesign unrelated pages.
+
+Do NOT create a second branding system.
+
+Do NOT replace the approved logo artwork.
+
+Do NOT regenerate the logo.
+
+Do NOT crop meaningful artwork.
+
+Audit the implementation first, determine why the branding is inconsistent/small, and then apply the smallest clean solution across the relevant native web surfaces.
+
+---
+
+# 1. Audit ALL authentication and onboarding branding
+
+Search the full native codebase for every place that renders:
+
+- old `a.` icon
+- hardcoded `AgendaAlly` logo-like text
+- old logo assets
+- placeholder logos
+- legacy iBeauty branding
+- hardcoded brand marks
+- authentication-specific logo components
+- duplicated logo implementations
+- fixed width/height rules that make the new logo too small
+- excessive transparent/internal image padding
+- `object-fit` / `object-contain` rules that shrink the visible mark
+- favicon references
+- metadata icon references
+- PWA/app icon references if present
+
+Audit at minimum:
+
+## Customer Web
+
+- storefront header
+- login
+- register / sign up
+- forgot password
+- reset password
+- email verification
+- OTP / verification
+- social-auth pages
+- authentication success/error pages
+- Vendor/business entry pages exposed through Customer Web
+- onboarding
+- invitation acceptance
+- Delivery Driver invitation/registration/verification
+- split-screen auth/marketing layouts
+- mobile auth layouts
+- footer branding
+- invoice-facing platform branding where shared assets are used
+
+## Admin / Vendor Web
+
+Audit:
+
+- Admin login
+- Vendor login
+- Vendor registration
+- Vendor onboarding
+- forgot/reset password
+- email verification
+- Staff invitation/authentication
+- Delivery Driver invitation/registration/authentication
+- shared auth shells/layouts
+- application header/sidebar logo
+- collapsed sidebar logo
+- mobile navigation logo
+- any standalone authentication page
+
+Do not assume one shared header means all authentication pages are correct.
+
+Trace actual components/layouts.
+
+---
+
+# 2. Audit WHY the logo appears too small
+
+Do not blindly increase CSS width.
+
+Determine the real cause.
+
+Inspect:
+
+- actual source image dimensions;
+- transparent padding around the artwork;
+- intrinsic aspect ratio;
+- rendered CSS width/height;
+- parent container dimensions;
+- `object-fit`;
+- `object-position`;
+- Next/Image sizing behavior if applicable;
+- responsive constraints;
+- header height;
+- flex/grid constraints;
+- max-width/max-height rules;
+- favicon source dimensions;
+- favicon metadata configuration;
+- browser favicon generation/selection;
+- whether the full wordmark is incorrectly being used where the compact symbol should be used;
+- whether the compact symbol itself has excessive internal whitespace.
+
+Report the root cause before/while fixing it.
+
+The objective is NOT “make every logo bigger.”
+
+The objective is:
+
+**make the approved branding occupy the appropriate visual area for each context.**
+
+---
+
+# 3. Fit the existing design properly
+
+The branding should feel intentional and proportional to the surrounding interface.
+
+For the auth/header design shown in the supplied screenshot, the current branding occupies too little visual weight.
+
+The logo should be clearly recognizable without dominating the navigation.
+
+Use appropriate responsive dimensions based on the actual asset proportions.
+
+Do not stretch the logo.
+
+Do not distort its aspect ratio.
+
+Do not arbitrarily enlarge the surrounding header solely to accommodate the logo.
+
+Do not create excessive whitespace.
+
+Do not allow the logo to collide with:
+
+- For business
+- Login
+- Register
+- navigation
+- mobile controls
+
+The result should look like the logo was designed for the existing interface rather than inserted afterward.
+
+---
+
+# 4. Choose the correct branding asset by context
+
+There are two primary approved branding forms:
+
+## Full wordmark
+
+Use the full AgendaAlly horizontal wordmark where horizontal space permits.
+
+Typical locations:
+
+- desktop storefront header
+- desktop authentication pages
+- Admin/Vendor login
+- registration/onboarding
+- footer where appropriate
+- invoice platform branding where already implemented
+
+The page shown in the screenshot should use the configured full AgendaAlly wordmark rather than:
+
+[a.] AgendaAlly
+
+when sufficient horizontal space exists.
+
+## Compact symbol
+
+Use the approved square AgendaAlly symbol for constrained contexts:
+
+- favicon
+- compact mobile header where necessary
+- collapsed Admin sidebar
+- app-icon-style contexts
+- PWA icon if supported
+- browser/app shortcut icons
+
+Do not use the compact symbol next to another hardcoded `AgendaAlly` string when the actual full wordmark is available and appropriate.
+
+---
+
+# 5. Logo visual-size strategy
+
+Do not use one fixed pixel dimension everywhere.
+
+Create/reuse sensible presentation variants such as conceptually:
+
+- compact
+- header
+- auth
+- footer
+- invoice
+
+These should remain presentation variants of ONE branding system, not separate branding configurations.
+
+For example, a shared component may conceptually support:
+
+<PlatformLogo variant="header" />
+<PlatformLogo variant="auth" />
+<PlatformLogo variant="compact" />
+
+Exact implementation is up to the existing architecture.
+
+Avoid unnecessary abstraction if the existing shared logo component already supports this cleanly.
+
+The important requirement is consistent visual sizing.
+
+---
+
+# 6. Account for transparent padding inside logo assets
+
+Inspect the supplied/configured images themselves.
+
+If the image canvas contains substantial transparent margins that cause the visible logo to appear much smaller than its CSS box, do not compensate everywhere with arbitrary huge CSS dimensions.
+
+Choose the cleanest safe solution.
+
+Possible solutions include:
+
+- using an existing tightly bounded approved asset;
+- producing an application-owned optimized derivative of the SAME approved artwork with transparent empty margins removed;
+- adjusting the image presentation/container when that is sufficient.
+
+Do NOT alter:
+
+- symbol geometry;
+- colors;
+- typography;
+- proportions;
+- artwork;
+- brand identity.
+
+Removing purely empty transparent canvas space is acceptable if necessary for technical presentation.
+
+Do not overwrite the original uploaded Admin branding asset merely to solve rendering.
+
+If an optimized derivative is generated, it must remain derived from the configured asset and must not create a competing branding configuration.
+
+---
+
+# 7. Audit and improve favicon sizing
+
+The favicon/compact browser icon also appears visually small.
+
+Audit this separately.
+
+Determine:
+
+- which asset is currently being used;
+- whether it is the full wordmark or compact symbol;
+- whether transparent padding is shrinking the visible symbol;
+- which favicon sizes/formats are configured;
+- whether Next metadata is pointing to the intended icon;
+- whether legacy favicon assets are still being preferred;
+- whether browser cache/versioning is hiding the updated icon.
+
+The favicon should use the compact AgendaAlly symbol, NOT the horizontal wordmark.
+
+Ensure the visible symbol occupies most of the favicon canvas while preserving a small safe margin.
+
+Do not crop the symbol itself.
+
+Where supported by the existing application, ensure appropriate icon variants exist for common contexts such as:
+
+- favicon/browser tab
+- shortcut icon
+- Apple touch icon
+- PWA/app icon
+
+Do not introduce PWA architecture if the application does not already have it.
+
+Do not create unnecessary icon variants.
+
+The goal is simply to make existing supported icon surfaces correct.
+
+---
+
+# 8. Preserve Admin-editable branding
+
+The existing Admin branding/settings system remains authoritative.
+
+Trace:
+
+Admin branding settings
+→ backend/settings API
+→ frontend settings/provider
+→ shared platform-logo component
+→ individual surfaces
+
+Changing the platform branding from Admin in the future must continue to propagate without editing source code.
+
+Do NOT solve this by hardcoding the currently supplied image throughout the repository.
+
+Seeded defaults may remain the initial branding, but runtime Admin settings must take precedence according to the existing design.
+
+---
+
+# 9. Handle Admin-uploaded logo dimensions safely
+
+Because Admin can change the branding later, do not assume every future logo has exactly the same dimensions.
+
+The rendering component should safely handle reasonable horizontal logo aspect ratios.
+
+Preserve:
+
+- aspect ratio
+- max height
+- responsive width
+- layout stability
+
+An unusually wide logo should not break navigation.
+
+An unusually tall logo should not expand the header uncontrollably.
+
+Use sensible constraints.
+
+Do not crop meaningful uploaded artwork by default.
+
+---
+
+# 10. Preserve Vendor/shop branding boundaries
+
+Do NOT replace Vendor/shop logos with AgendaAlly branding.
+
+Maintain:
+
+Platform surfaces
+→ AgendaAlly branding
+
+Vendor/shop surfaces
+→ Vendor/shop logo where appropriate
+
+Invoice
+→ AgendaAlly platform branding + Vendor/shop branding as previously implemented
+
+Do not overwrite Vendor logos.
+
+Do not use the AgendaAlly compact symbol as a fallback pretending to be a Vendor logo.
+
+Use the existing neutral Vendor fallback where appropriate.
+
+---
+
+# 11. Loading and fallback behavior
+
+Branding must not visibly jump:
+
+old logo
+→ new logo
+
+during hydration.
+
+Avoid hydration mismatches.
+
+Avoid layout shifts where practical.
+
+If branding is asynchronously loaded, use the existing safe AgendaAlly fallback.
+
+Missing custom branding must NOT restore:
+
+- iBeauty
+- old `a.`
+- obsolete logo artwork
+
+Do not expose broken-image icons.
+
+---
+
+# 12. Search for remaining legacy branding
+
+After fixing the known page, search relevant Customer Web and Admin/Vendor source for remaining user-facing legacy branding references.
+
+Search specifically for:
+
+- `a.`
+- `iBeauty`
+- `ibeauty`
+- hardcoded `AgendaAlly`
+- old logo filenames
+- old favicon filenames
+- old icon references
+- auth logo wrappers
+- duplicated logo components
+
+Classify findings:
+
+A. Internal/code identifier
+→ leave alone.
+
+B. User-facing legacy branding
+→ migrate to existing branding system.
+
+C. Intentional textual product name
+→ keep as text where it is prose/content rather than a logo.
+
+Do NOT blindly replace strings.
+
+---
+
+# 13. Responsive requirements
+
+Verify branding at minimum at:
+
+- normal desktop width
+- approximately 390px mobile width
+
+Check:
+
+- storefront header
+- login/auth header
+- Admin/Vendor auth page
+- relevant mobile header
+
+Logo must:
+
+- preserve aspect ratio;
+- remain clearly visible;
+- not look undersized;
+- not become excessively large;
+- not overflow;
+- not collide with controls;
+- not introduce horizontal scrolling;
+- remain visually balanced with the surrounding typography/navigation.
+
+For mobile, switching from full wordmark to compact symbol is acceptable when genuinely necessary.
+
+Do not hide branding merely to solve responsive layout.
+
+---
+
+# 14. Do not disturb completed functionality
+
+Do NOT change:
+
+- payments
+- payment resolver
+- Vendor collection modes
+- payment providers
+- country payment assignments
+- payouts
+- wallets
+- refunds
+- accounting
+- Delivery Driver membership/security logic
+- booking behavior
+- Stories
+- Car Service taxonomy
+- Maps
+- social/footer destinations
+- invoice financial calculations
+
+If the invoice consumes the shared branding component/asset, verify it still renders correctly, but do not redesign the invoice again.
+
+---
+
+# 15. Focused verification only
+
+Credit use is important.
+
+Do NOT rerun broad Stage 1/Stage 2 acceptance suites.
+
+Perform focused checks only.
+
+Verify:
+
+A. The exact auth/login page shown in the supplied screenshot now uses the configured AgendaAlly branding.
+
+B. The logo has appropriate visual size relative to the header.
+
+C. Customer Login branding is correct.
+
+D. Customer registration branding is correct.
+
+E. Forgot/reset-password shared auth shell is correct where applicable.
+
+F. Vendor/Admin login branding is correct.
+
+G. Delivery Driver invitation/registration/authentication branding is correct where applicable.
+
+H. Main storefront header branding is correctly sized.
+
+I. Footer branding remains correct.
+
+J. Desktop rendering is correct.
+
+K. Approximately 390px rendering is correct.
+
+L. No horizontal overflow is introduced.
+
+M. No hydration warning is introduced.
+
+N. No broken image request is introduced.
+
+O. Existing Admin branding settings remain editable.
+
+P. Branding changes continue to propagate through the existing settings contract.
+
+Q. Vendor/shop logos remain independent.
+
+R. Existing invoice branding remains intact.
+
+S. Favicon uses the compact symbol.
+
+T. Favicon artwork fills an appropriate percentage of its canvas and no longer appears unnecessarily tiny.
+
+U. No obsolete favicon is being selected from another metadata/static location.
+
+V. TypeScript/type/syntax checks for changed files pass.
+
+Do not create real accounts merely for visual testing if synthetic/nonpersistent state is sufficient.
+
+---
+
+# 16. Report exact findings
+
+When complete, report:
+
+1. Why the screenshot page was still using `a.` + hardcoded AgendaAlly text.
+
+2. Why the new logo appeared too small.
+
+3. Whether the cause was:
+   - CSS sizing;
+   - container sizing;
+   - transparent asset padding;
+   - wrong asset choice;
+   - responsive constraints;
+   - or a combination.
+
+4. Why the favicon appeared too small.
+
+5. Which favicon asset is now authoritative.
+
+6. Every authentication/onboarding surface audited.
+
+7. Every user-facing legacy branding occurrence found.
+
+8. Which occurrences were changed.
+
+9. Shared component/settings path now used.
+
+10. Whether branding remains dynamically controlled through Admin.
+
+11. Logo sizing strategy used for:
+    - desktop header
+    - auth
+    - mobile
+    - footer
+    - compact/favicon
+
+12. Whether an optimized transparent derivative was necessary.
+
+13. Customer results.
+
+14. Admin/Vendor results.
+
+15. Delivery Driver onboarding results.
+
+16. Desktop result.
+
+17. ~390px result.
+
+18. favicon/browser result.
+
+19. hydration/console result.
+
+20. exact files changed.
+
+21. focused checks performed and results.
+
+22. any remaining intentional legacy/internal branding references.
+
+---
+
+# 17. Stop gate
+
+Restore the existing Customer, Admin/Vendor and Laravel previews if this work disturbs them.
+
+Then STOP.
+
+Do not begin another:
+
+- payment phase;
+- Delivery Driver phase;
+- Stories phase;
+- Maps phase;
+- invoice redesign;
+- footer redesign;
+- general UI redesign;
+- unrelated cleanup.
+
+The goal of this task is specifically:
+
+**finish AgendaAlly branding integration and make the approved logo and compact/favicon mark visually fit the existing design correctly across the relevant web surfaces.**

@@ -1,0 +1,1220 @@
+AgendaAlly Customer Mobile App — Existing Application Architecture, Feature-Parity, API and MVP Readiness Audit
+
+CONTEXT / AUTHORITATIVE BASELINE
+
+The AgendaAlly web/backend MVP has completed its final bounded 20-gate audit.
+
+The canonical Web MVP score remains:
+
+16/20 = 80%
+
+Current Web verdict:
+
+- MVP functional readiness: CONDITIONAL GO
+- Production readiness: NO-GO
+- Web feature scope: qualified frozen MVP baseline
+
+Do NOT change that score or reopen the completed Web acceptance campaigns as part of this task.
+
+The separate legal/policy alignment task has also been completed.
+
+The current policy baseline now consists of:
+
+- improved seeded Terms of Service;
+- improved seeded Privacy Policy;
+- separate seeded Refund & Cancellation Policy;
+- Refund & Cancellation Policy available at /refund-cancellation;
+- updated legal links across the appropriate Customer surfaces;
+- existing Terms checkbox/acceptance mechanics preserved.
+
+These documents remain product-policy drafts requiring professional legal review before production. They are not legal certification.
+
+The normal Customer Web Storefront preview has also been restored and is currently available on port 3002.
+
+The prior Customer preview unavailability was caused by the acceptance storefront holding the shared Next development lock.
+
+It was NOT established as a Customer storefront source/configuration defect.
+
+Use the current Customer Web Storefront, frozen backend source/API behavior, and current policy content as comparison references where useful.
+
+Do not modify the Web application or restart/reconfigure unrelated Web acceptance environments merely for this audit.
+
+==================================================
+NEXT PHASE
+==================================================
+
+Perform a READ-ONLY audit of the EXISTING AgendaAlly Customer mobile application.
+
+THIS TASK IS AN AUDIT ONLY.
+
+Do NOT begin implementation.
+
+Do NOT:
+
+- refactor mobile code;
+- redesign screens;
+- fix mobile defects;
+- upgrade dependencies;
+- regenerate the mobile project;
+- change backend APIs;
+- change Web behavior;
+- change database schema;
+- change normal database data;
+- change financial/business rules;
+- create missing mobile features;
+- activate external services;
+- begin a remediation campaign after the audit.
+
+The purpose is to determine:
+
+1. what Customer mobile application already exists;
+2. what architecture/framework it uses;
+3. what is reusable;
+4. what is incomplete or outdated;
+5. what does not match the current frozen AgendaAlly backend/API/business behavior;
+6. what mobile-specific functionality is missing;
+7. what should be preserved, repaired, refactored or rebuilt;
+8. whether the existing Customer app is a viable foundation for the Customer Mobile MVP.
+
+Do not assume the mobile application matches the Web application merely because similarly named screens/features exist.
+
+Inspect the actual mobile source and actual API integration.
+
+==================================================
+1. DISCOVER THE EXISTING CUSTOMER MOBILE APPLICATION
+==================================================
+
+Locate the existing Customer mobile application and document:
+
+- project/repository/directory location;
+- framework and version;
+- React Native / Expo / Flutter / native Android/iOS or other architecture;
+- language(s);
+- package/dependency manifests;
+- application entry points;
+- navigation architecture;
+- state-management architecture;
+- API/networking layer;
+- authentication/session/token storage;
+- environment/configuration handling;
+- build configuration;
+- Android configuration;
+- iOS configuration;
+- push-notification integration if present;
+- deep-linking integration if present;
+- maps/location integration if present;
+- payment-related SDKs/integrations if present;
+- local persistence/cache/offline mechanisms;
+- analytics/crash-reporting integrations if present;
+- test infrastructure;
+- CI/build scripts if present.
+
+Determine whether there are multiple mobile prototypes or obsolete implementations.
+
+Identify which source appears to be the intended current Customer application.
+
+Do not delete, consolidate or modify anything.
+
+==================================================
+2. DETERMINE WHETHER THE APP CURRENTLY BUILDS
+==================================================
+
+Audit the current mobile build configuration.
+
+Do not immediately modify dependencies, lockfiles or source.
+
+Determine whether the existing project can currently:
+
+- install/resolve its existing dependencies;
+- perform static/type validation where supported;
+- produce the appropriate development build;
+- produce Android build artifacts/configuration where supported;
+- produce iOS build/configuration where supported by the current environment.
+
+Use safe/read-only validation where possible.
+
+If dependency installation or a build command would mutate tracked source, lockfiles or project configuration, isolate or avoid that mutation.
+
+If the environment cannot perform an iOS native build, distinguish clearly between:
+
+SOURCE/CONFIGURATION AUDIT
+
+and
+
+ACTUAL iOS BUILD ACCEPTANCE.
+
+Do not claim a platform build passed when the environment could not execute it.
+
+If a build fails, retain the exact failure and classify it as:
+
+- source defect;
+- dependency/version issue;
+- configuration issue;
+- missing secret/environment;
+- unavailable external service;
+- unsupported local build environment;
+- stale/obsolete mobile architecture;
+- unknown.
+
+Do NOT repair it during this audit.
+
+==================================================
+3. MAP CUSTOMER MOBILE FEATURES
+==================================================
+
+Create a complete inventory of Customer-facing mobile functionality.
+
+At minimum inspect whether the existing app contains:
+
+ACCOUNT
+
+- registration
+- email verification
+- login
+- logout
+- password reset
+- profile
+- password/account settings
+- session expiration/revocation handling
+
+DISCOVERY
+
+- home/discovery
+- country/location handling
+- Shop discovery
+- Shop details
+- service categories
+- service search/filtering
+- service details
+- Specialist/staff presentation where applicable
+
+BOOKING
+
+- Shop selection
+- Service selection
+- Specialist selection
+- date selection
+- time/availability selection
+- booking creation
+- booking confirmation
+- booking details
+- upcoming bookings
+- booking history
+- cancellation
+- rescheduling if supported by backend
+- other Customer booking functionality actually present
+
+PAYMENT
+
+- payment-method selection
+- Cash
+- Wallet
+- platform-supported payment options
+- payment status
+- collected/uncollected distinction
+- transaction/history presentation
+
+REFUNDS
+
+- refund eligibility presentation
+- authoritative eligible refund amount
+- refund request
+- saved/retry intent if applicable
+- refund status
+- REQUESTED
+- APPROVED
+- REJECTED
+- CANCELLED where applicable
+- REQUIRES_REVIEW
+- COMPLETED
+- Customer-visible refund reference/history
+
+WALLET
+
+- Wallet balance
+- Wallet transaction history
+- Wallet-funded payment behavior
+- refund-to-Wallet behavior where supported
+
+Do not infer Wallet-to-cash withdrawal functionality if it does not exist.
+
+NOTIFICATIONS
+
+- in-app notifications
+- email-related status presentation where relevant
+- push notifications if implemented
+- booking reminders
+- cancellation/refund updates
+
+POLICIES
+
+- Terms of Service
+- Privacy Policy
+- Refund & Cancellation Policy
+- policy links from appropriate Customer surfaces
+- policy acknowledgment behavior if implemented
+
+OTHER CUSTOMER FEATURES
+
+Inventory any additional functionality actually present.
+
+Do not assume that something is required merely because it exists on the Web.
+
+Determine whether it is appropriate for the Customer Mobile MVP.
+
+==================================================
+4. COMPARE MOBILE AGAINST THE FROZEN BACKEND CONTRACT
+==================================================
+
+For every mobile feature that communicates with AgendaAlly backend services, trace the actual API usage.
+
+Document:
+
+MOBILE SCREEN/ACTION
+→ MOBILE API CLIENT
+→ HTTP METHOD
+→ API ENDPOINT
+→ REQUEST SHAPE
+→ AUTH REQUIREMENT
+→ RESPONSE SHAPE
+→ MOBILE STATE/UI RESULT
+
+Compare that with the CURRENT backend implementation.
+
+Do not rely only on mobile TypeScript/interfaces/models because they may be stale.
+
+Inspect the current backend route/controller/service/resource behavior where necessary.
+
+Classify each integration as:
+
+MATCHES CURRENT BACKEND
+
+PARTIALLY MATCHES
+
+STALE
+
+MISSING
+
+UNUSED
+
+UNSAFE / INCORRECT
+
+UNKNOWN / REQUIRES RUNTIME ACCEPTANCE
+
+Identify:
+
+- obsolete endpoints;
+- renamed endpoints;
+- missing endpoints;
+- stale request fields;
+- stale response models;
+- incorrect role assumptions;
+- incorrect ownership assumptions;
+- outdated financial assumptions;
+- duplicated business logic in the app;
+- backend functionality not represented in mobile.
+
+Do NOT change the backend to make stale mobile code work during this audit.
+
+==================================================
+5. BUSINESS-LOGIC AUTHORITY AUDIT
+==================================================
+
+The mobile application must be a CLIENT of AgendaAlly's backend business rules.
+
+Identify any mobile code that attempts to independently calculate or decide authoritative business state.
+
+Pay particular attention to:
+
+- availability;
+- booking eligibility;
+- booking pricing;
+- cancellation eligibility;
+- cancellation fees;
+- refund eligibility;
+- refund amount;
+- payment collection state;
+- Wallet balance;
+- financial completion;
+- permissions/ownership.
+
+These should generally come from authoritative backend state rather than being independently recomputed by the mobile client.
+
+Flag duplicated authoritative business logic as:
+
+MOBILE BUSINESS-LOGIC DRIFT RISK
+
+Do not repair it during this audit.
+
+==================================================
+6. FINANCIAL SEMANTICS AUDIT
+==================================================
+
+The Customer mobile app MUST preserve the accepted AgendaAlly financial distinctions.
+
+Audit all mobile:
+
+- labels;
+- models;
+- state mappings;
+- buttons;
+- notifications;
+- API handling;
+- optimistic state;
+- local persistence
+
+against these rules:
+
+CANCELLED != REFUNDED
+
+REFUND REQUESTED != REFUNDED
+
+REFUND APPROVED != REFUNDED
+
+APPROVED != MONEY MOVED
+
+PAYMENT SELECTED != PAYMENT COLLECTED
+
+CASH SELECTED != CASH COLLECTED
+
+REQUIRES_REVIEW != COMPLETED
+
+Only authoritative COMPLETED financial state may be represented as completed refund execution.
+
+The mobile app must not infer financial completion merely from:
+
+- booking cancellation;
+- approval;
+- request submission;
+- Cash selection;
+- provider redirect;
+- optimistic local state;
+- stale cached state.
+
+Check whether the app currently uses ambiguous labels such as:
+
+- Paid
+- Refunded
+- Completed
+- Successful
+
+where the backend does not establish that financial state.
+
+Flag every mismatch.
+
+==================================================
+7. REFUND & CANCELLATION MOBILE AUDIT
+==================================================
+
+Compare the mobile cancellation/refund experience against the final backend and current Refund & Cancellation Policy model.
+
+The intended conceptual sequence is:
+
+BOOKING CANCELLATION
+→ REFUND ELIGIBILITY
+→ REFUND REQUEST
+→ REVIEW / APPROVAL
+→ FINANCIAL COMPLETION
+
+These are distinct concepts.
+
+Audit whether the app incorrectly collapses them.
+
+The mobile app must not independently invent:
+
+- refund percentages;
+- cancellation fees;
+- refund windows;
+- refund amount;
+- processing timelines.
+
+The backend-authoritative eligible amount and policy should control the Customer experience.
+
+Verify whether the app can represent:
+
+- no refund eligibility;
+- eligible refund;
+- requested;
+- approved but not completed;
+- rejected;
+- cancelled request where applicable;
+- requires review;
+- completed.
+
+Do not implement missing states yet.
+
+==================================================
+8. AUTHENTICATION AND SESSION AUDIT
+==================================================
+
+Inspect mobile authentication architecture.
+
+Determine:
+
+- how credentials are submitted;
+- how authentication tokens/session state are stored;
+- whether sensitive tokens use secure platform storage;
+- token refresh behavior if applicable;
+- logout behavior;
+- local credential/session clearing;
+- expired/revoked session behavior;
+- unauthorized/401 handling;
+- forbidden/403 handling;
+- account-switching behavior;
+- whether one Customer could see cached data belonging to another Customer;
+- whether logout clears Customer-sensitive cached state.
+
+Do not claim authoritative server logout acceptance from mobile unless actual evidence exists.
+
+Flag sensitive tokens stored in insecure plain local storage.
+
+Do not expose actual secrets in the report.
+
+==================================================
+9. MULTI-TENANT / OWNERSHIP AUDIT
+==================================================
+
+Inspect whether the Customer app could accidentally expose or request data belonging to another:
+
+- Customer;
+- Shop;
+- booking;
+- refund;
+- transaction;
+- private financial record.
+
+Look for client-controlled IDs and object-navigation patterns.
+
+The backend remains responsible for authorization.
+
+Do not assume hiding a button provides authorization.
+
+Flag mobile flows that rely on UI-only ownership restrictions.
+
+Do not perform destructive authorization testing.
+
+==================================================
+10. PRIVATE FINANCIAL EVIDENCE BOUNDARY
+==================================================
+
+The existing backend has bounded acceptance around private financial evidence/receipts.
+
+The Customer app must NOT expose Finance-only private receipt/evidence files merely because a Customer can see refund status/reference information.
+
+Audit:
+
+- refund detail models;
+- transaction detail models;
+- attachment fields;
+- generic file viewers;
+- API serialization;
+- deep links;
+- cached responses.
+
+Customer-visible financial references/status are different from private Finance evidence.
+
+Flag any potential private-evidence exposure.
+
+Do not perform destructive/security exploitation.
+
+==================================================
+11. NETWORK FAILURE / RETRY / IDEMPOTENCY AUDIT
+==================================================
+
+Inspect Customer mutation flows for:
+
+- double taps;
+- repeated submissions;
+- request timeout;
+- network loss;
+- app backgrounding;
+- app restart;
+- retry;
+- stale response;
+- duplicate API submission.
+
+Focus especially on:
+
+- booking creation;
+- cancellation;
+- refund request;
+- payment initiation;
+- Wallet actions.
+
+Determine whether mobile code:
+
+- disables buttons safely;
+- persists unresolved intent where necessary;
+- generates/reuses backend-supported idempotency identifiers where applicable;
+- incorrectly creates a new intent on retry;
+- optimistically reports success before server confirmation.
+
+Do not run destructive concurrency campaigns.
+
+This phase is source/architecture assessment unless safe existing tests already provide evidence.
+
+==================================================
+12. MOBILE-SPECIFIC UX AUDIT
+==================================================
+
+Audit the Customer app as a mobile product, not merely as a smaller Web UI.
+
+Inspect:
+
+- navigation hierarchy;
+- bottom tabs/drawers/stacks;
+- back-button behavior;
+- loading states;
+- empty states;
+- error states;
+- retry states;
+- keyboard handling;
+- forms;
+- date/time selection;
+- booking flow length;
+- mobile calendar/appointment presentation;
+- accessibility basics;
+- screen-reader labels where implemented;
+- touch-target concerns;
+- responsive/device-size assumptions;
+- safe-area handling;
+- dark/light mode if supported;
+- orientation assumptions;
+- Android back behavior;
+- iOS navigation expectations.
+
+Do not redesign anything yet.
+
+==================================================
+13. MOBILE SECURITY AUDIT
+==================================================
+
+Perform a bounded source/configuration security review.
+
+Inspect for:
+
+- hard-coded secrets;
+- API credentials;
+- private keys;
+- provider secrets;
+- backend Admin credentials;
+- unsafe logging;
+- sensitive request/response logging;
+- insecure token storage;
+- cleartext HTTP;
+- disabled TLS verification;
+- unsafe WebViews;
+- arbitrary URL handling;
+- deep-link validation;
+- insecure file caching;
+- excessive mobile permissions;
+- debug-only functionality leaking into release configuration.
+
+Do not print secrets into the report.
+
+If a real credential is discovered, identify its location/type safely and recommend rotation without reproducing the value.
+
+Do not rotate credentials during this audit.
+
+==================================================
+14. EXTERNAL SERVICES / MOBILE SDK INVENTORY
+==================================================
+
+Inventory external services and SDKs used by the Customer mobile app.
+
+Examples may include:
+
+- Firebase
+- Google Maps
+- push notification services
+- analytics
+- crash reporting
+- payment/provider SDKs
+- social authentication
+- storage/CDN services
+
+For each, classify:
+
+REQUIRED FOR CURRENT CUSTOMER MVP
+
+OPTIONAL
+
+STALE / UNUSED
+
+UNKNOWN
+
+Do not activate or configure missing external services during this audit.
+
+==================================================
+15. LEGAL/POLICY MOBILE ALIGNMENT
+==================================================
+
+Use the recently aligned AgendaAlly:
+
+- Terms of Service;
+- Privacy Policy;
+- Refund & Cancellation Policy.
+
+These are the current product-policy baseline.
+
+Audit whether the Customer mobile app can appropriately expose those policies.
+
+Check:
+
+- registration/signup;
+- account/settings;
+- booking/checkout;
+- cancellation;
+- refund request;
+- legal/about area;
+- external/internal policy links.
+
+Compare mobile policy behavior with the current Customer Web Storefront where useful.
+
+Do not invent new consent requirements.
+
+Do not modify the policies.
+
+Do not implement a new acceptance/versioning mechanism.
+
+If explicit acceptance/version tracking appears necessary before production, report it separately as a recommendation.
+
+This should include the previously identified possible future task:
+
+"Make approved Terms acceptance auditable before launch."
+
+Do not implement that task during this audit.
+
+The audit should determine whether such acceptance/version tracking should be designed as a shared Web + Mobile mechanism rather than independently for one client.
+
+==================================================
+16. MOBILE DATA / CACHE / OFFLINE AUDIT
+==================================================
+
+Inspect local persistence and caching.
+
+Determine what Customer information may remain on-device, including:
+
+- profile;
+- Shop/service data;
+- bookings;
+- transactions;
+- Wallet data;
+- refund data;
+- notifications;
+- tokens.
+
+Determine whether:
+
+- sensitive data is persisted unnecessarily;
+- Customer-specific cache is cleared on logout/account switch;
+- stale cached financial state could be displayed as authoritative;
+- offline UI clearly distinguishes cached data from confirmed current state.
+
+Do not add offline functionality during this audit.
+
+==================================================
+17. MOBILE NOTIFICATION AUDIT
+==================================================
+
+Determine what notification functionality actually exists.
+
+Separate:
+
+- in-app notifications;
+- email-triggered backend communication;
+- push notifications;
+- local device notifications.
+
+Do not assume push exists because backend notifications exist.
+
+Map notification types against current backend events.
+
+Pay particular attention to wording around:
+
+- booking confirmation;
+- cancellation;
+- refund requested;
+- refund approved;
+- refund requires review;
+- refund completed.
+
+Notification wording must not imply money movement before authoritative completion.
+
+==================================================
+18. CUSTOMER WEB ↔ CUSTOMER MOBILE FEATURE-PARITY MATRIX
+==================================================
+
+Create a Customer feature-parity matrix.
+
+Use the current frozen Customer Web Storefront/backend as the comparison baseline.
+
+For every relevant frozen Customer Web/backend capability, classify mobile as:
+
+COMPLETE / MATCHED
+
+IMPLEMENTED BUT STALE
+
+PARTIAL
+
+MISSING
+
+MOBILE-ONLY
+
+BACKEND DEPENDENCY
+
+NOT REQUIRED FOR CUSTOMER MOBILE MVP
+
+DEFERRED / POST-MVP
+
+At minimum include:
+
+- registration
+- verification
+- login
+- logout
+- password reset
+- profile
+- discovery
+- Shop detail
+- services
+- Specialist selection
+- availability
+- booking
+- booking details
+- upcoming/history
+- cancellation
+- payment selection
+- Cash
+- Wallet
+- transaction history
+- refund eligibility
+- refund request
+- refund status/history
+- notifications
+- Terms
+- Privacy
+- Refund & Cancellation Policy
+- Customer support/contact if implemented.
+
+Do not mechanically require every Web Admin/Vendor feature in the Customer app.
+
+The comparison should answer:
+
+"What does a Customer need in the mobile MVP?"
+
+not:
+
+"How do we reproduce every Web screen on mobile?"
+
+==================================================
+19. REUSE / REFACTOR / REBUILD CLASSIFICATION
+==================================================
+
+For each major mobile subsystem classify it:
+
+KEEP AS-IS
+
+KEEP WITH MINOR REPAIR
+
+REFACTOR
+
+REPLACE
+
+MISSING — BUILD
+
+DEFER
+
+Include rationale.
+
+Subsystems should include at least:
+
+- project/build architecture;
+- navigation;
+- authentication;
+- API client;
+- models/types;
+- state management;
+- local storage;
+- discovery;
+- booking;
+- payments;
+- Wallet;
+- cancellation/refunds;
+- notifications;
+- legal/policies;
+- shared UI/design system;
+- Android configuration;
+- iOS configuration;
+- testing.
+
+Do NOT conclude "rewrite everything" merely because code is old.
+
+Likewise, do not preserve stale architecture merely because it already exists.
+
+Base recommendations on actual source evidence.
+
+==================================================
+20. CUSTOMER MOBILE MVP SCOPE RECOMMENDATION
+==================================================
+
+Using the audit evidence, define the recommended Customer Mobile MVP.
+
+Separate findings into:
+
+P0 — security/data/financial-integrity blocker
+
+P1 — required for Customer Mobile MVP
+
+P2 — important hardening/UX improvement
+
+P3 — post-MVP enhancement
+
+DEFERRED / NOT REQUIRED
+
+Do not implement them.
+
+If a valid P0 is found, clearly identify it and its evidence.
+
+Do not automatically start remediation.
+
+Do not classify cosmetic differences from the Web application as P0/P1 unless they genuinely affect required Customer functionality, security, data integrity or financial correctness.
+
+==================================================
+21. BACKEND CHANGE POLICY
+==================================================
+
+The frozen AgendaAlly backend/Web behavior is authoritative for this audit.
+
+Do NOT modify backend behavior merely because mobile code expects something different.
+
+When mobile and backend disagree, classify whether:
+
+A. MOBILE STALE
+
+The mobile application is stale and should later be changed to use the existing backend correctly.
+
+B. GENUINE BACKEND DEPENDENCY
+
+The backend lacks an API/capability genuinely required by the approved Customer Mobile MVP.
+
+C. OWNER/BUSINESS DECISION REQUIRED
+
+The correct behavior cannot be determined from the current authoritative implementation/policies.
+
+Only category B should become a proposed backend enhancement.
+
+Do not implement category B during this audit.
+
+For every proposed backend change, explain why the existing backend/API cannot support the required mobile capability.
+
+Do not propose backend changes merely to preserve stale mobile implementation choices.
+
+==================================================
+22. MOBILE DESIGN / BRAND CONSISTENCY AUDIT
+==================================================
+
+Inspect the existing Customer mobile visual/design system.
+
+Compare at a high level with the current AgendaAlly Customer product identity.
+
+Audit:
+
+- logo/branding usage;
+- typography;
+- spacing;
+- component consistency;
+- button hierarchy;
+- forms;
+- cards;
+- booking presentation;
+- navigation;
+- status badges;
+- financial-state presentation;
+- empty/error/loading states.
+
+Do not redesign anything.
+
+Classify whether the existing mobile design system should be:
+
+KEEP
+
+EVOLVE
+
+PARTIALLY REPLACE
+
+REBUILD
+
+Do not require pixel-for-pixel Web duplication.
+
+The goal is a coherent AgendaAlly Customer experience appropriate for native mobile.
+
+==================================================
+23. MOBILE TESTING BASELINE
+==================================================
+
+Inventory existing mobile tests.
+
+Determine whether the project has:
+
+- unit tests;
+- component tests;
+- API-client tests;
+- navigation tests;
+- integration tests;
+- end-to-end/mobile-device tests.
+
+Identify important Customer MVP areas that currently lack test coverage.
+
+Do not build a new test suite during this audit.
+
+Recommend what testing layers should accompany the later implementation campaign.
+
+==================================================
+24. ANDROID / IOS QUALIFICATION
+==================================================
+
+Report Android and iOS independently.
+
+For each platform classify:
+
+SOURCE REVIEWED
+
+CONFIGURATION REVIEWED
+
+STATIC VALIDATION PASSED / FAILED / NOT AVAILABLE
+
+BUILD PASSED / FAILED / NOT EXECUTED
+
+RUNTIME ACCEPTANCE PASSED / FAILED / NOT EXECUTED
+
+Do not convert source/configuration review into runtime acceptance.
+
+Document platform-specific blockers separately.
+
+==================================================
+25. PRESERVATION / PROHIBITED SCOPE
+==================================================
+
+Do NOT change:
+
+- Customer Web application source;
+- Admin application source;
+- backend behavior;
+- database schema;
+- normal database data;
+- booking rules;
+- cancellation/refund rules;
+- payment semantics;
+- Wallet/accounting;
+- financial state machines;
+- provider configuration;
+- permissions;
+- private receipt security;
+- email/notification behavior;
+- legal-policy content;
+- canonical Web 16/20 score;
+- production configuration.
+
+Do NOT:
+
+- activate providers;
+- send real emails;
+- execute real payments;
+- execute real refunds;
+- execute real payouts;
+- deploy production;
+- rerun accepted Web campaigns;
+- modify mobile application source;
+- upgrade mobile dependencies;
+- regenerate the mobile project;
+- repair findings;
+- begin implementation after the audit.
+
+Use read-only inspection and safe build/static commands only.
+
+If a build tool would mutate tracked dependency files or source, avoid or isolate it.
+
+The only expected persistent file change is the audit report and explicitly generated audit evidence.
+
+==================================================
+26. EVIDENCE DISCIPLINE
+==================================================
+
+Clearly distinguish:
+
+SOURCE-CONFIRMED
+
+STATICALLY VERIFIED
+
+BUILD-VERIFIED
+
+RUNTIME-VERIFIED
+
+NOT VERIFIED
+
+Do not describe source inspection as runtime acceptance.
+
+Do not describe a successful build as functional acceptance.
+
+Do not describe the existence of a screen as proof that its API integration works.
+
+Do not describe an API route existing as proof that the mobile app uses it correctly.
+
+Do not manufacture evidence.
+
+Do not weaken existing tests/assertions to obtain passing results.
+
+Retain exact paths/locations for significant findings.
+
+==================================================
+27. FINAL AUDIT REPORT
+==================================================
+
+Produce a durable report such as:
+
+docs/development/agendaally-customer-mobile-audit.md
+
+Include:
+
+1. Executive summary.
+
+2. Customer mobile architecture discovered.
+
+3. Framework/version/dependency baseline.
+
+4. Current buildability/status.
+
+5. Existing screen/feature inventory.
+
+6. Navigation architecture.
+
+7. Authentication/session architecture.
+
+8. API integration map.
+
+9. Backend/mobile mismatch inventory.
+
+10. Business-logic drift findings.
+
+11. Financial semantics findings.
+
+12. Cancellation/refund findings.
+
+13. Ownership/multi-tenant findings.
+
+14. Private-evidence findings.
+
+15. Retry/idempotency/network-loss findings.
+
+16. Mobile security findings.
+
+17. Local storage/cache/offline findings.
+
+18. Notification findings.
+
+19. External SDK/service inventory.
+
+20. Legal-policy integration findings.
+
+21. Policy acceptance/versioning recommendation.
+
+22. Customer Web ↔ Customer Mobile feature-parity matrix.
+
+23. KEEP / REPAIR / REFACTOR / REPLACE / BUILD / DEFER matrix.
+
+24. Mobile design-system assessment.
+
+25. Existing mobile testing baseline.
+
+26. P0/P1/P2/P3 prioritized findings.
+
+27. Proposed Customer Mobile MVP scope.
+
+28. Proposed implementation phases — DO NOT EXECUTE THEM.
+
+29. Backend API changes genuinely required, if any.
+
+30. Items requiring owner/business decisions.
+
+31. Android qualification status.
+
+32. iOS qualification status.
+
+33. Exact commands/read-only validation performed.
+
+34. Exact files changed — expected NONE except audit report/evidence files.
+
+35. Recommended next implementation task.
+
+==================================================
+FINAL DECISION
+==================================================
+
+End the report with an explicit recommendation:
+
+CUSTOMER MOBILE FOUNDATION:
+
+A. KEEP AND COMPLETE
+
+B. REFACTOR IN PLACE
+
+C. PARTIAL REBUILD
+
+D. FULL REBUILD
+
+Choose exactly ONE based on evidence.
+
+Also provide:
+
+CUSTOMER MOBILE MVP COMPLETENESS:
+__%
+
+P0 FINDINGS:
+__
+
+P1 FINDINGS:
+__
+
+BACKEND CHANGES REQUIRED:
+YES / NO
+
+If YES, list only the genuinely required backend changes.
+
+CURRENT MOBILE ARCHITECTURE SUITABLE FOR CONTINUED DEVELOPMENT:
+YES / NO / YES WITH REFACTORING
+
+ANDROID STATUS:
+brief evidence-based qualification
+
+IOS STATUS:
+brief evidence-based qualification
+
+SHARED WEB + MOBILE POLICY ACCEPTANCE AUDITABILITY RECOMMENDED BEFORE PRODUCTION:
+YES / NO
+
+CUSTOMER MOBILE IMPLEMENTATION CAN SAFELY BEGIN:
+YES / NO / YES AFTER SPECIFIED P0 CLOSURE
+
+NEXT RECOMMENDED IMPLEMENTATION CAMPAIGN:
+one bounded recommendation only
+
+==================================================
+STOP CONDITION
+==================================================
+
+STOP after producing the audit and evidence.
+
+Do NOT automatically implement any recommendation.
+
+Do NOT start fixing P0/P1 findings.
+
+Do NOT modify the backend.
+
+Do NOT start a mobile redesign.
+
+Do NOT begin a dependency-upgrade campaign.
+
+Do NOT start Vendor Mobile or Driver Mobile work.
+
+Wait for owner review and explicit authorization for the next implementation campaign.

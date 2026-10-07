@@ -1,0 +1,16 @@
+{
+  "customerTypecheck": {
+    "command": "node node_modules/typescript/bin/tsc --noEmit --incremental false",
+    "exitCode": 0,
+    "diagnostics": 0
+  },
+  "adminTypeListSyntax": {
+    "command": "node --check .migration-backup/admin/src/views/pages/type-list.js",
+    "exitCode": 0
+  },
+  "backendSyntax": {
+    "files": 6,
+    "result": "PASS"
+  },
+  "productionBuild": "Not rerun: bounded static validation and actual Next development route compilation used; no production approval implied"
+}

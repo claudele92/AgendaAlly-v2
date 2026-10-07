@@ -1,0 +1,5 @@
+Resolving dependencies...
+The current Dart SDK version is 3.8.0.
+
+Because demand requires SDK version >=3.10.0, version solving failed.
+Failed to update packages.

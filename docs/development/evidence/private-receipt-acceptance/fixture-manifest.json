@@ -1,0 +1,66 @@
+{
+  "directory": "/home/runner/workspace/.local/manual-finance/http-identity-256a591f53d48feb",
+  "workflows": {
+    "refund": {
+      "actions": [
+        "complete",
+        "review",
+        "evidence-view",
+        "upload-evidence"
+      ],
+      "allocation_id": 1,
+      "amount_units": "10000",
+      "approved_at": "2026-10-06 17:44:12",
+      "beneficiary_id": 2,
+      "claim_actor_id": 3,
+      "claimed_at": "2026-10-06 17:44:12",
+      "completed_at": null,
+      "currency_code": "USD",
+      "destination_mask": "****1234",
+      "executed_at": null,
+      "external_reference": null,
+      "id": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "institution": "synthetic_bank",
+      "kind": "refund",
+      "method": "bank_transfer",
+      "money_scale": 2,
+      "operation_id": "8ed47c7b-93aa-4302-87d2-d969032224be",
+      "requested_at": "2026-10-06 17:44:12",
+      "requester_id": 2,
+      "shop_id": 1,
+      "state": "APPROVED",
+      "version": 2
+    },
+    "payout": {
+      "actions": [
+        "complete",
+        "review",
+        "evidence-view",
+        "upload-evidence"
+      ],
+      "allocation_id": 2,
+      "amount_units": "9000",
+      "approved_at": "2026-10-06 17:44:12",
+      "beneficiary_id": 1,
+      "claim_actor_id": 3,
+      "claimed_at": "2026-10-06 17:44:12",
+      "completed_at": null,
+      "currency_code": "USD",
+      "destination_mask": "****1234",
+      "executed_at": null,
+      "external_reference": null,
+      "id": "60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+      "institution": "synthetic_bank",
+      "kind": "payout",
+      "method": "bank_transfer",
+      "money_scale": 2,
+      "operation_id": "714ea4d2-c944-4b42-a871-c5562f310a7a",
+      "requested_at": "2026-10-06 17:44:12",
+      "requester_id": 1,
+      "shop_id": 1,
+      "state": "APPROVED",
+      "version": 2
+    }
+  },
+  "isolation": "Fresh disposable native SQLite HTTP fixture; no normal bootstrap, providers or email"
+}

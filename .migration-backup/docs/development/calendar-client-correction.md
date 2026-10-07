@@ -1,0 +1,31 @@
+# Vendor calendar client correction
+
+## Findings and implementation
+
+- Vendor calendar client discovery no longer queries the general customer-role user list. Registered accounts are visible only when they are pure `user` accounts with a prior booking at the current shop; accepted invitations with a shop role or an active service-master identity exclude internal staff. Pending, declined, and canceled invitations do not exclude a bona-fide booked customer.
+- Search and create are shop-permission protected. Branch managers see clients and registered customers only in authorized branch scope. Supplying a selected branch narrows search and duplicate reuse to that branch (shop-wide local records remain available only to unrestricted shop owners). Create and booking validation independently verify the shop, service branch, customer identity, active shop-owned service-master, and branch assignment.
+- Conflicting phone/email matches fail with a validation error rather than choosing one identity. Name is trimmed and a whitespace-only value is rejected. Phone/email uniqueness is enforced per shop and dedupe scope; retry after a uniqueness collision re-reads the authorized candidate. When no phone or email is supplied, identity-level duplicate detection is inherently unavailable.
+- The calendar add-client dialog creates a shop-owned local client without creating an account or verification state, selects the returned record immediately, and retains the existing booking form values. The request parser follows the shared Admin request interceptor: search reads the response's root `data` array, and create reads root `data` plus root `reused_existing`.
+- Vendor walk-in bookings use `local_client_id`, nullable `bookings.user_id`, and no `payment_id`. They remain in the normal new/pending booking state and create no transaction. Wallet, payment, coupon, gift-card, and membership inputs are rejected for a walk-in. Registered-account booking payment behavior is unchanged. Null-account notifications and booking status lifecycle paths skip customer-account-only work; existing shop/master booking statistics and cancellation accounting continue to follow their normal paths.
+- The public/customer, Admin, and Master request classes do not validate `local_client_id`; additionally, the shared booking service and calculation repository reject local-client requests outside the Vendor-bookings API path. This prevents accidentally forwarded fields from nulling a customer booking's account id.
+- The current model has no service-to-branch pivot: `ServiceMaster` links an active service and worker to a shop, while the existing branch relation is `ShopLocation` plus accepted worker invitation branch assignments. Validation confirms the `ServiceMaster` and its related `Service` belong to the managed shop, the branch is a service location in that shop, and the assigned worker is bookable at that branch under the existing invitation rules. It does not invent an unsupported per-service branch mapping.
+- Existing account booking resource fields are unchanged: the new local-client id is omitted when null, and the local-client relation is emitted only for a walk-in booking. The optional `shop_location_id` master-search filter changes no response DTO and leaves the existing endpoint behavior unchanged when omitted.
+
+## Schema and validation
+
+The forward-only `2026_09_28_010000_add_shop_scoped_booking_clients` migration adds the scoped client table and nullable `bookings.local_client_id`, makes `bookings.user_id` nullable, and restores its users foreign key with the existing cascade behavior. Its migration test starts from an existing SQLite booking row, runs the actual migration `up()`, checks that row and FK are preserved, inserts a null-account local booking, and checks contact uniqueness. Do not execute this migration against an accepted development database until the guarded manifest has been reviewed and updated by the owning agent.
+
+## Focused regression coverage added
+
+- `backend/tests/Hardening/BookingClientMigrationTest.php`: actual forward migration on a disposable in-memory existing schema/row, FK and data preservation, nullable walk-in booking, unique contact constraint.
+- `backend/tests/Hardening/SellerBookingClientIdentityMatcherTest.php`: conflicting contacts are rejected, repeated matches for one identity collapse, and whitespace-only names are rejected.
+- `backend/tests/Baseline/OriginalDomainBaselineTest.php`: the original `BookingService::create()` path creates a local-client booking without an account or payment transaction; cancellation remains safe without an account and leaves the seller wallet unchanged.
+- `admin/src/views/seller-views/calendar/helpers/booking-client-response.test.mjs`: asserts the shared-interceptor search/create response shapes and local-client reference payload.
+
+These tests were added but not run during this implementation pass. No owned database migration, seed, app workflow, or preview was run.
+
+## Manual development happy path
+
+After the migration has been reviewed and applied through the guarded development process, open the Vendor calendar, select a service branch if one is required, add a uniquely named QA walk-in client, and schedule an available service. Confirm the created booking shows the walk-in name, has a null account id and a local-client id, and remains pending without a payment transaction. Verify payment/transaction rows and wallet balances are unchanged. Also search and select a previously booked customer to verify the existing registered-account payment path remains available.
+
+There is no local-client delete endpoint in this bounded change. For QA cleanup, remove the exact temporary booking through the Vendor calendar's normal booking deletion control, then delete only the unique QA client row by its captured id in the owned development database after confirming it has no remaining `bookings.local_client_id` references. Deleting the client first only nulls the booking FK and leaves a malformed account-less appointment, so do not do that. The local-client happy path creates neither payment ids nor financial rows.

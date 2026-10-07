@@ -1,0 +1,89 @@
+Do not implement Strategy G or any other Phase 3C correction yet. Perform a bounded, read-only production-database architecture comparison for AgendaAlly: PostgreSQL versus MySQL, using the current codebase and the complete Phase 3C evidence.
+The purpose is to choose the production database architecture before approving a material MySQL-specific maintained-authority schema.
+Do not modify application code, migrations, schema, tests, financial data, configuration or provider activation. Do not convert the application to PostgreSQL in this task.
+Evaluate the current AgendaAlly implementation—not generic PostgreSQL/MySQL preferences.
+1. Current compatibility
+Inventory the actual Laravel/database dependencies and classify each as:
+portable unchanged;
+requires MySQL-specific handling;
+requires PostgreSQL-specific handling;
+engine-independent application issue;
+unknown until native execution.
+Include migrations, JSON columns/comparisons, CHECK constraints, triggers, generated/explicit index names, foreign keys, nullable uniqueness, collations/case sensitivity, auto-increment/identity behavior, integer money fields, aggregate behavior, raw SQL, query-builder locks, upserts, transaction helpers, savepoints and error/retry handling.
+2. Reassess every Phase 3C finding
+For each finding already encountered, explain what happens under both engines:
+receipt self-anchor CHECK;
+identifier-length issue;
+JSON representation/equality;
+the original 13 financial contention cases;
+refund reservation stale-snapshot over-capacity;
+the rejected child FOR SHARE strategy;
+independent-allocation gap/supremum blocking;
+nested transactions/savepoints;
+deadlocks and lock-wait handling.
+Clearly distinguish an expected engine behavior from something actually verified.
+3. Evaluate the reservation designs on both engines
+Compare at least:
+A. Current arbitrary nested RR contract
+B. Fresh parent-first owned transaction
+C. Deliberately scoped READ COMMITTED financial transaction
+G. Parent evidence-membership manifest
+For each engine and strategy, determine:
+same-allocation conservation;
+independent-allocation progress;
+compatibility with existing nested callers;
+ability to see the caller's own uncommitted writes;
+replay/idempotency behavior;
+rollback/savepoint behavior;
+deadlock/serialization retry requirements;
+schema/migration requirements;
+implementation complexity;
+long-term maintenance risk;
+portability;
+expected throughput/contention characteristics.
+Do not assume PostgreSQL automatically fixes the reproduced defect. Explain exactly how PostgreSQL READ COMMITTED, REPEATABLE READ and row locking would interact with AgendaAlly's parent-allocation mutex and child authority reads.
+4. Determine whether AgendaAlly actually requires arbitrary nested financial reservations
+Trace all current callers of FinancialOperations::reserve and determine whether a successful reservation genuinely needs to execute inside an already-open transaction whose snapshot may have been established before the allocation mutex.
+For every caller, report:
+transaction ownership;
+whether a transaction is already active;
+what preceding reads/writes occur;
+whether those preceding operations must be atomic with the reservation;
+whether the caller could instead begin with the allocation lock;
+whether the whole financial unit could safely own a fresh transaction;
+whether scoped READ COMMITTED is architecturally feasible.
+This question is critical: do not recommend maintaining a permanent evidence manifest merely to preserve a nested-transaction behavior that AgendaAlly does not actually require.
+5. PostgreSQL migration feasibility
+Without modifying anything, estimate the concrete work required to make the current AgendaAlly application run on a supported PostgreSQL version.
+Identify every known migration/source/test change required. Specifically determine whether the receipt self-anchor invariant can use a native PostgreSQL CHECK rather than the MySQL triggers and whether the explicitly shortened financial index names remain suitable.
+Do not claim compatibility from Laravel support alone.
+6. Native proof plan
+Design—but do not yet execute unless explicitly authorized—a PostgreSQL certification suite equivalent to Phase 3C.
+It must include the unchanged original 13 financial cases plus the expanded:
+10,000 / 7,000 + 7,000 reservation race;
+exact 3,000 remainder;
+independent Allocation A/B progress;
+refund effect visibility;
+Vendor-payable reservation;
+commission-receivable reservation;
+replay;
+rollback/savepoint;
+deadlock/serialization retry;
+Wallet conservation/overspend;
+contribution/finalization;
+fulfillment finality.
+7. Final recommendation
+Give one AgendaAlly-specific recommendation:
+A. MySQL,
+B. PostgreSQL, or
+C. insufficient evidence—native PostgreSQL proof required before choosing.
+Separate:
+database-engine choice;
+transaction/isolation architecture;
+payment/provider readiness.
+Do not recommend PostgreSQL merely because it avoids an InnoDB behavior, and do not recommend MySQL merely because the original 13 tests now pass.
+Compare the cost and risk of adopting PostgreSQL now, before MVP, against continuing MySQL with Strategy B, C or G.
+Protection / stop
+Preserve the current baseline exactly: 59 protected tables, 465 schema objects, four empty evidence tables, and all 12 legacy Orders unverified.
+No provider activation, credentials, provider calls, real financial operations, production access, legacy classification/deletion or publishing.
+STOP after the comparison, caller trace, PostgreSQL proof plan and recommendation. Do not implement a database migration, Strategy G, Strategy B/C transaction change, or any financial correction.

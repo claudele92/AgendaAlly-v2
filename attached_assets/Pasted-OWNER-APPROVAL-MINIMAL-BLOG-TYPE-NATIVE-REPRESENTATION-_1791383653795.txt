@@ -1,0 +1,192 @@
+OWNER APPROVAL — MINIMAL BLOG TYPE NATIVE-REPRESENTATION CORRECTION
+
+I accept BLOG_TYPE_MAPPING_PROVEN.
+
+The authoritative application mapping is established as:
+
+blog         -> 1
+notification -> 2
+
+The three approved Blog rows (IDs 1, 2 and 3) semantically represent "blog"
+and therefore must use native stored integer 1 when inserted directly into
+blogs.type.
+
+This is a representation/storage-domain correction only. It is NOT a change
+to the approved Blog meaning, application behavior or database schema.
+
+The bounded offline compatibility review also established that:
+
+- all 73 portable tables were examined;
+- all 3,727 portable rows were examined;
+- 21,755 approved non-null values were checked against native storage types;
+- exactly three deterministic mismatches were found;
+- all three are blogs.type = "blog";
+- no additional deterministic storage incompatibility was found.
+
+======================================================================
+AUTHORIZED CHANGES
+======================================================================
+
+Authorize ONLY the following bounded correction.
+
+1. Update:
+
+scripts/database/prepare-portable-baseline-review.mjs
+
+so the three approved Blog rows are emitted using the proven native stored
+value:
+
+type: 1
+
+instead of:
+
+type: "blog"
+
+Do not alter any other generated field or business data.
+
+2. Create a NEW versioned portable baseline:
+
+docs/deployment/local-synthetic-portable-baseline-blog-type-native.json
+
+Derive it from the currently frozen portable baseline.
+
+The ONLY approved row-data differences are:
+
+blogs ID 1: type "blog" -> 1
+blogs ID 2: type "blog" -> 1
+blogs ID 3: type "blog" -> 1
+
+Everything else must remain byte/semantic-equivalent as appropriate.
+
+Do NOT overwrite or delete the historical baseline:
+
+docs/deployment/local-synthetic-portable-baseline-product-null.json
+
+Historical SHA256:
+694a41397026c89bbf35b9257ae6d1ccc763eb62a434e39dec4d48b30d9c3daf
+
+3. Create a NEW versioned reference manifest:
+
+docs/deployment/local-synthetic-reference-blog-type-native-manifest.json
+
+It must point to the new baseline and its new SHA256 while retaining the
+existing approved reference data, counts and authorities.
+
+Do NOT overwrite or delete the historical reference manifest:
+
+docs/deployment/local-synthetic-reference-product-null-manifest.json
+
+Historical SHA256:
+67fbcfdd51e136560337b54f4d4d492844c8d19e26be736189e65c8320ddc500
+
+4. Create new private review/proof metadata under:
+
+.local/blog-type-native-review-20261007/
+
+Update ONLY the baseline/reference pins and directly associated row
+fingerprints/hashes necessary for the future #60 proof.
+
+Retain the already validated portable dependency order unchanged.
+
+======================================================================
+MUST REMAIN UNCHANGED
+======================================================================
+
+Do not modify:
+
+- any native migration;
+- database schema;
+- Blog model/constants;
+- Blog services/repositories/API behavior;
+- Admin/Web application behavior;
+- Blog IDs or UUIDs;
+- Blog Administrator author relationship;
+- Blog active/published state;
+- Blog image policy;
+- any Blog translation field or content;
+- any non-Blog portable row;
+- Product NULL-media policy;
+- Service rows or Service Gallery relationships;
+- any of the 15 approved Service JPEGs;
+- Service provenance/package;
+- security/privilege policy;
+- foreign-key enforcement;
+- validated deterministic portable table order.
+
+The following authorities must remain unchanged:
+
+229 native migrations:
+37954929be028d7e487a7720f2108d3f300b2862af85f46b724b3c9f63d3f896
+
+Service provenance:
+fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+Canonical Service package:
+8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e
+
+Executable application source:
+e90ec7c6cef4fddcca26ea2ea3f446c5e85e4a04b549e99d12080922fe06b2ce
+
+If changing the baseline-authoring script causes the executable application
+source authority to change under the existing hashing definition, report that
+fact explicitly rather than silently preserving or inventing the old hash.
+
+======================================================================
+OFFLINE VALIDATION
+======================================================================
+
+Before stopping, prove offline that:
+
+- exactly three approved row fields changed;
+- those fields are blogs.type for IDs 1, 2 and 3;
+- old value = "blog";
+- new value = integer 1;
+- all other portable rows and fields are unchanged;
+- all three Blog translations are unchanged;
+- total intended portable table/row structure remains unchanged;
+- Product NULL-media policy remains unchanged;
+- Service media/relationships remain unchanged;
+- deterministic portable dependency order remains unchanged;
+- no historical artifact was overwritten;
+- no additional storage conversion was introduced.
+
+Record:
+
+- new baseline SHA256;
+- new reference-manifest SHA256;
+- updated private proof/order hashes;
+- exact changed tracked files;
+- confirmation of unchanged migration/application/media authorities.
+
+======================================================================
+EXECUTION BOUNDARY
+======================================================================
+
+STOP AFTER THE OFFLINE CORRECTION AND VALIDATION.
+
+Do NOT:
+
+- start MySQL;
+- create another lab;
+- run migrations;
+- insert portable data;
+- create an Administrator;
+- generate app/recovery authorities;
+- rerun #60;
+- perform financial/provider/SMTP/webhook/worker operations;
+- publish to GitHub;
+- touch the VPS;
+- begin deployment.
+
+Return exactly one classification:
+
+BLOG_TYPE_NATIVE_FIX_READY
+
+or
+
+BLOG_TYPE_NATIVE_FIX_BLOCKED
+
+If READY, provide the new baseline and reference hashes and the exact
+before/after comparison.
+
+This authorization does NOT yet authorize another first-install execution.

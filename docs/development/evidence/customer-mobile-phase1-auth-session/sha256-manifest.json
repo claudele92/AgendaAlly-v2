@@ -1,0 +1,70 @@
+[
+  {
+    "file": "after.json",
+    "sha256": "985f9503ea4f5fbb2662574214f2e6dcdc1df6d9c09003d8adec68a2527ffd59"
+  },
+  {
+    "file": "android-debug-build.log",
+    "sha256": "8df2378babb76bce4f16c2aa598b954898889667f25af86094585f59004abe6f"
+  },
+  {
+    "file": "baseline-analysis.log",
+    "sha256": "499da4129c1acf2aac88b2ec24d499241b9c53bbff92baa829b551171045931e"
+  },
+  {
+    "file": "baseline-dependency-resolution.log",
+    "sha256": "f241945338cdeb094230bb0836a4829773252d42f7d3f7fb7202a8916e58466f"
+  },
+  {
+    "file": "before.json",
+    "sha256": "e4b6bf48c0f7c05255425597a434c9be361a4af36319f65640591f1e46ab0f1d"
+  },
+  {
+    "file": "final-analysis.log",
+    "sha256": "d5dce6821e6611bc249f6b34fba07d9227c1162365b6c63e7e4875e6eb931db4"
+  },
+  {
+    "file": "final-dependency-resolution.log",
+    "sha256": "7bce01c9032323dee97ace5dc0675738b1b283797ff9d96fdb94cef2788a6992"
+  },
+  {
+    "file": "focused-tests.log",
+    "sha256": "8f1043cf971c029283ae7434a114088b5430f9fda3543757371635a515a6ba08"
+  },
+  {
+    "file": "package-evidence.mjs",
+    "sha256": "ddfba935dc965ee58c09bdccb39ed4c74ce0bdce8824bf3f82f20f1a56b2f3ce"
+  },
+  {
+    "file": "preservation-result.json",
+    "sha256": "7716d26d8a1da88b4b63ee6da92cd149b0985073ed9fc8d1bd60a0805e565d99"
+  },
+  {
+    "file": "preservation.log",
+    "sha256": "cbd6b1964aea93a3b5f006fd868a308434fbda9ab4003581cfe55e94a2fb84e5"
+  },
+  {
+    "file": "preservation.mjs",
+    "sha256": "107b22f97d0f30e03e353299b137296990c596aaa3e8d32a54cc8512e3402152"
+  },
+  {
+    "file": "source-contracts.json",
+    "sha256": "9c063ad78206b34f0f7773f59e912f14675900024ee609f5bb8c648d9ad1bf2f"
+  },
+  {
+    "file": "source-contracts.log",
+    "sha256": "9c063ad78206b34f0f7773f59e912f14675900024ee609f5bb8c648d9ad1bf2f"
+  },
+  {
+    "file": "source-contracts.mjs",
+    "sha256": "156d71eda35c8ac334a1c21c73f042b15aa9c3bca2a70771258163c880be77ce"
+  },
+  {
+    "file": "supported-toolchain.log",
+    "sha256": "3abfdd2816b84c50ef2a93f69de944b007e1b6cfc4987bfc86d6aafbdb0be675"
+  },
+  {
+    "file": "validation-results.json",
+    "sha256": "fa5784511436669554badf08149b0e4dc9ad4cf41c681a412f634de454d87c14"
+  }
+]

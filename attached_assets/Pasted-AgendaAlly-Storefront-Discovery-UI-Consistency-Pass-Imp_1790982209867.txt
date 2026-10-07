@@ -1,0 +1,653 @@
+AgendaAlly — Storefront Discovery UI Consistency Pass
+
+Implement a focused visual/design improvement across the existing Customer storefront discovery sections.
+
+This is a UI/UX consistency pass based on the approved mockups.
+
+Credit use is important.
+
+Do NOT perform another broad application audit.
+Do NOT redesign unrelated pages.
+Do NOT change payment, booking, delivery, Maps, authentication, Vendor, Driver, invoice, financial, or backend business logic unless a tiny compatibility adjustment is strictly required for these existing discovery components.
+
+The approved design direction is:
+
+- clean, premium marketplace presentation;
+- warm AgendaAlly neutral/bronze visual language;
+- strong left alignment;
+- consistent content width;
+- consistent horizontal card rows;
+- balanced whitespace;
+- consistent cards across discovery sections;
+- responsive mobile behavior;
+- no giant empty horizontal areas;
+- no randomly centered content;
+- no uneven card heights caused by variable content.
+
+Apply this system to:
+
+1. Recommended businesses
+2. Top specialists
+3. Deals
+4. New businesses
+5. Product Brands / Browse product brands
+6. All shops / Explore businesses
+
+The existing APIs, filtering, visibility rules, navigation and authoritative data must remain intact.
+
+==================================================
+1. GLOBAL DISCOVERY LAYOUT
+==================================================
+
+First identify the shared Customer storefront container/grid primitives already used by these sections.
+
+Do not independently hard-code six unrelated widths.
+
+Use one coherent responsive content system.
+
+Desktop:
+
+- constrain content to the existing appropriate storefront max width;
+- center the page container;
+- LEFT-ALIGN section content inside it;
+- section headings must start on the same left grid line;
+- cards must start on that same left grid line;
+- right-side controls must align with the right edge of the content container.
+
+The desired structure is conceptually:
+
+Section eyebrow / context where appropriate
+
+Section title                         See all →   ‹  ›
+
+[Card] [Card] [Card] [Card...]
+
+NOT:
+
+                 Section title
+
+          [Card] [Card] [Card]
+
+with large unused space around it.
+
+Do not center Recommended, Specialists, Brands or Shops simply because only a few records exist.
+
+Fewer records must remain LEFT-ALIGNED.
+
+==================================================
+2. SECTION HEADER STANDARD
+==================================================
+
+Create/reuse a consistent section-heading treatment.
+
+For example:
+
+Recommended                         See all →   ‹  ›
+
+Top specialists                     See all →   ‹  ›
+
+Deals                               See all →   ‹  ›
+
+New businesses                      See all →   ‹  ›
+
+Brands                              See all →   ‹  ›
+
+All shops                           See all →   ‹  ›
+
+Rules:
+
+- title left aligned;
+- actions right aligned;
+- vertically balanced;
+- “See all” should be a clear text action;
+- carousel controls may appear where horizontal navigation actually exists;
+- do not display fake/nonfunctional arrows;
+- keyboard accessibility must remain intact;
+- controls need usable accessible labels.
+
+On mobile:
+
+Title                    See all →
+
+Then cards below.
+
+Do not force desktop controls into an overflowing mobile header.
+
+==================================================
+3. RECOMMENDED BUSINESSES
+==================================================
+
+Refine the Recommended section using the approved design.
+
+Use visually rich business cards.
+
+Preferred structure:
+
+┌──────────────────────────────────┐
+│                                  │
+│        Business cover image      │ ♡
+│                                  │
+├──────────────────────────────────┤
+│ logo  Business name      category│
+│       ★ rating                  │
+│       📍 location               │
+└──────────────────────────────────┘
+
+BUT:
+
+Only display fields actually supported by authoritative data.
+
+Do NOT invent:
+
+- ratings;
+- review counts;
+- categories;
+- badges;
+- Featured status;
+- Popular status;
+- New status.
+
+If those values do not exist, omit them cleanly.
+
+Preserve existing favorite behavior.
+
+Use the business/shop logo as a secondary identity element when available.
+
+Use existing safe image fallbacks when cover/logo imagery is absent.
+
+Business names should not be prematurely truncated when adequate card width exists.
+
+Use a controlled line clamp only where required.
+
+==================================================
+4. TOP SPECIALISTS
+==================================================
+
+Keep the recently improved Specialist card design, but correct alignment and consistency.
+
+The entire Top specialists section must LEFT-ALIGN with the same page grid as Recommended.
+
+Do not center five specialists independently from the Recommended row.
+
+Specialist cards should have equal visual height.
+
+Preferred hierarchy:
+
+[portrait]
+
+Specialist name
+Specialty / domains
+
+★ rating if real authoritative rating exists
+
+----------------
+
+Starting from
+6,000 FCFA
+
+📍 service location / supported mode
+
+[View profile →] if consistent with current navigation
+
+Specialist specialty/domain:
+
+Use the real specialist/service relationship already implemented.
+
+Examples may visually resemble:
+
+Hair Care · Nail Care · +3 more
+Education
+Tattoo & Piercing
+
+Do NOT add a disconnected free-text specialty model if existing Service categories/assignments already provide authoritative specialty information.
+
+If multiple specialties exist:
+
+show the first useful 1–2 and then:
+
++N more
+
+Do not allow variable specialty text to make cards different heights.
+
+Preserve:
+
+- public/private Specialist visibility;
+- active state;
+- scoped service assignments;
+- starting-price calculation;
+- location/mode logic;
+- favorites;
+- existing Specialist navigation.
+
+Do not expose private Specialists in public discovery.
+
+==================================================
+5. DEALS
+==================================================
+
+Redesign Deals using the same premium business-card family.
+
+Desired row:
+
+Deals                              See all →   ‹  ›
+
+[Deal business] [Deal business] [Deal business] [...]
+
+Cards may visually emphasize an actual promotion.
+
+However:
+
+DO NOT fabricate:
+
+- 10% OFF;
+- 20% OFF;
+- Special Offer;
+- discount values;
+- sale labels;
+- promotional status.
+
+Only render a deal badge/value when authoritative promotion/deal data actually exists.
+
+If the existing “Deals” section does not have real deal semantics, audit its current source and preserve its actual meaning rather than inventing promotions.
+
+Use:
+
+- strong imagery;
+- business identity;
+- business name;
+- actual relevant deal information;
+- real location;
+- favorite action where supported.
+
+==================================================
+6. NEW BUSINESSES
+==================================================
+
+Use the same card dimensions as Recommended where practical.
+
+New businesses                     See all →   ‹  ›
+
+[Business] [Business] [Business] [...]
+
+“New” must only appear if the current backend/query actually establishes that the business qualifies as new.
+
+Do not infer New merely from visual position.
+
+Use:
+
+- cover image;
+- logo/avatar where available;
+- business name;
+- meaningful category/type if authoritative;
+- rating only if authoritative;
+- location;
+- favorite action.
+
+Keep all cards equal height.
+
+==================================================
+7. PRODUCT BRANDS
+==================================================
+
+The current Brand section is visually too sparse when only one/few brands are returned.
+
+Redesign it as a proper horizontally aligned brand row.
+
+Example:
+
+PRODUCT BRANDS
+Browse product brands.
+
+Brands                              See all →   ‹  ›
+
+[ Brand ] [ Brand ] [ Brand ] [ Brand ] ...
+
+Brand card structure:
+
+┌───────────────────┐
+│   visual/image    │
+│                   │
+│      LOGO         │
+├───────────────────┤
+│ Brand name        │
+│ product count     │
+└───────────────────┘
+
+BUT again:
+
+do not invent product counts.
+
+Only show:
+
+“128 products”
+
+if an authoritative count exists.
+
+If no count exists, omit the count.
+
+Use the actual Brand image/logo/media model already supported by AgendaAlly.
+
+Do not seed fake brands merely to fill the row as part of this task.
+
+If only one brand exists, display ONE well-designed card LEFT-ALIGNED.
+
+Do not stretch one brand across the entire page.
+
+Do not center it.
+
+The empty area should simply remain available for future brands.
+
+==================================================
+8. ALL SHOPS / EXPLORE BUSINESSES
+==================================================
+
+Apply the same refined business-card family.
+
+Example:
+
+BUSINESSES
+Explore businesses.
+
+All shops                           See all →   ‹  ›
+
+[Business] [Business] [Business] [Business...]
+
+Use consistent:
+
+- card widths;
+- image ratios;
+- favorite placement;
+- logo/avatar placement;
+- title typography;
+- metadata spacing;
+- location treatment;
+- border radius;
+- hover/focus behavior.
+
+Do not use noticeably smaller cards here than in Recommended without a deliberate responsive reason.
+
+Recommended and All shops should clearly feel like parts of the SAME design system.
+
+==================================================
+9. CARD HEIGHT AND TEXT CONTROL
+==================================================
+
+This is important.
+
+Current variable text can cause uneven cards.
+
+Normalize card structure using CSS layout rather than destructive data truncation.
+
+For example:
+
+card:
+display flex
+flex-direction column
+height 100%
+
+metadata/content:
+flex-grow 1
+
+footer:
+margin-top auto
+
+Use appropriate line clamps for descriptions.
+
+Business names:
+
+prefer enough width for normal names.
+
+Descriptions:
+
+usually maximum 2 lines in discovery cards.
+
+Addresses:
+
+usually one line on desktop cards with ellipsis if required.
+
+Specialist specialty:
+
+reserve a consistent metadata area.
+
+Do not cut important information simply to force identical heights.
+
+==================================================
+10. RESPONSIVE BEHAVIOR
+==================================================
+
+Verify at minimum:
+
+Desktop
+Tablet
+390px mobile
+
+Desktop should use the approved spacious horizontal marketplace design.
+
+Tablet may reduce visible cards.
+
+Mobile should NOT shrink desktop cards until they become unreadable.
+
+Use a native responsive approach such as:
+
+- horizontally scrollable cards with snap behavior;
+or
+- appropriate compact responsive grid,
+
+based on existing storefront patterns.
+
+Do not introduce horizontal PAGE overflow.
+
+A horizontal card carousel may scroll internally.
+
+At approximately 390px:
+
+document/client page width must remain equal without accidental horizontal overflow.
+
+Touch targets must remain usable.
+
+==================================================
+11. IMAGE HANDLING
+==================================================
+
+Use the existing authoritative media pipeline.
+
+Do not add random external placeholder dependencies.
+
+For:
+
+- businesses;
+- specialists;
+- brands;
+
+use existing native media URLs and fallback behavior.
+
+Images should use consistent aspect ratios and object-fit behavior.
+
+Avoid:
+
+- stretched faces;
+- distorted logos;
+- squashed cover images;
+- giant blank image boxes.
+
+==================================================
+12. PRESERVE EXISTING DISCOVERY SEMANTICS
+==================================================
+
+Do NOT change existing query semantics merely to make the design visually full.
+
+Preserve:
+
+- Recommended logic;
+- Deals logic;
+- New businesses logic;
+- All shops logic;
+- Brand filtering;
+- Specialist public/private visibility;
+- service/category filtering;
+- country/city/geography filters;
+- starting-price projection;
+- favorites;
+- See-all navigation;
+- business navigation;
+- Specialist navigation.
+
+A sparse section is preferable to fake data.
+
+==================================================
+13. REUSE COMPONENTS
+==================================================
+
+Before editing, inspect whether Recommended, Deals, New businesses and All shops duplicate business-card markup.
+
+Where safe, consolidate/reuse a common presentation component or common design primitives.
+
+Do NOT perform a broad architecture refactor.
+
+The goal is to prevent the same business entity from having four unrelated visual designs.
+
+Likewise reuse:
+
+- section heading;
+- carousel controls;
+- image fallback;
+- metadata rows;
+
+where practical.
+
+==================================================
+14. ACCESSIBILITY
+==================================================
+
+Preserve/improve:
+
+- semantic links;
+- keyboard navigation;
+- visible focus states;
+- alt text;
+- accessible favorite buttons;
+- accessible carousel controls;
+- sufficient contrast.
+
+Do not make an entire card a button containing nested interactive buttons illegally.
+
+If card navigation and favorite coexist, use valid interaction structure.
+
+==================================================
+15. DO NOT MODIFY
+==================================================
+
+Do NOT modify:
+
+- booking behavior;
+- booking availability;
+- payment eligibility;
+- payment providers;
+- Vendor payment settings;
+- payment credentials;
+- checkout;
+- Product fulfillment;
+- Delivery;
+- Pickup;
+- collection points;
+- pickup scheduling;
+- Driver logic;
+- Maps configuration;
+- country/city/Area data;
+- invoices;
+- authentication;
+- Admin branding;
+- shop branding settings;
+- payouts;
+- wallets;
+- refunds;
+- accounting;
+- currency/FX;
+- notification behavior.
+
+This task is the Customer discovery presentation layer.
+
+==================================================
+16. FOCUSED VERIFICATION
+==================================================
+
+Credit use is important.
+
+Do NOT run another full application acceptance suite.
+
+Verify only the affected discovery surfaces.
+
+A. Recommended
+- left aligned;
+- cards render correctly;
+- See all works;
+- favorite still works where available.
+
+B. Top specialists
+- left aligned;
+- equal-height cards;
+- specialties render correctly;
+- public/private rule remains intact;
+- starting price remains correct.
+
+C. Deals
+- consistent cards;
+- no fabricated deal information.
+
+D. New businesses
+- consistent cards;
+- no fabricated New status.
+
+E. Brands
+- left aligned even with one brand;
+- image/logo displays correctly;
+- See all works;
+- no fabricated product count.
+
+F. All shops
+- same visual family as Recommended;
+- left aligned;
+- navigation works.
+
+G. Responsive
+- desktop;
+- tablet;
+- 390px mobile;
+- no page-level horizontal overflow.
+
+H. Run focused TypeScript/build checks for affected Customer files.
+
+Do not submit:
+
+- bookings;
+- orders;
+- payments;
+- Vendor changes;
+- Driver changes;
+- location changes.
+
+==================================================
+17. REPORT AND STOP
+==================================================
+
+Report:
+
+1. exact discovery components/routes changed;
+2. whether a shared Business card was reused/created;
+3. whether a shared section header was reused/created;
+4. how Recommended alignment was corrected;
+5. how Top Specialist alignment was corrected;
+6. how Specialist card heights were normalized;
+7. how Deals were handled without fabricated data;
+8. how New-business status is determined;
+9. how Brand cards behave with one versus many brands;
+10. how All shops now matches Recommended;
+11. responsive verification results;
+12. any missing backend fields that prevented a mockup element from being rendered;
+13. files changed.
+
+Include focused before/after screenshots if the environment supports them.
+
+Then STOP.
+
+Do not automatically continue into pickup scheduling, payment work, Maps work, Driver work, branding work, additional seeding, or another storefront redesign.

@@ -1,0 +1,1060 @@
+AgendaAlly — Implement Approved Shop Profile Redesign + Service Images
+
+Implement the approved Customer storefront Shop/Business Profile redesign.
+
+The supplied/approved mockup is the visual direction for this task.
+
+This is an implementation pass, not another design-proposal pass.
+
+The key design decision is:
+
+ONE BUSINESS PROFILE, MULTIPLE OFFERINGS.
+
+A business may offer:
+- Services only;
+- Products only;
+- both Services and Products.
+
+Services and Products must NOT compete as narrow side-by-side catalog columns.
+
+The redesigned Shop profile should instead provide a coherent marketplace experience where Services, Products and Specialists are first-class sections of the same business profile.
+
+Service imagery is also approved and should be implemented as part of this redesign.
+
+IMPORTANT:
+- preserve existing booking behavior;
+- preserve existing product/cart behavior;
+- preserve public/private Specialist behavior;
+- do not merge Service booking and Product checkout;
+- do not modify payment architecture;
+- do not proceed into unrelated work.
+
+Credit use is important. Audit only what is necessary to implement this correctly.
+
+────────────────────────────────────
+PART A — AUDIT THE EXISTING SHOP PROFILE
+────────────────────────────────────
+
+1. Trace the current Customer Shop/Business profile implementation.
+
+Identify the existing implementation for:
+
+- Shop header/hero;
+- Shop logo;
+- Shop cover/banner;
+- Shop categories;
+- favorites/save;
+- sharing;
+- ratings/reviews;
+- address;
+- branches;
+- contact information;
+- opening status;
+- business hours;
+- Services;
+- Service categories;
+- Service cards/rows;
+- Products;
+- Product cards;
+- Specialists;
+- Specialist profiles;
+- Stories if already integrated;
+- Gift Cards;
+- Memberships;
+- booking entry points;
+- product/cart entry points;
+- Shop navigation/tabs;
+- responsive/mobile layout.
+
+Identify which components are shared elsewhere before changing them.
+
+Do not create parallel components unnecessarily.
+
+Preserve existing routes and contracts where practical.
+
+────────────────────────────────────
+PART B — APPROVED SHOP PROFILE STRUCTURE
+────────────────────────────────────
+
+2. Implement the approved visual hierarchy.
+
+The target structure is conceptually:
+
+SHOP HERO
+
+[Shop logo]
+Wouri Beauty Bar
+Business categories
+Rating/reviews
+Location
+Open/closed status
+Save
+Share
+
+Shop navigation where applicable:
+
+Overview
+Services
+Products
+Specialists
+Reviews
+Stories
+
+Then:
+
+SERVICES
+[category filters]
+[service rows]
+
+PRODUCTS
+[responsive product grid]
+
+OUR SPECIALISTS
+[responsive specialist cards]
+
+Desktop:
+Business information remains available in a right-hand sidebar.
+
+Mobile/tablet:
+The layout collapses naturally into a single-column experience.
+
+The supplied mockup is the approved visual direction.
+
+Do not mechanically reproduce mock data from the mockup.
+
+Use authoritative application data.
+
+────────────────────────────────────
+PART C — SHOP HERO
+────────────────────────────────────
+
+3. Improve the Shop header/hero using existing authoritative data.
+
+Where available, present:
+
+- Shop logo;
+- Shop cover/banner;
+- Shop name;
+- business category/categories;
+- rating/review count;
+- location;
+- open/closed state;
+- verified state if AgendaAlly actually supports it;
+- favorite/save;
+- share.
+
+Do NOT fabricate:
+
+- verification;
+- ratings;
+- review counts;
+- categories;
+- addresses;
+- operating status.
+
+If a field does not exist, hide it gracefully.
+
+Use the existing AgendaAlly visual direction:
+- clean;
+- premium;
+- neutral;
+- restrained bronze accents;
+- good typography;
+- generous spacing.
+
+Do not overuse bronze.
+
+────────────────────────────────────
+PART D — SHOP NAVIGATION
+────────────────────────────────────
+
+4. Audit whether native Shop-profile section navigation already exists.
+
+Where appropriate, implement/refine compact navigation such as:
+
+Overview
+Services
+Products
+Specialists
+Reviews
+Stories
+
+Only display sections that actually apply to the Shop.
+
+Examples:
+
+Service-only Shop:
+Do not display Products if there are none.
+
+Product-only Shop:
+Do not display Services if there are none.
+
+No public Specialists:
+Do not show an empty Specialists navigation item unless existing UX intentionally supports an empty state.
+
+Stories:
+Only include Stories according to the existing approved Stories architecture.
+
+Navigation may use section anchors/scrolling or existing routing depending on the native implementation.
+
+Do not create unnecessary routes.
+
+Mobile navigation must remain usable and must not create horizontal page overflow.
+
+────────────────────────────────────
+PART E — SERVICES SECTION
+────────────────────────────────────
+
+5. Services must use the primary content width.
+
+Do NOT keep:
+
+SERVICES | PRODUCTS
+
+as competing narrow columns.
+
+Services should have their own full-width section inside the primary content column.
+
+Preserve existing Service category filtering.
+
+Example hierarchy:
+
+SERVICES                              See all services →
+
+[All] [Hair Care] [Nail Care] [Spa & Massage] [Makeup] [...]
+
+[IMAGE] Bridal Makeup
+        Full bridal makeup...
+        90 min · In-store · Online
+                               36,000 FCFA   [Book now]
+
+[IMAGE] Beard Trim
+        Beard shaping...
+        20 min · In-store
+                                6,000 FCFA   [Book now]
+
+Do not change booking semantics.
+
+────────────────────────────────────
+PART F — SERVICE IMAGES
+────────────────────────────────────
+
+6. Service images are now approved.
+
+Audit the existing Service data model and media architecture for:
+
+- image;
+- thumbnail;
+- media;
+- gallery;
+- Service category images;
+- media relationships;
+- upload/storage infrastructure;
+- Vendor Service create/edit forms;
+- Admin Service forms;
+- Customer API resources;
+- Customer storefront Service components;
+- Customer mobile/API contracts.
+
+Determine whether Service imagery already exists but is not currently exposed.
+
+Reuse the existing media architecture whenever possible.
+
+Do NOT create a duplicate Service-image architecture if one already exists.
+
+────────────────────────────────────
+PART G — ADD SERVICE IMAGE SUPPORT IF REQUIRED
+────────────────────────────────────
+
+7. If individual Service images genuinely do not exist, implement the smallest native extension necessary.
+
+A Vendor should be able to optionally add an image to a Service.
+
+The image is OPTIONAL.
+
+A Service must remain creatable/bookable without an uploaded image.
+
+Vendor Service create/edit should support, where appropriate:
+
+- upload/select;
+- preview;
+- replace;
+- remove.
+
+Use the existing media/upload/storage architecture.
+
+Do not introduce a competing storage system.
+
+Preserve tenant isolation.
+
+Vendor A must never be able to alter Service media belonging to Vendor B.
+
+────────────────────────────────────
+PART H — SERVICE IMAGE FALLBACK
+────────────────────────────────────
+
+8. Never render a broken Service image.
+
+Use the best available image source in this order, subject to the existing architecture:
+
+1. Service-specific image.
+2. Appropriate existing Service-category image/visual.
+3. Neutral AgendaAlly Service placeholder.
+
+Do NOT use an unrelated Service image.
+
+Do NOT expose broken media URLs.
+
+Do NOT make Service images mandatory.
+
+This is particularly important because AgendaAlly may support non-visual services such as:
+
+- tutoring;
+- consulting;
+- professional services;
+- administrative services;
+
+where a Vendor may reasonably choose not to upload a photograph.
+
+────────────────────────────────────
+PART I — SERVICE IMAGE PRESENTATION
+────────────────────────────────────
+
+9. Implement the approved Service-row visual treatment.
+
+Each Service row/card should have stable regions for:
+
+IMAGE
+SERVICE INFORMATION
+PRICE
+PRIMARY ACTION
+
+Example:
+
+┌───────────────────────────────────────────────────────┐
+│ [IMAGE]  Bridal Makeup                36,000 FCFA     │
+│          Full bridal makeup...            [Book now]  │
+│          90 min · In-store · Online                   │
+└───────────────────────────────────────────────────────┘
+
+Use:
+
+- consistent image dimensions;
+- consistent aspect ratio;
+- appropriate object-fit behavior;
+- controlled description length;
+- proper vertical alignment;
+- stable price area;
+- stable action area.
+
+Do not distort images.
+
+Do not make rows dramatically different heights because one description is longer.
+
+────────────────────────────────────
+PART J — SEED IMAGES FOR EXISTING DEMO SERVICES
+────────────────────────────────────
+
+10. Audit EXISTING seeded/demo Services.
+
+Seed appropriate representative imagery for existing demo Services that currently lack Service images.
+
+This includes existing Services such as:
+
+- Bridal Makeup;
+- Beard Trim;
+- Massage Therapy;
+
+and other EXISTING seeded Services discovered during the audit.
+
+Use contextually appropriate imagery.
+
+Examples:
+
+Bridal Makeup
+→ professional bridal/makeup imagery.
+
+Beard Trim
+→ professional barber/beard grooming imagery.
+
+Massage Therapy
+→ professional spa/massage imagery.
+
+Hair Care
+→ appropriate professional hair-service imagery.
+
+Nail services
+→ appropriate manicure/nail-care imagery.
+
+Barbershop services
+→ appropriate barber imagery.
+
+Car Service
+→ if existing seeded Car Service Services are present, use imagery appropriate to the actual Service subtype.
+
+These examples guide image selection only.
+
+Do NOT create new Services simply to populate screenshots.
+
+Do NOT modify existing Service:
+
+- IDs;
+- names;
+- descriptions;
+- prices;
+- duration;
+- categories;
+- shop ownership;
+- Specialist assignments;
+- booking configuration;
+- availability.
+
+Only associate suitable imagery where required.
+
+────────────────────────────────────
+PART K — SAFE / IDEMPOTENT SERVICE IMAGE SEEDING
+────────────────────────────────────
+
+11. Service-image seeding must be safe and idempotent.
+
+Running the seed twice must NOT:
+
+- duplicate Services;
+- duplicate media associations unnecessarily;
+- create duplicate media records unnecessarily;
+- change Service ownership;
+- modify Service pricing;
+- modify availability;
+- modify booking records;
+- modify transactions.
+
+Prefer filling only missing demo Service images.
+
+Never overwrite an intentional Vendor-uploaded Service image.
+
+Report the result of a second seed run.
+
+────────────────────────────────────
+PART L — SERVICE INFORMATION
+────────────────────────────────────
+
+12. Preserve authoritative Service information.
+
+Display existing authoritative data such as:
+
+- Service name;
+- description;
+- duration;
+- service mode/location;
+- price;
+- booking action.
+
+Format currency correctly.
+
+Examples:
+
+6,000 FCFA
+21,000 FCFA
+36,000 FCFA
+
+rather than:
+
+6000 FCFA
+21000 FCFA
+36000 FCFA
+
+Do not change underlying price values.
+
+Audit what the existing “Online” label actually represents.
+
+If AgendaAlly supports authoritative modes such as:
+
+- In-store;
+- Online;
+- At customer location;
+
+display those accurately.
+
+Do not label Services “Online” merely because of an unrelated/default field.
+
+────────────────────────────────────
+PART M — PRODUCTS SECTION
+────────────────────────────────────
+
+13. Move Products into a proper section below Services.
+
+Do NOT render Products as a narrow competing column beside Services.
+
+Use a responsive product grid.
+
+Conceptually:
+
+PRODUCTS                             See all products →
+
+[Product] [Product] [Product] [Product]
+
+Desktop:
+approximately 3–4 cards depending on available main-content width.
+
+Tablet:
+approximately 2–3 cards.
+
+Mobile:
+1–2 cards depending on readable minimum card width and the native design system.
+
+Do not hard-code a fixed count if the existing grid system provides a better responsive solution.
+
+────────────────────────────────────
+PART N — PRODUCT CARD QUALITY
+────────────────────────────────────
+
+14. Product cards should have consistent:
+
+- image aspect ratio;
+- dimensions;
+- name region;
+- price region;
+- favorite control if already supported;
+- add-to-cart/product action if already supported.
+
+Long product names must not break the grid.
+
+Use controlled line clamping.
+
+Do not distort Product images.
+
+Do not change Product checkout semantics.
+
+────────────────────────────────────
+PART O — SMALL PRODUCT CATALOGS
+────────────────────────────────────
+
+15. Handle all legitimate Product counts.
+
+A Shop may have:
+
+- zero Products;
+- one Product;
+- two Products;
+- many Products.
+
+ZERO:
+Hide the section or use the existing intentional empty-state behavior.
+
+ONE:
+Display one normally sized card aligned with the grid.
+
+Do NOT stretch one Product across the page.
+
+Do NOT shrink the entire Products area around one tiny card.
+
+MANY:
+Populate the responsive grid normally.
+
+Do not create fake Products merely to fill the layout.
+
+────────────────────────────────────
+PART P — CUSTOMER-FACING COPY
+────────────────────────────────────
+
+16. Remove implementation-oriented customer copy.
+
+For example, current text such as:
+
+“Browse this business’s separate product catalog and its current listings.”
+
+should not expose implementation details such as “separate catalog.”
+
+Prefer customer-oriented wording such as:
+
+“Shop products from {Business Name}.”
+
+Likewise improve Services copy where necessary.
+
+Use the existing localization/i18n architecture.
+
+Do not hard-code English strings if translation keys are used.
+
+────────────────────────────────────
+PART Q — SPECIALISTS
+────────────────────────────────────
+
+17. Integrate the approved Specialist presentation into the Shop profile.
+
+Where the Shop has PUBLIC Specialists, provide a section such as:
+
+OUR SPECIALISTS                         See all specialists →
+
+[Specialist] [Specialist] [Specialist] [...]
+
+Reuse the Specialist-card work/design rather than creating a competing implementation.
+
+Cards should use authoritative data such as:
+
+- profile image;
+- full name;
+- professional domain/specialty;
+- rating if authoritative;
+- starting price;
+- Shop association where appropriate.
+
+Do NOT use “Specialist” as the primary customer-facing profession if a more meaningful authoritative professional domain is available.
+
+Examples conceptually:
+
+Barber
+Hair Stylist
+Makeup Artist
+Nail Technician
+Tutor
+Massage Therapist
+
+Do not hard-code those labels unless supported by existing data.
+
+────────────────────────────────────
+PART R — PUBLIC / PRIVATE SPECIALISTS
+────────────────────────────────────
+
+18. Preserve the approved Specialist visibility model.
+
+PUBLIC Specialist:
+- may appear on public Shop profile;
+- may appear in public discovery;
+- may have a public profile;
+- remains available in booking according to normal eligibility.
+
+PRIVATE Specialist:
+- must NOT appear in public Shop-profile Specialist sections;
+- must NOT appear in public discovery;
+- must NOT expose a public profile;
+- may still appear at the appropriate service-first booking stage for the relevant business.
+
+Enforce this server-side where public APIs are involved.
+
+Do not rely only on frontend filtering.
+
+────────────────────────────────────
+PART S — BUSINESS INFORMATION SIDEBAR
+────────────────────────────────────
+
+19. Preserve and improve the useful desktop Business Information sidebar.
+
+Use authoritative existing data for:
+
+- Shop/business name;
+- description where appropriate;
+- address;
+- map if properly configured;
+- service branches;
+- phone/contact;
+- opening state;
+- business hours;
+- Gift Card;
+- Membership;
+- other legitimate Shop metadata.
+
+Do not duplicate the same information across many unnecessary cards.
+
+The sidebar should complement the main catalog, not dominate it.
+
+────────────────────────────────────
+PART T — ADDRESS / BRANCH SEMANTICS
+────────────────────────────────────
+
+20. Preserve the distinction between:
+
+- Shop-level address;
+- branch-specific address.
+
+The current warning indicates that the Shop address may not represent every branch.
+
+Do not falsely represent Shop-level location as the confirmed street address for each branch.
+
+Improve customer-facing wording if necessary while preserving the underlying semantics.
+
+Do not modify the broader Maps work in this task unless a directly affected component requires a compatibility correction.
+
+────────────────────────────────────
+PART U — BUSINESS HOURS
+────────────────────────────────────
+
+21. Keep Business Hours readable and compact.
+
+Preserve authoritative Shop/branch-hour semantics.
+
+Do not fabricate branch-specific hours where only Shop-level hours exist.
+
+If branch-specific hours are not provided, make that distinction understandable without cluttering the UI.
+
+────────────────────────────────────
+PART V — GIFT CARD + MEMBERSHIP
+────────────────────────────────────
+
+22. Preserve existing Gift Card and Membership functionality.
+
+These may remain in the Business sidebar or another suitable location according to the approved design.
+
+Do not modify:
+
+- Gift Card payment behavior;
+- Membership payment behavior;
+- eligibility;
+- transaction semantics.
+
+This is presentation work only for those features.
+
+────────────────────────────────────
+PART W — STORIES
+────────────────────────────────────
+
+23. Preserve the existing approved Stories architecture.
+
+If Stories are already part of the Shop profile, integrate the existing entry point naturally with the redesigned navigation/profile.
+
+Do NOT redesign Stories in this task.
+
+Do NOT create Stories fixtures.
+
+Do NOT weaken the previously implemented Story ownership/security boundary.
+
+────────────────────────────────────
+PART X — SERVICES VS PRODUCTS TRANSACTION SEMANTICS
+────────────────────────────────────
+
+24. A visually unified Shop profile does NOT mean Services and Products share a transaction model.
+
+SERVICES:
+continue through the native Service booking flow.
+
+PRODUCTS:
+continue through the native Product/cart/checkout flow.
+
+Do NOT merge them.
+
+Do NOT change:
+
+- transaction types;
+- payment collection;
+- AgendaAlly Payments;
+- Vendor-direct gateway behavior;
+- payment providers;
+- wallets;
+- payouts;
+- refunds;
+- accounting.
+
+────────────────────────────────────
+PART Y — SHOP TYPES
+────────────────────────────────────
+
+25. The redesigned profile must correctly support:
+
+SERVICE-ONLY BUSINESS
+
+Show Services.
+Do not render an empty Product shell.
+
+PRODUCT-ONLY BUSINESS
+
+Show Products.
+Do not render an empty Service shell.
+
+SERVICES + PRODUCTS BUSINESS
+
+Show both as first-class vertically structured sections.
+
+Do NOT force a Vendor to choose only one offering type if the existing platform legitimately supports both.
+
+────────────────────────────────────
+PART Z — RESPONSIVE DESIGN
+────────────────────────────────────
+
+26. Verify and refine at minimum:
+
+- large desktop;
+- normal desktop;
+- tablet;
+- approximately 390px mobile.
+
+Desktop:
+
+Use available width effectively.
+
+The main content should dominate.
+
+The Business Information sidebar should have a sensible fixed/proportional width.
+
+Services and Products must NOT remain side-by-side as competing catalog columns.
+
+Tablet:
+
+Reflow sections appropriately.
+
+Mobile:
+
+Use a natural single-column hierarchy.
+
+Service image, information, price and action must remain readable.
+
+Products must not become unusably narrow.
+
+Specialist cards must remain consistent.
+
+Navigation must remain usable.
+
+No horizontal page overflow.
+
+────────────────────────────────────
+PART AA — VISUAL QUALITY
+────────────────────────────────────
+
+27. Follow the approved mockup and current AgendaAlly visual direction.
+
+Use:
+
+- strong typography;
+- clean spacing;
+- restrained borders;
+- consistent radius;
+- neutral surfaces;
+- black/neutral text;
+- warm bronze accent;
+- clear section hierarchy;
+- high-quality imagery;
+- consistent card dimensions.
+
+Avoid:
+
+- excessive nested bordered boxes;
+- excessive bronze;
+- cramped cards;
+- giant empty areas;
+- tiny product cards;
+- inconsistent card heights;
+- admin-dashboard styling on the public storefront.
+
+The page should feel like a polished consumer marketplace.
+
+────────────────────────────────────
+PART AB — IMAGE PERFORMANCE
+────────────────────────────────────
+
+28. Handle images efficiently.
+
+Do not load unnecessarily huge source images into small Service/Product cards.
+
+Reuse existing:
+
+- image resizing;
+- thumbnails;
+- CDN/media optimization;
+- Next/Image or equivalent;
+
+where available.
+
+Reserve dimensions/aspect ratios to avoid layout shift.
+
+Use lazy loading where appropriate and consistent with the existing architecture.
+
+Do not degrade Shop-profile initial load significantly.
+
+────────────────────────────────────
+PART AC — API COMPATIBILITY
+────────────────────────────────────
+
+29. If Service image data needs to be exposed through an API, extend the native Service resource/serializer.
+
+Do NOT create a storefront-only duplicate Service API.
+
+Audit existing consumers before changing contracts.
+
+Preserve backward compatibility where practical.
+
+If the Customer mobile application consumes the same Service contract:
+
+- do not break it;
+- report whether it can already consume the new image field;
+- do NOT redesign/refactor the Customer mobile application in this task.
+
+────────────────────────────────────
+PART AD — DO NOT TOUCH
+────────────────────────────────────
+
+30. Do NOT change unrelated architecture.
+
+Specifically do NOT modify:
+
+- payment provider activation;
+- payment country assignments;
+- Vendor payment configuration;
+- payment collection policy;
+- payouts;
+- refunds;
+- wallets;
+- accounting;
+- FX;
+- Delivery Driver architecture;
+- Driver invitations;
+- delivery economics;
+- product delivery logic;
+- pickup scheduling;
+- Stories redesign;
+- authentication architecture;
+- unrelated Admin screens;
+- unrelated Laravel APIs;
+- Customer mobile UI.
+
+Do not publish or deploy externally.
+
+────────────────────────────────────
+PART AE — DATA SAFETY
+────────────────────────────────────
+
+31. Do not alter real operational data merely for visual testing.
+
+Do not:
+
+- create fake bookings;
+- submit bookings;
+- create real transactions;
+- submit payments;
+- call external payment providers;
+- create fake reviews;
+- create fake ratings;
+- create fake marketplace businesses;
+- create fake Products merely to fill the grid.
+
+Existing demo Service-image seeding is explicitly approved, but must remain limited to existing demo/seeded Services.
+
+────────────────────────────────────
+PART AF — FOCUSED VERIFICATION
+────────────────────────────────────
+
+32. Credit use is important.
+
+Do NOT run another broad application acceptance suite.
+
+Run focused verification for this Shop-profile redesign.
+
+Verify at minimum:
+
+A. Shop profile hero renders correctly.
+
+B. Shop logo/banner remain correctly proportioned.
+
+C. Shop navigation works where implemented.
+
+D. Services occupy the intended main-content width.
+
+E. Services and Products are no longer competing side-by-side catalog columns.
+
+F. Service category filters still work.
+
+G. Existing Bridal Makeup displays an appropriate Service image.
+
+H. Existing Beard Trim displays an appropriate Service image.
+
+I. Existing Massage Therapy displays an appropriate Service image.
+
+J. Other existing seeded Services receive appropriate imagery where applicable.
+
+K. Existing Service-specific image takes priority over fallback.
+
+L. Service without an image renders a safe fallback.
+
+M. Broken/missing media does not render a broken-image UI.
+
+N. Vendor can add/replace/remove a Service image if this capability required implementation.
+
+O. Vendor cannot modify another Shop's Service image.
+
+P. Service-image seed can run twice without duplicates.
+
+Q. Existing Service prices remain unchanged.
+
+R. Existing Service duration remains unchanged.
+
+S. Existing Service assignments remain unchanged.
+
+T. Booking from a Service still enters the native booking flow.
+
+U. Product grid renders correctly.
+
+V. A one-Product Shop still has an intentional layout.
+
+W. Multiple Products render correctly where existing data permits verification.
+
+X. Long Product names do not break the grid.
+
+Y. Product/cart entry remains functional.
+
+Z. Public Specialists appear correctly.
+
+AA. Private Specialists remain excluded from the public Shop profile.
+
+AB. Specialist cards have consistent dimensions.
+
+AC. Business Information sidebar remains accurate.
+
+AD. Gift Card/Membership entry points remain functional.
+
+AE. Desktop uses available space appropriately.
+
+AF. Tablet reflows correctly.
+
+AG. Approximately 390px mobile has no horizontal overflow.
+
+AH. Service image layout does not cause excessive layout shift.
+
+AI. Customer mobile/shared API contracts are not broken.
+
+AJ. Type/syntax checks for affected files pass.
+
+Do not make a real booking/payment during verification.
+
+────────────────────────────────────
+PART AG — FINAL REPORT
+────────────────────────────────────
+
+33. When complete, report:
+
+1. Previous Shop-profile architecture.
+2. Root cause of the poor Services + Products layout.
+3. New Shop-profile composition.
+4. Shop hero changes.
+5. Navigation treatment.
+6. Services layout.
+7. Whether Service-image support already existed.
+8. Existing media architecture reused.
+9. Any Service schema/API change required.
+10. Vendor Service-image management behavior.
+11. Service-image fallback hierarchy.
+12. Existing demo Services receiving seeded images.
+13. Result of running the Service-image seed twice.
+14. Products layout.
+15. Behavior with zero/one/many Products.
+16. Specialist integration.
+17. Public/private Specialist behavior.
+18. Business Information/sidebar treatment.
+19. Responsive behavior.
+20. Customer mobile/shared API compatibility.
+21. Exact files changed.
+22. Focused tests/checks and results.
+23. Any larger improvement that should remain a future proposal.
+
+Restore the existing Customer and Admin/Vendor previews if this work disturbs them.
+
+Then STOP.
+
+Do NOT automatically proceed into:
+- payments;
+- payout implementation;
+- Maps work;
+- Delivery Driver work;
+- pickup scheduling;
+- Stories redesign;
+- Customer mobile refactoring;
+- another marketplace redesign;
+- another phase.
+
+The supplied approved Shop-profile mockup is the target visual direction.

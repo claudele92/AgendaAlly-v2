@@ -1,0 +1,852 @@
+AgendaAlly — Payment Implementation Phase 2B
+Approve Collection/Allocation Schema Migration and Bounded Implementation
+
+The finalized Phase 2 collection/allocation design in:
+
+docs/development/payment-phase2-collection-allocation.md
+
+is approved as the implementation baseline.
+
+I now approve implementation of the finalized two-layer financial architecture
+and its required migrations, subject to the boundaries below.
+
+This approval does NOT authorize provider activation, Vendor-direct checkout
+enablement, provider refunds, external payout rails, legacy financial
+classification, or publishing.
+
+============================================================
+1. APPROVED ARCHITECTURE
+============================================================
+
+Implement the finalized design consisting conceptually of:
+
+1. SHOP ECONOMIC PAYMENT ALLOCATION
+
+A durable, once-only Shop-level economic accounting identity representing:
+
+- gross economic amount;
+- AgendaAlly commission calculated exactly once;
+- commission satisfied from platform-controlled funds;
+- outstanding Vendor commission receivable;
+- Vendor economic entitlement;
+- platform-held Vendor payable;
+- refunds/reversals;
+- settlement effects;
+- remaining liability;
+- accounting/finality state.
+
+2. IMMUTABLE FUNDING / COLLECTION CONTRIBUTIONS
+
+Contribution-level immutable evidence representing how portions of the
+economic allocation were actually funded/collected, including:
+
+- collection mode;
+- collector/custody ownership;
+- provider where applicable;
+- amount;
+- currency;
+- safe merchant/config ownership identity where required;
+- original funding evidence/identity;
+- contribution finality.
+
+Do not store provider credentials, API secrets, tokens or other secrets.
+
+Use the exact finalized columns, constraints, keys, states and lifecycle from
+the approved Phase 2 design unless implementation discovers a correctness
+problem.
+
+============================================================
+2. ACCOUNTING POLICY
+============================================================
+
+Preserve the finalized accounting policy.
+
+Commission is calculated ONCE per Shop economic allocation.
+
+Do not calculate full commission independently for:
+
+- each Transaction;
+- each callback;
+- each funding contribution;
+- replacement Transactions.
+
+Platform-controlled funds satisfy AgendaAlly commission first.
+
+Remaining platform-controlled funds may become Vendor payable.
+
+Vendor-direct and Vendor-received Cash principal must NOT create a platform
+payout liability for principal already received directly by the Vendor.
+
+If platform-controlled funds are insufficient to satisfy commission, the
+remaining commission becomes Vendor commission receivable.
+
+Never create a negative Vendor payable.
+
+============================================================
+3. WALLET CLASSIFICATION
+============================================================
+
+Preserve the finalized Wallet conclusion:
+
+A verified Customer Wallet debit represents PLATFORM-CONTROLLED funding for
+allocation purposes because the Customer's internal balance is reduced without
+that value independently entering the Vendor's merchant account.
+
+This does NOT mean Wallet is an external provider.
+
+It is a custody/accounting classification.
+
+Example that must remain correct:
+
+Gross: 100
+Commission: 10
+Wallet: 40
+Vendor-direct: 60
+
+Result:
+
+Commission calculated = 10
+Commission satisfied = 10
+Vendor payable from platform-held funds = 30
+Vendor direct receipt = 60
+Commission receivable = 0
+
+Economic reconciliation:
+
+30 + 60 + 10 = 100
+
+The Vendor-direct 60 must never also become platform payable.
+
+============================================================
+4. CASH CLASSIFICATION
+============================================================
+
+Where native Cash semantics establish that the Vendor receives Customer Cash
+directly:
+
+- Cash principal is Vendor-controlled/directly received;
+- it does not create duplicate platform payable;
+- AgendaAlly commission may become commission receivable according to the
+  approved allocation model.
+
+Do not fabricate platform custody of Cash.
+
+Preserve the already verified Cash authorization/payment boundaries.
+
+============================================================
+5. PLATFORM-MANAGED ELECTRONIC
+============================================================
+
+For platform-managed electronic collection:
+
+- platform merchant credentials collect/hold the Customer contribution for
+  accounting purposes;
+- contribution is classified as platform-controlled;
+- AgendaAlly commission is satisfied from platform-controlled value according
+  to the approved policy;
+- remaining Vendor entitlement may become platform Vendor payable.
+
+Do NOT activate a provider to test this.
+
+Use synthetic verified-provider fixtures through existing trusted verification
+paths.
+
+============================================================
+6. VENDOR-DIRECT
+============================================================
+
+For Vendor-direct electronic collection:
+
+- the contribution belongs to the Vendor merchant relationship;
+- Vendor-direct principal is NOT platform-held;
+- that principal must NOT create platform Vendor payout liability;
+- AgendaAlly still records the economic transaction;
+- commission is calculated once at the Shop allocation;
+- commission may be satisfied from other platform-held contributions;
+- otherwise the unsatisfied portion remains Vendor commission receivable.
+
+Do NOT yet enable `Use my own payment gateway`.
+
+This phase builds the accounting architecture required for it.
+
+============================================================
+7. ORIGINAL CONTRIBUTION EVIDENCE
+============================================================
+
+Funding/collection contributions must remain immutable evidence of the original
+custody split.
+
+Later changes to:
+
+- Shop payment preference;
+- provider configuration;
+- provider activation;
+- environment flags;
+- country/currency policy;
+- Vendor merchant settings
+
+must not reinterpret an existing financial allocation.
+
+Refunds, payouts and reconciliation must eventually be able to operate from
+this persisted original context rather than current settings.
+
+============================================================
+8. IDEMPOTENCY / ECONOMIC IDENTITY
+============================================================
+
+Implement the finalized economic-allocation identity and uniqueness rules.
+
+A replacement Transaction must NOT create:
+
+- another Shop economic allocation;
+- another full commission;
+- another Vendor entitlement;
+- another Vendor payable.
+
+Duplicate callback must not duplicate allocation.
+
+Duplicate paid transition must not duplicate allocation.
+
+Shared funding receipt must not duplicate allocation.
+
+Stale model must not duplicate allocation.
+
+Use the finalized allocation/contribution/effect keys from the approved design.
+
+Do not fall back to Transaction ID as the sole economic identity if the design
+explicitly separates those concepts.
+
+============================================================
+9. PLATFORM FEE LEDGER
+============================================================
+
+Integrate `platform_fee_ledger_entries` according to the finalized design.
+
+Its economic accounting must ultimately be tied to the durable economic
+allocation rather than allowing replacement Transactions to create another
+full economic fee/payable event.
+
+Preserve historical records.
+
+Do NOT rewrite historical fee-ledger entries merely to populate the new model.
+
+Where the finalized design uses new allocation/effect references, implement
+them exactly as approved.
+
+============================================================
+10. REFUND / SETTLEMENT EFFECT IDENTITIES
+============================================================
+
+Implement the finalized durable effect identities required to make later:
+
+- refunds;
+- reversals;
+- Vendor settlement;
+- commission reversal
+
+idempotent against the economic allocation.
+
+Do NOT implement missing provider refunds.
+
+Do NOT implement external payout rails.
+
+The purpose here is to establish the durable accounting identity and state
+required by those future operations.
+
+Original contribution evidence must remain immutable.
+
+Effects must be represented separately rather than rewriting historical
+custody evidence.
+
+============================================================
+11. INTEGER MONEY
+============================================================
+
+Use the finalized integer monetary-unit representation and frozen monetary
+scale from the approved design.
+
+Do not introduce floating-point financial calculations.
+
+Verify:
+
+- gross;
+- commission;
+- satisfied commission;
+- commission receivable;
+- Vendor entitlement;
+- Vendor payable;
+- refunds;
+- settlement effects;
+- remaining liability
+
+reconcile exactly in integer units.
+
+============================================================
+12. PRODUCT INTEGRATION
+============================================================
+
+Integrate Product payment/accounting into the new model at the authoritative
+trusted lifecycle point established by the design.
+
+Do not derive historical financial meaning from current Shop settings.
+
+For NEW eligible Product payments, create/use the appropriate:
+
+Shop economic allocation
++
+funding contribution(s)
+
+according to actual verified collection context.
+
+Multi-Shop checkout must create Shop-isolated economic allocations.
+
+Shop A's collection context must not affect Shop B.
+
+Vendor A's merchant ownership must never classify Vendor B's contribution.
+
+============================================================
+13. BOOKING INTEGRATION
+============================================================
+
+Integrate Booking payment/accounting into the same canonical model.
+
+Do not remove useful existing Booking routing information merely because the
+new model exists.
+
+Instead ensure the new immutable financial context becomes authoritative for
+accounting once created.
+
+Booking lifecycle must remain separate from electronic payment proof.
+
+Preserve Phase 1 `BookingPaymentAuthority` verification.
+
+============================================================
+14. LEGACY ORDERS — DO NOT DELETE OR CLASSIFY
+============================================================
+
+The existing 12 Product Orders currently have:
+
+fulfillment_financial_state = unverified
+
+KEEP THEM.
+
+Do NOT delete them.
+
+Do NOT change them to `pending`.
+
+Do NOT change them to `settled`.
+
+Do NOT infer historical financial settlement.
+
+Do NOT classify them as platform-managed or Vendor-direct from current mutable
+state.
+
+Do NOT create new payable/commission/allocation records for them based on
+guesswork.
+
+`unverified` is an intentional fail-closed legacy state.
+
+These Orders preserve historical commerce/audit information while preventing
+uncertain historical financial state from being executed again.
+
+Legacy reconciliation is a separate future phase.
+
+============================================================
+15. LEGACY BOOKINGS / TRANSACTIONS / FINANCIAL RECORDS
+============================================================
+
+Apply the same conservative principle to ambiguous historical financial data.
+
+Do not fabricate collection contexts for historical records unless the
+approved design defines a source-confirmed deterministic backfill.
+
+If the collection/custody model cannot be proven:
+
+leave the record outside active allocation processing using the finalized
+legacy/unverified policy.
+
+Do not delete historical commerce or financial records.
+
+Do not rewrite historical WalletHistory, Transactions, fee-ledger entries,
+refunds or payouts to make the new architecture appear complete.
+
+============================================================
+16. DEVELOPMENT DEMO DATA
+============================================================
+
+Do not confuse legacy financial reconciliation with optional demo-data cleanup.
+
+If some of the 12 legacy Orders are merely disposable development/demo Orders,
+report that separately.
+
+Do NOT delete them during this financial migration.
+
+A later explicit development-data cleanup can remove disposable demo records if
+we choose to do so.
+
+============================================================
+17. MIGRATION SAFETY
+============================================================
+
+Implement migrations in the exact ordering finalized in the Phase 2 design.
+
+Before migration:
+
+capture the current schema and protected-state baseline.
+
+After migration:
+
+report intentional schema changes separately from financial-data mutations.
+
+Do not claim the schema-changed tables have identical full-row fingerprints if
+the approved migration legitimately changes their representation.
+
+Instead prove:
+
+- expected schema exists;
+- expected conservative defaults/backfill occurred;
+- no historical financial meaning was invented;
+- unrelated financial values did not change;
+- legacy records remain fail closed.
+
+If implementation discovers that the approved migration design cannot safely
+preserve these invariants:
+
+STOP BEFORE improvising a different financial architecture.
+
+Report the issue.
+
+============================================================
+18. NEW RECORD CREATION
+============================================================
+
+New allocation/context records must be server-owned.
+
+Customers must not directly set:
+
+- collection mode;
+- custody owner;
+- collector owner;
+- commission;
+- Vendor payable;
+- commission receivable;
+- allocation state;
+- settlement state.
+
+Vendors must not directly rewrite them.
+
+Generic Admin commerce-edit endpoints must not rewrite them.
+
+Derive financial authority from trusted persisted commerce/payment/provider
+state.
+
+============================================================
+19. STATE MACHINES
+============================================================
+
+Implement the finalized allocation, contribution and effect lifecycle states
+exactly as designed.
+
+Verify invalid transitions fail closed.
+
+A completed/final financial identity must not become replayable merely because:
+
+- commerce status cycles;
+- Transaction is replaced;
+- payment settings change;
+- receipt is deleted;
+- provider becomes disabled;
+- Shop switches collection preference.
+
+============================================================
+20. CONCURRENCY
+============================================================
+
+Implement the finalized locking/CAS/uniqueness strategy.
+
+Test controlled contention for:
+
+- economic allocation creation;
+- funding contribution recording;
+- fee/allocation creation;
+- settlement/refund effect identity where implemented.
+
+If the available verification database is SQLite, explicitly report:
+
+SQLITE CONCURRENCY VERIFIED
+
+and:
+
+PRODUCTION-ENGINE CONCURRENCY NOT CERTIFIED.
+
+Do not represent SQLite as production certification.
+
+============================================================
+21. REQUIRED ARITHMETIC TESTS
+============================================================
+
+Turn the finalized design arithmetic examples into executable accounting tests
+where practical.
+
+Cover at minimum:
+
+A. 100% platform-managed;
+
+B. 100% Vendor-direct;
+
+C. 100% Cash;
+
+D. 100% Wallet;
+
+E. Wallet + platform-managed;
+
+F. Wallet + Vendor-direct;
+
+G. Wallet + Cash;
+
+H. platform-managed + Vendor-direct if representable;
+
+I. platform-held funds greater than commission;
+
+J. platform-held funds equal to commission;
+
+K. platform-held funds less than commission;
+
+L. zero commission;
+
+M. full commission with zero Vendor payable where valid;
+
+N. partial refund allocation;
+
+O. full refund allocation;
+
+P. retained commission policy where approved;
+
+Q. prior partial settlement;
+
+R. replacement Transaction;
+
+S. duplicate callback;
+
+T. duplicate paid transition;
+
+U. multi-Shop checkout.
+
+Use integer monetary units.
+
+Every case must reconcile exactly.
+
+============================================================
+22. ACCOUNTING INVARIANTS
+============================================================
+
+For every Shop economic allocation verify equations equivalent to the finalized
+design.
+
+At minimum the model must be able to account for:
+
+gross economic amount
+
+against:
+
+Vendor-direct/Cash amount already received by Vendor
++
+platform-controlled amount
++
+refund/reversal effects
+
+and platform-controlled value against:
+
+commission satisfied
++
+Vendor payable/settlement
++
+remaining appropriate liability/value.
+
+Outstanding commission receivable must be explicit where commission exceeds
+available platform-held value.
+
+No amount may be counted twice merely to make equations balance.
+
+Use the exact formulas finalized in the design report.
+
+============================================================
+23. REFUND READINESS — DO NOT IMPLEMENT PROVIDER REFUNDS
+============================================================
+
+Verify that original contribution splits survive and future refund allocation
+can determine:
+
+- original collection owner;
+- provider where applicable;
+- refundable contribution;
+- custody proportion;
+- commission reversal/retention effect;
+- Vendor liability adjustment.
+
+Do not call providers.
+
+Do not implement missing provider refund APIs.
+
+Synthetic accounting-effect tests are allowed.
+
+============================================================
+24. PAYOUT READINESS — DO NOT IMPLEMENT EXTERNAL SETTLEMENT
+============================================================
+
+Verify the new model can determine:
+
+WHEN PLATFORM OWES VENDOR PRINCIPAL
+
+and:
+
+WHEN PLATFORM DOES NOT OWE VENDOR PRINCIPAL.
+
+Vendor-direct/Cash principal already received by Vendor must never enter the
+platform payout base.
+
+Platform-held Vendor entitlement may enter payable according to the finalized
+model.
+
+Preserve Phase 1 payout atomicity.
+
+Do not implement external payout rails.
+
+============================================================
+25. PROVIDER READINESS STILL DEFERRED
+============================================================
+
+Do NOT:
+
+- activate MTN;
+- activate Orange;
+- activate Flutterwave;
+- activate Paystack;
+- activate Stripe/PayPal;
+- configure credentials;
+- change provider capabilities;
+- change country/currency policy;
+- change environment readiness;
+- fix `Use my own payment gateway`;
+- enable Vendor-direct checkout.
+
+Provider/configuration readiness is the NEXT phase after this accounting
+foundation is verified.
+
+============================================================
+26. PRESERVE PREVIOUS CONTAINMENTS
+============================================================
+
+Run selected regressions covering all accepted financial/security containments,
+including:
+
+- Wallet transfer finality;
+- payment/refund Shop authorization;
+- Booking Staff boundary;
+- Booking refund finality;
+- Product refund finality;
+- Product fulfillment authorization;
+- Product fulfillment once-only finality;
+- Phase 1 payout atomicity;
+- Phase 1 Booking electronic payment authority.
+
+The 12 legacy Product Orders must remain fulfillment `unverified`.
+
+============================================================
+27. PROTECTED DEVELOPMENT STATE
+============================================================
+
+Do not perform real financial operations against existing development data.
+
+Migrations are authorized.
+
+Financial tests must use isolated fixtures/databases.
+
+After migration, distinguish:
+
+A. approved schema/backfill changes;
+
+from:
+
+B. unintended financial mutations.
+
+Explicitly verify existing:
+
+- Wallet balances;
+- WalletHistory financial values;
+- Transaction financial values;
+- fee ledger financial values;
+- payout financial values;
+- refund financial values;
+- existing commerce amounts
+
+were not silently recalculated or rewritten.
+
+============================================================
+28. NEW P0 STOP RULE
+============================================================
+
+If this implementation uncovers a NEW independent, source-confirmed,
+immediately exploitable financial P0:
+
+STOP.
+
+Do not automatically remediate it.
+
+Report:
+
+- route/path;
+- actor;
+- financial effect;
+- source chain;
+- current reachability;
+- whether exercised;
+- protected-state result.
+
+Do not proactively branch into unrelated security work looking for new P0s.
+
+============================================================
+29. SCHEMA DEVIATION GATE
+============================================================
+
+The finalized Phase 2 schema is approved.
+
+However, this is NOT approval to invent additional financial tables/columns
+beyond the finalized design.
+
+If implementation requires a MATERIAL schema deviation affecting:
+
+- accounting identity;
+- custody semantics;
+- commission semantics;
+- Vendor liability;
+- legacy policy;
+- refund identity;
+- settlement identity,
+
+STOP before implementing that deviation.
+
+Explain why the approved design is insufficient and propose the minimum change.
+
+Minor implementation details such as indexes required to enforce already
+approved uniqueness may proceed if they are already implied by the finalized
+design.
+
+============================================================
+30. REPORTING
+============================================================
+
+Update:
+
+docs/development/payment-phase2-collection-allocation.md
+
+and:
+
+docs/development/payment-system-full-audit.md
+
+Document:
+
+- migrations;
+- exact production files changed;
+- resulting schema;
+- allocation lifecycle;
+- contribution lifecycle;
+- effect lifecycle;
+- Product integration;
+- Booking integration;
+- Cash behavior;
+- Wallet behavior;
+- platform-managed behavior;
+- Vendor-direct behavior;
+- mixed-funding behavior;
+- commission calculations;
+- commission receivable;
+- Vendor payable;
+- fee-ledger integration;
+- idempotency;
+- replay;
+- concurrency;
+- arithmetic test results;
+- selected regressions;
+- migration receipt;
+- protected-state comparison;
+- legacy counts;
+- remaining limitations.
+
+============================================================
+31. REQUIRED FINAL SUMMARY
+============================================================
+
+At completion answer:
+
+1. Was the approved schema implemented exactly or were deviations required?
+
+2. What is now the durable economic payment identity?
+
+3. What is now the durable funding contribution identity?
+
+4. When is commission calculated?
+
+5. Can replacement Transactions duplicate commission?
+
+6. Can duplicate callbacks duplicate allocation?
+
+7. Can Vendor-direct principal create platform payout liability?
+
+8. Can Cash principal create platform payout liability?
+
+9. How does Wallet-funded value create Vendor payable?
+
+10. How is unsatisfied Vendor commission represented?
+
+11. Can later Shop/provider settings reinterpret an old payment?
+
+12. Are Product and Booking now on one canonical allocation model?
+
+13. Is multi-Shop allocation Shop-isolated?
+
+14. Can future refunds recover original contribution/custody context?
+
+15. Can future payout logic determine actual platform Vendor liability?
+
+16. What happened to legacy records?
+
+17. Confirm the 12 Product Orders remain fulfillment `unverified`.
+
+18. What intentional database/schema changes occurred?
+
+19. What existing financial values changed, if any?
+
+20. Focused tests/assertions?
+
+21. Selected regressions/assertions?
+
+22. Concurrency verification scope?
+
+23. What remains before provider/configuration readiness?
+
+============================================================
+32. FINAL STOP
+============================================================
+
+After migration, bounded Phase 2 implementation, verification and reporting:
+
+STOP.
+
+Do NOT automatically begin provider/configuration readiness.
+
+Do NOT enable `Use my own payment gateway`.
+
+Do NOT activate a provider.
+
+Do NOT configure credentials.
+
+Do NOT implement provider refunds.
+
+Do NOT implement external payout rails.
+
+Do NOT classify or delete legacy Orders.
+
+Do NOT publish.
+
+Wait for explicit approval before Phase 3.

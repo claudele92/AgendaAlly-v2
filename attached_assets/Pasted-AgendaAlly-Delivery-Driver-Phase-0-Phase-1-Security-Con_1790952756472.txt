@@ -1,0 +1,703 @@
+AgendaAlly — Delivery Driver Phase 0 + Phase 1
+Security Containment and Authoritative Vendor ↔ Driver Membership Foundation
+
+Implement ONLY Phase 0 and Phase 1 of the approved Delivery Driver architecture.
+
+This task is intentionally bounded.
+
+DO NOT automatically proceed into:
+- hybrid invitation/self-registration;
+- new Delivery Driver Vendor UI;
+- Delivery mobile-app refactoring;
+- new delivery status workflows;
+- proof of delivery;
+- driver earnings;
+- COD accounting;
+- payment changes;
+- payout changes;
+- wallet changes;
+- commission changes;
+- Stories;
+- Specialist public/private visibility;
+- unrelated UI cleanup.
+
+Credit use is important. Reuse the existing AgendaAlly delivery architecture and run focused verification only.
+
+==================================================
+1. EXISTING ARCHITECTURE TO PRESERVE
+==================================================
+
+AgendaAlly already has useful delivery infrastructure.
+
+Reuse rather than replace:
+
+- User
+- existing global `deliveryman` role
+- existing driver settings
+- existing invitation/shop relationship architecture where safe
+- existing shop permissions
+- `orders.deliveryman_id`
+- existing seller order ownership boundaries
+- existing `/api/v1/dashboard/deliveryman/...` routes where safely compatible
+- existing native order status values
+- existing driver notification/location infrastructure
+- existing Customer order visibility
+- existing Admin capabilities where intentionally authorized
+
+Do NOT create:
+
+- a second driver identity system;
+- duplicate driver accounts;
+- a second order model;
+- a competing delivery subsystem;
+- a second authentication system.
+
+The desired architecture is:
+
+User identity
+    +
+global delivery-driver capability/role
+    +
+authoritative per-shop driver membership
+    +
+existing Order.deliveryman_id
+
+The global `deliveryman` role alone must NOT authorize a Vendor to assign that person to the Vendor's orders.
+
+==================================================
+2. CURRENT PROBLEMS CONFIRMED BY THE AUDIT
+==================================================
+
+The audit identified these issues.
+
+A. Unsafe driver provisioning
+
+Current Vendor provisioning can create a driver account while the Vendor supplies the driver's password.
+
+Backend behavior can also permit an omitted password and generate an unsafe/predictable fallback.
+
+Do not allow creation of insecure driver credentials.
+
+However, do NOT implement the future contact-only invitation/self-registration workflow in this task.
+
+Contain the unsafe behavior now without inventing a replacement onboarding flow.
+
+If the current Vendor "Add Deliveryman" flow cannot safely operate without Vendor-created credentials, disable/hide/block that specific creation action until Phase 2 rather than preserving insecure provisioning.
+
+Existing legitimate users/accounts must remain intact.
+
+--------------------------------------------------
+
+B. Driver assignment authorization
+
+Current Vendor order assignment correctly scopes the ORDER to the authenticated Vendor's shop.
+
+Preserve that.
+
+But the selected driver currently only needs the global deliveryman role.
+
+That is insufficient.
+
+A Vendor must NEVER assign:
+
+- another shop's driver;
+- an unrelated global deliveryman;
+- a suspended driver for this shop;
+- an inactive account;
+- a pending/unaccepted shop relationship;
+- a driver whose relationship with this shop is no longer valid.
+
+Enforce this server-side.
+
+Frontend filtering is not authorization.
+
+--------------------------------------------------
+
+C. Deliveryman settings ownership
+
+Audit the confirmed seller deliveryman-settings update path.
+
+The existing code can locate a setting row by arbitrary ID and validate the submitted replacement user rather than first proving that the existing setting belongs to an authorized driver/shop relationship.
+
+Correct this.
+
+A Vendor must never read/update/delete/reassign another shop's driver settings by manipulating:
+
+- setting ID;
+- user ID;
+- shop ID;
+- request payload;
+- UUID;
+- route parameter.
+
+Ownership must be established from the existing persisted row before mutation.
+
+--------------------------------------------------
+
+D. Unassigned-order driver exposure
+
+Current driver APIs include behavior allowing delivery drivers to discover/detail/self-claim some unassigned orders without proving an authorized relationship with that shop.
+
+Do NOT silently remove legitimate platform-dispatch behavior if that was intentional.
+
+Instead:
+
+1. trace the exact existing behavior;
+2. distinguish:
+   - Vendor-owned delivery;
+   - intentional platform/global dispatch, if any;
+3. ensure Vendor-owned deliveries cannot be globally enumerated or claimed by unrelated drivers;
+4. preserve a platform pool only if there is an existing explicit authorization/business contract supporting it.
+
+If the existing source cannot establish a legitimate platform-dispatch authorization boundary, fail closed for Vendor-owned delivery and document what remains unresolved.
+
+Do not redesign dispatch in this task.
+
+==================================================
+3. PHASE 1 — AUTHORITATIVE SHOP ↔ DRIVER MEMBERSHIP
+==================================================
+
+Establish one authoritative server-side way to answer:
+
+"Is this user currently authorized to act as a Delivery Driver for this shop?"
+
+Do NOT use merely:
+
+user.hasRole('deliveryman')
+
+Do NOT rely on a singular arbitrary invitation relation.
+
+The audit found that multiple invitation rows can exist while some existing authorization logic uses singular `User::invite()` behavior.
+
+That is not sufficient for multi-shop authorization.
+
+Implement/reuse the smallest clean membership architecture.
+
+PREFERENCE:
+
+Reuse the existing invitation/shop relationship structures if they can safely represent:
+
+- shop_id
+- user_id
+- delivery-driver role/capability
+- accepted relationship
+- active relationship
+
+Do not create a new table merely because it is cleaner conceptually.
+
+However, if the existing generic invitation structure cannot safely represent an authoritative ongoing membership lifecycle, introduce the smallest additive shop-driver membership structure necessary.
+
+Do not duplicate User, DeliveryManSetting, Shop, Order or authentication data.
+
+==================================================
+4. MEMBERSHIP RULES
+==================================================
+
+For Vendor-owned delivery, an eligible driver must satisfy ALL applicable conditions:
+
+1. User exists.
+2. User has the existing deliveryman role/capability.
+3. User account is active where the existing account model requires it.
+4. User has an authoritative relationship with this exact shop.
+5. Relationship is accepted.
+6. Relationship is active/not suspended for this shop.
+7. Existing shop/staff authorization permits the acting Vendor/Staff member to manage/assign drivers.
+8. Any existing approved delivery-type requirement remains satisfied.
+
+Do not infer membership from:
+
+- another shop;
+- the user's first invitation;
+- arbitrary invitation ordering;
+- global deliveryman role;
+- frontend list membership.
+
+==================================================
+5. MULTI-SHOP BEHAVIOR
+==================================================
+
+Do not accidentally prevent a driver from having legitimate relationships with multiple shops if the existing architecture already permits multiple invitation relationships.
+
+Treat each shop relationship independently.
+
+Conceptually:
+
+Driver D
+  ├── Shop A → Active
+  ├── Shop B → Suspended
+  └── Shop C → no relationship
+
+Shop A may assign D.
+
+Shop B may NOT assign D while suspended.
+
+Shop C may NOT assign D.
+
+Do not use global `users.active` as the mechanism for Vendor-specific suspension.
+
+Global account disablement and per-shop driver eligibility are separate concepts.
+
+If the current schema cannot yet represent shop-specific active/suspended membership cleanly, make the smallest additive change required for Phase 1 and document it.
+
+==================================================
+6. DRIVER LIST / PICKER AUTHORITY
+==================================================
+
+Audit the existing Vendor driver list/picker.
+
+It must not return arbitrary global deliveryman accounts as assignable Vendor drivers.
+
+The assignable-driver result for a Vendor shop must be derived from the authoritative membership rule.
+
+A Vendor should eventually see only drivers such as:
+
+- accepted;
+- active for this shop;
+- globally eligible;
+- authorized for Vendor delivery.
+
+Pending/unaccepted relationships must not be assignable.
+
+Suspended relationships must not be assignable.
+
+Drivers belonging only to other shops must not be assignable.
+
+Do not build the future redesigned "Delivery Drivers" management page yet.
+
+This phase concerns backend authority and existing-list containment only.
+
+==================================================
+7. ORDER ASSIGNMENT
+==================================================
+
+Harden the existing seller endpoint:
+
+POST /api/v1/dashboard/seller/order/{id}/deliveryman
+
+Preserve the existing own-shop order lookup.
+
+Before persisting `orders.deliveryman_id`, verify the selected driver using the authoritative membership rule.
+
+Also preserve applicable existing fulfillment restrictions.
+
+Do not allow pickup/digital orders to become delivery assignments if the existing system prohibits that.
+
+Do NOT merely repair the existing frontend payload mismatch and stop.
+
+The audit found:
+
+Vendor modal currently sends:
+
+    deliveryman
+
+while backend expects:
+
+    deliveryman_id
+
+The payload mismatch may be corrected ONLY AFTER the server-side membership authorization is implemented and tested.
+
+Once the authorization boundary is secure, correct the native Vendor assignment modal to send the existing backend contract:
+
+    deliveryman_id
+
+Do not rename the backend field unnecessarily because future Delivery-app compatibility should preserve `deliveryman_id`.
+
+==================================================
+8. ASSIGNMENT ELIGIBILITY
+==================================================
+
+Before assignment, verify at minimum:
+
+- acting seller/staff can manage this shop;
+- order belongs to that shop;
+- order is an eligible delivery order;
+- selected user is a Delivery Driver;
+- selected driver has accepted active membership in that shop;
+- selected driver account is eligible/active;
+- assignment does not bypass existing shop delivery rules.
+
+If existing status rules already prohibit assignment at certain stages, preserve them.
+
+If no clear status restriction currently exists, do NOT invent a complex assignment lifecycle in this phase.
+
+Report it as a later lifecycle decision.
+
+==================================================
+9. STAFF PERMISSIONS
+==================================================
+
+Do not assume every seller-group actor may manage drivers merely because they can access Vendor routes.
+
+Audit and reuse the existing shop permission architecture.
+
+Existing evidence indicates:
+
+- driver list/read uses `shop.permission:staff.view`;
+- driver user creation/update/status uses `shop.permission:staff.invite`;
+- assignment/settings do not have equally explicit dedicated protection.
+
+For this phase:
+
+- preserve Vendor owner capability;
+- preserve intentionally authorized Admin capability;
+- require an appropriate existing shop permission for Staff;
+- do not grant Staff broader driver-management powers accidentally.
+
+If the current permission set lacks a clean assignment permission, prefer the narrowest existing relevant permission for containment and document whether a dedicated permission should be introduced in the future UI phase.
+
+Do not redesign the entire permission system.
+
+==================================================
+10. SHOP-SPECIFIC SUSPENSION / OFFBOARDING FOUNDATION
+==================================================
+
+Establish the distinction between:
+
+A. global account status
+
+and
+
+B. driver's relationship with a specific Vendor/shop.
+
+A Vendor must not globally deactivate a user's entire AgendaAlly account merely to stop that person from delivering for one business.
+
+Phase 1 must establish the authoritative concept necessary to make a driver ineligible for one shop independently.
+
+Do not yet build the final suspension/offboarding UI unless a tiny existing-control correction is necessary to prevent unsafe behavior.
+
+Do not delete driver accounts as shop offboarding.
+
+Do not automatically remove historical `orders.deliveryman_id` references.
+
+==================================================
+11. EXISTING ASSIGNED ORDERS
+==================================================
+
+Do not destructively rewrite historical assignments.
+
+If a driver becomes inactive/suspended for a shop:
+
+- they must not receive NEW assignments for that shop;
+- access to currently active assignments must follow the safest existing behavior and be documented;
+- completed historical deliveries must remain auditable.
+
+Do not automatically unassign active deliveries unless the existing system already has a safe defined workflow.
+
+If active-assignment offboarding behavior is ambiguous, report it for the later assignment-lifecycle phase.
+
+==================================================
+12. DRIVER API TENANT ISOLATION
+==================================================
+
+Audit only the driver endpoints directly affected by membership authorization.
+
+For Vendor-owned deliveries:
+
+A driver must not gain access merely because they have the global deliveryman role.
+
+Require the appropriate assignment/membership boundary.
+
+Prevent:
+
+- Driver A opening Driver B's assigned Vendor delivery;
+- unrelated Driver A claiming Shop B's Vendor delivery;
+- suspended Shop A driver receiving new Shop A deliveries;
+- driver with only Shop A membership acting on Shop B delivery.
+
+Preserve legitimate Admin/platform dispatch behavior only where explicitly authorized.
+
+Do not broadly redesign every deliveryman endpoint.
+
+==================================================
+13. DELIVERYMAN SETTINGS
+==================================================
+
+Harden existing seller deliveryman-settings operations.
+
+For each show/update/delete or equivalent operation:
+
+1. load the existing setting;
+2. resolve its existing driver/user;
+3. establish that driver's relationship with the authenticated shop;
+4. establish actor permission;
+5. only then permit access/mutation.
+
+Do not authorize a foreign setting simply because the request replaces `user_id` with a local driver's ID.
+
+Prevent ownership reassignment attacks.
+
+==================================================
+14. PROVISIONING CONTAINMENT
+==================================================
+
+Remove/disable unsafe password fallback behavior for driver provisioning.
+
+Do not generate predictable passwords.
+
+Do not mark contact information verified merely because a Vendor typed it unless that is backed by the existing verified-account architecture.
+
+Because Phase 2 will implement:
+
+Vendor
+  → Invite Delivery Driver
+  → email/phone invitation
+  → existing user signs in OR new user registers
+  → user verifies identity
+  → accepts invitation
+  → active shop membership
+
+do NOT build a competing temporary onboarding architecture now.
+
+If necessary, disable the current Vendor direct-create action until Phase 2.
+
+Existing driver accounts must continue to work subject to the new membership authorization.
+
+==================================================
+15. DO NOT IMPLEMENT PHASE 2 YET
+==================================================
+
+Do NOT yet implement:
+
+- contact-only driver invitations;
+- invitation token generation;
+- token hashing;
+- invitation expiration;
+- invitation email/SMS;
+- new-user driver registration;
+- verification flow;
+- invitation acceptance redesign;
+- Invite Delivery Driver modal/page;
+- final Delivery Drivers roster UI.
+
+Those belong to Phase 2/3 after this foundation is verified.
+
+==================================================
+16. FUTURE DELIVERY APP COMPATIBILITY
+==================================================
+
+We will upload the Delivery mobile app source later for refactoring.
+
+Therefore preserve where safe:
+
+- `/api/v1/dashboard/deliveryman/...`
+- `deliveryman_id`
+- existing `deliveryman` resource naming
+- existing authentication architecture
+- existing native order status strings
+- existing User identity
+- existing notification/location concepts
+
+Do not create mobile-specific speculative APIs.
+
+Do not refactor the Customer Flutter app as if it were the Delivery app.
+
+The Delivery app is not uploaded yet.
+
+==================================================
+17. DO NOT TOUCH DELIVERY ECONOMICS
+==================================================
+
+This task is authorization and membership foundation only.
+
+Do NOT modify:
+
+- delivery fee calculations;
+- driver earnings;
+- PaymentToPartner formulas;
+- commissions;
+- driver wallet amounts;
+- Vendor wallet amounts;
+- COD custody;
+- payment collection;
+- Vendor payouts;
+- customer refunds;
+- payment providers;
+- accounting;
+- taxes.
+
+Existing financial structures are not proof of a finalized Vendor-driver compensation model.
+
+Leave them unchanged.
+
+==================================================
+18. DO NOT TOUCH OTHER COMPLETED/SEPARATE WORK
+==================================================
+
+Do NOT modify:
+
+- booking behavior;
+- payment architecture;
+- collect_via_platform;
+- payment provider activation;
+- country payment assignments;
+- Vendor payout architecture;
+- Customer wallet architecture;
+- invoice redesign;
+- storefront footer/social links;
+- Stories;
+- Car Service taxonomy;
+- Coupon hydration fix unless required by changed delivery code, which is not expected;
+- unrelated resource 404 fixes;
+- mobile-header work;
+- Specialist public/private profile visibility.
+
+Specialist visibility will be handled separately.
+
+==================================================
+19. MIGRATION RULES
+==================================================
+
+Prefer existing tables and relationships first.
+
+If an additive schema change is genuinely required to represent authoritative per-shop driver membership:
+
+- make it minimal;
+- preserve existing users;
+- preserve existing invitations;
+- preserve existing orders;
+- preserve `orders.deliveryman_id`;
+- do not fabricate memberships from ambiguous data;
+- do not reinterpret historical assignments;
+- do not create marketplace/demo driver records.
+
+If existing accepted invitation data can be safely and unambiguously reused, use it.
+
+If historical relationships are ambiguous, leave them for explicit reconciliation rather than guessing.
+
+==================================================
+20. FOCUSED TESTS
+==================================================
+
+Credit use is important.
+
+Do NOT run a broad application acceptance suite.
+
+Do NOT run unrelated payment hardening suites.
+
+Use isolated synthetic authorization fixtures only.
+
+Test at minimum:
+
+A. Vendor A can list an accepted active Driver A belonging to Shop A.
+
+B. Vendor A cannot see Driver B as assignable if Driver B belongs only to Shop B.
+
+C. Vendor A can assign Shop A's eligible delivery order to active Driver A.
+
+D. Vendor A cannot assign Shop A's order to Driver B belonging only to Shop B.
+
+E. Vendor A cannot assign an unrelated global deliveryman account.
+
+F. Vendor A cannot assign a pending/unaccepted driver relationship.
+
+G. Vendor A cannot assign a driver suspended/inactive for Shop A.
+
+H. Shop A suspension does not automatically remove legitimate Shop B membership.
+
+I. Vendor A cannot manipulate a deliveryman-setting ID belonging to another shop.
+
+J. Replacing the submitted `user_id` does not bypass setting ownership.
+
+K. Driver A cannot open/update Driver B's assigned Vendor delivery.
+
+L. Driver A cannot claim an unrelated Vendor-owned unassigned delivery.
+
+M. Forged shop/order/driver IDs cannot bypass tenant isolation.
+
+N. Authorized Staff behavior respects existing shop permissions.
+
+O. Unauthorized Staff cannot assign/manage drivers.
+
+P. Legitimately authorized Admin behavior remains intact.
+
+Q. Existing `orders.deliveryman_id` persistence still works.
+
+R. Corrected Vendor assignment UI sends `deliveryman_id`.
+
+S. No predictable/fallback password can be generated by the contained provisioning path.
+
+Run only:
+
+- focused Delivery authorization/membership tests;
+- backend syntax/static checks for changed files;
+- frontend type/syntax check if the assignment modal changes;
+- narrowly necessary migration/schema verification if a migration is added.
+
+Do not perform real deliveries.
+
+Do not mutate inherited marketplace delivery records.
+
+==================================================
+21. LIMITED UI CHECK
+==================================================
+
+Only if the existing assignment modal is changed after backend authorization is secured:
+
+Perform one focused Vendor portal check.
+
+Verify:
+
+- eligible own-shop drivers appear;
+- unrelated drivers do not appear;
+- selection submits `deliveryman_id`;
+- successful synthetic/local assignment behaves as expected;
+- no new console error;
+- desktop rendering remains intact.
+
+A roughly 390px check is needed only if the changed existing modal is used responsively and the change materially affects layout.
+
+Do not perform another broad Stage 1/Stage 2 browser pass.
+
+==================================================
+22. REPORT
+==================================================
+
+When complete, report:
+
+1. exact Phase 0 vulnerabilities corrected;
+2. files changed;
+3. whether existing invitations were sufficient for authoritative membership;
+4. whether any additive migration/model field was necessary;
+5. exact authoritative Vendor ↔ Driver membership rule;
+6. multi-shop behavior;
+7. global account active vs per-shop driver status behavior;
+8. Vendor assignment authorization;
+9. Staff permission behavior;
+10. Admin behavior;
+11. unassigned-order/platform-dispatch behavior and what was preserved/restricted;
+12. deliveryman-settings ownership correction;
+13. unsafe provisioning containment;
+14. whether the assignment payload was corrected from `deliveryman` to `deliveryman_id`;
+15. focused tests and results;
+16. any unresolved security issue;
+17. any active-assignment/offboarding ambiguity intentionally deferred;
+18. confirmation that delivery economics/payments/payouts/wallets were untouched.
+
+==================================================
+23. HARD STOP
+==================================================
+
+After Phase 0 + Phase 1 and focused verification:
+
+STOP.
+
+Do NOT automatically implement Phase 2.
+
+Specifically do not start:
+
+- Invite Delivery Driver UI;
+- contact-only invitation;
+- driver registration;
+- token/expiry system;
+- redesigned Delivery Drivers roster;
+- accept/reject assignment workflow;
+- proof of delivery;
+- Delivery mobile-app changes;
+- earnings/COD;
+- another payment phase;
+- Stories;
+- Specialist public/private profile work.
+
+Restore the existing Customer and Admin/Vendor previews only if this task disturbed them.
+
+Then STOP and wait for approval.

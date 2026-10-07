@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="930" viewBox="0 0 1440 930"><rect width="1440" height="930" fill="#faf8f4"/>
+<text x="30" y="32" fill="#76522e" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="700">PROPOSAL ONLY</text>
+<text x="185" y="32" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Illustrative display data · no application behavior implemented</text>
+<rect x="20" y="52" width="180" height="844" rx="16" fill="white" stroke="none"/>
+<rect x="36" y="73" width="34" height="34" rx="10" fill="#76522e" stroke="none"/>
+<text x="44" y="96" fill="white" font-size="14" font-family="DejaVu Sans,sans-serif" font-weight="700">AA</text>
+<text x="80" y="96" fill="#191a19" font-size="16" font-family="DejaVu Sans,sans-serif" font-weight="700">AgendaAlly</text>
+<text x="37" y="151" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="700">BUSINESS WORKSPACE</text>
+<text x="40" y="193" fill="#64665f" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="400">Overview</text>
+<rect x="32" y="211" width="156" height="41" rx="8" fill="#f0e7d9" stroke="none"/>
+<text x="45" y="237" fill="#76522e" font-size="14" font-family="DejaVu Sans,sans-serif" font-weight="700">Calendar</text>
+<text x="40" y="283" fill="#64665f" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="400">Bookings</text>
+<text x="40" y="327" fill="#64665f" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="400">Services</text>
+<text x="40" y="371" fill="#64665f" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialists</text>
+<text x="40" y="415" fill="#64665f" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="400">Clients</text>
+<text x="39" y="828" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="700">Authorized Shop A</text>
+<text x="39" y="851" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">No global Shop switch</text>
+<rect x="218" y="52" width="1202" height="116" rx="16" fill="#fff" stroke="none"/>
+<text x="240" y="85" fill="#191a19" font-size="23" font-family="DejaVu Sans,sans-serif" font-weight="700">Calendar</text>
+<text x="240" y="112" fill="#64665f" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="400">5–11 October 2026</text>
+<rect x="420" y="84" width="75" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="432" y="106" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">‹    ›</text>
+<rect x="507" y="84" width="70" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="519" y="106" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Today</text>
+<rect x="864" y="78" width="57" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="876" y="100" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Day</text>
+<rect x="927" y="78" width="67" height="34" rx="10" fill="#76522e" stroke="none"/>
+<text x="939" y="100" fill="white" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Week</text>
+<rect x="1000" y="78" width="82" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="1012" y="100" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Agenda</text>
+<rect x="1246" y="78" width="149" height="34" rx="10" fill="#76522e" stroke="none"/>
+<text x="1258" y="100" fill="white" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">+ Add Booking</text>
+<rect x="240" y="128" width="298" height="28" rx="6" fill="#faf8f4" stroke="none"/>
+<text x="252" y="147" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Search authorized appointments</text>
+<text x="563" y="147" fill="#191a19" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist: All assigned  ▾</text>
+<text x="754" y="147" fill="#191a19" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Status: All  ▾</text>
+<text x="905" y="147" fill="#76522e" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">More filters</text>
+<rect x="218" y="182" width="886" height="714" rx="16" fill="#fff" stroke="none"/>
+<rect x="1120" y="182" width="300" height="714" rx="16" fill="#fff" stroke="none"/>
+<text x="240" y="211" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="700">WEEK</text>
+<text x="819" y="211" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Working hours 08:00–18:00</text>
+<rect x="284" y="229" width="110" height="49" rx="8" fill="#f0e7d9" stroke="none"/>
+<text x="298" y="258" fill="#76522e" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="600">Mon 5</text>
+<text x="413" y="258" fill="#191a19" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="600">Tue 6</text>
+<path d="M395 283V850" stroke="#e5e2dc"/>
+<text x="528" y="258" fill="#191a19" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="600">Wed 7</text>
+<path d="M510 283V850" stroke="#e5e2dc"/>
+<text x="643" y="258" fill="#191a19" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="600">Thu 8</text>
+<path d="M625 283V850" stroke="#e5e2dc"/>
+<text x="758" y="258" fill="#191a19" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="600">Fri 9</text>
+<path d="M740 283V850" stroke="#e5e2dc"/>
+<text x="873" y="258" fill="#191a19" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="600">Sat 10</text>
+<path d="M855 283V850" stroke="#e5e2dc"/>
+<text x="988" y="258" fill="#191a19" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="600">Sun 11</text>
+<path d="M970 283V850" stroke="#e5e2dc"/>
+<text x="235" y="296" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">08:00</text>
+<path d="M284 291H1090" stroke="#e5e2dc"/>
+<text x="235" y="349" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">09:00</text>
+<path d="M284 344H1090" stroke="#e5e2dc"/>
+<text x="235" y="402" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">10:00</text>
+<path d="M284 397H1090" stroke="#e5e2dc"/>
+<text x="235" y="455" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">11:00</text>
+<path d="M284 450H1090" stroke="#e5e2dc"/>
+<text x="235" y="508" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">12:00</text>
+<path d="M284 503H1090" stroke="#e5e2dc"/>
+<text x="235" y="561" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">13:00</text>
+<path d="M284 556H1090" stroke="#e5e2dc"/>
+<text x="235" y="614" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">14:00</text>
+<path d="M284 609H1090" stroke="#e5e2dc"/>
+<text x="235" y="667" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">15:00</text>
+<path d="M284 662H1090" stroke="#e5e2dc"/>
+<text x="235" y="720" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">16:00</text>
+<path d="M284 715H1090" stroke="#e5e2dc"/>
+<text x="235" y="773" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">17:00</text>
+<path d="M284 768H1090" stroke="#e5e2dc"/>
+<text x="235" y="826" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">18:00</text>
+<path d="M284 821H1090" stroke="#e5e2dc"/>
+<rect x="284" y="347" width="106" height="98" rx="8" fill="#f0e7d9" stroke="none"/>
+<rect x="284" y="347" width="3" height="98" rx="1" fill="#76522e" stroke="none"/>
+<text x="293" y="364" fill="#191a19" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">09:00–11:00</text>
+<text x="293" y="380" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="700">Haircut + colour</text>
+<text x="293" y="396" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Sample client</text>
+<text x="293" y="412" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist: A</text>
+<text x="293" y="428" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">New · Unpaid</text>
+<rect x="399" y="400" width="106" height="70" rx="8" fill="#f0e7d9" stroke="none"/>
+<rect x="399" y="400" width="3" height="70" rx="1" fill="#76522e" stroke="none"/>
+<text x="408" y="417" fill="#191a19" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">10:00–11:30</text>
+<text x="408" y="433" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="700">Consultation</text>
+<text x="408" y="449" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Sample client</text>
+<text x="408" y="465" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist: B</text>
+<rect x="514" y="373.5" width="106" height="43" rx="8" fill="#f0e7d9" stroke="none"/>
+<rect x="514" y="373.5" width="3" height="43" rx="1" fill="#76522e" stroke="none"/>
+<text x="523" y="390.5" fill="#191a19" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">09:30–10:30</text>
+<text x="523" y="406.5" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="700">Check-up</text>
+<rect x="284" y="559" width="106" height="47" rx="8" fill="#e5e2dc" stroke="none"/>
+<rect x="284" y="559" width="3" height="47" rx="1" fill="#76522e" stroke="none"/>
+<text x="293" y="576" fill="#191a19" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">13:00–14:00</text>
+<text x="293" y="592" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="700">Blocked time</text>
+<rect x="629" y="506" width="106" height="70" rx="8" fill="#f0e7d9" stroke="none"/>
+<rect x="629" y="506" width="3" height="70" rx="1" fill="#76522e" stroke="none"/>
+<text x="638" y="523" fill="#191a19" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">12:00–13:30</text>
+<text x="638" y="539" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="700">Service visit</text>
+<text x="638" y="555" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Sample client</text>
+<text x="638" y="571" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist: A</text>
+<rect x="744" y="612" width="106" height="43" rx="8" fill="#f0e7d9" stroke="none"/>
+<rect x="744" y="612" width="3" height="43" rx="1" fill="#76522e" stroke="none"/>
+<text x="753" y="629" fill="#191a19" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">14:00–15:00</text>
+<text x="753" y="645" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="700">Follow-up</text>
+<rect x="399" y="678.25" width="106" height="23" rx="8" fill="#f0e7d9" stroke="none"/>
+<rect x="399" y="678.25" width="3" height="23" rx="1" fill="#76522e" stroke="none"/>
+<text x="408" y="695.25" fill="#191a19" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">15:15 · Review</text>
+<path d="M284 415.55H392" stroke="#76522e" stroke-width="2"/><circle cx="284" cy="415.55" r="4" fill="#76522e"/>
+<text x="237" y="875" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">One-hour lines only · compact cards expand in saved details · blocked time is distinct</text>
+<text x="1143" y="215" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="700">BOOKING DETAILS</text>
+<text x="1378" y="216" fill="#64665f" font-size="22" font-family="DejaVu Sans,sans-serif" font-weight="400">×</text>
+<text x="1143" y="255" fill="#191a19" font-size="18" font-family="DejaVu Sans,sans-serif" font-weight="700">Haircut + colour</text>
+<text x="1143" y="281" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Saved reference #1234</text>
+<rect x="1143" y="299" width="119" height="25" rx="6" fill="#f0e7d9" stroke="none"/>
+<text x="1154" y="317" fill="#76522e" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">New</text>
+<rect x="1143" y="342" width="251" height="55" rx="9" fill="#f0e7d9" stroke="none"/>
+<text x="1156" y="365" fill="#191a19" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="700">UNPAID / UNCOLLECTED</text>
+<text x="1156" y="384" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Local client · no payment recorded</text>
+<text x="1143" y="429" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Client</text>
+<text x="1143" y="449" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Sample client</text>
+<text x="1143" y="479" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist</text>
+<text x="1143" y="499" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Sample specialist A</text>
+<text x="1143" y="529" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Shop</text>
+<text x="1143" y="549" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Authorized Shop A</text>
+<text x="1143" y="579" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Date</text>
+<text x="1143" y="599" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Monday, 5 October</text>
+<text x="1143" y="629" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Time</text>
+<text x="1143" y="649" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">09:00–11:00 · 120 min</text>
+<text x="1143" y="679" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Saved total</text>
+<text x="1143" y="699" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="700">$100.00</text>
+<text x="1143" y="729" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Notes</text>
+<text x="1143" y="749" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Existing authorized saved notes</text>
+<rect x="1143" y="807" width="119" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="1155" y="829" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Reschedule</text>
+<rect x="1274" y="807" width="120" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="1286" y="829" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Cancel</text>
+<text x="1143" y="867" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Actions shown only when authorized</text>
+<text x="28" y="922" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Approval boundary: layout, cards and workflows are a visual proposal. Native availability, duration, capacity and accounting remain authoritative.</text>
+</svg>

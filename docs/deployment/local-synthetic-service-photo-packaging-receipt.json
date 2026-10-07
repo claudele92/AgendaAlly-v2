@@ -1,0 +1,418 @@
+{
+  "status": "PASS_BOUNDED_SERVICE_ASSET_FRESH_CHECKOUT",
+  "scope": "New local Git history and independent clone of the 16 approved package files plus five frozen-decision/verification files. Asset gate only; not a full-app checkout or certification of the pre-existing sanitized snapshot's Git history.",
+  "source_repository": ".local/agendaally-clean-repository",
+  "fresh_checkout": {
+    "kind": "independent local Git clone --no-local --no-hardlinks",
+    "committed_tree": "0a3b44d7959306d15a459ecb6427b77695ce0c16",
+    "tracked_files": [
+      ".migration-backup/backend/resources/demo-assets/provenance.json",
+      ".migration-backup/backend/resources/demo-assets/services/academic-tutoring-africa-first.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/beard-trim.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/body-piercing.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/bridal-makeup-africa-first.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/computer-skills-africa-first.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/custom-tattoo.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/ear-piercing.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/exam-preparation-africa-first.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/hair-coloring.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/haircut-africa-first.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/language-lessons-africa-first.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/manicure-africa-first.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/massage-africa-first.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/music-lessons.jpg",
+      ".migration-backup/backend/resources/demo-assets/services/tattoo-touch-up.jpg",
+      "docs/deployment/local-synthetic-demo-photo-approval.json",
+      "docs/deployment/local-synthetic-service-photo-owner-decision.json",
+      "scripts/database/service-demo-assets.mjs",
+      "scripts/database/service-demo-fresh-verify.mjs",
+      "scripts/database/service-demo-offline.cjs"
+    ],
+    "tracked_file_count": 21,
+    "raster_file_count": 15,
+    "shared_object_alternates": false,
+    "seed_removed_before_verification": true,
+    "original_attached_assets_present": false,
+    "network_remote_contacted": false,
+    "verification": {
+      "status": "PASS_APPROVED_SERVICE_SOURCE_PACKAGE",
+      "approval_json_sha256": "e3da6988652481194b281e231e1da8ce8f1608c4c26b3b13035b52cd9ebe3a31",
+      "owner_decision_sha256": "ce64984255b623a06ad32502aafd8b92c61be653edfc07eda04324f6e4ce2694",
+      "provenance_sha256": "fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6",
+      "package_sha256": "8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e",
+      "files": [
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/beard-trim.jpg",
+          "bytes": 76210,
+          "mime": "image/jpeg",
+          "sha256": "c3c037350ad6dff3011f13b4bb1404c5cb2cc8590ed427e4cd3257372213c755"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/hair-coloring.jpg",
+          "bytes": 76776,
+          "mime": "image/jpeg",
+          "sha256": "109cdcd88574ee68a0e3d43c0fda88cb119b478faf659628e2c15cfe6ffe64e7"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/music-lessons.jpg",
+          "bytes": 81424,
+          "mime": "image/jpeg",
+          "sha256": "0c738c821996adfc28d56ea071be0c325364d1ba42232293b30f7c37a044b011"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/custom-tattoo.jpg",
+          "bytes": 104367,
+          "mime": "image/jpeg",
+          "sha256": "0c977c87e55fd624862a41761d02d772dccc84650f168f552eb1b98d16e4f47f"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/tattoo-touch-up.jpg",
+          "bytes": 126510,
+          "mime": "image/jpeg",
+          "sha256": "7c42bfd9a6938d6d6ba83bd126b93325bab7efcd096297c405432f86edea224a"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/body-piercing.jpg",
+          "bytes": 58186,
+          "mime": "image/jpeg",
+          "sha256": "d7f194de667ee635de3b2b51700f79374b02d46db0c83483972c35386e82e89b"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/ear-piercing.jpg",
+          "bytes": 75045,
+          "mime": "image/jpeg",
+          "sha256": "c3fe6419b9eff980539d3b3b3a01d5891b8fda51fc0166ef465407cc7fbf62ff"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/haircut-africa-first.jpg",
+          "bytes": 62536,
+          "mime": "image/jpeg",
+          "sha256": "3e4f2ac6f6da13a4915758a4a48f6fe8a5f417a67f23081622a98984f79542f7"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/bridal-makeup-africa-first.jpg",
+          "bytes": 41220,
+          "mime": "image/jpeg",
+          "sha256": "448697ee57c25205aff282e5ca999d12cda01c9baf262ed794e79ecc7dc25b93"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/manicure-africa-first.jpg",
+          "bytes": 81265,
+          "mime": "image/jpeg",
+          "sha256": "0e30dccb1edb99cf23abde2478d04da4e80be588db1168708d515938c9e8114c"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/massage-africa-first.jpg",
+          "bytes": 104117,
+          "mime": "image/jpeg",
+          "sha256": "abc59d92be779f6df7b229c62f0d34eb801dcb1d1c6275a2b6acfbd7e011a130"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/academic-tutoring-africa-first.jpg",
+          "bytes": 47472,
+          "mime": "image/jpeg",
+          "sha256": "521af75496781305188b57ec1e1315d1fb3c281e3722d3f33d71d30976c7a004"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/language-lessons-africa-first.jpg",
+          "bytes": 45978,
+          "mime": "image/jpeg",
+          "sha256": "27aceff04fbb10a01c5f8571611f6f97b27ba675c3f2223393eeb48bf2a7479b"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/computer-skills-africa-first.jpg",
+          "bytes": 61369,
+          "mime": "image/jpeg",
+          "sha256": "2acd95ea89d21b5ecc647d0e10f1aeaeb36343f061a3a6e6730f1fce9f5c3f69"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/services/exam-preparation-africa-first.jpg",
+          "bytes": 49195,
+          "mime": "image/jpeg",
+          "sha256": "8f7282e47fda1a0cd860565aa84cf6066e5df973557bee078aacbd58167c29c0"
+        },
+        {
+          "path": ".migration-backup/backend/resources/demo-assets/provenance.json",
+          "bytes": 29903,
+          "sha256": "fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6"
+        }
+      ],
+      "service_relationships": 51,
+      "service_gallery_relationships": 51,
+      "product_images": 0,
+      "unapproved_images": 0,
+      "preserved_review_relationship_totals": {
+        "services": 51,
+        "products": 13,
+        "stocks": 14,
+        "galleries": 64
+      },
+      "proposed_nulls_sha256": "d190d0c791abd9debce409d5ff86f9f6283e454cb4607638cb0ca101678e597d",
+      "runtime_installed": false,
+      "database_actions": false,
+      "network_actions": false,
+      "isolation": {
+        "workspace_asset_read": "DENIED_BY_NODE_PERMISSION",
+        "verification_writes": "DENIED_BY_NODE_PERMISSION",
+        "fetch_socket_external_process": "DENIED_BY_OFFLINE_GUARD",
+        "mime_detector": "file only, approved checkout paths only",
+        "no_kernel_namespace_claim": true
+      }
+    }
+  },
+  "source_package": {
+    "status": "PASS_APPROVED_SERVICE_SOURCE_PACKAGE",
+    "approval_json_sha256": "e3da6988652481194b281e231e1da8ce8f1608c4c26b3b13035b52cd9ebe3a31",
+    "owner_decision_sha256": "ce64984255b623a06ad32502aafd8b92c61be653edfc07eda04324f6e4ce2694",
+    "provenance_sha256": "fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6",
+    "package_sha256": "8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e",
+    "files": [
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/beard-trim.jpg",
+        "bytes": 76210,
+        "mime": "image/jpeg",
+        "sha256": "c3c037350ad6dff3011f13b4bb1404c5cb2cc8590ed427e4cd3257372213c755"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/hair-coloring.jpg",
+        "bytes": 76776,
+        "mime": "image/jpeg",
+        "sha256": "109cdcd88574ee68a0e3d43c0fda88cb119b478faf659628e2c15cfe6ffe64e7"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/music-lessons.jpg",
+        "bytes": 81424,
+        "mime": "image/jpeg",
+        "sha256": "0c738c821996adfc28d56ea071be0c325364d1ba42232293b30f7c37a044b011"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/custom-tattoo.jpg",
+        "bytes": 104367,
+        "mime": "image/jpeg",
+        "sha256": "0c977c87e55fd624862a41761d02d772dccc84650f168f552eb1b98d16e4f47f"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/tattoo-touch-up.jpg",
+        "bytes": 126510,
+        "mime": "image/jpeg",
+        "sha256": "7c42bfd9a6938d6d6ba83bd126b93325bab7efcd096297c405432f86edea224a"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/body-piercing.jpg",
+        "bytes": 58186,
+        "mime": "image/jpeg",
+        "sha256": "d7f194de667ee635de3b2b51700f79374b02d46db0c83483972c35386e82e89b"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/ear-piercing.jpg",
+        "bytes": 75045,
+        "mime": "image/jpeg",
+        "sha256": "c3fe6419b9eff980539d3b3b3a01d5891b8fda51fc0166ef465407cc7fbf62ff"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/haircut-africa-first.jpg",
+        "bytes": 62536,
+        "mime": "image/jpeg",
+        "sha256": "3e4f2ac6f6da13a4915758a4a48f6fe8a5f417a67f23081622a98984f79542f7"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/bridal-makeup-africa-first.jpg",
+        "bytes": 41220,
+        "mime": "image/jpeg",
+        "sha256": "448697ee57c25205aff282e5ca999d12cda01c9baf262ed794e79ecc7dc25b93"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/manicure-africa-first.jpg",
+        "bytes": 81265,
+        "mime": "image/jpeg",
+        "sha256": "0e30dccb1edb99cf23abde2478d04da4e80be588db1168708d515938c9e8114c"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/massage-africa-first.jpg",
+        "bytes": 104117,
+        "mime": "image/jpeg",
+        "sha256": "abc59d92be779f6df7b229c62f0d34eb801dcb1d1c6275a2b6acfbd7e011a130"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/academic-tutoring-africa-first.jpg",
+        "bytes": 47472,
+        "mime": "image/jpeg",
+        "sha256": "521af75496781305188b57ec1e1315d1fb3c281e3722d3f33d71d30976c7a004"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/language-lessons-africa-first.jpg",
+        "bytes": 45978,
+        "mime": "image/jpeg",
+        "sha256": "27aceff04fbb10a01c5f8571611f6f97b27ba675c3f2223393eeb48bf2a7479b"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/computer-skills-africa-first.jpg",
+        "bytes": 61369,
+        "mime": "image/jpeg",
+        "sha256": "2acd95ea89d21b5ecc647d0e10f1aeaeb36343f061a3a6e6730f1fce9f5c3f69"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/services/exam-preparation-africa-first.jpg",
+        "bytes": 49195,
+        "mime": "image/jpeg",
+        "sha256": "8f7282e47fda1a0cd860565aa84cf6066e5df973557bee078aacbd58167c29c0"
+      },
+      {
+        "path": ".migration-backup/backend/resources/demo-assets/provenance.json",
+        "bytes": 29903,
+        "sha256": "fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6"
+      }
+    ],
+    "service_relationships": 51,
+    "service_gallery_relationships": 51,
+    "product_images": 0,
+    "unapproved_images": 0,
+    "preserved_review_relationship_totals": {
+      "services": 51,
+      "products": 13,
+      "stocks": 14,
+      "galleries": 64
+    },
+    "proposed_nulls_sha256": "d190d0c791abd9debce409d5ff86f9f6283e454cb4607638cb0ca101678e597d",
+    "runtime_installed": false,
+    "database_actions": false,
+    "network_actions": false
+  },
+  "negative_cases": [
+    {
+      "case": "last-input-missing-complete-preflight",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "last-input-corruption-same-size",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "last-input-size-drift",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "input-file-symlink",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "input-ancestor-symlink",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "non-regular-input-directory",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "destination-ancestor-symlink",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "destination-dangling-symlink",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "destination-root-alias-symlink",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "destination-non-directory-ancestor",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "occupied-empty-directory",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "occupied-regular-file",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "occupied-identical-approved-package",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "unapproved-extra-asset",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "private-runtime-input-selection",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "network-input-selection",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "path-escape-selection",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "MIME-mismatch",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "raw-path-escapes",
+      "status": "PASS_FAIL_CLOSED_NO_COPY"
+    },
+    {
+      "case": "checkout-corruption",
+      "status": "PASS_CHECKOUT_REJECTED"
+    },
+    {
+      "case": "checkout-missing",
+      "status": "PASS_CHECKOUT_REJECTED"
+    },
+    {
+      "case": "checkout-leaf-symlink",
+      "status": "PASS_CHECKOUT_REJECTED"
+    },
+    {
+      "case": "checkout-parent-symlink",
+      "status": "PASS_CHECKOUT_REJECTED"
+    },
+    {
+      "case": "checkout-provenance-drift",
+      "status": "PASS_CHECKOUT_REJECTED"
+    },
+    {
+      "case": "checkout-provenance-symlink",
+      "status": "PASS_CHECKOUT_REJECTED"
+    },
+    {
+      "case": "checkout-unapproved-image",
+      "status": "PASS_CHECKOUT_REJECTED"
+    },
+    {
+      "case": "checkout-Product-directory",
+      "status": "PASS_CHECKOUT_REJECTED"
+    },
+    {
+      "case": "checkout-private-runtime-entry",
+      "status": "PASS_CHECKOUT_REJECTED"
+    }
+  ],
+  "preserved_relationships": {
+    "services": 51,
+    "products": 13,
+    "stocks": 14,
+    "galleries": 64
+  },
+  "approved_packaged_relationships": {
+    "services": 51,
+    "galleries": 51
+  },
+  "product_dependency_status": "ALL_FIVE_BLOCKED_NO_PRODUCT_IMAGE_PACKAGED",
+  "null_policy": "All hash-bound proposed NULLs preserved as proposals; no photo-complete/visual parity acceptance.",
+  "runtime_installation": "NOT_AUTHORIZED_NOT_PERFORMED",
+  "database_identity_key_provider_SMTP_worker_finance_GitHub_VPS_Stories_production_actions": false,
+  "verification_tool_hashes": {
+    "docs/deployment/local-synthetic-demo-photo-approval.json": "e3da6988652481194b281e231e1da8ce8f1608c4c26b3b13035b52cd9ebe3a31",
+    "docs/deployment/local-synthetic-service-photo-owner-decision.json": "ce64984255b623a06ad32502aafd8b92c61be653edfc07eda04324f6e4ce2694",
+    "scripts/database/service-demo-assets.mjs": "5302ad7cd847873903f941bc268fbe6b12bb0e39f8c6b01b2ede531f900b8a6e",
+    "scripts/database/service-demo-offline.cjs": "1fded9dde5c58f454827a4a321e1c6ac11ddae779c1c7520941e3091c723e53f",
+    "scripts/database/service-demo-fresh-verify.mjs": "c95180fff940b2fc4708e83ba93269037a322f4704eb07e9d8d3d80187d7750b",
+    "scripts/database/service-demo-acceptance.mjs": "c2487265865066cecea134e0d52c6815bd4910067027190296bb5686ae851823",
+    "scripts/database/service-demo-negative-cases.mjs": "9222868925fee1311bee80d16d9c6edd1e46f3d63ff61ed81e624777d711866e"
+  }
+}

@@ -1,0 +1,1139 @@
+AGENDAALLY — PAYMENT ARCHITECTURE AMENDMENT + CAR SERVICE CATEGORY + STORIES AUDIT
+
+This prompt amends the payment work already completed/planned and adds two bounded marketplace tasks:
+
+1. Add the Car Service category and appropriate subcategories.
+2. Audit the existing Stories functionality and propose how it should fit the approved Stage 2 design.
+
+Do NOT restart the previous payment audit from scratch.
+Do NOT restart a broad Stage 1/Stage 2 redesign or acceptance cycle.
+
+Use the existing audit findings and current implementation as the baseline.
+
+============================================================
+PART A — PAYMENT ARCHITECTURE AMENDMENT
+============================================================
+
+# 1. CORE PAYMENT MODEL
+
+Implement Phase 0 and the foundational parts of Phase 1 only, incorporating the following architecture decision.
+
+The intended AgendaAlly model is:
+
+SUPERADMIN
+defines which payment methods are available in each country
+        ↓
+VENDOR BUSINESS COUNTRY
+determines which methods may be offered to that vendor
+        ↓
+AGENDAALLY / PLATFORM COLLECTION
+is the DEFAULT collection mode
+        ↓
+CUSTOMER CHECKOUT
+uses eligible platform-configured payment methods
+        ↓
+AGENDAALLY receives platform-collected funds
+        ↓
+VENDOR PAYABLE / LIABILITY
+records what AgendaAlly owes the vendor
+        ↓
+VENDOR CONFIGURES PAYOUT METHOD
+        ↓
+VENDOR REQUESTS PAYOUT
+        ↓
+ADMIN reviews/processes payout
+
+OPTIONALLY:
+
+Vendor explicitly chooses vendor-direct collection
+        ↓
+Vendor configures an eligible supported merchant gateway
+        ↓
+Customer pays through vendor's own gateway/account
+        ↓
+AgendaAlly does NOT treat those funds as platform-held vendor liability
+
+
+# 2. PLATFORM COLLECTION MUST BE THE DEFAULT
+
+The existing `collect_via_platform` concept should remain, but its product meaning needs to be clarified.
+
+The default for vendors should be:
+
+“AgendaAlly Payments”
+
+meaning AgendaAlly/platform collection.
+
+Do not require ordinary vendors to possess merchant gateway credentials merely to participate in the marketplace.
+
+This is especially important in markets where many small businesses may have ordinary personal/mobile-money accounts but do not have:
+
+- MTN MoMo merchant API credentials
+- Orange Money merchant API credentials
+- Stripe merchant integration
+- PayPal merchant integration
+- other provider API credentials
+
+Do NOT treat a normal personal mobile-money phone/account number as if it were a merchant API credential.
+
+Do NOT invent an API integration around personal accounts.
+
+
+# 3. VENDOR-DIRECT PAYMENT SHOULD BE OPTIONAL
+
+The Vendor portal should conceptually present two collection choices:
+
+A. AgendaAlly Payments — DEFAULT
+
+AgendaAlly receives supported electronic payments on behalf of the vendor.
+
+The vendor does not enter platform gateway credentials.
+
+The vendor's proceeds become an AgendaAlly liability/payable after verified payment and applicable marketplace fees.
+
+The vendor later requests payout using an approved payout method.
+
+B. Use my own payment gateway — OPTIONAL
+
+Only available where:
+
+- Superadmin permits the method for the vendor's country,
+- the provider supports vendor-direct collection,
+- the vendor has the required merchant credentials,
+- and the integration is actually supported.
+
+Only in this mode should merchant credential fields appear.
+
+Do not imply that every payment method supports vendor-direct collection.
+
+
+# 4. SUPERADMIN OWNS COUNTRY PAYMENT POLICY
+
+Superadmin must remain authoritative for:
+
+Country
+    ↓
+Permitted payment methods
+
+A vendor must never be able to activate a payment method that Superadmin has not permitted for the vendor's authoritative business country.
+
+Vendor configuration must be an INTERSECTION of:
+
+- globally enabled/integration-ready methods
+- Superadmin country assignment
+- supported transaction type
+- supported currency
+- supported collection mode
+- valid configuration for the actual collector
+
+Do not let the Vendor UI broaden Superadmin country policy.
+
+
+# 5. DEVELOPMENT COUNTRY ASSIGNMENTS
+
+Use the existing `country_payments` architecture.
+
+Audit the existing development countries before inserting anything.
+
+For development/demo purposes, establish representative payment-policy assignments for countries such as:
+
+- Cameroon
+- Nigeria
+- Ghana
+- Burkina Faso
+
+ONLY if those countries already exist in the accepted development dataset or can be safely added through the owned development bootstrap.
+
+Do not invent commercial/legal provider availability from provider names.
+
+Distinguish clearly between:
+
+ASSIGNED FOR DEVELOPMENT POLICY TESTING
+
+and:
+
+VERIFIED/ACTIVATED FOR REAL PAYMENTS
+
+These are not the same.
+
+Provider assignments must NOT:
+
+- activate a provider globally
+- set sandbox/live credentials
+- imply merchant eligibility
+- initiate transactions
+- claim legal availability
+- claim production readiness
+
+Keep external providers inactive unless separately approved.
+
+Cash/offline may remain available according to existing policy.
+
+If representative assignments are necessary to test the country resolver, seed them reproducibly and label them as development policy fixtures.
+
+
+# 6. COUNTRY SEED SAFETY
+
+Any country/payment development policy seed must be:
+
+- idempotent
+- guarded for development
+- rerunnable
+- non-destructive
+
+Do not:
+
+- run `migrate:fresh`
+- reset the marketplace
+- replace accepted marketplace data
+- create fake successful payments
+- create fake payouts
+- create fake refunds
+- create fake wallet balances
+- create fake financial transactions
+
+Run the relevant seed twice and verify that the second run creates no duplicate policy rows.
+
+
+# 7. FIX PHASE 0 SECURITY/WIRING ISSUES
+
+Implement the bounded Phase 0 corrections identified by the audit.
+
+Priority items include:
+
+A. Public legacy secret exposure
+
+`secret_id` or any equivalent credential must never be serialized through public ShopPayment resources.
+
+Do not expose:
+
+- API keys
+- secret keys
+- merchant secrets
+- tokens
+- subscription keys
+- encrypted values
+- decrypted values
+
+Return only safe configuration metadata such as:
+
+- configured: true/false
+- enabled/status
+- payment method identity
+- safe non-secret labels where required
+
+Do not inspect or print existing credential values.
+
+
+B. ShopPayment ownership
+
+Vendor show/update/delete/status operations must verify that the ShopPayment belongs to the authenticated vendor's authorized shop.
+
+Do not allow route-model binding alone to authorize a financial configuration record.
+
+
+C. Payout ownership
+
+Seller payout operations must be actor-owned.
+
+A vendor must not be able to:
+
+- modify another user's payout
+- replace creator ownership
+- move a payout to another user
+- change immutable financial ownership fields
+
+
+D. Country policy authorization
+
+Country payment policy mutations must have explicit appropriate Superadmin/global authorization or the existing correctly scoped country authorization.
+
+Do not let ordinary vendors or unrelated country-scoped users modify platform country policy.
+
+
+E. Vendor gateway status defect
+
+Correct the existing mismatch where the status endpoint writes `active` while the actual `shop_payments` state uses `status`.
+
+Use the existing schema unless a migration is genuinely required.
+
+Prefer the smallest safe correction.
+
+
+# 8. CHANGE THE COLLECTION CONTROL SEMANTICS
+
+The existing Vendor “Collect via platform” switch is too implementation-oriented and potentially confusing.
+
+Preserve backend compatibility where necessary, but improve the product semantics.
+
+Preferred Vendor presentation:
+
+Payment collection
+
+● AgendaAlly Payments
+  Recommended
+
+  Accept payments using payment methods supported by
+  AgendaAlly for your country. Eligible proceeds are
+  available for payout according to marketplace policy.
+
+○ Use my own payment gateway
+
+  Connect an eligible merchant payment account supported
+  in your country.
+
+Do not automatically expose credential fields.
+
+Only show vendor-direct gateway configuration after the vendor explicitly selects vendor-direct mode.
+
+
+# 9. DO NOT CONFUSE PAYMENT METHODS WITH PAYOUT METHODS
+
+Customer payment methods and vendor payout methods are separate concepts.
+
+PAYMENT METHOD:
+how the customer pays.
+
+Examples could include:
+
+- Cash
+- Mobile money
+- Card
+- Wallet
+- other supported provider rails
+
+PAYOUT METHOD:
+how AgendaAlly sends platform-collected vendor proceeds to the vendor.
+
+Examples might eventually include:
+
+- mobile-money payout
+- bank payout
+- other supported disbursement rail
+
+Do not reuse ShopPayment merchant credentials as payout destination details unless the architecture explicitly supports that provider for both purposes.
+
+
+# 10. VENDOR PAYOUT WORKFLOW
+
+The intended future workflow is:
+
+Customer pays through AgendaAlly
+        ↓
+payment is authoritatively verified
+        ↓
+platform fees are accounted for
+        ↓
+vendor share becomes vendor liability/payable
+        ↓
+funds become payout-eligible according to policy
+        ↓
+vendor requests payout
+        ↓
+admin approves/processes payout
+        ↓
+external payout completes
+        ↓
+liability becomes settled
+
+However:
+
+DO NOT IMPLEMENT THE COMPLETE PAYOUT ENGINE IN THIS PASS.
+
+Phase 0 / foundational Phase 1 should only prepare safe architecture/contracts where necessary.
+
+Do NOT manufacture payout completion by moving arbitrary Admin wallet balances.
+
+
+# 11. PAYOUT METHOD CONFIGURATION
+
+Audit the current Vendor payout UI/model while making the Phase 0 corrections.
+
+The eventual Vendor experience should support:
+
+“Payout methods”
+
+separately from:
+
+“Customer payment collection”
+
+A vendor should eventually be able to configure an authorized payout destination appropriate for the vendor's country.
+
+For example, if later approved:
+
+- bank account
+- supported mobile-money account
+- other payout provider
+
+But do NOT invent unsupported payout integrations now.
+
+Do NOT collect unnecessary sensitive financial information.
+
+If the current model cannot safely represent a payout destination, document the required additive model rather than pretending the existing generic Payment ID is sufficient.
+
+
+# 12. COUNTRY → VENDOR → CURRENCY RESOLVER FOUNDATION
+
+Implement only the foundational Phase 1 resolver architecture necessary to make eligibility consistent.
+
+Create/reuse one authoritative server-side resolver conceptually evaluating:
+
+available_methods =
+    globally enabled/integration-ready methods
+  ∩ vendor authoritative business-country policy
+  ∩ transaction type
+  ∩ transaction currency capability
+  ∩ collection mode
+  ∩ valid collector configuration
+  ∩ vendor direct enablement where applicable
+  ∩ environment/provider policy
+
+Use this logic consistently for:
+
+- Vendor configuration eligibility
+- customer payment-method discovery
+- final payment initiation
+
+Do not rely on UI filtering as authorization.
+
+
+# 13. AUTHORITATIVE BUSINESS COUNTRY
+
+For vendor eligibility, use the vendor/shop's actual transaction-specific business location.
+
+Do NOT use:
+
+- customer's selected discovery country
+- selected display currency
+- invitation country
+- arbitrary request country
+
+as a substitute for vendor business jurisdiction.
+
+For products and services, resolve the actual seller/business context.
+
+If product/service locations conflict, fail clearly or use the transaction-specific location rather than silently choosing an unrelated country.
+
+
+# 14. CUSTOMER CURRENCY
+
+Preserve the storefront currency selector.
+
+But distinguish:
+
+DISPLAY/REQUESTED CURRENCY
+
+from:
+
+AUTHORITATIVE CHARGE CURRENCY
+
+and:
+
+VENDOR PAYABLE CURRENCY
+
+Do not implement FX routing in this pass.
+
+Do not promise:
+
+USD
+CAD
+EUR
+GBP
+
+platform charging merely because the customer selected those display currencies.
+
+The resolver may expose that a method does not support the transaction currency.
+
+Actual foreign-currency routing requires later approval.
+
+
+# 15. PRESERVE EXISTING PAYMENT HARDENING
+
+Do not weaken:
+
+- owned payable checks
+- frozen payment intent amount
+- frozen currency
+- frozen merchant/configuration
+- frozen collection mode
+- callback authentication
+- authoritative provider status verification
+- replay protection
+- row locking
+- terminal paid-state protection
+- environment gates
+
+Do not enable currently fail-closed provider adapters.
+
+
+# 16. DO NOT ACTIVATE PAYMENT PROVIDERS
+
+This pass does NOT authorize enabling:
+
+- Stripe
+- PayPal
+- MTN
+- Orange
+- Paystack
+- Flutterwave
+- PayU
+- Razorpay
+- PayTabs
+- Mercado Pago
+- Moyasar
+- Mollie
+- ZainCash
+- Iyzico
+- Maksekeskus
+- PayFast
+- or any other external provider
+
+Country assignment is policy metadata.
+
+It is NOT provider activation.
+
+
+# 17. NO PAYMENT TRANSACTIONS
+
+Do not:
+
+- charge cards
+- send mobile-money requests
+- create real provider transactions
+- issue refunds
+- process payouts
+- move wallet balances
+- create fake paid records
+- test production credentials
+- request credentials
+- inspect runtime secrets
+
+
+============================================================
+PART B — ADD “CAR SERVICE” CATEGORY
+============================================================
+
+# 18. ADD CAR SERVICE TO THE MARKETPLACE TAXONOMY
+
+As part of this bounded pass, audit the existing native category/subcategory model and development seed architecture and add one additional top-level marketplace category:
+
+Car Service
+
+The purpose is to make the approved AgendaAlly marketplace visibly broader than beauty/wellness and demonstrate that the category system works for automotive services as well.
+
+Do not create a parallel category system.
+
+Reuse the existing native:
+
+- category model
+- parent/child hierarchy
+- category API
+- development seed architecture
+- discovery filtering
+- category cards
+- approved Stage 2 visual system
+
+
+# 19. CAR SERVICE HIERARCHY
+
+First confirm that there is no existing automotive/car category that should be reused or renamed.
+
+Do not create duplicates.
+
+If none exists, add:
+
+Car Service
+├── Auto Repair & Maintenance
+├── Oil Change
+├── Tire Service
+├── Car Wash & Detailing
+├── Auto Electrical
+├── Diagnostics
+└── Brake Service
+
+You may refine labels slightly if required by existing taxonomy conventions.
+
+Do not create unnecessary nested levels.
+
+Most importantly:
+
+DO NOT MIX ROOT CATEGORIES AND SUBCATEGORIES.
+
+The UI must preserve:
+
+Car Service
+        ↓
+its actual subcategories
+
+rather than flattening all children into the root category grid.
+
+
+# 20. CAR SERVICE ICON/IMAGERY
+
+Create or reuse a professional Car Service visual consistent with the approved Stage 2 category system.
+
+Do not revert to:
+
+- oversized legacy black line icons
+- pastel template cards
+- decorative scribbles
+- salon imagery
+- childish automotive clip art
+
+Use the same visual grammar as the redesigned AgendaAlly categories.
+
+If a new local SVG/icon is required, make it an original semantic asset consistent with the Stage 2 category iconography.
+
+If photography is required, follow the existing:
+
+- Africa-first
+- contemporary
+- professional
+- authentic
+- globally inclusive
+
+media direction.
+
+Do not imply generated imagery represents a real AgendaAlly automotive business.
+
+
+# 21. CAR SERVICE DEVELOPMENT SEED
+
+Add Car Service and its subcategories through the owned reproducible development seed/bootstrap process.
+
+Requirements:
+
+- idempotent
+- no duplicate categories on rerun
+- no destructive reset
+- no migrate:fresh
+- no manual database-only patch
+- preserve existing categories
+- preserve marketplace records
+
+Do NOT manufacture:
+
+- bookings
+- orders
+- payments
+- vendors
+- reviews
+
+merely to fill the category.
+
+If representative Car Service listings are genuinely required to demonstrate the path, report that first rather than manufacturing unnecessary marketplace records.
+
+
+# 22. CAR SERVICE VERIFICATION
+
+Verify only:
+
+- Car Service appears once as a root category
+- its children appear as subcategories, not roots
+- category filtering/discovery uses the existing native route
+- desktop rendering
+- approximately 390px rendering
+- no horizontal overflow
+- no duplicate rows after the development seed is run twice
+
+Do not restart broad marketplace acceptance testing.
+
+
+============================================================
+PART C — AUDIT EXISTING STORIES FUNCTIONALITY
+============================================================
+
+# 23. AUDIT STORIES BEFORE CHANGING THEM
+
+The approved Stage 2 storefront may not currently account for the original application's Stories capability.
+
+Do NOT assume Stories should be removed.
+
+Do NOT assume Stories should be retained.
+
+First determine what Stories actually are in the native AgendaAlly application.
+
+Trace:
+
+- Laravel models
+- migrations/schema
+- routes
+- controllers
+- resources
+- services
+- Admin UI
+- Vendor UI
+- Customer Web
+- Flutter/mobile
+- media/storage
+- permissions
+- moderation/status
+- lifecycle/expiry
+- shop/business relationships
+- customer interaction
+- development seed/demo data
+
+
+# 24. ANSWER THESE STORIES QUESTIONS
+
+Determine:
+
+1. What does a Story represent?
+
+2. Who can create a Story?
+
+3. Does it belong to:
+   - a shop/business
+   - specialist
+   - vendor
+   - platform
+   - another entity?
+
+4. What media types are supported?
+
+5. Do Stories expire automatically?
+
+6. Can customers open/view them?
+
+7. Are views/interactions tracked?
+
+8. Are Stories supported by:
+   - Web
+   - Flutter
+   - both?
+
+9. Can Vendors create/manage them?
+
+10. Can Admin moderate/manage them?
+
+11. Are they currently:
+   - ACTIVE
+   - PARTIAL
+   - LEGACY
+   - DEAD?
+
+12. Does the approved Stage 2 storefront currently represent Stories at all?
+
+Do not infer functionality merely because a table/model/component exists.
+
+Trace the actual flow.
+
+
+# 25. DETERMINE WHETHER STORIES STILL FIT AGENDAALLY
+
+If Stories are a genuinely supported native capability, evaluate whether they remain useful to AgendaAlly's marketplace positioning.
+
+Stories could potentially function as lightweight business updates for:
+
+- services
+- products
+- new arrivals
+- business updates
+- availability
+- promotions
+
+ONLY where the existing Story architecture genuinely supports those concepts.
+
+Do not invent unsupported Story behavior.
+
+Do not turn AgendaAlly into a social network.
+
+Stories should remain a secondary marketplace-discovery mechanism.
+
+
+# 26. PROPOSE A STAGE 2 STORIES DESIGN
+
+If the audit concludes that Stories should remain, produce a focused Stage 2 design proposal.
+
+Use the approved AgendaAlly visual language:
+
+- black / neutral
+- warm bronze
+- warm ivory/off-white
+- restrained borders
+- modern typography
+- clean imagery
+- subtle radius/elevation
+- minimal visual noise
+
+Do NOT simply carry over the old template Story UI.
+
+Do NOT mechanically clone Instagram.
+
+Consider a restrained marketplace-oriented presentation such as:
+
+Business updates
+
+[ Story ] [ Story ] [ Story ] [ Story ] ...
+
+where each item clearly identifies the associated business where supported.
+
+Potential treatment:
+
+- circular or compact rectangular media preview
+- business identity
+- professional imagery
+- restrained bronze accent
+- accessible label
+- viewed/unviewed state only if backend support actually exists
+- touch-friendly interaction
+
+The final recommendation should follow the actual native functionality rather than forcing this example.
+
+
+# 27. STORIES HOMEPAGE/DISCOVERY PLACEMENT
+
+If retained, recommend where Stories belong relative to the approved storefront.
+
+Conceptually:
+
+Book local expertise. Shop local businesses.
+        ↓
+Search / location
+        ↓
+Marketplace discovery
+        ↓
+Business updates / Stories where appropriate
+        ↓
+Categories / Services / Products / Businesses
+        ↓
+Other marketplace content
+
+This is illustrative.
+
+Choose the actual location based on the existing homepage composition and Story functionality.
+
+Stories must NOT interfere with the prominence of:
+
+- Services
+- Products
+- Businesses
+- Specialists
+- Categories
+
+Stories must not become AgendaAlly's primary identity.
+
+
+# 28. STORIES DESKTOP + MOBILE PROPOSAL
+
+If Stories are retained, demonstrate/propose their treatment at:
+
+Desktop
+
+and approximately:
+
+390px mobile
+
+Consider:
+
+- horizontal scrolling
+- media size
+- touch targets
+- business identification
+- image cropping
+- accessibility
+- keyboard navigation
+- viewed/unviewed state only if supported
+- loading state
+- empty state
+- expired content behavior
+
+A Story rail must not cause page-level horizontal overflow.
+
+
+# 29. STORIES DEVELOPMENT DATA
+
+Audit whether the existing accepted development seed already contains Stories.
+
+Do not manually patch the database merely to make the UI appear populated.
+
+If Stories are confirmed as active and valuable but representative development content is missing, propose the smallest reproducible development fixture.
+
+Do NOT broadly implement that fixture without approval if it requires significant new media/content.
+
+Any future Story fixtures must be:
+
+- synthetic
+- reproducible
+- idempotent
+- attached only to synthetic development businesses
+- clearly non-production
+- free of customer communications
+- free of fake financial activity
+
+Do not create Stories claiming unsupported:
+
+- discounts
+- availability
+- promotions
+- business events
+
+Generated media must follow the existing Stage 2 provenance rules.
+
+
+# 30. STORIES IMPLEMENTATION GATE
+
+The Car Service category IS authorized for implementation in this pass.
+
+Stories are:
+
+AUDIT + DESIGN PROPOSAL ONLY.
+
+Do NOT substantially redesign or implement Stories yet.
+
+If Stories are:
+
+ACTIVE and useful:
+→ recommend Stage 2 integration.
+
+PARTIAL:
+→ explain what is missing and propose the smallest safe path.
+
+LEGACY:
+→ recommend whether to modernize or retire.
+
+DEAD:
+→ do not revive them simply for visual completeness.
+
+STOP before Stories implementation and wait for explicit approval.
+
+
+============================================================
+PART D — BOUNDARIES
+============================================================
+
+# 31. KEEP MARKETPLACE WORK SEPARATE FROM PAYMENT WORK
+
+Car Service and Stories are marketplace/UI concerns.
+
+They must not expand or weaken the bounded payment work.
+
+Do not use them as authorization to:
+
+- activate providers
+- implement real payouts
+- implement FX
+- perform transactions
+- redesign checkout
+- change booking semantics
+- change product-order semantics
+- alter financial balances
+- implement refunds
+- alter accepted payment accounting beyond the authorized Phase 0/foundational Phase 1 corrections
+
+
+# 32. PRESERVE STAGE 2 UI
+
+Do not start another broad UI redesign.
+
+Preserve the approved Stage 2 direction including:
+
+“Book local expertise. Shop local businesses.”
+
+and the existing:
+
+- Services
+- Products
+- Businesses
+- Specialists
+- category hierarchy
+- redesigned promotional cards
+- footer/legal content
+- Business experience
+
+Only make UI changes required for:
+
+- corrected payment configuration semantics
+- Car Service
+- the eventual Stories proposal
+
+Do not reintroduce old iBeauty/template styling.
+
+
+# 33. TESTING BOUNDARY
+
+Use focused verification only.
+
+Payment work:
+
+- authorization tests
+- ShopPayment ownership
+- payout ownership
+- secret redaction
+- country-policy authorization
+- ShopPayment status correction
+- resolver unit/feature tests
+- development country-policy seed idempotency
+
+Car Service:
+
+- hierarchy
+- discovery
+- seed idempotency
+- desktop
+- approximately 390px
+
+Stories:
+
+- source/runtime audit as necessary
+- design proposal only
+
+Do NOT:
+
+- rerun broad role acceptance
+- perform payment transactions
+- perform provider calls
+- perform payouts
+- perform refunds
+- run destructive test suites against inherited databases
+- run unnecessary browser loops
+- restart completed cleanup work
+
+Use isolated/disposable databases for tests that mutate data.
+
+
+# 34. PREVIEW / CREDIT DISCIPLINE
+
+Do not repeatedly restart previews or run broad screenshot loops.
+
+Use source/type/focused tests first.
+
+Perform only the minimum browser verification necessary for changed UI surfaces.
+
+At completion:
+
+- restore Customer storefront preview
+- restore Admin/Vendor preview
+
+Do not keep restarting healthy processes merely to prove availability.
+
+
+============================================================
+PART E — REQUIRED FINAL REPORT
+============================================================
+
+When this bounded pass is complete, report:
+
+A. Phase 0 security fixes implemented.
+
+B. Exact ShopPayment ownership protections added.
+
+C. Exact payout ownership protections added.
+
+D. Secret fields removed/redacted from public resources.
+
+E. Country-payment policy authorization behavior.
+
+F. Vendor gateway status defect resolution.
+
+G. New collection-mode semantics:
+   - AgendaAlly Payments default
+   - Vendor-direct optional
+
+H. What is actually implemented versus merely proposed for vendor payout methods.
+
+I. Country-payment development assignments:
+   - Cameroon
+   - Nigeria
+   - Ghana
+   - Burkina Faso
+   - or whichever already-supported countries were safely used
+
+For each, distinguish:
+   DEVELOPMENT POLICY ASSIGNMENT
+from:
+   REAL PROVIDER AVAILABILITY
+
+Do not claim the latter without evidence.
+
+J. Resolver foundation implemented:
+   - country
+   - transaction type
+   - currency
+   - collection mode
+   - configuration
+   - vendor eligibility
+
+K. Explicit confirmation that no external provider was activated.
+
+L. Explicit confirmation that no payment, payout, refund or wallet balance mutation was performed.
+
+M. Car Service result:
+   - existing taxonomy findings
+   - root category
+   - subcategories
+   - seed changes
+   - icon/media changes
+   - desktop/mobile verification
+   - second-run idempotency result
+
+N. Stories audit:
+   - backend
+   - schema
+   - Admin
+   - Vendor
+   - Customer Web
+   - Flutter
+   - media
+   - lifecycle/expiry
+   - interaction/view tracking
+   - current Stage 2 representation
+
+O. Stories classification:
+   ACTIVE / PARTIAL / LEGACY / DEAD
+
+P. Stories recommendation:
+   KEEP / IMPROVE / CONSOLIDATE / RETIRE
+
+Q. Proposed Stage 2 Stories design:
+   - homepage/discovery placement
+   - desktop treatment
+   - approximately 390px treatment
+   - business identity behavior
+   - media requirements
+   - empty/expired behavior
+
+R. Any development Story seed/media requirements.
+
+S. Exact files, migrations and API contracts changed.
+
+T. Tests/checks performed and exact results.
+
+U. Remaining blockers or architectural decisions requiring my approval.
+
+V. Confirmation that no unapproved Stories implementation occurred.
+
+
+============================================================
+FINAL STOP CONDITION
+============================================================
+
+Complete only:
+
+1. Payment Phase 0.
+2. Foundational Phase 1 resolver work required by this prompt.
+3. Safe representative development country-payment policy assignments where appropriate.
+4. Car Service category/subcategories.
+5. Stories audit and Stage 2 design proposal.
+
+DO NOT automatically continue into:
+
+- full payment accounting redesign
+- payout implementation
+- FX
+- provider activation
+- refund redesign
+- dispute handling
+- live/sandbox provider transactions
+- broad Stories implementation
+- another storefront redesign
+- another acceptance cycle
+
+Once the focused checks pass:
+
+1. restore the Customer preview,
+2. restore the Admin/Vendor preview,
+3. provide the required report,
+4. STOP.
+
+Wait for my explicit approval before the next phase.

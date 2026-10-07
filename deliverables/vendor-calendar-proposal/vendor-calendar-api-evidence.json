@@ -1,0 +1,129 @@
+{
+    "scope": "Real isolated native HTTP kernel; synthetic audit fixtures in a rolled-back transaction; no provider, wallet, payout, refund or protected writes",
+    "checks": {
+        "authenticated_vendor_public_fallback_is_scoped": true,
+        "own_specialist_105_is_visible": true,
+        "legitimate_shared_specialist_102_remains_visible": true,
+        "b_only_specialist_not_enumerated": true,
+        "crafted_lookup_shop_context_rejected": true,
+        "direct_foreign_specialist_rejected": true,
+        "shared_profile_assignments_are_only_shop_A": true,
+        "availability_window_contains_selected_next_day": true,
+        "local_client_created_without_account": true,
+        "contact_retry_reuses_same_client": true,
+        "authorized_existing_platform_customer_is_reused": true,
+        "local_client_PII_not_visible_to_shop_B": true,
+        "foreign_assignment_create_denied": true,
+        "foreign_shop_shared_assignment_create_denied": true,
+        "foreign_local_client_create_denied": true,
+        "foreign_shop_body_create_denied": true,
+        "owner_can_read_authorized_own_booking": true,
+        "owner_foreign_booking_read_denied": true,
+        "owner_foreign_booking_notes_denied": true,
+        "owner_foreign_booking_edit_denied": true,
+        "owner_foreign_booking_time_change_denied": true,
+        "owner_foreign_booking_cancel_denied": true,
+        "staff_can_read_authorized_own_booking": true,
+        "shared_service_check_alone_does_not_protect_foreign_staff_target": true,
+        "staff_foreign_booking_read_denied": true,
+        "staff_foreign_booking_notes_denied": true,
+        "staff_foreign_booking_edit_denied": true,
+        "staff_foreign_booking_time_change_denied": true,
+        "staff_foreign_booking_cancel_denied": true,
+        "own_assignment_local_client_preview_allowed": true,
+        "own_booking_cannot_be_reassigned_to_foreign_service_or_specialist": true,
+        "revoked_own_specialist_lookup_denied": true,
+        "revoked_own_assignment_preview_denied": true,
+        "isolated_fixture_rows_all_rolled_back": true
+    },
+    "observations": {
+        "authenticated_vendor_public_fallback_is_scoped": {
+            "http": 200
+        },
+        "own_specialist_105_is_visible": {
+            "http": 200,
+            "ids": [
+                102,
+                105
+            ]
+        },
+        "crafted_lookup_shop_context_rejected": {
+            "http": 400
+        },
+        "direct_foreign_specialist_rejected": {
+            "http": 404
+        },
+        "shared_profile_assignments_are_only_shop_A": {
+            "http": 200
+        },
+        "availability_window_contains_selected_next_day": {
+            "http": 200,
+            "selected_date": "2026-10-06",
+            "selected_time_available": true
+        },
+        "local_client_created_without_account": {
+            "http": 201
+        },
+        "foreign_assignment_create_denied": {
+            "http": 400,
+            "message": "Bad request."
+        },
+        "foreign_shop_shared_assignment_create_denied": {
+            "http": 400,
+            "message": "Bad request."
+        },
+        "foreign_local_client_create_denied": {
+            "http": 422
+        },
+        "foreign_shop_body_create_denied": {
+            "http": 400
+        },
+        "owner_can_read_authorized_own_booking": {
+            "http": 200
+        },
+        "owner_foreign_booking_read_denied": {
+            "http": 404
+        },
+        "owner_foreign_booking_notes_denied": {
+            "http": 404
+        },
+        "owner_foreign_booking_edit_denied": {
+            "http": 404
+        },
+        "owner_foreign_booking_time_change_denied": {
+            "http": 404
+        },
+        "owner_foreign_booking_cancel_denied": {
+            "http": 400
+        },
+        "staff_can_read_authorized_own_booking": {
+            "http": 200
+        },
+        "staff_foreign_booking_read_denied": {
+            "http": 404
+        },
+        "staff_foreign_booking_notes_denied": {
+            "http": 404
+        },
+        "staff_foreign_booking_edit_denied": {
+            "http": 404
+        },
+        "staff_foreign_booking_time_change_denied": {
+            "http": 404
+        },
+        "staff_foreign_booking_cancel_denied": {
+            "http": 404
+        },
+        "own_assignment_local_client_preview_allowed": {
+            "http": 200,
+            "message": "Successfully"
+        },
+        "own_booking_cannot_be_reassigned_to_foreign_service_or_specialist": {
+            "http": 400
+        },
+        "revoked_own_assignment_preview_denied": {
+            "http": 400
+        }
+    },
+    "status": "PASS"
+}

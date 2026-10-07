@@ -1,0 +1,22 @@
+Manual external-preview verification passed.
+I confirmed from my own browser that:
+- Admin/Vendor no longer shows the Network Error and the application initializes normally.
+- Admin login works and the authenticated session survives reload.
+- Customer location selection successfully loads Cameroon → Douala.
+- The selected location persists after reload.
+- The seeded storefront content loads correctly.
+Preserve the development proxy solution and existing Stage 1 evidence. You may now resume only the remaining Task #16 acceptance checks that have not already been completed. Do not repeat valid Staff/Master or connectivity checks unnecessarily. Stage 2 remains blocked until Task #16 is complete.
+Google Maps development configuration
+I also want to enable the application's existing Google Maps/location functionality for development and future acceptance testing.
+I can provide a Google Maps API key. First inspect the existing application configuration and tell me the exact environment variable(s) expected by the Laravel, Next.js, Admin/Vendor and/or mobile applications. Reuse the application's existing Google Maps integration rather than introducing another maps implementation.
+The key must:
+- Be stored only as a Replit Secret/environment variable, never hard-coded in source.
+- Never be committed to Git or written into documentation, logs, screenshots, seed data or test output.
+- Be referenced through .env.example using only the variable name and a placeholder.
+- Keep production and development configuration separate.
+- Not replace the existing seeded Cameroon/Douala geography. Seeded country/city data must continue working when Google Maps is unavailable.
+- Not make development bootstrap dependent on Google Maps.
+- Not trigger paid Google APIs unnecessarily during automated tests.
+Before I provide the key, identify which Google Maps Platform APIs the existing code actually requires—for example Maps JavaScript API, Places API, Geocoding API or another existing dependency—and tell me which restrictions should be applied to the development key.
+Once configured, verify the existing map/location functionality using the real development integration without changing the application's geography or authorization model.
+Do not print or expose the API key after I provide it.

@@ -1,0 +1,224 @@
+Right — this is not the end state you were asking for. Replit followed the narrow scope too literally.
+It successfully created a disposable environment and proved the original UI can run, but it intentionally preserved the original application untouched:
+“Original source and locks remain intact.”
+
+and:
+“The portability and richer synthetic-data follow-ups are recorded; I’m stopping here.”
+
+That's useful verification, but you want to move beyond preservation mode now.
+You want Replit to actually work on AgendaAlly as the development project:
+- Make the codebase portable.
+- Make Replit/local development first-class.
+- Use .env configuration instead of temporary runtime adapters.
+- Create proper Laravel migrations/bootstrap strategy.
+- Create proper factories/seeders with useful demo data.
+- Fix translations.
+- Fix actual frontend defects such as the empty “Top selling products” panel.
+- Improve the design.
+- Preserve AgendaAlly's business purpose and important API compatibility, but allow sensible source-code changes.
+- Eventually make the repo something another engineer can clone, configure, seed and run.
+That's a different phase.
+I would start a new task now
+Don't ask it to continue Task #9. Task #9 accomplished its purpose: we proved the original system works.
+For the next task, I would explicitly tell Replit that the preservation-only restriction is lifted.
+Paste this as the next task:
+AgendaAlly — Engineer a Portable Development Foundation
+The audit, security hardening, runtime baseline and connected-preview validation are complete.
+We have now sufficiently established the behavior of the original AgendaAlly application.
+The objective changes with this task.
+Stop treating the original source as something that must remain byte-for-byte untouched.
+You are now authorized to make well-reasoned source-code, configuration, development-schema/bootstrap, frontend and tooling changes necessary to turn AgendaAlly into a clean, maintainable and portable application that can be developed on Replit, localhost, staging and production.
+This is NOT authorization to rewrite AgendaAlly from scratch.
+Preserve its core product:
+- multi-vendor marketplace;
+- multi-branch businesses;
+- service discovery and appointment booking;
+- masters/specialists/staff;
+- product commerce;
+- carts and orders;
+- vendor/admin/customer roles;
+- country administration;
+- payments, commissions and accounting;
+- existing REST API/mobile compatibility where practical;
+- AgendaAlly branding and useful existing UI.
+But you MAY now refactor and improve implementation where justified.
+1. PORTABLE ENVIRONMENT ARCHITECTURE
+Replace temporary Replit-preview compatibility workarounds with maintainable environment-driven application configuration.
+AgendaAlly should be runnable from a fresh clone using documented setup commands and .env configuration.
+Environment-specific behavior should be controlled centrally through configuration rather than scattered host-specific code.
+Support configuration for:
+- Laravel backend URL
+- customer storefront URL
+- admin/vendor URL
+- database
+- cache
+- queues
+- storage
+- mail
+- SMS
+- Firebase
+- reCAPTCHA
+- maps
+- payment providers
+- provider sandbox/live modes
+- frontend API base URLs
+Replit must not become a hard dependency.
+The same codebase should be capable of running on:
+- Replit development
+- localhost
+- staging
+- production
+using environment configuration.
+Production configuration must remain fail-closed and secure.
+2. PROPER DEVELOPMENT MODE
+Implement a first-class local/development mode rather than accumulating preview-only patches.
+Development mode may safely support:
+- reCAPTCHA disabled through explicit environment configuration;
+- mock/sandbox payments;
+- mail logging;
+- SMS logging/mock;
+- push/Firebase disabled or mocked;
+- maps disabled gracefully when no key exists;
+- synthetic authentication accounts;
+- development-safe external integrations.
+None of these development behaviors may silently activate in production.
+3. DATABASE BOOTSTRAP
+Replace the temporary manually reviewed fixture schema with a maintainable development bootstrap strategy.
+Review the historical migration chain, including known destructive migrations.
+Do NOT simply use migrate:fresh if historical migrations make that unsafe or unreliable.
+Establish a documented and reproducible method for creating a clean AgendaAlly development database.
+Preserve production migration/data compatibility.
+4. FACTORIES AND DEMO SEED DATA
+Create maintainable Laravel factories and seeders for a realistic AgendaAlly development/demo environment.
+The seed data must be synthetic.
+Include representative:
+- countries
+- currencies
+- cities/locations
+- platform admin
+- country managers
+- customers
+- vendors/businesses
+- vendor owners
+- vendor managers/staff
+- multiple branches
+- masters/specialists
+- service categories
+- services
+- working schedules
+- breaks/time off
+- products
+- product categories
+- variants where supported
+- inventory
+- carts where appropriate
+- bookings
+- orders
+- reviews
+- favorites
+- coupons
+- commission examples
+- ledger/accounting examples
+- payout examples where safe
+- notification examples
+- translations
+Seed data should deliberately demonstrate:
+- multiple countries;
+- multiple currencies;
+- multiple vendors;
+- multi-branch businesses;
+- branch-specific services;
+- branch-specific specialists;
+- service bookings;
+- product purchases;
+- different user roles.
+The seed operation must be idempotent or otherwise safe and clearly documented for development use.
+5. LOCALIZATION
+Fix the development localization problem properly.
+Trace the existing translation architecture and ensure a fresh development environment contains the translations required by the customer and admin/vendor interfaces.
+Do not simply hard-code English text into components.
+Preserve multilingual and RTL capability.
+6. CONNECTED APPLICATIONS
+Make all three primary applications work through normal configuration:
+Laravel API
+→ Next.js customer storefront
+→ React/Ant Design admin/vendor portal
+Preserve the Flutter REST contracts.
+Frontend applications should obtain API URLs and environment-dependent values through their normal environment configuration.
+Remove the need for temporary preview-only routing adapters wherever a proper application-level configuration solves the issue.
+7. FIX VERIFIED CLIENT DEFECTS
+You are now authorized to fix genuine defects discovered during validation.
+Start with the verified issue:
+Admin dashboard “Top selling products” displays an empty panel despite the API returning populated data.
+Trace the API response through the client component and fix the actual compatibility/rendering problem.
+Add a regression test where practical.
+Do not merely hide the panel or inject fake data.
+8. DEVELOPMENT ACCOUNTS
+Provide documented synthetic development accounts for:
+- Super Admin
+- Country Manager
+- Vendor Owner
+- Vendor Manager/Staff where supported
+- Master/Specialist where login is supported
+- Customer
+Never embed real credentials.
+Development credentials should be clearly marked as local/demo only.
+9. DESIGN / UX
+Once the portable seeded environment works reliably, inspect the actual customer and admin/vendor interfaces and produce a proposal for improving AgendaAlly's design.
+You are encouraged to recommend a better modern UI/UX.
+Preserve the AgendaAlly identity and core workflows rather than replacing it with an unrelated generic template.
+Evaluate:
+- marketplace homepage;
+- search/discovery;
+- categories;
+- nearby/location experience;
+- shop/business profile;
+- branch selection;
+- service pages;
+- specialist profiles;
+- availability/calendar;
+- booking flow;
+- product discovery;
+- product detail;
+- cart;
+- checkout;
+- customer account;
+- vendor dashboard;
+- vendor navigation;
+- staff/master management;
+- bookings;
+- orders;
+- payments/earnings;
+- admin dashboard;
+- country administration;
+- responsive/mobile web behavior.
+Do not perform the broad visual redesign during this task.
+Produce the proposed design system/navigation/screens for approval after the engineering foundation is working.
+10. QUALITY GATE
+Preserve all currently passing hardening and domain tests.
+Add tests for:
+- development environment safeguards;
+- seed/bootstrap behavior;
+- localization bootstrap;
+- relevant frontend defect fixes.
+Run the existing:
+- security suite;
+- booking/product baseline;
+- relevant frontend builds.
+Do not weaken security fixes to simplify development.
+DEFINITION OF DONE
+From a clean development checkout, another engineer should be able to:
+1. install dependencies;
+2. copy/configure .env;
+3. provision the development database;
+4. load synthetic demo data;
+5. start Laravel;
+6. start the Next.js storefront;
+7. start the admin/vendor application;
+8. log in with documented synthetic accounts;
+9. browse realistic translated marketplace data;
+10. exercise service booking and product-commerce interfaces without production infrastructure.
+The environment must not require production data, production credentials or Replit-specific application hacks.
+Document the complete development workflow.
+After the portable development foundation, seeded environment, localization, connected applications and verified Top Selling Products defect are complete, STOP and present the proposed UI/UX modernization plan for approval.
+Do not begin the broad visual redesign yet.

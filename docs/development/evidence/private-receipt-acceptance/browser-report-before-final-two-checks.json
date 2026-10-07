@@ -1,0 +1,149 @@
+{
+  "journey": "resumed isolated native private-receipt journey: all three browser downloads and authorization/revocation checks completed; workflow completion and Customer UI remain blocked",
+  "prior_reports_preserved": [
+    "report-upload-bridge-blocked.json",
+    "report-route-bootstrap-blocked.json",
+    "report-signature-bootstrap-blocked.json"
+  ],
+  "isolation": {
+    "native_backend": "loopback 3138 disposable SQLite fixture D",
+    "admin_preview": "127.0.0.1:3003 through native same-origin Vite proxy targeting 3138",
+    "customer_preview_readiness": "HTTP 200; Customer UI acceptance not run",
+    "normal_backend_provider_email_production": "not started",
+    "selected_business_supervisor_normal_laravel": "not started",
+    "normal_credentials_or_documents": "not used",
+    "tokens_signed_urls_auth_headers": "not retained or reported"
+  },
+  "proxy_and_bootstrap": {
+    "financial_interceptions_removed": true,
+    "manual_finance_and_download_requests": "real browser requests through Vite; no finance/download interception or route fulfillment",
+    "unrelated_bootstrap_mocks": "narrow GET-only translation/settings/language-currency/navigation/admin-shops contracts from source; no financial endpoint matched",
+    "finance_list_status": 200,
+    "finance_list_rows": 2
+  },
+  "successful_native_uploads": [
+    {
+      "workflow": "refund:6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "file": "receipt.pdf",
+      "status": 200,
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "bytes": 614,
+      "sha256": "881d58fc6d63352596ab5be572479afb0b334ed6a6e9315c3294dfb44a026af4",
+      "screenshot": "aexzji"
+    },
+    {
+      "workflow": "refund:6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "file": "receipt.png",
+      "status": 200,
+      "attachment_id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+      "bytes": 658,
+      "sha256": "33e79b8e63286ab2bc40a0a3ff81006ddfa6e30752e1991c7ad70178880cf0fd",
+      "screenshot": "yes1kh"
+    },
+    {
+      "workflow": "payout:60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+      "file": "receipt.jpg",
+      "status": 200,
+      "attachment_id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+      "bytes": 4316,
+      "sha256": "52a409062aadd6b2d308e8e7b32e8ae7aa24228ed4b1a3d2d597201cf936081e",
+      "screenshot": "n7mdws"
+    }
+  ],
+  "native_snapshot_checks": {
+    "after_uploads": "phase-after-uploads.json",
+    "after_route_bootstrap_retry": "phase-link-failed.json",
+    "after_signed_download_failure": "phase-download-failed.json",
+    "attachments": 3,
+    "retained_file_sizes_and_hashes_match_metadata_and_synthetic_manifest": true,
+    "evidence_rows": 0,
+    "effects_count": 37,
+    "access_rows_after_initial_failure": 1,
+    "access_rows_after_retry_and_download_failure": 2,
+    "both_rows_are_link_attempts_for_refund_pdf_actor3": true
+  },
+  "link_and_download_observations": {
+    "first_link_attempt": {
+      "status": 409,
+      "message": "Required financial recording did not commit. Refresh/reconcile the same intent; never repeat external payment.",
+      "url_returned": false,
+      "access_row": "retained as attempted issuance, not a successfully delivered URL",
+      "screenshot": "yy50ei"
+    },
+    "retry_after_fixture_route_refresh": {
+      "ui_navigation": "View evidence caused same-origin navigation to the PDF /download path with actor/expiry/signature parameters; no extra language parameter was present",
+      "link_endpoint_http_status": "not captured: the browser navigated before the response body could be read; do not claim verified HTTP 200",
+      "download_http_status": 500,
+      "download_response_body": "Isolated receipt fixture failed.",
+      "download_headers_or_binary": "not available; no successful download",
+      "audit_row": "second link attempt retained; response failure/success not established",
+      "signature": "not included in this report; failure screenshot omitted because the browser URL exposed the ephemeral signature"
+    },
+    "pre-click_detail_screenshot": "2h7ysa",
+    "clean_route_after_error_screenshot": "mdq6ma"
+  },
+  "workflow_effects": {
+    "refund_and_payout": "still APPROVED and not completed; no completion command or external money movement",
+    "completion_commands": 0,
+    "providers_email_or_money_movement": "none"
+  },
+  "not_run_due_native_download_500": {
+    "remaining_PNG_and_JPEG_downloads_and_required_headers_hashes": true,
+    "real_expired_link_and_missing_tampered_actor_changed_expiry_cases": true,
+    "wrong_workflow_binding_download": true,
+    "Customer_Vendor_foreign_outsider_no-grants denial matrix": true,
+    "pre-revocation_and_post-revocation snapshots and retained-link 403": true,
+    "synthetic_UI_completions_using_PNG_and_JPEG_and_terminal_document_digest_binding": true,
+    "Vendor_Customer_outsider_UI_projections": true
+  },
+  "signed_capability_semantics": "Browser-observed successful signed downloads returned 200 without a language query; freshly issued URLs tested within their five-minute window returned 403 after Finance3 evidence grants were revoked. No session-binding claim.",
+  "screenshots": {
+    "accepted_uploads": {
+      "PDF": "aexzji",
+      "PNG": "yes1kh",
+      "JPEG": "n7mdws"
+    },
+    "refund_detail_before_click": "2h7ysa",
+    "first_409": "yy50ei",
+    "clean_browser_after_download_error": "mdq6ma",
+    "signed_url_error_screenshot": "withheld; address bar contained the ephemeral signed capability",
+    "image_files": "browser tool does not provide screenshot-file export to D/browser",
+    "continuation": [
+      "PDF pre-click pfwz3y",
+      "PNG pre-click lrzsep",
+      "JPEG pre-click tmy1o9",
+      "Vendor payout UI 8eth5m",
+      "outsider empty UI 9dvfym",
+      "post-revocation Refund detail rjkegr",
+      "post-revocation Payout detail aabq4j",
+      "Customer preview failure ykfcle"
+    ]
+  },
+  "snapshots": [
+    "phase-initial.json",
+    "phase-after-uploads.json",
+    "phase-link-failed.json",
+    "phase-download-failed.json"
+  ],
+  "verdict_basis": "The earlier native download 500 was superseded by successful browser-observed PDF, PNG and JPEG downloads with matching hashes and required security headers. Authorization negatives, expiry/tampering, wrong binding, and revocation were verified. The journey remains partial because existing attachments cannot be bound through the completion UI without another upload, which was not authorized; Customer preview API also returned 500.",
+  "main_agent_diagnostic": {
+    "file": "diagnostic-download.json",
+    "classification": "supplemental only; not treated as browser acceptance proof"
+  },
+  "continuation_report": "phase-continuation.json",
+  "not_completed_or_unverified": [
+    "complete Refund and Payout using existing uploaded PNG/JPEG without reupload: blocked because the completion UI lacks an existing-attachment selector and reupload is forbidden",
+    "terminal evidence/document digest binding: not verified because workflows were not completed",
+    "Customer2 /manual-refunds UI projection: not verified because preview API and server-side fetch returned 500; native API projection was verified"
+  ],
+  "snapshot_files": [
+    "phase-before-role-denials.json",
+    "phase-after-role-denials.json",
+    "phase-after-browser-timeout.json",
+    "pre-revocation.json",
+    "post-revocation.json",
+    "post-revocation-after-checks.json"
+  ],
+  "current_browser_observed_downloads": "see phase-continuation.json; three actual browser download events, status/header/byte/hash verified",
+  "updated_at_utc": "2026-10-06T18:10:53+00:00"
+}

@@ -1,0 +1,261 @@
+{
+  "schema_version": 2,
+  "status": "DRAFT_REQUIRES_OWNER_APPROVAL",
+  "authority": "Prepare for review only; no initialization, account provisioning or key generation authorized.",
+  "portable_baseline_file": "docs/deployment/local-synthetic-portable-baseline.json",
+  "composition": "This file freezes migration-phase catalogs and administrator/key proposals. The portable-baseline file freezes POST-LEDGER geography/reference/demo projections; its rows replace same-named projections here only after the full 229-file ledger. Additional currencies are post-ledger, not part of the first checkpoint. Empty geography below refers only to migration checkpoints, never the proposed final baseline. All files remain approval-gated.",
+  "source_root": ".local/agendaally-clean-repository/.migration-backup/backend",
+  "migration_count": 229,
+  "migration_sha256": "37954929be028d7e487a7720f2108d3f300b2862af85f46b724b3c9f63d3f896",
+  "execution_source_count": 1682,
+  "execution_source_sha256": "e90ec7c6cef4fddcca26ea2ea3f446c5e85e4a04b549e99d12080922fe06b2ce",
+  "hash_recipe": "Relative path, one SPACE, lowercase SHA256 of bytes; filename-sorted entries joined by LF without trailing LF. Migration receipt uses basenames. Execution receipt covers app, config, bootstrap excluding cache directories, database/migrations, database/seeders, routes, composer.json and composer.lock; symlinks are forbidden.",
+  "source_hashes": {
+    "database/seeders/RoleSeeder.php": "c8044fb8e74233f0e6efea89ff9be665fe4ac78dc177f720c1d7aacfef07f58e",
+    "database/seeders/LanguageSeeder.php": "9d9e689579addd45b767a3cff7fe4d7df0c841c3d23a6e2efa8ce69ddda818a0",
+    "database/seeders/CurrencySeeder.php": "8394a7ce28855e0467e05436e2117591032356844fffe7d6695c195f2a27e5e8",
+    "database/seeders/ShopPermissionSeeder.php": "db65f668375e7afeae74dc4fc4a8109cdc7d45b43843ed9520b5be879e768346",
+    "database/seeders/CountryPermissionSeeder.php": "b124d66051e4b0ecee188c0f8e0effa1b8329399896ae05b9f14fb4745f1962b",
+    "database/seeders/PaymentSeeder.php": "c7869a301c29c0ceb2d2192d16714c53d82d0d197b61ff0919887192187b87c4",
+    "database/seeders/SettingsSeeder.php": "dbcf2743fc13c36830bb50bf66c14f40b9a689945efc064b0088c43ab36f8b2a",
+    "database/seeders/EmailSettingSeeder.php": "fcf2f1c052ce319a22b333ca94ca52658b892b0a96d2fa97d13877e2273bce02",
+    "database/seeders/RegionSeeder.php": "b833247ad0074af0fe51bcd3514059a81d0fabb9379e3309f33c521255826ca3",
+    "database/seeders/Support/CountryDefaultsBackfiller.php": "6f3066de0650e9834fab3a11ed4bff1906cdcf631920e03c902252480f0eb569",
+    "database/seeders/Support/CountryRoleDefaultsBackfiller.php": "f81bb6a9a231f9f3644c2d54ab6e04b904fd5a4e3875d8988f8671831f7ad163",
+    "app/Support/DefaultCountryRoles.php": "9ca37fe4b1516ecff41744e41c1b1b715b2ab567cbdd2643ae3d08043b186b61",
+    "app/Support/SystemEmailTemplates.php": "31add8136e63f5fd5c7c6979806f0fc7ae5d3ad4259735dac46eff93b5a0ccc9",
+    "app/Support/FinancialEmailTemplates.php": "f94abb7258b10fb022b6bd3086213e419dd1719fc71ec0d7dd641f8bf3b10f06",
+    "app/Services/ManualFinance/FinanceScope.php": "2c50850e1b47b44f0f65b6c6865e103f47d8132ee4c97183632ace9b500718fc",
+    "app/Models/User.php": "dbe994a960fef9bf67be87b34815400cdd7f6b79de92c788c27a06ca0abcc963",
+    "app/Models/EmailTemplate.php": "49a9fd95fc98fcacc56143ba8641e30acf95c56afea7b266409dd9ed3ec3d2e0",
+    "app/Observers/UserObserver.php": "822babe1400a174f49072d8a14379fed92198397661fecdafd534c43e9605cc2",
+    "app/Observers/CountryObserver.php": "42a10dd97958a28ad1d2ca3be4b3bb7bd4f93032aca20ecbfda9d72cc52a0202",
+    "config/hashing.php": "6179fbf205a72d2db2f19b4787dc416811013cd05c82fb919b4d012832421ce8"
+  },
+  "checkpoints": [
+    {
+      "name": "fixed_roles_and_locale",
+      "after_migration": "2022_02_22_201116_create_permission_tables.php",
+      "ledger_count": 12,
+      "prefix_sha256": "9f4509008be4acda1bc3dcdebd68a495456b1677accb154220bfb8ad3aace885",
+      "initialize": ["roles", "languages", "currencies"],
+      "before_migration": "2026_09_05_000000_reassign_shop_manager_role.php",
+      "require": "Users and all grant tables empty; roles table empty before insertion; user=1 and shop_manager=14 afterward."
+    },
+    {
+      "name": "offline_methods",
+      "after_migration": "2022_08_06_213956_create_payments_table.php",
+      "ledger_count": 38,
+      "prefix_sha256": "2f02a17ea46f497d4ec10c4d6c8a1ac8d8e256018a5b3b3f52c2abaf8a562ad5",
+      "initialize": ["payments"],
+      "before_migration": "2026_09_05_030000_backfill_country_currency_and_payments.php",
+      "require": "Only Cash and disabled Wallet definitions; no provider definition or payment activity."
+    },
+    {
+      "name": "country_currency_dependency",
+      "after_migration": "2026_09_05_020000_create_country_payments_table.php",
+      "ledger_count": 186,
+      "prefix_sha256": "932585b7e8633a81a36ec3195f25fff33c67e0de282b111accfdea8ac26d62fa",
+      "initialize": [],
+      "before_migration": "2026_09_05_030000_backfill_country_currency_and_payments.php",
+      "require": "Geography empty, one XAF default, no electronic method; country backfill and its backup tables must remain empty."
+    },
+    {
+      "name": "shop_permission_catalog",
+      "after_migration": "2026_09_05_040000_create_shop_permissions_table.php",
+      "ledger_count": 188,
+      "prefix_sha256": "da5d601f46bc7f851fe06305c63ec4e09895e7def34636bc9a0725c2128188e6",
+      "initialize": ["shop_permissions"],
+      "before_migration": "2026_09_05_070000_migrate_shop_manager_holders_to_shop_roles.php",
+      "require": "Exact definitions; shops, users, invitations, shop roles and their grants empty."
+    },
+    {
+      "name": "country_permission_catalog",
+      "after_migration": "2026_09_05_080000_create_country_permissions_table.php",
+      "ledger_count": 192,
+      "prefix_sha256": "545e0fddbaa26625dbbfc4b650b6f611455f452e2fb16537761c38c838377fa2",
+      "initialize": ["country_permissions"],
+      "before_migration": "2026_09_07_050000_backfill_default_country_roles.php",
+      "require": "23 base definitions only at this checkpoint; no country, admin, invitation, country role or permission grant."
+    },
+    {
+      "name": "country_role_dependency",
+      "after_migration": "2026_09_07_030000_make_country_id_nullable_on_country_roles_table.php",
+      "ledger_count": 200,
+      "prefix_sha256": "ce73bfbc84ea9d6d75bca1085271882014cd4a184faf6128ea52bd5df16cf52a",
+      "initialize": [],
+      "before_migration": "2026_09_07_050000_backfill_default_country_roles.php",
+      "require": "Country-role backfill must be a no-op; never expand its all sentinel after Finance definitions exist."
+    },
+    {
+      "name": "native_definition_checkpoint",
+      "after_migration": "2026_10_10_010000_add_manual_financial_workflows.php",
+      "ledger_count": 229,
+      "prefix_sha256": "37954929be028d7e487a7720f2108d3f300b2862af85f46b724b3c9f63d3f896",
+      "initialize": [],
+      "before_migration": null,
+      "require": "35 country permissions, 12 Spatie Finance definitions, zero grants and zero persisted templates before post-ledger portable data insertion."
+    },
+    {
+      "name": "portable_reference_and_demo_proposal",
+      "after_migration": "2026_10_10_010000_add_manual_financial_workflows.php",
+      "ledger_count": 229,
+      "prefix_sha256": "37954929be028d7e487a7720f2108d3f300b2862af85f46b724b3c9f63d3f896",
+      "initialize": ["Approved post-ledger tables/rows in local-synthetic-portable-baseline.json; blog rows only after separate admin approval"],
+      "before_migration": null,
+      "require": "Restore intended portable geography/categories/demo catalog via explicit reviewed rows, not country observers/default-role backfills. Verify exact 29 non-login demo identities/role links, non-financial shop grants, zero country/Spatie Finance grants, no Wallet or money activity, and approved portable asset availability."
+    }
+  ],
+  "row_policy": {
+    "initialization": "Insert exact approved rows only into independently empty reviewed table/key ranges at the listed checkpoints; no updateOrCreate by fixed ID, ambient observers or ordinary seeder invocation. Preserve intended geography and portable demo through the separately frozen post-ledger baseline.",
+    "idempotency": "Second reference invocation verifies exact rows without writes, timestamp changes, auto-increment changes or migration replay; any mismatch fails closed.",
+    "timestamps": "Where required, record actual first-write timestamps in the private receipt and preserve them exactly on retry. Country Finance definitions retain native migration NULL timestamps.",
+    "defaults": "All unspecified schema defaults and nullable columns must also be captured in the full native row receipt; counts and the projections below alone are not proof."
+  },
+  "rows": {
+    "roles": [
+      {"id": 1, "name": "user", "guard_name": "web"},
+      {"id": 11, "name": "seller", "guard_name": "web"},
+      {"id": 12, "name": "moderator", "guard_name": "web"},
+      {"id": 13, "name": "deliveryman", "guard_name": "web"},
+      {"id": 14, "name": "shop_manager", "guard_name": "web"},
+      {"id": 21, "name": "manager", "guard_name": "web"},
+      {"id": 22, "name": "master", "guard_name": "web"},
+      {"id": 99, "name": "admin", "guard_name": "web"}
+    ],
+    "languages": [
+      {"id": 1, "locale": "en", "title": "English", "backward": 0, "default": 1, "active": 1, "img": null}
+    ],
+    "currencies": [
+      {"id": 1, "title": "XAF", "symbol": "FCFA", "rate": 1, "position": "after", "default": 1, "active": 1}
+    ],
+    "payments": [
+      {"id": 1, "tag": "cash", "input": 1, "active": 1, "sandbox": 0},
+      {"id": 2, "tag": "wallet", "input": 2, "active": 0, "sandbox": 0}
+    ],
+    "shop_permissions": [
+      {"id": 1, "key": "bookings.view", "group": "bookings", "label": "View bookings"},
+      {"id": 2, "key": "bookings.manage", "group": "bookings", "label": "Create and edit bookings"},
+      {"id": 3, "key": "bookings.status", "group": "bookings", "label": "Change booking status (accept/cancel)"},
+      {"id": 4, "key": "bookings.availability", "group": "bookings", "label": "Manage master availability and working hours"},
+      {"id": 5, "key": "bookings.view_all_branches", "group": "bookings", "label": "View bookings across all branches, not just an assigned one"},
+      {"id": 6, "key": "payments.view", "group": "payments", "label": "View transactions and payout history"},
+      {"id": 7, "key": "payments.payouts.manage", "group": "payments", "label": "Request and edit payouts"},
+      {"id": 8, "key": "payments.gateways.manage", "group": "payments", "label": "Manage payment gateway credentials"},
+      {"id": 9, "key": "payments.refunds.manage", "group": "payments", "label": "Manage order refunds"},
+      {"id": 10, "key": "services.view", "group": "services", "label": "View services"},
+      {"id": 11, "key": "services.manage", "group": "services", "label": "Create and edit services, extras, FAQs, masters"},
+      {"id": 12, "key": "services.auctions.manage", "group": "services", "label": "Manage service auctions"},
+      {"id": 13, "key": "stories.view", "group": "stories", "label": "View shop Stories"},
+      {"id": 14, "key": "stories.manage", "group": "stories", "label": "Create, edit, upload and delete shop Stories"},
+      {"id": 15, "key": "staff.view", "group": "staff", "label": "View staff and invitations"},
+      {"id": 16, "key": "staff.invite", "group": "staff", "label": "Invite new staff"},
+      {"id": 17, "key": "staff.roles.manage", "group": "staff", "label": "Create, edit, and delete shop roles"},
+      {"id": 18, "key": "reports.view", "group": "reports", "label": "View reports and dashboard analytics"},
+      {"id": 19, "key": "products.view", "group": "products", "label": "View products"},
+      {"id": 20, "key": "products.manage", "group": "products", "label": "Create and edit products, brands, categories, tags"},
+      {"id": 21, "key": "orders.view", "group": "orders", "label": "View orders"},
+      {"id": 22, "key": "orders.manage", "group": "orders", "label": "Create and edit orders"},
+      {"id": 23, "key": "orders.delivery_settings", "group": "orders", "label": "Manage delivery pricing and deliveryman settings"},
+      {"id": 24, "key": "marketing.view", "group": "marketing", "label": "View marketing campaigns"},
+      {"id": 25, "key": "marketing.manage", "group": "marketing", "label": "Create and edit discounts, coupons, bonuses, ads"},
+      {"id": 26, "key": "shop_settings.view", "group": "shop_settings", "label": "View shop settings"},
+      {"id": 27, "key": "shop_settings.manage", "group": "shop_settings", "label": "Edit shop profile, locations, and hours"},
+      {"id": 28, "key": "customers.view", "group": "customers", "label": "View customers' addresses, gift cards, memberships"}
+    ],
+    "country_permissions": [
+      {"id": 1, "key": "vendors.view", "group": "vendors", "label": "View vendors/shops"},
+      {"id": 2, "key": "vendors.manage", "group": "vendors", "label": "Approve, reject, and edit shops"},
+      {"id": 3, "key": "orders.view", "group": "orders", "label": "View orders"},
+      {"id": 4, "key": "orders.manage", "group": "orders", "label": "Manage order status and refunds"},
+      {"id": 5, "key": "bookings.view", "group": "bookings", "label": "View bookings"},
+      {"id": 6, "key": "bookings.manage", "group": "bookings", "label": "Manage booking status"},
+      {"id": 7, "key": "transactions.view", "group": "transactions", "label": "View transactions and payouts"},
+      {"id": 8, "key": "transactions.manage", "group": "transactions", "label": "Manage payouts and refunds"},
+      {"id": 9, "key": "reports.view", "group": "reports", "label": "View reports and dashboard analytics"},
+      {"id": 10, "key": "staff.view", "group": "staff", "label": "View country staff and invitations"},
+      {"id": 11, "key": "staff.invite", "group": "staff", "label": "Invite new country staff"},
+      {"id": 12, "key": "staff.roles.manage", "group": "staff", "label": "Create, edit, and delete country roles"},
+      {"id": 13, "key": "products.view", "group": "products", "label": "View products"},
+      {"id": 14, "key": "products.manage", "group": "products", "label": "Moderate products, brands, categories"},
+      {"id": 15, "key": "reviews.view", "group": "reviews", "label": "View shop reviews"},
+      {"id": 16, "key": "reviews.manage", "group": "reviews", "label": "Moderate shop reviews"},
+      {"id": 17, "key": "tickets.view", "group": "tickets", "label": "View support tickets"},
+      {"id": 18, "key": "tickets.manage", "group": "tickets", "label": "Respond to and resolve support tickets"},
+      {"id": 19, "key": "geography.manage", "group": "geography", "label": "Manage warehouses, delivery points, cities, areas"},
+      {"id": 20, "key": "marketing.view", "group": "marketing", "label": "View marketing campaigns"},
+      {"id": 21, "key": "marketing.manage", "group": "marketing", "label": "Manage coupons, bonuses, memberships, ads"},
+      {"id": 22, "key": "currency.view", "group": "currency", "label": "View currencies"},
+      {"id": 23, "key": "currency.manage", "group": "currency", "label": "Create, edit, and set default/rate for currencies"}
+    ],
+    "regions": [],
+    "region_translations": [],
+    "countries": [],
+    "country_translations": [],
+    "cities": [],
+    "city_translations": [],
+    "areas": [],
+    "area_translations": [],
+    "settings": [],
+    "email_settings": [],
+    "email_templates": [],
+    "country_roles": [],
+    "country_role_permissions": [],
+    "shop_roles": [],
+    "shop_role_permissions": [],
+    "role_has_permissions": [],
+    "model_has_permissions": [],
+    "model_has_roles": []
+  },
+  "native_finance_definitions": {
+    "producer": "database/migrations/2026_10_10_010000_add_manual_financial_workflows.php",
+    "keys": [
+      "payments.refunds.view", "payments.refunds.request", "payments.refunds.approve",
+      "payments.refunds.complete", "payments.refunds.reconcile", "payments.refunds.evidence.view",
+      "payments.refunds.vendor_direct.execute", "payments.payouts.view", "payments.payouts.approve",
+      "payments.payouts.complete", "payments.payouts.reconcile", "payments.payouts.evidence.view"
+    ],
+    "country_rows": "Append in key order: IDs 24..35, group=payments, label=ucwords(str_replace('.', ' ', key)), created_at=NULL, updated_at=NULL.",
+    "spatie_rows": "IDs 1..12 in key order, name=key, guard_name=web; retain native first-write timestamps.",
+    "grants": []
+  },
+  "template_definitions": {
+    "persisted_rows": 0,
+    "reason": "Native required email_setting_id FK and provisioners require an active email provider; no fake provider, SMTP configuration or FK weakening.",
+    "types": ["verify", "reset", "subscribe", "refund_requested", "refund_approved", "refund_completed", "refund_rejected", "payout_requested", "payout_approved", "payout_completed", "payout_rejected"],
+    "content_authority": ["app/Support/SystemEmailTemplates.php", "app/Support/FinancialEmailTemplates.php"],
+    "dispatch": false
+  },
+  "administrator_proposal": {
+    "status": "SEPARATE_OWNER_APPROVAL_REQUIRED",
+    "identity": {"id": 1, "email": "bootstrap-owner@agendaally.invalid", "firstname": "Synthetic Bootstrap Owner", "lastname": null, "active": 1, "lang": "en", "currency_id": 1},
+    "role": {"id": 99, "name": "admin", "guard_name": "web"},
+    "country_scope": null,
+    "explicit_permission_grants": [],
+    "password_secret_name": "AGENDAALLY_SYNTHETIC_BOOTSTRAP_ADMIN_PASSWORD",
+    "password_policy": "Owner supplies an independent random password through secure tooling after approval; native bcrypt with rounds=10; no fallback or demo password, no plaintext/hash in evidence.",
+    "email_verification": "Owner-authorized local synthetic attestation only, timestamp retained privately; no verification email or reuse for a real identity.",
+    "creation_contract": "Separate explicit provisioning transaction after native reference/demo receipt and independent owner approval. Use native User observer contract; inventory its zero-value user_points and model-log side effects. Persist exact generated UUID/referral privately. Add one model_has_roles row (role_id=99, model_type=App\\\\Models\\\\User, model_id=1) to the 29 separately approved non-login demo links; all country/Spatie Finance permission grants still empty. Blog author rows may follow only after this approval/proof.",
+    "retry_contract": "Verify existing exact identity, bcrypt and intended role without rewriting password, UUID, referrals or timestamps; mismatch stops, never adopt an unrelated account.",
+    "recovery": "No second default account; owner-controlled independent key escrow and explicit local recovery procedure, never automatic password reset or challenge dispatch."
+  },
+  "key_custody_proposal": {
+    "status": "SEPARATE_OWNER_APPROVAL_REQUIRED",
+    "app_key_secret_name": "AGENDAALLY_SYNTHETIC_BOOTSTRAP_APP_KEY",
+    "recovery_key_secret_name": "AGENDAALLY_SYNTHETIC_BOOTSTRAP_RECOVERY_KEY",
+    "generation": "Secure-tooling-only independent cryptographic generation: 32 random bytes for Laravel AES-256-CBC app key and a separate 32-byte recovery encryption key. Neither derives from SESSION_SECRET, normal configuration, staging authority or demo material.",
+    "custody": "Owner must approve the secure generation/escrow tool and custody location first. No values in code, chat, argv, URLs, stdout, logs, Git or evidence. Record only non-secret version IDs and pass/fail checks.",
+    "proof": "Owner retains an independent escrow copy outside the lab; in an isolated process prove Laravel ciphertext decrypts with the retained same-version key and fails with a different key. No business payload encryption, provider revision creation or financial action.",
+    "local_limit": "Same-host Secrets/files alone are not independent off-host production disaster recovery; real backup destination, retention and RPO/RTO remain separately gated."
+  },
+  "prohibited": [
+    "DatabaseSeeder or ordinary/demo/development seeder execution",
+    "Existing or partial schema repair, migrate:fresh, financial down(), ledger fabrication",
+    "Unreviewed demo content, runtime Orders/Bookings/Carts, any Wallet or financial movement; intended portable Shops/Products/Services require explicit baseline approval",
+    "Electronic provider definitions, credentials, profiles, revisions or activation",
+    "SMTP providers, queued delivery, challenge dispatch, workers or scheduler activation",
+    "Automatic financial grants, country owner/staff memberships or all-permissions roles",
+    "Imported normal/staging/demo passwords, keys, datasets or configuration",
+    "Normal database writes, VPS access, production identities/defaults/keys or release"
+  ]
+}

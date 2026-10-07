@@ -1,0 +1,42 @@
+Run the final bounded AgendaAlly 20-gate MVP and production-readiness audit. Audit/reconcile evidence only first; do not begin another implementation campaign.
+Use the existing canonical 20-gate readiness rubric and the last owner-accepted baseline of 16/20 = 80%. Do not invent, replace, renumber, merge, or redefine gates merely to produce a different score.
+Review the retained accepted evidence generated since that baseline, including the completed:
+- Manual Refund/Vendor Payout implementation and shared refund-policy-cap repair.
+- Finance, Customer and Vendor financial UI acceptance.
+- Lost-response/saved-intent/idempotency and duplicate-effect evidence.
+- Native MySQL financial concurrency acceptance.
+- Real authenticated Sanctum financial permission/ownership acceptance.
+- Private financial receipt/evidence authorization acceptance.
+- Existing account/email, calendar/responsive, local-client, Product replay and payout-atomicity evidence.
+- Latest native production-build qualification: Web production build PASS, whole-Web TypeScript PASS, Admin production build PASS across 7,329 modules with bounded 4 GiB V8 heap.
+- Required unchanged hardening suite PASS: 1,093 tests / 7,398 assertions, exit 0, with the existing 29 skips and one deprecation retained.
+- Current normal-data preservation evidence covering all 214 current tables and schema fingerprints.
+Read the relevant retained reports/evidence rather than rerunning already accepted campaigns. Reuse accepted evidence wherever sufficient.
+For each of the original 20 gates, state:
+1. previous score/status;
+2. exact retained evidence applicable to that gate;
+3. whether new evidence materially changes the gate;
+4. final score/status;
+5. remaining qualification, if any.
+Do not award points based merely on test counts, implementation existence, or assumptions. Award/change a gate only where retained evidence satisfies that gate's original acceptance criteria.
+Explicitly carry forward unresolved qualifications rather than silently waiving them, including the known historical agendaally_development_environment preservation mismatch, existing skips/deprecation, build warnings, any incomplete production/operational assurance, and anything intentionally outside the agreed MVP scope.
+Distinguish clearly between:
+- MVP functional readiness
+- production technical readiness
+- operational/production assurance
+- post-MVP enhancements
+Do not treat intentionally deferred capabilities—such as automatic provider-driven refunds/payouts, Specialist platform payouts, Wallet-to-cash redemption, arbitrary partial refunds, receipt malware certification, independent off-host receipt custody, or other explicitly deferred functionality—as blockers unless an original canonical gate actually requires them.
+Do not modify application source, financial behavior, permissions, data, tests, fixtures, provider configuration, email configuration, or legal/business rules during the audit.
+Do not deploy or activate production.
+If the audit discovers a new valid P0/security/financial-integrity blocker, stop and report it before proposing remediation.
+Finish with:
+- previous canonical score: 16/20 (80%);
+- evidence-supported final score out of the same 20 gates;
+- exact gates that changed and why;
+- MVP verdict: GO / CONDITIONAL GO / NO-GO;
+- production verdict: GO / CONDITIONAL GO / NO-GO;
+- remaining true blockers;
+- non-blocking production-hardening items;
+- deferred/post-MVP items;
+- recommendation on whether the web MVP can now be frozen and development move to the Customer mobile app audit.
+This is an audit and evidence-reconciliation task only. Do not automatically start fixing anything discovered.

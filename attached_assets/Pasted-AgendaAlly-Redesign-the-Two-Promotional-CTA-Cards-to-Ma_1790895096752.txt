@@ -1,0 +1,625 @@
+AgendaAlly — Redesign the Two Promotional CTA Cards to Match the Approved Stage 2 UI
+
+The current native storefront section containing:
+
+- “Find and book your next appointment”
+- “For business”
+
+still looks like part of the old purchased/template UI.
+
+The current treatment uses dark image overlays, generic salon-focused imagery, floating white text and “Download” CTAs. It is visually inconsistent with the approved Stage 2 AgendaAlly marketplace.
+
+Please redesign ONLY this section as a focused native UI consistency improvement.
+
+This is NOT another Stage 1/Stage 2 acceptance cycle.
+This is NOT authorization for a broad storefront redesign.
+This is NOT authorization to modify application behavior.
+
+The overall Stage 2 storefront has already been approved and implemented.
+
+==================================================
+1. MATCH THE APPROVED AGENDAALLY VISUAL SYSTEM
+==================================================
+
+Use the Stage 2 design language already implemented throughout the new storefront:
+
+- black / neutral + warm bronze identity;
+- warm ivory/off-white surfaces;
+- restrained borders;
+- modern typography;
+- generous but intentional spacing;
+- subtle radius/elevation;
+- clean professional iconography;
+- minimal visual noise;
+- strong accessibility and contrast;
+- professional marketplace presentation.
+
+The section should clearly belong to the same storefront as the approved primary positioning:
+
+“Book local expertise. Shop local businesses.”
+
+Do NOT:
+
+- introduce another visual system;
+- use excessive gradients;
+- return to old iBeauty styling;
+- use oversized decorative graphics;
+- use generic purchased-template styling;
+- make the cards look like unrelated advertisements.
+
+Reuse the existing Stage 2 design tokens/components/patterns wherever practical.
+
+==================================================
+2. REPLACE THE CURRENT DARK-OVERLAY CARD DESIGN
+==================================================
+
+Do not simply swap the current background photographs while keeping the same layout.
+
+Replace the current full-image/dark-overlay cards with a more refined content + imagery composition.
+
+Preferred conceptual direction:
+
+LEFT CARD — CUSTOMER / SERVICES
+
+Small service/booking icon or eyebrow
+
+Heading:
+
+“Find and book your next appointment”
+
+Supporting copy:
+
+“Discover services and specialists that fit your needs.”
+
+Primary CTA:
+
+“Explore services”
+
+Relevant professional service imagery should occupy a deliberate portion of the card rather than functioning as a darkened full-card background.
+
+RIGHT CARD — BUSINESS
+
+Small business/store icon or eyebrow
+
+Heading:
+
+“Grow your business with AgendaAlly”
+
+Supporting copy:
+
+“Manage bookings, services, products, staff and your business operations.”
+
+Primary CTA:
+
+“Explore AgendaAlly for Business”
+
+Use professional imagery of an African entrepreneur/business owner using a tablet, laptop, phone or contemporary business workspace.
+
+These words may be refined slightly if a stronger concise version fits the approved AgendaAlly voice, but preserve the meaning.
+
+Do not mechanically copy this composition if a better arrangement fits the existing Stage 2 implementation.
+
+==================================================
+3. REMOVE THE INCORRECT “DOWNLOAD” CTAS
+==================================================
+
+The current “Download” buttons do not accurately describe the actions represented by these cards.
+
+Replace them with actual navigation actions.
+
+CUSTOMER CARD
+
+“Explore services”
+→ existing native service discovery route.
+
+BUSINESS CARD
+
+“Explore AgendaAlly for Business”
+→ existing `/for-business` experience.
+
+Reuse existing routes.
+
+Do not invent new navigation behavior.
+
+Do not create fake App Store or Google Play destinations.
+
+App-download CTAs belong only in areas where legitimate official app-store URLs are configured.
+
+==================================================
+4. IMPROVE THE IMAGERY
+==================================================
+
+The current two images are too beauty/salon focused and reinforce the incorrect impression that AgendaAlly is primarily salon software.
+
+AgendaAlly is a broader services + commerce marketplace.
+
+Replace these images with higher-quality AgendaAlly-appropriate imagery.
+
+CUSTOMER/SERVICE CARD
+
+The image may show a real-world service interaction, professional/customer relationship, or service-discovery context.
+
+It does not have to avoid beauty completely, but it should fit the broader AgendaAlly marketplace identity.
+
+BUSINESS CARD
+
+Strongly prefer an African entrepreneur or business owner using:
+
+- tablet;
+- laptop;
+- phone;
+- business-management workspace;
+- storefront/workspace environment.
+
+Do not use another generic beauty-treatment image for the Business card.
+
+==================================================
+5. IMAGE DIRECTION
+==================================================
+
+Maintain the already-approved Stage 2 imagery direction:
+
+- Africa-first;
+- professional;
+- contemporary;
+- authentic;
+- globally inclusive;
+- visually polished;
+- suitable for a credible marketplace.
+
+Across AgendaAlly imagery, continue representing:
+
+- Black African customers;
+- African professionals;
+- African entrepreneurs/business owners;
+- different genders;
+- different ages;
+- different professions;
+- other globally diverse customers/professionals naturally.
+
+Avoid:
+
+- stereotypical cultural imagery;
+- token diversity;
+- fake identifiable businesses;
+- excessive beauty/salon concentration;
+- generic corporate handshake stock imagery;
+- cheesy SaaS stock photography;
+- images containing irrelevant text/logos.
+
+If new generated imagery is required, keep it as local development/design media and document its provenance consistently with the existing Stage 2 media work.
+
+Do not represent generated people or environments as actual AgendaAlly businesses, vendors, specialists or customers.
+
+Do not mutate database marketplace records simply to support these promotional cards.
+
+==================================================
+6. MAKE THESE PRODUCT PATHWAYS, NOT ADVERTISEMENTS
+==================================================
+
+These cards should function as two useful continuation paths within AgendaAlly.
+
+CUSTOMER MARKETPLACE
+
+→ discover services
+→ discover specialists
+→ book services
+
+BUSINESS PLATFORM
+
+→ understand AgendaAlly for Business
+→ manage bookings
+→ manage services/products
+→ manage staff/specialists
+→ operate the business using existing supported functionality
+
+The cards should feel integrated into the product experience rather than like banner advertisements pasted onto the homepage.
+
+A conceptual structure could be:
+
+[ small icon / eyebrow ]
+
+Find and book your
+next appointment
+
+Discover services and specialists
+that fit your needs.
+
+[ Explore services → ]            [ IMAGE ]
+
+
+and:
+
+
+[ small icon / eyebrow ]
+
+Grow your business
+with AgendaAlly
+
+Manage bookings, services,
+products, staff and operations.
+
+[ Explore AgendaAlly for Business → ]     [ IMAGE ]
+
+Use this as a direction, not a rigid implementation specification.
+
+==================================================
+7. PREFER SPLIT CONTENT + IMAGE COMPOSITION
+==================================================
+
+Text readability should not depend on a heavy black image overlay.
+
+Prefer a refined split composition where:
+
+- copy has its own readable surface;
+- imagery has its own deliberate area;
+- typography remains readable without image-darkening tricks;
+- the CTA is clearly visible;
+- imagery supports rather than competes with the message.
+
+Possible treatments include:
+
+- approximately 55/45 content-image split;
+- asymmetric editorial composition;
+- image panel within a warm-neutral card;
+- subtle overlapping image treatment if it remains clean and responsive.
+
+Use design judgment consistent with the already-approved Stage 2 storefront.
+
+==================================================
+8. VISUAL HIERARCHY
+==================================================
+
+Each card should have a clear hierarchy:
+
+1. optional icon/eyebrow;
+2. strong heading;
+3. concise supporting copy;
+4. CTA;
+5. supporting imagery.
+
+Do not overcrowd the cards.
+
+Avoid excessive labels, badges, decorative shapes or secondary buttons.
+
+One clear primary action per card is sufficient.
+
+==================================================
+9. DESKTOP BEHAVIOR
+==================================================
+
+On desktop:
+
+- retain the relationship between the two cards;
+- align with the existing storefront content grid;
+- use balanced card heights;
+- use intentional image/content proportions;
+- avoid excessive empty space;
+- maintain comfortable typography;
+- maintain consistent radius/borders/elevation;
+- avoid huge banner-like dimensions;
+- keep both cards visually related but not identical if their content benefits from different emphasis.
+
+The section should transition naturally from the content above and into the content below.
+
+==================================================
+10. MOBILE BEHAVIOR (~390PX)
+==================================================
+
+At approximately 390px:
+
+- stack the cards cleanly;
+- preserve strong hierarchy;
+- keep copy readable;
+- crop imagery intentionally;
+- avoid placing text over important faces;
+- avoid horizontal overflow;
+- avoid extremely tall promotional cards;
+- keep CTA touch targets appropriately sized;
+- preserve useful spacing;
+- keep image loading/layout stable;
+- maintain accessible contrast.
+
+Mobile should feel intentionally designed rather than a compressed desktop layout.
+
+==================================================
+11. TERMINOLOGY CONSISTENCY
+==================================================
+
+Use:
+
+“Specialists”
+
+rather than legacy customer-facing:
+
+“Masters”
+
+in any new copy introduced here.
+
+Do not reintroduce:
+
+- iBeauty branding;
+- salon-centric AgendaAlly positioning;
+- generic purchased-template language;
+- unsupported capabilities;
+- unsupported metrics;
+- unsupported marketplace claims.
+
+==================================================
+12. CUSTOMER CARD ROUTING
+==================================================
+
+The customer card should use the existing native service-discovery experience.
+
+Do not create:
+
+- fake unified search;
+- new backend filters;
+- new API endpoints;
+- new booking semantics.
+
+If the existing service discovery route supports query parameters appropriately, preserve them.
+
+The CTA should simply provide a useful entry into the already-supported service-discovery experience.
+
+==================================================
+13. BUSINESS CARD ROUTING
+==================================================
+
+The Business CTA should route to the existing native:
+
+`/for-business`
+
+experience.
+
+Do not route customers directly into authenticated business-management pages.
+
+The public Business page remains the appropriate introduction/entry point.
+
+Do not alter authentication behavior.
+
+==================================================
+14. CHECK THE SURROUNDING SECTION
+==================================================
+
+After implementing the cards, inspect ONLY their immediate relationship with the sections directly above and below.
+
+Make sure:
+
+- vertical spacing is intentional;
+- background transitions are clean;
+- section width matches the storefront grid;
+- card radius matches the Stage 2 system;
+- border/elevation matches surrounding cards;
+- typography matches the homepage;
+- there is no leftover legacy visual treatment;
+- the section does not feel detached from the rest of the marketplace.
+
+Do not use this as an excuse to redesign unrelated homepage sections.
+
+==================================================
+15. PRESERVE THE APPROVED STOREFRONT
+==================================================
+
+The project now has one approved canonical web storefront.
+
+Do not:
+
+- recreate View 1–4;
+- restore retired storefront themes;
+- create another UI type;
+- create an alternate homepage;
+- modify the consolidated routing;
+- reopen the Stage 2 design-selection process.
+
+This change belongs directly in the approved native AgendaAlly Marketplace UI.
+
+==================================================
+16. PRESERVE APPLICATION BEHAVIOR
+==================================================
+
+Do NOT change:
+
+- Laravel API contracts;
+- authentication;
+- authorization;
+- country/shop/branch enforcement;
+- booking semantics;
+- product/commerce behavior;
+- customer location behavior;
+- persisted country/city behavior;
+- payment behavior;
+- payment-method availability;
+- vendor payment configuration;
+- settlement;
+- payout;
+- accounting;
+- development seed architecture;
+- Flutter REST contracts;
+- Flutter ui_type compatibility;
+- Stage 1 development proxy;
+- Maps configuration;
+- production configuration.
+
+This is a presentation/navigation improvement only.
+
+==================================================
+17. DO NOT REOPEN COMPLETED WORK
+==================================================
+
+Do NOT rerun or reopen:
+
+- Stage 1 acceptance;
+- Staff acceptance;
+- Master acceptance;
+- Country Manager acceptance;
+- Owner acceptance;
+- registration acceptance;
+- cart acceptance;
+- payment testing;
+- Maps testing;
+- category hierarchy work;
+- category icon work;
+- Terms/Privacy seeding;
+- footer content work;
+- ui_type investigation;
+- product duplicate investigation;
+- legacy storefront cleanup.
+
+Those are separate/completed areas unless this exact source change directly breaks one of them.
+
+==================================================
+18. MEDIA REUSE FIRST
+==================================================
+
+Before generating new imagery, inspect the already-approved Stage 2 local media/proposal assets.
+
+Reuse an appropriate existing approved image if it genuinely fits one of these cards.
+
+Do not reuse an image merely to avoid generating a better one if its subject is inappropriate.
+
+If existing approved imagery does not appropriately communicate the intended customer/business message, generate only the minimum new imagery necessary for these two cards.
+
+Do not launch a broad media-generation exercise.
+
+==================================================
+19. MEDIA PROVENANCE
+==================================================
+
+If new generated imagery is introduced:
+
+- save it as a stable local application/development asset;
+- record its intended use;
+- record available generation provenance;
+- clearly distinguish synthetic promotional imagery from real marketplace catalog imagery;
+- do not claim it depicts a real AgendaAlly business/customer/vendor;
+- do not claim licensing information that was not actually established.
+
+Do not modify marketplace database image assignments for this promotional section unless the existing architecture specifically uses configurable promotional assets and doing so is the normal supported path.
+
+==================================================
+20. ACCESSIBILITY
+==================================================
+
+Ensure:
+
+- sufficient text contrast;
+- visible keyboard focus;
+- semantic links/buttons;
+- descriptive accessible labels where needed;
+- decorative imagery does not receive misleading descriptions;
+- useful imagery receives appropriate alt intent;
+- CTAs remain keyboard accessible;
+- touch targets remain appropriate on mobile.
+
+Do not rely on color alone to communicate interaction.
+
+==================================================
+21. PERFORMANCE
+==================================================
+
+Do not introduce unnecessarily large promotional assets.
+
+Use the existing Next.js/native image handling where appropriate.
+
+Ensure image sizing/cropping does not create avoidable layout shifts.
+
+Do not begin a general performance optimization task.
+
+The previously suggested preview-responsiveness investigation remains separate and should NOT be started as part of this work.
+
+==================================================
+22. FOCUSED VERIFICATION ONLY
+==================================================
+
+Perform one bounded verification pass for this change.
+
+Verify:
+
+1. Desktop rendering of the two cards.
+2. Approximately 390px mobile rendering.
+3. No horizontal overflow caused by this section.
+4. Customer CTA reaches the existing service-discovery experience.
+5. Business CTA reaches `/for-business`.
+6. Both images load.
+7. Text remains readable.
+8. Focus/keyboard behavior is intact.
+9. No new console/runtime error is caused by this change.
+10. Relevant TypeScript/build check only if required by the changed files.
+
+Do not perform a full application browser journey.
+
+Do not rerun unrelated tests merely because they exist.
+
+==================================================
+23. EFFICIENCY / CREDIT CONSTRAINT
+==================================================
+
+Keep this implementation intentionally bounded.
+
+Reuse the existing approved Stage 2:
+
+- components;
+- design tokens;
+- typography;
+- spacing system;
+- card patterns;
+- button patterns;
+- responsive patterns;
+- existing appropriate media.
+
+Do not launch additional broad design agents, acceptance agents or exploratory testing loops unless absolutely necessary to implement these two cards.
+
+Do not spend time rediscovering decisions already documented in the Stage 2 implementation.
+
+Generate new imagery only if existing approved Stage 2 media cannot appropriately serve the two cards.
+
+Perform one focused implementation and verification pass.
+
+If an unrelated defect is discovered, document it as a separate optional follow-up rather than investigating it during this task.
+
+==================================================
+24. COMPLETION REPORT
+==================================================
+
+When finished, provide a short report containing:
+
+- previous treatment;
+- new card structure;
+- final customer heading/copy/CTA;
+- final Business heading/copy/CTA;
+- image assets used;
+- whether images were reused or newly generated;
+- CTA routes;
+- desktop result;
+- ~390px mobile result;
+- focused verification result;
+- any genuinely unresolved issue.
+
+Do not produce another large acceptance report.
+
+==================================================
+FINAL STOP GATE
+==================================================
+
+Once this focused implementation and verification passes:
+
+1. Restore/leave the Customer storefront preview running.
+2. Restore/leave the Admin/Vendor preview running if resources permit.
+3. Give me the short completion report.
+4. STOP.
+
+Do NOT:
+
+- start another design phase;
+- start Stage 3;
+- reopen Stage 1;
+- start the payment architecture audit;
+- start the preview-responsiveness task;
+- configure Maps;
+- request credentials;
+- publish;
+- perform another cleanup;
+- continue exploring unrelated pages.
+
+I will visually review the redesigned cards myself from the restored preview.

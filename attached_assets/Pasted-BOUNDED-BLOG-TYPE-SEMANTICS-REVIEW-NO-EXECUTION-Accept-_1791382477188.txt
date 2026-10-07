@@ -1,0 +1,155 @@
+BOUNDED BLOG TYPE SEMANTICS REVIEW — NO EXECUTION
+
+Accept the latest FAIL_FIRST_INSTALL evidence.
+
+The following are now established and must not be repeated:
+
+- 229/229 unchanged native migrations completed;
+- all reference checkpoints completed;
+- trigger-definer inspection passed;
+- the validated portable dependency order worked;
+- the entire main portable phase completed successfully;
+- its approved payload represents 3,721 rows;
+- synthetic Administrator creation and bcrypt right/wrong-password checks passed;
+- the only observed blocker occurred in the post-Administrator blog phase;
+- blogs.type is native non-null TINYINT;
+- all three frozen approved Blog rows currently contain the string "blog";
+- Blog translations were not reached.
+
+This authorization is for OFFLINE SOURCE REVIEW ONLY.
+
+Do NOT start MySQL.
+Do NOT create another lab.
+Do NOT rerun migrations or portable insertion.
+Do NOT change the baseline yet.
+Do NOT change the schema.
+Do NOT cast "blog" to an arbitrary integer.
+Do NOT disable strict mode.
+Do NOT retry the first-install proof.
+Do NOT perform GitHub/VPS/deployment work.
+
+======================================================================
+1. DETERMINE THE AUTHORITATIVE blogs.type DOMAIN
+======================================================================
+
+Trace the current application source and preserved historical source/data
+needed to determine the intended semantics of blogs.type.
+
+Inspect, as applicable:
+
+- Blog model;
+- Blog enum/constants;
+- controllers/services/repositories;
+- API resources/serializers;
+- request validation;
+- admin/web UI options;
+- seeders/factories;
+- migrations;
+- queries filtering by type;
+- historical fixture/demo data;
+- any code that writes or interprets blogs.type.
+
+Determine exactly which integer values are valid and what each value means.
+
+Specifically determine whether there is authoritative evidence that the string
+semantic "blog" corresponds to a particular integer value.
+
+Do not infer the mapping merely because 0 or 1 appears convenient.
+
+======================================================================
+2. CLASSIFY THE FROZEN ROW DEFECT
+======================================================================
+
+For each of the three approved Blog rows, determine:
+
+- current frozen type value;
+- intended semantic type;
+- authoritative native stored value, if proven;
+- source evidence establishing that mapping.
+
+Also verify that changing only this field would not alter:
+
+- Blog IDs/UUIDs;
+- Administrator/blog author relationship;
+- titles/content/translations;
+- publication state;
+- active state;
+- image policy;
+- any other approved Blog business data.
+
+Check all three Blog rows and all three Blog translations.
+
+======================================================================
+3. SEARCH FOR SIMILAR DOMAIN-MISMATCH DEFECTS OFFLINE
+======================================================================
+
+Because this defect survived the previous FK review, perform one bounded
+offline compatibility check over the 73 portable tables:
+
+Compare APPROVED NON-NULL portable values against native column storage types
+for obvious domain incompatibilities of the same class, such as:
+
+- non-numeric strings destined for integer columns;
+- malformed values for native numeric/boolean/date/time columns;
+- values exceeding native integer/string bounds where deterministically
+  detectable;
+- invalid enum/set literals if native enum/set columns exist.
+
+This is NOT authorization for a new general audit.
+
+Do not alter any values.
+
+The purpose is only to avoid another expensive 229-migration run being stopped
+by another deterministic manifest-vs-schema storage-type mismatch.
+
+If another mismatch is found, report it before proposing execution.
+
+======================================================================
+4. FROZEN INPUT POLICY
+======================================================================
+
+The current portable baseline hash:
+
+694a41397026c89bbf35b9257ae6d1ccc763eb62a434e39dec4d48b30d9c3daf
+
+remains historical evidence and must not be overwritten or silently mutated.
+
+The current reference manifest hash:
+
+67fbcfdd51e136560337b54f4d4d492844c8d19e26be736189e65c8320ddc500
+
+also remains historical evidence.
+
+Do not edit either under this authorization.
+
+All application source, 229 migrations, Service package, Service provenance,
+Product NULL-media policy and security policy remain unchanged.
+
+======================================================================
+5. REQUIRED RESULT
+======================================================================
+
+Return exactly one classification:
+
+BLOG_TYPE_MAPPING_PROVEN
+
+BLOG_TYPE_MAPPING_AMBIGUOUS
+
+PORTABLE_STORAGE_COMPATIBILITY_BLOCKED
+
+If BLOG_TYPE_MAPPING_PROVEN, report:
+
+- exact authoritative integer mapping for "blog";
+- evidence establishing that mapping;
+- all three affected Blog rows;
+- confirmation that the other fields remain unchanged;
+- result of the bounded 73-table storage-type compatibility check;
+- whether any additional deterministic mismatch exists;
+- exact files that WOULD need revision, but do not revise them yet.
+
+If the mapping is ambiguous, STOP and report the competing interpretations.
+
+If another portable storage incompatibility is found, STOP and report all
+deterministically identified mismatches together.
+
+No MySQL execution or manifest correction is authorized by this prompt.

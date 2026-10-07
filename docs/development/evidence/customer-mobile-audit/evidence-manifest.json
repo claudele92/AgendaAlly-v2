@@ -1,0 +1,116 @@
+{
+  "report": "docs/development/agendaally-customer-mobile-audit.md",
+  "reportSha256": "22c938c86d9fa008618e33fdbac833bece71d812ddad3b83daaf9a4f965f3677",
+  "evidenceFiles": [
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/README.md",
+      "bytes": 3036,
+      "sha256": "cfa3a4e985593230d2f45c87f8d2da25c50fe865082a09c90da1731296e20faa"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/analyze---no-pub.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/analyze---no-pub.txt.gz",
+      "bytes": 367307,
+      "sha256": "21adbd3fdffb5588e44b9134968292b9d274138a2137f0cc624afb15f1a1ad61"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/analyze-excerpt.txt",
+      "bytes": 5654,
+      "sha256": "50defdbf160048a30f63286a24c52a139353b2fa5afc430f2f756e266565fe9c"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/api-callsite-inventory.json",
+      "bytes": 431062,
+      "sha256": "77f12657fc3e26e5ec44ec1c46f796040f91757ece63c4aab913740a2876f724"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/build-apk---debug---no-pub.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/build-apk---debug---no-pub.txt",
+      "bytes": 77,
+      "sha256": "e16f37757a674c13e52403164cfded1e47be122a04bdbebae3f4b8ccec65c301"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/collect-source-evidence.mjs",
+      "bytes": 7469,
+      "sha256": "ea33d20229f27c9de5be2467673ea503debf918377a2ea11b525886752d7d140"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/database-after.json",
+      "bytes": 33239,
+      "sha256": "047b8943cf23ced23aa903c77b5367395ca32cd848c11ccef6f74b42e244bf2f"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/database-before.json",
+      "bytes": 33240,
+      "sha256": "be04ac2c0ca70a2a77469bdbb2ee357accaf9f4100cd6e9b80579879e3e973b4"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/database-fingerprint-recipe.json",
+      "bytes": 603,
+      "sha256": "adc21b46d5fe1a52a423703326fa013663c39d1bed1366301dfcc12b9c69f571"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/git-diff-stat.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/git-status.txt",
+      "bytes": 1693,
+      "sha256": "166fe94935cd4f3c10de37e6d44a0b39dd5570d49ebab811e670447a247589f0"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/pub-get---offline.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/pub-get---offline.txt",
+      "bytes": 163,
+      "sha256": "5308add0919dac06c8ffc110980d802441a378c0c091736e9302c0198d3e3f0b"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/report.html",
+      "bytes": 82949,
+      "sha256": "5e6d30b98abbe340945adad2daa4e267f7e15324a515602c5dd2f4b85784beb5"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/sdk-version.txt",
+      "bytes": 843,
+      "sha256": "8177d0853918108d00523f49633fa86c3b562aff37adcfd7b09da4059d4a68f6"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/source-after.json",
+      "bytes": 842270,
+      "sha256": "50b896d9bf0b55f75a116f07cf085d6ec7148a46c00e1728a232063614618344"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/source-before.json",
+      "bytes": 842270,
+      "sha256": "50b896d9bf0b55f75a116f07cf085d6ec7148a46c00e1728a232063614618344"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/source-inventory.json",
+      "bytes": 114695,
+      "sha256": "01386752234854f3f5ef3a5a695616b1a1569fa6c2b206e2f4274c9bbc063b6c"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/source-preservation.json",
+      "bytes": 513,
+      "sha256": "9ba3015e0cf96174e91def353526fbf398413e1f5cfc4fc57160f47749667e5e"
+    },
+    {
+      "path": "docs/development/evidence/customer-mobile-audit/validation-commands.json",
+      "bytes": 1405,
+      "sha256": "2b4f44862bb2f82d3db2ab90514e22dc4299864fae847bd3ef50e3a4ea27fd7a"
+    }
+  ]
+}

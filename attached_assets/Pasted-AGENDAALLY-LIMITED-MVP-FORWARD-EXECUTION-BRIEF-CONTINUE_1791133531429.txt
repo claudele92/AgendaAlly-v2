@@ -1,0 +1,1341 @@
+AGENDAALLY LIMITED MVP — FORWARD EXECUTION BRIEF
+CONTINUE FROM CURRENT VERIFIED STATE
+RESTORE NORMAL DEMO STOREFRONT FIRST
+THEN FINISH THE REMAINING MVP READINESS WORK
+
+This is a FORWARD EXECUTION phase.
+
+Do NOT restart the audit.
+Do NOT restart the project from scratch.
+Do NOT reopen already-settled architecture.
+Do NOT repeatedly stop for ordinary defects.
+Do NOT replace the normal AgendaAlly demo/storefront dataset with synthetic
+acceptance fixtures.
+
+The objective is to move AgendaAlly materially closer to the limited
+service-booking MVP while preserving all already-verified booking and financial
+work.
+
+================================================================
+CURRENT AUTHORITATIVE BASELINE
+================================================================
+
+Current evidence-weighted limited-MVP readiness:
+
+14 / 20 gates = 70%
+
+This is launch-readiness evidence, not coding completion percentage.
+
+B1 BOOKING CORRECTNESS IS VERIFIED.
+
+The following booking contract is accepted and MUST NOT be redesigned:
+
+- Booking.master_id / Specialist User is the capacity owner.
+- Capacity is per specialist.
+- Different specialists remain independent.
+- Scheduling uses half-open [start,end).
+- Exact endpoint adjacency is allowed.
+- Processing/pause is included exactly once.
+- The complete appointment must fit working hours.
+- Closed dates are respected.
+- Disabled periods are respected.
+- Recurring disabled periods are respected.
+- Monthly recurrence retains the original anchor.
+- Missing monthly dates are skipped.
+- Repeat count includes the first/original occurrence.
+- Closed dates, working hours and requested availability windows do not reset
+  recurrence counting.
+- Protected creation revalidates capacity after resource locking.
+- Cancellation releases capacity according to the accepted lifecycle.
+- Rescheduling protects destination capacity.
+- Existing economics are preserved during rescheduling.
+- Same-specialist contention is serialized.
+- Independent specialists can progress independently.
+- Duplicate/retry attempts must not produce duplicate booking or financial
+  effects.
+- Cash and Wallet accounting semantics remain unchanged.
+- No new scheduling capacity model is authorized.
+
+Already accepted booking evidence includes:
+
+- 143 native booking checks;
+- additional terminal-state/move races;
+- genuine InnoDB deadlock/retry behavior;
+- recurrence verification;
+- calendar boundary verification;
+- Cash rollback;
+- Wallet rollback;
+- duplicate handling;
+- cancellation;
+- rescheduling;
+- financial preservation.
+
+DO NOT reopen B1 unless a NEW reproducible defect contradicts this accepted
+contract.
+
+If one is found:
+
+PRESERVE FAILURE EVIDENCE
+→ APPLY THE SMALLEST CONTRACT-COMPATIBLE CORRECTION
+→ VERIFY
+→ CONTINUE.
+
+================================================================
+CURRENT ROLE/JOURNEY BASELINE
+================================================================
+
+CUSTOMER
+
+Already verified or materially accepted:
+
+- country selection;
+- Customer108 login;
+- Shop/service/specialist flow after bounded corrections;
+- Cash booking;
+- Cash persistence after reload;
+- correct 09:00–10:00 selection;
+- correct $100 total;
+- occupied time removed from availability;
+- Wallet booking through Customer UI;
+- Wallet persistence after reload;
+- correct Wallet receipt;
+- correct $100 Wallet debit;
+- native persisted Wallet balance;
+- Customer date flow at 1280/390/320;
+- Customer108 completed Cash booking visible as Ended at all three widths.
+
+VENDOR / SELLER
+
+Already verified or materially accepted:
+
+- fresh Vendor registration;
+- Admin approval;
+- Shop approval;
+- Seller access;
+- staff ownership corrections;
+- cross-Shop assignment protection;
+- Seller booking validation compatibility correction;
+- Vendor completion persisted as ended;
+- calendar toolbar mobile correction;
+- translation correction;
+- selected ownership/isolation behavior.
+
+ADMIN
+
+Already verified or materially accepted:
+
+- Vendor/Shop approval;
+- selected booking visibility;
+- selected transaction visibility;
+- canonical financial operation panel;
+- reservation creation where authorized;
+- reservation cancellation;
+- retry reusing the same operation identity;
+- retained UNKNOWN state remaining untouched.
+
+SECURITY / BACKGROUND
+
+Selected evidence already exists for:
+
+- gallery ownership;
+- bearer/session identity;
+- conditional CSRF protection;
+- SMTP log redaction;
+- local account-email background processing;
+- selected booking reminder processing;
+- worker/process loss;
+- worker restart;
+- duplicate dispatch;
+- uncertain-send retention;
+- failed-job visibility;
+- late reminder catch-up.
+
+No live SMTP delivery occurred.
+
+No real payment-provider call occurred.
+
+No production action occurred.
+
+================================================================
+PROTECTED STATE
+================================================================
+
+Preserve the accepted protected-state boundary.
+
+Current accepted state:
+
+- 59 protected fingerprints unchanged;
+- 465 protected schema objects unchanged;
+- 12 legacy Orders remain unverified;
+- retained UNKNOWN financial state remains untouched;
+- no fabricated legacy custody/classification;
+- no real provider credentials/calls;
+- no real refunds/payouts;
+- no electronic activation;
+- no production deployment.
+
+Do NOT mutate protected historical financial data to make tests pass.
+
+Clearly distinguish:
+
+A. protected baseline data;
+B. normal AgendaAlly seeded/demo storefront data;
+C. disposable/synthetic MVP acceptance data.
+
+Synthetic fixtures such as Shop101, Shop503, Shop504, Customer108, Vendor113,
+etc. must NOT silently become the permanent normal storefront dataset.
+
+================================================================
+PHASE 0 — RESTORE THE ORIGINAL SEEDED / DEMO STOREFRONT
+================================================================
+
+THIS PHASE COMES FIRST.
+
+The Customer storefront no longer appears to contain the normal seeded/demo
+content that existed before the recent disposable MVP acceptance work.
+
+Before continuing U1, determine exactly what happened and restore the normal
+AgendaAlly demo/storefront dataset.
+
+DO NOT simply run an arbitrary seeder.
+
+DO NOT manufacture replacement businesses.
+
+DO NOT assume the records were deleted.
+
+FIRST DIAGNOSE.
+
+Determine whether the original demo records are:
+
+1. actually deleted;
+2. absent because the current MySQL acceptance database was rebuilt clean;
+3. present in another database;
+4. present but hidden by country filtering;
+5. present but hidden by city/location filtering;
+6. present but inactive;
+7. present but unapproved;
+8. missing Shop/location relationships;
+9. missing Service relationships;
+10. missing Specialist assignments;
+11. hidden by a frontend/API regression;
+12. absent because the original seeders were not executed after the MySQL
+    rebuild;
+13. unavailable because media/files were not restored;
+14. being masked because the application currently points to a disposable
+    acceptance database rather than the previous demo dataset.
+
+Trace:
+
+- actual Laravel database connection;
+- active environment/config;
+- current MySQL database name;
+- seeders;
+- factories;
+- fixture builders;
+- acceptance bootstrap scripts;
+- Shop/Service/Specialist APIs;
+- country/location filtering;
+- active/approved flags;
+- media references;
+- Customer storefront queries.
+
+DO NOT GUESS.
+
+------------------------------------------------------------
+IDENTIFY THE AUTHORITATIVE DEMO SEED SOURCE
+------------------------------------------------------------
+
+Search the repository for the source that created the previous normal
+AgendaAlly demo experience.
+
+Identify:
+
+- DatabaseSeeder;
+- role/user seeders;
+- country/city seeders;
+- category seeders;
+- Vendor seeders;
+- Shop seeders;
+- Shop-location seeders;
+- Service seeders;
+- Specialist/Master seeders;
+- ServiceMaster assignments;
+- working-hour seeders;
+- galleries/media seeders;
+- any dedicated demo/sample-data seeder;
+- any fixture/bootstrap script historically used for the storefront.
+
+Determine which source actually corresponds to the demo data that was visible
+before this MVP acceptance run.
+
+If an authoritative existing seed source exists, use it.
+
+DO NOT create a new replacement demo dataset merely because it is easier.
+
+------------------------------------------------------------
+RESTORE NORMAL DEMO DATA
+------------------------------------------------------------
+
+Restore the original/repository-authoritative demo data required for the normal
+AgendaAlly storefront, including where applicable:
+
+- Countries;
+- cities;
+- locations;
+- categories;
+- Vendors;
+- Shops;
+- Shop locations;
+- Shop images;
+- Service categories;
+- Services;
+- Service images;
+- Specialists/Masters;
+- Specialist profiles;
+- ServiceMaster assignments;
+- working days/hours;
+- closed dates;
+- disabled periods;
+- normal availability configuration;
+- other normal discovery data used by the original demo.
+
+Preserve stable IDs where the authoritative seeder expects them.
+
+Do not duplicate existing records if they already exist.
+
+Prefer idempotent restoration.
+
+If records are present but merely hidden because of a bounded filtering defect,
+FIX THE FILTERING DEFECT instead of duplicating records.
+
+If the application is pointing to the wrong database, correct the environment
+rather than copying data unnecessarily.
+
+------------------------------------------------------------
+IMPORTANT — DO NOT DESTROY VERIFIED ACCEPTANCE EVIDENCE
+------------------------------------------------------------
+
+Restoring demo data MUST NOT:
+
+- drop/reset protected databases;
+- delete accepted booking evidence;
+- modify accepted financial history;
+- manufacture Wallet balances;
+- change Cash semantics;
+- change Wallet semantics;
+- change retained UNKNOWN operations;
+- reclassify the 12 legacy Orders;
+- change the 59 protected fingerprints;
+- change the 465 protected schema objects;
+- activate providers;
+- execute payouts;
+- execute refunds;
+- make real provider calls.
+
+If the current acceptance database is disposable but contains useful synthetic
+acceptance records, preserve the existing evidence before modifying it.
+
+Do NOT use:
+
+migrate:fresh
+db:wipe
+DROP DATABASE
+TRUNCATE all tables
+
+or equivalent destructive shortcuts merely to restore demo data.
+
+If restoration would require destructive replacement of protected data, STOP
+THAT RESTORATION STEP and report the conflict.
+
+Do not destroy verified MVP work to make the storefront look populated.
+
+------------------------------------------------------------
+MEDIA
+------------------------------------------------------------
+
+Determine whether original demo media still exists.
+
+Check:
+
+- storage/app/public;
+- public/storage;
+- symlink state;
+- seeded image paths;
+- Shop galleries;
+- Service galleries;
+- Specialist/profile images.
+
+If database records exist but images are missing because storage was not
+restored, identify and restore repository-provided demo media where available.
+
+Do not fabricate production/customer uploads.
+
+------------------------------------------------------------
+VERIFY RESTORED STOREFRONT
+------------------------------------------------------------
+
+After restoration, use the actual Customer application.
+
+Verify:
+
+- expected countries are available;
+- expected demo locations appear where appropriate;
+- original/expected demo Shops appear;
+- Shop cards render;
+- Shop images render;
+- Shop detail opens;
+- Services render;
+- Service details render;
+- Specialists render;
+- Specialist/service relationships are correct;
+- location filtering works;
+- Service discovery works;
+- availability works;
+- existing B1 scheduling behavior remains intact.
+
+Verify responsive behavior at:
+
+- 1280px;
+- 390px;
+- 320px.
+
+The normal Customer storefront should no longer consist primarily of synthetic
+MVP acceptance fixtures.
+
+At the end of Phase 0 report:
+
+DEMO DATA RESTORATION: VERIFIED
+
+only if actually restored.
+
+Also state:
+
+- why the previous demo data disappeared;
+- which database was involved;
+- whether the data was deleted, absent, filtered, or the app was using another
+  database;
+- exact authoritative seeder/fixture used;
+- demo Shop count before/after;
+- Service count before/after;
+- Specialist count before/after;
+- whether media was restored;
+- which synthetic acceptance fixtures remain;
+- whether protected financial data changed.
+
+Then CONTINUE AUTOMATICALLY into Phase 1.
+
+Do NOT stop after restoration merely to ask whether to continue.
+
+================================================================
+PHASE 1 — FINISH U1
+CUSTOMER / VENDOR / SPECIALIST / ADMIN ACCEPTANCE
+================================================================
+
+U1 remains PARTIAL because final selected journey/browser checks were not
+completed.
+
+Resume them.
+
+Do NOT restart every journey from zero unless technically necessary.
+
+------------------------------------------------------------
+CUSTOMER
+------------------------------------------------------------
+
+Finish:
+
+1. Wallet booking history after reload.
+2. Wallet booking detail/receipt.
+3. persisted amount.
+4. Specialist.
+5. Service.
+6. date/time.
+7. booking status.
+8. Wallet debit.
+9. refresh/retry without duplicate effect.
+10. Cash booking history.
+11. Cash detail.
+12. Ended state after Vendor completion.
+13. supported Cash reschedule UI.
+14. destination availability.
+15. previous-slot release.
+16. preserved economics.
+17. supported Cash cancellation UI.
+18. capacity release.
+19. correct cancellation state.
+20. no fabricated electronic refund.
+
+For supported screens verify:
+
+- 1280px;
+- 390px;
+- 320px.
+
+Inspect:
+
+- calendar/date selection;
+- time selection;
+- booking summary;
+- booking history;
+- booking detail;
+- rescheduling;
+- cancellation;
+- Wallet history;
+- loading;
+- empty;
+- error;
+- success/confirmation states.
+
+Fix bounded responsive defects and continue.
+
+Do NOT perform the broad calendar redesign yet.
+
+------------------------------------------------------------
+VENDOR / SELLER
+------------------------------------------------------------
+
+Complete selected acceptance for:
+
+- approved Vendor access;
+- Shop ownership;
+- Shop context;
+- Service ownership;
+- staff assignment;
+- cross-Shop assignment rejection;
+- booking visibility;
+- authorized Customer visibility;
+- local-client booking;
+- payment restrictions;
+- status transitions;
+- completion;
+- cancellation;
+- rescheduling;
+- calendar reflection;
+- staff withdrawal/isolation;
+- booking filters;
+- transaction/history visibility;
+- financial reservation terminology.
+
+Verify relevant screens at:
+
+- 1280px;
+- 390px;
+- 320px.
+
+Do not widen permissions to pass acceptance.
+
+------------------------------------------------------------
+MASTER / SPECIALIST / STAFF
+------------------------------------------------------------
+
+Explicitly verify the Specialist perspective where currently supported.
+
+Check:
+
+- authorized appointments only;
+- Shop assignment;
+- Service assignment;
+- personal schedule;
+- working hours;
+- disabled periods;
+- appointment detail;
+- permitted status actions;
+- mobile behavior;
+- unrelated-Shop isolation.
+
+Do NOT invent a new permission model.
+
+------------------------------------------------------------
+ADMIN
+------------------------------------------------------------
+
+Verify:
+
+- Vendor approval;
+- Shop approval;
+- Customer/Vendor lookup;
+- booking visibility;
+- transaction visibility;
+- canonical financial evidence/history;
+- canonical operation panel;
+- permitted reservation creation;
+- same-request retry identity;
+- permitted cancellation;
+- UNKNOWN remains UNKNOWN;
+- reservation is not represented as external payout;
+- legacy unsupported records remain unsupported;
+- no arbitrary Wallet credit.
+
+Verify relevant screens at:
+
+- 1280px;
+- 390px;
+- 320px.
+
+------------------------------------------------------------
+U1 EXIT
+------------------------------------------------------------
+
+Mark U1 VERIFIED only when the selected service-booking MVP journeys are
+materially accepted.
+
+Do not require deferred Product/electronic functionality.
+
+================================================================
+PHASE 2 — CLOSE A1 / N1 / S1
+================================================================
+
+------------------------------------------------------------
+A1 — ACCOUNT / ONBOARDING
+------------------------------------------------------------
+
+Finish selected acceptance.
+
+CUSTOMER:
+
+- registration;
+- verification initiation;
+- login;
+- logout;
+- password reset initiation;
+- challenge expiry;
+- one-time challenge consumption;
+- neutral account enumeration;
+- visible failed-login message;
+- throttling/429;
+- profile access.
+
+VENDOR:
+
+- registration/application;
+- Admin approval;
+- Shop approval;
+- Seller access;
+- staff invitation/acceptance;
+- Shop-scoped assignments.
+
+Do not require live SMS.
+
+If SMTP is not externally configured, classify separately:
+
+LOCAL/CODE DELIVERY VERIFIED
+
+and:
+
+LIVE SMTP EXTERNAL DEPENDENCY.
+
+------------------------------------------------------------
+N1 — NOTIFICATION / BACKGROUND RELIABILITY
+------------------------------------------------------------
+
+Verify/retain evidence for selected MVP behavior:
+
+- account transactional email;
+- booking communication;
+- booking reminder;
+- worker restart;
+- process loss;
+- failed-job visibility;
+- duplicate suppression;
+- uncertain-send retention;
+- late reminder catch-up;
+- scheduler execution;
+- commit ordering;
+- retry without duplicate money.
+
+Review booking:auto:ended if required.
+
+If it bypasses required lifecycle hooks, either minimally correct the selected
+MVP path or keep it disabled and document the accepted alternative.
+
+DO NOT enable unrelated:
+
+- payment reconciliation;
+- auction jobs;
+- Product jobs;
+- Delivery jobs;
+- destructive cleanup.
+
+No live SMTP is required for local N1 verification.
+
+------------------------------------------------------------
+S1 — SELECTED RELEASE SECURITY
+------------------------------------------------------------
+
+AUTH / ABUSE:
+
+- login limits;
+- registration limits;
+- reset/verification limits;
+- proper 429;
+- neutral enumeration;
+- challenge expiry;
+- replay rejection.
+
+AUTHORIZATION:
+
+- Customer isolation;
+- Vendor Shop isolation;
+- Specialist isolation;
+- forged Service IDs rejected;
+- forged Shop IDs rejected;
+- forged Specialist IDs rejected;
+- Admin-only operations protected;
+- financial authorization unchanged.
+
+SESSION / CSRF:
+
+- bearer API behavior;
+- session state-change CSRF where applicable;
+- production cookie configuration requirements;
+- no invented CSRF behavior for bearer-only APIs.
+
+UPLOADS:
+
+Review selected MVP upload paths:
+
+- profile;
+- Shop;
+- Service;
+- gallery;
+- Story only if included.
+
+Verify:
+
+- MIME/type;
+- size;
+- ownership;
+- path handling;
+- non-execution;
+- cross-Shop isolation.
+
+LOGGING / SECRETS:
+
+Ensure selected paths do not expose:
+
+- Authorization headers;
+- reset challenges;
+- invitation challenges;
+- decrypted merchant credentials;
+- provider secrets;
+- sensitive payloads.
+
+Do not request or rotate real production credentials.
+
+================================================================
+PHASE 3 — COMPLETE AGENDAALLY CALENDAR UX/DESIGN ASSESSMENT
+================================================================
+
+AFTER U1 acceptance, inventory the COMPLETE AgendaAlly scheduling UI.
+
+This is NOT just the Customer calendar.
+
+It includes every relevant scheduling/date/time surface used by:
+
+- Customer;
+- Seller / Vendor;
+- Master / Specialist / Staff;
+- Admin.
+
+THIS PHASE IS DESIGN/ARCHITECTURE ASSESSMENT ONLY.
+
+DO NOT broadly implement the redesign.
+
+------------------------------------------------------------
+INVENTORY
+------------------------------------------------------------
+
+Identify actual:
+
+1. calendar components;
+2. date pickers;
+3. time pickers;
+4. time-slot selectors;
+5. day views;
+6. week views;
+7. month views;
+8. booking schedulers;
+9. working-hours editors;
+10. disabled-time editors;
+11. closed-date editors;
+12. recurrence editors;
+13. reschedule calendars/dialogs;
+14. Customer calendars;
+15. Seller local-booking calendars;
+16. Vendor operational calendars;
+17. Specialist schedules;
+18. Admin scheduling interfaces;
+19. shared date/time utilities;
+20. desktop/mobile variants;
+21. duplicated implementations.
+
+For every surface report:
+
+- role;
+- route;
+- component;
+- source file;
+- purpose;
+- library;
+- shared/role-specific;
+- desktop behavior;
+- mobile behavior;
+- UX issue;
+- whether changing it is presentation-only or could affect B1 semantics.
+
+Trace actual imports/routes.
+
+Do not infer equivalence from filenames.
+
+------------------------------------------------------------
+DESIGN PRINCIPLE
+------------------------------------------------------------
+
+Create a proposal for ONE coherent AgendaAlly scheduling design language.
+
+Do NOT force every role into the same calendar.
+
+Conceptually:
+
+AGENDAALLY SCHEDULING DESIGN SYSTEM
+
+    ├── Customer booking
+    ├── Vendor business calendar
+    ├── Specialist personal schedule
+    ├── Admin booking oversight
+    ├── Working hours
+    ├── Closed dates
+    ├── Disabled periods
+    ├── Recurrence
+    ├── Rescheduling
+    └── Shared date/time controls
+
+------------------------------------------------------------
+CUSTOMER
+------------------------------------------------------------
+
+Evaluate a modern streamlined booking experience such as:
+
+SERVICE / SPECIALIST
+        ↓
+DATE STRIP OR COMPACT CALENDAR
+        ↓
+AVAILABLE TIME SLOTS
+        ↓
+APPOINTMENT SUMMARY
+        ↓
+CONTINUE / BOOK
+
+Evaluate:
+
+- available dates;
+- unavailable dates;
+- full dates;
+- time slots;
+- selected state;
+- duration;
+- summary;
+- rescheduling;
+- cancellation;
+- navigation;
+- loading;
+- empty state;
+- mobile.
+
+Customer does not need an enterprise scheduling grid.
+
+320px and 390px must be first-class.
+
+------------------------------------------------------------
+VENDOR / SELLER
+------------------------------------------------------------
+
+Evaluate:
+
+- day;
+- week;
+- month where useful;
+- appointments;
+- local-client creation;
+- Customer;
+- Service;
+- Specialist;
+- status;
+- reschedule;
+- cancellation;
+- completion;
+- working hours;
+- disabled periods;
+- recurrence;
+- Shop filters;
+- Specialist filters;
+- current-time indicator;
+- appointment density;
+- mobile operation.
+
+------------------------------------------------------------
+MASTER / SPECIALIST
+------------------------------------------------------------
+
+Evaluate separately:
+
+- today;
+- upcoming appointments;
+- day/week;
+- assigned Services;
+- working hours;
+- blocked periods;
+- appointment detail;
+- Customer where authorized;
+- status actions;
+- mobile.
+
+Do not widen permissions.
+
+------------------------------------------------------------
+ADMIN
+------------------------------------------------------------
+
+Determine from actual tasks whether Admin needs:
+
+- a calendar;
+
+OR instead:
+
+- booking table/list;
+- search;
+- date range;
+- Shop filter;
+- Vendor filter;
+- Specialist filter;
+- status filter;
+- detail;
+- intervention state.
+
+Do not create an Admin calendar merely for consistency.
+
+------------------------------------------------------------
+AVAILABILITY CONFIGURATION
+------------------------------------------------------------
+
+Evaluate:
+
+- working days;
+- start/end hours;
+- closed dates;
+- one-time blocks;
+- recurring blocks;
+- daily recurrence;
+- weekly recurrence;
+- monthly recurrence;
+- repeat count;
+- recurrence ending;
+- processing/pause;
+- resulting-availability preview.
+
+The UI must explain the VERIFIED recurrence contract.
+
+DO NOT ALTER RECURRENCE SEMANTICS.
+
+------------------------------------------------------------
+B1 IS IMMUTABLE FOR DESIGN
+------------------------------------------------------------
+
+Calendar proposals MUST preserve:
+
+- Specialist capacity ownership;
+- per-Specialist exclusion;
+- independent Specialists;
+- half-open intervals;
+- endpoint adjacency;
+- processing once;
+- working-hour containment;
+- closed dates;
+- disabled periods;
+- recurrence;
+- monthly anchor;
+- missing-month skip;
+- repeat-count semantics;
+- protected creation;
+- protected rescheduling;
+- cancellation release;
+- authorization;
+- Shop/staff boundaries;
+- Cash/Wallet economics.
+
+UI adapts to B1.
+
+B1 does NOT adapt to UI.
+
+------------------------------------------------------------
+CONSISTENCY
+------------------------------------------------------------
+
+Identify:
+
+- multiple calendar libraries;
+- duplicate implementations;
+- inconsistent date formatting;
+- inconsistent time formatting;
+- inconsistent selected states;
+- inconsistent appointment cards;
+- inconsistent status chips;
+- inconsistent navigation;
+- inconsistent slot controls;
+- inconsistent loading/empty/error states;
+- inconsistent breakpoints;
+- duplicated frontend availability logic.
+
+Determine appropriate shared AgendaAlly primitives.
+
+Possible examples ONLY:
+
+AgendaAllyCalendarShell
+AgendaAllyDatePicker
+AgendaAllyDateStrip
+AgendaAllyTimeSlots
+AgendaAllyAppointmentCard
+AgendaAllyStatusChip
+AgendaAllyScheduleToolbar
+AgendaAllyWorkingHoursEditor
+AgendaAllyBlockedTimeEditor
+AgendaAllyRecurrenceEditor
+AgendaAllyBookingSummary
+AgendaAllyMobileScheduleSheet
+
+Do not create them just because they are listed.
+
+------------------------------------------------------------
+THREE DESIGN DIRECTIONS
+------------------------------------------------------------
+
+Propose THREE modern coherent directions.
+
+For each show:
+
+1. visual/layout concept;
+2. Customer experience;
+3. Vendor experience;
+4. Specialist experience;
+5. Admin experience;
+6. availability/settings;
+7. desktop;
+8. tablet;
+9. 390px;
+10. 320px;
+11. shared components;
+12. advantages;
+13. disadvantages;
+14. implementation complexity;
+15. migration risk;
+16. files/components affected;
+17. approximate scope;
+18. BEFORE MVP / AFTER MVP / LATER recommendation.
+
+Choose ONE recommended direction.
+
+DO NOT implement the broad redesign without explicit approval.
+
+Calendar modernization must NOT delay MVP unless a current interface is
+actually unusable.
+
+Explicitly answer:
+
+- how many calendar/date/time implementations exist;
+- which roles use each;
+- what should be shared;
+- what should remain role-specific;
+- duplicate code;
+- inconsistent UX;
+- proposed scheduling design system;
+- best design direction;
+- before-MVP vs after-MVP recommendation;
+- implementation scope;
+- whether it can preserve B1;
+- exact affected files/components.
+
+================================================================
+PHASE 4 — REASSESS THE SAME 20 MVP GATES
+================================================================
+
+Update the EXISTING authoritative readiness report.
+
+Do NOT create another readiness framework.
+
+Previous score:
+
+14 / 20 = 70%
+
+Use the SAME gates.
+
+Classify each:
+
+VERIFIED
+PARTIAL
+BLOCKED
+DEFERRED
+EXTERNAL DEPENDENCY
+
+Only increase the score when a previously incomplete launch-readiness gate has
+materially closed.
+
+Do not award readiness merely for:
+
+- writing tests;
+- writing documentation;
+- discovering bugs;
+- producing screenshots;
+- producing a design proposal.
+
+Report:
+
+- previous score;
+- new score;
+- newly closed gates;
+- remaining P0;
+- remaining P1;
+- external dependencies;
+- deferred work;
+- exact staging blockers.
+
+================================================================
+PHASE 5 — D1 / R1 / O1 ENTRY DECISION
+================================================================
+
+DO NOT DEPLOY.
+
+Determine whether the limited MVP is ready to ENTER isolated staging work.
+
+The decision must be exactly:
+
+READY TO ENTER STAGING
+
+or:
+
+NO-GO
+
+If NO-GO, provide FINITE exact blockers.
+
+Do not say merely "more testing is required."
+
+If READY, prepare—but DO NOT execute—the next bounded work order.
+
+------------------------------------------------------------
+D1 — DEPLOYMENT/RUNTIME REHEARSAL
+------------------------------------------------------------
+
+Plan for:
+
+- production builds;
+- PHP-FPM;
+- supported PHP/extensions;
+- Next production runtime;
+- Business production build;
+- Nginx;
+- TLS;
+- APP_ENV=production;
+- APP_DEBUG=false;
+- stable APP_KEY;
+- secret injection;
+- trusted proxy/CORS;
+- secure cookies;
+- MySQL 8/InnoDB;
+- REPEATABLE READ;
+- strict mode;
+- least-privilege DB users;
+- persistent media;
+- supervised queue;
+- reviewed scheduler;
+- release rollback.
+
+------------------------------------------------------------
+R1 — BACKUP / RESTORE
+------------------------------------------------------------
+
+Plan for:
+
+- encrypted MySQL backup;
+- binlog/PITR;
+- media backup;
+- APP_KEY/config recovery;
+- isolated restoration;
+- trigger/schema verification;
+- protected fingerprints;
+- financial conservation;
+- decryption;
+- media restoration;
+- role smoke tests;
+- measured RPO/RTO.
+
+------------------------------------------------------------
+O1 — OBSERVABILITY
+------------------------------------------------------------
+
+Plan for:
+
+- frontend health;
+- API health;
+- DB health;
+- worker health;
+- scheduler heartbeat;
+- failed jobs;
+- HTTP/application errors;
+- MySQL locks/connections;
+- CPU;
+- memory;
+- disk/inodes;
+- TLS expiration;
+- auth abuse/429;
+- UNKNOWN/PENDING financial operations;
+- refund/intervention failures.
+
+DO NOT EXECUTE VPS OR PRODUCTION DEPLOYMENT.
+
+================================================================
+DEFERRED — DO NOT REOPEN
+================================================================
+
+Keep deferred:
+
+- Product purchasing;
+- Product stock correction;
+- multi-Shop checkout;
+- MTN activation;
+- Orange activation;
+- Flutterwave activation;
+- Paystack activation;
+- Stripe activation;
+- PayPal activation;
+- Vendor-direct payment;
+- own-gateway payment;
+- external Vendor payouts;
+- electronic refunds;
+- electronic reconciliation;
+- Delivery expansion;
+- SMS expansion;
+- push expansion;
+- PostgreSQL conversion;
+- Strategy G;
+- speculative infrastructure redesign.
+
+Product discovery may remain visible only if it does not imply Product
+purchasing is launch-ready.
+
+================================================================
+FORWARD-EXECUTION RULE
+================================================================
+
+DO NOT TURN THIS INTO ANOTHER AUDIT LOOP.
+
+For an ordinary defect:
+
+FIND
+→ PRESERVE FAILURE EVIDENCE
+→ FIX MINIMALLY
+→ TEST
+→ CONTINUE.
+
+DO NOT stop for ordinary:
+
+- nullable fields;
+- MySQL compatibility;
+- Laravel rule compatibility;
+- fixture aliases;
+- optional location handling;
+- frontend state loss;
+- validation bugs;
+- translation issues;
+- responsive overflow;
+- clipped controls;
+- HTTP status translation;
+- Shop context bugs;
+- normal ownership validation bugs;
+- browser recovery;
+- normal query defects.
+
+Correct and continue.
+
+STOP only for:
+
+- new financial P0;
+- new materially exploitable security P0;
+- custody/economic change;
+- destructive protected-data migration;
+- new scheduling capacity/business model;
+- broad permission redesign;
+- irreversible schema redesign;
+- production deployment;
+- live provider action;
+- real payout/refund;
+- electronic activation;
+- genuinely unresolved business-policy decision.
+
+Fixture failure != application failure.
+
+Application failure != fixture failure.
+
+Do not change application semantics to satisfy an incorrect fixture.
+
+================================================================
+FINAL REQUIRED OUTPUT
+================================================================
+
+At completion give ONE concise executive summary first.
+
+Explicitly answer:
+
+1. Did the original demo/storefront data return?
+2. Why had it disappeared?
+3. Was it deleted, filtered, absent from the rebuilt DB, or in another DB?
+4. Which authoritative seeder/fixture restored it?
+5. How many demo Shops are now visible?
+6. How many demo Services are restored?
+7. How many demo Specialists are restored?
+8. Was demo media restored?
+9. Did restoration alter protected financial data?
+10. Where did MVP readiness start? — 14/20 = 70%.
+11. Where does MVP readiness stand now?
+12. Is B1 still VERIFIED?
+13. Is U1 VERIFIED?
+14. Is A1 VERIFIED?
+15. Is N1 VERIFIED locally?
+16. What live communication dependency remains?
+17. Is S1 VERIFIED for the selected MVP?
+18. Were Cash semantics changed?
+19. Were Wallet semantics changed?
+20. Were protected financial records changed?
+21. Do all 59 protected fingerprints still match?
+22. Do all 465 schema objects still match?
+23. Do all 12 legacy Orders remain unverified?
+24. Did any real provider call occur?
+25. Did any real payout/refund occur?
+26. Did any production deployment occur?
+27. How many calendar/date/time implementations exist?
+28. Which roles use them?
+29. Which calendar design direction is recommended?
+30. Should calendar modernization happen before or after MVP?
+31. What remaining P0 exists?
+32. What remaining P1 exists?
+33. What remains an external dependency?
+34. What remains deferred?
+35. Is AgendaAlly READY TO ENTER STAGING?
+36. If NO-GO, what are the finite blockers?
+37. What is the new 20-gate score and percentage?
+38. What is the single safest next phase?
+
+Then update the EXISTING readiness report and evidence bundle.
+
+Do not create a competing authoritative report.
+
+Preserve previous failure receipts and superseded evidence.
+
+Most importantly:
+
+RESTORE THE NORMAL AGENDAALLY DEMO STOREFRONT FIRST,
+THEN CONTINUE FORWARD THROUGH THE REMAINING LIMITED-MVP GATES.
+
+Do not finish Phase 0 and wait for another instruction unless an explicit STOP
+condition above is reached.
+
+The objective is forward progress toward the service-booking MVP, not another
+cycle of reopening already-settled architecture.

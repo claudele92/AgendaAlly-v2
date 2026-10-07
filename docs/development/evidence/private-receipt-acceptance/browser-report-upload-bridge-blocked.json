@@ -1,0 +1,79 @@
+{
+  "journey": "one isolated native private receipt authorization journey; incomplete",
+  "isolation": {
+    "native_backend": "loopback 3138 disposable SQLite fixture D",
+    "admin_preview": "127.0.0.1:3003",
+    "customer_preview": "127.0.0.1:3002 did not respond to initial readiness probe",
+    "normal_backend_provider_email_production": "not started by this run",
+    "selected_business_supervisor_normal_laravel": "not started by this run",
+    "normal_credentials_or_documents": "not used",
+    "tokens_signatures_auth_headers": "excluded"
+  },
+  "verified": {
+    "workflow_ids": {
+      "refund": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "payout": "60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d"
+    },
+    "finance3_native_list": {
+      "status": 200,
+      "visible_rows": 2
+    },
+    "admin_native_ui": "two real native rows displayed; both remained APPROVED, claimed by actor 3, and not completed",
+    "upload_control": "actual browser file input used; selected PDF metadata was receipt.pdf, 614 bytes, application/pdf",
+    "upload_attempts": {
+      "refund_pdf": [
+        422,
+        422,
+        422
+      ],
+      "payout_png": "not attempted",
+      "payout_jpeg": "not attempted"
+    },
+    "last_native_snapshot": "phase-upload-blocked.json",
+    "last_snapshot_counts": {
+      "attachments": 0,
+      "evidence": 0,
+      "access": 0,
+      "effects": 37
+    },
+    "synthetic_manifest_hashes": {
+      "receipt.pdf": "881d58fc6d63352596ab5be572479afb0b334ed6a6e9315c3294dfb44a026af4",
+      "receipt.png": "33e79b8e63286ab2bc40a0a3ff81006ddfa6e30752e1991c7ad70178880cf0fd",
+      "receipt.jpg": "52a409062aadd6b2d308e8e7b32e8ae7aa24228ed4b1a3d2d597201cf936081e"
+    },
+    "money_movement_or_completion": "none; no completion command submitted"
+  },
+  "blocker": {
+    "observed": "native upload endpoint returned 422: file must be a file of type application/pdf, image/png, image/jpeg",
+    "transport_diagnosis": "the first forwarder used the intercepted postDataBuffer; its observed multipart body had correct boundary/filename/part MIME but only 190 bytes and no file payload. The browser change event separately confirmed the selected 614-byte PDF. A route.fetch retry also returned 422. A route.continue URL rewrite produced ERR_BLOCKED_BY_CLIENT with no visible native response.",
+    "assessment": "upload did not succeed; evidence-binding/download/authorization journey cannot safely proceed. This run does not establish an application bug because the forwarding path failed to deliver the binary bytes correctly; no API-injected attachment workaround was used."
+  },
+  "not_run": {
+    "png_and_jpeg_upload": true,
+    "signed_links_and_download_headers_or_binary_hashes": true,
+    "signature_missing_tampered_actor_changed_expiry_expired_cases": true,
+    "cross_workflow_binding_and_wrong_binding_download": true,
+    "customer_vendor_foreign_outsider_no_grants_role_negatives": true,
+    "grant_revocation_and_retained_link_denial": true,
+    "vendor_customer_outsider_native_previews": true
+  },
+  "signed_bearer_semantics": "not empirically tested. Per the supplied native contract, a signed link is a five-minute capability for its issuing actor and is not claimed to be session-bound.",
+  "access_rows_before_after_denial": {
+    "before": 0,
+    "after": 0,
+    "denials_attempted": 0
+  },
+  "screenshot_ids": [
+    "gr1h92",
+    "s2c18q",
+    "mtp2c0",
+    "lv7ikr",
+    "s6i5vv",
+    "n9jhk9"
+  ],
+  "screenshot_files_in_D_browser": "not available from the browser tool; screenshot IDs retained",
+  "snapshot_files": [
+    "phase-initial.json",
+    "phase-upload-blocked.json"
+  ]
+}

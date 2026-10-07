@@ -1,0 +1,387 @@
+AgendaAlly Legal/Policy Content Alignment — Improve Existing Terms and Privacy + Add Refund & Cancellation Policy
+
+The final canonical AgendaAlly 20-gate MVP audit is complete and the web feature scope is now a qualified frozen MVP baseline.
+
+Perform a separate, tightly bounded legal/policy content alignment task.
+
+PRIMARY OBJECTIVE
+
+Improve AgendaAlly's EXISTING seeded Terms of Service and Privacy Policy so they accurately and professionally reflect the platform that has actually been built, while preserving good existing content.
+
+Also add a separate first-class seeded Refund & Cancellation Policy aligned with the implemented booking, cancellation and financial model.
+
+Do NOT replace good existing policies with generic boilerplate merely for consistency.
+
+Do NOT invent new business rules, financial capabilities, refund promises, legal obligations, provider behavior, guarantees, compliance certifications or platform responsibilities.
+
+These are product-policy drafts that will require appropriate legal review before production. This task is not legal certification.
+
+==================================================
+PHASE 1 — AUDIT EXISTING POLICY CONTENT FIRST
+==================================================
+
+Before editing anything, locate and inspect the current implementation of:
+
+- Terms of Service
+- Privacy Policy
+- any existing refund/cancellation language
+- policy/legal seeds and default database content
+- policy models/tables if applicable
+- routes/controllers/APIs used to retrieve policies
+- Customer-facing policy pages/components
+- Admin policy-management surfaces if they exist
+- signup/registration policy references
+- booking/checkout policy references
+- cancellation/refund policy references
+- footer/legal links
+- any policy acknowledgment/acceptance mechanism already implemented
+
+Determine how legal content is currently seeded, stored, edited, versioned and displayed.
+
+Preserve existing content that remains accurate and useful.
+
+Identify:
+
+existing statement
+→ actual implemented AgendaAlly behavior
+→ keep / clarify / expand / replace / move to Refund Policy
+
+The purpose is to IMPROVE the existing AgendaAlly policies, not start over unnecessarily.
+
+If existing language conflicts with implemented behavior and resolving the conflict requires choosing a NEW business or legal rule, STOP on that item and report the decision required. Do not invent the answer.
+
+==================================================
+PHASE 2 — IMPROVE THE EXISTING TERMS OF SERVICE
+==================================================
+
+Improve the current Terms so they more completely and professionally describe AgendaAlly's actual marketplace and service-booking platform.
+
+Preserve useful existing sections such as account responsibilities, acceptable use, intellectual property, limitations, termination, dispute language or other general provisions where they remain applicable and accurate.
+
+Improve or add platform-specific language where needed for the implemented model.
+
+The Terms should accurately describe the relationships among:
+
+- AgendaAlly
+- Customers
+- Vendors/Shops
+- Specialists/staff
+
+Do not characterize AgendaAlly as providing capabilities or financial services that the application does not provide.
+
+The Terms must respect these established platform boundaries:
+
+1. Booking state and financial state are separate.
+
+2. CANCELLED does not mean REFUNDED.
+
+3. REFUND REQUESTED does not mean refunded.
+
+4. REFUND APPROVED does not mean money has moved.
+
+5. PAYOUT APPROVED does not mean the Vendor has been paid.
+
+6. Only authoritative financial completion may be represented as a completed refund or payout.
+
+7. REQUIRES_REVIEW represents an unresolved financial operation requiring review/reconciliation and must not be described as completed.
+
+8. PAYMENT SELECTED does not necessarily mean PAYMENT COLLECTED.
+
+9. Cash being selected does not prove that Cash was actually collected.
+
+10. Wallet-funded transactions retain their supported internal Wallet semantics.
+
+11. AgendaAlly does not provide Wallet-to-cash redemption unless that capability is separately implemented and authorized in the future.
+
+12. Do not promise automatic/provider-driven refunds or payouts.
+
+13. Do not imply arbitrary partial refunds are supported.
+
+14. Platform financial obligations must not be expanded beyond the implemented and accepted model.
+
+15. Platform payout workflows concern eligible Vendors where applicable.
+
+16. Specialist compensation is the responsibility of the Vendor/Shop.
+
+Specialist compensation is Shop-funded and Shop-controlled under the relationship between the Vendor/Shop and Specialist.
+
+AgendaAlly must NOT be described as the payer of Specialist compensation.
+
+Do not create Specialist platform payout rights or obligations.
+
+17. Vendor-direct payment scenarios must only be described to the extent actually implemented/available. Do not imply AgendaAlly takes custody of funds that it does not collect.
+
+18. AgendaAlly's role as marketplace/booking platform should be distinguished from the responsibilities of independent Vendors/Shops for the services they provide.
+
+Do not invent broader liability allocations beyond what the existing Terms already establish without flagging them for owner/legal review.
+
+The Terms should reference the separate Refund & Cancellation Policy for detailed cancellation/refund rules instead of duplicating the entire policy.
+
+==================================================
+PHASE 3 — IMPROVE THE EXISTING PRIVACY POLICY
+==================================================
+
+Improve the existing Privacy Policy so it accurately reflects the data AgendaAlly actually processes.
+
+Preserve existing valid privacy language.
+
+Audit the implementation and existing policy before adding claims.
+
+Where actually applicable, the policy may need to address categories such as:
+
+- account and profile information
+- authentication/account information
+- Customer information
+- Vendor/Shop information
+- Specialist/staff information
+- service and booking information
+- transaction/payment-related records
+- Wallet-related records where applicable
+- cancellation/refund records
+- Vendor payout workflow records
+- financial-operation evidence and receipts
+- associated evidence metadata
+- communications and notification information
+- device/browser/technical information where actually collected
+- audit/security records where actually collected
+
+Accurately describe, where supported:
+
+- why information is collected
+- how it is used
+- who may access it
+- circumstances in which it may be shared
+- service providers/processors actually involved
+- security practices that are genuinely implemented
+- retention concepts actually supported
+- account/privacy choices actually available
+
+DO NOT invent:
+
+- exact retention periods
+- deletion guarantees
+- encryption guarantees
+- PCI certification
+- SOC certification
+- GDPR/CCPA or other regulatory compliance claims
+- subprocessors not supported by project evidence
+- international-transfer mechanisms
+- data-sale statements
+- data-residency guarantees
+- security certifications
+- breach-notification promises
+- financial-regulatory status
+
+unless authoritative existing project/policy evidence supports those statements.
+
+If the existing Privacy Policy makes unsupported claims, identify and correct them conservatively or flag them when a legal/business decision is required.
+
+Private financial evidence/receipts should be described appropriately without exposing implementation/security details that should not appear in public policy text.
+
+==================================================
+PHASE 4 — ADD A SEPARATE REFUND & CANCELLATION POLICY
+==================================================
+
+Create a distinct first-class Refund & Cancellation Policy using the existing AgendaAlly policy/content architecture where practical.
+
+This should be a Customer-readable policy, not a technical description of the state machine.
+
+It must nevertheless accurately reflect the implemented semantics.
+
+The policy must distinguish:
+
+BOOKING CANCELLATION
+→ REFUND ELIGIBILITY
+→ REFUND REQUEST
+→ REVIEW / APPROVAL
+→ FINANCIAL COMPLETION
+
+These are not the same event.
+
+The policy should explain, using clear Customer-facing language:
+
+- when a booking may be cancelled, based only on authoritative existing rules
+- how cancellation eligibility is determined
+- cancellation fees where authoritative policy defines them
+- refund eligibility
+- how the eligible refund amount is determined
+- that the server/platform-authoritative amount governs the request
+- refund requests
+- review/approval
+- completion
+- REQUIRES_REVIEW or equivalent unresolved review situations
+- Cash transactions
+- legitimately funded Wallet transactions
+- platform-collected transactions where supported
+- Vendor-direct transactions only where actually supported
+- duplicate/replayed requests not creating additional refund entitlement
+- circumstances in which no refund is due ONLY where those circumstances already exist in authoritative business rules
+
+IMPORTANT:
+
+Do NOT turn test/acceptance fixture values into global legal rules.
+
+For example, a 50% cancellation-fee value used in a financial acceptance fixture must NOT become a universal AgendaAlly cancellation policy unless an authoritative production business rule explicitly defines it that way.
+
+Do not invent:
+
+- refund windows
+- cancellation windows
+- percentages
+- fixed fees
+- processing-day promises
+- refund completion timelines
+- cancellation penalties
+- refund exceptions
+- provider-specific promises
+
+when those rules are not already authoritative.
+
+Where cancellation/refund rules are configurable by Shop/Vendor or otherwise dynamic, describe that model accurately rather than hard-coding an example value into the policy.
+
+Do not claim that AgendaAlly automatically executes external provider refunds.
+
+The accepted MVP financial model uses controlled/manual financial execution where applicable.
+
+Approval must not be described as completion.
+
+==================================================
+PHASE 5 — POLICY PRESENTATION AND DISCOVERABILITY
+==================================================
+
+Ensure all three policies are available through the appropriate existing legal/policy presentation architecture:
+
+- Terms of Service
+- Privacy Policy
+- Refund & Cancellation Policy
+
+Update appropriate existing legal links/navigation so the new Refund & Cancellation Policy is discoverable.
+
+Inspect existing:
+
+- footer legal links
+- signup/registration
+- booking flow
+- checkout/payment selection
+- booking cancellation flow
+- refund-request surfaces
+- account/settings legal areas
+
+Where an existing legal-policy link location should reasonably expose the Refund & Cancellation Policy, make the smallest appropriate change.
+
+Do NOT redesign booking, checkout, payment or account flows.
+
+Do NOT automatically introduce new mandatory consent checkboxes or materially change contractual acceptance mechanics.
+
+If stronger explicit policy acceptance/version tracking would be advisable, report it separately as a recommendation requiring owner/legal approval.
+
+==================================================
+PHASE 6 — SEEDS / FRESH INSTALLATION
+==================================================
+
+Update the authoritative seeded/default policy content so a fresh AgendaAlly installation receives:
+
+1. the improved Terms of Service;
+2. the improved Privacy Policy;
+3. the new Refund & Cancellation Policy.
+
+Do not only patch the current development database.
+
+Use the existing policy seed/content architecture.
+
+If policy versioning already exists, preserve and use it correctly.
+
+Do not invent a new policy-versioning architecture unless required to make the existing architecture function correctly.
+
+Verify that a clean/fresh seeded environment receives the intended policy content.
+
+Do not destroy or rewrite normal user/business data merely to validate seeding.
+
+==================================================
+PHASE 7 — PRESERVATION / PROHIBITED SCOPE
+==================================================
+
+This is a POLICY CONTENT ALIGNMENT task.
+
+Do NOT change:
+
+- booking calculations
+- booking lifecycle
+- availability logic
+- cancellation calculations
+- refund calculations
+- financial state machines
+- payout/refund business logic
+- Wallet/accounting behavior
+- provider behavior
+- permissions or authorization
+- private receipt authorization
+- financial evidence semantics
+- SMTP/email behavior
+- notification business behavior
+- normal financial records
+- accepted tests/evidence
+- canonical 16/20 MVP score
+- production configuration
+
+Do NOT:
+
+- activate providers
+- execute money movement
+- send real financial communications
+- deploy production
+- reopen completed acceptance campaigns
+- start the Customer mobile audit
+- attempt to resolve unrelated production-readiness gates
+
+If aligning policy text appears to require changing application behavior, STOP and report the mismatch instead of changing behavior.
+
+==================================================
+PHASE 8 — BOUNDED VALIDATION
+==================================================
+
+Validate only what the policy changes require.
+
+Verify:
+
+- seeded/default policy correctness
+- all three policies exist after appropriate fresh seeding
+- policy retrieval/routes
+- policy page rendering
+- relevant legal links
+- no broken navigation introduced
+- static/build validation for any affected frontend presentation code
+- preservation of unrelated application behavior/data
+
+Do not rerun financial, receipt, account-email, calendar or other accepted campaigns merely because legal text changed.
+
+Do not use test totals as evidence of legal correctness.
+
+==================================================
+FINAL REPORT
+==================================================
+
+Provide a concise final report containing:
+
+1. Existing policy implementation discovered.
+2. Existing Terms content preserved.
+3. Terms content improved/added.
+4. Existing Privacy content preserved.
+5. Privacy content improved/added.
+6. Refund & Cancellation Policy added.
+7. Policy routes/pages/links changed.
+8. Seeds/default content changed.
+9. Fresh-install/seed verification.
+10. Any unsupported existing policy claims corrected.
+11. Any business/legal decisions intentionally left unresolved.
+12. Exact files/schema/data changed.
+13. Validation/build results.
+14. Preservation results.
+15. Explicit confirmation that no booking, payment, refund, payout, Wallet, provider, authorization or other financial/business behavior was changed.
+16. Items recommended for professional legal review before production.
+
+Do not change the canonical 16/20 score as part of this task.
+
+Do not declare AgendaAlly legally compliant, legally certified, or production approved.
+
+Do not start another implementation campaign after completing this report.

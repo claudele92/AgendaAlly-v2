@@ -1,0 +1,603 @@
+# ADDITIONAL SCOPE — Product Delivery Areas, Delivery vs Pickup, and Pickup Scheduling Audit
+
+In addition to the branding work above, perform a bounded audit of the existing Product checkout delivery/fulfillment architecture.
+
+I noticed that Product checkout requires an “Area” / “Delivery Area” and the field appears mandatory.
+
+I need to understand whether that requirement is correctly modeled, whether usable delivery areas exist for the currently seeded Cameroon cities, and whether Product checkout properly supports:
+
+1. Delivery to the customer's location
+2. Pickup at the Vendor/shop
+3. Scheduling a pickup date/time when pickup is selected
+
+Audit first. Reuse the native architecture.
+
+Do NOT create a competing delivery system.
+
+---
+
+# 18. Audit the existing Area / Delivery Area architecture
+
+Trace the complete existing implementation for:
+
+Country
+→ Region if applicable
+→ City
+→ Area / Delivery Area
+→ Shop
+→ Product
+→ Cart
+→ Checkout
+→ Delivery fee
+→ Order
+→ Vendor fulfillment
+→ Delivery Driver assignment where applicable.
+
+Determine exactly what “Area” means in the current application.
+
+Audit:
+
+- database tables/migrations;
+- models and relationships;
+- repositories/services;
+- Admin management screens;
+- Vendor management screens;
+- Customer Web checkout;
+- Customer address forms;
+- cart calculations;
+- order creation;
+- delivery pricing;
+- delivery-zone restrictions;
+- Flutter Customer code if the same API contract is already consumed;
+- existing seeds;
+- existing Cameroon country/city records.
+
+Answer:
+
+1. Is Area a geographic neighborhood?
+2. Is it a delivery pricing zone?
+3. Is it a generic administrative subdivision?
+4. Is it shop-specific or global?
+5. Is it associated with City?
+6. Is it associated with Country?
+7. Can Vendors choose which Areas they deliver to?
+8. Can Vendors set delivery fees by Area?
+9. Does Product checkout require Area for every fulfillment type?
+10. Does backend validation require Area or only the frontend?
+11. What happens when a seeded City has no Areas?
+12. Can checkout become impossible because Area is mandatory but no Area records exist?
+13. Is Area used for actual delivery eligibility or merely stored on the address/order?
+14. Does Delivery Driver assignment consume Area/location information?
+15. Are delivery fees calculated from Area, distance, shop configuration or another model?
+
+Do not infer these answers from labels. Trace the actual code.
+
+---
+
+# 19. Fix incorrect mandatory Area behavior where appropriate
+
+The Product checkout must not require delivery-specific geography when it is irrelevant.
+
+The expected rule should conceptually be:
+
+DELIVERY
+→ customer delivery address/location information may be required according to the existing delivery model.
+
+PICKUP
+→ delivery Area should NOT be required merely because delivery checkout requires it.
+
+Do not mechanically remove Area validation globally.
+
+Determine the correct validation boundary.
+
+If Area is genuinely necessary for delivery pricing/eligibility:
+
+- keep it mandatory for applicable Delivery orders;
+- make the requirement server-authoritative;
+- ensure the selected Area belongs to the selected City/Country;
+- ensure the Vendor actually serves that Area if Vendor delivery restrictions exist.
+
+For Pickup:
+
+- do not require a customer delivery Area;
+- do not calculate a delivery fee;
+- preserve the shop/location selected for pickup.
+
+If the current backend requires Area even for Pickup, fix that condition cleanly.
+
+---
+
+# 20. Audit existing Cameroon Area data
+
+Inspect the currently seeded Cameroon Country → City hierarchy.
+
+Do NOT assume which cities exist.
+
+Report the exact currently seeded Cameroon cities.
+
+For each currently seeded Cameroon city, determine:
+
+- whether Area records already exist;
+- how many;
+- whether they are usable by Product checkout;
+- whether they are active;
+- whether they are associated correctly with City/Country;
+- whether delivery pricing/configuration depends on them.
+
+If the existing application architecture requires Area records and the seeded Cameroon cities lack them, add a small, realistic DEMO dataset.
+
+Do not seed hundreds of neighborhoods.
+
+Do not modify production-like customer/order/address data.
+
+Do not duplicate existing Areas.
+
+The seed must be:
+
+- idempotent;
+- additive;
+- clearly development/demo-safe;
+- attached to existing City IDs through natural lookup rather than assuming IDs;
+- safe to run repeatedly.
+
+For example, if Douala and Yaoundé are among the existing seeded cities, representative neighborhood/area names may include a SMALL selection such as:
+
+Douala:
+- Akwa
+- Bonanjo
+- Bonapriso
+- Bonamoussadi
+- Deido
+- Bépanda
+
+Yaoundé:
+- Bastos
+- Nlongkak
+- Mvan
+- Odza
+- Essos
+- Biyem-Assi
+
+These are examples only.
+
+Use them ONLY if those cities actually exist in the current seed data and the existing Area model semantically represents neighborhoods/delivery areas.
+
+Do not manufacture administrative meaning that the model does not support.
+
+Cameroon sources confirm that Yaoundé and Douala contain many recognized neighborhoods, so representative neighborhood data is reasonable for a demo when the application's Area model actually represents that concept. :chatgpt-content-reference{index="0"}
+
+Do NOT seed delivery prices merely from internet estimates.
+
+Delivery pricing is a marketplace business decision.
+
+---
+
+# 21. Make Area manageable through the existing Admin architecture
+
+If Area is already an Admin-managed entity, preserve and verify that management path.
+
+The seeded Areas must appear through the normal Admin interface/API.
+
+Do not create seed-only records that Admin cannot subsequently:
+
+- view;
+- activate/deactivate;
+- edit where supported;
+- associate according to the existing model.
+
+If Admin currently has Country/Region/City management but Area management is broken or disconnected, identify and fix the native wiring rather than creating a separate management system.
+
+Do NOT add a new Admin geography subsystem if one already exists.
+
+---
+
+# 22. Audit Product fulfillment methods
+
+Trace Product checkout and determine whether it currently supports:
+
+A. Delivery to customer location
+
+B. Pickup at Vendor/shop
+
+C. Both, depending on Vendor/order configuration
+
+Audit:
+
+- Customer checkout UI;
+- Cart;
+- Order;
+- Shop;
+- Product;
+- delivery type/status fields;
+- shipping/delivery calculations;
+- Vendor settings;
+- Vendor order management;
+- API validation;
+- order creation;
+- invoice/order display;
+- Flutter models/API calls if applicable.
+
+Do not infer capability from a label or enum alone.
+
+Determine whether Pickup is genuinely implemented end-to-end.
+
+---
+
+# 23. Product checkout fulfillment UX
+
+If the native backend already supports both Delivery and Pickup, ensure Product checkout presents this clearly.
+
+Conceptually:
+
+Fulfillment method
+
+○ Delivery
+  Deliver this order to my address.
+
+○ Pickup
+  I'll collect this order from the business.
+
+Do not necessarily use this exact wording if existing localization patterns differ.
+
+When Delivery is selected:
+
+Show only relevant delivery fields:
+
+- address;
+- Country/City/Area as required;
+- map/location where supported;
+- delivery fee;
+- delivery instructions where already supported.
+
+When Pickup is selected:
+
+Hide/disable irrelevant delivery fields.
+
+Show:
+
+- Vendor/shop name;
+- pickup address;
+- map/location if already supported;
+- pickup instructions if available;
+- delivery fee = none / 0 according to existing money semantics.
+
+Do not fake free delivery.
+
+Pickup is a different fulfillment mode, not a zero-priced delivery.
+
+Persist the fulfillment type explicitly using the existing model if possible.
+
+Do not infer Pickup later from `delivery_fee == 0`.
+
+---
+
+# 24. Multi-Vendor cart behavior
+
+AgendaAlly can contain Products from different businesses.
+
+Audit what happens when a cart contains Products from multiple Vendors.
+
+Do NOT assume one fulfillment method applies to the entire cart.
+
+Determine whether orders are already split per shop.
+
+If they are, fulfillment decisions should align with those shop/order boundaries.
+
+For example:
+
+Shop A
+→ Pickup
+
+Shop B
+→ Delivery
+
+may be valid if the architecture supports per-shop fulfillment.
+
+Do not force one Vendor's delivery Area or pickup location onto another Vendor's order.
+
+If the current checkout architecture cannot safely support mixed fulfillment, document the limitation and fail clearly rather than silently misrouting orders.
+
+---
+
+# 25. Vendor delivery configuration
+
+Audit whether a Vendor can currently control:
+
+- offers Product delivery;
+- offers Product pickup;
+- offers both;
+- delivery Areas;
+- delivery fee;
+- minimum order if already modeled;
+- free-delivery threshold if already modeled;
+- pickup location;
+- pickup instructions.
+
+Do NOT add every possible commerce feature.
+
+Only expose controls supported by the existing architecture or required to make Delivery/Pickup safe.
+
+The recommended basic Vendor model is:
+
+Fulfillment options
+
+[x] Customer pickup
+[x] Local delivery
+
+A Vendor may enable:
+
+- Pickup only
+- Delivery only
+- Both
+
+At least one fulfillment method must remain available for Products that are purchasable.
+
+If this requires a new setting, propose the smallest additive extension and implement it only if it is clearly within the existing fulfillment architecture and does not require broader order redesign.
+
+---
+
+# 26. Audit Pickup scheduling
+
+Determine whether Product Pickup currently supports scheduling.
+
+Search for:
+
+- pickup_date
+- pickup_time
+- pickup_at
+- pickup_slot
+- fulfillment_at
+- collection_date
+- collection_time
+- calendar
+- time slot
+- shop working hours
+- delivery/pickup scheduling
+- order scheduling
+
+Also inspect whether the existing Service booking calendar/scheduling architecture could be safely reused conceptually.
+
+Do NOT automatically reuse Service appointments for Product Pickup.
+
+Product pickup is not a Service booking.
+
+---
+
+# 27. If Pickup scheduling already exists
+
+If native Product Pickup scheduling already exists but is not exposed or is incorrectly wired:
+
+trace it end-to-end and propose/fix the smallest missing connection.
+
+The flow should preserve:
+
+Customer
+→ selects Pickup
+→ selects available pickup date
+→ selects available pickup window
+→ Order stores immutable pickup schedule
+→ Vendor sees scheduled pickup
+→ Vendor prepares order
+→ Customer collects order.
+
+Do not allow arbitrary client timestamps that bypass shop availability rules.
+
+---
+
+# 28. If Pickup scheduling does NOT exist
+
+Do NOT automatically implement a large scheduling subsystem.
+
+Audit and provide a concrete design proposal.
+
+Recommended model:
+
+Product Pickup
+→ Vendor pickup configuration
+→ available pickup days/hours
+→ preparation/lead time
+→ optional slot interval/capacity
+→ Customer chooses available slot
+→ server validates slot
+→ Order freezes selected pickup window.
+
+Prefer reusing existing Shop business hours/opening-hours infrastructure if appropriate.
+
+Do NOT couple Product pickup orders to:
+
+- Specialist/Master availability;
+- Service duration;
+- Service appointment records;
+- Staff calendars
+
+unless the existing architecture specifically requires staff-managed pickup.
+
+Product pickup normally belongs to the SHOP's fulfillment availability, not an individual Specialist's calendar.
+
+---
+
+# 29. Recommended Pickup scheduling UX
+
+If scheduling is approved in a later implementation phase, the target Customer flow should be approximately:
+
+Fulfillment
+
+○ Delivery
+○ Pickup
+
+When Pickup is selected:
+
+Pickup from
+Le Sawa Beauty Studio
+[shop address]
+
+Choose pickup date
+[calendar]
+
+Available time
+[10:00–12:00]
+[12:00–14:00]
+[14:00–16:00]
+
+Order summary
+Pickup — No delivery fee
+Pickup: Oct 8, 2026 · 12:00–14:00
+
+The exact UI should follow AgendaAlly's existing design system.
+
+Do NOT implement this UI in this audit unless the underlying scheduling capability already exists and only minor wiring is missing.
+
+---
+
+# 30. Pickup operational lifecycle proposal
+
+Audit existing Order statuses before proposing new ones.
+
+Do not create duplicate status systems.
+
+Determine whether existing statuses can represent:
+
+- Order received
+- Preparing
+- Ready for pickup
+- Picked up / Completed
+- Cancelled
+
+If the current lifecycle cannot distinguish “Ready for pickup,” propose the smallest additive status/state mechanism.
+
+Do not alter existing historical orders during this audit.
+
+---
+
+# 31. Relationship with Delivery Drivers
+
+Delivery Driver assignment applies to Delivery orders.
+
+Pickup orders should normally NOT be assignable to a Delivery Driver.
+
+Verify that the current Vendor order-assignment UI/API cannot accidentally assign a Delivery Driver to a Pickup order.
+
+If the existing architecture already distinguishes fulfillment type, enforce this boundary.
+
+Do not modify the completed Delivery Driver membership/security architecture beyond the minimum necessary validation.
+
+---
+
+# 32. Address and Maps relationship
+
+This task must remain compatible with the separate Maps/address configuration work.
+
+For Delivery:
+
+Area
+→ defines business delivery eligibility/pricing if that is what the model represents.
+
+Customer address/map coordinates
+→ identify the actual delivery destination.
+
+Do NOT treat an Area dropdown as a replacement for a real customer delivery address.
+
+Likewise, do not require map coordinates for Pickup when the Vendor/shop location already supplies the pickup destination.
+
+Do not reopen the broader Maps API task unless a directly related broken contract blocks this audit.
+
+---
+
+# 33. Focused verification
+
+Credit use is important.
+
+Do NOT run a broad commerce acceptance suite.
+
+Use focused tests.
+
+Verify at minimum:
+
+1. Existing Cameroon seeded cities are identified correctly.
+
+2. Existing Area records are reported accurately.
+
+3. Demo Areas, if needed, are created only for existing applicable Cameroon cities.
+
+4. Running the Area seed twice creates zero duplicates.
+
+5. Seeded Areas appear through the existing Admin/API path.
+
+6. Delivery checkout can select a valid Area.
+
+7. An Area from another City cannot be submitted.
+
+8. Delivery Area requirement is enforced server-side where applicable.
+
+9. Pickup does not require Delivery Area.
+
+10. Pickup does not charge a delivery fee.
+
+11. Delivery preserves the existing delivery-fee calculation.
+
+12. Delivery requires appropriate customer destination information.
+
+13. Pickup uses the authoritative Vendor/shop location.
+
+14. Vendor cannot configure another Vendor's delivery/fulfillment settings.
+
+15. Customer cannot submit an unsupported fulfillment method.
+
+16. A Delivery Driver cannot be assigned to a Pickup order if fulfillment distinction exists.
+
+17. Existing Delivery orders continue to work.
+
+18. Existing Product order creation remains compatible.
+
+19. Multi-shop behavior is explicitly verified or documented as unsupported.
+
+20. No payment/provider behavior changes.
+
+21. Type/syntax checks for affected files pass.
+
+If Pickup scheduling does not currently exist, do NOT add fake scheduling tests. Report the proposed architecture instead.
+
+---
+
+# 34. Report
+
+Report:
+
+- what Area currently means;
+- why Product checkout requires it;
+- whether the requirement was correct;
+- existing Cameroon cities;
+- Area counts per relevant city before/after;
+- exact demo Areas seeded, if any;
+- seed idempotency result;
+- Admin Area management status;
+- Vendor Area configuration status;
+- current delivery-fee mechanism;
+- whether Delivery currently works end-to-end;
+- whether Pickup currently exists end-to-end;
+- whether Customer can choose Delivery vs Pickup;
+- whether Vendor can enable Delivery/Pickup/Both;
+- whether Pickup incorrectly requires delivery information;
+- whether Pickup scheduling currently exists;
+- current order fields/statuses related to Pickup;
+- whether shop business hours can support future scheduling;
+- recommended pickup-slot model if missing;
+- multi-Vendor implications;
+- Delivery Driver implications;
+- exact files changed;
+- exact tests/checks run;
+- anything intentionally left as proposal only.
+
+Do not activate payment providers.
+
+Do not create financial records.
+
+Do not place real orders.
+
+Do not modify customer addresses.
+
+Do not change existing completed Delivery Driver membership architecture.
+
+After verification, restore the existing previews if disturbed and STOP.
+
+Do not automatically implement the proposed Pickup calendar/scheduling phase unless it turns out that the capability already exists and only a small broken wiring issue requires correction.

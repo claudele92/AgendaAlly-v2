@@ -1,0 +1,211 @@
+TASK — Prove approved first-install data and administrator setup safely
+
+Goal:
+Prove in one NEW disposable isolated native MySQL lab that the current sanitized AgendaAlly source can initialize reproducibly from an empty database using the already-reviewed reference/demo baseline and the now-accepted Service demo source package.
+
+This is a bounded first-install proof only. Do not expand it into another architecture, payment, recovery, photo, DR, production, GitHub or VPS audit.
+
+AUTHORITATIVE COMPLETED PREREQUISITE
+
+The Service source-packaging gate is CLOSED and must NOT be rerun.
+
+Accepted owner decision SHA256:
+ce64984255b623a06ad32502aafd8b92c61be653edfc07eda04324f6e4ce2694
+
+Accepted Service package canonical manifest SHA256:
+8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e
+
+Accepted provenance.json SHA256:
+fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+Package location:
+.migration-backup/backend/resources/demo-assets
+
+The package contains exactly 15 approved Service JPEGs plus provenance.json and preserves 51 Service / 51 Service-Gallery relationships.
+
+Do NOT recopy, redownload, replace, regenerate or re-license those Service images.
+Do NOT attempt to resolve Product photos.
+
+PRODUCT / NULL POLICY
+
+All five Product image dependencies remain unresolved and BLOCKED.
+
+Do not:
+- download the referenced Unsplash images;
+- invent or generate Product images;
+- substitute unrelated images;
+- map Service images to Products;
+- claim Product-photo or visual parity.
+
+Preserve the already-reviewed NULL/photo policy and existing approved portable-baseline semantics. If the current first-install manifest cannot execute without making a new Product-photo decision, STOP and report the exact dependency instead of choosing one.
+
+PHASE 1 — FREEZE CURRENT EXECUTION INPUTS
+
+Before any database initialization:
+
+1. Recompute and report SHA256 for the CURRENT:
+   - local-synthetic-reference-manifest.json
+   - local-synthetic-portable-baseline.json
+   - relevant initializer/bootstrap implementation
+   - accepted Service package manifest/provenance
+
+2. Compare the current reference and portable-baseline hashes with the earlier review hashes:
+   Reference review hash:
+   0eb9befdc4f88c3d5cbce35be667de7f23417735f71b24adb7ea945576b16b1f
+
+   Portable baseline review hash:
+   7aba06496ffb8efd3aba99bc2599773245c196d453d902c9bcb370a92314335c
+
+3. Report whether either manifest changed as a consequence of the approved Service packaging.
+
+If the executable manifests materially differ from the reviewed semantics, STOP before database initialization and return the exact diff/reason for owner review.
+
+Do not ask for a new photo approval merely because the accepted Service package now exists.
+
+PHASE 2 — NEW ISOLATED FIRST-INSTALL LAB
+
+Only after Phase 1 inputs are frozen and consistent, create ONE new disposable isolated native MySQL lab.
+
+Use the already-approved synthetic bootstrap policy:
+- isolated/private lab only;
+- binary logging remains enabled;
+- trusted function creators remains disabled;
+- temporary bootstrap elevation only where already proven necessary for native trigger DDL;
+- revoke bootstrap elevation after migrations;
+- runtime/application account remains least privilege;
+- no production/staging/live database;
+- no external service access.
+
+Do not modify the 229 native migrations to make the test pass.
+
+Prove:
+
+empty database
+→ all 229 native migrations
+→ approved reference bootstrap
+→ approved portable demo baseline
+→ synthetic initial Administrator provisioning
+→ independent application/recovery key validation
+→ second-run/idempotency verification.
+
+REFERENCE / ROLE SAFETY
+
+Explicitly verify the known role-ordering hazard is not present.
+
+The first-install process must not confuse:
+- role ID 1 = user
+- role ID 14 = shop_manager
+
+Verify role identities before any permission grants.
+
+Geography/reference creation must not accidentally invoke CountryObserver/default broad role or Finance grants.
+
+Verify the intended portable reference geography:
+- Cameroon
+- Burkina Faso
+- Nigeria
+- Ghana
+- 7 reviewed cities
+
+Verify exact expected portable-demo counts from the frozen approved manifest rather than silently adjusting them to make the test pass.
+
+ADMINISTRATOR
+
+Provision only a NEW synthetic first-install Administrator for this disposable lab using a secure independent provisioning path.
+
+Do not reuse:
+- normal application credentials;
+- staging/demo credentials;
+- historical users;
+- production credentials.
+
+Do not print or persist plaintext credentials in reports/source/Git.
+
+Prove the Administrator has only the intended first-install authority and that provisioning cannot silently create duplicate Administrators on retry.
+
+KEYS
+
+Generate/use independent synthetic application and recovery authorities for this lab only.
+
+Do not access or reuse existing/staging/production keys.
+
+Prove the installed data requiring encryption/recovery can be validated with the synthetic authorities and that an incorrect/missing authority fails closed.
+
+This is NOT approval to configure off-host key escrow or production custody.
+
+FINANCIAL / EXTERNAL SAFETY
+
+The initialized baseline must create NO unintended:
+- Orders
+- paid Transactions
+- Wallet balances/top-ups
+- payouts
+- refunds
+- provider collections
+- provider callbacks
+- financial completion evidence
+- SMTP/email sends
+- workers/queues performing external actions
+- automatic Finance authority/grants
+
+Do not activate payment providers, SMTP, workers, callbacks, webhooks or external network integrations.
+
+SECOND RUN / REPRODUCIBILITY
+
+Run the approved reference/demo initializer a second time against the completed disposable installation.
+
+It must either:
+A) be safely idempotent with exact equality, or
+B) fail closed before mutation according to its designed first-install-only contract.
+
+Do not weaken guards merely to obtain idempotency.
+
+Compare first-run and post-second-run database state for the approved reference/demo scope and report exact equality/differences.
+
+OUTPUT
+
+Return one concise first-install acceptance report containing:
+
+- PASS / BLOCKED / FAIL;
+- frozen current manifest/input hashes;
+- 229/229 migration result;
+- exact reference/demo row counts;
+- role/permission verification;
+- Service package linkage result;
+- Product-photo blocked status;
+- synthetic Admin provisioning result;
+- synthetic key/recovery result;
+- financial/external-action zero checks;
+- second-run behavior/equality;
+- any deviations or unresolved blockers.
+
+Preserve evidence needed to reproduce the bounded result.
+
+DO NOT perform:
+- production/staging database changes;
+- existing-schema repair;
+- Product-photo resolution;
+- runtime/public photo installation outside the disposable lab;
+- real credentials;
+- real money;
+- provider activation;
+- SMTP sends;
+- worker activation;
+- GitHub repository creation/push;
+- Hostinger/VPS actions;
+- Stories cleanup;
+- deployment;
+- production activation.
+
+STOP CONDITIONS
+
+Stop before mutation if:
+- current executable manifests materially differ from reviewed semantics;
+- accepted Service package hashes do not match;
+- Product-photo resolution becomes required;
+- role identities/grants cannot be proven safe;
+- native migrations would need modification;
+- any existing/live environment would need to be touched;
+- any new financial/provider behavior must be invented.
+
+Do not rerun the already-accepted Service-photo packaging campaign, populated-upgrade campaign, temporal-recovery campaign, or backup/key-custody design campaign.

@@ -1,0 +1,568 @@
+@use '../../../styles/agendaally-stage1-tokens' as aa;
+
+// Visual pass for the seller Booking Calendar (react-big-calendar) only —
+// scoped under .seller-booking-calendar, same locally-scoped approach as
+// staff-theme.module.scss (teal/coral/gray-beige system), not a global
+// theme change. Booking status colors mirror that same palette:
+//   new       -> pending (amber)
+//   booked    -> confirmed (teal)
+//   progress  -> in progress (dark teal)
+//   ended     -> completed (muted gray-beige)
+//   canceled  -> cancelled (coral/red), struck-through title
+$cal-teal: #1d9e75;
+$cal-teal-dark: #167a5b;
+$cal-teal-soft: #e3f4ee;
+$cal-coral: #d85a30;
+$cal-coral-soft: #fbeae3;
+$cal-gray: #888780;
+$cal-gray-soft: #f0efed;
+$cal-warning: #b8860b;
+$cal-warning-soft: #fbf2de;
+$cal-danger: #c0392b;
+$cal-danger-soft: #f8e2df;
+
+.seller-booking-calendar {
+  min-width: 0;
+  max-width: 100%;
+  overflow: auto;
+
+  .rbc-calendar {
+    font-family: inherit;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  // ---- Toolbar ----
+  .rbc-toolbar {
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: 14px;
+
+    .rbc-toolbar-label {
+      flex: 0 1 auto;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .rbc-btn-group {
+      display: inline-flex;
+      gap: 4px;
+
+      button {
+        color: var(--text);
+        border: 1px solid var(--divider);
+        border-radius: 6px !important;
+        padding: 6px 14px;
+        font-weight: 500;
+        font-size: 13px;
+        background: transparent;
+        transition: all 0.15s ease;
+      }
+
+      button + button {
+        margin-left: 0;
+      }
+
+      button:hover {
+        background: $cal-teal-soft;
+        border-color: $cal-teal;
+        color: $cal-teal-dark;
+      }
+
+      button:active,
+      button.rbc-active {
+        background: $cal-teal;
+        border-color: $cal-teal;
+        color: #fff;
+        box-shadow: none;
+      }
+
+      button:active:hover,
+      button.rbc-active:hover {
+        background: $cal-teal-dark;
+        border-color: $cal-teal-dark;
+        color: #fff;
+      }
+    }
+
+    @media (max-width: 767px) {
+      flex-direction: column;
+      align-items: stretch;
+
+      .rbc-btn-group {
+        flex-wrap: wrap;
+        min-width: 0;
+        max-width: 100%;
+
+        button {
+          flex: 1 0 auto;
+        }
+      }
+    }
+  }
+
+  // ---- Shared grid lines / structure ----
+  .rbc-month-view,
+  .rbc-time-view,
+  .rbc-agenda-view table.rbc-agenda-table {
+    border-color: var(--divider);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  // Keep complete date/time/event text in the calendar's own scroll surface.
+  // A wide agenda table must not expand the page or crop its cell contents.
+  .rbc-agenda-view {
+    min-width: 0;
+    overflow: auto;
+    table.rbc-agenda-table {
+      min-width: 520px;
+      overflow: visible;
+    }
+  }
+
+  .rbc-header {
+    padding: 10px 6px;
+    border-bottom: 1px solid var(--divider);
+    background: var(--body-bg);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--placeholder);
+  }
+
+  .rbc-header + .rbc-header {
+    border-left: 1px solid var(--divider);
+  }
+
+  .rbc-month-row + .rbc-month-row,
+  .rbc-day-bg + .rbc-day-bg {
+    border-color: var(--divider);
+  }
+
+  .rbc-off-range-bg {
+    background: var(--body-bg);
+  }
+
+  .rbc-today {
+    background-color: $cal-teal-soft;
+  }
+
+  .rbc-date-cell {
+    padding: 6px 8px 0 0;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  // ---- Time grid (day/week views) ----
+  .rbc-time-header-content,
+  .rbc-time-content,
+  .rbc-time-view {
+    border-color: var(--divider);
+  }
+
+  .rbc-time-content > * + * > * {
+    border-color: var(--divider);
+  }
+
+  .rbc-timeslot-group {
+    min-height: 64px;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .rbc-day-slot .rbc-time-slot {
+    border-top: 1px solid rgba(136, 135, 128, 0.15);
+  }
+
+  .rbc-time-gutter .rbc-timeslot-group {
+    .rbc-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--placeholder);
+      padding: 0 12px;
+    }
+  }
+
+  .rbc-current-time-indicator {
+    height: 2px;
+    background-color: $cal-coral;
+  }
+
+  // ---- Agenda view ----
+  .rbc-agenda-view table.rbc-agenda-table {
+    thead > tr > th {
+      padding: 10px 12px;
+      background: var(--body-bg);
+      color: var(--placeholder);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border-color: var(--divider);
+    }
+
+    tbody > tr > td {
+      padding: 10px 12px;
+      border-color: var(--divider);
+    }
+
+    tbody > tr + tr {
+      border-color: var(--divider);
+    }
+  }
+
+  // ---- Events ----
+  .rbc-event,
+  .rbc-day-slot .rbc-background-event {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+    background-color: $cal-teal;
+  }
+
+  .rbc-event-label {
+    font-size: 11px;
+    opacity: 0.85;
+  }
+
+  .rbc-event-content {
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .rbc-event.rbc-selected {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+  }
+
+  // Status color-coding
+  .rbc-event.status-new {
+    background-color: $cal-warning;
+  }
+
+  .rbc-event.status-booked {
+    background-color: $cal-teal;
+  }
+
+  .rbc-event.status-progress {
+    background-color: $cal-teal-dark;
+  }
+
+  .rbc-event.status-ended {
+    background-color: $cal-gray;
+    opacity: 0.75;
+  }
+
+  .rbc-event.status-canceled {
+    background-color: $cal-danger;
+
+    .rbc-event-content {
+      text-decoration: line-through;
+      opacity: 0.85;
+    }
+  }
+
+  // Status color-coding — Agenda view. react-big-calendar applies
+  // eventPropGetter's className straight to the <tr>, not to a .rbc-event
+  // element, so these need their own selectors rather than reusing the
+  // month/week/day rules above.
+  .rbc-agenda-view table.rbc-agenda-table tbody {
+    tr.status-new {
+      background: $cal-warning-soft;
+      border-left: 3px solid $cal-warning;
+    }
+
+    tr.status-booked {
+      background: $cal-teal-soft;
+      border-left: 3px solid $cal-teal;
+    }
+
+    tr.status-progress {
+      background: $cal-teal-soft;
+      border-left: 3px solid $cal-teal-dark;
+    }
+
+    tr.status-ended {
+      background: $cal-gray-soft;
+      border-left: 3px solid $cal-gray;
+      opacity: 0.8;
+    }
+
+    tr.status-canceled {
+      background: $cal-danger-soft;
+      border-left: 3px solid $cal-danger;
+
+      .rbc-agenda-event-cell {
+        text-decoration: line-through;
+      }
+    }
+
+    tr.disabled-slot {
+      background: repeating-linear-gradient(
+        45deg,
+        $cal-gray-soft,
+        $cal-gray-soft 6px,
+        rgba(136, 135, 128, 0.2) 6px,
+        rgba(136, 135, 128, 0.2) 12px
+      );
+      border-left: 3px solid $cal-gray;
+      font-style: italic;
+    }
+  }
+
+  // Blocked / closed master time slots
+  .rbc-event.disabled-slot {
+    background-image: repeating-linear-gradient(
+      45deg,
+      $cal-gray-soft,
+      $cal-gray-soft 6px,
+      rgba(136, 135, 128, 0.35) 6px,
+      rgba(136, 135, 128, 0.35) 12px
+    );
+    border: 1px solid $cal-gray;
+    box-shadow: none;
+
+    .rbc-event-content,
+    .rbc-event-label {
+      color: #4a4a45;
+      font-style: italic;
+    }
+  }
+
+  [data-theme='dark'] & {
+    .rbc-today {
+      background-color: rgba(29, 158, 117, 0.15);
+    }
+
+    .rbc-day-slot .rbc-time-slot {
+      border-top-color: rgba(136, 135, 128, 0.25);
+    }
+
+    .rbc-event.disabled-slot {
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(136, 135, 128, 0.2),
+        rgba(136, 135, 128, 0.2) 6px,
+        rgba(136, 135, 128, 0.4) 6px,
+        rgba(136, 135, 128, 0.4) 12px
+      );
+
+      .rbc-event-content,
+      .rbc-event-label {
+        color: #e2e0d8;
+      }
+    }
+  }
+}
+
+.aa-vendor-filter {
+  @include aa.agendaally-stage1-tokens;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+
+  .aa-vendor-filter__mobile-trigger {
+    display: none;
+    border-color: var(--agendaally-stage1-border, #e5e2dc);
+    border-radius: var(--agendaally-stage1-radius-sm, 10px);
+    color: var(--agendaally-stage1-ink, #191a19);
+  }
+
+  .aa-vendor-filter__error {
+    flex: 1 1 100%;
+  }
+}
+
+.aa-schedule {
+  @include aa.agendaally-stage1-tokens;
+}
+
+.aa-vendor-filter__drawer {
+  @include aa.agendaally-stage1-tokens;
+
+  .ant-drawer-content {
+    color: var(--agendaally-stage1-ink, #191a19);
+    background: var(--agendaally-stage1-surface, #fff);
+  }
+
+  .ant-drawer-body {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
+
+.aa-vendor-filter__drawer-label {
+  color: var(--agendaally-stage1-muted, #64665f);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.aa-vendor-filter__actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 8px;
+
+  > * {
+    flex: 1;
+    min-height: 44px;
+  }
+}
+
+.agendaally-quiet-payment-note {
+  display: block;
+  margin: -8px 0 12px;
+  color: var(--agendaally-stage1-muted, #64665f);
+  font-size: 12px;
+}
+
+.aa-booking-review-footer {
+  min-width: 0;
+
+  .ant-btn {
+    min-width: 0;
+    height: auto;
+    min-height: 40px;
+    line-height: 1.25;
+    white-space: normal;
+  }
+}
+
+.drawer-view .ant-drawer-footer {
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+
+.agendaally-review-payment {
+  @include aa.agendaally-stage1-tokens;
+
+  display: grid;
+  gap: 5px;
+  margin: 12px 0;
+  padding: 15px 16px;
+  border: 1px solid var(--agendaally-stage1-bronze, #916d41);
+  border-radius: var(--agendaally-stage1-radius-md, 16px);
+  background: var(--agendaally-stage1-bronze-wash, #f0e7d9);
+  color: var(--agendaally-stage1-ink, #191a19);
+
+  > span {
+    color: var(--agendaally-stage1-muted, #64665f);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  > strong {
+    color: var(--agendaally-stage1-bronze-ink, #76522e);
+    font-size: 18px;
+    letter-spacing: .01em;
+  }
+
+  > p {
+    margin: 0;
+    color: var(--agendaally-stage1-muted, #64665f);
+    font-size: 12px;
+  }
+}
+
+.aa-local-client-modal {
+  @include aa.agendaally-stage1-tokens;
+
+  max-width: calc(100vw - 20px);
+
+  .ant-modal-content {
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: var(--agendaally-stage1-radius-md, 16px);
+    background: var(--agendaally-stage1-surface, #fff);
+  }
+
+  .ant-modal-body {
+    max-height: min(64vh, 560px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+  }
+
+  .ant-modal-footer {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+
+    .ant-btn {
+      min-width: 0;
+      height: auto;
+      min-height: 40px;
+      margin: 0;
+      white-space: normal;
+    }
+  }
+}
+
+[data-theme='dark'] {
+  .aa-vendor-filter__drawer .ant-drawer-content {
+    background: #292a27;
+    color: #f0eee8;
+  }
+
+  .agendaally-review-payment {
+    border-color: #c7a979;
+    background: #393328;
+    color: #f0eee8;
+
+    > span,
+    > p {
+      color: #c0bdb5;
+    }
+
+    > strong {
+      color: #e0c79f;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .aa-vendor-filter {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    > .ant-col:first-child {
+      width: auto !important;
+    }
+
+    .aa-vendor-filter__desktop {
+      display: none;
+    }
+
+    .aa-vendor-filter__mobile-trigger {
+      display: inline-flex;
+      min-height: 40px;
+    }
+  }
+
+  .aa-local-client-modal {
+    top: 10px;
+    margin: 0 auto;
+
+    .ant-modal-body {
+      max-height: calc(100dvh - 170px);
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .aa-booking-review-footer > .d-flex {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

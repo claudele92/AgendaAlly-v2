@@ -1,0 +1,503 @@
+AgendaAlly — Replace Fake Service Icons With Real Service Images + Audit Native Service Media Flow
+
+Add this scope to the approved Customer storefront/discovery design pass.
+
+The current Shop profile is displaying generic/mock icon-style graphics for Services, for example Bridal Makeup, Beard Trim, Massage Therapy and Manicure.
+
+This does NOT match the approved Shop-profile design direction.
+
+Services should use real, relevant photographic images where a Service image exists.
+
+IMPORTANT:
+Credit use is important.
+
+Do not perform another broad Shop-profile audit.
+Do not redesign the Shop page again.
+The existing Shop-profile layout is approved.
+
+This task is specifically to:
+
+1. Audit the existing Service image/media architecture.
+2. Correct any incomplete Service-image storage/upload/read/display flow.
+3. Ensure Vendors can manage Service images through the existing Service management flow where appropriate.
+4. Seed appropriate real photographic images for the EXISTING development/demo Services.
+5. Replace the current fake/generic Service icons on seeded demo Services with those real images.
+6. Preserve safe fallback behavior for Services that genuinely have no image.
+
+==================================================
+1. AUDIT THE EXISTING SERVICE IMAGE MODEL FIRST
+==================================================
+
+Before adding another image field or media system, trace the existing native Service media flow end-to-end.
+
+Audit:
+
+Service database/model
+    ↓
+Service create/update request
+    ↓
+Vendor Service management UI
+    ↓
+upload/storage handling
+    ↓
+local/S3 storage
+    ↓
+API serialization
+    ↓
+Customer storefront
+    ↓
+Service card/image
+
+Determine:
+
+- whether Service already has an image/media relationship;
+- database fields/relationships involved;
+- whether one image or multiple images are supported;
+- upload endpoint;
+- file validation;
+- storage disk/path;
+- local development behavior;
+- S3/cloud behavior;
+- URL generation;
+- deletion/replacement behavior;
+- ownership authorization;
+- Vendor UI support;
+- Admin support if applicable;
+- Customer API representation;
+- current fallback/icon behavior.
+
+The previous Shop-profile work already reported:
+
+“Service images are optional; canonical native local/S3 media URLs are checked against ownership boundaries.”
+
+START from that existing implementation.
+
+Do NOT create a competing Service image architecture if that implementation already provides the required capability.
+
+==================================================
+2. VENDOR SERVICE IMAGE MANAGEMENT
+==================================================
+
+Verify that an authorized Vendor can manage images for Services belonging to that Vendor/shop.
+
+The normal Service create/edit experience should support an appropriate Service image where the native architecture permits it.
+
+Conceptually:
+
+Service name
+Category
+Description
+Duration
+Price
+Location/mode
+Service image
+[Upload / Replace image]
+[Save]
+
+Do not force Vendors to provide an image.
+
+Service images remain OPTIONAL.
+
+Enforce ownership server-side.
+
+Vendor A must never be able to replace/delete/read private management metadata for Vendor B's Service image by forging:
+
+- Service ID;
+- shop ID;
+- media ID;
+- upload association;
+- request payload.
+
+Preserve existing Admin/Superadmin authority where intentionally supported.
+
+==================================================
+3. IMAGE VALIDATION
+==================================================
+
+Use the application's existing media validation conventions where possible.
+
+Validate appropriate:
+
+- MIME/file type;
+- maximum size;
+- supported image formats;
+- image ownership;
+- storage destination.
+
+Do not accept arbitrary files merely because the extension looks like an image.
+
+Do not weaken existing media security.
+
+==================================================
+4. STORAGE
+==================================================
+
+Use the existing native media/storage abstraction.
+
+Development may use the existing local storage implementation.
+
+Production/cloud must continue supporting the application's intended S3/object-storage path if already implemented.
+
+Do NOT:
+
+- hard-code Replit filesystem paths into database records;
+- store base64 images in Service rows;
+- create a second Service-media subsystem;
+- make Customer pages depend on temporary development URLs.
+
+Persist the canonical media reference expected by AgendaAlly and resolve URLs through the existing media/storage layer.
+
+==================================================
+5. REPLACEMENT AND DELETION
+==================================================
+
+Audit Service image replacement/removal.
+
+When replacing an image:
+
+- update the authoritative Service/media association;
+- avoid leaving unnecessary orphaned files where the native cleanup architecture supports safe deletion;
+- never delete another shop's media;
+- do not delete shared media if the architecture allows media reuse.
+
+When removing an image:
+
+Service should return to the approved fallback state.
+
+Do not make image removal delete the Service.
+
+==================================================
+6. CUSTOMER STOREFRONT
+==================================================
+
+The approved Service presentation should use REAL SERVICE PHOTOS.
+
+For example, visually:
+
+[ Bridal makeup photo ]  Bridal Makeup
+                          Full bridal makeup application...
+                          90 min · Online
+                                      36,000 FCFA   +
+
+[ Beard grooming photo ] Beard Trim
+                          Beard shaping and trim...
+                          20 min · Online
+                                       6,000 FCFA   +
+
+[ Massage photo ]        Massage Therapy
+                          Relaxing full-body massage...
+                          60 min · Online
+                                      21,000 FCFA   +
+
+[ Manicure photo ]       Manicure
+                          Nail shaping, cuticle care...
+                          45 min · Online
+                                      12,000 FCFA   +
+
+Use:
+
+- consistent image dimensions;
+- consistent aspect ratio;
+- object-fit: cover or equivalent;
+- rounded treatment matching the approved Shop design;
+- appropriate lazy loading where already supported;
+- meaningful alt text.
+
+Do not stretch images.
+
+Do not allow portrait/landscape differences to change Service-row heights unpredictably.
+
+==================================================
+7. REMOVE FAKE ICONS FROM SEEDED SERVICES
+==================================================
+
+The current large generic icons such as:
+
+- makeup/paint icon;
+- male-symbol icon;
+- leaf/massage icon;
+- hand/heart icon;
+
+must NOT remain as the primary images for seeded Services when an appropriate real Service image has been seeded.
+
+Do not merely hide the icons with CSS.
+
+Correct the underlying seeded Service media so the Customer receives the real Service image through the same production-style media flow.
+
+==================================================
+8. FALLBACK BEHAVIOR
+==================================================
+
+Do NOT require every real Vendor Service to have an image.
+
+For a Service with no image:
+
+use the existing approved neutral fallback or improve it minimally if necessary.
+
+The fallback should be visually restrained.
+
+It must not look like a real uploaded Service photo.
+
+Never substitute an unrelated random photograph at runtime.
+
+==================================================
+9. SEED REAL IMAGES FOR EXISTING DEMO SERVICES
+==================================================
+
+Audit the EXISTING seeded development Services.
+
+Do NOT create duplicate Services simply to demonstrate images.
+
+For existing demo Services, seed relevant photographic Service images.
+
+Examples:
+
+Bridal Makeup
+→ professional bridal makeup application
+
+Beard Trim
+→ barber/beard grooming
+
+Massage Therapy
+→ professional massage treatment
+
+Manicure
+→ manicure/nail care
+
+Hair services
+→ appropriate hairstyling/hair-care imagery
+
+Facial/Skin services
+→ appropriate facial/skincare imagery
+
+Tattoo/Piercing services
+→ appropriate professional tattoo/piercing imagery
+
+Education/Tutoring services
+→ appropriate tutoring/learning imagery
+
+Car Service categories, if EXISTING seeded Services are present
+→ appropriate automotive-service imagery
+
+And similarly for other EXISTING seeded Services.
+
+Images must semantically match the Service.
+
+Do NOT use the same photograph for unrelated Services merely to fill the UI.
+
+==================================================
+10. IMAGE SOURCING / SEED SAFETY
+==================================================
+
+Use image assets that are appropriate and legally suitable for development/demo use.
+
+Prefer assets already owned/provided in the project or properly usable demo assets.
+
+Do not introduce unstable hotlinks to random third-party images.
+
+Seed through AgendaAlly's normal media/storage representation rather than storing arbitrary external URLs if that is not the application's native model.
+
+The seed MUST be guarded and idempotent.
+
+Running it twice must:
+
+- create zero duplicate Services;
+- create zero duplicate media associations;
+- avoid repeatedly replacing already-correct Service media;
+- avoid changing legitimate Vendor-uploaded images;
+- avoid touching unrelated media.
+
+Never overwrite a real Vendor Service image just because its Service name resembles a demo Service.
+
+Restrict demo media updates to clearly owned development/seed records.
+
+==================================================
+11. DO NOT ALTER SERVICE BUSINESS DATA
+==================================================
+
+Adding images must NOT modify:
+
+- Service prices;
+- duration;
+- currency;
+- booking availability;
+- Specialist assignments;
+- categories;
+- public/private Specialist behavior;
+- descriptions unless required by an existing seed definition;
+- payment eligibility;
+- service location/mode;
+- shop ownership.
+
+This is Service MEDIA work.
+
+==================================================
+12. CHECK OTHER SERVICE IMAGE CONSUMERS
+==================================================
+
+Search for existing Service-image consumers.
+
+The same authoritative image should behave correctly wherever Service imagery is intentionally shown, including applicable:
+
+- Shop profile;
+- Service discovery/search;
+- booking Service selection;
+- Vendor Service preview.
+
+Do not force large images into compact surfaces that intentionally use another presentation.
+
+Reuse a shared Service-image component/helper where practical.
+
+Do not perform a broad frontend refactor.
+
+==================================================
+13. RESPONSIVE DESIGN
+==================================================
+
+Verify the Service rows/cards at:
+
+- desktop;
+- tablet;
+- approximately 390px mobile.
+
+Desktop should preserve the approved photo-led Service design.
+
+Mobile should adapt cleanly.
+
+Do not create horizontal page overflow.
+
+Images must not squeeze:
+
+- Service title;
+- price;
+- duration;
+- mode;
+- add/book control.
+
+==================================================
+14. FOCUSED SECURITY TESTS
+==================================================
+
+Add/reuse focused tests proving at minimum:
+
+A. Vendor can upload/associate an image with its own Service.
+
+B. Vendor can replace its own Service image.
+
+C. Vendor cannot modify another Vendor's Service image.
+
+D. Forged Service/shop/media IDs cannot bypass ownership.
+
+E. Public Customer API returns only the appropriate public Service media URL/data.
+
+F. Removing/replacing media does not affect another Service/shop.
+
+G. Local media URL generation works.
+
+H. Existing S3/cloud URL generation logic remains compatible without making a real cloud upload.
+
+==================================================
+15. SEED VERIFICATION
+==================================================
+
+Run the Service-image seed twice.
+
+Report:
+
+First run:
+- number of existing Services updated;
+- number of media records/assets added.
+
+Second run:
+- expected new Service records: 0;
+- expected duplicate media associations: 0;
+- expected unintended replacements: 0.
+
+Confirm protected/non-demo Services were untouched.
+
+==================================================
+16. BROWSER VERIFICATION
+==================================================
+
+Use the existing Wouri Beauty Bar / seeded demo Shop if appropriate.
+
+Verify visually that Services such as:
+
+- Bridal Makeup;
+- Beard Trim;
+- Massage Therapy;
+- Manicure;
+
+now display relevant photographic imagery instead of the current fake icon placeholders.
+
+Confirm:
+
+- image proportions look correct;
+- rows remain aligned;
+- prices remain aligned;
+- + control remains usable;
+- Service navigation/booking still works;
+- no horizontal overflow;
+- missing-image fallback still works on at least one controlled case.
+
+Do NOT submit a real booking.
+
+==================================================
+17. COORDINATE WITH THE APPROVED DISCOVERY DESIGN PASS
+==================================================
+
+This Service-image work is approved as part of the current Customer storefront visual-quality work.
+
+Also complete the previously requested discovery alignment/design adjustments for:
+
+- Recommended businesses;
+- Top specialists;
+- Deals;
+- New businesses;
+- Brands;
+- All shops.
+
+Use the same left-aligned content grid and consistent section-header/card system already specified.
+
+Do not restart that audit from zero.
+
+Do not generate another mockup.
+
+Implement the approved design.
+
+==================================================
+18. REPORT
+==================================================
+
+When complete, report:
+
+1. existing Service media architecture found;
+2. whether a new schema change was actually necessary;
+3. Vendor upload/edit flow;
+4. storage path/strategy;
+5. local versus S3 behavior;
+6. ownership/security boundary;
+7. image replacement/deletion behavior;
+8. Customer API representation;
+9. Customer storefront rendering;
+10. exact existing demo Services receiving seeded images;
+11. image source/asset strategy;
+12. first seed result;
+13. second seed/idempotency result;
+14. focused security tests/results;
+15. desktop/mobile visual verification;
+16. discovery-design adjustments completed;
+17. exact files changed;
+18. any remaining Service-media limitation.
+
+Credit use is important.
+
+Do not rerun broad payment, booking, Driver, Maps, delivery or full application suites.
+
+Do not activate external services.
+
+Do not make real bookings/orders/payments.
+
+Then STOP.
+
+Do not automatically proceed into Product pickup scheduling or another phase.

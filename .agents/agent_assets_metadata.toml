@@ -1,0 +1,1178 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "uHsp2C1x4vzef9UNLRy0S"
+uri = "file://docs/audit/agendaally-audit.html"
+type = "html"
+title = "AgendaAlly — Original Repository Audit"
+description = "Complete source-backed audit with all 22 requested sections, payment/security findings, database/domain map, API/Flutter contracts, proposed Laravel architecture, and approval-gated migration phases. Includes both report and API appendix in a self-contained, printable document. Runtime behavior remains unverified."
+logical_id = "9102c568-26bb-4dc3-9a00-b020b968e6be"
+content_hash = "sha256:159a4ede5b3df5a8421eed9fa02aff2f397bf72b60e69bc98eac81a7e9fb9ad5"
+size = 154474
+mtime_ms = 1790805214510
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/9102c568-26bb-4dc3-9a00-b020b968e6be/11c857a2-cf25-4bb4-8754-efd1a1709f6c"
+storage_version_token = "1790805352848717"
+content_type = "text/html"
+
+[[outputs]]
+id = "sB5h7RkOr4pawV6sy7_gR"
+uri = "file://docs/audit/agendaally-preview-restoration.html"
+type = "html"
+title = "AgendaAlly — Build Results and Preview Blocker"
+description = "Both original frontend builds passed; original admin images restored. Documents the non-reproduced Next timeout and the missing HTTP-ready synthetic Laravel environment. Connected previews were not configured; no app/schema/UI changes were made."
+logical_id = "08085cfe-25e4-4c8a-9164-007a5bfe44bc"
+content_hash = "sha256:77bcc9b23c25872ef77a255bb3895efce86291757a76f678ba9265dbc6f3e182"
+size = 10176
+mtime_ms = 1790813066114
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/08085cfe-25e4-4c8a-9164-007a5bfe44bc/6d422538-ad4a-4851-a981-dfe3df7e8d6f"
+storage_version_token = "1790813066561536"
+content_type = "text/html"
+
+[[outputs]]
+id = "WGaJmBXIgNunF1k4pmHw-"
+uri = "file://docs/development/modernization-proposal.md"
+type = "text"
+title = "AgendaAlly modernization proposal — approval required"
+description = "Shared design system, role-aware navigation and screen-by-screen recommendations, based on the native interfaces."
+logical_id = "0ad7700a-4f8b-4d4e-b2d2-a49f6f178d58"
+content_hash = "sha256:e32521f083567230b445f9051c2e9defb36205b4a9ff3cbae79275acf48235a3"
+size = 8881
+mtime_ms = 1790832402855
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/0ad7700a-4f8b-4d4e-b2d2-a49f6f178d58/df9080bc-5605-43a8-ac57-e997bbc176ee"
+storage_version_token = "1790832415030122"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "F1197XDxTg7sKZd0rOqPd"
+uri = "file://docs/development/verification.md"
+type = "text"
+title = "Portable foundation verification"
+description = "Engineering results, real booking and checkout evidence, safety boundaries and remaining limitations."
+logical_id = "31908ebc-7c3f-493b-b0b3-e6305444930e"
+content_hash = "sha256:c20c802176cf1e1d00003c8f41873de42421890ed29acc2c1429126c5e9a57ab"
+size = 5090
+mtime_ms = 1790832400119
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/31908ebc-7c3f-493b-b0b3-e6305444930e/715fee0c-738b-4b0f-aaf4-b031a93d3b17"
+storage_version_token = "1790832415677024"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "r8hH7H0-xKn_z-Au2k-VZ"
+uri = "file://docs/development/synthetic-development-credentials.csv"
+type = "table"
+title = "All 36 development test accounts"
+description = "Complete role, email, development-only password, country, shop, branch scope and expected-access matrix. Synthetic owned-development fixtures only; no production credentials."
+logical_id = "b50af3ba-2bf2-4717-ae35-dfdfb8567974"
+content_hash = "sha256:e6045f5680084b0e3bacd4aee2cdff723aa59066d30f1fb6d4d56bb64476ff87"
+size = 6387
+mtime_ms = 1790865271042
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/b50af3ba-2bf2-4717-ae35-dfdfb8567974/d0b01b5f-bca2-4278-afa0-da5b70117360"
+storage_version_token = "1790865806486810"
+content_type = "text/csv"
+
+[[outputs]]
+id = "HQrGtwf21cimx_z3uzihe"
+uri = "file://docs/development/payment-architecture-audit.md"
+type = "text"
+title = "AgendaAlly Payment Architecture Audit"
+description = "Complete source-based audit: 18-method capability matrix, country/vendor/currency enforcement, accounting, payouts, refunds, security, current and target diagrams, phased plan and answers to all 21 questions. Recommendations only; no implementation or live provider operations."
+logical_id = "4c4fa271-b5ae-40ac-8d97-a783db0e8e65"
+content_hash = "sha256:14bf2a2caa92ba8e2383188f63cb806b1a70a36c8eb1b6ee7ed680d266a019e4"
+size = 97675
+mtime_ms = 1790897975204
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/4c4fa271-b5ae-40ac-8d97-a783db0e8e65/c753aae2-0897-4205-a467-a043bf003b92"
+storage_version_token = "1790898032994564"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "6E44eIftWGSz_G_UEq6Vl"
+uri = "file://docs/development/payment-collection-car-service-stories-amendment-report.md"
+type = "text"
+title = "AgendaAlly bounded amendment report"
+description = "Complete A–V report: payment collection defaults and protections, Car Service seed and desktop/mobile checks, Stories audit and proposal, and approval gates."
+logical_id = "4c49f536-f8ba-476c-9ca1-f80b45174e0c"
+content_hash = "sha256:21d053fcfe6949e90bdf9fb22ee3220b28119bccb504d8571b635b44fedece6a"
+size = 29714
+mtime_ms = 1790914626475
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/4c49f536-f8ba-476c-9ca1-f80b45174e0c/5cd8b9a6-14e6-4cb0-bf7d-44431b80396c"
+storage_version_token = "1790914667854841"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "P6UKaH-DwJCICdh6EDVaO"
+uri = "file://docs/development/stories-audit-and-stage-2-proposal.md"
+type = "text"
+title = "Stories audit and Stage 2 proposal"
+description = "Native Laravel, Admin/Vendor, Web and Flutter findings; desktop and 390px design proposal only. No Stories implementation or fixtures."
+logical_id = "c16d30ee-5068-4567-8234-24de56bc3fe6"
+content_hash = "sha256:315819ee49ce4b2757c63673130a445b084dd6c7b8666218741ea302af965ed7"
+size = 19142
+mtime_ms = 1790914137154
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/c16d30ee-5068-4567-8234-24de56bc3fe6/8be1468c-0a12-4ca0-befd-fdacc8882249"
+storage_version_token = "1790914668458222"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "ms4wqQ9HJLi1rz8-9X1l_"
+uri = "file://docs/development/customer-coupon-and-cart-runtime.md"
+type = "text"
+title = "Customer runtime correction report"
+description = "Coupon hydration root cause and verified correction; exact cart 404 classification and unchanged financial records."
+logical_id = "0a1d7ffb-cd10-40b8-a322-d11e69881568"
+content_hash = "sha256:e190129aca46c7ce233ac3a10d650c903f49c83af4fddc03d5390a4028450dad"
+size = 5325
+mtime_ms = 1790952503346
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/0a1d7ffb-cd10-40b8-a322-d11e69881568/b1869ad8-c62f-444b-a5ca-e60a67c1a925"
+storage_version_token = "1790952529065856"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "dp0c978BbsyRyEgyX_3Hv"
+uri = "file://docs/development/vendor-delivery-driver-audit.md"
+type = "text"
+title = "Vendor Delivery Driver audit and proposal"
+description = "Source-cited architecture, current capabilities, security findings, hybrid onboarding, future app compatibility and phases 0–8. Audit only; no delivery implementation."
+logical_id = "98922c7b-e33f-4ffa-a18e-814417942b44"
+content_hash = "sha256:c029d9fa38450a8d4fac72cb9ffb8bb7b75435e993dd3a0bf092e29e441eb8a0"
+size = 28837
+mtime_ms = 1790951961363
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/98922c7b-e33f-4ffa-a18e-814417942b44/cb57a5b1-5153-4e73-b8d5-da929a71b2a0"
+storage_version_token = "1790952530863183"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "5TFDQlhazWkAzO2QTL8v2"
+uri = "file://reports/delivery-driver-phase01-report.html"
+type = "html"
+title = "Delivery Driver Phase 0 + Phase 1 report"
+description = "All 18 requested reporting points, exact changed files, authorization rules, focused verification and deferred security/offboarding issues."
+logical_id = "eea5362a-aab6-4bc9-8802-537fe5da59ad"
+content_hash = "sha256:6595bfe90ba62865f9942ee6f91306522d351c9bbe2593a9c0c36e4c30760ab6"
+size = 15979
+mtime_ms = 1790957576019
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/eea5362a-aab6-4bc9-8802-537fe5da59ad/8870d5f5-e3db-4e08-b4e0-2c00ff0cf1ff"
+storage_version_token = "1790957605707128"
+content_type = "text/html"
+
+[[outputs]]
+id = "mo_UXpu0eoklCwrJRh339"
+uri = "file://reports/delivery-driver-phase2-report.html"
+type = "html"
+title = "AgendaAlly Phase 2 — 39-point completion report"
+description = "Delivery lifecycle, canonical branding, focused verification results and limitations, safety confirmations, and the exact 57-file native change inventory."
+logical_id = "bde8fb2b-ead3-4864-962c-88b7969eabf6"
+content_hash = "sha256:d3734bc1bd8259a0e37bfdecc50a290ce56c8b13a57cc3c64becb40685534e9b"
+size = 13763
+mtime_ms = 1790964486240
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/bde8fb2b-ead3-4864-962c-88b7969eabf6/40c6eee3-c448-49f6-83e6-3e4c5e42a5fb"
+storage_version_token = "1790964650289857"
+content_type = "text/html"
+
+[[outputs]]
+id = "nuX7wpp-jMahqepFRP7Pf"
+uri = "file://reports/agendaally-three-scope-report.html"
+type = "html"
+title = "AgendaAlly — Three-scope implementation report"
+description = "Exact changed files, all 51 photo-seeded Services, source/license manifest, pickup architecture, 35 passing focused tests, and clearly marked browser verification gaps."
+logical_id = "44588644-96c9-4d06-9616-1135b0a64c7d"
+content_hash = "sha256:6135a1174347347736a5464f4c6c5ef2cd82fd31c411f335b7ba5ca1106035d6"
+size = 32773
+mtime_ms = 1790986853798
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/44588644-96c9-4d06-9616-1135b0a64c7d/870eac52-a2d7-4618-863e-86e80bbe2cd4"
+storage_version_token = "1790986963684376"
+content_type = "text/html"
+
+[[outputs]]
+id = "sPyNhXPS51WG9hg-xCFcN"
+uri = "file://reports/header-media/report.html"
+type = "html"
+title = "Header and Service photography — verification report"
+description = "Screenshots, mock comparison, exact changes, licensing, acceptance results and the complete 51-Service mapping."
+logical_id = "d93b7a4a-8bdb-477c-a8d6-de30bafc7362"
+content_hash = "sha256:e31b9569db4da42cc86af83ef960361b0f4b08e1479c2ca9cad6d9ec64f8adb9"
+size = 4816980
+mtime_ms = 1790991617452
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/d93b7a4a-8bdb-477c-a8d6-de30bafc7362/c6c52f9e-5c0d-479d-8571-e1bbcd4290b5"
+storage_version_token = "1790991697693488"
+content_type = "text/html"
+
+[[outputs]]
+id = "-rGn4zMkc2oE1Zw3AyEwz"
+uri = "file://reports/header-media/service-mapping.csv"
+type = "table"
+title = "Complete 51-Service photo mapping"
+description = "Shop, Service, category, previous/final assets and native references, retained/replaced decision and reason."
+logical_id = "df761990-7594-4f3b-8387-cbda9e429636"
+content_hash = "sha256:e7f3d6f97279057478d487f52c9555cb16e8d71b2988a19829da1c8e4ad1847d"
+size = 23859
+mtime_ms = 1790991617192
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/df761990-7594-4f3b-8387-cbda9e429636/fc8a384b-0ac6-4d82-95d6-4c44fcedef9f"
+storage_version_token = "1790991698272300"
+content_type = "text/csv"
+
+[[outputs]]
+id = "Y-ClhMgujuIBl6SVNc4Gr"
+uri = "file://docs/development/payment-system-full-audit.md"
+type = "text"
+title = "Payment audit — bounded Phase 3B-2 update"
+description = "Updated audit status without provider activation or a full-project green claim."
+logical_id = "35365abb-a90a-4b64-b7cb-72a94a95a9fc"
+content_hash = "sha256:acf8cd96f592879792ccf69d4079be3bd5eb2bdb63151ccafe21e5d69a7febcb"
+size = 127528
+mtime_ms = 1791058940604
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/35365abb-a90a-4b64-b7cb-72a94a95a9fc/c5938011-0f4f-4c18-a41b-87a1a1733339"
+storage_version_token = "1791058972586169"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "zfWLvgp84KLnTenfibfYd"
+uri = "file://docs/development/customer-hours-favicon-correction-report.md"
+type = "text"
+title = "Shop hours and favicon correction report"
+description = "Root causes, exact changes, focused verification evidence and remaining limitations."
+logical_id = "d7c79296-f8a0-497d-bdd9-a49cfbcbd26e"
+content_hash = "sha256:af50579008e8fbe88c74c2473389edd586c9502ad331f1aa7e93192f2f62dbf4"
+size = 6657
+mtime_ms = 1790999231653
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/d7c79296-f8a0-497d-bdd9-a49cfbcbd26e/09a87f66-321b-4db1-88e3-f98a05cf6384"
+storage_version_token = "1790999247529510"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "HDig_xfQV8Q-7fQmZKLbD"
+uri = "file://docs/development/customer-footer-hydration-investigation.md"
+type = "text"
+title = "Closed: Customer Footer hydration investigation"
+description = "Previously observed, currently non-reproducible. No Footer changes or claimed fix. Payment containment remains unstarted pending separate approval."
+logical_id = "cbc68eb8-b72d-47d6-849f-a0e860c8ece0"
+content_hash = "sha256:fac8486fedfba461f3fd692720661e34a5162a43965c26962e2f967584af900a"
+size = 7069
+mtime_ms = 1791001275293
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/cbc68eb8-b72d-47d6-849f-a0e860c8ece0/2890a915-aebc-4e4c-a8e3-7047b1f32719"
+storage_version_token = "1791001285257180"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "4fJBoFqVyEN26UzFQ1ohb"
+uri = "file://docs/development/payment-p0-authorization-containment.md"
+type = "text"
+title = "P0 payment authorization containment report"
+description = "Complete containment report: authoritative Shop/grant checks, preserved cash/Admin behavior, narrow refund sibling fix, 27 tests / 286 assertions, and unchanged 53-table financial fingerprints including the fee ledger."
+logical_id = "464f4931-2b6f-4ace-91e5-492a840c0319"
+content_hash = "sha256:29927c87549317968c85840c42babf3ef75e4fe47c0fdfbf4488c82e898ef193"
+size = 14452
+mtime_ms = 1791002239557
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/464f4931-2b6f-4ace-91e5-492a840c0319/b211f3bb-1a58-4e7e-971d-8159ee2f3f07"
+storage_version_token = "1791002363844976"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "Ln_d-IZqltOyK5VNgupiD"
+uri = "file://docs/development/payment-audit-resumed-p0-stop.md"
+type = "text"
+title = "Read-only payment audit — new P0 stop report"
+description = "Source-confirmed Staff-role cross-Shop Booking financial mutation, exact authorization chain and preconditions, approved collection model, and unchanged 53-table financial fingerprints. No remediation or provider configuration performed."
+logical_id = "2d16a54e-0f39-4e60-9364-4c727f1f9f10"
+content_hash = "sha256:c15c0e7f312e6ee24302d474b6f3f44eef710c761cbf64f50d00bc2dc4590d3a"
+size = 10356
+mtime_ms = 1791002956180
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/2d16a54e-0f39-4e60-9364-4c727f1f9f10/cf57e3c1-0f4d-49e1-9a42-baa85ddffc2e"
+storage_version_token = "1791003006109064"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "P4lCDRJBclQKDlhZa1g04"
+uri = "file://docs/development/payment-booking-staff-p0-containment.md"
+type = "text"
+title = "Booking Staff P0 containment report"
+description = "Target-bound native Shop/grant authorization, role/branch/country results, real isolated cancellation accounting, 67 passing tests and 633 assertions, unchanged 53-table fingerprints, exact changed files and remaining concerns. Broader audit remains paused."
+logical_id = "36311dca-f80c-4ae3-a353-83cee5dd31b1"
+content_hash = "sha256:28c7dcfc392d7bffff133282b416195026d1995a29d6fd842bab79d2207600ab"
+size = 14194
+mtime_ms = 1791004328461
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/36311dca-f80c-4ae3-a353-83cee5dd31b1/d8a8e83c-89c0-4801-bb4f-c68c67486dac"
+storage_version_token = "1791004570434639"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "5d-ruEtChlLknjduex6Oa"
+uri = "file://docs/development/payment-wallet-transfer-p0-containment.md"
+type = "text"
+title = "Wallet Transfer P0 Containment Report"
+description = "Root cause, minimal lifecycle correction, focused verification, unchanged 53-table fingerprints, and remaining limitations. The broader audit remains paused."
+logical_id = "97a4192d-ecf3-41c3-a541-3e5f7be63cb3"
+content_hash = "sha256:fe470c97e993b0168537886a03cfc18bea7cc036b7c69cb3a931bb00132b7729"
+size = 12095
+mtime_ms = 1791006410401
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/97a4192d-ecf3-41c3-a541-3e5f7be63cb3/a942e8aa-ce08-49aa-85fa-6e42753e0a11"
+storage_version_token = "1791006445418530"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "1JdlWel8maVLWYhCMARL_"
+uri = "file://docs/development/payment-wallet-amount-p0-containment.md"
+type = "text"
+title = "Wallet Amount P0 — Verified Containment"
+description = "Containment boundaries, isolated test results, narrow Wallet top-up sibling, unchanged 53-table fingerprints and remaining limitations."
+logical_id = "8f062456-2601-4050-a1d0-11fe52e59dcb"
+content_hash = "sha256:ea911aff17b5e02b94cb76b6b3f6285f0f13a68d64e384ade20df4cf9caa67f4"
+size = 15023
+mtime_ms = 1791008441813
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/8f062456-2601-4050-a1d0-11fe52e59dcb/c31a3350-334c-4eff-9a88-779c68bd7133"
+storage_version_token = "1791008479510385"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "FQBp638GXUPfANpFf1aHT"
+uri = "file://docs/development/payment-product-fulfillment-p0-containment.md"
+type = "text"
+title = "Product fulfillment containment — required P0 stop"
+description = "Exact source chain for the newly discovered Customer first-settlement authorization P0, blocked original containment status, and unchanged 53-table financial-state receipt. No application changes or exploit tests performed."
+logical_id = "7f3ae166-92ac-46a0-a8bf-3144c351c623"
+content_hash = "sha256:a90e6c5c13ce3b11cd4fc0957a7ba6d72f4add5b8e81ef9c5b7beae5a045f53a"
+size = 10633
+mtime_ms = 1791032230314
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/7f3ae166-92ac-46a0-a8bf-3144c351c623/e2ac7ed9-a41f-4215-8c56-714d42654a6f"
+storage_version_token = "1791032277914886"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "xOUePnD7tSrdCkC-yR171"
+uri = "file://docs/development/payment-product-fulfillment-dual-p0-containment.md"
+type = "text"
+title = "Dual-P0 containment — authorization verified, schema-gated stop"
+description = "Independent finding dispositions, native actor matrix, 41 focused tests / 177 assertions, selected regression results, and minimum proposed financial-state schema. No migration performed."
+logical_id = "ce640b1f-c510-4b48-8c7a-3e2a1e17aa0e"
+content_hash = "sha256:0da10eaab3fbec807e6ecb63e865295ae622e5b7fe4ae787a2786266f1d67cde"
+size = 20450
+mtime_ms = 1791034162359
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/ce640b1f-c510-4b48-8c7a-3e2a1e17aa0e/059f0a01-38ac-4315-9214-c55e888eabd7"
+storage_version_token = "1791034264664163"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "YDRxtOLfLeGjpg1Pt2Qgl"
+uri = "file://.local/product-fulfillment-dual-state-receipt.json"
+type = "unspecified"
+title = "Protected financial state — complete before/after receipt"
+description = "All 53 protected tables: identical counts, codec and SHA-256 fingerprints; zero changes, including platform_fee_ledger_entries. Metadata only, no financial row values."
+logical_id = "50645dac-5d54-41e1-9385-1f2846657241"
+content_hash = "sha256:2f86da174708673b9cfb4d290e70be0b1033c2a1af93f9bef9d98056e249b35c"
+size = 15782
+mtime_ms = 1791034207130
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/50645dac-5d54-41e1-9385-1f2846657241/bd61e2ea-9754-4966-abe4-c24e8df43cf2"
+storage_version_token = "1791034265347613"
+content_type = "application/octet-stream"
+
+[[outputs]]
+id = "Ytkp3alfbJNB6UlPpq2XV"
+uri = "file://docs/development/payment-phase3b-mtn-identity-containment.md"
+type = "text"
+title = "Phase 3B-2 identity containment and all 44 answers"
+description = "Approved migration, committed identity proof, failure/replay/contention results, protected state and final stop boundary."
+logical_id = "99599f76-6dab-470d-b7c0-3d21fb46a4cb"
+content_hash = "sha256:a297793f645736fb74cfe023ab2568007f1a026940ed58a5d6d320249364fb6a"
+size = 42538
+mtime_ms = 1791058939356
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/99599f76-6dab-470d-b7c0-3d21fb46a4cb/1c3743cd-e11a-4b85-bef1-64504565173d"
+storage_version_token = "1791058971598330"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "bdDdA_dStiHmVJmN6JJpu"
+uri = "file://docs/development/payment-phase3b-mtn-cameroon-readiness.md"
+type = "text"
+title = "MTN Cameroon/XAF readiness — still blocked"
+description = "Identity containment is verified in development; currency contract and activation requirements remain unresolved."
+logical_id = "16c9199b-bde8-4216-97e1-453bedc3d37e"
+content_hash = "sha256:1db3ecb20214351490b9852d60a71451b22364bfbbf7cb79210026724ab0b768"
+size = 34024
+mtime_ms = 1791058941072
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/16c9199b-bde8-4216-97e1-453bedc3d37e/6bbe7af6-4787-45b9-9907-2bdbb490e8e4"
+storage_version_token = "1791058972122168"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "mkqp0VLczF2ciKj5SAxpO"
+uri = "file://docs/development/mtn-cameroon-onboarding-inquiry.md"
+type = "text"
+title = "MTN Cameroon inquiry package — unsent review copy"
+description = "Includes the initial message, 46-question questionnaire and internal comparison/tracking sections. After approval, send only sections A and B; do not send the full internal document."
+logical_id = "c1acf758-a6f0-43d5-8604-164b6de4a68b"
+content_hash = "sha256:c200f9b63be8e70f4ffa53b44ce37987bc1c6971d3b0d9e8407b433d755088a2"
+size = 28824
+mtime_ms = 1791062246255
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/c1acf758-a6f0-43d5-8604-164b6de4a68b/c246eda5-3c09-49a9-8dde-8deeb8797a32"
+storage_version_token = "1791062301203189"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "uHP6jWfmIRw5qaXFrM4_8"
+uri = "file://docs/development/payment-system-completion.md"
+type = "text"
+title = "Payment completion — partial implementation report"
+description = "One implementation matrix, completed changes, remaining application/contract blockers, schema approval proposal, test evidence and the first-real-payment approval path."
+logical_id = "a528883e-720d-43cf-b06d-cb26998b38b3"
+content_hash = "sha256:5bc7788f3e13e19429f93bc91508f0850173b2508ae48d85d86b1d4c7b9849fa"
+size = 18479
+mtime_ms = 1791063997923
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/a528883e-720d-43cf-b06d-cb26998b38b3/9351e4ca-9fae-4b87-adc1-0b4161c8ab11"
+storage_version_token = "1791064024928475"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "8i_S3vGigiBfZ70KFdjSn"
+uri = "file://docs/development/payment-phase3c-reservation-design-comparison.md"
+type = "text"
+title = "Phase 3C — revised reservation design comparison"
+description = "Design-only comparison of ten strategies, exact lock analysis, retained-RR recommendation, approval boundaries and protected-state verification. No implementation."
+logical_id = "3555d89b-6b2d-436d-89a5-c761e1b4f142"
+content_hash = "sha256:94000f0972457bc414095ed9fdf31f29237c8b7e111a36c75642f4db9df9290a"
+size = 46558
+mtime_ms = 1791079350374
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/3555d89b-6b2d-436d-89a5-c761e1b4f142/afb35d25-36b4-43eb-940f-15c13e2aef93"
+storage_version_token = "1791079396124169"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "kNZCSuv4tGxXIyJSxosoB"
+uri = "file://docs/development/agendaally-production-database-comparison.md"
+type = "text"
+title = "AgendaAlly — PostgreSQL versus MySQL architecture comparison"
+description = "Read-only compatibility inventory, complete Phase 3C reassessment, reservation caller trace, B/C/G comparison, migration estimates, unexecuted PostgreSQL certification plan and recommendation."
+logical_id = "80ca8cde-756a-4717-adcb-416282eb4067"
+content_hash = "sha256:291451cc8a106b125291de0658ddc88b6eba73fb8b98557346fef76853feee17"
+size = 66156
+mtime_ms = 1791080423561
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/80ca8cde-756a-4717-adcb-416282eb4067/4a8398b2-a750-4b73-8aee-e50e6a15e315"
+storage_version_token = "1791080463862357"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "ki0d0IqKcqgohcaKjsvCb"
+uri = "file://docs/development/payment-engine-proof-comparison.md"
+type = "text"
+title = "AgendaAlly native database proof comparison"
+description = "Complete results, exact shared confirmation-replay failure, PostgreSQL adaptations, restoration checks and recommendation C: insufficient evidence."
+logical_id = "acf5bf32-5972-4d61-b024-69cbbbc30425"
+content_hash = "sha256:bdc537cf412b44802b374cce1f3359942b1721e9eb86765160f7a2a0b459b55d"
+size = 28846
+mtime_ms = 1791082286113
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/acf5bf32-5972-4d61-b024-69cbbbc30425/9494fd57-977d-4859-8a25-de1bc938acb8"
+storage_version_token = "1791082681932708"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "A2YNWiETGfoLOIkJDW6wH"
+uri = "file://docs/development/payment-engine-proof-evidence.zip"
+type = "unspecified"
+title = "Native database proof evidence bundle"
+description = "Native worker traces, original MySQL 13/51 receipts, adaptation diffs, protected-baseline verification, restoration record and inert historical harness archive. Both engine proofs stopped without remediation."
+logical_id = "2a22c1ff-e58c-437d-bc04-788702316954"
+content_hash = "sha256:fca6aaedcfaa4e0a9191ceb10672cad8b27f20978e0a879c05bf6d5167ec4704"
+size = 216681
+mtime_ms = 1791082578485
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/2a22c1ff-e58c-437d-bc04-788702316954/b77a87b4-36a1-42e4-8e20-ba949821a4d6"
+storage_version_token = "1791082682677689"
+content_type = "application/octet-stream"
+
+[[outputs]]
+id = "NEzb_QZtkqRiLKTZXFSCV"
+uri = "file://docs/development/agendaally-mvp-readiness.html"
+type = "html"
+title = "Current MVP readiness — remain in staging"
+description = "Same authoritative report, updated to15.5/20 with all51 explicit answers, accepted local drills and remaining verification/external gaps."
+logical_id = "38fa38ce-eb7f-4387-96f9-74321afe639e"
+content_hash = "sha256:efaafa90456a5a52b01f3b2a6d17ad14419a871555ac32d2aa02253b6bf7783e"
+size = 150457
+mtime_ms = 1791150477251
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/38fa38ce-eb7f-4387-96f9-74321afe639e/06dce2cb-6614-4ffd-aa6c-9c3977a48429"
+storage_version_token = "1791150503057323"
+content_type = "text/html"
+
+[[outputs]]
+id = "TK2pvC6-cpTK6rTuWiHvQ"
+uri = "file://docs/development/agendaally-mysql-mvp-evidence.zip"
+type = "unspecified"
+title = "Updated MVP evidence package"
+description = "50 redacted current/historical files; failures retained. Excludes private authentication, secrets, dumps/binlogs, backup payloads and raw logs."
+logical_id = "9fcaecf5-2084-4b8b-a406-126a28c7e1f2"
+content_hash = "sha256:4eba7a422685a4efdd9f000d085c4134380fb93955b3ff0b55942d0814e7148c"
+size = 1444845
+mtime_ms = 1791150477403
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/9fcaecf5-2084-4b8b-a406-126a28c7e1f2/bb490ddd-11a5-4fbf-92e8-6a2fee52aa48"
+storage_version_token = "1791150504417166"
+content_type = "application/octet-stream"
+
+[[outputs]]
+id = "o4I2shk06QTjmTxl2MBNG"
+uri = "file://docs/development/agendaally-mvp-readiness.md"
+type = "text"
+title = "MVP readiness — Markdown source"
+description = "Current conclusion and complete historical evidence retained in the same report."
+logical_id = "ad97aa44-7814-4864-9915-04f43f6d4a42"
+content_hash = "sha256:41010e2c4d5a0c34c459782729a51daef1f7324710bbaafd5f26a950a7a3d46b"
+size = 134142
+mtime_ms = 1791150477187
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/ad97aa44-7814-4864-9915-04f43f6d4a42/d103a088-8147-4d4a-b844-03fbad4f5dc0"
+storage_version_token = "1791150503638894"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "-UpFMIKI7U6s0kS_vMCfE"
+uri = "file://deliverables/vendor-calendar-proposal/audit-and-design.html"
+type = "html"
+title = "Revised calendar proposal — final approval"
+description = "Updated 21-section report, eight desktop/mobile wireframes, existing-theme mapping and proposed safe local-client retry contract. No implementation changes."
+logical_id = "5c0431dc-5394-4e17-b2e3-cf9ff31af075"
+content_hash = "sha256:b7db3e535ec3903c46dc04d4c072a158f9b2b30c047df9ae6eba8e15fc6e4e8e"
+size = 103211
+mtime_ms = 1791174678998
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/5c0431dc-5394-4e17-b2e3-cf9ff31af075/ad917abe-dcc3-4308-822f-fb9c34b32d57"
+storage_version_token = "1791174713422315"
+content_type = "text/html"
+
+[[outputs]]
+id = "10fmDokCxZ1q__9DfH4RA"
+uri = "file://deliverables/vendor-calendar-proposal/desktop-week.png"
+type = "image"
+title = "Revised desktop Week — existing AgendaAlly theme"
+description = "Approved overall layout direction, now illustrated using existing AgendaAlly theme tokens."
+logical_id = "100666f1-9cc9-4dcd-8ad2-4f8345e78660"
+content_hash = "sha256:9c267040ade530627fd9c3ea988067fc2313f3c4ecf43feb8dce291b8ea805b5"
+size = 168900
+mtime_ms = 1791174679618
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/100666f1-9cc9-4dcd-8ad2-4f8345e78660/c3bf46bf-fe1d-42ff-9c92-e64437ff77f7"
+storage_version_token = "1791174713870488"
+content_type = "image/png"
+
+[[outputs]]
+id = "nDItY3RGzJ91zVdUd6jM9"
+uri = "file://deliverables/vendor-calendar-proposal/mobile-390-agenda.png"
+type = "image"
+title = "Revised mobile — Agenda first"
+description = "Agenda primary, Day secondary, optional Week under More. The full proposal includes 320px Agenda and the contained Week panel."
+logical_id = "7d2ad401-543e-40db-82d6-60070bd2befd"
+content_hash = "sha256:4c7922473d79adf86b8af38f9e758d3e16c54fa9792f7c667cac804fec29358e"
+size = 67277
+mtime_ms = 1791174680290
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/7d2ad401-543e-40db-82d6-60070bd2befd/a3f70271-45b3-4b9f-9d28-b300725e9572"
+storage_version_token = "1791174714350895"
+content_type = "image/png"
+
+[[outputs]]
+id = "kidTzYAAn-i3C7WRqPta8"
+uri = "file://deliverables/vendor-calendar-proposal/mobile-320-add-booking.png"
+type = "image"
+title = "Early Add Booking — reduced payment warning"
+description = "320px Client step uses quiet explanatory text rather than a large UNPAID/UNCOLLECTED warning."
+logical_id = "e532b0e1-500e-4549-a677-089e52ae1181"
+content_hash = "sha256:6dff222a9adaad401deac4edef925739578579f0def05b9b1834dc72c68281c8"
+size = 64669
+mtime_ms = 1791174679890
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/e532b0e1-500e-4549-a677-089e52ae1181/db3fcb42-f43a-4cb3-90ac-9755454bdd99"
+storage_version_token = "1791174714799648"
+content_type = "image/png"
+
+[[outputs]]
+id = "JO-uvN8meHviM0rXqDNW-"
+uri = "file://deliverables/vendor-calendar-proposal/mobile-320-review.png"
+type = "image"
+title = "Final Review — prominent payment state"
+description = "320px final Review clearly displays UNPAID/UNCOLLECTED without implying any collection. The full proposal also includes 390px Review."
+logical_id = "cc475d25-9c82-4bee-ba4a-52c4202b4ef1"
+content_hash = "sha256:bb8f336b0c4b792175589db3078f580c527d150c8801921d9cced77d5a0c3807"
+size = 69037
+mtime_ms = 1791174680106
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/cc475d25-9c82-4bee-ba4a-52c4202b4ef1/ed6a7378-c105-4de8-b782-0f5b1976857c"
+storage_version_token = "1791174715243411"
+content_type = "image/png"
+
+[[outputs]]
+id = "v3auZ8FoSqECsM8iol9xz"
+uri = "file://.local/staging-mvp/email-presentation-local-proof.html"
+type = "html"
+title = "Corrected email preview — local only"
+description = "Self-contained preview using the exact embedded logo and social PNG bytes. No email was sent."
+logical_id = "f1ce22ce-428c-4f29-8938-4cd86c095b8f"
+content_hash = "sha256:3a3363c4e0552dc33f64b80aaf741878ec016664e2cc5c903dd8d863b5998a9f"
+size = 890933
+mtime_ms = 1791229225109
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/f1ce22ce-428c-4f29-8938-4cd86c095b8f/12f3985e-c548-4b91-bbe9-71fa7bc04412"
+storage_version_token = "1791229445499272"
+content_type = "text/html"
+
+[[outputs]]
+id = "hqTmG0-I_ExM1uPkZIERS"
+uri = "file://docs/development/smtp-email-presentation-audit.html"
+type = "html"
+title = "SMTP receipt and email presentation audit"
+description = "Root causes, bounded corrections, verification limits, and the unchanged 16/20 MVP readiness score."
+logical_id = "fa1ada51-4e10-4501-bf48-1a6afafd9538"
+content_hash = "sha256:56ac98674569318e27103fef5c7ba28bf996c4a0ad7131b8da0c1c088c5b1584"
+size = 7396
+mtime_ms = 1791229349555
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/fa1ada51-4e10-4501-bf48-1a6afafd9538/c8061a0c-565a-4d6e-8cb4-19bc39d59e4b"
+storage_version_token = "1791229446199220"
+content_type = "text/html"
+
+[[outputs]]
+id = "-dqqw8OPQakH2MMuxnISP"
+uri = "file://docs/development/agendaally-email-system-audit.html"
+type = "html"
+title = "AgendaAlly — complete 30-section email audit"
+description = "Full inventory, local render/MIME/security findings, proposal-only architecture, C1/O4 assessment and preservation. Current score: 16/20 = 80%; remain in staging."
+logical_id = "50e5712d-9a85-42c7-9c70-eb0bd6b85df8"
+content_hash = "sha256:5133454a6eb3359130c6944d8c60b556ae4eb226b325d7c18280371459c1a3d3"
+size = 520159
+mtime_ms = 1791233357828
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/50e5712d-9a85-42c7-9c70-eb0bd6b85df8/19532cd5-45ab-45ee-a20e-e4a23809daaf"
+storage_version_token = "1791233417297334"
+content_type = "text/html"
+
+[[outputs]]
+id = "zumaftJACc8Tj6kHl1EMm"
+uri = "file://docs/development/agendaally-email-inventory.csv"
+type = "table"
+title = "Email inventory — 26 entries, 17 fields"
+description = "Existing paths, shared infrastructure and missing/deferred capabilities, with authoritative triggers and exact source references."
+logical_id = "a3742842-a7fe-47a6-bc9c-cfe66298a1e7"
+content_hash = "sha256:08114621436b24f5c741e0db55c077a05a9f135dc8f7056fcf23645b85dcf865"
+size = 24743
+mtime_ms = 1791233357340
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/a3742842-a7fe-47a6-bc9c-cfe66298a1e7/56aeffae-4a45-4530-ae6c-da2ce303acaf"
+storage_version_token = "1791233417798554"
+content_type = "text/csv"
+
+[[outputs]]
+id = "iFjt4uLG2QjOY-K8oDArS"
+uri = "file://docs/development/agendaally-email-system-audit-evidence.zip"
+type = "unspecified"
+title = "Email audit evidence archive"
+description = "Report, inventory, synthetic HTML/MIME, browser captures, JUnit receipts, current owner-confirmed Admin Gmail evidence, and preservation hashes. No email was sent."
+logical_id = "073ec6c3-61da-4052-aaee-952f689908ab"
+content_hash = "sha256:a43c5667fb6ff4057e693e5e9c4d33a53ecb2e796b79b3a297339cb6dc877dbd"
+size = 9557326
+mtime_ms = 1791233363000
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/073ec6c3-61da-4052-aaee-952f689908ab/844f534b-7600-4e8b-8053-0254d554a641"
+storage_version_token = "1791233418378821"
+content_type = "application/octet-stream"
+
+[[outputs]]
+id = "ZARwE1ZfmLMs1MAzHArkF"
+uri = "file://docs/development/agendaally-email-operational-closure.html"
+type = "html"
+title = "AgendaAlly C1/O4 — required 30-section closure report"
+description = "Bounded local implementation and preservation passed. Real account-email acceptance not executed; C1/O4 PARTIAL, 16/20 = 80%, production NO-GO."
+logical_id = "cb770362-b52d-4a7c-9b91-bb763c1f07cf"
+content_hash = "sha256:8b96d80c682eadb3da1ff354c7b2c5f71fca454f6328bea671846f5cbb6a911d"
+size = 15501
+mtime_ms = 1791239272903
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/cb770362-b52d-4a7c-9b91-bb763c1f07cf/dc6d74f0-267e-4655-9215-5a1fb9a9a1da"
+storage_version_token = "1791239298108116"
+content_type = "text/html"
+
+[[outputs]]
+id = "wyjsL-YTGFRhHz2hCMQJD"
+uri = "file://docs/development/agendaally-email-operational-closure-evidence.zip"
+type = "unspecified"
+title = "C1/O4 safe local evidence package"
+description = "44-test JUnit result, preservation and migration-ledger fingerprints, 18 responsive checks, blocked UI contract evidence, synthetic HTML/MIME fixtures and mobile screenshot. No SMTP credentials or real account tokens."
+logical_id = "1ca8c228-174a-4c5c-8978-11974ec3da7e"
+content_hash = "sha256:4f5f0c7e47c50358799df87d7bfc8e9a3ba77232c39b90a4e321f7730df65a0a"
+size = 8059295
+mtime_ms = 1791239273551
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/1ca8c228-174a-4c5c-8978-11974ec3da7e/46807992-2a58-4751-ad8b-334cfabc4abe"
+storage_version_token = "1791239298882317"
+content_type = "application/octet-stream"
+
+[[outputs]]
+id = "8TjnanrCV8NkvezvBLIxM"
+uri = "file://docs/development/customer-location-selector-diagnosis.md"
+type = "text"
+title = "Customer location selector — diagnosis and bounded repair"
+description = "Country data/API healthy; mobile arrow and exact-768px visibility defects corrected. Six focused tests and guarded browser checks passed; 207 tables/schema preserved, no real email sent."
+logical_id = "f731f85a-b114-45c0-be57-1bea80b21f71"
+content_hash = "sha256:074c03599a4f5d94b1e077d82e73d67d69055e3a8abcb2424fa91b301ea9a581"
+size = 5591
+mtime_ms = 1791240275547
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/f731f85a-b114-45c0-be57-1bea80b21f71/091c9d8a-c7d0-43a0-81c8-65dc83f93cd7"
+storage_version_token = "1791240307544208"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "YXYGzf4gxQv6SLhHjkujV"
+uri = "file://docs/development/account-email-live-acceptance.md"
+type = "text"
+title = "Controlled account-email acceptance — verification stage"
+description = "One disposable Customer created; one selected verification marked SENT. Permission removed, queues clear, existing records preserved. Mailbox receipt and reset stage remain open."
+logical_id = "a9c59502-6547-4e55-90de-44965f3a2756"
+content_hash = "sha256:3ec87950db2a22fa7a1cd342b38f26e490202242424d3641d08a979058fa8f13"
+size = 2380
+mtime_ms = 1791241417971
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/a9c59502-6547-4e55-90de-44965f3a2756/53ea3831-bac1-4ab2-8f29-37f1264a6bbc"
+storage_version_token = "1791241443292246"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "6HAO7QL1jfvxF9VX-YKo_"
+uri = "file://docs/development/account-verification-readonly-trace.md"
+type = "text"
+title = "Account verification — read-only routing and request trace"
+description = "Current Customer preview maps to normal Laravel/owned SQLite. Original code expired; later requests queued unsent messages. Historical verification response is unavailable; no account changes or further sends."
+logical_id = "e15e9b83-1791-4214-b32b-8b35974d4f23"
+content_hash = "sha256:adb8718e4ffb18ac63eb0b48cc6ce009c09714e67a15a005b225378c01f6bd4e"
+size = 4655
+mtime_ms = 1791244781398
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/e15e9b83-1791-4214-b32b-8b35974d4f23/7959a867-04d1-46c6-8847-cbf82de4f12e"
+storage_version_token = "1791244859846506"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "tXGb2CkBQ7w9G5uSLHa8p"
+uri = "file://docs/development/account-email-bounded-recovery.md"
+type = "text"
+title = "Customer login/logout acceptance — reconciled evidence"
+description = "Owner-completed UI journey preserved without repetition. Login corroborated by token creation/use; server-side logout revocation unresolved. No email issued or sent; C1/O4 and 16/20 remain unchanged."
+logical_id = "aa4d95ff-09a4-464f-be3b-ff5ec9ea95e0"
+content_hash = "sha256:5a15c7db254b62dc0351adfd173f048a09e57e83651826addc3c4f19960b5c66"
+size = 14787
+mtime_ms = 1791251174158
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/aa4d95ff-09a4-464f-be3b-ff5ec9ea95e0/c2453bb7-3f11-453b-87be-7aa53b3c54b6"
+storage_version_token = "1791251234384626"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "ClmVMC1RhsxObEWLw-cs2"
+uri = "file://.local/staging-mvp/admin-email-template-closure-report.html"
+type = "html"
+title = "AgendaAlly — Admin Email Templates: 30-point report"
+description = "Before/after matrices, exact data delta, changed files, security and rendering checks, browser limits, and unchanged C1/O4 score. Real verification and reset were not sent."
+logical_id = "a3208a84-5959-4dc0-b378-b2b1bd3432fb"
+content_hash = "sha256:4511eaf772b815b58433b9ccb224b63372ed6b0a1b168849a8518c86d86c0244"
+size = 18535
+mtime_ms = 1791260187611
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/a3208a84-5959-4dc0-b378-b2b1bd3432fb/ff59a213-364f-47c7-985f-133d3e931e0f"
+storage_version_token = "1791260224475764"
+content_type = "text/html"
+
+[[outputs]]
+id = "fJjyjsN7sDl1kg317lNYh"
+uri = "file://docs/development/agendaally-financial-readiness-campaign.html"
+type = "html"
+title = "AgendaAlly Financial Readiness — Consolidated 47-Section Report"
+description = "Frozen baseline, bounded hardening evidence, explicit payout historical-cause limitation, and manual Refund/Payout architecture. Audit and design only; production remains NO-GO."
+logical_id = "591f5a0e-7be9-4b7e-8ec4-93ee97784d64"
+content_hash = "sha256:68f930e3f37bbb1ee551c4cf0e21c0417ee19d2bfb6630a64dfbaf290fb2e0d4"
+size = 87427
+mtime_ms = 1791274136404
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/591f5a0e-7be9-4b7e-8ec4-93ee97784d64/8fb74d7c-9051-45ac-b342-eebc844fb6c3"
+storage_version_token = "1791274177634096"
+content_type = "text/html"
+
+[[outputs]]
+id = "0JIBeq3j9_lvZu5VZFUTt"
+uri = "file://reports/agendaally-manual-finance-stopping-report.html"
+type = "html"
+title = "AgendaAlly: consolidated 53-section stopping report"
+description = "Implementation, preservation and acceptance evidence, confirmed refund-policy P0, unresolved gates and owner-approval boundary. Production NO-GO."
+logical_id = "506ae0ea-2f0b-46f5-83fc-9bd1b13724dc"
+content_hash = "sha256:f11aeeff1d6c8783e956dfe7567a6bf710244f9eb57ac1093751ba6520c032fd"
+size = 50374
+mtime_ms = 1791300384020
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/506ae0ea-2f0b-46f5-83fc-9bd1b13724dc/ceb04f08-ec31-4472-a50b-eb2ba0d56d2f"
+storage_version_token = "1791300384955925"
+content_type = "text/html"
+
+[[outputs]]
+id = "gwBV11ACTzOf0RgRcQ1B4"
+uri = "file://reports/agendaally-manual-finance-policy-repair-report.html"
+type = "html"
+title = "AgendaAlly: updated 53-section policy-repair report"
+description = "Owner-authorized shared refund-policy cap repair, local/native regression results, exact data preservation and remaining acceptance qualifications."
+logical_id = "c6adb01c-63a3-416e-9c89-3248675b055e"
+content_hash = "sha256:a94937f9b3af78e3537b15ac982315fdacc8d800255f64d57cc8142d18a72573"
+size = 53384
+mtime_ms = 1791301866988
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/c6adb01c-63a3-416e-9c89-3248675b055e/668c20b5-0f31-43e1-ba9e-69baf1b1133c"
+storage_version_token = "1791301867673956"
+content_type = "text/html"
+
+[[outputs]]
+id = "8rDTucKICdL7fRoTiJmql"
+uri = "file://reports/agendaally-native-build-qualification.html"
+type = "html"
+title = "AgendaAlly native build qualification — final report"
+description = "Web/Admin builds and whole-Web types verified; unchanged hardening passes 1,093 tests / 7,398 assertions. Known preservation warning retained; previews restored; score unchanged."
+logical_id = "a575b5a7-4172-408a-8b26-e5bf7afcda31"
+content_hash = "sha256:8c61ad67315ee139f0da364529e38cabde8eebd9ac7348d56e6aceef5b65e1bc"
+size = 11092
+mtime_ms = 1791313856073
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/a575b5a7-4172-408a-8b26-e5bf7afcda31/b5ef4312-6599-4920-bb54-ce75b215a033"
+storage_version_token = "1791313856747748"
+content_type = "text/html"
+
+[[outputs]]
+id = "B44C8BJ9OEBgMIv_bXKVH"
+uri = "file://reports/agendaally-final-20-gate-audit.html"
+type = "html"
+title = "AgendaAlly — final canonical 20-gate audit"
+description = "All 20 original gates reconciled: 16/20 (80%) unchanged; conditional MVP GO, production NO-GO; exact evidence, qualifications, blockers, deferrals and mobile-audit handoff recommendation."
+logical_id = "00753750-0641-47c8-8626-04063a96bd8b"
+content_hash = "sha256:a30cb32ff8335931de24c7316c7817866d81b2aaccf2822d096e9f6508d9300f"
+size = 34515
+mtime_ms = 1791315205645
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/00753750-0641-47c8-8626-04063a96bd8b/700fba9e-db3b-4abe-b5e9-1997d2b7887a"
+storage_version_token = "1791315254705968"
+content_type = "text/html"
+
+[[outputs]]
+id = "rmWvClBUbAVXkMyXSEiyG"
+uri = "file://reports/agendaally-legal-policy-alignment.html"
+type = "html"
+title = "AgendaAlly policy alignment report & review drafts"
+description = "Implementation audit, exact changes, validation and preservation results, unresolved owner/legal decisions, and the three English policy drafts for review. Canonical 16/20 and production NO-GO remain unchanged."
+logical_id = "e1620de8-e619-431e-82d3-433ead2da96e"
+content_hash = "sha256:133c624f63099c490e4b78f2fc98ea6e54969acf65bae5a237d0c5f499226f00"
+size = 43493
+mtime_ms = 1791318506056
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/e1620de8-e619-431e-82d3-433ead2da96e/238abe9f-c9f5-4c64-9ff8-6b18972624b6"
+storage_version_token = "1791318594606109"
+content_type = "text/html"
+
+[[outputs]]
+id = "V0Mk5XKMxtDZzWpyE6dcO"
+uri = "file://docs/development/evidence/customer-mobile-audit/report.html"
+type = "html"
+title = "AgendaAlly Customer Mobile — Read-only Audit"
+description = "Complete 35-section audit with foundation recommendation, API/parity/reuse matrices, prioritized findings, separate Android/iOS status, and preservation results. Source-based coverage is not runtime acceptance."
+logical_id = "28a69538-fadd-4e27-a780-8aaaed40b64d"
+content_hash = "sha256:5e6d30b98abbe340945adad2daa4e267f7e15324a515602c5dd2f4b85784beb5"
+size = 82949
+mtime_ms = 1791320868632
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/28a69538-fadd-4e27-a780-8aaaed40b64d/2b319cad-027a-4370-9af2-c9354877abbf"
+storage_version_token = "1791320888477891"
+content_type = "text/html"
+
+[[outputs]]
+id = "AGPsfB2MgjohJpRtuOmQN"
+uri = "file://exports/customer-mobile-phase1/agendaally-customer-mobile-phase1-auth-session.html"
+type = "html"
+title = "AgendaAlly Customer Mobile — Phase 1 Report"
+description = "29-section implementation report with a downloadable evidence bundle. 36 focused tests pass; analysis is clean. Native secure-storage acceptance remains partial. Stopped for owner review."
+logical_id = "16985cfc-76fb-4fbb-8787-b2f1d0da1346"
+content_hash = "sha256:f7e22da6677009bc4c3e816b43d1f8412e373b061e7f001ede3e2f3d256adb28"
+size = 849011
+mtime_ms = 1791323819194
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/16985cfc-76fb-4fbb-8787-b2f1d0da1346/99acdcd9-c8b8-477c-a6b9-0e67b33e11c5"
+storage_version_token = "1791323854941957"
+content_type = "text/html"
+
+[[outputs]]
+id = "eHHy8SQuBOwO3V5zXnYtA"
+uri = "file://exports/customer-mobile-android-auth-qualification/agendaally-customer-mobile-android-auth-qualification.html"
+type = "html"
+title = "AgendaAlly Android Auth/Session Qualification"
+description = "31-section report with downloadable evidence. SDK provisioned; debug build blocked by bounded timeout, no APK or native runtime acceptance. 36 tests pass, analysis clean, source/dependencies and all 214 database tables unchanged. P0-02 remains PARTIAL."
+logical_id = "5b0db08a-7e3a-40f8-8b00-ccf5caa0b7a4"
+content_hash = "sha256:a8fab2b488296a92d92c5437894d7a518218a87f6a9281aa05b54df72d4bd1c4"
+size = 847988
+mtime_ms = 1791326749374
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/5b0db08a-7e3a-40f8-8b00-ccf5caa0b7a4/2c8399fd-1583-484d-89bb-7de679e87b70"
+storage_version_token = "1791326778386503"
+content_type = "text/html"
+
+[[outputs]]
+id = "whU0efjJq1Wpks6WAaUd8"
+uri = "file://exports/git-readiness/agendaally-git-repository-readiness-audit.html"
+type = "html"
+title = "AgendaAlly — Full-Project Git Readiness Audit"
+description = "Read-only audit of source ownership, Git/history, credential and data exclusions, evidence, reproducibility and checkpoint strategy. Existing repository; private publication after cleanup, public publication after additional review. All 214 normal database tables/schema and application files preserved."
+logical_id = "e41e5ad5-c3ad-402c-b408-0a56dc6306e6"
+content_hash = "sha256:2acf8aa3e632d5e9031825a4c443b71a0f70b0596ee5c57ff4c65fafaf286ae3"
+size = 32010
+mtime_ms = 1791328283421
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/e41e5ad5-c3ad-402c-b408-0a56dc6306e6/ddb48546-2059-42b6-a8cd-97021967f455"
+storage_version_token = "1791328306031929"
+content_type = "text/html"
+
+[[outputs]]
+id = "2vgatTnRKdN09Y3xOyI0j"
+uri = "file://.local/clean-publication-delivery/agendaally-clean-repository-vps-report.html"
+type = "html"
+title = "AgendaAlly — consolidated repository and VPS readiness report"
+description = "All 45 requested sections, the actual initial commit hash, preservation results, reproducibility gaps, VPS specification and exact final verdict. No remote or deployment actions performed."
+logical_id = "c984fa27-249a-4284-ad9a-fa797bfbc496"
+content_hash = "sha256:eb0c760db436b81ab670823ca639acaa06b55cab00e5bf0579b51abde511691f"
+size = 28570
+mtime_ms = 1791331993582
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/c984fa27-249a-4284-ad9a-fa797bfbc496/41ccd3d6-0aac-4815-ae9f-bf9a0785f011"
+storage_version_token = "1791332025503613"
+content_type = "text/html"
+
+[[outputs]]
+id = "xWSOBhjETX2kWQw0zAEyQ"
+uri = "file://.local/clean-confidence-validation/delivery/clean-confidence-results.html"
+type = "html"
+title = "Clean-source validation results"
+description = "Admin build and Flutter restore, 36 Phase 1 tests, and analysis passed. Both Backend seeder failures are classified; overall reproducibility remains partial."
+logical_id = "62976644-c3b6-446a-b35e-d6e84ce47ce7"
+content_hash = "sha256:465ebdcd5491cd41da0265e29e85f7f78feef030a376af275f3c79a08d939fbb"
+size = 15210
+mtime_ms = 1791335151178
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/62976644-c3b6-446a-b35e-d6e84ce47ce7/9a5076e9-fecc-4b07-97b2-b2d124d9e9c1"
+storage_version_token = "1791335180557547"
+content_type = "text/html"
+
+[[outputs]]
+id = "Kk1LfAmnRgpBib347BkWu"
+uri = "file://docs/deployment/mysql-bootstrap-recovery-specification.md"
+type = "text"
+title = "MySQL bootstrap and recovery specification"
+description = "Local rehearsal findings and recovery design. Native bootstrap is blocked at trigger creation; production remains NO-GO."
+logical_id = "56069500-ff2a-45e6-a918-a90c4b06e013"
+content_hash = "sha256:63a4268213bdcbc0876c59676739f2386ee56bbd3bdb2784f79cd60f88a7e650"
+size = 23973
+mtime_ms = 1791337500230
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/56069500-ff2a-45e6-a918-a90c4b06e013/d57b5c29-58aa-43fc-a895-e12fc3450504"
+storage_version_token = "1791337566695424"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "6dnR94NRakpkbZYOQHQZx"
+uri = "file://docs/deployment/local-synthetic-demo-photo-approval.md"
+type = "text"
+title = "Demo photo owner-approval package"
+description = "Review only: exact evidence for 15 Service JPEGs, all relationships, five unresolved Product dependencies, preserved NULL proposals and the explicit owner decision required before copying."
+logical_id = "2c9ba41c-d0f5-41e6-9e31-17162c2c62d9"
+content_hash = "sha256:4a34c240c347f7411665b43a3a9124658cab7541b41e6916437f8036b52dfeba"
+size = 35942
+mtime_ms = 1791354390881
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/2c9ba41c-d0f5-41e6-9e31-17162c2c62d9/617b3823-41b4-4fa3-a297-294a526561c6"
+storage_version_token = "1791354425212634"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "_CI4jRiu4Vt9cFc43LPuY"
+uri = "file://docs/deployment/local-synthetic-demo-photo-approval.json"
+type = "unspecified"
+title = "Frozen photo approval proposal — JSON"
+description = "Machine-readable decision proposal with frozen review hashes and complete consumer relationships. No image packaging or redistribution authority."
+logical_id = "4fbadd37-127d-4f14-9db8-6d020b81ff35"
+content_hash = "sha256:e3da6988652481194b281e231e1da8ce8f1608c4c26b3b13035b52cd9ebe3a31"
+size = 62401
+mtime_ms = 1791354390705
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/4fbadd37-127d-4f14-9db8-6d020b81ff35/c2cfa11e-c5fd-49d6-b51a-6f98bb6e6dc3"
+storage_version_token = "1791354425644029"
+content_type = "application/octet-stream"
+
+[[outputs]]
+id = "Xh8nNrFQKXwsAs6wijBqq"
+uri = "file://docs/deployment/local-synthetic-service-photo-packaging.md"
+type = "text"
+title = "Service photo packaging — acceptance report"
+description = "Approved source-only package, exact hashes, isolated fresh Git asset checkout, 28 rejection cases, and remaining Product/runtime gates."
+logical_id = "e8c6bdab-6a13-403f-b9b5-3ebada96180d"
+content_hash = "sha256:0e2fe25b36027c5cab2f93f041990ba5b269800e45483f1caa9225e0720714fa"
+size = 8517
+mtime_ms = 1791355630980
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/e8c6bdab-6a13-403f-b9b5-3ebada96180d/e57c4334-ee92-4c2f-af6e-86905e1ecdc6"
+storage_version_token = "1791355696802298"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "Bb2x28lpuvAZBizI3MIMT"
+uri = "file://docs/deployment/local-synthetic-service-photo-packaging-receipt.json"
+type = "unspecified"
+title = "Service photo packaging — verification evidence"
+description = "Every packaged file hash, provenance digest, fresh checkout inventory/isolation, verification tool hashes and 28 passing negative cases."
+logical_id = "ae8c3c65-dcfc-46c9-b961-5406658959e7"
+content_hash = "sha256:86149985a47ca306634b9f66e815beece72575694f471cc979b316a23087ca59"
+size = 17299
+mtime_ms = 1791355645415
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/ae8c3c65-dcfc-46c9-b961-5406658959e7/9f057e04-e2f8-4d1f-94c9-8ddab14b82a4"
+storage_version_token = "1791355697423699"
+content_type = "application/octet-stream"
+
+[[outputs]]
+id = "PQeufN3KiX4_uFzo5VQl-"
+uri = "file://.local/first-install-acceptance/first-install-acceptance-report.md"
+type = "text"
+title = "AgendaAlly — first-install acceptance: BLOCKED"
+description = "Current input hashes, missing accepted Service package dependency, and the checks not run. Stopped before database initialization; no photo campaign rerun."
+logical_id = "d3779cdb-db10-45a2-9f00-76f78000a60c"
+content_hash = "sha256:85b264c3c77a00fc266a1eaf03b879f9ac820e42de8aa31e697c0eea9ab4a2c7"
+size = 3991
+mtime_ms = 1791356560095
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/d3779cdb-db10-45a2-9f00-76f78000a60c/b433524b-55ac-41b5-8e14-137f1cb4eeb0"
+storage_version_token = "1791356569246606"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "5ubmw79-Wub5vLzBczY4x"
+uri = "file://.local/first-install-proof-20261007/acceptance-report.md"
+type = "text"
+title = "AgendaAlly — BLOCKED_FIRST_INSTALL acceptance report"
+description = "Frozen inputs, 125/229 native migrations, verified role identities, partial-lab zero checks, completed privilege revocation and shutdown, and checks not reached."
+logical_id = "a85786e7-9181-45d9-9670-e068c5148ff9"
+content_hash = "sha256:f437ad77bd4acde2487c45ec9ddc0c013dd02deef183933606883c8c1069723e"
+size = 3964
+mtime_ms = 1791359532106
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/a85786e7-9181-45d9-9670-e068c5148ff9/208b352b-0faa-40dd-b4dc-ccaf1a18076a"
+storage_version_token = "1791359549103514"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "V8aBvhk2E-TMfDHFxiHkC"
+uri = "file://.local/first-install-proof-retry-20261007/acceptance-report.md"
+type = "text"
+title = "AgendaAlly — FAIL_FIRST_INSTALL retry report"
+description = "229/229 native migrations passed; proof-harness metadata casing failure recorded without repair or retry. Frozen inputs unchanged; bootstrap revoked/locked and disposable lab stopped."
+logical_id = "c985d20b-7715-4a3f-86ce-dd6d6f01c26f"
+content_hash = "sha256:a2e501b088229137c8ed30cc46799b321d6b7c3dcd6793af2853d74bd93d1ed7"
+size = 4062
+mtime_ms = 1791360620330
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/c985d20b-7715-4a3f-86ce-dd6d6f01c26f/7ffd2524-f993-4d82-8b5c-258f53de7357"
+storage_version_token = "1791360641280467"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "W8j-waWj72C5iTdXuuNLp"
+uri = "file://.local/first-install-proof-final-20261007/acceptance-report.md"
+type = "text"
+title = "AgendaAlly — final authorized first-install report"
+description = "FAIL_FIRST_INSTALL: metadata correction and 229 migrations passed; portable country insertion stopped on MySQL foreign-key error 1216. Frozen inputs preserved; no repair/retry; bootstrap revoked/locked and lab shut down."
+logical_id = "aa05edc5-4241-498e-b941-c20e0237520b"
+content_hash = "sha256:14c2b86f5fc36573602c4498176f951a5a82013408e6c0d98e8e70d08deebe8f"
+size = 4845
+mtime_ms = 1791379112627
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/aa05edc5-4241-498e-b941-c20e0237520b/659c00c6-73cb-49ee-bfb7-d81881f760bf"
+storage_version_token = "1791379141683632"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "JGZL2g_xJq92NcOXgd2_U"
+uri = "file://.local/portable-order-correction-20261007/acceptance-report.md"
+type = "text"
+title = "Portable loader order — offline validation report"
+description = "PORTABLE_ORDER_FIX_READY. Full deterministic 73-table order, validation of 123 native foreign keys, exact private files and hashes, frozen-input confirmation, and offline-only boundary."
+logical_id = "81ae2fd7-590c-4efb-b444-1817791c13cc"
+content_hash = "sha256:9a960b0a093411994e43a86b888d6103cb8cd3a15c626f238eb6f5daf30694a9"
+size = 7344
+mtime_ms = 1791380389311
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/81ae2fd7-590c-4efb-b444-1817791c13cc/f443a04d-07ce-42f8-90a1-c511ac09a47d"
+storage_version_token = "1791380432186573"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "VIMJWsbhKGxgtTYiGQOmr"
+uri = "file://.local/portable-order-correction-20261007/portable-order.json"
+type = "unspecified"
+title = "Portable dependency plan — old/new order and native edges"
+description = "Machine-readable evidence: complete old and corrected orders, actual native constraints, approved reference/Administrator phase requirements, and unchanged row-payload hashes."
+logical_id = "5e79575d-b549-4cf6-b3b7-c483b57a08cb"
+content_hash = "sha256:d711a417dcd577178de2b43e2ccf28d3c57754224188f534931fecf703c95a4f"
+size = 124826
+mtime_ms = 1791380299707
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/5e79575d-b549-4cf6-b3b7-c483b57a08cb/cacc5744-c38f-4b7d-897e-700320d3d5fe"
+storage_version_token = "1791380432845543"
+content_type = "application/octet-stream"
+
+[[outputs]]
+id = "a-kCsq-3TGg3sXhvsyWJb"
+uri = "file://.local/first-install-approved-order-20261007/acceptance-report.md"
+type = "text"
+title = "AgendaAlly — approved-order first-install result"
+description = "FAIL_FIRST_INSTALL: migrations and ordered main portable load completed; blog type string rejected by native tinyint column. No conversion or retry. Frozen inputs unchanged; bootstrap revoked/locked and lab stopped."
+logical_id = "65f3fa08-661a-42c9-a70a-2e1eda30ed98"
+content_hash = "sha256:ba4d636c5fd1c0f8f853278351dac8f12333899c0c7b16e6d44efadf51d65e74"
+size = 5032
+mtime_ms = 1791381513999
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/65f3fa08-661a-42c9-a70a-2e1eda30ed98/dfd3e96a-3be3-483f-a855-36aca07ff67b"
+storage_version_token = "1791381540901698"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "a81_Kf2ivE_s8SvzPJYBD"
+uri = "file://.local/blog-type-review-20261007/acceptance-report.md"
+type = "text"
+title = "Blog type semantics — offline review"
+description = "BLOG_TYPE_MAPPING_PROVEN: blog=1, notification=2. All three blog/translation pairs reviewed; 73-table storage check found only the three known blog-type mismatches and no additional deterministic incompatibility. No manifest edits or MySQL execution."
+logical_id = "a0a3cc84-8619-4eda-bf59-073ad016369d"
+content_hash = "sha256:d3580eaa708db227619114b70e2620b2692fb1086daf77604d6ec5a8a0227df3"
+size = 7113
+mtime_ms = 1791382977034
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/a0a3cc84-8619-4eda-bf59-073ad016369d/4b5cb919-60ab-4154-95bb-a81537240783"
+storage_version_token = "1791383006592980"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "6XF1bQX6u09nF1alN9lY7"
+uri = "file://.local/blog-type-native-review-20261007/acceptance-report.md"
+type = "text"
+title = "Blog type native correction — READY"
+description = "Exact three-field comparison, new baseline/reference hashes, private proof/order hashes and unchanged authority evidence. Offline preparation only; no first-install execution."
+logical_id = "e9b90e74-da1b-4c2e-a604-c1c6582aa17f"
+content_hash = "sha256:5357cdbc7c1837a97308debc4f8baf13654b60022f1248ecf45525a5ff0398d4"
+size = 5993
+mtime_ms = 1791383940530
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/e9b90e74-da1b-4c2e-a604-c1c6582aa17f/94741c0f-634e-4907-bc6e-c037d658e607"
+storage_version_token = "1791383957708967"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "4XBMH8tx_F2i7hqkcI7D5"
+uri = "file://.local/first-install-final-blog-native-20261007/acceptance-report.md"
+type = "text"
+title = "Final first-install execution — FAIL_FIRST_INSTALL"
+description = "The single approved run stopped at shops.delivery_time JSON projection verification. Migrations and preceding phases completed; revocation, locking, shutdown and frozen-input preservation confirmed. No patch or retry."
+logical_id = "6fbe33a1-953e-4a80-8c95-eefe68287b5f"
+content_hash = "sha256:a1d38a65016a6ac9f0ce7e6445199d2f0f81a8840bc75d629eec531b3412bec9"
+size = 4618
+mtime_ms = 1791385107553
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/6fbe33a1-953e-4a80-8c95-eefe68287b5f/2ea25ea8-7048-494b-af8d-748aa301b429"
+storage_version_token = "1791385117252534"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "C0Qdk8XY5PdmJ5DNRTn_Z"
+uri = "file://.local/shop-json-projection-diagnostic-20261007/acceptance-report.md"
+type = "text"
+title = "JSON projection diagnostic — harness mismatch"
+description = "End-to-end Shop trace, all 15 comparisons across four fields, three proven verifier defect classes, and a minimal proof-only proposal. Actual failed-lab JSON remains unknown; no correction or MySQL retry performed."
+logical_id = "605da6ee-fbd6-49ba-8595-d18d229c0d90"
+content_hash = "sha256:c74688e3653e7fb73fcf8699743f618475c4844b6e4d094a5c2619989244a24a"
+size = 10871
+mtime_ms = 1791386716129
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/605da6ee-fbd6-49ba-8595-d18d229c0d90/388f1f5f-a76f-48f6-b3b5-50ee82ec5f0c"
+storage_version_token = "1791386755339141"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "DrBgvXOzHRFVSbpQpfosM"
+uri = "file://.local/json-projection-proof-fix-20261007/acceptance-report.md"
+type = "text"
+title = "JSON projection proof correction — READY"
+description = "Exact one-predicate diff, new proof/input-freeze hashes, 15 projection cases, 16 regression witnesses and three fail-closed checks. All canonical authorities unchanged; no installation execution."
+logical_id = "21b2db62-fd8a-4c27-888b-659a94b6bfd5"
+content_hash = "sha256:b340423f265d738c6b7018f3ceb44b7647273f7eadca467239fe9aea0beed2b5"
+size = 5597
+mtime_ms = 1791387356697
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/21b2db62-fd8a-4c27-888b-659a94b6bfd5/5a9b0ffe-1575-48de-860b-bec1cc163081"
+storage_version_token = "1791387376891193"
+content_type = "text/markdown"
+
+[[outputs]]
+id = "Zyz3pbYJbKit4GPOA3t_N"
+uri = "file://.local/first-install-corrected-json-final-20261007/acceptance-report.md"
+type = "text"
+title = "PASS_FIRST_INSTALL — Final acceptance report"
+description = "Complete frozen-input first-install acceptance, second-invocation verification, and confirmed privilege revocation and shutdown."
+logical_id = "71e0feb4-0efe-43ce-ab3e-25885376729e"
+content_hash = "sha256:aeb3ddb0fe005a5bdb9d80f1280723a340535cf65bb5638cc1003216fb679ae8"
+size = 5037
+mtime_ms = 1791388968453
+storage_uri = "gcs://replit-rams-assets-worf/rams/assets/repl:b762a632-9df8-4939-8b17-506d75cfa277/71e0feb4-0efe-43ce-ab3e-25885376729e/34dd31d0-11bd-4950-9df2-a968098ea53a"
+storage_version_token = "1791388979353970"
+content_type = "text/markdown"

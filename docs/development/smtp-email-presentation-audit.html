@@ -1,0 +1,104 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AgendaAlly email presentation audit</title><style>body{margin:0;background:#f5f6f8;color:#17202c;font:16px/1.6 Arial,sans-serif}main{max-width:1100px;margin:24px auto;background:white;padding:32px}h1,h2,h3{line-height:1.25}h2{margin-top:40px}table{border-collapse:collapse;width:100%;display:block;overflow:auto}th,td{border:1px solid #d4d9e0;padding:9px;text-align:left;vertical-align:top}th{background:#eef1f5}a{color:#1759a5}pre{white-space:pre-wrap;background:#eef1f5;padding:12px}code{overflow-wrap:anywhere}@media(max-width:600px){main{margin:0;padding:18px;font-size:14px}}</style></head><body><main><h1>AgendaAlly SMTP receipt and email presentation audit</h1>
+<p><strong>Later owner confirmation:</strong> corrected Admin Test Email logo, Instagram,
+Facebook, LinkedIn and footer are now VERIFIED in Gmail. The local-only
+qualification below records the earlier correction audit, not current receipt
+status. Current authority is the <a href="agendaally-email-system-audit.md">complete email-system audit</a>
+and readiness section 22. No new agent mail was sent.</p>
+<p>Date: 2026-10-05. Scope: existing normal Admin, shared mail presentation and
+local-only verification. No SMTP test, connection, provider configuration
+change or integration activation.</p>
+<h2>1. Verified delivery evidence</h2>
+<p>The owner confirms that the enabled normal port-3003 Admin Test Email displayed
+“Test email sent successfully” and the message arrived in Gmail. The owner
+reports the earlier Zoho account/configuration issue is resolved. Record
+current-build SMTP transport and actual mailbox delivery <strong>VERIFIED</strong>.
+This is explicit owner testimony; no screenshot was attached to this audit turn.
+The received-template defects are also owner-reported and independently
+reproduced from the current stored nonsecret settings and source.</p>
+<h2>2. Broken logo root cause</h2>
+<p><code>settings.logo</code> is
+<code>http://localhost:8000/storage/images/settings/agendaally-platform-logo.png</code>.
+The original Blade copied that URL directly into an image src. A Gmail recipient
+cannot fetch this workspace's localhost. The owned file exists and is a valid
+2172×724 PNG: this is a reachability defect, not an SVG/font failure.
+Changing it to a private/transient Replit preview URL would not be reliable.</p>
+<p>The corrected renderer resolves the owned public-storage path locally and
+attaches the image via PHPMailer CID. No remote asset fetch is attempted.
+The canonical logo file and saved settings are unchanged. Missing, unsupported
+or out-of-root sources produce a visible text wordmark, not a broken remote image.</p>
+<h2>3. Social icons and link root cause</h2>
+<p>The original template deliberately rendered literal IG/FB/X/in text within
+CSS circles; there were no branded icon assets. It also prepended https://
+unconditionally to already complete HTTPS settings, producing malformed
+double-scheme destinations.</p>
+<p>Current intended destinations match the existing approved development content:</p>
+<ul>
+<li>Instagram: https://www.instagram.com/agendaally</li>
+<li>Facebook: https://www.facebook.com/AgendaAlly/</li>
+<li>LinkedIn: https://www.linkedin.com/company/agendaally</li>
+<li>X/Twitter is unconfigured and remains omitted.</li>
+</ul>
+<p>The correction preserves those exact destinations and embeds recognizable
+local raster icon artwork. Bare-host, scheme-relative and complete HTTPS
+settings normalize once. Wrong-platform, credential-bearing, private,
+placeholder, root-only or malformed destinations are omitted. No account
+ownership/live social-page availability claim is made; this audit verifies
+configured destinations and generated links, not third-party account control.</p>
+<h2>4. Exact bounded changes</h2>
+<ul>
+<li>New <code>app/Support/EmailPresentation.php</code>: owned public-storage resolution,
+MIME-checked PNG/JPEG/GIF logo embedding, dimensions, inline PNG social assets,
+normalized platform-allowlisted HTTPS links and safe gallery attachments.</li>
+<li><code>resources/views/emails/layout.blade.php</code>: CID logo, branded icon images,
+accessible alt text, inline styling and table-based social layout.</li>
+<li><code>EmailSendService.php</code>: supply the existing mailer to four shared-layout
+consumers and the invoice renderer; resolve gallery attachments to local
+files; keep attachment warnings redacted. No connection/authentication/
+TLS/provider/policy code changed.</li>
+<li><code>resources/views/order-email-invoice.blade.php</code>: same corrected logo/social
+preparation. Invoice MIME headers are left to PHPMailer so multipart/related
+is not contradicted by hardcoded HTML headers.</li>
+<li><code>resources/email/icons/{instagram,facebook,linkedin,twitter}.{svg,png}</code>:
+local vector artwork plus raster output. <strong>Only PNGs enter email MIME</strong>;
+no SVG, webfont, background-image, external icon CDN or data URI is sent.</li>
+<li>Focused isolated tests and safe local evidence/readiness documentation.</li>
+</ul>
+<h2>5. Other templates and external assets</h2>
+<p>Admin Test Email, subscription, verification and password-reset messages share
+the layout and therefore shared both defects. The separate legacy order-email
+invoice duplicated the defects and is corrected too. Delivery-driver invitation
+is plain HTML with no logo/social imagery; it is not affected by these assets.</p>
+<p>The current owned database contains no custom email-template body rows, so no
+stored body-image URLs currently require migration. Future CMS body HTML can
+still introduce externally referenced assets and needs its own validation;
+this correction does not silently rewrite arbitrary content or action links.
+Configured galleries are now attached from owned storage rather than invalid
+HTTP-shaped file paths. Browser/print invoice views reference Bootstrap/JS CDNs;
+they are not the outgoing order-email view and were not altered or certified
+for email rendering. Suppressed reset/invitation links and business journeys
+are not certified by this Admin test.</p>
+<h2>6. Local verification and limits</h2>
+<p>Focused tests render actual shared Blade output, build PHPMailer MIME with
+<code>preSend()</code> only, verify every CID/PNG attachment and compare exact encoded bytes.
+Sockets, cURL and PHP mail functions are disabled during the test process.
+The visual proof substitutes those MIME bytes into data URIs <strong>only for the
+browser preview</strong>. It contains synthetic .invalid sender/recipient addresses.
+No real provider password is loaded, no send/postSend method is called, and
+these local tests alone do not claim corrected-template Gmail receipt. The
+owner's later confirmation now verifies that corrected Admin receipt.</p>
+<p>Local tests also cover malformed/private/placeholder destinations, missing/
+traversing image paths, duplicate embedding, invoice renderer wiring and
+local gallery resolution. Current readiness/security/financial/browser
+acceptance is reused, not rerun.</p>
+<h2>7. Readiness</h2>
+<p>SMTP transport and actual Gmail receipt: <strong>VERIFIED, owner-confirmed</strong>.
+Corrected Admin presentation: <strong>VERIFIED in Gmail by owner confirmation</strong>,
+in addition to local Blade/MIME/browser verification.
+SMTP portion of communications: closed in the authorized normal Admin runtime.
+Reset/verification/booking/worker delivery remains suppressed and unverified.</p>
+<p>Same twenty gates: <strong>16/20 = 80%, REMAIN IN STAGING</strong>, unchanged from accepted
+calendar closure. Customer5 + Vendor4 + Admin3 + operations4. C1 and O4 stay
+0.5; a Test Email does not prove their operational mail journeys. No production,
+provider activation, payout/refund, SMS/push or unrelated gate credit.</p>
+<p>Stop after this local correction. A further real email requires explicit approval.</p>
+</main></body></html>

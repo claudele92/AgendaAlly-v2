@@ -1,0 +1,388 @@
+AgendaAlly — Customer Footer Headless UI Hydration Mismatch
+
+A second Customer hydration issue has been found.
+
+This is NOT the previously fixed Shop-hours/timezone issue.
+
+The mismatch occurs in the shared Customer Footer under:
+
+app/(store)/(booking)/(with-footer)/layout.tsx
+
+at:
+
+<Footer settings={parsedSettings} />
+
+React reports that the server and client generated different Headless UI
+Disclosure IDs.
+
+Examples:
+
+SERVER/CLIENT DIFFERENCES
+
+headlessui-disclosure-button-_R_kqitqbnabmaqlb_
+vs
+headlessui-disclosure-button-_R_2jabn9et9epbalb_
+
+and corresponding:
+
+headlessui-disclosure-panel-...
+
+The affected Footer groups include at least:
+
+- Discover
+- Your Account
+- Information
+
+============================================================
+1. DIAGNOSE BEFORE FIXING
+============================================================
+
+Trace the complete Footer render tree and determine WHY React's deterministic
+ID sequence differs between SSR and the client's first render.
+
+Audit:
+
+- Footer component;
+- FooterGroup;
+- Headless UI Disclosure;
+- all conditional Footer children;
+- authentication-dependent rendering;
+- settings-dependent rendering;
+- locale-dependent rendering;
+- responsive rendering;
+- browser-only branches;
+- dynamic imports;
+- Suspense boundaries;
+- client-only providers;
+- components rendered before/beside Footer whose server/client tree may differ.
+
+Search specifically for:
+
+typeof window !== "undefined"
+
+window.*
+
+document.*
+
+localStorage
+
+sessionStorage
+
+matchMedia
+
+useMediaQuery
+
+screen width
+
+navigator
+
+Date.now()
+
+Math.random()
+
+useId()
+
+conditional hooks/components
+
+authentication state that differs between SSR and hydration
+
+settings loaded differently server/client.
+
+============================================================
+2. DO NOT ASSUME HEADLESS UI ITSELF IS THE BUG
+============================================================
+
+The mismatched generated IDs are likely a symptom of server/client render-tree
+divergence.
+
+Do NOT immediately:
+
+- replace Headless UI;
+- hard-code its generated IDs;
+- remove accessibility IDs;
+- strip aria relationships;
+- suppress the hydration warning.
+
+First determine why the server and client's React ID allocation differ.
+
+Headless UI Disclosure must retain correct accessibility behavior.
+
+============================================================
+3. INSPECT FOOTERGROUP
+============================================================
+
+Trace the exact implementation of:
+
+FooterGroup
+
+and its use of:
+
+<Disclosure defaultOpen={true}>
+
+Determine whether the Disclosure is actually necessary at every breakpoint.
+
+If Footer groups are intended to be:
+
+expanded/static on desktop
+
+and
+
+collapsible on mobile
+
+audit whether the current implementation determines that structure using
+browser width during initial render.
+
+A server/client breakpoint-dependent component-tree difference is NOT
+acceptable during hydration.
+
+If responsive behavior is responsible, preserve one deterministic initial
+component structure and implement responsive presentation without making SSR
+and first client render structurally different.
+
+Prefer CSS for purely visual responsive behavior.
+
+Do not infer this is the cause without tracing it.
+
+============================================================
+4. AUDIT CONDITIONAL CONTENT
+============================================================
+
+Verify that Footer links/groups are identical during:
+
+SERVER RENDER
+
+and
+
+FIRST CLIENT RENDER.
+
+Check whether any link/group depends on:
+
+- logged-in status;
+- role;
+- settings;
+- feature flags;
+- geography;
+- language;
+- browser state.
+
+If client-only state legitimately changes Footer content, the first hydration
+render still needs to match the server snapshot before transitioning after
+mount.
+
+Do not hide the mismatch.
+
+============================================================
+5. CHECK THE PARENT TREE
+============================================================
+
+Because React/Headless UI generated IDs can change when components earlier in
+the tree differ, do not restrict investigation only to FooterGroup.
+
+Inspect the relevant Customer `with-footer` layout and providers surrounding
+it.
+
+Determine whether a component rendered before Footer consumes React IDs or
+changes structure differently between SSR and hydration.
+
+Report the actual first divergence.
+
+============================================================
+6. DO NOT USE THESE WORKAROUNDS
+============================================================
+
+Do NOT solve this using:
+
+suppressHydrationWarning
+
+dynamic(..., { ssr: false }) for the entire Footer
+
+making the entire layout client-only
+
+random/custom IDs
+
+hard-coded Headless UI internal IDs
+
+removing Disclosure accessibility relationships
+
+disabling SSR globally
+
+hiding console warnings.
+
+The fix must make:
+
+SERVER INITIAL TREE
+==
+CLIENT FIRST RENDER TREE.
+
+============================================================
+7. PRESERVE FOOTER FUNCTIONALITY
+============================================================
+
+Preserve:
+
+- Discover;
+- Your Account;
+- Information;
+- all legitimate Footer groups;
+- links;
+- accessibility;
+- keyboard behavior;
+- mobile expand/collapse behavior if currently intended;
+- desktop layout;
+- AgendaAlly branding;
+- settings-driven legitimate content.
+
+Do not redesign the Footer during this task.
+
+============================================================
+8. REPRODUCE FIRST
+============================================================
+
+Reproduce the hydration warning before changing code.
+
+Record:
+
+- route;
+- viewport;
+- authentication state;
+- server-rendered IDs;
+- client IDs;
+- first server/client structural divergence.
+
+The current trace demonstrates the issue on a Customer page using:
+
+app/(store)/(booking)/(with-footer)/layout.tsx
+
+Use that route as the initial reproduction.
+
+============================================================
+9. VERIFY AFTER FIX
+============================================================
+
+After the correction verify:
+
+A. hard reload;
+
+B. second hard reload;
+
+C. Next-Link navigation away and back;
+
+D. browser history back/forward;
+
+E. desktop viewport;
+
+F. tablet viewport;
+
+G. mobile viewport;
+
+H. logged-out Customer state;
+
+I. logged-in Customer state if an isolated safe test account/context already
+exists.
+
+Check representative with-footer routes such as:
+
+- homepage;
+- Shops/Businesses;
+- Specialists;
+- Products;
+
+and any other native Customer route that uses this Footer.
+
+Do not submit orders/bookings/payments.
+
+============================================================
+10. ACCESSIBILITY VERIFICATION
+============================================================
+
+For each Disclosure verify after hydration:
+
+- button ID is stable;
+- panel ID is stable;
+- aria-expanded is correct;
+- aria-controls is correctly associated where Headless UI supplies it;
+- keyboard activation still works;
+- opening/closing still works where intended.
+
+Do not trade hydration correctness for broken accessibility.
+
+============================================================
+11. REGRESSION TEST
+============================================================
+
+Add the smallest useful regression coverage demonstrating that Footer SSR and
+initial client rendering are deterministic.
+
+Where practical, cover the specific condition that caused the divergence.
+
+Do not write a superficial test that merely searches for
+`suppressHydrationWarning`.
+
+============================================================
+12. TASK BOUNDARY
+============================================================
+
+This is a narrowly approved Customer runtime regression correction.
+
+Do NOT reopen:
+
+- Shop-hours/timezone implementation;
+- favicon architecture;
+- Shop profile design;
+- Service media;
+- Pickup;
+- Delivery;
+- Maps;
+- Driver;
+- payment providers;
+- merchant-direct;
+- payment accounting.
+
+The P0 payment authorization containment remains a separate approved security
+task.
+
+Do not combine payment changes with this Footer fix.
+
+============================================================
+13. REPORT
+============================================================
+
+Report:
+
+1. exact root cause;
+
+2. first server/client tree divergence;
+
+3. why Headless UI generated different IDs;
+
+4. whether responsive logic was involved;
+
+5. whether auth/settings/client-only state was involved;
+
+6. exact files changed;
+
+7. regression tests added;
+
+8. routes checked;
+
+9. desktop/tablet/mobile results;
+
+10. accessibility results;
+
+11. confirmation no suppressHydrationWarning/client-only workaround was used.
+
+============================================================
+14. STOP / HANDOFF
+============================================================
+
+Fix and verify this Footer hydration defect.
+
+Then STOP this Customer-runtime task.
+
+Do not start unrelated Customer work.
+
+If the P0 payment authorization containment has NOT yet started, return the
+Footer result first and wait.
+
+If it is already running as a separately approved task, do not expand or
+modify its scope because of this Footer issue.

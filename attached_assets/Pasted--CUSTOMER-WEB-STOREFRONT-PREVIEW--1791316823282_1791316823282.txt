@@ -1,0 +1,57 @@
+==================================================
+CUSTOMER WEB STOREFRONT PREVIEW
+==================================================
+
+The Customer Web Storefront preview is currently not available.
+
+Because this task must validate the Customer-facing Terms, Privacy Policy and new Refund & Cancellation Policy presentation, first determine why the existing Customer Web Storefront preview is unavailable.
+
+Restore the EXISTING Customer Web Storefront preview only to the extent necessary to inspect and validate the legal-policy presentation.
+
+Do not redesign, rebuild or refactor the storefront.
+
+Do not change Customer business behavior merely to make the preview available.
+
+Determine whether the unavailable preview is caused by:
+
+- a stopped/missing preview workflow or process;
+- stale preview configuration;
+- port/listener configuration;
+- startup/build failure;
+- environment/configuration required by the existing storefront;
+- or an actual current source defect.
+
+If it is only a stopped or missing preview/runtime process, restore the existing intended preview configuration and retain the startup/health evidence.
+
+If a genuine source defect prevents the current Customer Web Storefront from starting, diagnose it first.
+
+Make only a minimal source/configuration repair if it is clearly necessary, safe and unrelated to accepted booking/payment/financial behavior.
+
+If restoring the preview would require a broader application change, STOP and report the blocker instead of expanding this policy task.
+
+Once available, use the Customer Web Storefront preview to verify, as applicable:
+
+- Terms of Service rendering;
+- Privacy Policy rendering;
+- Refund & Cancellation Policy rendering;
+- footer/legal navigation;
+- signup/registration policy links;
+- booking/checkout policy links;
+- cancellation/refund policy links;
+- account/settings legal links;
+- direct policy URLs/routes;
+- mobile-width policy readability where the existing responsive layout already supports it.
+
+Do not repeat previously accepted Customer booking/calendar/payment/browser campaigns.
+
+This is storefront AVAILABILITY + POLICY PRESENTATION validation only.
+
+The final report must state:
+
+- why the Customer Web Storefront preview was unavailable;
+- what was required to restore it;
+- whether any source/configuration file changed;
+- the final preview startup/health result;
+- which legal-policy surfaces were actually verified through the restored storefront.
+
+Do not treat successful preview restoration as a new canonical MVP gate or change the 16/20 score.

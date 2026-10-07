@@ -1,0 +1,205 @@
+AGENDAALLY MVP — CALENDAR ACCEPTANCE CLOSURE ONLY
+
+Continue from the completed calendar browser acceptance report.
+
+This is a bounded defect-correction and acceptance-closure task.
+
+Do NOT redesign the calendar again.
+Do NOT reopen previously passing scheduling, financial, recovery or infrastructure work.
+Do NOT deploy production or activate providers.
+
+The current authoritative result is:
+- Calendar browser acceptance: NOT CLOSED
+- U1/calendar responsive acceptance: NOT VERIFIED
+- Score: 15/20 = 75%
+- Decision: REMAIN IN STAGING
+
+Close only the remaining findings from this campaign.
+
+
+1. EXISTING CLIENT + CASH ADD BOOKING — BLOCKING
+
+The Vendor Add Booking flow currently shows an existing authorized client and Cash selected, but validation rejects that state before Review.
+
+Trace the actual state and validation path and identify the root cause.
+
+Verify that:
+- the selected existing client remains authoritative;
+- authorized Shop/client scope remains enforced;
+- Cash semantics remain unchanged;
+- selecting Cash does not fabricate collection;
+- Service/Specialist/date/time remain backend-authoritative;
+- Review receives the correct selected client and booking state;
+- no duplicate client is created;
+- no booking is created before explicit confirmation.
+
+Fix the bounded defect.
+
+Then exercise the complete supported existing-client flow through Review and the minimum safe confirmation/lifecycle evidence required by the existing acceptance contract.
+
+Do not weaken validation simply to make the UI pass.
+
+
+2. CLIENT-SAVE IDEMPOTENCY CLOSURE
+
+Do not create another competing implementation.
+
+Use the client-save retry/idempotency mechanism already added.
+
+Complete the missing acceptance checks:
+
+- lost-response retry returns/reuses the original result;
+- exactly one durable client exists;
+- same actor + same Shop + same reference + same payload reuses the result;
+- same reference + changed client details is rejected;
+- reference cannot be reused across unauthorized actor/Shop context;
+- refresh/recovery restores the successful receipt/result where the implemented contract promises this;
+- concurrent same-reference saves produce one durable client.
+
+Do NOT deduplicate people by name alone.
+
+Do not claim name equality establishes identity.
+
+
+3. SAVED BOOKING DETAIL 403 HANDLING
+
+Current behavior:
+an injected/authorized-test 403 from saved booking detail redirects the entire application to login.
+
+Audit whether the authentication session is actually invalid.
+
+If the session remains valid and access to only that booking is forbidden, handle the failure locally in the saved-booking detail experience.
+
+Expected behavior:
+- 401/session-invalid may follow the application's normal authentication handling;
+- object-level 403 must not automatically masquerade as session expiration unless that is genuinely the established application contract;
+- show an appropriate non-sensitive access/error state;
+- allow closing/retrying where appropriate;
+- do not expose foreign booking information;
+- do not recalculate the booking.
+
+Preserve fail-closed authorization.
+
+
+4. MOBILE SLOT INSTRUCTION
+
+Correct the minor hidden slot-selection instruction at 390px and 320px.
+
+Do not redesign the mobile calendar.
+
+Preserve:
+- Agenda-first mobile behavior;
+- contained optional Week;
+- no body/page horizontal overflow;
+- safe-area/fixed-footer behavior.
+
+
+5. TARGETED RESPONSIVE CLOSURE
+
+After the fixes, run one focused browser campaign at:
+
+- 1280px
+- 390px
+- 320px
+
+Close only the previously incomplete paths.
+
+At minimum verify:
+
+- existing-client Add Booking reaches Review correctly;
+- supported Cash state is represented correctly;
+- Service → authorized Specialist → date → backend availability → time → Review;
+- New Local Client still works;
+- client validation remains contained;
+- saved booking details still use GET saved record only;
+- no calculation POST occurs merely from viewing details;
+- 403 detail behavior is local/fail-closed;
+- mobile slot instruction is visible/usable;
+- Agenda-first mobile remains intact;
+- optional Week remains bounded;
+- booking/detail/Add Booking controls do not collide with chat/help;
+- no 320/390 body overflow.
+
+Use existing/synthetic isolated records and the minimum mutation necessary.
+
+Do not repeat Wallet or broad financial journeys merely for visual acceptance.
+
+
+6. SPECIALIST SELECTOR
+
+Preserve the already-passing native/API Shop-scoping evidence.
+
+If suitable browser fixtures for foreign/revoked Specialists can safely be produced in the isolated fixture, verify that they are absent/rejected in the browser selector.
+
+Do not weaken or replace the server-side authorization merely to obtain browser evidence.
+
+Legitimate shared accepted Specialists must remain available.
+
+
+7. REGRESSION BOUNDARY
+
+Do not modify:
+- same-slot contention;
+- overlap exclusion;
+- adjacency;
+- recurrence;
+- working hours;
+- closed dates;
+- blocked time;
+- Customer backend availability;
+- appointment-duration authority;
+- atomic rescheduling;
+- cancellation release;
+- Cash accounting semantics;
+- Wallet semantics;
+- local-client UNPAID semantics;
+- provider behavior;
+- payouts/refunds;
+- accounting.
+
+Do not expand this task into the unrelated 954-test repository hardening failures.
+
+
+8. PRESERVATION
+
+At completion recheck:
+
+- 59/59 protected fingerprints;
+- 465/465 original schema objects;
+- 12 legacy Orders untouched/unverified;
+- normal API unchanged;
+- 9 demo Shops;
+- 51 Services;
+- 75 assignments;
+- 14 Specialists;
+- sampled demo media;
+- no disposable acceptance residue.
+
+
+9. COMPLETION REPORT
+
+Report explicitly:
+
+1. Existing-client/Cash root cause.
+2. Exact correction.
+3. Existing-client Add Booking result.
+4. Cash Review result and whether collection semantics changed.
+5. Client lost-response retry result.
+6. Concurrent retry result.
+7. Changed-details/same-reference result.
+8. Refresh receipt restoration result.
+9. Cross-actor/Shop retry-key isolation result.
+10. Saved-detail 403 behavior.
+11. 1280 result.
+12. 390 result.
+13. 320 result.
+14. Specialist selector result.
+15. Protected-state result.
+16. Whether Calendar browser acceptance is now CLOSED.
+17. Whether U1/calendar responsive acceptance is now VERIFIED.
+18. Updated score using the SAME existing 20-gate model.
+19. GO/NO-GO staging decision.
+
+Do not award points merely for appearance.
+
+If these bounded checks pass, close the calendar acceptance gate rather than starting another redesign.

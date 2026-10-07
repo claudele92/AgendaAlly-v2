@@ -1,0 +1,902 @@
+AGENDAALLY MVP — C1/O4 EMAIL OPERATIONAL CLOSURE
+OUTBOX + ACCOUNT EMAIL JOURNEYS + PRIVACY/HARDENING + MINIMUM REAL ACCEPTANCE
+
+Context / accepted baseline
+
+The completed AgendaAlly email audit established:
+
+- Admin SMTP transport is VERIFIED.
+- Actual Gmail mailbox delivery is VERIFIED.
+- Corrected AgendaAlly logo is VERIFIED in a real Gmail receipt.
+- Corrected Instagram/Facebook/LinkedIn icons and footer are VERIFIED in a real Gmail receipt.
+- SMTP credential encryption is implemented.
+- Stored SMTP password is not returned through Admin/API responses.
+- Blank password edits preserve the configured credential.
+- TLS certificate and hostname verification are required.
+- Port 465 implicit TLS is supported.
+- SMTP errors are sanitized.
+- Generic Admin Test Email has already passed and MUST NOT be repeated.
+- Shared verification/reset templates exist.
+- Verification/reset default templates render correctly locally with CID assets at 900px, 390px and 320px.
+- Local email audit passed 5 tests / 198 assertions.
+- The normal database currently lacks the selected outbox table required by verification/reset.
+- Subscription email currently exposes multiple recipients through visible To headers.
+- Long unbroken text can overflow the shared email layout and legacy order email.
+- Legacy order email has no plain-text alternative and no PDF invoice.
+- Booking emails are optional under the current MVP readiness rubric.
+- Financial/refund/payout emails remain outside this communications closure campaign.
+- Current accepted readiness is 16/20 = 80%.
+- C1 = 0.5.
+- O4 = 0.5.
+- Decision remains REMAIN IN STAGING.
+
+The completed audit preserved:
+
+- 206 tables;
+- 467 schema objects;
+- 4,683 application source files at the audit baseline;
+- protected business/financial/demo state.
+
+This task is now an IMPLEMENTATION + BOUNDED ACCEPTANCE campaign for the specific C1/O4 blockers.
+
+Do not broaden it.
+
+
+==================================================
+1. PRIMARY OBJECTIVE
+==================================================
+
+Close the operational gaps that prevent existing account-email functionality from being considered ready.
+
+Specifically:
+
+A. Restore/complete the intended verification/reset outbox persistence path.
+
+B. Correct subscription recipient privacy before subscription delivery can ever be enabled.
+
+C. Correct long-unbroken-text containment in the shared email presentation and legacy order email.
+
+D. Add a safe plain-text MIME alternative where appropriate if it can be done without redesigning unrelated mail architecture.
+
+E. Locally verify verification/reset generation, persistence, processing contracts, presentation and security.
+
+F. After all local checks pass, prepare and execute only the minimum explicitly authorized real-email acceptance needed to determine whether C1 and/or O4 can move from 0.5 to full credit.
+
+Do NOT implement optional booking emails during this campaign.
+
+Do NOT implement refund/payout emails during this campaign.
+
+
+==================================================
+2. HARD SCOPE BOUNDARIES
+==================================================
+
+Do NOT:
+
+- repeat the generic Admin SMTP Test Email;
+- redesign the SMTP subsystem;
+- retrieve, display, print, log, copy or replace the stored SMTP credential;
+- disable SMTP credential encryption;
+- weaken TLS peer verification;
+- weaken hostname verification;
+- allow self-signed certificates;
+- enable SMTP debug dialogue containing secrets;
+- change the approved SMTP provider configuration unless a genuine blocking defect requires explicit owner approval;
+- enable general email globally merely to make tests pass;
+- enable unrelated workers/schedulers;
+- create booking-email workflows;
+- create refund emails;
+- create payout emails;
+- automate refunds;
+- automate payouts;
+- activate payment providers;
+- activate Vendor-direct collection;
+- activate SMS;
+- activate push;
+- modify Wallet semantics;
+- modify payment/accounting semantics;
+- modify booking/scheduling semantics;
+- create normal-demo bookings;
+- create normal-demo Customers/local clients;
+- create normal-demo payments;
+- create Wallet transactions;
+- modify protected legacy Orders;
+- deploy production.
+
+Do not rerun unrelated:
+
+- calendar acceptance;
+- booking financial journeys;
+- concurrency campaigns;
+- payment campaigns;
+- recovery/PITR campaigns;
+- responsive application campaigns;
+- security campaigns that already passed.
+
+Reuse accepted evidence.
+
+
+==================================================
+3. OUTBOX ROOT-CAUSE ANALYSIS BEFORE IMPLEMENTATION
+==================================================
+
+Before creating any database object, determine exactly why the normal database lacks the selected verification/reset outbox table.
+
+Trace:
+
+verification request
+→ application service/controller
+→ outbox write
+→ persistence model/table
+→ processing path
+→ email generation
+→ SMTP delivery.
+
+Do the same for password reset.
+
+Determine whether:
+
+- a migration already exists but was never applied;
+- the table existed in another schema/environment;
+- the implementation references an obsolete table;
+- a migration was removed;
+- the feature was partially implemented;
+- the application expects a package-provided table;
+- the selected outbox implementation is inconsistent with the normal runtime.
+
+Do NOT simply create a table matching what the code happens to query.
+
+First identify the intended schema and contract.
+
+
+==================================================
+4. OUTBOX IMPLEMENTATION RULE
+==================================================
+
+If the intended outbox architecture is sound and the missing table/schema is the bounded defect, restore the intended schema through a proper migration.
+
+Do not create a parallel second email queue architecture.
+
+The outbox must have enough authoritative information to safely support the existing account-email workflow, including where applicable:
+
+- unique record/reference;
+- message/event type;
+- intended recipient;
+- payload/reference to authoritative data;
+- creation timestamp;
+- processing state;
+- attempt metadata;
+- safe failure classification;
+- processed/sent timestamp;
+- retry state;
+- idempotency/deduplication authority.
+
+Do not store plaintext SMTP credentials in the outbox.
+
+Do not unnecessarily persist verification/reset secrets beyond the existing security contract.
+
+If token material must be persisted, preserve the existing secure token model.
+
+Do not invent a weaker token implementation merely to populate the outbox.
+
+
+==================================================
+5. OUTBOX IDEMPOTENCY / RETRY SAFETY
+==================================================
+
+Verify the account-email outbox cannot cause uncontrolled duplicate delivery.
+
+At minimum inspect/test:
+
+- repeated verification request;
+- repeated password-reset request;
+- duplicate processing;
+- worker/process restart;
+- processing failure;
+- lost acknowledgement where applicable;
+- concurrent claim/process;
+- already-processed record;
+- expired request;
+- consumed reset/verification token.
+
+Define clearly what is idempotent:
+
+Application/account state must not be applied twice.
+
+Email delivery itself may be at-least-once if that is the existing architecture, but duplicate risk must be understood and bounded.
+
+Do not claim exactly-once SMTP delivery unless the architecture actually provides it.
+
+
+==================================================
+6. VERIFICATION EMAIL WORKFLOW
+==================================================
+
+Trace and make operational the existing verification-email journey.
+
+Verify:
+
+- correct eligible User;
+- correct recipient;
+- correct token generation;
+- safe token persistence;
+- token expiry where applicable;
+- correct public action URL generation;
+- correct shared AgendaAlly email layout;
+- CID logo;
+- corrected social/footer;
+- correct CTA;
+- no localhost/private Replit URL in the received action link;
+- repeated request behavior;
+- already-verified behavior;
+- successful verification transition;
+- token replay behavior;
+- invalid/expired token behavior.
+
+Do not weaken verification requirements.
+
+Do not mark a User verified merely because an email was generated or delivered.
+
+
+==================================================
+7. PASSWORD RESET WORKFLOW
+==================================================
+
+Trace and make operational the existing password-reset journey.
+
+Verify:
+
+- correct eligible User;
+- recipient selection;
+- no account enumeration beyond existing approved semantics;
+- secure reset token;
+- expiration;
+- correct public action URL;
+- shared corrected layout;
+- CID logo;
+- corrected footer/social;
+- reset action;
+- successful password update;
+- token invalidation after successful reset;
+- replay denial;
+- expired/invalid token denial;
+- appropriate existing-session behavior where applicable.
+
+Never expose the reset token in logs/reports.
+
+Do not print the reset URL containing the live token into evidence.
+
+
+==================================================
+8. PUBLIC ACTION URL SAFETY
+==================================================
+
+Audit verification/reset action-link generation.
+
+Do not send links using:
+
+- localhost;
+- private workspace addresses;
+- transient internal Replit URLs;
+- malformed double schemes.
+
+Use the existing approved configurable application/public frontend authority if one exists.
+
+If there is no stable browser-accessible target suitable for completing the real acceptance journey, STOP before real-email testing and report that dependency.
+
+Do not invent a production domain mapping during this task.
+
+
+==================================================
+9. SUBSCRIPTION RECIPIENT PRIVACY FIX
+==================================================
+
+The audit confirmed that subscription mail can place all subscribers in visible To headers.
+
+Fix this before subscription delivery can be considered safe.
+
+Preferred architecture:
+
+ONE LOGICAL DELIVERY PER RECIPIENT.
+
+Each subscriber should receive a message addressed only to that subscriber.
+
+Do not expose another subscriber's email address in:
+
+- To;
+- CC;
+- body;
+- unsubscribe/action link;
+- logs;
+- error responses.
+
+Do not merely move every subscriber into one giant BCC message if the existing architecture can reasonably support isolated per-recipient delivery.
+
+Per-recipient delivery is preferred because it provides better:
+
+- privacy;
+- failure isolation;
+- unsubscribe semantics;
+- auditing;
+- future personalization.
+
+Preserve the existing subscription business semantics.
+
+Do NOT activate subscription delivery or scheduler during this campaign unless later explicitly approved for acceptance.
+
+
+==================================================
+10. LONG UNBROKEN TEXT CONTAINMENT
+==================================================
+
+Correct the confirmed overflow defect in:
+
+- shared email layout;
+- legacy order email.
+
+Test long synthetic values including:
+
+- Customer name;
+- Shop name;
+- Service name;
+- Specialist name;
+- booking/order reference;
+- long URL where displayed;
+- long unbroken synthetic string.
+
+The email must remain readable at:
+
+900px
+390px
+320px.
+
+Prefer email-client-compatible techniques.
+
+Do not depend on unsupported modern browser-only CSS.
+
+Do not alter authoritative content merely to hide overflow.
+
+Where safe, wrapping/breaking should preserve the actual value.
+
+
+==================================================
+11. PLAIN-TEXT MIME ALTERNATIVE
+==================================================
+
+Audit whether the current shared mail architecture can provide a meaningful plain-text alternative without a broad redesign.
+
+If safely bounded, implement plain-text alternatives for MVP-relevant account emails.
+
+The plain-text version should preserve essential meaning:
+
+- purpose;
+- recipient-relevant information;
+- action URL where appropriate;
+- support information.
+
+Do not include secrets beyond what the existing secure action-link contract requires.
+
+For the legacy order email, add a plain-text alternative only if it can be done safely without changing financial meaning.
+
+Do not invent payment claims in plain text that are not present authoritatively in the HTML message.
+
+
+==================================================
+12. PDF INVOICE IS NOT AUTOMATICALLY REQUIRED
+==================================================
+
+Do NOT implement a PDF invoice merely because the audit found none.
+
+First classify whether a PDF invoice is:
+
+- required for the current MVP;
+- optional;
+- legally/business required;
+- deferred with Product/payment functionality.
+
+Given the existing financial/payment limitations, do not create a document that implies:
+
+PAID
+SETTLED
+REFUNDED
+COLLECTED
+
+unless authoritative state supports that claim.
+
+Report the PDF decision separately.
+
+Lack of a PDF alone must not trigger scope expansion.
+
+
+==================================================
+13. EMAIL PRESENTATION CONSISTENCY
+==================================================
+
+Preserve the now-approved/verified Gmail presentation.
+
+For verification/reset and any affected existing template verify:
+
+- AgendaAlly logo;
+- CID embedding;
+- Instagram;
+- Facebook;
+- LinkedIn;
+- X omitted when unconfigured;
+- normalized links;
+- footer;
+- copyright;
+- readable typography;
+- CTA;
+- mobile rendering;
+- no localhost asset;
+- no inaccessible private asset;
+- no essential SVG/webfont dependency.
+
+Do not redesign the visual identity.
+
+
+==================================================
+14. SECURITY REVIEW
+==================================================
+
+Focused review only for changed account-email/outbox/subscription code.
+
+Check:
+
+- account enumeration;
+- token leakage;
+- token replay;
+- token expiry;
+- recipient injection;
+- email header injection;
+- cross-user token use;
+- cross-role/account confusion;
+- mass assignment;
+- unsafe outbox payload;
+- duplicate processing;
+- concurrent processing;
+- arbitrary template selection;
+- arbitrary recipient override;
+- HTML injection;
+- log leakage;
+- error-response leakage;
+- subscription recipient disclosure;
+- unsubscribe/link recipient isolation where applicable.
+
+Use synthetic/local fixtures.
+
+Do not perform harmful production-like exploitation.
+
+
+==================================================
+15. LOCAL TESTS BEFORE ANY REAL EMAIL
+==================================================
+
+Before authorizing any real email, all focused local tests must pass.
+
+Use synthetic addresses/data.
+
+Mail/network functions must remain disabled where practical.
+
+Test at minimum:
+
+OUTBOX
+- migration/schema contract;
+- write;
+- read/claim;
+- process;
+- duplicate/retry behavior;
+- failure behavior;
+- processed behavior.
+
+VERIFICATION
+- generation;
+- template;
+- MIME;
+- link structure;
+- expiry/replay contracts.
+
+RESET
+- generation;
+- template;
+- MIME;
+- link structure;
+- expiry/replay contracts.
+
+SUBSCRIPTION
+- multiple subscribers do not share visible recipient headers;
+- per-recipient rendering;
+- no cross-recipient leakage.
+
+PRESENTATION
+- 900;
+- 390;
+- 320;
+- long unbroken text.
+
+SECURITY
+- selected token/log/error redaction checks.
+
+No real SMTP connection during this phase.
+
+
+==================================================
+16. NORMAL DATABASE / MIGRATION SAFETY
+==================================================
+
+If the outbox fix requires a schema migration, treat it as an intentional bounded schema change.
+
+Before applying:
+
+- record current schema;
+- inspect migration;
+- verify rollback behavior;
+- verify it touches only intended email/outbox structures.
+
+After applying:
+
+- verify expected schema delta only;
+- verify protected business tables unchanged;
+- verify no business data reseed;
+- verify no protected financial mutation.
+
+Do not describe the schema as identical if an approved migration intentionally adds the outbox table.
+
+Instead report:
+
+BASELINE SCHEMA
++
+APPROVED EMAIL-OUTBOX DELTA
++
+NO UNEXPECTED DELTA.
+
+
+==================================================
+17. REAL-EMAIL ACCEPTANCE AUTHORIZATION
+==================================================
+
+IMPORTANT:
+
+Implementation and local verification are approved.
+
+For real-email acceptance, use the minimum necessary account-email journeys only after all local checks pass.
+
+Do NOT repeat the Admin SMTP Test Email.
+
+You MAY proceed with the minimum real verification/reset acceptance only if:
+
+- the required normal-preview workflow is safely isolated;
+- no unrelated email delivery becomes enabled;
+- action links are browser-accessible;
+- the test accounts are synthetic/disposable or explicitly safe;
+- no real business/financial data is affected;
+- SMTP credential remains protected;
+- only the intended recipient receives the messages.
+
+If any of those conditions is not satisfied:
+
+STOP before sending and report the blocker.
+
+Do not create workarounds that weaken security.
+
+
+==================================================
+18. MINIMUM REAL VERIFICATION EMAIL ACCEPTANCE
+==================================================
+
+If safe and supported, exercise ONE controlled verification journey.
+
+Use an approved synthetic/disposable test account and an owner-controlled recipient.
+
+Validate:
+
+request
+→ outbox record
+→ processing
+→ SMTP
+→ Gmail receipt
+→ corrected logo/footer presentation
+→ correct verification CTA
+→ action link
+→ expected account verification state.
+
+Then verify:
+
+- token cannot perform an unintended second state transition;
+- already-verified handling is safe.
+
+Do not repeatedly send verification messages.
+
+Record only safe evidence.
+
+Do not expose the live token.
+
+
+==================================================
+19. MINIMUM REAL PASSWORD-RESET ACCEPTANCE
+==================================================
+
+If safe and supported, exercise ONE controlled password-reset journey.
+
+Use an approved synthetic/disposable account and owner-controlled recipient.
+
+Validate:
+
+reset request
+→ outbox
+→ processing
+→ SMTP
+→ Gmail receipt
+→ corrected presentation
+→ reset CTA
+→ valid reset page
+→ password change
+→ token invalidated.
+
+Then verify safe replay denial without exposing the token.
+
+Do not change the owner's real Admin/Zoho credentials.
+
+Do not use the SMTP mailbox password as the application test password.
+
+Do not repeatedly send reset emails.
+
+
+==================================================
+20. EMAIL DELIVERY BOUNDARY
+==================================================
+
+Only the explicitly selected account-email records may be processed for real acceptance.
+
+Do not enable broad background delivery if a narrower controlled processing mechanism exists.
+
+Do not allow the acceptance test to flush unrelated queued/outbox messages.
+
+Before processing, determine whether pending real-user messages exist.
+
+If processing the selected record cannot be isolated from unrelated messages:
+
+STOP and report the issue.
+
+Do not accidentally deliver historical/suppressed mail.
+
+
+==================================================
+21. BOOKING EMAILS ARE OUT OF SCOPE
+==================================================
+
+The completed audit determined booking emails are optional under the current MVP rubric.
+
+Therefore DO NOT:
+
+- implement booking confirmation email;
+- implement reschedule email;
+- implement cancellation email;
+- implement reminders;
+- implement Vendor booking email;
+- implement Specialist booking email
+
+during this campaign.
+
+Keep the audit's proposal for future product work.
+
+This campaign is about closing existing C1/O4 requirements efficiently.
+
+
+==================================================
+22. REFUND / PAYOUT EMAILS ARE OUT OF SCOPE
+==================================================
+
+Do not implement refund or payout emails here.
+
+The approved product direction is that MVP refund/payout financial execution will be designed as a manual/external Finance workflow with authoritative AgendaAlly status/evidence.
+
+Those notifications will be designed with that workflow later.
+
+Do not create financial notifications before their authoritative lifecycle is approved.
+
+
+==================================================
+23. WORKERS / SCHEDULERS
+==================================================
+
+Do not globally enable normal workers/schedulers merely to make the acceptance test pass.
+
+First identify how the selected account-email outbox is intended to be processed.
+
+For local tests, invoke the relevant processing unit directly where safe.
+
+For the real acceptance journey, use the narrowest mechanism capable of processing only the selected approved test message.
+
+If O4 specifically requires worker-path acceptance, report that requirement and test the smallest isolated worker path that cannot consume unrelated pending mail.
+
+Do not start a broad worker against an unknown queue.
+
+
+==================================================
+24. C1 / O4 GATE CLOSURE
+==================================================
+
+Use the SAME existing 20-gate rubric.
+
+Current:
+
+C1 = 0.5
+O4 = 0.5
+
+Overall = 16/20 = 80%
+
+Do not create a new scoring system.
+
+After implementation and acceptance, determine separately:
+
+C1:
+- previous evidence;
+- new evidence;
+- remaining gap;
+- PASS/PARTIAL.
+
+O4:
+- previous evidence;
+- new evidence;
+- remaining gap;
+- PASS/PARTIAL.
+
+Only move a gate from 0.5 to 1 if its EXISTING rubric is actually satisfied.
+
+Do not award points for:
+
+- code existence;
+- migration existence;
+- local rendering alone;
+- number of assertions;
+- visual improvements alone.
+
+If both gates legitimately move from 0.5 to 1, the same score would become:
+
+17/20 = 85%
+
+If only one closes:
+
+16.5/20 = 82.5%
+
+If neither closes:
+
+16/20 = 80%
+
+Use the actual evidence to decide.
+
+
+==================================================
+25. PRESERVATION
+==================================================
+
+After implementation and acceptance, verify:
+
+- protected financial state unchanged;
+- protected booking state unchanged;
+- Wallet state unchanged;
+- legacy Orders unchanged;
+- normal demo counts unchanged where applicable;
+- SMTP credential unchanged;
+- SMTP provider configuration unchanged unless an explicitly approved necessary change occurred;
+- scheduling semantics unchanged;
+- payment/provider state unchanged;
+- no unexpected schema delta;
+- no unintended queued/outbox real-user email processed.
+
+Remove disposable synthetic account/outbox evidence only if removal does not invalidate required acceptance evidence.
+
+Preserve safe reports/receipts needed for certification.
+
+
+==================================================
+26. REQUIRED FINAL REPORT
+==================================================
+
+Return a concise but complete report containing:
+
+1. Executive result
+
+2. Outbox missing-table root cause
+
+3. Exact schema/migration change
+
+4. Verification workflow result
+
+5. Password-reset workflow result
+
+6. Outbox idempotency/retry result
+
+7. Subscription privacy correction
+
+8. Long-text containment correction
+
+9. Plain-text MIME result
+
+10. PDF invoice classification
+
+11. Email presentation result
+
+12. Security findings
+
+13. Local test counts/results
+
+14. Real verification-email result, if executed
+
+15. Real password-reset result, if executed
+
+16. Gmail receipt result, if executed
+
+17. Token expiry/replay result
+
+18. Worker/outbox processing result
+
+19. Confirmation that generic Admin SMTP test was NOT repeated
+
+20. Confirmation that booking emails were NOT implemented
+
+21. Confirmation that refund/payout emails were NOT implemented
+
+22. Schema preservation + approved delta
+
+23. Business/financial preservation
+
+24. C1 final status and evidence
+
+25. O4 final status and evidence
+
+26. Previous score: 16/20 = 80%
+
+27. Updated score under the SAME rubric
+
+28. Remaining blockers to production
+
+29. Deferred email/product work
+
+30. Final GO/NO-GO recommendation
+
+
+==================================================
+27. STOP CONDITIONS
+==================================================
+
+STOP immediately and report rather than improvising if:
+
+- the intended outbox architecture cannot be established;
+- adding the missing table would require guessing its contract;
+- account email processing cannot be isolated from real pending messages;
+- action links require an unavailable public/stable environment;
+- SMTP credentials would need to be exposed/copied;
+- real acceptance would require enabling unrelated email flows;
+- verification/reset requires modifying production;
+- an unexpected financial/business mutation occurs;
+- a new security/financial P0 is discovered.
+
+Do not bypass these boundaries merely to obtain a passing result.
+
+
+==================================================
+28. FINAL AUTHORITY
+
+Approved:
+
+- bounded account-email/outbox implementation;
+- subscription recipient-privacy correction;
+- shared/order long-text containment correction;
+- safe plain-text MIME improvement where justified;
+- focused local tests;
+- minimum isolated verification/reset real-email acceptance ONLY if all safety conditions above are satisfied.
+
+Not approved:
+
+- generic SMTP retest;
+- booking-email implementation;
+- refund/payout-email implementation;
+- provider activation;
+- payment changes;
+- broad worker/scheduler activation;
+- production deployment;
+- unrelated refactoring.
+
+Proceed with this bounded implementation and acceptance campaign.

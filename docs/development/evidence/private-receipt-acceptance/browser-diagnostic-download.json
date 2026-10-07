@@ -1,0 +1,16 @@
+{
+  "provenance": "Main-agent diagnostic HTTP check after isolated native signature macro registration; not browser proof",
+  "link_status": 200,
+  "download_status": 200,
+  "bytes": 614,
+  "sha256": "881d58fc6d63352596ab5be572479afb0b334ed6a6e9315c3294dfb44a026af4",
+  "headers": {
+    "content-type": "application/pdf",
+    "content-disposition": "attachment; filename=\"receipt.pdf\"",
+    "x-content-type-options": "nosniff",
+    "content-security-policy": "sandbox; default-src 'none'",
+    "cache-control": "no-store, private",
+    "referrer-policy": "no-referrer"
+  },
+  "bearer_or_cookie_sent_on_download": false
+}

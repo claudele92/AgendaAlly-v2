@@ -1,0 +1,377 @@
+AGENDAALLY MVP — FINAL CALENDAR BROWSER ACCEPTANCE ONLY
+
+Continue from the completed approved calendar implementation.
+
+This is a SMALL, BOUNDED COMPLETION RUN.
+
+The implementation, native/API tests, authorization regression, local-client retry/concurrency tests, booking lifecycle tests, responsive captures and preservation checks have already passed.
+
+DO NOT restart the broad audit.
+DO NOT redesign the calendar again.
+DO NOT rerun expensive financial, recovery or operations campaigns already supported by evidence.
+
+The only purpose of this run is to finish the interactive browser checks that were interrupted by automation.
+
+
+==================================================
+1. ACCEPTED BASELINE — DO NOT REOPEN
+==================================================
+
+Treat the following as existing accepted evidence unless a new browser observation directly contradicts it:
+
+- Final production frontend build passed.
+- Desktop Week implementation completed.
+- Mobile Agenda-first implementation completed.
+- Optional mobile Week is contained.
+- No page-level horizontal overflow in the accepted responsive captures.
+- Shop-scoped Specialist lookup implemented.
+- Foreign Specialist/assignment/booking/Shop authorization checks passed.
+- Legitimate accepted multi-Shop Specialist relationships remain supported.
+- Revoked Specialist assignment checks passed.
+- Saved booking detail uses the persisted authorized booking record and does NOT recalculate on view.
+- Local-client save retry references are bound to authenticated actor + Shop.
+- Client save + retry receipt persistence is atomic.
+- Lost-acknowledgement retry passed.
+- Concurrent client-save retry passed.
+- Same-name people are NOT merged merely by name.
+- Receipt restore/replay passed.
+- Native local-booking lifecycle regression passed.
+- Cash semantics unchanged.
+- Wallet semantics unchanged.
+- Local-client bookings remain UNPAID / UNCOLLECTED unless a real supported collection occurs.
+
+Preservation baseline already passed:
+
+- 59/59 protected data fingerprints unchanged
+- 465/465 existing schema objects unchanged
+- 12 legacy Orders untouched/unverified
+- normal demo restored
+- 9 Shops
+- 51 Services
+- 75 assignment links
+- 14 Specialists
+- previews restored
+
+Do not rerun these campaigns merely to generate duplicate evidence.
+
+
+==================================================
+2. PRIMARY OBJECTIVE
+==================================================
+
+Recover/use the browser environment and complete ONLY the interactive checks that the previous automation did not finish.
+
+Focus on:
+
+A. Add Booking form interactions
+B. New Local Client interactions
+C. Saved-booking detail interactions
+D. Retry/recovery UI behavior
+E. Final responsive interaction verification
+
+Use isolated/disposable acceptance fixtures where mutation is genuinely required.
+
+Prefer existing safe records for read-only verification.
+
+Do not modify the normal demo.
+
+
+==================================================
+3. ADD BOOKING — INTERACTIVE BROWSER CHECK
+==================================================
+
+Verify the approved Vendor Add Booking experience through the browser.
+
+Check the intended flow:
+
+Calendar
+→ Add Booking
+→ Existing Client OR New Local Client
+→ Service
+→ authorized Specialist
+→ date
+→ backend-authoritative availability
+→ time
+→ Review
+
+Verify:
+
+- navigation between steps works;
+- Back preserves entered/selected values where intended;
+- Cancel safely returns to the calendar;
+- authorized client search works;
+- Service selection works;
+- only authorized/accepted Specialists are selectable;
+- date selection works;
+- available times come from the backend;
+- selected time remains visible through Review;
+- duration/amount shown on Review come from authoritative existing behavior;
+- Review clearly identifies the booking/client/Service/Specialist/time;
+- payment/collection state is prominent on Review;
+- local booking is clearly UNPAID / UNCOLLECTED;
+- no fabricated Cash collection appears;
+- no Wallet debit occurs;
+- no provider call occurs.
+
+Do not repeat funded Cash/Wallet journeys merely for this UI check.
+
+
+==================================================
+4. NEW LOCAL CLIENT — INTERACTIVE CHECK
+==================================================
+
+Verify the approved New Local Client experience.
+
+Check:
+
+- clear "New local client" labeling;
+- explanation that this adds the person to the Shop directory and does not automatically create a platform account;
+- Name required;
+- Phone optional where the existing contract says optional;
+- Email optional where the existing contract says optional;
+- validation messages are visible and usable;
+- long names remain contained;
+- duplicate/contact-bearing behavior follows the accepted backend contract;
+- two different people are not merged solely because they have the same name;
+- Save action is distinct from Confirm Booking;
+- abandoning the booking after an intentional directory save does not fabricate a booking;
+- abandoning before save does not create a directory record;
+- no credentials/platform account are fabricated;
+- no payment is fabricated.
+
+Do NOT broaden this into account-linking development.
+
+
+==================================================
+5. CLIENT SAVE RETRY / RECOVERY UI
+==================================================
+
+The backend retry/idempotency behavior has already passed native tests.
+
+Now verify only that the frontend behaves correctly around it.
+
+Using isolated fixtures, exercise a bounded safe retry/recovery scenario if the browser harness supports it.
+
+Confirm:
+
+- one logical Save Client action retains a stable retry reference;
+- retry after an uncertain/lost response does not visibly create duplicate clients;
+- successful receipt restoration resolves to the saved client;
+- changed client details under the same retry reference are not silently accepted;
+- the user receives a useful recoverable error/state;
+- entered form data is not unnecessarily lost.
+
+Do NOT create large numbers of duplicate fixtures.
+
+Do NOT rerun concurrency stress testing in the browser; native concurrency evidence already passed.
+
+
+==================================================
+6. SAVED BOOKING DETAILS
+==================================================
+
+Verify clicking/tapping an existing authorized calendar appointment.
+
+The browser must confirm:
+
+- saved detail opens;
+- exact saved booking/reference is loaded;
+- opening detail performs the saved-record GET path;
+- opening detail does NOT invoke booking calculation/repricing;
+- Service is correct;
+- client is correct;
+- Specialist is correct;
+- Shop/context is correct where displayed;
+- date is correct;
+- start/end are correct;
+- saved duration is preserved;
+- saved amount/total is preserved;
+- native status is preserved;
+- collection/payment state is represented separately from booking status;
+- saved notes display where authorized;
+- unauthorized information is not exposed;
+- Close works;
+- reopen works;
+- switching between bookings does not display stale prior data;
+- loading state is clear;
+- not-found/forbidden/network error state is usable;
+- Retry does not mutate the booking.
+
+Do not edit the booking merely to prove the detail viewer.
+
+
+==================================================
+7. RESPONSIVE INTERACTIVE ACCEPTANCE
+==================================================
+
+Complete the unfinished interaction checks at:
+
+- 1280px
+- 390px
+- 320px
+
+Do not merely capture screenshots.
+
+Interact with the affected controls.
+
+At 1280 verify:
+
+- desktop Week workspace;
+- toolbar/navigation;
+- appointment click;
+- saved-detail drawer;
+- Add Booking;
+- New Local Client;
+- Review;
+- close/back/cancel behavior.
+
+At 390 and 320 verify:
+
+- Agenda is the primary/default practical mobile experience;
+- Day remains accessible;
+- Week is secondary/optional and contained;
+- optional Week does NOT create page/body horizontal overflow;
+- appointment cards remain readable;
+- appointment tap opens mobile detail correctly;
+- detail is usable without clipping;
+- Add Booking is reachable;
+- Add Booking does not cover the final appointment/content;
+- New Local Client is usable;
+- Service/Specialist/date/time controls fit;
+- Review fits;
+- validation errors remain visible;
+- long names wrap/contain appropriately;
+- sticky/fixed footer does not cover fields or errors;
+- menu opens and closes correctly;
+- chat/help button does not overlap required booking controls;
+- document/body does not horizontally overflow.
+
+If practical in the available browser harness, verify focused inputs remain usable when the mobile keyboard would reduce the viewport. Do not claim physical-device keyboard certification unless actually exercised.
+
+
+==================================================
+8. ROLE BOUNDARY SPOT CHECK
+==================================================
+
+Do not repeat the complete authorization campaign.
+
+Perform only a small browser-level sanity check confirming:
+
+- Vendor calendar shows only operationally authorized Specialists;
+- legitimate shared/accepted Specialist remains visible where appropriate;
+- revoked/foreign Specialist does not appear in the Vendor operational selector;
+- frontend does not reintroduce the old public marketplace lookup.
+
+Backend authorization evidence already exists and does not need a full rerun.
+
+
+==================================================
+9. FAILURE HANDLING
+==================================================
+
+If browser automation fails again because of the automation environment:
+
+DO NOT automatically classify the application as failed.
+
+Determine whether the cause is:
+
+- browser automation/harness failure;
+- preview process issue;
+- memory/process interruption;
+- application defect.
+
+Preserve evidence separately.
+
+Retry only the unfinished browser check.
+
+Do not restart the entire acceptance campaign after an automation interruption.
+
+
+==================================================
+10. STRICT NON-GOALS
+==================================================
+
+DO NOT:
+
+- redesign the calendar again;
+- change scheduling semantics;
+- change capacity logic;
+- change overlap/adjacency behavior;
+- change recurrence;
+- change working-hours authority;
+- change closed dates;
+- change blocked-time authority;
+- change Customer availability authority;
+- change Cash semantics;
+- change Wallet semantics;
+- change accounting;
+- activate payment providers;
+- perform payouts/refunds;
+- deploy production;
+- reseed the normal demo;
+- replace the normal demo database;
+- rerun D1/R1/O1 drills;
+- rerun PITR;
+- rerun financial contention campaigns;
+- attempt to repair the entire 954-test repository suite;
+- expand into Product/Delivery/PostgreSQL/deferred work.
+
+If a genuine new P0/P1 security or financial defect is discovered, stop the affected path, preserve evidence and report it rather than broadening the task.
+
+
+==================================================
+11. PRESERVATION AT COMPLETION
+==================================================
+
+Because this is a bounded browser run, perform a final preservation comparison rather than another broad database audit.
+
+Confirm:
+
+- 59 protected fingerprints still match;
+- 465 existing schema objects still match;
+- 12 legacy Orders remain untouched/unverified;
+- normal demo remains on its normal API;
+- 9 Shops;
+- 51 Services;
+- 75 assignment links;
+- 14 Specialists;
+- normal demo/media remain usable.
+
+Remove/rollback disposable browser acceptance fixtures where the existing accepted fixture policy requires it.
+
+
+==================================================
+12. COMPLETION REPORT
+==================================================
+
+At completion, report ONLY the new/remaining acceptance results.
+
+Provide:
+
+1. Add Booking interactive result: PASS / PARTIAL / FAIL
+2. New Local Client interactive result
+3. Client-save retry/recovery UI result
+4. Saved-booking detail result
+5. 1280px result
+6. 390px result
+7. 320px result
+8. mobile Agenda-first result
+9. contained Week result
+10. menu-close result
+11. chat-button overlap result
+12. Vendor Specialist selector spot-check
+13. any browser/harness interruption
+14. any genuine application defect discovered
+15. final protected-state comparison
+16. whether the previously incomplete calendar browser acceptance is now CLOSED
+17. whether U1/calendar responsive acceptance is now VERIFIED for the selected MVP scope
+18. resulting score using the SAME existing 20-gate readiness model
+19. updated decision: REMAIN IN STAGING / READY FOR NEXT STAGING GATE
+
+Do not award points merely for appearance.
+
+If all remaining interactive checks pass, close this calendar implementation task.
+
+Do not begin another feature or production deployment automatically.
+
+STOP after the final result.

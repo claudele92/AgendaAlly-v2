@@ -1,0 +1,256 @@
+/* Scoped copy of the storefront tokens and hero rules used by these source pages. */
+.agendaally-stage2-current {
+  min-height: 100vh;
+  color: #222628;
+  background: #fff;
+  font-family: Inter, sans-serif;
+  --primary: #bb9b6a;
+  --primary-button-font-color: #fff;
+}
+
+.agendaally-stage2-current .rounded-button {
+  border-radius: 10px;
+}
+
+.agendaally-stage2-current .stage2-country-indicator {
+  display: inline-flex;
+}
+
+.agendaally-stage2-current .text-dark {
+  color: #000;
+}
+
+.agendaally-stage2-current .bg-dark {
+  background-color: #000;
+}
+
+.agendaally-stage2-current .bg-primary {
+  background-color: var(--primary);
+}
+
+.agendaally-stage2-current .text-primary {
+  color: var(--primary);
+}
+
+.agendaally-stage2-current .text-gray-field {
+  color: #a0a09c;
+}
+
+.agendaally-stage2-current .bg-gray-field {
+  background-color: #a0a09c;
+}
+
+.agendaally-stage2-current .border-gray-link,
+.agendaally-stage2-current .bg-gray-link {
+  border-color: #eaeaea;
+  background-color: #eaeaea;
+}
+
+.agendaally-stage2-current .border-gray-link {
+  background-color: transparent;
+}
+
+.agendaally-stage2-current .bg-gray-bright {
+  background-color: #f4f4f7;
+}
+
+.agendaally-stage2-current .bg-gray-card {
+  background-color: #f6f6f6;
+}
+
+.agendaally-stage2-current .bg-gray-faq {
+  background-color: #f7f7f5;
+}
+
+.agendaally-stage2-current .bg-gray-border {
+  background-color: #f3f3f3;
+}
+
+.agendaally-stage2-current .border-gray-border {
+  border-color: #f3f3f3;
+}
+
+.agendaally-stage2-current .text-giantsOrange {
+  color: #ff6016;
+}
+
+.agendaally-stage2-current .bg-giantsOrange {
+  background-color: #ff6016;
+}
+
+.agendaally-stage2-current .border-footerBg {
+  border-color: #080210;
+}
+
+.agendaally-stage2-current .bg-gray-ui4bg {
+  background-color: #f0eeef;
+}
+
+.agendaally-stage2-current .drop-shadow-gray {
+  filter: drop-shadow(0 12px 50px rgb(138 138 138 / 25%));
+}
+
+.agendaally-stage2-current .drop-shadow-search {
+  filter: drop-shadow(0 4px 10px rgb(160 160 160 / 20%));
+}
+
+.agendaally-stage2-current .dropdown-shadow {
+  box-shadow: 0 4px 20px rgb(0 0 0 / 12%);
+}
+
+.agendaally-stage2-current .bg-ui-1-bg {
+  background-image: url("/__mockup/img/agendaally-stage2-current/ui-1-bg.webp");
+}
+
+.agendaally-stage2-current .bg-ui-2-bg {
+  background-image: url("/__mockup/img/agendaally-stage2-current/ui-2-bg.png");
+}
+
+.agendaally-stage2-current .hero-1 {
+  background: url("/__mockup/img/agendaally-stage2-current/ui-2-hero-1.png") no-repeat center / contain;
+}
+
+.agendaally-stage2-current .hero-1::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -10px;
+  left: -10px;
+  width: 100%;
+  height: 100%;
+  background: url("/__mockup/img/agendaally-stage2-current/ui-2-hero-bg.png") no-repeat center / contain;
+}
+
+.agendaally-stage2-current .hero-2 {
+  left: 58%;
+  transform: translateX(-50%);
+  background: url("/__mockup/img/agendaally-stage2-current/ui-2-hero-2.png") no-repeat center / contain;
+}
+
+.agendaally-stage2-current .hero-3 {
+  left: 70%;
+  transform: translateX(-50%);
+  background: url("/__mockup/img/agendaally-stage2-current/ui-2-hero-3.png") no-repeat center / contain;
+}
+
+.agendaally-stage2-current .hero-4 {
+  right: 0;
+  background: url("/__mockup/img/agendaally-stage2-current/ui-2-hero-4.png") no-repeat center / contain;
+}
+
+.agendaally-stage2-current #gradient-canvas {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  max-height: 465px;
+  --gradient-color-1: #ef008f;
+  --gradient-color-2: #6ec3f4;
+  --gradient-color-3: #7038ff;
+  --gradient-color-4: #ffba27;
+}
+
+.agendaally-stage2-current .text-shadow {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 2px black;
+  font-family: Inter, sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: -0.6px;
+}
+
+@media (min-width: 768px) {
+  .agendaally-stage2-current .text-shadow {
+    font-size: 60px;
+  }
+}
+
+@media (min-width: 640px) {
+  .agendaally-stage2-current .container {
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .agendaally-stage2-current .stage2-country-indicator {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .agendaally-stage2-current .container {
+    padding-right: 4rem;
+    padding-left: 4rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .agendaally-stage2-current .container {
+    max-width: 1280px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 5rem;
+    padding-left: 5rem;
+  }
+}
+
+.agendaally-stage2-current .stage2-category-track {
+  display: flex;
+  gap: 0.5rem;
+  overflow: hidden;
+  padding: 0 1rem;
+}
+
+.agendaally-stage2-current .stage2-category-slide {
+  flex: 0 0 43%;
+  max-width: 200px;
+}
+
+.agendaally-stage2-current .stage2-category-slide-ui2 {
+  flex: 0 0 136px;
+  max-width: 136px;
+}
+
+.agendaally-stage2-current .stage2-category-track-ui2 {
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+@media (min-width: 562px) {
+  .agendaally-stage2-current .stage2-category-track {
+    gap: 20px;
+  }
+
+  .agendaally-stage2-current .stage2-category-slide {
+    flex-basis: 31%;
+  }
+}
+
+@media (min-width: 768px) {
+  .agendaally-stage2-current .stage2-category-track {
+    flex-wrap: wrap;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .agendaally-stage2-current .stage2-category-slide {
+    flex-basis: calc(25% - 23px);
+  }
+
+  .agendaally-stage2-current .stage2-category-track-ui2 {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .agendaally-stage2-current .stage2-category-slide {
+    flex-basis: calc(16.666% - 25px);
+  }
+}

@@ -1,0 +1,572 @@
+AgendaAlly Payment System — Product Fulfillment Dual-P0 Containment
+
+Authorization
+
+The 2026-10-03 completed payment architecture audit remains the authoritative baseline.
+
+The subsequent Product fulfillment containment attempt correctly stopped under its new-financial-P0 exception after discovering a separate Customer first-settlement authorization defect.
+
+Accept the following report as the authoritative handoff:
+
+"docs/development/payment-product-fulfillment-p0-containment.md"
+
+Its protected-state receipt is also accepted:
+
+- 53 protected tables unchanged;
+- identical table sets, counts and fingerprints;
+- "platform_fee_ledger_entries" unchanged;
+- 0 containment tests / 0 assertions;
+- no application or test source changed;
+- neither P0 was exercised.
+
+You are now explicitly authorized to perform one bounded Product-fulfillment containment phase covering both source-confirmed P0s below, followed by focused verification, documentation and STOP.
+
+Do not continue automatically into any P1 or other payment-system backlog item.
+
+---
+
+1. P0-A — unauthorized Customer first fulfillment settlement
+
+The authenticated Customer Order-status endpoint can take a "new" Product Order to "delivered" and reach the shared fulfillment financial settlement service without sufficient ownership/settlement-authority enforcement.
+
+Current source chain from the accepted stop report:
+
+- "POST /api/v1/dashboard/user/orders/{id}/status/change"
+- authenticated by "sanctum.check";
+- "StatusUpdateRequest" accepts all native "Order::STATUSES", including "delivered";
+- User "OrderController" performs an unscoped "Order::find($id)"-style lookup rather than binding the target to the authenticated Customer;
+- its lifecycle check requires current "status=new" but does not restrict the requested transition to a Customer-authorized operation;
+- it delegates to "OrderStatusUpdateService::statusUpdate";
+- entering "delivered" invokes fulfillment financial effects including the gross Admin Wallet top-up and, for Cash, paid-state mutation.
+
+This is a first-settlement authority defect.
+
+A once-only settlement claim alone does not contain it because the unauthorized Customer could acquire the first claim.
+
+---
+
+2. P0-B — fulfillment financial replay
+
+The original source-confirmed Product fulfillment replay remains uncontained.
+
+Each entry into "delivered" can invoke fulfillment financial effects again.
+
+A lifecycle sequence such as:
+
+"delivered → another permitted non-canceled state → delivered"
+
+can repeat the gross Admin Wallet credit without another Customer payment.
+
+This is a financial-finality defect.
+
+Authorization alone does not contain it because a legitimately authorized Seller or other fulfillment actor could still replay settlement.
+
+---
+
+3. Required security/accounting invariant
+
+Treat these as two independent controls.
+
+The resulting implementation must guarantee:
+
+«A fulfillment-triggered financial settlement may be initiated only by an actor with native authority to perform the settlement-triggering lifecycle transition, and the financial effect for a given Order may commit at most once.»
+
+Therefore:
+
+authorization ≠ finality
+
+and:
+
+finality ≠ authorization
+
+Both must be enforced server-side.
+
+Do not rely on the frontend.
+
+Do not rely on hidden buttons.
+
+Do not rely on sequential request assumptions.
+
+Do not treat a durable settlement marker as authorization.
+
+Do not treat an authorization check as financial idempotency.
+
+---
+
+4. First task — finish the bounded actor/transition trace
+
+Before editing code, finish the minimum shared-caller trace necessary to establish the legitimate Order status authority matrix.
+
+Trace only callers that can reach or influence the Product fulfillment settlement boundary.
+
+At minimum classify:
+
+- Customer;
+- owning Seller;
+- properly granted same-Shop Staff, if applicable;
+- foreign Seller;
+- ungranted Staff;
+- Admin;
+- assigned Deliveryman/Driver;
+- unassigned Deliveryman/Driver;
+- any other existing native caller that directly invokes the same status service.
+
+For each actor determine:
+
+1. which Orders they may target;
+2. which status transitions they may perform;
+3. whether they may legitimately initiate "delivered";
+4. what authorization mechanism currently establishes that authority;
+5. whether they reach the shared financial settlement branch.
+
+Do not expand this into a general Order CRUD/security audit.
+
+---
+
+5. Customer route containment
+
+Determine the intended native purpose of:
+
+"POST /api/v1/dashboard/user/orders/{id}/status/change"
+
+Preserve legitimate Customer functionality.
+
+Do not simply add:
+
+"where(user_id = authenticated customer)"
+
+and consider the P0 contained.
+
+Ownership and settlement authority are separate.
+
+Even the owner of their own Order must not be able to declare fulfillment complete if native business policy reserves that operation for Seller/Admin/delivery actors.
+
+The Customer path must therefore enforce both:
+
+Target ownership
+
+A Customer must not mutate another Customer's Order through this route.
+
+Permitted Customer transition
+
+The Customer may perform only the lifecycle operations that native business policy actually assigns to Customers.
+
+If source establishes that this route exists only for Customer cancellation or another restricted operation, enforce that explicit transition contract.
+
+Do not invent new Customer lifecycle powers.
+
+Do not weaken existing cancellation/refund authorization.
+
+---
+
+6. Shared-service defense
+
+Determine whether "OrderStatusUpdateService::statusUpdate" is a trusted internal boundary or whether it can be reached from multiple controllers with different authority assumptions.
+
+Prefer defense in depth where appropriate.
+
+Controller authorization should bind actor → target → allowed transition.
+
+The financial service should not silently assume that arbitrary validated status input implies settlement authority if its architecture makes a shared guard practical.
+
+However, do not perform a broad authorization framework redesign.
+
+Implement the smallest coherent server-authoritative boundary that protects all existing callers.
+
+---
+
+7. Fulfillment financial identity
+
+After the authority defect is contained, establish a durable once-only identity for fulfillment-triggered financial settlement.
+
+Before implementation explicitly document what existing record can represent:
+
+«"Order X — fulfillment financial effect Y has already settled"»
+
+Investigate existing native durable identities first, including as applicable:
+
+- Order;
+- Order Transaction;
+- WalletHistory;
+- associated Transaction;
+- fee ledger;
+- existing settlement/finality field;
+- another existing unique relationship.
+
+Do not assign a new accounting meaning to the legacy gross Admin Wallet credit.
+
+The completed architecture audit remains authoritative that this credit is legacy internal gross accounting, not proof of provider/Cash custody, Vendor entitlement or external remittance.
+
+---
+
+8. Schema-change boundary
+
+Prefer a safe existing durable identity if one exists.
+
+Do not force a schema-free solution if it cannot correctly express financial finality.
+
+If source analysis establishes that the existing schema cannot safely provide:
+
+- durable identity;
+- once-only claiming;
+- rollback-safe retry;
+- sequential replay protection;
+- stale-model protection;
+- concurrent claim protection;
+
+then STOP before creating a migration.
+
+Report exactly why a schema change is required and propose the minimum schema addition.
+
+A migration requires separate approval.
+
+Do not implement it under this authorization.
+
+---
+
+9. Settlement atomicity
+
+If containment is possible without a schema change, the once-only claim and required SQL financial effects must participate in the appropriate database transaction.
+
+Prevent:
+
+Sequential replay
+
+"delivered → other permitted state → delivered"
+
+must not create another fulfillment financial settlement.
+
+Direct duplicate
+
+Repeated "delivered" requests must not duplicate financial effects.
+
+Stale-model replay
+
+Two stale Order/service instances must not both settle.
+
+Concurrent replay
+
+Two concurrent requests must not both acquire settlement.
+
+Do not use an application-only:
+
+"if (!exists) { create(); }"
+
+pattern without an actual atomic claim/locking/uniqueness boundary.
+
+---
+
+10. Failure atomicity
+
+Explicitly handle both exceptions and native false-return financial operations.
+
+If a required financial operation fails:
+
+- do not retain a false settlement claim;
+- do not retain only part of the required financial effects;
+- do not mark the Order financially settled when settlement failed;
+- permit a legitimate retry after rollback;
+- do not silently swallow required financial failures.
+
+Do not broaden this into redesigning every legacy financial service.
+
+---
+
+11. Delivered financial effects
+
+Trace and classify the existing financial effects of the "delivered" branch.
+
+The accepted stop report identified at least:
+
+- Admin paid WalletHistory;
+- associated paid Transaction;
+- gross Admin Wallet increment;
+- configured cashback WalletHistory/Wallet increment;
+- PointHistory where applicable;
+- Cash Transaction paid-state mutation and resulting observer/accounting effects;
+- referral dispatch.
+
+Determine which effects belong to the once-only financial settlement boundary.
+
+Do not unnecessarily make presentation effects such as email/push/logging part of the financial claim unless required by native behavior.
+
+---
+
+12. Cashback
+
+The accepted stop report observed that cashback can also execute from the delivered branch and that its helper may catch exceptions/ignore false Wallet results.
+
+Within this bounded phase:
+
+- determine whether cashback is part of the same fulfillment settlement;
+- prevent replay if it is;
+- ensure a required cashback financial failure cannot leave a falsely successful partial settlement if cashback is contractually part of settlement.
+
+Do not begin a general cashback audit.
+
+If cashback exposes a materially independent immediately exploitable P0 outside this settlement boundary, apply the new-P0 stop rule below.
+
+---
+
+13. Cash paid-state mutation
+
+The Customer P0 can also cause a Cash Transaction to become "paid".
+
+Containment must therefore prove that an unauthorized Customer cannot cause:
+
+- Order fulfillment settlement;
+- Admin Wallet credit;
+- Cash Transaction paid-state transition;
+- resulting fee/ledger effects.
+
+Do not infer physical Cash receipt from a paid status.
+
+Do not redesign Cash custody in this phase.
+
+---
+
+14. Required authorization tests
+
+Use isolated fixtures.
+
+At minimum verify the native cases that source shows exist:
+
+1. Customer cannot set another Customer's Order to "delivered".
+2. Customer cannot set their own "new" Order to "delivered" unless native policy explicitly grants that authority.
+3. Customer cannot trigger Admin fulfillment Wallet credit.
+4. Customer cannot mark Cash paid through an unauthorized fulfillment transition.
+5. Customer's legitimate permitted Order-status operation still works.
+6. Owning Seller can perform a legitimate authorized fulfillment transition.
+7. Foreign Seller remains denied.
+8. Properly granted same-Shop Staff behaves according to native policy.
+9. Ungranted Staff remains denied.
+10. Admin behaves according to native policy.
+11. Assigned Deliveryman/Driver behaves according to native policy.
+12. Unassigned Deliveryman/Driver remains denied.
+13. Cross-Shop boundaries remain intact.
+
+If a listed actor does not actually share this native lifecycle, document that rather than inventing a test path.
+
+---
+
+15. Required financial-finality tests
+
+At minimum prove:
+
+1. First authorized transition into "delivered" produces the intended financial settlement exactly once.
+2. Direct duplicate "delivered" does not duplicate settlement.
+3. "delivered → another permitted state → delivered" does not duplicate settlement.
+4. Multiple lifecycle cycles do not duplicate settlement.
+5. Stale Order/service instances cannot duplicate settlement.
+6. Duplicate Admin WalletHistory records are not created.
+7. Duplicate fulfillment Transactions are not created.
+8. Gross Admin Wallet balance is not incremented twice.
+9. Cash paid-state/accounting effect is not repeated incorrectly.
+10. Cashback cannot repeat through fulfillment replay if it belongs to this settlement boundary.
+11. Point/cashback financial records cannot repeat where applicable.
+12. Unauthorized first-settlement attempts create zero financial effects.
+13. A failed required financial operation rolls back the settlement attempt.
+14. A thrown exception rolls back the settlement attempt.
+15. A false-return financial operation rolls back where the operation is required.
+16. A legitimate retry after rollback succeeds once.
+17. Existing legitimate first fulfillment behavior remains functional.
+
+---
+
+16. Controlled concurrency verification
+
+If a schema-free durable claim is implemented, add a controlled two-connection test where practical.
+
+Demonstrate that two independent attempts cannot both establish the same fulfillment financial settlement.
+
+State precisely what SQLite testing establishes.
+
+Do not claim production concurrency certification.
+
+Production concurrency remains uncertified unless separately tested against the production database technology.
+
+---
+
+17. Accepted containment regressions
+
+Do not reopen the seven accepted payment/Wallet/refund/authorization containments.
+
+Run only the relevant regression tests necessary because shared code was touched.
+
+At minimum consider relevant existing tests covering:
+
+- Product refund finality;
+- Wallet positive-amount invariants;
+- Wallet transfer finality;
+- Seller payment-status authorization;
+- Seller Product-refund authorization;
+- Booking Staff authorization;
+- Booking cancellation refund replay;
+- TransactionObserver/fee behavior affected by Cash paid-state transitions.
+
+Report exactly which suites were run.
+
+Do not describe a selected regression set as a full-project test suite.
+
+---
+
+18. Protected owned-development financial state
+
+Use the established snapshot process:
+
+".local/payment-containment-snapshot.php"
+
+Before and after the containment, fingerprint the authoritative 53 protected tables, including:
+
+"platform_fee_ledger_entries"
+
+Use the same serializer and codec.
+
+The owned-development database must not be used to exercise either P0.
+
+All mutating tests must use isolated test databases/fixtures.
+
+Expected owned-development result:
+
+«identical table sets, identical codec, identical per-table row counts and fingerprints, zero changed protected tables.»
+
+Report this explicitly.
+
+---
+
+19. Historical records
+
+Do not search individual Orders, Wallets, balances, histories or Customers for evidence of prior exploitation.
+
+Do not repair historical financial data.
+
+Do not infer historical exploitation from source.
+
+Historical reconciliation remains separately approval-gated.
+
+---
+
+20. Explicit exclusions
+
+This authorization does not permit:
+
+- provider activation;
+- payment environment changes;
+- merchant credential configuration;
+- real payments;
+- real refunds;
+- real payouts;
+- owned-development Wallet mutations;
+- historical repair;
+- Product custody/accounting redesign;
+- Booking accounting redesign;
+- P1 payout remediation;
+- generic Booking paid-authority remediation;
+- direct-mode commission recovery;
+- provider-refund implementation;
+- payout/reconciliation implementation;
+- PaymentPayload secret migration;
+- currency/precision redesign;
+- unrelated Order CRUD/security audit;
+- publishing/deployment;
+- production activation.
+
+Do not proceed to any of these after this phase.
+
+---
+
+21. New independent financial-P0 exception
+
+If, while performing the work strictly required above, you naturally discover a different source-confirmed immediately exploitable financial-mutation P0 outside these two authorized findings:
+
+1. do not exploit it;
+2. do not remediate it;
+3. document the exact source chain;
+4. document actor/preconditions and financial consequence;
+5. preserve the 53-table protected-state receipt;
+6. STOP.
+
+Do not use this rule for:
+
+- the two P0s explicitly authorized here;
+- already accepted historical findings;
+- architecture incompleteness;
+- dormant provider limitations;
+- speculative concurrency;
+- P1 findings already present in the completed audit.
+
+---
+
+22. Required containment report
+
+Update:
+
+"docs/development/payment-product-fulfillment-p0-containment.md"
+
+or create a clearly linked successor if preserving the stop report verbatim is preferable.
+
+The final report must separately state the disposition of:
+
+P0-A — Customer unauthorized first settlement
+
+"FOUND AND CONTAINED / VERIFIED" only if successfully contained and tested.
+
+P0-B — fulfillment settlement replay
+
+"FOUND AND CONTAINED / VERIFIED" only if successfully contained and tested.
+
+Document:
+
+- exact root cause of each;
+- actor/transition matrix;
+- exact authorization correction;
+- exact financial-finality mechanism;
+- financial identity used;
+- why it is durable;
+- sequential replay behavior;
+- stale-model behavior;
+- concurrency behavior;
+- transaction/locking behavior;
+- exception rollback;
+- false-return rollback;
+- retry semantics;
+- cashback treatment;
+- Cash paid-state treatment;
+- exact changed application files;
+- exact changed test files;
+- exact tests and assertion counts;
+- selected regression results;
+- controlled concurrency results;
+- 53-table before/after fingerprints;
+- explicit fee-ledger result;
+- limitations.
+
+Do not claim provider custody, Vendor settlement or complete Product accounting correctness from this containment.
+
+---
+
+23. Completion rule
+
+If both P0s can be safely contained without requiring a schema migration:
+
+1. implement the minimum correction;
+2. run focused isolated verification;
+3. run relevant selected regressions;
+4. verify the 53-table protected state;
+5. document both findings independently as appropriate;
+6. preserve the completed architecture audit as the authoritative broader baseline;
+7. STOP.
+
+Do not automatically proceed to the next P1.
+
+If a safe durable financial-finality boundary requires a schema change:
+
+«STOP BEFORE THE MIGRATION.»
+
+Provide the proposed minimum schema design, why existing records cannot safely provide the claim, required uniqueness/locking semantics, migration/backfill implications and tests that would be required.
+
+Do not implement the migration without new explicit approval.
+
+Final instruction
+
+Contain the Customer unauthorized first-settlement P0 and the Product fulfillment repeat-settlement P0 as two independent controls at the same bounded fulfillment boundary. Verify authorization and financial finality with isolated tests, preserve all 53 owned-development protected tables, document the result, and STOP.

@@ -1,0 +1,585 @@
+AgendaAlly — Implement Payment Architecture Phase 0 + Foundational Phase 1
+
+Use the completed “AgendaAlly payment architecture audit and recommendations” as the authoritative starting point.
+
+This is now an IMPLEMENTATION task, but it is deliberately bounded.
+
+Implement:
+
+1. Phase 0 — contain the confirmed security, authorization, and wiring defects.
+2. The foundational parts of Phase 1 — establish the clean country → payment method → vendor configuration → checkout eligibility architecture.
+3. Reproducible development country/payment assignments for representative African markets so the architecture can be exercised properly.
+
+DO NOT proceed automatically into later payment phases.
+
+Do NOT activate external providers.
+Do NOT perform real payments.
+Do NOT implement payouts.
+Do NOT implement FX routing.
+Do NOT implement provider settlement.
+Do NOT redesign checkout broadly.
+Do NOT change accounting behavior beyond what is strictly required for Phase 0/1 foundations.
+
+Stop after the bounded implementation, focused verification, and report.
+
+# 1. PRESERVE THE AUDIT FINDINGS
+
+Do not redo the full payment audit.
+
+Use the existing audit findings as the baseline.
+
+In particular, preserve the distinction between:
+
+- Payment catalog
+- Country payment policy
+- Vendor payment configuration
+- Platform payment configuration
+- Collection mode
+- Transaction currency
+- Provider configuration
+- Provider readiness
+- Payment initiation
+- Payment verification
+- Platform collection
+- Vendor liability
+- Payout
+
+These are not interchangeable concepts.
+
+A payment method being assigned to a country MUST NOT mean that the provider is globally active, configured, integration-ready, legally approved, or available for real transactions.
+
+# 2. PHASE 0 — FIX CONFIRMED SECURITY AND OWNERSHIP DEFECTS
+
+Implement the confirmed Phase 0 containment items from the audit.
+
+## 2.1 Never expose payment secrets
+
+Fix the public ShopPayment serialization problem.
+
+The public:
+
+GET /api/v1/rest/shop-payments/{id}
+
+and any other public ShopPayment representation must NEVER return:
+
+- secret_id
+- API secrets
+- merchant secrets
+- subscription keys
+- private keys
+- access tokens
+- encrypted credential values
+- decrypted credential values
+- equivalent sensitive provider configuration
+
+Where the UI needs configuration status, return safe metadata such as:
+
+- configured: true/false
+- enabled/status
+- payment method identity
+- supported public configuration metadata
+
+Do not return secret values.
+
+Do not inspect or print existing credential values during this work.
+
+Do not rotate credentials automatically.
+
+If source inspection indicates that real credentials may previously have been exposed, report that separately for owner action.
+
+## 2.2 Enforce Vendor ShopPayment ownership
+
+Fix ShopPayment show/update/status/configuration authorization.
+
+A Vendor must only be able to:
+
+- view
+- update
+- enable/disable
+- configure
+- delete
+
+payment configuration belonging to a shop they are actually authorized to manage.
+
+Do not trust the route-bound ShopPayment row by itself.
+
+Resolve the authenticated actor's shop/permissions and verify ownership server-side.
+
+A Vendor from Shop A must not be able to read or modify Shop B's payment configuration by changing an ID.
+
+Preserve legitimate authorized staff access according to existing shop permissions.
+
+## 2.3 Fix the ShopPayment status bug
+
+The audit found that the Vendor status endpoint updates nonexistent/incorrect:
+
+active
+
+while the actual ShopPayment state uses:
+
+status
+
+Correct this wiring.
+
+Use an explicit desired-state operation if practical:
+
+enabled/status = requested value
+
+rather than relying on retry-sensitive toggle behavior.
+
+Do not create a second enablement column.
+
+## 2.4 Protect payout ownership without implementing the new payout architecture
+
+Contain the confirmed authorization issue in the existing payout API.
+
+A seller must not be able to update another seller's payout record.
+
+Do not allow mutation of financial ownership fields such as creator/user identity through an unauthorized route-bound record.
+
+This is a security containment fix only.
+
+DO NOT redesign or implement the future liability-backed payout system in this task.
+
+DO NOT perform payouts.
+
+## 2.5 Protect country payment policy administration
+
+Review the existing country-payment mutation authorization identified by the audit.
+
+Country-scoped administrators/managers must not be able to modify payment policy outside their authorized country scope.
+
+Global payment policy should require the appropriate existing global administrative authority.
+
+Do not weaken existing role/country enforcement.
+
+Do not redesign the role system.
+
+# 3. FOUNDATIONAL PHASE 1 — ONE AUTHORITATIVE PAYMENT ELIGIBILITY RESOLVER
+
+Implement the minimum clean architecture needed to answer:
+
+“What payment methods are legitimately eligible for this transaction context?”
+
+Do NOT create a second payment catalog.
+
+Reuse the existing:
+
+- payments
+- country_payments
+- shop_payments
+- payment_payloads
+- platform_payment_configs
+- country
+- currency
+- shop/location
+- collection settings
+
+where appropriate.
+
+Introduce one server-side resolver/service that becomes the authoritative eligibility decision point.
+
+Conceptually:
+
+available methods =
+
+globally enabled/integration-ready methods
+
+INTERSECT
+
+authoritative business-country policy
+
+INTERSECT
+
+transaction-type support
+
+INTERSECT
+
+transaction-currency support
+
+INTERSECT
+
+authorized collection mode
+
+INTERSECT
+
+valid configuration for the actual collector/merchant
+
+INTERSECT
+
+vendor enablement where the method is genuinely vendor-configurable
+
+INTERSECT
+
+existing environment/provider safety policy
+
+Country assignment alone MUST NOT make a provider usable.
+
+# 4. AUTHORITATIVE BUSINESS COUNTRY
+
+For Vendor payment configuration and checkout eligibility, determine country from the Vendor's actual business/shop transaction context.
+
+Do not use:
+
+- customer-selected marketplace country
+- browser location
+- display currency
+- arbitrary client country_id
+
+as the authoritative Vendor business country.
+
+For service/booking transactions, use the authoritative service/shop business location already represented by the native application.
+
+For product transactions, use the authoritative seller/product business location.
+
+If product and service business countries differ, do not silently choose whichever is convenient.
+
+Fail closed or represent the distinction explicitly.
+
+Document the existing situation.
+
+# 5. CUSTOMER MARKET COUNTRY MUST NOT BROADEN VENDOR ELIGIBILITY
+
+The customer's selected marketplace country/city remains useful for:
+
+- discovery
+- browsing
+- location context
+
+but it must not make a payment method available to a Vendor whose business country does not permit that method.
+
+Example:
+
+A customer browsing another country cannot cause a Cameroon Vendor to gain a payment method that is not permitted for that Vendor's authoritative business country.
+
+Preserve existing location functionality.
+
+# 6. VENDOR PAYMENT CONFIGURATION
+
+Yes — Vendors must be able to configure their own legitimate payment methods.
+
+But the Vendor UI must be driven by the authoritative resolver/policy.
+
+A Vendor should only be offered methods that:
+
+1. are assigned/permitted for the Vendor's business country;
+2. are genuinely Vendor-configurable;
+3. support the applicable transaction context;
+4. satisfy the existing global/environment readiness rules.
+
+Do not show generic credential forms for platform-only providers merely because those providers exist in the Payment catalog.
+
+# 7. DISTINGUISH VENDOR-DIRECT FROM PLATFORM-COLLECTED METHODS
+
+Preserve the existing:
+
+collect_via_platform
+
+concept.
+
+Do not remove it.
+
+But make the distinction explicit in the payment architecture.
+
+Examples:
+
+Vendor-direct provider
+→ Vendor owns/configures merchant credentials.
+
+Platform provider
+→ AgendaAlly/Admin owns the provider configuration.
+
+Platform collection
+→ Customer payment is collected through AgendaAlly's platform configuration and later creates Vendor liability under the future accounting/payout architecture.
+
+Cash/offline
+→ No external platform gateway charge.
+
+Wallet
+→ Internal balance mechanism, not automatically equivalent to external platform settlement.
+
+Do not expose platform credentials to Vendors.
+
+Do not make Vendors enter Stripe/PayPal/etc credentials when those methods are operating as AgendaAlly platform rails.
+
+# 8. KEEP collect_via_platform FUNCTIONAL
+
+Audit the existing Vendor:
+
+Collect via platform
+
+control while implementing this foundation.
+
+Preserve it where legitimately supported.
+
+Ensure its persisted state is correctly read by the payment eligibility resolver.
+
+The resolver should understand whether the exact transaction would use:
+
+- vendor-direct collection
+- platform collection
+- cash/offline
+- wallet/internal balance
+
+Do not assume the flag itself proves that AgendaAlly actually holds funds.
+
+Do not implement Vendor liability/payout settlement yet.
+
+# 9. CURRENCY CAPABILITY FOUNDATION
+
+Create the foundational representation necessary for payment methods to declare supported transaction currencies.
+
+Do not implement FX conversion.
+
+Do not automatically convert XAF → USD, CAD, EUR, GBP, etc.
+
+The resolver should be capable of evaluating:
+
+Payment method
++
+Country
++
+Transaction currency
++
+Transaction type
++
+Collection mode
++
+Configuration/readiness
+
+For example, future architecture should be capable of determining:
+
+Vendor country = Cameroon
+Requested transaction currency = XAF
+Provider = X
+Collection mode = platform
+
+and answering whether that combination is eligible.
+
+Likewise:
+
+Vendor country = United States
+Transaction currency = USD
+
+or:
+
+Vendor country = Canada
+Transaction currency = CAD
+
+must eventually be representable without redesigning the architecture again.
+
+But do NOT claim those markets/providers are commercially approved.
+
+# 10. DO NOT EQUATE DISPLAY CURRENCY WITH PAYMENT CURRENCY
+
+Preserve the storefront currency selector.
+
+However:
+
+Display/requested currency != automatically authorized charge currency.
+
+The resolver should distinguish at minimum:
+
+- display/requested currency
+- authoritative transaction/charge currency
+
+Future phases may additionally introduce:
+
+- settlement currency
+- Vendor payable currency
+- immutable FX quote
+
+Do not implement FX in this task.
+
+If the selected display currency cannot legitimately be used for the transaction, fail safely or return the authoritative supported transaction currency rather than silently inventing conversion.
+
+# 11. DEVELOPMENT COUNTRY/PAYMENT ASSIGNMENTS
+
+Create reproducible, idempotent DEVELOPMENT payment-policy assignments for representative countries already supported by the AgendaAlly country architecture, including:
+
+- Cameroon
+- Nigeria
+- Ghana
+- Burkina Faso
+
+Use the existing:
+
+country_payments
+
+architecture.
+
+Do not create another country/payment mapping table merely for development.
+
+These assignments exist to exercise country-aware payment architecture.
+
+They are NOT declarations that the provider is commercially approved or operational in those countries.
+
+A development country assignment means only:
+
+“This payment method is permitted by the development country policy to be considered for this country.”
+
+It DOES NOT mean:
+
+“This provider is configured, legally approved, integration-ready, active, or capable of processing real payments.”
+
+# 12. DEVELOPMENT ASSIGNMENT SAFETY
+
+Keep external providers disabled/unavailable unless existing global/provider/environment gates independently permit them.
+
+Do not activate them simply because they are assigned to a country.
+
+Do not create:
+
+- API credentials
+- merchant credentials
+- fake callbacks
+- successful charges
+- fake refunds
+- fake settlements
+- fake payouts
+- fake merchant accounts
+
+Do not call provider APIs.
+
+Do not claim legal/provider availability based only on provider names.
+
+# 13. PROPOSE AND SEED A DEVELOPMENT MATRIX
+
+Inspect the existing payment catalog and create a clearly documented DEVELOPMENT matrix for:
+
+- Cameroon
+- Nigeria
+- Ghana
+- Burkina Faso
+
+Include existing relevant methods such as, where appropriate for architectural testing:
+
+- Cash
+- Wallet
+- MTN MoMo
+- Orange Money
+- Paystack
+- Flutterwave
+- Stripe
+- PayPal
+- any other existing native provider relevant to demonstrating the architecture
+
+However:
+
+Do NOT present this matrix as verified production availability.
+
+For every assignment classify it clearly as something equivalent to:
+
+DEVELOPMENT POLICY ASSIGNMENT
+
+and separately report:
+
+- globally active?
+- integration ready?
+- vendor configurable?
+- platform configured?
+- supported currencies represented?
+- collection mode
+- usable at checkout now?
+
+This distinction is critical.
+
+If provider-country/currency support cannot be established from existing source/configuration, mark it UNKNOWN rather than inventing it.
+
+# 14. CASH AND WALLET
+
+The audit found special handling for Cash and Wallet.
+
+Do not silently preserve accidental country bypasses without documenting them.
+
+For Phase 1, determine whether Cash and Wallet should participate in the same country policy resolver.
+
+Preferred architectural direction:
+
+Country payment policy should be capable of explicitly allowing/disallowing:
+
+- Cash
+- Wallet
+- external gateways
+
+rather than hard-coded country exceptions.
+
+However, do not make a breaking business-policy change merely for architectural purity.
+
+If changing the existing Cash/Wallet exception would alter accepted behavior, preserve current behavior for compatibility and document the recommended follow-up.
+
+# 15. VENDOR PORTAL EXPECTED RESULT
+
+After this work, the Vendor portal should behave conceptually like:
+
+Vendor opens Payment Methods
+        ↓
+Server resolves Vendor's authoritative business country
+        ↓
+Server resolves country payment policy
+        ↓
+Server intersects global readiness
+        ↓
+Server intersects transaction/currency/mode capability
+        ↓
+Server identifies Vendor-configurable methods
+        ↓
+Vendor can enable/configure ONLY those legitimate methods
+
+Platform-only providers may be shown appropriately as:
+
+- Platform managed
+- Available through AgendaAlly
+- Disabled/unavailable
+
+depending on actual state.
+
+But Vendors must not receive platform credentials or meaningless credential forms.
+
+# 16. CUSTOMER CHECKOUT EXPECTED RESULT
+
+Checkout should not merely ask:
+
+“What methods are globally active?”
+
+It should ask the same resolver:
+
+Given:
+
+- this owned booking/cart/order
+- this authoritative Vendor/shop
+- this authoritative business country
+- this transaction type
+- this authoritative transaction currency
+- this collection mode
+- this provider/configuration state
+
+which methods are actually eligible?
+
+The final initiation endpoint must continue enforcing eligibility server-side.
+
+UI filtering is not authorization.
+
+# 17. WEB + ADMIN/VENDOR + FLUTTER COMPATIBILITY
+
+Do not solve this only for Next.js.
+
+The Laravel API remains authoritative.
+
+Preserve existing `/api/v1` contracts where possible.
+
+Make changes additive where practical.
+
+Web, Admin/Vendor, and Flutter must ultimately be able to consume the same server decision.
+
+For this bounded phase:
+
+- implement the server foundation;
+- update the affected Admin/Vendor and Web surfaces necessary to use it;
+- identify any Flutter contract changes required;
+- make safe additive Flutter compatibility changes if small and clearly necessary;
+- otherwise document the exact Flutter follow-up rather than broadening the task.
+
+Do not create client-side payment eligibility logic that duplicates server business rules.
+
+# 18. DO NOT IMPLEMENT PAY

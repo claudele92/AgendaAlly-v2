@@ -1,0 +1,672 @@
+{
+  "assets": [
+    {
+      "bytes": 78968,
+      "file": "attached_assets/service-photos/bridal-makeup.jpg",
+      "id": 4006709,
+      "key": "bridal-makeup",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "510d0719933f508bbdccd5ff2f05149b25ca7d48bd82cd2060b58ca6fa9f4852",
+      "source": "https://www.pexels.com/photo/4006709/"
+    },
+    {
+      "bytes": 76210,
+      "file": "attached_assets/service-photos/beard-trim.jpg",
+      "id": 3998417,
+      "key": "beard-trim",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "c3c037350ad6dff3011f13b4bb1404c5cb2cc8590ed427e4cd3257372213c755",
+      "source": "https://www.pexels.com/photo/3998417/"
+    },
+    {
+      "bytes": 77685,
+      "file": "attached_assets/service-photos/massage.jpg",
+      "id": 5888065,
+      "key": "massage",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "3c11f9d5c18bae0b091ffd1bf52d530b0a6ba10376c789b17fad31f2b5cf1693",
+      "source": "https://www.pexels.com/photo/5888065/"
+    },
+    {
+      "bytes": 89088,
+      "file": "attached_assets/service-photos/manicure.jpg",
+      "id": 4677859,
+      "key": "manicure",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "59290399688ca430afb1f86fe33a90562fba3d63b11c652ce63a7618cad022eb",
+      "source": "https://www.pexels.com/photo/4677859/"
+    },
+    {
+      "bytes": 100963,
+      "file": "attached_assets/service-photos/haircut.jpg",
+      "id": 11333874,
+      "key": "haircut",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "2b85031bac14a10c92bb39a6349a3d6dc389de67f2d32d1d983a48883d8ddbf8",
+      "source": "https://www.pexels.com/photo/11333874/"
+    },
+    {
+      "bytes": 76776,
+      "file": "attached_assets/service-photos/hair-coloring.jpg",
+      "id": 4981460,
+      "key": "hair-coloring",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "109cdcd88574ee68a0e3d43c0fda88cb119b478faf659628e2c15cfe6ffe64e7",
+      "source": "https://www.pexels.com/photo/4981460/"
+    },
+    {
+      "bytes": 71396,
+      "file": "attached_assets/service-photos/exam-preparation.jpg",
+      "id": 6549913,
+      "key": "exam-preparation",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "90c0d9de77e9bb3bc064c63d38b9670545221ba63428d48ec4e37dd5bd4c06d6",
+      "source": "https://www.pexels.com/photo/6549913/"
+    },
+    {
+      "bytes": 58289,
+      "file": "attached_assets/service-photos/language-lessons.jpg",
+      "id": 6502817,
+      "key": "language-lessons",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "d0215240601a61ca5904e99539f4b748989892e2df275ee10bd7f5c82e020fab",
+      "source": "https://www.pexels.com/photo/6502817/"
+    },
+    {
+      "bytes": 81424,
+      "file": "attached_assets/service-photos/music-lessons.jpg",
+      "id": 8520499,
+      "key": "music-lessons",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "0c738c821996adfc28d56ea071be0c325364d1ba42232293b30f7c37a044b011",
+      "source": "https://www.pexels.com/photo/8520499/"
+    },
+    {
+      "bytes": 99428,
+      "file": "attached_assets/service-photos/computer-skills.jpg",
+      "id": 5530485,
+      "key": "computer-skills",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "03c328e3669a3f28e1647f4444dee1a22b3e88b6dbacfc766295c983c697662d",
+      "source": "https://www.pexels.com/photo/5530485/"
+    },
+    {
+      "bytes": 104367,
+      "file": "attached_assets/service-photos/custom-tattoo.jpg",
+      "id": 28943303,
+      "key": "custom-tattoo",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "0c977c87e55fd624862a41761d02d772dccc84650f168f552eb1b98d16e4f47f",
+      "source": "https://www.pexels.com/photo/28943303/"
+    },
+    {
+      "bytes": 126510,
+      "file": "attached_assets/service-photos/tattoo-touch-up.jpg",
+      "id": 29251824,
+      "key": "tattoo-touch-up",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "7c42bfd9a6938d6d6ba83bd126b93325bab7efcd096297c405432f86edea224a",
+      "source": "https://www.pexels.com/photo/29251824/"
+    },
+    {
+      "bytes": 58186,
+      "file": "attached_assets/service-photos/body-piercing.jpg",
+      "id": 7901237,
+      "key": "body-piercing",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "d7f194de667ee635de3b2b51700f79374b02d46db0c83483972c35386e82e89b",
+      "source": "https://www.pexels.com/photo/7901237/"
+    },
+    {
+      "bytes": 75045,
+      "file": "attached_assets/service-photos/ear-piercing.jpg",
+      "id": 19875392,
+      "key": "ear-piercing",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "c3fe6419b9eff980539d3b3b3a01d5891b8fda51fc0166ef465407cc7fbf62ff",
+      "source": "https://www.pexels.com/photo/19875392/"
+    },
+    {
+      "bytes": 83778,
+      "file": "attached_assets/service-photos/academic-tutoring.jpg",
+      "id": 6929209,
+      "key": "academic-tutoring",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "443f2e5314612579b4f863d5de20f25ff0e50333801139e84ade83de4ff177c9",
+      "source": "https://www.pexels.com/photo/6929209/"
+    },
+    {
+      "bytes": 62536,
+      "curation_reason": "Actual clipper haircut; source-described Black client, professional barber context.",
+      "file": "attached_assets/service-photos/haircut-africa-first.jpg",
+      "id": 7447126,
+      "key": "haircut-africa-first",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "3e4f2ac6f6da13a4915758a4a48f6fe8a5f417a67f23081622a98984f79542f7",
+      "source": "https://www.pexels.com/photo/7447126/",
+      "source_caption": "A close-up of a smiling black man getting a haircut at the barbershop indoors."
+    },
+    {
+      "bytes": 41220,
+      "curation_reason": "Actual professional makeup application; source-described Black client. Bridal-preparation context, not a claimed actual wedding.",
+      "file": "attached_assets/service-photos/bridal-makeup-africa-first.jpg",
+      "id": 11360229,
+      "key": "bridal-makeup-africa-first",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "448697ee57c25205aff282e5ca999d12cda01c9baf262ed794e79ecc7dc25b93",
+      "source": "https://www.pexels.com/photo/11360229/",
+      "source_caption": "Close-up shot of a makeup artist applying eyeshadow on a black woman."
+    },
+    {
+      "bytes": 81265,
+      "curation_reason": "Actual nail-salon treatment and source-described Black client.",
+      "file": "attached_assets/service-photos/manicure-africa-first.jpg",
+      "id": 7755248,
+      "key": "manicure-africa-first",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "0e30dccb1edb99cf23abde2478d04da4e80be588db1168708d515938c9e8114c",
+      "source": "https://www.pexels.com/photo/7755248/",
+      "source_caption": "A young black woman smiling during her manicure session at an indoor nail salon."
+    },
+    {
+      "bytes": 104117,
+      "curation_reason": "Relevant professional treatment detail; no ethnicity inferred from hands/body.",
+      "file": "attached_assets/service-photos/massage-africa-first.jpg",
+      "id": 19641816,
+      "key": "massage-africa-first",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "abc59d92be779f6df7b229c62f0d34eb801dcb1d1c6275a2b6acfbd7e011a130",
+      "source": "https://www.pexels.com/photo/19641816/",
+      "source_caption": "Hands applying massage oil on a client’s back in a spa setting for relaxation and rejuvenation."
+    },
+    {
+      "bytes": 47472,
+      "curation_reason": "Actual teaching context; source-described African American professional.",
+      "file": "attached_assets/service-photos/academic-tutoring-africa-first.jpg",
+      "id": 5905444,
+      "key": "academic-tutoring-africa-first",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "521af75496781305188b57ec1e1315d1fb3c281e3722d3f33d71d30976c7a004",
+      "source": "https://www.pexels.com/photo/5905444/",
+      "source_caption": "Concentrated adult African American female teacher wearing formal suit standing near whiteboard and talking to pupils in light classroom."
+    },
+    {
+      "bytes": 45978,
+      "curation_reason": "Whiteboard teaching context; source-described African American teacher.",
+      "file": "attached_assets/service-photos/language-lessons-africa-first.jpg",
+      "id": 5905936,
+      "key": "language-lessons-africa-first",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "27aceff04fbb10a01c5f8571611f6f97b27ba675c3f2223393eeb48bf2a7479b",
+      "source": "https://www.pexels.com/photo/5905936/",
+      "source_caption": "Side view of smiling African American woman writing on whiteboard standing in modern school classroom."
+    },
+    {
+      "bytes": 61369,
+      "curation_reason": "Actual instructor/laptop learning; source-described Black learner.",
+      "file": "attached_assets/service-photos/computer-skills-africa-first.jpg",
+      "id": 5940706,
+      "key": "computer-skills-africa-first",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "2acd95ea89d21b5ecc647d0e10f1aeaeb36343f061a3a6e6730f1fce9f5c3f69",
+      "source": "https://www.pexels.com/photo/5940706/",
+      "source_caption": "Positive adult female teacher explaining task to young black student with Afro braids doing assignment on laptop in modern classroom."
+    },
+    {
+      "bytes": 49195,
+      "curation_reason": "Study notes and laptop preparation; source-described African American student.",
+      "file": "attached_assets/service-photos/exam-preparation-africa-first.jpg",
+      "id": 5940708,
+      "key": "exam-preparation-africa-first",
+      "license": "https://www.pexels.com/license/",
+      "sha256": "8f7282e47fda1a0cd860565aa84cf6066e5df973557bee078aacbd58167c29c0",
+      "source": "https://www.pexels.com/photo/5940708/",
+      "source_caption": "Concentrated young African American male student in formal clothes and eyeglasses reading notes in planner and typing on laptop while doing assignment in modern workspace."
+    }
+  ],
+  "curation_note": "Africa-first demo media correction. Source descriptions support editorial representation counts, not verified nationality or ethnicity. Original reviewed assets retained for checksum protection/audit; no application race fields.",
+  "license": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+  "purpose": "Relevant licensed photographs for existing owned AgendaAlly development Service records, not vendor endorsements.",
+  "targets": [
+    {
+      "asset": "haircut-africa-first",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 1,
+      "owner_id": 107,
+      "previous_asset": "haircut",
+      "shop_id": 501,
+      "title": "Haircut"
+    },
+    {
+      "asset": "hair-coloring",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 2,
+      "owner_id": 107,
+      "shop_id": 501,
+      "title": "Hair Coloring"
+    },
+    {
+      "asset": "manicure-africa-first",
+      "expected_media": "/icons/categories/nail-care.svg",
+      "id": 3,
+      "owner_id": 107,
+      "previous_asset": "manicure",
+      "shop_id": 501,
+      "title": "Manicure"
+    },
+    {
+      "asset": "massage-africa-first",
+      "expected_media": "/icons/categories/spa-massage.svg",
+      "id": 4,
+      "owner_id": 107,
+      "previous_asset": "massage",
+      "shop_id": 501,
+      "title": "Massage Therapy"
+    },
+    {
+      "asset": "beard-trim",
+      "expected_media": "/icons/categories/barbershop.svg",
+      "id": 5,
+      "owner_id": 107,
+      "shop_id": 501,
+      "title": "Beard Trim"
+    },
+    {
+      "asset": "bridal-makeup-africa-first",
+      "expected_media": "/icons/categories/makeup.svg",
+      "id": 6,
+      "owner_id": 107,
+      "previous_asset": "bridal-makeup",
+      "shop_id": 501,
+      "title": "Bridal Makeup"
+    },
+    {
+      "asset": "haircut-africa-first",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 7,
+      "owner_id": 113,
+      "previous_asset": "haircut",
+      "shop_id": 502,
+      "title": "Haircut"
+    },
+    {
+      "asset": "hair-coloring",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 8,
+      "owner_id": 113,
+      "shop_id": 502,
+      "title": "Hair Coloring"
+    },
+    {
+      "asset": "manicure-africa-first",
+      "expected_media": "/icons/categories/nail-care.svg",
+      "id": 9,
+      "owner_id": 113,
+      "previous_asset": "manicure",
+      "shop_id": 502,
+      "title": "Manicure"
+    },
+    {
+      "asset": "massage-africa-first",
+      "expected_media": "/icons/categories/spa-massage.svg",
+      "id": 10,
+      "owner_id": 113,
+      "previous_asset": "massage",
+      "shop_id": 502,
+      "title": "Massage Therapy"
+    },
+    {
+      "asset": "beard-trim",
+      "expected_media": "/icons/categories/barbershop.svg",
+      "id": 11,
+      "owner_id": 113,
+      "shop_id": 502,
+      "title": "Beard Trim"
+    },
+    {
+      "asset": "bridal-makeup-africa-first",
+      "expected_media": "/icons/categories/makeup.svg",
+      "id": 12,
+      "owner_id": 113,
+      "previous_asset": "bridal-makeup",
+      "shop_id": 502,
+      "title": "Bridal Makeup"
+    },
+    {
+      "asset": "haircut-africa-first",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 13,
+      "owner_id": 117,
+      "previous_asset": "haircut",
+      "shop_id": 503,
+      "title": "Haircut"
+    },
+    {
+      "asset": "hair-coloring",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 14,
+      "owner_id": 117,
+      "shop_id": 503,
+      "title": "Hair Coloring"
+    },
+    {
+      "asset": "manicure-africa-first",
+      "expected_media": "/icons/categories/nail-care.svg",
+      "id": 15,
+      "owner_id": 117,
+      "previous_asset": "manicure",
+      "shop_id": 503,
+      "title": "Manicure"
+    },
+    {
+      "asset": "massage-africa-first",
+      "expected_media": "/icons/categories/spa-massage.svg",
+      "id": 16,
+      "owner_id": 117,
+      "previous_asset": "massage",
+      "shop_id": 503,
+      "title": "Massage Therapy"
+    },
+    {
+      "asset": "beard-trim",
+      "expected_media": "/icons/categories/barbershop.svg",
+      "id": 17,
+      "owner_id": 117,
+      "shop_id": 503,
+      "title": "Beard Trim"
+    },
+    {
+      "asset": "bridal-makeup-africa-first",
+      "expected_media": "/icons/categories/makeup.svg",
+      "id": 18,
+      "owner_id": 117,
+      "previous_asset": "bridal-makeup",
+      "shop_id": 503,
+      "title": "Bridal Makeup"
+    },
+    {
+      "asset": "haircut-africa-first",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 19,
+      "owner_id": 120,
+      "previous_asset": "haircut",
+      "shop_id": 504,
+      "title": "Haircut"
+    },
+    {
+      "asset": "hair-coloring",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 20,
+      "owner_id": 120,
+      "shop_id": 504,
+      "title": "Hair Coloring"
+    },
+    {
+      "asset": "manicure-africa-first",
+      "expected_media": "/icons/categories/nail-care.svg",
+      "id": 21,
+      "owner_id": 120,
+      "previous_asset": "manicure",
+      "shop_id": 504,
+      "title": "Manicure"
+    },
+    {
+      "asset": "massage-africa-first",
+      "expected_media": "/icons/categories/spa-massage.svg",
+      "id": 22,
+      "owner_id": 120,
+      "previous_asset": "massage",
+      "shop_id": 504,
+      "title": "Massage Therapy"
+    },
+    {
+      "asset": "beard-trim",
+      "expected_media": "/icons/categories/barbershop.svg",
+      "id": 23,
+      "owner_id": 120,
+      "shop_id": 504,
+      "title": "Beard Trim"
+    },
+    {
+      "asset": "bridal-makeup-africa-first",
+      "expected_media": "/icons/categories/makeup.svg",
+      "id": 24,
+      "owner_id": 120,
+      "previous_asset": "bridal-makeup",
+      "shop_id": 504,
+      "title": "Bridal Makeup"
+    },
+    {
+      "asset": "haircut-africa-first",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 25,
+      "owner_id": 123,
+      "previous_asset": "haircut",
+      "shop_id": 505,
+      "title": "Haircut"
+    },
+    {
+      "asset": "hair-coloring",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 26,
+      "owner_id": 123,
+      "shop_id": 505,
+      "title": "Hair Coloring"
+    },
+    {
+      "asset": "manicure-africa-first",
+      "expected_media": "/icons/categories/nail-care.svg",
+      "id": 27,
+      "owner_id": 123,
+      "previous_asset": "manicure",
+      "shop_id": 505,
+      "title": "Manicure"
+    },
+    {
+      "asset": "massage-africa-first",
+      "expected_media": "/icons/categories/spa-massage.svg",
+      "id": 28,
+      "owner_id": 123,
+      "previous_asset": "massage",
+      "shop_id": 505,
+      "title": "Massage Therapy"
+    },
+    {
+      "asset": "beard-trim",
+      "expected_media": "/icons/categories/barbershop.svg",
+      "id": 29,
+      "owner_id": 123,
+      "shop_id": 505,
+      "title": "Beard Trim"
+    },
+    {
+      "asset": "bridal-makeup-africa-first",
+      "expected_media": "/icons/categories/makeup.svg",
+      "id": 30,
+      "owner_id": 123,
+      "previous_asset": "bridal-makeup",
+      "shop_id": 505,
+      "title": "Bridal Makeup"
+    },
+    {
+      "asset": "haircut-africa-first",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 31,
+      "owner_id": 126,
+      "previous_asset": "haircut",
+      "shop_id": 506,
+      "title": "Haircut"
+    },
+    {
+      "asset": "hair-coloring",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 32,
+      "owner_id": 126,
+      "shop_id": 506,
+      "title": "Hair Coloring"
+    },
+    {
+      "asset": "manicure-africa-first",
+      "expected_media": "/icons/categories/nail-care.svg",
+      "id": 33,
+      "owner_id": 126,
+      "previous_asset": "manicure",
+      "shop_id": 506,
+      "title": "Manicure"
+    },
+    {
+      "asset": "massage-africa-first",
+      "expected_media": "/icons/categories/spa-massage.svg",
+      "id": 34,
+      "owner_id": 126,
+      "previous_asset": "massage",
+      "shop_id": 506,
+      "title": "Massage Therapy"
+    },
+    {
+      "asset": "beard-trim",
+      "expected_media": "/icons/categories/barbershop.svg",
+      "id": 35,
+      "owner_id": 126,
+      "shop_id": 506,
+      "title": "Beard Trim"
+    },
+    {
+      "asset": "bridal-makeup-africa-first",
+      "expected_media": "/icons/categories/makeup.svg",
+      "id": 36,
+      "owner_id": 126,
+      "previous_asset": "bridal-makeup",
+      "shop_id": 506,
+      "title": "Bridal Makeup"
+    },
+    {
+      "asset": "haircut-africa-first",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 37,
+      "owner_id": 129,
+      "previous_asset": "haircut",
+      "shop_id": 507,
+      "title": "Haircut"
+    },
+    {
+      "asset": "hair-coloring",
+      "expected_media": "/icons/categories/hair-care.svg",
+      "id": 38,
+      "owner_id": 129,
+      "shop_id": 507,
+      "title": "Hair Coloring"
+    },
+    {
+      "asset": "manicure-africa-first",
+      "expected_media": "/icons/categories/nail-care.svg",
+      "id": 39,
+      "owner_id": 129,
+      "previous_asset": "manicure",
+      "shop_id": 507,
+      "title": "Manicure"
+    },
+    {
+      "asset": "massage-africa-first",
+      "expected_media": "/icons/categories/spa-massage.svg",
+      "id": 40,
+      "owner_id": 129,
+      "previous_asset": "massage",
+      "shop_id": 507,
+      "title": "Massage Therapy"
+    },
+    {
+      "asset": "beard-trim",
+      "expected_media": "/icons/categories/barbershop.svg",
+      "id": 41,
+      "owner_id": 129,
+      "shop_id": 507,
+      "title": "Beard Trim"
+    },
+    {
+      "asset": "bridal-makeup-africa-first",
+      "expected_media": "/icons/categories/makeup.svg",
+      "id": 42,
+      "owner_id": 129,
+      "previous_asset": "bridal-makeup",
+      "shop_id": 507,
+      "title": "Bridal Makeup"
+    },
+    {
+      "asset": "academic-tutoring-africa-first",
+      "expected_media": "https://images.unsplash.com/photo-1514369118554-e20d93546b30?auto=format&fit=crop&w=800&h=600&q=80",
+      "id": 43,
+      "owner_id": 132,
+      "previous_asset": "academic-tutoring",
+      "shop_id": 508,
+      "title": "Academic Tutoring"
+    },
+    {
+      "asset": "exam-preparation-africa-first",
+      "expected_media": "https://images.unsplash.com/photo-1499332251574-a76a01d733fc?auto=format&fit=crop&w=800&h=600&q=80",
+      "id": 44,
+      "owner_id": 132,
+      "previous_asset": "exam-preparation",
+      "shop_id": 508,
+      "title": "Exam Preparation"
+    },
+    {
+      "asset": "language-lessons-africa-first",
+      "expected_media": "https://images.unsplash.com/photo-1730875644858-7a312de90752?auto=format&fit=crop&w=800&h=600&q=80",
+      "id": 45,
+      "owner_id": 132,
+      "previous_asset": "language-lessons",
+      "shop_id": 508,
+      "title": "Language Lessons"
+    },
+    {
+      "asset": "music-lessons",
+      "expected_media": "https://images.unsplash.com/photo-1626541650317-6ac1c2325995?auto=format&fit=crop&w=800&h=600&q=80",
+      "id": 46,
+      "owner_id": 132,
+      "shop_id": 508,
+      "title": "Music Lessons"
+    },
+    {
+      "asset": "computer-skills-africa-first",
+      "expected_media": "https://images.unsplash.com/photo-1667058014960-b4d3c76047a2?auto=format&fit=crop&w=800&h=600&q=80",
+      "id": 47,
+      "owner_id": 132,
+      "previous_asset": "computer-skills",
+      "shop_id": 508,
+      "title": "Computer & Digital Skills"
+    },
+    {
+      "asset": "custom-tattoo",
+      "expected_media": "https://images.unsplash.com/photo-1775135786116-2a587f46a64a?auto=format&fit=crop&w=800&h=600&q=80",
+      "id": 48,
+      "owner_id": 138,
+      "shop_id": 509,
+      "title": "Custom Tattoo"
+    },
+    {
+      "asset": "tattoo-touch-up",
+      "expected_media": "https://images.unsplash.com/photo-1775135679609-125e8cb67de5?auto=format&fit=crop&w=800&h=600&q=80",
+      "id": 49,
+      "owner_id": 138,
+      "shop_id": 509,
+      "title": "Tattoo Cover-Up & Touch-Up"
+    },
+    {
+      "asset": "ear-piercing",
+      "expected_media": "https://images.unsplash.com/photo-1769151591224-2eee6793b885?auto=format&fit=crop&w=800&h=600&q=80",
+      "id": 50,
+      "owner_id": 138,
+      "shop_id": 509,
+      "title": "Ear Piercing"
+    },
+    {
+      "asset": "body-piercing",
+      "expected_media": "https://images.unsplash.com/photo-1735954221100-1cb3447a3396?auto=format&fit=crop&w=800&h=600&q=80",
+      "id": 51,
+      "owner_id": 138,
+      "shop_id": 509,
+      "title": "Body Piercing"
+    }
+  ]
+}

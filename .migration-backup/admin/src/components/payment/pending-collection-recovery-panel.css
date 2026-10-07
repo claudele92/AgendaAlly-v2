@@ -1,0 +1,30 @@
+.pending-collection-recovery-modal {
+  width: calc(100vw - 24px) !important;
+  max-width: 920px;
+}
+
+.pending-collection-recovery-modal,
+.pending-collection-recovery-modal .ant-modal-content,
+.pending-collection-recovery-modal .ant-modal-body {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.pending-collection-recovery-modal .ant-descriptions-view > table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.pending-collection-recovery-modal .ant-descriptions-item-label,
+.pending-collection-recovery-modal .ant-descriptions-item-content {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 575px) {
+  .pending-collection-recovery-modal .ant-modal-body {
+    max-height: calc(100dvh - 180px);
+    overflow-y: auto;
+  }
+}

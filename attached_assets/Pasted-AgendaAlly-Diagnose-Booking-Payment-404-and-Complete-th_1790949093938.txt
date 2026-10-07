@@ -1,0 +1,313 @@
+AgendaAlly — Diagnose Booking Payment 404 and Complete the Blocked PaymentList Runtime Verification
+
+This is a very small, bounded follow-up to the completed Invoice + Footer/Social + PaymentList implementation.
+
+Credit use is important.
+
+Do NOT reopen the completed invoice work, footer/social work, payment architecture audit, Stories work, UI redesign, payment hardening phases, or broad acceptance testing.
+
+The previous implementation reported:
+
+- Invoice redesign completed.
+- Footer/social settings completed.
+- Instagram, Facebook and LinkedIn configured.
+- TikTok Admin configuration prepared but left blank.
+- PaymentList uncontrolled → controlled state fix implemented.
+- Focused regressions and TypeScript checks passed.
+- Customer, Admin/Vendor and Laravel previews restored.
+
+However, one important runtime verification was blocked:
+
+The existing booking/payment route returned HTTP 404, so the real booking payment page could not be opened to confirm in the browser that the PaymentList uncontrolled → controlled React warning is actually gone.
+
+Your task is ONLY to diagnose that 404, correct it if it is a real application routing/integration defect, and finish the previously blocked PaymentList runtime verification.
+
+Do not broaden the scope.
+
+# 1. Diagnose the booking/payment 404 first
+
+Trace the native Customer booking flow and determine the exact intended route into booking payment.
+
+The previously reported stack was:
+
+PaymentList
+components/payment-list/payment-list.tsx
+
+BookingPaymentList
+app/(store)/(booking)/(witout-footer)/(navigation)/shops/[id]/booking/payment/components/payment-list/payment-list.tsx
+
+ProtectedPayment
+app/(store)/(booking)/(witout-footer)/(navigation)/shops/[id]/booking/payment/protected-payment.tsx
+
+ShopBookingPayment
+app/(store)/(booking)/(witout-footer)/(navigation)/shops/[id]/booking/payment/page.tsx
+
+The filesystem strongly suggests a route equivalent to:
+
+/shops/[id]/booking/payment
+
+but do NOT assume that manually constructing that URL is sufficient.
+
+Trace:
+
+- how the Customer reaches booking payment;
+- what `[id]` actually represents;
+- whether it is shop ID, UUID, booking context, or another identifier;
+- whether required query parameters are expected;
+- whether navigation state is required;
+- whether middleware/protection redirects or rejects the request;
+- whether a recent route/UI cleanup changed the link;
+- whether the route exists but the test used an invalid shop/business ID;
+- whether the route requires an existing booking/service/specialist context;
+- whether the backend/API request inside the page is returning 404 rather than Next itself;
+- whether the route intentionally returns `notFound()` when required data is unavailable.
+
+Distinguish clearly between:
+
+A. Next route itself does not exist;
+
+B. route exists but an invalid identifier was used;
+
+C. route exists but required booking context is missing;
+
+D. route exists but an API request returns 404;
+
+E. authentication/authorization redirects or blocks it;
+
+F. a genuine navigation/routing regression.
+
+Do not change code until the actual cause is known.
+
+# 2. Preserve booking semantics
+
+Do NOT make the payment page artificially reachable by weakening legitimate guards.
+
+Do not:
+
+- bypass authentication;
+- fabricate a booking;
+- remove shop/service validation;
+- remove ownership checks;
+- turn a valid not-found condition into a successful page;
+- create fake production records;
+- change booking lifecycle rules;
+- change payment eligibility;
+- inject IDs merely to make the page render.
+
+If the 404 occurred only because the previous tester manually used an invalid URL or identifier, do not modify application routing.
+
+Instead, enter the payment page through the legitimate native booking flow and document the correct route/context.
+
+# 3. If there is a genuine routing defect, fix only that defect
+
+If the real Customer booking flow generates an invalid URL or fails to supply required context, make the smallest correction necessary.
+
+Preserve the existing route architecture.
+
+Do NOT redesign booking.
+
+Do NOT rename/restructure route groups unless genuinely necessary.
+
+Do NOT change:
+
+- booking calculations;
+- service pricing;
+- specialist selection;
+- customer ownership;
+- location behavior;
+- payment-provider logic;
+- country-payment assignments;
+- Vendor payment configuration;
+- `collect_via_platform`;
+- payment credentials;
+- payment initiation;
+- callbacks/webhooks;
+- refunds;
+- payouts;
+- wallets;
+- accounting;
+- FX;
+- settlement.
+
+This is routing/runtime verification only.
+
+# 4. Complete the PaymentList verification that was previously blocked
+
+Once the legitimate booking payment page can be reached, verify the existing PaymentList fix in the actual browser.
+
+The original warning was:
+
+“A component is changing from uncontrolled to controlled. This may be caused by the value changing from undefined to a defined value.”
+
+Original failing area:
+
+<RadioGroup value={value} onChange={onChange}>
+
+The previous implementation says absence is now normalized at the shared RadioGroup boundary and stale/ineligible choices are cleared.
+
+Verify that behavior rather than redesigning it again.
+
+Check only:
+
+A. Open the legitimate booking payment page.
+
+B. Confirm there is NO uncontrolled → controlled warning from PaymentList.
+
+C. Confirm the initial “no payment selected” state remains controlled.
+
+D. Confirm payment-method loading does not trigger the warning.
+
+E. Confirm selecting an eligible payment method still works.
+
+F. Confirm no payment method is automatically selected unless that was already intentional existing behavior.
+
+G. Confirm an unavailable/stale selected payment is cleared rather than retained.
+
+H. Confirm zero available payment methods does not generate a React controlled-state warning.
+
+I. Confirm no new console/runtime error was introduced by the PaymentList fix.
+
+Do NOT make a real payment.
+
+Do NOT call an external provider.
+
+Do NOT change payment availability just to make additional methods appear.
+
+If the current development catalog exposes only the methods already configured/active, use those legitimate methods.
+
+# 5. Shared PaymentList regression boundary
+
+The previous pass reported that PaymentList is also used by gift-card and membership flows.
+
+Do not perform a broad browser suite.
+
+Only inspect enough to confirm that the shared normalization did not obviously break the existing contracts for those consumers.
+
+If existing focused tests already cover them and nothing changes during this task, do not rerun unnecessary work.
+
+# 6. Do not revisit completed work
+
+Do NOT change or reverify unless directly affected:
+
+- invoice design;
+- AgendaAlly invoice branding;
+- shop/vendor invoice logo;
+- invoice footer/header;
+- Instagram;
+- Facebook;
+- LinkedIn;
+- TikTok placeholder/configuration;
+- storefront footer;
+- Terms;
+- Privacy;
+- seeded footer settings;
+- Stage 2 homepage;
+- category hierarchy;
+- Car Service;
+- Stories;
+- Vendor payment architecture;
+- payout architecture.
+
+Do not rerun the timed-out isolated footer test as part of this task.
+
+That timeout is not the purpose of this follow-up.
+
+# 7. Do not fix the unrelated mobile-header issue
+
+The previous tester also observed a separate mobile-header navigation inconsistency.
+
+Do not fix it here.
+
+Document it as an unrelated existing issue if it is still observable.
+
+It should be handled separately.
+
+# 8. Verification budget
+
+Credit use is important.
+
+Use the shortest reliable verification path.
+
+Allowed:
+
+- source inspection;
+- existing route inspection;
+- focused browser navigation through the real booking flow;
+- browser console inspection;
+- affected TypeScript/type check if code changes;
+- one or a few focused existing tests directly related to routing/PaymentList if needed.
+
+Do NOT:
+
+- run another Stage 1/Stage 2 acceptance suite;
+- run all 95 payment hardening tests again unless backend payment code unexpectedly changes;
+- run a full role matrix;
+- perform broad responsive testing;
+- perform payment-provider testing;
+- restart unrelated workflows repeatedly;
+- run screenshot loops;
+- reopen completed design work.
+
+If no source change is necessary because the 404 was caused by incorrect test navigation, do not perform a build merely for ceremony.
+
+# 9. Preview handling
+
+Use the existing Customer, Admin/Vendor and Laravel preview workflows.
+
+Do not create replacement preview infrastructure.
+
+If a restart is necessary, restart only the affected existing workflow.
+
+At completion, make sure the existing Customer and Admin/Vendor previews are restored/running if this task disturbed them.
+
+# 10. Report exact result
+
+At completion report:
+
+1. Exact root cause of the 404.
+
+2. Whether it was:
+   - route missing;
+   - wrong identifier;
+   - missing booking context;
+   - backend/API 404;
+   - authentication/authorization;
+   - genuine navigation regression;
+   - or another specific cause.
+
+3. Correct native booking → payment navigation path.
+
+4. Whether any code change was required.
+
+5. Exact files changed, if any.
+
+6. Whether the real booking payment page was successfully reached.
+
+7. Whether the original PaymentList uncontrolled → controlled warning appeared.
+
+8. Initial controlled-state behavior.
+
+9. Payment-method selection behavior.
+
+10. Stale/ineligible-selection behavior.
+
+11. Any remaining blocker.
+
+12. Status of Customer and Admin/Vendor previews.
+
+Then STOP.
+
+Do not automatically start:
+
+- another payment phase;
+- payout implementation;
+- FX work;
+- provider activation;
+- Stories work;
+- mobile-header work;
+- invoice/footer changes;
+- another UI redesign;
+- cleanup;
+- or another acceptance cycle.
+
+If the 404 is not an application defect, explicitly say so and do not manufacture a code change simply to close the task.

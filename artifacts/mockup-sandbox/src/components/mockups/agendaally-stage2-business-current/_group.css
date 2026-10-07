@@ -1,0 +1,128 @@
+@font-face {
+  font-family: "AgendaAlly Business Inter";
+  src: url("/__mockup/images/agendaally-stage2-business-current/inter-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@theme inline {
+  --font-sans: "AgendaAlly Business Inter", sans-serif;
+  --text-head: 26px;
+  --color-primary: var(--aa-primary);
+  --color-dark: #000000;
+  --color-black: #222628;
+  --color-gray-field: #a0a09c;
+  --color-gray-placeholder: #939393;
+  --color-gray-border: #f3f3f3;
+  --color-gray-button: #f8f8f8;
+  --color-gray-link: #eaeaea;
+  --color-gray-segment: #f4f4f4;
+  --color-gray-card: #f6f6f6;
+  --color-gray-float: #f1f1f1;
+  --color-gray-layout: #e2e2e2;
+  --color-gray-bg: #f7f7f9;
+  --color-gray-bold: #707070;
+  --color-gray-footerBg: #080210;
+  --color-footerBg: #080210;
+  --color-gray-progress: #e9e9e9;
+  --color-gray-disabledTab: #b3b3b3;
+  --color-green: #16aa16;
+  --color-red: #ff2640;
+  --color-giantsOrange: #ff6016;
+  --radius-button: 10px;
+  --shadow-fixedBooking: 0px 0px 30px 0px rgba(109, 109, 109, 0.32);
+}
+
+.agendaally-business {
+  --aa-primary: #bb9b6a;
+  --primary-button-font-color: #ffffff;
+  min-height: 100vh;
+  color: #222628;
+  background: #ffffff;
+  font-family: "AgendaAlly Business Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+.agendaally-business *,
+.agendaally-business *::before,
+.agendaally-business *::after {
+  box-sizing: border-box;
+}
+
+.agendaally-business a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.agendaally-business button {
+  font: inherit;
+}
+
+.agendaally-business .xl\:container {
+  width: 100%;
+  margin-inline: auto;
+}
+
+@media (min-width: 1280px) {
+  .agendaally-business .xl\:container {
+    max-width: 1280px;
+  }
+}
+
+.agendaally-business .aa-business-image-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.agendaally-business .aa-brand-track {
+  animation: aa-business-scroll 25s linear infinite;
+}
+
+.agendaally-business .aa-brand-track-slower {
+  animation-duration: 35s;
+}
+
+@keyframes aa-business-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+.agendaally-business .aa-business-drawer {
+  position: absolute;
+  z-index: 20;
+  top: 100%;
+  left: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 2px 12px 0 #0000001f;
+}
+
+.agendaally-business .aa-business-drawer a {
+  display: block;
+  padding: 0.75rem 0.25rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.agendaally-business .aa-footer-column > summary {
+  list-style: none;
+}
+
+.agendaally-business .aa-footer-column > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .agendaally-business .aa-footer-column > summary {
+    pointer-events: none;
+  }
+
+  .agendaally-business .aa-footer-column > summary svg {
+    display: none;
+  }
+}

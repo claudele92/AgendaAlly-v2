@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgendaAlly — Delivery Driver Phase 0 + Phase 1 report</title>
+<style>
+body{font:16px/1.6 system-ui,sans-serif;color:#172033;background:#f5f7fa;margin:0;padding:32px}
+main{max-width:1000px;margin:auto;background:white;padding:40px;border-radius:12px}
+h1{font-size:30px;line-height:1.2}h2{font-size:20px;margin-top:30px}
+code{font:13px/1.6 ui-monospace,monospace;overflow-wrap:anywhere}
+li{margin:6px 0}.summary{background:#eef7f2;padding:18px;border-left:4px solid #248456}
+.note{background:#fff7e6;padding:18px;border-left:4px solid #b77819}
+table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid #dde2e9;padding:9px;text-align:left}
+@media(max-width:600px){body{padding:12px}main{padding:20px}}
+@media print{body{padding:0;background:white}main{padding:0}h2{break-after:avoid}li,tr{break-inside:avoid}}
+</style>
+</head>
+<body><main>
+<h1>Delivery Driver Phase 0 + Phase 1</h1>
+<p>AgendaAlly · October 2, 2026 · Bounded security containment and authoritative per-shop membership</p>
+<div class="summary"><strong>Implemented and focused verification passed.</strong>
+<p>22 isolated backend tests / 145 assertions; changed PHP syntax checks; seven changed JSX files parsed; one focused Vendor UI session completed with controlled synthetic responses. Phase 2 and all later delivery work were not started.</p></div>
+
+<h2>1. Phase 0 vulnerabilities corrected</h2>
+<ul>
+<li>Global deliveryman role and unrelated/other-shop invitations no longer make a driver assignable to the current Vendor.</li>
+<li>Shop-owned assignment validates the exact order/shop, DELIVERY eligibility, global active driver account and authoritative active shop relationship before writing the existing assignment field.</li>
+<li>Driver product-order reads, status/current changes and review target lookup cannot act on another assignee or an ineligible shop relationship. The ungrouped current-order OR was corrected and the target is authorized before updates.</li>
+<li>Unassigned product-order listing/detail access and self-claim are closed without an explicit dispatch authorization contract.</li>
+<li>Vehicle-setting access establishes the persisted owner before accepting a payload; replacing <code>user_id</code> cannot take over another driver's setting. Vendor deletion of a shared global setting is blocked.</li>
+<li>Vendor driver status changes affect the shop relationship, not global account activation. Generic Vendor driver identity/credential/role editing and direct creation are contained.</li>
+<li>Generic customer/staff profile projections no longer expose another shop's driver vehicle setting or other-shop invitations. Legitimate customer/staff identity rows remain available.</li>
+<li>Forged location-event order IDs are filtered before dispatch; the queued listener captures the actor and rechecks assignment and active membership before broadcasting.</li>
+</ul>
+
+<h2>2. Exact files changed</h2>
+<p>Canonical served sources were updated; no duplicate application copy was synchronized.</p>
+<p><strong>Backend — all paths below are relative to <code>.migration-backup/backend/</code>:</strong></p>
+<ul>
+<li><code>app/Services/DeliveryDriver/DriverMembership.php</code> — new centralized authority.</li>
+<li><code>database/migrations/2026_10_02_010000_add_driver_active_to_invitations.php</code> — new additive migration.</li>
+<li><code>app/Models/Invitation.php</code></li>
+<li><code>app/Http/Controllers/API/v1/Dashboard/Seller/UserController.php</code></li>
+<li><code>app/Http/Controllers/API/v1/Dashboard/Seller/DeliveryManSettingController.php</code></li>
+<li><code>app/Http/Controllers/API/v1/Dashboard/Deliveryman/OrderController.php</code></li>
+<li><code>app/Http/Resources/UserResource.php</code></li>
+<li><code>app/Repositories/OrderRepository/DeliveryMan/OrderRepository.php</code></li>
+<li><code>app/Services/OrderService/OrderService.php</code></li>
+<li><code>app/Services/OrderService/OrderReviewService.php</code></li>
+<li><code>app/Services/DeliveryManSettingService/DeliveryManSettingService.php</code></li>
+<li><code>app/Services/UserServices/UserService.php</code></li>
+<li><code>app/Events/Order/SendDeliveryManLocationByOrder.php</code></li>
+<li><code>app/Listeners/Order/SendDeliveryManLocationByOrderListener.php</code></li>
+<li><code>routes/api.php</code></li>
+<li><code>database/development/manifest.php</code> — reviewed migration fingerprint/allow-list; previous ownership fingerprint retained.</li>
+<li><code>tests/Hardening/DeliveryDriverMembershipAuthorizationTest.php</code> — new isolated focused suite.</li>
+</ul>
+<p><strong>Frontend — all paths below are relative to <code>.migration-backup/admin/src/</code>:</strong></p>
+<ul>
+<li><code>views/seller-views/deliverymen/add.jsx</code></li>
+<li><code>views/seller-views/deliverymen/edit.jsx</code></li>
+<li><code>views/seller-views/deliverymen/form.jsx</code></li>
+<li><code>views/seller-views/deliverymen/index.jsx</code></li>
+<li><code>views/seller-views/deliverymen/user-form.jsx</code></li>
+<li><code>views/seller-views/order/orderDeliveryman.jsx</code></li>
+<li><code>views/seller-views/order/order-details.jsx</code> — existing Driver card also reachable for native Seller DELIVERY orders; Ready/delivery-only Change restrictions preserved; absent avatar does not request an undefined file.</li>
+</ul>
+<p>Supporting files: <code>.agents/memory/MEMORY.md</code>, <code>.agents/memory/modernization-approval.md</code>, <code>.agents/memory/native-ui-fixtures.md</code>, and this report. The supplied specification is an input, not an implementation change.</p>
+
+<h2>3. Existing invitations</h2>
+<p>Existing invitations were sufficient to represent the shop/user/driver relationship and acceptance. Only unambiguous accepted driver invitations are reused. No new identity, membership table, inferred membership or marketplace/demo driver record was created.</p>
+
+<h2>4. Additive migration/model field</h2>
+<p>One boolean, <code>invitations.driver_active</code>, defaulting to true, was necessary to suspend one shop relationship without changing <code>users.active</code>. Its model cast was added. Global inactivity still excludes a driver regardless of the default. The migration was tested up/down on isolated SQLite, then only that named migration was applied to the guard-proven owned development database. No historical migrations or seeders were run.</p>
+
+<h2>5. Exact authoritative membership rule</h2>
+<p>A driver is operationally eligible for a shop only when all of these hold:</p>
+<ol>
+<li>The native user has the global <code>deliveryman</code> role.</li>
+<li>The native global account is active.</li>
+<li>Exactly one invitation row exists for that exact shop/user pair.</li>
+<li>That row's role is <code>deliveryman</code>, status is <code>Invitation::ACCEPTED</code>, and <code>driver_active</code> is true.</li>
+</ol>
+<p>Multiple exact-pair rows, including conflicting non-driver roles, are not chosen by row order. Driver authorization fails closed pending explicit reconciliation. Historical order assignment is not membership evidence.</p>
+
+<h2>6. Multi-shop behavior</h2>
+<p>Each exact shop/user relationship is independent. A legitimate accepted active relationship at Shop B remains eligible when Shop A suspends its relationship. No exclusivity assumption or global role replacement was added.</p>
+
+<h2>7. Global versus shop status</h2>
+<p><code>users.active</code> remains global. Vendor driver suspension toggles only the accepted local invitation's <code>driver_active</code>. Pending or ambiguous driver relationships cannot use the legacy global toggle. The original non-driver Staff status behavior remains intact.</p>
+
+<h2>8. Vendor assignment authorization</h2>
+<p>The existing Seller path passes its actual current shop to the service. The order must belong to it, be a DELIVERY order, and the selected driver must satisfy the full membership rule. Forged driver/order/shop values do not widen the scope. Valid assignments still persist in <code>orders.deliveryman_id</code>.</p>
+
+<h2>9. Staff permission behavior</h2>
+<p>Existing shop authorization is retained: assignment uses <code>orders.manage</code>; driver/settings reads use <code>staff.view</code>; setting writes use <code>orders.delivery_settings</code>; membership status management uses <code>staff.invite</code>. No nonexistent <code>orders.update</code> permission or broader grant was introduced. Owner and permitted Staff paths are verified; missing permissions deny the operation.</p>
+
+<h2>10. Admin behavior</h2>
+<p>The separate authorized Admin assignment path retains its native global active-driver behavior without the Seller shop argument. Admin identity/global account controls remain separate. Admin assignment does not fabricate a shop membership: Driver product operations still require the explicit eligible relationship.</p>
+
+<h2>11. Unassigned orders and platform dispatch</h2>
+<p>No explicit product dispatch-pool authorization contract was established from the source. A global deliveryman role or the <code>IN_HOUSE</code> enum alone is not proof of authority. Product unassigned listing/detail/self-claim therefore fail closed. Eligible exact-assignee access is preserved for both native Seller and IN_HOUSE order types; no order was converted to IN_HOUSE. Separate Admin operations are retained.</p>
+
+<h2>12. Settings ownership</h2>
+<p>Reads/writes are scoped through the persisted setting's actual user and current shop authority. A submitted replacement <code>user_id</code> is rejected. Native validated vehicle, online and location fields remain supported. A Vendor cannot globally delete a shared setting; local suspension is the containment mechanism.</p>
+
+<h2>13. Unsafe provisioning</h2>
+<p>The native Vendor Add/direct Driver account path is unavailable and its server operation is blocked, including supplied passwords or verification values. Generic Vendor driver account editing is read-only/blocked. The shared service rejects a Driver creation request without a password rather than generating the predictable fallback. No new onboarding or token system was implemented.</p>
+
+<h2>14. Assignment payload</h2>
+<p>The existing modal now submits positive numeric <code>deliveryman_id</code>, not <code>deliveryman</code>. Existing selection is initialized only from server-returned eligible options; an ineligible prior driver is left unselected. Native success close/refetch behavior remains. The native type-2 Seller DELIVERY card is now reachable without relaxing the existing Ready/delivery-only Change condition.</p>
+
+<h2>15. Focused verification</h2>
+<ul>
+<li><strong>Backend:</strong> 22 tests / 145 assertions passed, using process-local SQLite and the isolated bootstrap. No inherited database, external services, broad acceptance suite or unrelated payment suite was used.</li>
+<li><strong>Command:</strong> <code>cd .migration-backup/backend &amp;&amp; vendor/bin/phpunit --configuration phpunit-hardening.xml tests/Hardening/DeliveryDriverMembershipAuthorizationTest.php</code></li>
+<li><strong>Changed files:</strong> PHP lint, seven JSX parses, six focused native Driver-card gate cases, and <code>git diff --check</code> passed.</li>
+<li><strong>Migration:</strong> isolated up/down plus guarded application of only the additive invitation field.</li>
+<li><strong>Vendor UI:</strong> one desktop 1280×900 session, using real local Vendor authentication and controlled synthetic order/picker/assignment responses. Only Driver 101 appeared; prior ineligible 105 was unselected; POST was exactly <code>{"deliveryman_id":101}</code>; modal closed; completed detail refetch showed Driver A. No new modal-flow console errors after complete fixtures.</li>
+<li><strong>UI limitation:</strong> the assignment POST was intercepted, not sent to the marketplace database. Actual assignment persistence was proved separately by the isolated service test. Earlier overlapping/incomplete synthetic fixtures caused false stale-label/pagination/timeout observations; correcting the fixtures resolved them without changing application refresh logic.</li>
+</ul>
+<table><thead><tr><th>Required checks</th><th>Result</th></tr></thead><tbody>
+<tr><td>A–B: own eligible roster; other-shop driver excluded</td><td>Passed</td></tr>
+<tr><td>C–G: valid assignment; other-shop/global/pending/suspended rejected</td><td>Passed; global inactivity also tested</td></tr>
+<tr><td>H: independent Shop B after Shop A suspension</td><td>Passed</td></tr>
+<tr><td>I–J: foreign setting and forged replacement owner</td><td>Passed; shared deletion also rejected</td></tr>
+<tr><td>K–M: other assignee denied; unassigned claim denied; forged IDs</td><td>Passed</td></tr>
+<tr><td>N–O: authorized versus unauthorized Staff</td><td>Passed through native shop-permission middleware</td></tr>
+<tr><td>P–Q: authorized Admin path and native assignment persistence</td><td>Passed</td></tr>
+<tr><td>R: corrected UI deliveryman_id</td><td>Source contract and browser numeric payload passed</td></tr>
+<tr><td>S: contained predictable/fallback Driver provisioning</td><td>Passed; Vendor direct creation blocked and service omission rejected</td></tr>
+</tbody></table>
+
+<h2>16. Unresolved security areas</h2>
+<div class="note">
+<ul>
+<li>The separate Parcel/courier subsystem has no established Vendor-shop membership mapping. Its broader authorization questions were not redesigned or declared secured by this product-order work.</li>
+<li>Wider Driver financial/customer projections, mobile APIs and a complete Driver DTO review remain deferred. This task is not a full application security certification.</li>
+<li>Ambiguous invitation histories require explicit reconciliation.</li>
+<li>Platform dispatch needs an explicit business/authorization contract before a product pool can be restored.</li>
+<li>Native invitation deletion followed by a new accepted invitation can establish a fresh default-active relationship. Suspension is not an irreversible ban/tombstone policy.</li>
+<li>Secure invitation/contact verification, promotion/onboarding and existing-account credential remediation remain later work; non-driver provisioning was not rewritten.</li>
+</ul>
+</div>
+
+<h2>17. Active-assignment/offboarding ambiguity</h2>
+<p>Suspension removes active Driver product-order authority for that shop but preserves assignment IDs, order/history/current flags and Vendor/Admin visibility. There is no automatic reassignment, cancellation, order-state rewrite or financial cleanup. Handling an in-progress delivery when membership is suspended, restored or reinvited requires a later approved policy. Native self-history/report aggregates were not rewritten.</p>
+
+<h2>18. Economics and separate work untouched</h2>
+<p>No driver earnings/COD model, fees, payment collection, providers, payouts, refunds, taxes or wallet logic was changed. Booking behavior, collect_via_platform, country payment assignments, invoice/footer/Stories/taxonomy/Coupon/mobile-header work and Specialist visibility were not implemented or reopened.</p>
+<p>After the final browser session, protected-row fingerprints remained unchanged for users, original invitation columns, orders, bookings, transactions, wallets, wallet histories, payouts, payment-to-partner records and the platform-fee ledger. Existing <code>orders.deliveryman_id</code> values were unchanged. Only the additive invitation column and migration ledger were intentionally changed. No marketplace driver fixture was created.</p>
+<p>The existing Admin/Vendor and Laravel previews are running after the affected restart. Customer preview remained running and untouched. No publish, mission, new roster/onboarding UI, mobile work or automatic next phase was started.</p>
+<p><strong>Hard stop: Phase 0 + Phase 1 complete. Wait for further approval.</strong></p>
+</main></body></html>

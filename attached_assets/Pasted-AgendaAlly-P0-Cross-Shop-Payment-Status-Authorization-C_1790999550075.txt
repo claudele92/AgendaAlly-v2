@@ -1,0 +1,411 @@
+AgendaAlly — P0 Cross-Shop Payment Status Authorization Containment
+
+Approve ONLY the minimum containment and regression verification for the
+P0 identified in:
+
+docs/development/payment-system-full-audit.md
+
+Do NOT resume the broader payment audit during this task.
+
+The confirmed vulnerable endpoint is:
+
+PUT /api/v1/payments/{type}/{id}/transactions
+
+The current source allows an authenticated Seller to reach the Cash
+transaction status mutation and request `paid` or `canceled` without proving
+that the underlying payable belongs to a Shop that Seller is authorized to
+manage.
+
+============================================================
+1. PRESERVE THE CONFIRMED EVIDENCE
+============================================================
+
+Do not attempt to reproduce the vulnerability by mutating another Shop's
+existing transaction.
+
+Use isolated test fixtures for exploit/regression verification.
+
+Do not modify existing financial records.
+
+============================================================
+2. TRACE THE COMPLETE MUTATION TARGET
+============================================================
+
+Before patching, trace:
+
+authenticated actor
+→ transaction
+→ payable type
+→ payable
+→ owning Shop/business
+→ Seller's authorized Shop relationship
+→ Seller's existing payment-management permission/grant
+→ requested status transition.
+
+Audit every payable type accepted by this endpoint.
+
+Do not assume Product Order and Service Booking resolve ownership identically.
+
+============================================================
+3. AUTHORITATIVE SELLER AUTHORIZATION
+============================================================
+
+A Seller must be allowed to mutate a transaction only when the backend can
+authoritatively establish BOTH:
+
+A. the transaction's underlying payable belongs to a Shop the Seller is
+   authorized to manage;
+
+AND
+
+B. the Seller has the existing required payment-management permission/grant
+   for that operation.
+
+Do not treat possession of the global `seller` role as sufficient.
+
+Do not trust ownership identifiers supplied by the request.
+
+Do not authorize using a request-provided:
+
+shop_id
+vendor_id
+seller_id
+owner_id
+order_id
+booking_id
+
+without resolving the authoritative persisted relationship.
+
+============================================================
+4. PRODUCT ORDER OWNERSHIP
+============================================================
+
+For Product transactions, resolve ownership through the canonical persisted
+Order → Shop relationship already used by AgendaAlly.
+
+Seller A managing Shop A:
+
+authorized eligible Shop A Cash transaction
+→ may perform the existing permitted operation.
+
+Seller A targeting Shop B:
+
+→ DENY.
+
+Forged request Shop identifiers must not alter that decision.
+
+============================================================
+5. SERVICE BOOKING OWNERSHIP
+============================================================
+
+For Service transactions, resolve ownership through the canonical persisted
+Booking/Service/Shop relationship.
+
+Do not invent another ownership system.
+
+Seller A must not mutate Shop B's booking payment merely because the Seller
+knows its transaction/payable ID.
+
+============================================================
+6. FAIL CLOSED
+============================================================
+
+If the payable:
+
+- cannot be resolved;
+- has an unsupported type;
+- has ambiguous Shop ownership;
+- has missing ownership;
+- points to a deleted/inconsistent object;
+
+Seller mutation must be denied.
+
+Do not fall back to global Seller authority.
+
+============================================================
+7. PRESERVE EXPLICIT ADMIN AUTHORITY
+============================================================
+
+Audit and preserve legitimate existing Admin/Super Admin authority.
+
+Do not accidentally force Admin through Seller Shop membership.
+
+The authorization policy must explicitly distinguish:
+
+ADMIN/SUPER ADMIN AUTHORITY
+
+from
+
+SHOP-SCOPED SELLER AUTHORITY.
+
+Do not broaden Admin authority beyond what currently exists.
+
+============================================================
+8. STATUS TRANSITIONS REMAIN A SEPARATE CHECK
+============================================================
+
+Successful ownership authorization must NOT automatically authorize arbitrary
+transaction states.
+
+Preserve the existing transaction-state restrictions.
+
+Audit exactly which status transitions Sellers currently have legitimate
+authority to perform.
+
+For Cash, determine whether native policy intentionally allows an authorized
+same-Shop Seller to confirm:
+
+paid
+
+and/or
+
+canceled.
+
+Preserve legitimate behavior.
+
+Do not grant new Seller transition authority.
+
+============================================================
+9. DO NOT DISABLE CASH TO MASK THE BUG
+============================================================
+
+Cash being active exposed the authorization defect.
+
+Do not solve this by:
+
+- globally disabling Cash;
+- hiding Cash from checkout;
+- disabling the endpoint;
+- changing provider activation;
+- changing country policy.
+
+Fix the authorization boundary.
+
+============================================================
+10. SIBLING MUTATION AUDIT — NARROW
+============================================================
+
+Search for sibling payment/transaction mutation endpoints that reuse the SAME
+unsafe authorization assumption.
+
+Check especially:
+
+transaction status
+payment status
+Cash confirmation
+Order payment status
+Booking payment status
+refund status/payment mutation.
+
+If another endpoint contains the SAME immediately exploitable cross-Shop
+authorization defect and can safely share the same authoritative policy,
+include the minimum containment.
+
+Do NOT turn this into the full payment audit.
+
+Record other findings for the resumed audit.
+
+============================================================
+11. REGRESSION TEST MATRIX
+============================================================
+
+Create focused isolated tests proving at minimum:
+
+PASS — unauthenticated actor rejected.
+
+PASS — Seller for Shop A can perform an otherwise-valid Cash status operation
+on Shop A's Product transaction.
+
+PASS — Seller for Shop A cannot mutate Shop B's Product Cash transaction.
+
+PASS — Seller for Shop A can perform an otherwise-valid Cash status operation
+on Shop A's Service Booking transaction where native policy permits it.
+
+PASS — Seller for Shop A cannot mutate Shop B's Service Booking Cash
+transaction.
+
+PASS — forged shop_id cannot bypass ownership.
+
+PASS — forged vendor_id/seller_id cannot bypass ownership.
+
+PASS — unresolvable payable fails closed.
+
+PASS — unsupported/ambiguous ownership fails closed.
+
+PASS — Seller lacking the required payment-management permission/grant is
+denied even for an owned Shop.
+
+PASS — authorized Admin behavior remains unchanged.
+
+PASS — invalid transaction status transitions remain denied.
+
+PASS — denied operations leave transaction state unchanged.
+
+PASS — denied operations create no fee/payable/ledger side effects.
+
+Test both `paid` and `canceled` where those statuses are accepted by the
+native endpoint.
+
+============================================================
+12. OBSERVER / ACCOUNTING SAFETY
+============================================================
+
+Because TransactionObserver reacts to paid Booking/Order transactions, verify
+that a DENIED cross-Shop mutation does not trigger:
+
+fee entries
+platform-payable entries
+Vendor balance effects
+Wallet effects
+payout effects
+other accounting mutations.
+
+Do not redesign TransactionObserver during this task.
+
+============================================================
+13. FINANCIAL FINGERPRINTS
+============================================================
+
+Reuse the existing read-only fingerprint methodology where appropriate.
+
+The previous audit established identical before/after fingerprints for 52
+selected tables.
+
+Perform before/after protection around this containment verification.
+
+Also include `platform_fee_ledger_entries` this time if it exists and can be
+safely fingerprinted, because the previous receipt explicitly did not include
+it.
+
+Use isolated test fixtures for mutation tests rather than existing financial
+records.
+
+============================================================
+14. EXISTING BROAD HARDENING FAILURES
+============================================================
+
+The existing `original-hardening` workflow currently contains unrelated
+Delivery Driver invitation/verification and Product Pickup fixture failures.
+
+Those are OUT OF SCOPE.
+
+Do NOT:
+
+fix them;
+suppress them;
+rebaseline them;
+alter their fixtures;
+change Driver code;
+change Pickup code
+
+merely to make the broad suite green.
+
+Run the focused P0 tests independently.
+
+If the broad suite is run, report those unrelated pre-existing failures
+separately.
+
+============================================================
+15. DO NOT TOUCH PAYMENT ARCHITECTURE
+============================================================
+
+Do NOT during this task:
+
+fix "Use my own payment gateway";
+
+activate MTN;
+
+activate Orange;
+
+activate Flutterwave;
+
+activate Paystack;
+
+activate Stripe/PayPal;
+
+change provider readiness;
+
+change XAF capability metadata;
+
+change country policy;
+
+change currency policy;
+
+change payment credentials;
+
+change callbacks/webhooks except if strictly required by this exact P0
+authorization boundary;
+
+change Wallet behavior;
+
+change commission economics;
+
+change payout behavior;
+
+change refund architecture;
+
+change payment UI;
+
+resume the full payment audit.
+
+============================================================
+16. REPORT
+============================================================
+
+Update the security/payment report with:
+
+1. exact root cause;
+
+2. vulnerable route;
+
+3. affected payable/transaction contexts;
+
+4. authorization behavior BEFORE;
+
+5. authorization behavior AFTER;
+
+6. canonical Product ownership relationship used;
+
+7. canonical Service Booking ownership relationship used;
+
+8. payment-management permission/grant enforced;
+
+9. Admin behavior preserved;
+
+10. Seller own-Shop Cash behavior preserved;
+
+11. cross-Shop behavior denied;
+
+12. unsupported/ambiguous payable behavior;
+
+13. sibling mutation endpoints inspected;
+
+14. exact files changed;
+
+15. focused tests and assertions;
+
+16. financial fingerprint results;
+
+17. `platform_fee_ledger_entries` fingerprint result if applicable;
+
+18. any additional P0/P1 finding discovered incidentally.
+
+Do not include credentials or sensitive financial data.
+
+============================================================
+17. STOP
+============================================================
+
+After the P0 containment and focused regression verification are complete:
+
+STOP.
+
+Do NOT resume the broader payment audit automatically.
+
+Do NOT begin payment remediation Phase 1.
+
+Do NOT activate a provider.
+
+Do NOT fix merchant-direct.
+
+Return the containment report and wait for explicit approval.

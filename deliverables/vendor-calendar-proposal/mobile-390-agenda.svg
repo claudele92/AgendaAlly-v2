@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="900" viewBox="0 0 390 900"><rect width="390" height="900" fill="#faf8f4"/>
+<text x="16" y="26" fill="#76522e" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="700">390px · PROPOSAL</text>
+<rect x="0" y="42" width="390" height="86" rx="0" fill="white" stroke="none"/>
+<text x="16" y="73" fill="#76522e" font-size="14" font-family="DejaVu Sans,sans-serif" font-weight="700">AgendaAlly</text>
+<text x="16" y="109" fill="#191a19" font-size="24" font-family="DejaVu Sans,sans-serif" font-weight="700">Calendar</text>
+<rect x="16" y="145" width="44" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="28" y="167" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">‹</text>
+<rect x="67" y="145" width="240" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="79" y="167" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Mon, 5 Oct</text>
+<rect x="314" y="145" width="60" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="326" y="167" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Today</text>
+<rect x="16" y="195" width="88" height="34" rx="10" fill="#76522e" stroke="none"/>
+<text x="28" y="217" fill="white" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Agenda</text>
+<rect x="110" y="195" width="57" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="122" y="217" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Day</text>
+<rect x="247" y="195" width="56" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="259" y="217" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">More</text>
+<rect x="309" y="195" width="65" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="321" y="217" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Filters</text>
+<text x="16" y="238" fill="#64665f" font-size="9" font-family="DejaVu Sans,sans-serif" font-weight="400">Agenda by default · optional Week in More</text>
+<rect x="16" y="249" width="358" height="37" rx="8" fill="white" stroke="#e5e2dc"/>
+<text x="28" y="273" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Search appointments</text>
+<text x="16" y="316" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="700">TODAY · 4 APPOINTMENTS</text>
+<rect x="16" y="337" width="358" height="102" rx="11" fill="white" stroke="#e5e2dc"/>
+<rect x="16" y="337" width="5" height="102" rx="2" fill="#f0e7d9" stroke="none"/>
+<text x="31" y="360" fill="#76522e" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="700">09:00–10:00</text>
+<text x="31" y="383" fill="#191a19" font-size="15" font-family="DejaVu Sans,sans-serif" font-weight="700">Haircut</text>
+<text x="31" y="402" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Sample client</text>
+<text x="31" y="421" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist A</text>
+<text x="271" y="421" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="600">New · Unpaid</text>
+<rect x="16" y="453" width="358" height="102" rx="11" fill="white" stroke="#e5e2dc"/>
+<rect x="16" y="453" width="5" height="102" rx="2" fill="#f0e7d9" stroke="none"/>
+<text x="31" y="476" fill="#76522e" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="700">10:30–11:00</text>
+<text x="31" y="499" fill="#191a19" font-size="15" font-family="DejaVu Sans,sans-serif" font-weight="700">Consultation</text>
+<text x="31" y="518" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Alexandria Sample-Longsurname</text>
+<text x="31" y="537" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist B</text>
+<text x="271" y="537" fill="#276447" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="600">Booked</text>
+<rect x="16" y="569" width="358" height="102" rx="11" fill="white" stroke="#e5e2dc"/>
+<rect x="16" y="569" width="5" height="102" rx="2" fill="#e5e2dc" stroke="none"/>
+<text x="31" y="592" fill="#76522e" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="700">13:00–14:00</text>
+<text x="31" y="615" fill="#191a19" font-size="15" font-family="DejaVu Sans,sans-serif" font-weight="700">Blocked time</text>
+<text x="31" y="634" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Not bookable</text>
+<text x="31" y="653" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist A</text>
+<text x="271" y="653" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="600">Unavailable</text>
+<rect x="16" y="685" width="358" height="102" rx="11" fill="white" stroke="#e5e2dc"/>
+<rect x="16" y="685" width="5" height="102" rx="2" fill="#f0e7d9" stroke="none"/>
+<text x="31" y="708" fill="#76522e" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="700">15:15–15:30</text>
+<text x="31" y="731" fill="#191a19" font-size="15" font-family="DejaVu Sans,sans-serif" font-weight="700">Quick review</text>
+<text x="31" y="750" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Sample client</text>
+<text x="31" y="769" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist B</text>
+<text x="271" y="769" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="600">New</text>
+<rect x="0" y="817" width="390" height="83" rx="0" fill="white" stroke="none"/>
+<rect x="16" y="833" width="358" height="34" rx="10" fill="#76522e" stroke="none"/>
+<text x="28" y="855" fill="white" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">+ Add Booking</text>
+<text x="16" y="883" fill="#64665f" font-size="9" font-family="DejaVu Sans,sans-serif" font-weight="400">Safe-area footer; list has matching bottom space</text>
+</svg>

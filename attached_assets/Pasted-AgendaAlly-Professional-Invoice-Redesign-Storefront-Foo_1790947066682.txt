@@ -1,0 +1,1026 @@
+AgendaAlly — Professional Invoice Redesign + Storefront Footer/Social Completion + PaymentList React Warning Fix
+
+This is ONE bounded implementation pass covering exactly three remaining items:
+
+A. Redesign the existing booking/service invoice into a professional AgendaAlly invoice.
+B. Complete the AgendaAlly storefront footer, including the missing Follow Us/social section and official seeded social links.
+C. Fix the PaymentList uncontrolled → controlled React warning in Customer booking checkout.
+
+Credit use is important.
+
+Investigate these three areas together, implement only the necessary changes, perform ONE focused verification cycle, restore the existing previews if disturbed, report the results, and STOP.
+
+Do not turn this into another broad Stage 1/Stage 2 redesign, payment architecture phase, Stories implementation, booking rewrite, acceptance cycle, or unrelated cleanup.
+
+Use the approved Stage 2 AgendaAlly visual language:
+
+- black / neutral + warm bronze
+- warm ivory/off-white surfaces where appropriate
+- modern professional typography
+- restrained borders
+- subtle radius/elevation where appropriate
+- generous but efficient spacing
+- clean professional iconography
+- strong accessibility and contrast
+- Africa-first but globally professional
+- minimal visual noise
+- no iBeauty/template styling
+- no gradients-heavy legacy styling
+
+==================================================
+PART A — AUDIT THE CURRENT INVOICE IMPLEMENTATION
+==================================================
+
+Before changing the invoice, trace the existing native implementation.
+
+Determine:
+
+- which backend/controller/resource/template generates it;
+- whether it is HTML, print HTML, PDF, or another existing format;
+- how the invoice number is generated;
+- where booking/service data comes from;
+- where Vendor/shop name, logo, address and contact information come from;
+- where AgendaAlly branding/logo comes from;
+- how customer information is populated;
+- how payment and transaction information is populated;
+- whether the same invoice implementation is shared by Customer, Vendor/Admin or Flutter;
+- whether product/order invoices use the same or a different implementation.
+
+Do not invent new financial data.
+
+Do not modify invoice calculations.
+
+Preserve the existing invoice's authoritative values, statuses and financial semantics.
+
+==================================================
+PART B — REDESIGN THE SERVICE/BOOKING INVOICE
+==================================================
+
+The current invoice is visually unfinished.
+
+Problems visible in the current implementation include:
+
+- excessive empty space;
+- weak information hierarchy;
+- poorly aligned service/payment information;
+- no proper branded header;
+- no useful professional footer;
+- weak Vendor/shop identity;
+- no clear payment summary;
+- legacy “Master” terminology;
+- insufficient separation between invoice sections;
+- an overall raw HTML/document appearance.
+
+Redesign it into a polished professional AgendaAlly invoice.
+
+Use the supplied/reference invoice design only as conceptual visual inspiration.
+
+Do NOT mechanically copy the reference.
+
+Do NOT introduce fake information from the mockup.
+
+The final implementation must use real application data.
+
+--------------------------------------------------
+1. Invoice header
+--------------------------------------------------
+
+Create a professional header.
+
+LEFT:
+
+- official AgendaAlly logo using the approved existing local brand asset;
+- optionally, if composition allows, the AgendaAlly tagline:
+  “Book local expertise. Shop local businesses.”
+
+RIGHT:
+
+- INVOICE
+- invoice number, e.g. #4
+- issue/generated date where available
+- booking/service date or appropriate transaction date
+
+Do not generate another AgendaAlly logo.
+
+Reuse the approved local AgendaAlly brand asset.
+
+--------------------------------------------------
+2. Vendor / shop identity
+--------------------------------------------------
+
+The invoice must clearly identify the business that provided the service.
+
+Include the Vendor/shop logo when a legitimate shop logo exists.
+
+Include available real fields such as:
+
+- shop/business name
+- shop logo
+- address/location
+- phone
+- email
+
+Only display fields that actually exist.
+
+Do not invent:
+
+- phone numbers
+- email addresses
+- addresses
+- descriptions
+- registration information
+- tax identifiers
+- business information
+
+If the Vendor has no logo, use a clean neutral business placeholder or the application's existing fallback.
+
+Do NOT generate a fake Vendor logo.
+
+The two logos have different purposes:
+
+AgendaAlly logo
+→ identifies the marketplace/platform/document system.
+
+Vendor/shop logo
+→ identifies the business providing the service.
+
+Therefore both may appropriately appear on the invoice.
+
+--------------------------------------------------
+3. Client information
+--------------------------------------------------
+
+Create a clearly separated:
+
+“Client”
+
+or:
+
+“Billed to”
+
+section.
+
+Use real customer information already available to the invoice.
+
+Display only appropriate available fields such as:
+
+- customer name
+- email
+- phone
+
+Do not expose unnecessary personal information.
+
+Do not invent missing customer data.
+
+--------------------------------------------------
+4. Service details
+--------------------------------------------------
+
+Replace the current compressed/raw table with a professionally structured service-details table or responsive information layout.
+
+Use Stage 2 terminology.
+
+Change presentation-level:
+
+“Master”
+
+to:
+
+“Specialist”
+
+Do NOT rename backend fields, database columns, models or API contracts merely for presentation terminology.
+
+Relevant information can include:
+
+- Service
+- Service date
+- Start time
+- End time
+- Status
+- Service location/place
+- Specialist
+- Payment method
+- Transaction/payment status
+
+Avoid unnecessary duplication.
+
+Use proper spacing and wrapping.
+
+Long values must not collide with adjacent columns.
+
+--------------------------------------------------
+5. Pricing summary
+--------------------------------------------------
+
+Create a clearly separated pricing summary.
+
+Use the exact existing authoritative booking/invoice amounts.
+
+Depending on existing values, display items such as:
+
+- Service subtotal/base price
+- Service fee
+- Extra price
+- Discount
+- Coupon
+- Taxes only if already applicable
+- Tips only if applicable
+- Total
+
+The Total should have the strongest visual hierarchy.
+
+Do NOT change:
+
+- calculations
+- service fee formulas
+- commissions
+- currency conversion
+- rounding
+- booking totals
+- transaction totals
+- payment state
+
+This is presentation only.
+
+Use the authoritative transaction/booking currency.
+
+For example, XAF/FCFA must remain whatever the existing application currently treats as authoritative.
+
+--------------------------------------------------
+6. Payment information
+--------------------------------------------------
+
+Add a clean Payment Information section containing appropriate existing authoritative information such as:
+
+- payment method
+- transaction status
+- transaction/reference identifier if appropriate and safe
+- payment date if available
+
+Do not expose:
+
+- provider secrets
+- credentials
+- internal gateway configuration
+- sensitive provider metadata
+
+Do not convert an underlying status such as “Progress” into “Paid” merely for appearance.
+
+Friendly display labels are acceptable only when semantically equivalent to the actual backend status.
+
+--------------------------------------------------
+7. Invoice footer
+--------------------------------------------------
+
+Add a restrained professional invoice footer.
+
+It can include:
+
+- compact AgendaAlly branding/wordmark
+- “Book local expertise. Shop local businesses.”
+- Terms
+- Privacy Policy
+- legitimate AgendaAlly website/contact information where configured
+- copyright
+
+Use the current year dynamically where appropriate.
+
+Do not overcrowd the invoice.
+
+Social links do not need to dominate the invoice. If they are included there, keep them small and secondary.
+
+--------------------------------------------------
+8. Print/PDF behavior
+--------------------------------------------------
+
+The invoice must remain suitable for printing and existing PDF/document generation.
+
+Check:
+
+- appropriate A4/Letter-style layout based on existing implementation;
+- reasonable margins;
+- no giant blank vertical spaces;
+- no clipped columns;
+- no horizontal overflow;
+- no content outside printable boundaries;
+- avoid page breaks through totals where practical;
+- appropriately sized logos;
+- readable colors;
+- understandable hierarchy in grayscale.
+
+Do not replace the existing invoice generation/delivery mechanism unless technically necessary.
+
+==================================================
+PART C — AUDIT THE EXISTING STOREFRONT FOOTER
+==================================================
+
+The AgendaAlly storefront footer still does not contain the intended complete Follow Us/social section.
+
+Before modifying it, audit the existing native footer implementation and Admin Footer/settings/CMS model.
+
+Determine:
+
+- where footer copy is persisted;
+- where social links are persisted;
+- whether Instagram/Facebook/Twitter fields already exist;
+- whether LinkedIn exists;
+- whether TikTok exists;
+- whether social links are seeded or currently blank;
+- whether frontend rendering intentionally hides missing/invalid links;
+- whether Admin can edit these values;
+- whether old iBeauty/template social data remains;
+- whether app-download destinations are already configurable.
+
+Reuse the existing architecture wherever possible.
+
+Do not create a parallel footer/settings system.
+
+==================================================
+PART D — COMPLETE THE STOREFRONT FOOTER
+==================================================
+
+The footer should feel like a finished Stage 2 AgendaAlly storefront footer.
+
+A good desktop hierarchy is:
+
+AGENDAALLY
+
+[AgendaAlly logo]
+
+Book local expertise. Shop local businesses.
+
+Short marketplace description.
+
+DISCOVER
+- Services
+- Products
+- Specialists
+- Businesses/Shops where legitimately supported
+- other legitimate existing discovery routes
+
+YOUR ACCOUNT
+- My appointments
+- Orders
+- Favorites
+- Cart where appropriate
+
+INFORMATION
+- For Business
+- About Us
+- Contact Us
+- FAQs
+- Terms
+- Privacy Policy
+
+FOLLOW US
+- Instagram
+- Facebook
+- LinkedIn
+- TikTok only when configured
+
+Do not mechanically add routes that do not exist.
+
+Reuse legitimate native routes.
+
+Do not reintroduce “Masters”.
+
+Use:
+
+“Specialists”
+
+in new presentation copy.
+
+--------------------------------------------------
+9. Follow Us section
+--------------------------------------------------
+
+Use:
+
+“Follow Us”
+
+rather than simply “Social” if that fits the current footer hierarchy.
+
+Use recognizable official social-platform icons plus accessible labels.
+
+Prefer the project's existing icon library.
+
+Do NOT generate image versions of:
+
+- Instagram
+- Facebook
+- LinkedIn
+- TikTok
+
+Do NOT download arbitrary logo images if the current icon package already provides suitable official/recognizable brand icons.
+
+Keep icon size/alignment consistent.
+
+Do not transform the footer into multiple social-platform brand colors.
+
+Maintain the AgendaAlly:
+
+black / neutral + warm bronze
+
+visual identity.
+
+--------------------------------------------------
+10. Seed official AgendaAlly social destinations
+--------------------------------------------------
+
+Seed/configure the following official AgendaAlly social destinations through the existing footer/settings/CMS architecture:
+
+Instagram:
+https://www.instagram.com/agendaally
+
+Facebook:
+https://www.facebook.com/AgendaAlly/
+
+LinkedIn:
+https://www.linkedin.com/company/agendaally
+
+TikTok:
+
+Prepare support/configuration for TikTok, but DO NOT invent or seed a TikTok URL.
+
+I will add the official TikTok URL later through the Admin panel.
+
+If TikTok already has a supported settings field:
+
+- leave URL empty/null;
+- ensure Admin can configure it later.
+
+If TikTok does not currently have a field:
+
+- make the smallest additive change necessary to support it through the existing social-settings architecture;
+- do not create a parallel configuration system.
+
+The storefront must NOT show a dead TikTok link.
+
+When TikTok URL is empty, hide TikTok publicly.
+
+Do not display:
+
+- Coming soon
+- #
+- javascript:void(0)
+- fake destinations
+- development examples
+
+--------------------------------------------------
+11. Social configuration must remain data-driven
+--------------------------------------------------
+
+Do NOT hard-code Instagram, Facebook or LinkedIn URLs directly into the storefront component when existing settings/footer persistence can represent them.
+
+Expected lifecycle:
+
+seed/default value
+        ↓
+existing settings/CMS persistence
+        ↓
+Admin editable
+        ↓
+storefront reads current configured value
+
+The seed must be idempotent.
+
+Running it twice must not create duplicate settings or social records.
+
+Do not overwrite legitimate administrator-configured values unless they are clearly old development/template seed values and the existing seed architecture explicitly supports replacing those defaults.
+
+--------------------------------------------------
+12. Social link behavior
+--------------------------------------------------
+
+Each configured social link should:
+
+- use the correct recognizable icon;
+- have an accessible label;
+- navigate to the configured official page;
+- use safe external-link behavior;
+- not expose raw development URLs;
+- disappear cleanly when no valid destination exists.
+
+Configured destinations:
+
+Instagram → AgendaAlly Instagram
+Facebook → AgendaAlly Facebook
+LinkedIn → AgendaAlly LinkedIn
+
+TikTok:
+hidden until a real URL is configured from Admin.
+
+Remove remaining development/example wording such as:
+
+“Instagram (development example)”
+“Facebook (development example)”
+“Twitter (development example)”
+
+Do not show Twitter/X unless a legitimate AgendaAlly destination is actually configured.
+
+--------------------------------------------------
+13. Footer brand copy
+--------------------------------------------------
+
+Remove customer-facing development text such as:
+
+“Development preview with synthetic listings...”
+
+“Official customer app-store links are not available in this development preview.”
+
+“Development preview · Synthetic content only...”
+
+or equivalent engineering/testing language.
+
+Use appropriate AgendaAlly marketplace copy.
+
+Preferred primary copy:
+
+“Book local expertise. Shop local businesses.”
+
+A short supporting description may be used, for example:
+
+“Discover local services, specialists and products from businesses in your community.”
+
+Do not introduce unsupported claims such as:
+
+- verified businesses
+- #1 marketplace
+- trusted by thousands
+- invented user/business counts
+- invented transaction statistics
+
+--------------------------------------------------
+14. App download links
+--------------------------------------------------
+
+Audit existing App Store / Google Play footer configuration.
+
+Only show App Store or Google Play controls when legitimate configured URLs exist.
+
+If official production app-store destinations do not exist yet:
+
+- hide download controls cleanly;
+- do not show development warnings;
+- do not create fake destinations.
+
+Preserve Admin configuration for future legitimate URLs where already supported.
+
+==================================================
+PART E — RESPONSIVE FOOTER DESIGN
+==================================================
+
+Desktop:
+
+- balanced multi-column layout;
+- sufficient space for AgendaAlly branding;
+- navigation groups aligned cleanly;
+- Follow Us clearly discoverable but not oversized;
+- copyright/legal area visually separated;
+- avoid excessive footer height.
+
+At approximately 390px:
+
+- stack/reflow intentionally;
+- no horizontal overflow;
+- social icons remain proper touch targets;
+- navigation remains readable;
+- avoid excessive vertical gaps;
+- copyright/legal links wrap correctly;
+- maintain accessible typography.
+
+The mobile footer should look intentionally designed rather than simply being the desktop footer stacked vertically.
+
+==================================================
+PART F — FIX PAYMENTLIST UNCONTROLLED → CONTROLLED WARNING
+==================================================
+
+Also fix this specific runtime warning in the native Customer storefront:
+
+Error:
+
+“A component is changing from uncontrolled to controlled. This may be caused by the value changing from undefined to a defined value.”
+
+Stack:
+
+PaymentList
+components/payment-list/payment-list.tsx:189
+
+BookingPaymentList
+app/(store)/(booking)/(witout-footer)/(navigation)/shops/[id]/booking/payment/components/payment-list/payment-list.tsx
+
+ProtectedPayment
+app/(store)/(booking)/(witout-footer)/(navigation)/shops/[id]/booking/payment/protected-payment.tsx
+
+ShopBookingPayment
+app/(store)/(booking)/(witout-footer)/(navigation)/shops/[id]/booking/payment/page.tsx
+
+Current failing area:
+
+<RadioGroup value={value} onChange={onChange}>
+
+This is a focused frontend state-management bug fix only.
+
+--------------------------------------------------
+15. Trace the actual PaymentList state flow
+--------------------------------------------------
+
+Trace `value` from its state owner through BookingPaymentList into the shared PaymentList.
+
+Determine exactly why the initial render can provide `undefined` and a later render provides a defined payment value.
+
+Check whether this is caused by:
+
+- async payment-method loading;
+- initialization of selected-payment state;
+- an effect selecting a first/default eligible method;
+- recent payment availability/resolver changes;
+- or a mismatch between the shared PaymentList contract and booking-payment state.
+
+Do not guess.
+
+Do not merely suppress the warning.
+
+--------------------------------------------------
+16. Keep RadioGroup controlled for its entire lifecycle
+--------------------------------------------------
+
+The selected payment value must have a stable controlled state from the first render.
+
+Prefer correcting the state at its actual owner where appropriate.
+
+For example, if an empty string correctly represents “nothing selected”:
+
+const [paymentType, setPaymentType] = useState<string>("");
+
+is preferable to:
+
+const [paymentType, setPaymentType] = useState<string>();
+
+If the shared PaymentList legitimately accepts an optional value because of multiple consumers, normalization such as:
+
+<RadioGroup value={value ?? ""} ...>
+
+may instead belong at the shared component boundary.
+
+Choose the cleanest solution only after tracing the actual state ownership and all consumers.
+
+Do NOT use:
+
+defaultValue
+
+merely to hide the warning.
+
+Do NOT switch between controlled and uncontrolled behavior.
+
+--------------------------------------------------
+17. Preserve payment semantics
+--------------------------------------------------
+
+An empty initial value means only:
+
+“No payment method has been selected yet.”
+
+It must NOT mean:
+
+- Cash selected;
+- first provider selected;
+- Wallet selected;
+- platform collection selected;
+- Vendor-direct selected.
+
+Do not automatically select a method unless that was already intentional existing behavior.
+
+If existing behavior intentionally selects the first eligible/default method after methods load, preserve that behavior while keeping the component controlled from the first render.
+
+--------------------------------------------------
+18. Handle dynamic payment eligibility safely
+--------------------------------------------------
+
+Because payment availability can depend on server-side eligibility/context, verify behavior when:
+
+- methods are initially loading;
+- zero methods are available;
+- methods load after first render;
+- currently selected method disappears from eligible results;
+- shop/service context changes;
+- country/currency context changes.
+
+Never retain a payment selection that is no longer present in the current eligible payment-method list.
+
+Clear stale selection back to the controlled empty state where necessary.
+
+Do not invent another fallback provider.
+
+--------------------------------------------------
+19. Check all shared PaymentList consumers
+--------------------------------------------------
+
+Search consumers of:
+
+components/payment-list/payment-list.tsx
+
+before changing its public prop contract.
+
+Determine whether it is shared by:
+
+- booking checkout;
+- product/cart checkout;
+- wallet-related payment UI;
+- other checkout surfaces.
+
+Do not fix Booking while breaking another PaymentList consumer.
+
+Keep the shared contract backward compatible where practical.
+
+==================================================
+PART G — PRESERVE APPLICATION BEHAVIOR
+==================================================
+
+Across ALL three tasks, do NOT change:
+
+- provider activation
+- country/payment assignments
+- Vendor payment configuration
+- collect_via_platform
+- payment credentials
+- payment initiation
+- callbacks/webhooks
+- payment accounting
+- payouts
+- refunds
+- wallet accounting
+- FX
+- settlement
+- payment seeds
+- booking calculations
+- booking semantics
+- authorization architecture
+- authentication architecture
+- Stories
+- Car Service taxonomy
+- marketplace records
+- customer discovery behavior
+- unrelated Laravel APIs
+- unrelated Flutter contracts
+
+The PaymentList correction is frontend state management only.
+
+The invoice work is presentation only.
+
+The footer work is presentation plus legitimate CMS/settings seed/configuration.
+
+Do not activate external providers.
+
+Do not call payment providers.
+
+Do not create financial transactions.
+
+Do not change payment/booking statuses for testing.
+
+Do not seed fake bookings, transactions, payouts or wallets.
+
+==================================================
+PART H — DATA SAFETY
+==================================================
+
+Use existing legitimate records for rendering checks where safe.
+
+For footer/social configuration:
+
+- use existing seed/settings architecture;
+- make the seed idempotent;
+- run only the narrow intended seed/update;
+- do not run destructive broad seeders;
+- do not reset the database.
+
+Before and after the social seed, verify unrelated financial/marketplace records were not modified.
+
+Do not mutate:
+
+- bookings
+- orders
+- transactions
+- payouts
+- wallets
+- payment intents/processes
+- Vendor balances
+- products
+- services
+- customers
+
+The social/footer seed should affect only the intended CMS/settings/footer records.
+
+==================================================
+PART I — ONE FOCUSED VERIFICATION PASS
+==================================================
+
+Credit use is important.
+
+Do NOT perform three independent broad verification cycles.
+
+Use ONE focused verification pass covering only the changed surfaces.
+
+--------------------------------------------------
+INVOICE
+--------------------------------------------------
+
+Verify:
+
+A. An existing legitimate booking/service invoice renders.
+
+B. AgendaAlly logo renders correctly.
+
+C. Vendor/shop logo renders when available.
+
+D. Vendor logo fallback works when unavailable.
+
+E. Invoice number/date render correctly.
+
+F. Customer information renders correctly.
+
+G. Service details align properly.
+
+H. “Specialist” is used instead of presentation-level “Master”.
+
+I. Existing financial values before and after the redesign are unchanged.
+
+J. Payment method/status remain unchanged.
+
+K. No horizontal overflow.
+
+L. Print/PDF layout is professional and usable.
+
+M. No runtime/console error was introduced.
+
+--------------------------------------------------
+STOREFRONT FOOTER
+--------------------------------------------------
+
+Verify:
+
+A. AgendaAlly branding renders.
+
+B. Development/example footer wording is gone.
+
+C. Instagram renders and opens:
+
+https://www.instagram.com/agendaally
+
+D. Facebook renders and opens:
+
+https://www.facebook.com/AgendaAlly/
+
+E. LinkedIn renders and opens:
+
+https://www.linkedin.com/company/agendaally
+
+F. TikTok is supported in settings/Admin but remains hidden while its URL is empty.
+
+G. No fake Twitter/X destination is shown.
+
+H. Terms and Privacy continue using existing CMS/routes.
+
+I. Existing persisted location behavior remains intact.
+
+J. Desktop layout passes.
+
+K. Approximately 390px layout passes.
+
+L. No horizontal overflow.
+
+M. No new runtime/console error.
+
+--------------------------------------------------
+PAYMENTLIST
+--------------------------------------------------
+
+Verify:
+
+A. Booking payment page loads without the uncontrolled → controlled warning.
+
+B. Async payment-method loading does not produce the warning.
+
+C. Selecting an eligible payment method still works.
+
+D. No-method-selected state is safely represented by the controlled empty state.
+
+E. Zero available methods do not automatically select a fallback.
+
+F. If the selected method becomes ineligible after context changes, stale selection is cleared safely.
+
+G. Check at least ONE additional existing PaymentList consumer if the component is shared.
+
+H. No new console/runtime error.
+
+I. No real payment is made.
+
+J. No external provider is called.
+
+--------------------------------------------------
+CODE CHECKS
+--------------------------------------------------
+
+Run only:
+
+- TypeScript/type checks required for affected files;
+- syntax checks required for affected backend/template files;
+- focused build check only if required by changed files.
+
+Do NOT rerun the entire payment hardening suite unless this supposedly frontend-only PaymentList correction unexpectedly touches shared backend payment logic.
+
+Do NOT rerun:
+
+- broad Stage 1 acceptance;
+- broad Stage 2 acceptance;
+- role matrix;
+- full payment suite;
+- broad browser journeys;
+- unrelated tests.
+
+==================================================
+PART J — FINAL REPORT
+==================================================
+
+When complete, provide ONE concise combined report.
+
+INVOICE
+
+1. Invoice implementation audited.
+2. Existing invoice generation path.
+3. Files/templates/components changed.
+4. Visual structure before vs after.
+5. AgendaAlly logo source.
+6. Vendor/shop logo source.
+7. Vendor-logo fallback behavior.
+8. Confirmation financial calculations were unchanged.
+9. Confirmation payment/transaction statuses were unchanged.
+10. Print/PDF verification result.
+
+FOOTER / SOCIAL
+
+11. Existing footer/social settings architecture found.
+12. Files/components/settings changed.
+13. Exact settings/records seeded or updated.
+14. Confirmation seed is idempotent.
+15. Instagram configuration.
+16. Facebook configuration.
+17. LinkedIn configuration.
+18. TikTok configuration support.
+19. Confirmation TikTok remains hidden until a URL is configured.
+20. Twitter/X behavior.
+21. Development/example copy removed.
+22. Desktop verification result.
+23. Approximately 390px verification result.
+
+PAYMENTLIST
+
+24. Exact uncontrolled → controlled root cause.
+25. Exact origin of the original `undefined`.
+26. Whether correction was made at the state owner, PaymentList boundary, or both, and why.
+27. PaymentList-related files changed.
+28. Other PaymentList consumers found.
+29. Async loading behavior.
+30. Zero-method behavior.
+31. Stale/ineligible selection behavior.
+32. Confirmation payment/provider semantics were unchanged.
+33. Focused PaymentList verification result.
+
+GENERAL
+
+34. Type/build/syntax checks performed and results.
+35. Any remaining issue directly related to these three tasks.
+
+==================================================
+STOP CONDITION
+==================================================
+
+If this work disturbed the existing Customer or Admin/Vendor previews, restore those existing previews.
+
+Then STOP.
+
+Do NOT proceed automatically into:
+
+- another payment architecture phase;
+- payout implementation;
+- FX work;
+- provider activation;
+- Stories redesign;
+- Stories implementation;
+- unrelated UI redesign;
+- another taxonomy change;
+- unrelated cleanup;
+- broad acceptance testing;
+- publishing.
+
+This pass is complete when:
+
+1. the invoice is professionally redesigned without changing financial semantics;
+2. the storefront Follow Us/footer content is complete and data-driven;
+3. Instagram, Facebook and LinkedIn are seeded/configured;
+4. TikTok is ready for later Admin configuration but hidden until configured;
+5. the PaymentList warning is fixed without changing payment semantics;
+6. the focused verification passes;
+7. existing previews are restored if disturbed.
+
+Report and STOP.

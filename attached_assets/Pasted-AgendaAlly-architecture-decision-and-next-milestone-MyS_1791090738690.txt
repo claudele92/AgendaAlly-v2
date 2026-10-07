@@ -1,0 +1,828 @@
+AgendaAlly architecture decision and next milestone:
+
+MySQL 8 / InnoDB is now the selected production database target for the AgendaAlly MVP.
+
+Stop further PostgreSQL implementation, porting, adaptation and certification work unless explicitly reopened later. Retain the PostgreSQL evidence already produced in the reports, but do not spend additional MVP engineering time pursuing PostgreSQL parity.
+
+This decision does NOT mean MySQL, the payment system, or AgendaAlly is production-certified. All existing financial invariants, stop gates, provider activation restrictions and protected-state requirements remain in force.
+
+The next objective is to determine and execute only the minimum work needed to move AgendaAlly toward a real MVP, rather than continuing an open-ended payment redesign.
+
+IMPORTANT:
+Do not immediately begin broad implementation.
+
+First:
+1. finish/normalize the current MySQL/payment conclusions;
+2. identify the minimum remaining MySQL/payment blockers;
+3. perform an end-to-end AgendaAlly MVP gap assessment;
+4. produce a prioritized implementation plan;
+5. implement only corrections that are clearly within the already-approved financial architecture and do not cross a stop gate;
+6. STOP for approval before any material new architecture, provider activation, production deployment, destructive migration, or newly discovered financial P0 remediation.
+
+======================================================================
+PART 1 — RECORD THE DATABASE DECISION
+======================================================================
+
+Record MySQL 8/InnoDB as the target production database for AgendaAlly MVP.
+
+PostgreSQL should be classified as:
+"evaluated and technically viable for tested financial invariants, but deferred because conversion/porting work provides insufficient MVP benefit relative to the existing MySQL implementation."
+
+Do not delete the PostgreSQL proof results. Preserve them as architecture evidence.
+
+Do not describe PostgreSQL as unsafe or inferior.
+
+Do not continue PostgreSQL-specific development.
+
+======================================================================
+PART 2 — RETIRE STRATEGY G UNLESS ACTUALLY REQUIRED
+======================================================================
+
+The application caller trace found no demonstrated production requirement for FinancialOperations::reserve to succeed inside an arbitrary already-open stale transaction.
+
+The current application POST endpoint allows reserve() to own its transaction.
+
+Therefore:
+
+- Do NOT implement operational_evidence_manifest.
+- Do NOT implement Strategy G.
+- Do NOT add maintained financial membership/counter state merely to satisfy the artificial stale nested-transaction test.
+- Do NOT add schema for this purpose.
+
+Treat Strategy G as deferred unless a future real application workflow proves that successful nested stale-snapshot reservation is actually required.
+
+Use the smallest transaction architecture supported by the real application workflow.
+
+======================================================================
+PART 3 — MYSQL STRATEGY B: PERMANENT IMPLEMENTATION ASSESSMENT
+======================================================================
+
+The proof work indicates that the appropriate MySQL direction is:
+
+fresh owned REPEATABLE READ financial transaction
+→ allocation primary-key lock first
+→ existing version/CAS
+→ ordinary child authority reads
+→ unchanged capacity/exclusion equations
+→ existing financial operation
+→ commit
+
+Before making this permanent, compare the proof prototype with the current production source.
+
+Identify the exact minimum production changes required.
+
+The permanent implementation must preserve:
+
+- existing financial identities;
+- exact integer money;
+- allocation identity;
+- contribution identity;
+- commission calculation;
+- custody classification;
+- Vendor payable rules;
+- commission receivable rules;
+- refund authority;
+- payout reservation authority;
+- replay identities;
+- UNKNOWN/PENDING capacity retention;
+- rollback behavior;
+- existing unique/FK/database guards;
+- Cash semantics;
+- Wallet semantics;
+- provider evidence semantics.
+
+Do not change accounting equations merely to make concurrency tests pass.
+
+Do not use child FOR SHARE/FOR UPDATE range authority scans that recreate the rejected InnoDB gap/supremum-lock design.
+
+If the Strategy B permanent implementation is truly the same bounded transaction correction already demonstrated by the proof, implement it and verify it.
+
+If making it permanent requires a new schema, financial identity, accounting semantic, caller contract beyond the traced application workflow, or other material architecture change:
+
+STOP before implementing that deviation.
+
+======================================================================
+PART 4 — COMPLETE MYSQL PHASE 3C
+======================================================================
+
+After the permanent bounded transaction correction, rerun MySQL certification from a clean disposable MySQL environment.
+
+At minimum verify:
+
+- original 13 Phase 3C cases;
+- reservation 10,000 / 7,000 + 7,000 conservation;
+- exact 3,000 remainder;
+- independent Allocation A/B progress;
+- initially empty child evidence;
+- populated child evidence;
+- same-key replay;
+- changed amount/actor/context rejection;
+- refund-effect visibility;
+- Vendor-payable reservation conservation;
+- commission-receivable reservation conservation;
+- exclusion rules;
+- rollback;
+- timeout;
+- deadlock and complete retry;
+- contribution confirmation;
+- canonical accounting finalization;
+- Wallet debit;
+- Wallet transfer;
+- concurrent Wallet spend;
+- concurrent Wallet credit interactions;
+- Product Wallet payment;
+- Booking Wallet payment;
+- Product fulfillment finality;
+- fulfillment cashback replay;
+- commission replay;
+- stale-model behavior;
+- replacement Transaction behavior.
+
+Retain the already proven Wallet P0 requirements.
+
+The 70 + 70 from 100 scenario must continue allowing only one successful spend and preserve exact conservation.
+
+Do not weaken or remove tests that expose real financial races.
+
+======================================================================
+PART 5 — MYSQL DDL / MIGRATION COMPATIBILITY
+======================================================================
+
+Resolve the remaining MySQL bootstrap compatibility work required for the actual target architecture.
+
+Review every financial migration against MySQL 8.
+
+This includes the known MTN/completion identity migration problem.
+
+Do not simply patch errors one by one without reviewing the migration as a complete MySQL contract.
+
+Verify:
+
+- fresh database bootstrap;
+- migration up;
+- migration down where supported/expected;
+- reapply;
+- CHECK behavior;
+- trigger behavior;
+- trigger cleanup;
+- explicit index names;
+- 64-character identifier limits;
+- JSON semantics;
+- foreign keys;
+- retained-evidence FKs;
+- nullable uniqueness;
+- generated IDs;
+- integer money fields;
+- rollback behavior;
+- migration ordering.
+
+Preserve the already approved MySQL receipt-self-anchor equivalent database guard.
+
+Do not weaken database-level financial protection into application-only validation.
+
+If the MTN migration requires a material identity/schema redesign rather than an equivalent MySQL DDL representation:
+
+STOP and report it separately.
+
+======================================================================
+PART 6 — PAYMENT SYSTEM STATUS AFTER MYSQL CERTIFICATION
+======================================================================
+
+Once the MySQL application-side work is verified, produce a new payment readiness matrix.
+
+For each of:
+
+- Cash
+- Wallet
+- MTN
+- Orange
+- Flutterwave
+- Paystack
+- Stripe
+- PayPal
+- refunds
+- commission receivables
+- Vendor payable reservations
+- Vendor payouts
+- reconciliation
+
+classify it as one of:
+
+- MVP READY
+- APPLICATION READY / EXTERNAL UAT REQUIRED
+- PARTIAL
+- EXTERNAL DEPENDENCY
+- BLOCKED
+- POST-MVP
+
+Do not equate application correctness with provider readiness.
+
+Electronic providers must remain disabled.
+
+Do not use real credentials.
+
+Do not perform provider calls.
+
+Do not perform real refunds or payouts.
+
+Do not enable Vendor-direct checkout.
+
+Do not enable own-gateway checkout.
+
+Keep customer checkout Wallet/Cash only unless separately approved.
+
+======================================================================
+PART 7 — DO NOT LET PAYMENTS DEFINE THE ENTIRE MVP
+======================================================================
+
+After the bounded MySQL/payment work, zoom out and evaluate AgendaAlly as a complete product.
+
+The question is:
+
+"What prevents a real Customer, Vendor and Admin from using AgendaAlly successfully as an MVP?"
+
+Trace actual application flows rather than relying only on route existence or UI screenshots.
+
+Evaluate at least the following.
+
+CUSTOMER
+
+- registration;
+- login/logout;
+- password reset;
+- profile;
+- location/address;
+- Shop discovery;
+- Service discovery;
+- Product discovery if Product marketplace is part of MVP;
+- search/filter;
+- Shop details;
+- Service details;
+- availability;
+- booking;
+- rescheduling;
+- cancellation;
+- Cart;
+- checkout;
+- Wallet;
+- Cash;
+- order creation;
+- booking creation;
+- order/booking status;
+- history;
+- notifications;
+- receipts;
+- refunds/cancellations visible to Customer;
+- mobile usability;
+- error handling;
+- duplicate submission/retry behavior.
+
+VENDOR
+
+- Vendor registration/application;
+- approval/onboarding;
+- Shop creation;
+- Shop configuration;
+- Service creation;
+- Product creation if in MVP;
+- pricing;
+- availability/schedule;
+- staff/resource assignment where applicable;
+- booking management;
+- order management;
+- fulfillment;
+- cancellation;
+- financial history;
+- commission visibility;
+- receivables/payables;
+- payout-request UX even if external payout execution remains unavailable;
+- notifications;
+- merchant/payment configuration without activation;
+- mobile usability;
+- authorization boundaries between Vendors/Shops.
+
+ADMIN
+
+- authentication/authorization;
+- Vendor approval;
+- Shop management;
+- Customer/Vendor management;
+- booking/order oversight;
+- payment history;
+- financial allocation/history views;
+- commission receivables;
+- payout reservations/requests;
+- provider configuration;
+- provider activation gates;
+- auditability;
+- refunds where supported;
+- operational recovery;
+- failure/UNKNOWN visibility;
+- role/permission enforcement;
+- mobile/responsive usability where required.
+
+======================================================================
+PART 8 — CORE BOOKING MVP
+======================================================================
+
+Booking is central to AgendaAlly.
+
+Perform a focused end-to-end review of the booking lifecycle:
+
+discovery
+→ Service selection
+→ date/time selection
+→ availability validation
+→ booking creation
+→ payment choice
+→ confirmation
+→ Vendor visibility
+→ Customer visibility
+→ reminders/notifications
+→ status changes
+→ rescheduling
+→ cancellation
+→ completion
+→ financial finality
+
+Check concurrency around appointment availability.
+
+Determine whether two Customers can book the same exclusive slot/resource concurrently.
+
+If double-booking is possible for a resource that should be exclusive, classify it as an MVP correctness blocker.
+
+Do NOT redesign scheduling automatically if fixing it requires new scheduling semantics/schema.
+
+Also review:
+
+- timezone handling;
+- daylight-saving behavior where relevant;
+- Vendor timezone versus Customer timezone;
+- schedule exceptions;
+- closed dates;
+- service duration;
+- buffers;
+- staff/resource availability;
+- repeated submission;
+- stale availability;
+- cancellation releasing capacity;
+- reschedule atomicity.
+
+======================================================================
+PART 9 — PRODUCT / MARKETPLACE MVP
+======================================================================
+
+If Product commerce is intended to remain in the AgendaAlly MVP, trace:
+
+Product
+→ Shop
+→ Cart
+→ quantity/stock
+→ checkout
+→ Order
+→ payment
+→ Vendor acceptance
+→ fulfillment
+→ delivered
+→ cancellation/refund boundary
+→ financial finality
+
+Review stock/quantity concurrency.
+
+Determine whether two Customers can purchase inventory beyond available stock.
+
+Do not invent warehouse/inventory architecture if the existing application does not claim inventory guarantees; report the actual contract.
+
+Review multi-Shop Cart behavior and clearly state what is and is not supported for MVP.
+
+Do not silently enable multi-merchant electronic checkout.
+
+======================================================================
+PART 10 — SECURITY / AUTHORIZATION MVP REVIEW
+======================================================================
+
+Perform a bounded application security review focused on exploitable MVP blockers.
+
+Review:
+
+- Customer/Vendor/Admin authorization;
+- Shop ownership;
+- cross-Shop access;
+- IDOR/BOLA;
+- financial endpoint authorization;
+- booking ownership;
+- order ownership;
+- refund authorization;
+- payout-request authorization;
+- provider configuration ownership;
+- Admin-only operations;
+- mass assignment;
+- validation;
+- CSRF where applicable;
+- API authentication;
+- rate limiting for sensitive endpoints;
+- secret exposure;
+- logs containing secrets/payment evidence;
+- encrypted credential storage;
+- file upload boundaries if used;
+- unsafe debug/development endpoints;
+- production debug configuration;
+- session/cookie security.
+
+Do not perform destructive exploitation.
+
+If a new immediately exploitable financial/security P0 is confirmed, STOP before remediation unless the fix is already clearly within an approved boundary.
+
+======================================================================
+PART 11 — NOTIFICATIONS AND COMMUNICATION
+======================================================================
+
+Determine which MVP events currently produce reliable Customer/Vendor notifications.
+
+Review at minimum:
+
+- booking created;
+- booking confirmed;
+- booking canceled;
+- booking rescheduled;
+- appointment reminder;
+- order created;
+- order accepted;
+- order canceled;
+- order fulfilled/delivered;
+- refund state where supported;
+- payout-request state;
+- password reset/account events.
+
+Classify email/SMS/push/in-app behavior separately.
+
+Do not add expensive external messaging providers automatically.
+
+Identify what is required for MVP versus post-MVP.
+
+======================================================================
+PART 12 — FILES / MEDIA / STORAGE
+======================================================================
+
+Review production handling for:
+
+- profile images;
+- Shop images;
+- Product images;
+- Service images;
+- documents/uploads if applicable.
+
+Determine whether local filesystem assumptions will break on VPS deployment, restart, scaling or backup.
+
+Identify required persistent storage and backup behavior.
+
+Do not automatically introduce S3/object storage unless necessary.
+
+======================================================================
+PART 13 — QUEUES / SCHEDULER / BACKGROUND JOBS
+======================================================================
+
+Inventory actual use of:
+
+- Laravel queues;
+- scheduler/cron;
+- notifications;
+- retries;
+- payment recovery;
+- reminders;
+- cleanup jobs;
+- reconciliation;
+- asynchronous provider work.
+
+Determine what must be running continuously in production.
+
+Identify idempotency/retry requirements.
+
+Check whether a VPS restart can lose required work.
+
+Do not redesign the queue architecture unless required for MVP correctness.
+
+======================================================================
+PART 14 — PRODUCTION VPS READINESS
+======================================================================
+
+AgendaAlly is expected to run on a VPS with MySQL.
+
+Produce the minimum production architecture.
+
+Review:
+
+- supported PHP version/extensions;
+- web server;
+- Laravel configuration;
+- MySQL 8/InnoDB;
+- database users/permissions;
+- TLS/HTTPS;
+- environment secrets;
+- APP_KEY;
+- APP_ENV;
+- APP_DEBUG=false;
+- trusted proxy configuration;
+- queue workers;
+- scheduler;
+- process supervision;
+- filesystem permissions;
+- persistent storage;
+- log rotation;
+- database backups;
+- uploaded-media backups;
+- restore procedure;
+- deployment procedure;
+- rollback procedure;
+- migrations;
+- maintenance mode;
+- health checks;
+- uptime monitoring;
+- error monitoring;
+- resource sizing;
+- disk exhaustion;
+- MySQL connection limits;
+- firewall;
+- SSH/admin exposure.
+
+Do not deploy to the real VPS in this phase.
+
+======================================================================
+PART 15 — BACKUP AND DISASTER RECOVERY
+======================================================================
+
+For MVP, define a realistic minimum backup/recovery contract.
+
+At minimum determine:
+
+- MySQL backup method;
+- frequency;
+- retention;
+- off-VPS copy requirement;
+- encryption;
+- uploaded-media backup;
+- configuration/secrets backup boundaries;
+- restore procedure;
+- restore verification;
+- acceptable RPO;
+- acceptable RTO.
+
+Do not claim backups are operational merely because a backup command exists.
+
+======================================================================
+PART 16 — OBSERVABILITY
+======================================================================
+
+Determine the minimum observability needed for MVP.
+
+Include:
+
+- application errors;
+- HTTP failures;
+- queue failures;
+- scheduler failures;
+- database health;
+- disk;
+- memory;
+- CPU;
+- TLS expiration;
+- failed logins/abuse where practical;
+- payment UNKNOWN states;
+- failed payment recovery;
+- refund failures;
+- payout requests requiring intervention.
+
+Avoid unnecessary enterprise-scale monitoring architecture for MVP.
+
+======================================================================
+PART 17 — PERFORMANCE / SCALE
+======================================================================
+
+Perform bounded MVP-level performance analysis.
+
+Do not optimize prematurely.
+
+Identify obvious blockers involving:
+
+- N+1 queries;
+- unbounded financial history queries;
+- large image/media payloads;
+- expensive search;
+- booking availability;
+- Cart/checkout;
+- Admin dashboards;
+- database indexes;
+- queue backlog.
+
+Classify optimization as MVP-blocking only where evidence supports it.
+
+======================================================================
+PART 18 — UX / RESPONSIVE ACCEPTANCE
+======================================================================
+
+Review critical Customer, Vendor and Admin workflows on:
+
+- desktop;
+- common mobile width;
+- narrow mobile width.
+
+Focus on functional usability rather than cosmetic perfection.
+
+Check:
+
+- forms;
+- modals;
+- tables;
+- financial histories;
+- booking calendar/time selection;
+- Cart/checkout;
+- navigation;
+- error messages;
+- loading states;
+- empty states.
+
+Fix only clear bounded UI defects that do not change product/business semantics.
+
+======================================================================
+PART 19 — LEGACY DATA
+======================================================================
+
+Do NOT delete or classify the 12 legacy Orders.
+
+They must remain `unverified` unless a future separately approved historical-classification process proves their financial evidence.
+
+Do not backfill new financial meaning from current Shop/provider settings.
+
+Do not manufacture historical custody evidence.
+
+Legacy records failing closed is acceptable for MVP if clearly handled operationally.
+
+======================================================================
+PART 20 — MVP SCOPE DECISION
+======================================================================
+
+Based on the actual code, recommend the smallest coherent AgendaAlly MVP.
+
+Explicitly answer whether MVP should include:
+
+- Service booking;
+- Product marketplace;
+- Wallet;
+- Cash;
+- electronic payments;
+- Vendor-direct payments;
+- refunds;
+- external Vendor payouts;
+- commission receivable settlement;
+- multi-Shop checkout;
+- notifications;
+- Admin financial operations.
+
+Do not assume every existing feature must launch on day one.
+
+Prefer a smaller coherent MVP over delaying launch to finish every payment/provider feature.
+
+In particular, determine whether AgendaAlly can safely launch an initial MVP with:
+
+- MySQL;
+- Service booking;
+- Vendor onboarding;
+- Customer/Vendor/Admin flows;
+- Cash;
+- Wallet;
+- electronic providers disabled;
+- external Vendor payouts deferred;
+
+while retaining the accounting architecture needed to add electronic providers later.
+
+======================================================================
+PART 21 — FINAL PRIORITY MATRIX
+======================================================================
+
+Produce ONE authoritative remaining-work matrix with four categories:
+
+P0 — MUST FIX BEFORE ANY MVP
+Correctness, security, data-loss or financial-integrity issues that make even a limited MVP unsafe.
+
+P1 — MUST COMPLETE BEFORE PRODUCTION MVP
+Deployment, backups, essential workflows, operational reliability and functionality required for the selected MVP scope.
+
+P2 — REQUIRED BEFORE ELECTRONIC PAYMENTS
+Provider contracts, credentials, callbacks, refunds, reconciliation, UAT, activation gates and related operational readiness.
+
+P3 — SAFE POST-MVP
+Features and hardening that can responsibly wait.
+
+For every item include:
+
+- exact issue;
+- affected workflow;
+- evidence;
+- severity;
+- whether code/schema/config/external dependency is involved;
+- proposed correction;
+- tests/acceptance criteria;
+- whether separate approval is required.
+
+Avoid generic TODOs.
+
+======================================================================
+PART 22 — ANSWER HOW FAR WE ARE FROM MVP
+======================================================================
+
+At the end give a concrete AgendaAlly-level assessment, not a payment-only assessment.
+
+Answer:
+
+1. What percentage/range of the MVP appears complete based on verified functionality?
+2. What are the remaining P0 blockers?
+3. What are the remaining P1 blockers?
+4. Which payment features can be deferred?
+5. Can Wallet + Cash support the first MVP?
+6. Is Product commerce necessary for first launch?
+7. Is external Vendor payout necessary for first launch?
+8. Are electronic providers necessary for first launch?
+9. What is the shortest safe path to a limited MVP?
+10. What is the shortest safe path from that MVP to electronic payments?
+11. What remains before production VPS deployment?
+12. What should be the next implementation phase?
+
+Do not use a completion percentage based merely on file/route counts. Base it on verified end-to-end user journeys and operational readiness.
+
+======================================================================
+PROTECTED STATE / STOP RULES
+======================================================================
+
+Preserve the accepted financial baseline.
+
+At minimum verify:
+
+- all 59 protected table fingerprints;
+- all 465 schema objects unless an explicitly approved MySQL correction is applied;
+- four completion evidence tables remain as expected;
+- all 12 legacy Orders remain unverified.
+
+No PostgreSQL work beyond retaining/reporting existing evidence.
+
+No Strategy G.
+
+No provider activation.
+
+No real provider credentials.
+
+No real provider calls.
+
+No real refunds.
+
+No external payouts.
+
+No production VPS access/deployment.
+
+No legacy classification/deletion.
+
+No publishing.
+
+Do not silently broaden the financial architecture.
+
+If a newly confirmed immediate financial P0, critical authorization vulnerability, destructive data issue, or required material schema/financial-semantic change is discovered:
+
+STOP the affected implementation boundary,
+preserve evidence,
+report the issue and minimum proposed correction,
+and request approval.
+
+Do not automatically turn every audit finding into implementation.
+
+======================================================================
+DELIVERABLES
+======================================================================
+
+Update the authoritative payment/audit documentation as needed.
+
+Create or update an AgendaAlly MVP readiness report containing:
+
+- selected MySQL architecture;
+- final payment status;
+- Customer readiness;
+- Vendor readiness;
+- Admin readiness;
+- booking readiness;
+- Product/marketplace readiness;
+- security findings;
+- notifications;
+- storage/media;
+- queues/scheduler;
+- VPS deployment readiness;
+- backup/recovery;
+- observability;
+- performance;
+- mobile/responsive readiness;
+- exact P0/P1/P2/P3 matrix;
+- recommended MVP scope;
+- concrete remaining work;
+- evidence/test receipts;
+- limitations.
+
+Do not claim AgendaAlly production-ready merely because the payment concurrency work passes.
+
+Finish the bounded work and assessment, present the prioritized MVP plan, and STOP before starting a new major implementation phase.

@@ -1,0 +1,1272 @@
+AGENDAALLY MVP — FINAL ADMIN EMAIL-TEMPLATE MANAGEMENT + C1/O4 CLOSURE
+
+PURPOSE
+
+Complete the remaining Admin email-template management integration in the
+NORMAL authenticated Admin panel, then—only after that is working—complete
+the already-authorized bounded real Password Reset acceptance.
+
+This is intended to CLOSE this area so it does not need another implementation
+campaign.
+
+Do not restart completed work.
+Do not chase test volume.
+Do not broaden into financial notifications.
+Do not publish to production.
+
+
+======================================================================
+0. ACCEPTED BASELINE — PRESERVE, DO NOT REPEAT
+======================================================================
+
+The following evidence/work is already accepted:
+
+EMAIL / SMTP
+- Admin SMTP transport is VERIFIED.
+- Actual Gmail mailbox delivery is VERIFIED.
+- AgendaAlly logo/social/footer presentation is VERIFIED in Gmail.
+- SMTP credential encryption/redaction is implemented.
+- TLS peer/hostname verification remains required.
+- Generic Admin SMTP Test Email already passed.
+- Do NOT repeat the generic SMTP test.
+- General email remains controlled; do not globally enable arbitrary sending.
+
+ACCOUNT EMAIL INFRASTRUCTURE
+- Selected account-email outbox infrastructure exists.
+- Outbox idempotency/retry/isolation has focused local evidence.
+- Subscription recipient privacy was corrected.
+- Long-text containment was corrected.
+- Plain-text MIME support was implemented.
+- Verification/reset responsive rendering passed at 900/390/320.
+
+VERIFICATION
+- The approved disposable Customer was genuinely verified.
+- Authoritative verification transition:
+  2026-10-06 01:24:55 UTC.
+- The real Verification email was received in the owner-controlled Gmail inbox.
+- Verification presentation was owner-confirmed.
+- Do NOT send another Verification email.
+- Do NOT reset/force the Customer back to unverified.
+- Do NOT recreate the verification journey.
+
+CUSTOMER / LOGOUT
+- Customer location-selector defects were corrected.
+- Customer login/logout was exercised through the normal Customer UI.
+- The bounded Customer logout defect was repaired.
+- Immediate logout without manual browser refresh was owner-confirmed.
+- Server-side token-revocation behavior has focused acceptance.
+- Do NOT repeat the logout campaign unless this work exposes a specific regression.
+
+ADMIN TEMPLATE IMPLEMENTATION
+- Verification and Password Reset account-template implementation already exists.
+- The normal database contains persisted system-template records:
+  - verify
+  - reset
+- They use the existing Admin email-template infrastructure.
+- Native Verification and Password Reset senders consume managed presentation
+  content with accepted fallbacks retained.
+- Synthetic rendering/preview implementation exists.
+- 56 focused Admin-template/account/presentation tests passed.
+- Responsive synthetic rendering passed at 900/390/320.
+- Previous database delta was limited to:
+  - 2 email_templates rows
+  - 1 migration-journal row
+- Schema remained unchanged.
+- Protected business/financial state remained unchanged.
+- No real Password Reset email has yet been sent.
+
+IMPORTANT LIMITATION FROM THE COMPLETED RUN
+
+The previous run did NOT complete authenticated Admin browser acceptance.
+
+Its browser was redirected to Admin login.
+
+Therefore statements such as "persisted", "listable", "viewable", "editable"
+and "previewable" were established through database/API/local tests/source
+evidence, NOT through the owner's real authenticated Admin interface.
+
+The owner is now reporting that the expected email-template management
+functionality/templates are not visible where expected in the normal Admin panel.
+
+Treat that as a real UI acceptance gap.
+
+CURRENT RUBRIC
+
+C1 = 0.5
+O4 = 0.5
+Overall MVP = 16/20 = 80%
+
+Do not change these scores until the existing rubric actually supports it.
+
+
+======================================================================
+1. REQUIRED FINAL PRODUCT EXPERIENCE
+======================================================================
+
+This campaign must finish the ADMIN EMAIL-TEMPLATE MANAGEMENT FEATURE.
+
+The owner must have a normal, discoverable Admin interface for managing
+supported email templates.
+
+Use the EXISTING Admin navigation/settings architecture and existing
+email-template management implementation.
+
+Do not create a developer-only page.
+Do not require database access.
+Do not require API calls.
+Do not require Replit scripts for normal template management.
+
+Required user-facing destination should be integrated naturally into the
+existing Admin settings/configuration structure, conceptually:
+
+Admin
+→ Settings / Email configuration area
+→ Email Templates
+
+Use the naming/navigation conventions already established by the application.
+Do not unnecessarily redesign the Admin navigation.
+
+The important requirement is that an authenticated Admin can discover and
+open the existing Email Templates management functionality from the normal
+Admin panel.
+
+
+======================================================================
+2. EMAIL TEMPLATES THAT MUST BE REPRESENTED CORRECTLY
+======================================================================
+
+The Admin Email Templates management interface must correctly represent the
+currently supported managed-template scope.
+
+At minimum:
+
+A. Email Verification
+   - Admin managed
+   - persisted verify system-template record
+   - editable presentation
+   - synthetic Preview
+
+B. Password Reset
+   - Admin managed
+   - persisted reset system-template record
+   - editable presentation
+   - synthetic Preview
+
+C. Subscription / Digest
+   - preserve existing Admin management functionality
+   - do not invent a default record merely to populate the UI if none currently
+     exists
+
+D. Product Order / Invoice
+   - preserve existing behavior
+   - do NOT falsely represent it as fully runtime-managed by the Admin template
+     if the native invoice sender remains code/view controlled
+
+Do NOT add financial notification templates in this campaign.
+
+Specifically DO NOT add:
+
+- Refund Requested
+- Refund Approved
+- Refund Completed
+- Refund Rejected
+- Payout Requested
+- Payout Approved
+- Payout Completed
+- Payout Rejected
+
+Those remain deferred until the manual Refund/Payout state-machine design is
+approved.
+
+
+======================================================================
+3. ADMIN EMAIL-TEMPLATE MANAGEMENT REQUIREMENTS
+======================================================================
+
+For Email Verification and Password Reset, an authenticated Admin must be able
+to use the normal Admin interface to:
+
+- navigate to Email Templates;
+- see Email Verification in the list;
+- see Password Reset in the list;
+- clearly distinguish their template types/names;
+- see useful subject information;
+- open each template;
+- inspect the managed presentation;
+- edit permitted presentation fields;
+- understand/discover the supported $verify_code placeholder;
+- save permitted changes;
+- reload and observe the saved content;
+- Preview each template;
+- return to the template list normally.
+
+The management interface must be a real normal Admin feature.
+
+The owner must not need:
+
+- database access;
+- Laravel console commands;
+- development scripts;
+- direct API calls;
+- Replit assistance
+
+to manage these templates after this campaign.
+
+
+======================================================================
+4. PRESENTATION FIELDS VS SECURITY FIELDS
+======================================================================
+
+Admin template management is for PRESENTATION.
+
+Preserve the existing security boundary.
+
+Admin may manage appropriate presentation content such as:
+
+- subject;
+- HTML/body content;
+- alternate/plain-text presentation where supported;
+- supported presentation placeholder usage.
+
+The existing supported account placeholder remains:
+
+$verify_code
+
+Do not invent unsupported placeholders merely for convenience.
+
+Do not let the editor control:
+
+- recipient identity;
+- account binding;
+- verification code generation;
+- reset code generation;
+- challenge generation;
+- code lifetime;
+- expiry;
+- supersession;
+- replay/consumption behavior;
+- verification state;
+- reset authorization;
+- password mutation;
+- outbox state;
+- worker behavior;
+- SMTP credentials;
+- transport security;
+- provider credentials;
+- financial state.
+
+
+======================================================================
+5. SYSTEM-TEMPLATE PROTECTION
+======================================================================
+
+Verification and Password Reset are system templates.
+
+Preserve the already implemented protection model.
+
+They must NOT become accidentally:
+
+- deletable;
+- bulk deletable;
+- drop-all deletable;
+- type-reassignable;
+- provider-reassignable;
+- schedule-reassignable;
+- subscription campaigns.
+
+Do not reinterpret legacy status/send_to fields as account-email enablement,
+delivery state, or scheduling controls.
+
+Do not create an account-template enable/disable feature unless an existing
+accepted contract already requires it.
+
+
+======================================================================
+6. DIAGNOSE CURRENT ADMIN VISIBILITY GAP
+======================================================================
+
+The owner cannot currently see the expected management functionality/templates
+where expected in the normal Admin panel.
+
+Do not simply insert new records.
+
+Diagnose the entire real path:
+
+authenticated normal Admin browser
+→ Admin navigation/settings
+→ Email Templates management page
+→ frontend list request
+→ authenticated API
+→ EmailTemplateController/resource/service
+→ normal owned database
+→ verify/reset records
+→ frontend mapping/filtering
+→ rendered list.
+
+
+======================================================================
+7. CONFIRM NORMAL RUNTIME AUTHORITY
+======================================================================
+
+Before changing anything, confirm:
+
+1. which normal Admin preview/runtime is active;
+
+2. which Laravel/API runtime that Admin frontend uses;
+
+3. which normal database that backend uses;
+
+4. that it is the same owned database containing the two persisted records;
+
+5. that exactly one verify record exists;
+
+6. that exactly one reset record exists;
+
+7. that no duplicate system-template rows exist;
+
+8. that the owner is not viewing a stale/alternate Admin frontend;
+
+9. that the Admin frontend is not targeting an alternate backend/database.
+
+Do not mutate data merely to make records appear.
+
+
+======================================================================
+8. ADMIN NAVIGATION DISCOVERABILITY
+======================================================================
+
+Inspect whether Email Templates is actually reachable/discoverable from the
+normal Admin settings/navigation.
+
+If the management page exists but is not exposed appropriately in Admin
+navigation/settings, IMPLEMENT the smallest consistent navigation integration.
+
+Do not create duplicate settings systems.
+
+Reuse the application's existing:
+
+- Settings structure;
+- navigation conventions;
+- authorization;
+- routes;
+- Admin layout;
+- design system.
+
+The end result must make Email Templates reasonably discoverable by an
+authenticated Admin.
+
+
+======================================================================
+9. AUTHENTICATED LIST API
+======================================================================
+
+Inspect the actual authenticated template-list request.
+
+Confirm:
+
+- request is actually made;
+- correct endpoint;
+- correct normal backend;
+- successful authorization;
+- expected HTTP status;
+- expected response structure;
+- pagination behavior;
+- resource serialization;
+- template type;
+- subject;
+- provider-related presentation;
+- status/schedule compatibility.
+
+Determine explicitly whether the response contains:
+
+- verify;
+- reset.
+
+Do not expose:
+
+- cookies;
+- bearer tokens;
+- credentials;
+- SMTP secrets;
+- session secrets
+
+in evidence/reports.
+
+
+======================================================================
+10. FRONTEND TYPE MAPPING / FILTERING
+======================================================================
+
+If verify/reset are returned by the API but not displayed, inspect:
+
+- supported-type maps;
+- type labels;
+- frontend filters;
+- pagination;
+- status filters;
+- provider filters;
+- campaign assumptions;
+- schedule assumptions;
+- stale component state;
+- stale query state;
+- response-property assumptions;
+- list rendering;
+- routing;
+- runtime bundle mismatch.
+
+Compare behavior for:
+
+- verify;
+- reset;
+- subscribe;
+- order.
+
+Account templates must not be hidden merely because they do not behave like
+scheduled subscription campaigns.
+
+
+======================================================================
+11. STALE FRONTEND / NORMAL PREVIEW
+======================================================================
+
+Determine whether the owner is seeing an older frontend bundle/runtime than
+the implemented source.
+
+If a normal development restart/rebuild/reload is required, perform the
+smallest safe action necessary for the NORMAL Admin preview.
+
+Do NOT:
+
+- deploy production;
+- alter production configuration;
+- clear business data;
+- reseed the database;
+- use cache clearing as a substitute for diagnosing the problem.
+
+
+======================================================================
+12. IMPLEMENTATION AUTHORITY — DO NOT STOP AT DIAGNOSIS
+======================================================================
+
+IMPORTANT:
+
+This is NOT diagnosis-only.
+
+Do not stop after merely identifying why Email Verification and Password Reset
+are absent from the normal Admin management experience.
+
+If a bounded Admin frontend/API/navigation integration defect is confirmed,
+IMPLEMENT the smallest correct fix within this campaign.
+
+Acceptable bounded fixes include, where confirmed:
+
+- Admin Settings/navigation integration;
+- frontend type mapping;
+- list filtering;
+- API response consumption;
+- pagination handling;
+- system-template labeling;
+- route integration;
+- stale normal-development frontend runtime;
+- Preview integration;
+- visibility of the existing verify/reset records.
+
+Do NOT:
+
+- insert duplicate verify/reset records;
+- delete/recreate the accepted records unnecessarily;
+- destructively reseed;
+- rerun the full migration chain;
+- weaken authorization;
+- redesign unrelated Admin settings;
+- change account security semantics.
+
+
+======================================================================
+13. REQUIRED PHASE A END STATE
+======================================================================
+
+Do not consider this Admin feature complete merely because:
+
+- database rows exist;
+- API tests pass;
+- PHP tests pass;
+- JSX parses;
+- source inspection looks correct;
+- synthetic scripts render;
+- unit tests say records are listable.
+
+The REQUIRED end state is:
+
+- Email Templates is discoverable in the normal Admin management/settings
+  experience;
+
+- Email Verification is actually visible in the normal authenticated Email
+  Templates list;
+
+- Password Reset is actually visible in the normal authenticated Email
+  Templates list;
+
+- both use the existing persisted records;
+
+- both can be opened;
+
+- permitted presentation content can be edited;
+
+- permitted content can be saved;
+
+- saved content reloads correctly;
+
+- both expose working synthetic Preview;
+
+- protected system properties remain protected;
+
+- no duplicate records exist.
+
+
+======================================================================
+14. SYNTHETIC PREVIEW ACCEPTANCE
+======================================================================
+
+For both Verification and Password Reset:
+
+Preview must:
+
+- use the shared account-email renderer;
+- use synthetic/sample data only;
+- use a clearly synthetic $verify_code;
+- render the actual managed presentation;
+- render branding/assets appropriately;
+- expose useful HTML presentation;
+- preserve appropriate plain-text representation.
+
+Preview must NOT:
+
+- create a User;
+- use a live Customer challenge;
+- issue a verification challenge;
+- issue a reset challenge;
+- create an outbox delivery;
+- create a job;
+- call SMTP;
+- send email;
+- mutate account state.
+
+Preserve authentication on the Preview endpoint.
+
+Anonymous Preview must remain unauthorized.
+
+
+======================================================================
+15. AUTHENTICATED EDIT / SAVE / RESTORE
+======================================================================
+
+If authenticated save behavior still requires real UI acceptance, use a harmless
+presentation-only change.
+
+Preferred bounded procedure:
+
+1. fingerprint/record the accepted presentation state;
+
+2. make one harmless identifiable presentation-only edit;
+
+3. save;
+
+4. reload;
+
+5. confirm persistence;
+
+6. Preview;
+
+7. restore the exact original accepted content;
+
+8. reload;
+
+9. confirm exact restoration.
+
+Do not change:
+
+- template identity;
+- provider;
+- recipient;
+- schedule;
+- account binding;
+- code security;
+- expiry;
+- replay;
+- account state.
+
+If sufficient authenticated save evidence exists without mutation, do not
+create unnecessary changes.
+
+
+======================================================================
+16. OWNER MANUAL CONFIRMATION
+======================================================================
+
+If the agent cannot use the owner's authenticated Admin session, do NOT:
+
+- bypass authentication;
+- create an Admin;
+- reset an Admin password;
+- inspect Admin credentials;
+- manipulate the owner's account.
+
+Finish the implementation and all safe automated verification possible.
+
+Then ask the owner for ONE concise manual confirmation:
+
+"Please confirm that you can now navigate to the Admin Email Templates
+management page, see Email Verification and Password Reset, open each one,
+and open Preview."
+
+Do not close the implementation merely because automated authenticated browser
+access is unavailable.
+
+If the owner says the templates are still missing/broken, continue diagnosing
+and fixing the bounded Admin integration under this SAME campaign.
+
+The goal is to finish this feature now, not create another future task.
+
+
+======================================================================
+17. PHASE A PRESERVATION
+======================================================================
+
+After Admin management integration, verify:
+
+- exactly one verify template;
+- exactly one reset template;
+- no duplicate system templates;
+- accepted content preserved except controlled save/restore test;
+- schema unchanged unless an explicitly necessary approved bounded change is
+  documented;
+- unrelated database rows unchanged;
+- Customer state unchanged;
+- no verification challenge created;
+- no reset challenge created during Preview testing;
+- no email sent;
+- no unexpected outbox record;
+- jobs clean/unchanged;
+- failed_jobs clean/unchanged;
+- SMTP credentials unchanged;
+- financial/business state unchanged.
+
+
+======================================================================
+18. PHASE A HARD GATE
+======================================================================
+
+PHASE B MAY BEGIN ONLY AFTER:
+
+- Admin Email Templates management is discoverable;
+- Email Verification is visible;
+- Password Reset is visible;
+- both open correctly;
+- Preview works;
+- Preview causes no send/challenge/job/outbox mutation;
+- no duplicate records exist;
+- no unresolved frontend/backend/database mismatch remains;
+- owner confirmation is obtained if manual authenticated confirmation is
+  required.
+
+If Phase A remains broken:
+
+CONTINUE FIXING IT within the authorized bounded scope.
+
+If safe completion would require authorization bypass, destructive database
+work, unrelated architecture changes or another prohibited action:
+
+STOP and report that blocker.
+
+DO NOT SEND THE RESET EMAIL.
+
+
+======================================================================
+19. PHASE B — REAL PASSWORD RESET
+======================================================================
+
+After Phase A passes, continue directly into the remaining C1/O4 operational
+acceptance.
+
+Use ONLY:
+
+- the already-approved disposable Customer;
+- the same previously approved owner-controlled recipient.
+
+Do NOT:
+
+- create another Customer;
+- resend Verification;
+- change verification state;
+- repeat the verification journey.
+
+
+======================================================================
+20. RESET PRE-SEND SAFETY
+======================================================================
+
+Before issuing the reset, confirm:
+
+1. the disposable Customer remains verified;
+
+2. the account is the previously approved disposable Customer;
+
+3. intended recipient matches that Customer;
+
+4. no unrelated selected email is pending;
+
+5. no unrelated job is pending;
+
+6. no relevant failed job creates uncertainty;
+
+7. exactly one reset delivery can be isolated;
+
+8. temporary real-send permission can remain narrowly scoped;
+
+9. no broad worker/scheduler needs activation;
+
+10. SMTP credentials do not require inspection/change.
+
+If any prerequisite fails:
+
+STOP BEFORE SEND.
+
+
+======================================================================
+21. AUTHORIZATION FOR EXACTLY ONE RESET EMAIL
+======================================================================
+
+This prompt authorizes a maximum of:
+
+- ONE normal Password Reset request;
+- ONE current reset challenge;
+- ONE selected reset delivery;
+- ONE real Password Reset email.
+
+No second reset email is authorized.
+
+Do not use Resend.
+
+Do not automatically retry an UNKNOWN/uncertain SMTP result.
+
+If delivery state becomes uncertain, STOP.
+
+
+======================================================================
+22. NORMAL CUSTOMER FORGOT PASSWORD JOURNEY
+======================================================================
+
+Use the normal Customer Forgot Password experience.
+
+Verify:
+
+- supported Customer path;
+- correct account/recipient binding;
+- no arbitrary recipient override;
+- no cross-user reset;
+- body-only reset exchange contract remains in use where implemented;
+- reset code/OTP is not placed in the request URL/query string;
+- no unacceptable account-enumeration leakage;
+- expected challenge lifetime;
+- supersession contract preserved;
+- no reset code/token is written into reports/chat/evidence.
+
+
+======================================================================
+23. SELECTED OUTBOX / WORKER
+======================================================================
+
+Expected bounded path:
+
+Forgot Password request
+→ reset challenge
+→ selected outbox record
+→ isolated selected processing
+→ SMTP acknowledgement.
+
+Verify:
+
+- exactly one intended reset record;
+- correct Customer;
+- correct recipient;
+- correct email kind;
+- correct current challenge;
+- selected isolated processing;
+- unrelated queued/outbox records untouched;
+- expected terminal state;
+- no broad worker.
+
+Remove temporary send permission immediately after the authorized processing
+boundary.
+
+
+======================================================================
+24. GMAIL RECEIPT IS A SEPARATE ACCEPTANCE STEP
+======================================================================
+
+SMTP acknowledgement does NOT equal Gmail receipt.
+
+After the selected reset email has been processed:
+
+STOP and ask the owner to confirm receipt.
+
+Owner confirmation should cover:
+
+- email received in Gmail;
+- expected Password Reset subject/purpose;
+- AgendaAlly branding;
+- logo;
+- footer/social presentation;
+- readable layout.
+
+Do NOT ask the owner to paste the reset code into chat.
+
+Do NOT display or report the code.
+
+Do NOT send another reset email while awaiting owner confirmation.
+
+
+======================================================================
+25. RESET COMPLETION THROUGH NORMAL UI
+======================================================================
+
+After owner confirms Gmail receipt:
+
+The owner must enter the reset code ONLY through the normal AgendaAlly Customer
+UI.
+
+Do not request the code in chat.
+
+Complete the supported flow:
+
+Forgot Password
+→ Gmail receipt
+→ code entry
+→ reset authorization
+→ new password
+→ successful completion.
+
+
+======================================================================
+26. AUTHORITATIVE RESET STATE
+======================================================================
+
+After owner reports successful UI completion, independently verify:
+
+- correct Customer was affected;
+- account remains verified;
+- password transition occurred through the supported path;
+- challenge is consumed;
+- consumed reset material cannot produce another password transition;
+- no unintended profile mutation;
+- no role mutation;
+- no location mutation;
+- no second reset delivery.
+
+
+======================================================================
+27. LOGIN AFTER RESET
+======================================================================
+
+Verify through the normal Customer login path:
+
+- login succeeds using the new password;
+- authenticated identity is the intended disposable Customer.
+
+If safely supported without lockout/rate-limit risk:
+
+perform ONE bounded negative check confirming the previous password no longer
+authenticates.
+
+Do not perform repeated login attempts.
+
+
+======================================================================
+28. RESET REPLAY
+======================================================================
+
+Verify that consumed reset material cannot be reused.
+
+Do NOT expose the reset code/token.
+
+Do NOT issue another reset challenge just to test replay.
+
+Use the already consumed challenge/state to establish replay denial.
+
+
+======================================================================
+29. DO NOT REPEAT LOGOUT CAMPAIGN
+======================================================================
+
+Preserve accepted logout evidence.
+
+Do not reopen logout unless the Password Reset journey exposes a concrete
+regression.
+
+Accepted logout evidence includes:
+
+- immediate UI logout;
+- no manual refresh required;
+- server-side token revocation;
+- revoked token denied;
+- sibling/other-account token preservation;
+- failure behavior retaining visible session/retry semantics.
+
+
+======================================================================
+30. FINAL EMAIL/QUEUE STATE
+======================================================================
+
+After reset acceptance confirm:
+
+- no unintended active/uncertain selected delivery;
+- jobs in expected clean state;
+- failed_jobs in expected clean state;
+- no unrelated mail processed;
+- no suppressed historical mail flushed;
+- no broad worker/scheduler remains running;
+- temporary send permission removed.
+
+
+======================================================================
+31. BUSINESS / DATABASE PRESERVATION
+======================================================================
+
+Compare against the accepted baseline.
+
+No unintended mutation to:
+
+- unrelated Customers;
+- Admin accounts;
+- Vendors/Shops;
+- Specialists;
+- Services;
+- bookings;
+- scheduling;
+- Wallet;
+- payments;
+- refunds;
+- payouts;
+- provider configuration;
+- legacy Orders;
+- SMTP configuration;
+- financial/accounting records.
+
+Expected state changes should be limited to:
+
+- explicitly required Admin template UI integration artifacts, if any;
+- the already-existing verify/reset templates;
+- the authorized disposable Customer Password Reset journey;
+- its required challenge/outbox/account evidence.
+
+
+======================================================================
+32. FINANCIAL NOTIFICATIONS REMAIN DEFERRED
+======================================================================
+
+Do NOT implement financial email templates during this campaign.
+
+No:
+
+- Refund Requested;
+- Refund Approved;
+- Refund Completed;
+- Refund Rejected;
+- Payout Requested;
+- Payout Approved;
+- Payout Completed;
+- Payout Rejected.
+
+Those depend on the later approved manual Refund/Payout state-machine work.
+
+Maintain the financial invariants:
+
+PAYOUT APPROVED != PAYOUT COMPLETED
+
+REFUND APPROVED != REFUNDED
+
+BOOKING CANCELLED != REFUNDED
+
+PAYMENT SELECTED != PAYMENT COLLECTED
+
+CASH != automatically collected
+
+UNPAID/UNCOLLECTED remains distinct from booking status.
+
+
+======================================================================
+33. DO NOT REOPEN COMPLETED WORK
+======================================================================
+
+Do not repeat/reimplement:
+
+- SMTP hardening;
+- generic Admin SMTP test;
+- verification email acceptance;
+- verification challenge;
+- CID logo/social correction;
+- subscription privacy correction;
+- long-text containment campaign;
+- responsive 900/390/320 campaign;
+- location-selector campaign;
+- logout repair campaign;
+- accepted template backend implementation.
+
+Only test a previously accepted area if the current change directly touches it
+and a focused regression check is necessary.
+
+
+======================================================================
+34. BROAD HARDENING FAILURES REMAIN SEPARATE
+======================================================================
+
+Do not use this campaign to repair unrelated previously identified broad-suite
+failures.
+
+Previously classified areas included:
+
+- booking refund fixtures;
+- staff authorization fixtures;
+- paid/refund authorization fixtures;
+- Driver verification fixture/cache behavior;
+- missing languages/payment_payloads fixtures;
+- provider eligibility contract mismatches;
+- accepted provider metadata expansion;
+- accepted gallery tenant isolation;
+- unresolved payout rollback concern.
+
+Do not broaden into those areas.
+
+If this campaign reveals a NEW genuine security or financial P0:
+
+STOP before fixing it and report it separately.
+
+
+======================================================================
+35. C1 FINAL ASSESSMENT
+======================================================================
+
+After Admin management closure and real Password Reset acceptance, assess C1
+under the SAME existing 20-gate rubric.
+
+Report separately:
+
+- previously accepted Verification evidence;
+- Admin managed-template evidence;
+- authenticated Admin UI evidence;
+- real Reset Gmail receipt;
+- real Reset UI completion;
+- authoritative password transition;
+- login-after-reset;
+- replay denial;
+- remaining gaps.
+
+Then classify:
+
+PASS
+or
+PARTIAL
+
+Do not award C1 merely because implementation/tests exist.
+
+
+======================================================================
+36. O4 FINAL ASSESSMENT
+======================================================================
+
+Assess O4 independently under the SAME rubric.
+
+Report:
+
+- selected outbox evidence;
+- isolated worker evidence;
+- SMTP acknowledgement;
+- Gmail receipt;
+- terminal delivery state;
+- queue isolation;
+- operational supervision/recovery evidence required by the existing rubric;
+- remaining gaps.
+
+Do not infer O4 PASS simply because C1 passes.
+
+
+======================================================================
+37. SCORE
+======================================================================
+
+Current authoritative score:
+
+C1 = 0.5
+O4 = 0.5
+Overall = 16/20 = 80%
+
+Use the SAME existing 20-gate rubric.
+
+Do not rescore unrelated gates.
+
+If both C1 and O4 legitimately become full:
+
+17/20 = 85%
+
+If exactly one becomes full:
+
+16.5/20 = 82.5%
+
+If neither becomes full:
+
+16/20 = 80%
+
+No score chasing.
+
+
+======================================================================
+38. REQUIRED FINAL REPORT
+======================================================================
+
+At completion provide:
+
+1. Executive result
+2. Admin Email Templates navigation/settings result
+3. Original visibility root cause
+4. Normal Admin runtime authority
+5. Backend/database authority
+6. Authenticated template-list API result
+7. Exact Admin navigation/UI/API fix
+8. Verification template visibility
+9. Password Reset template visibility
+10. Verification edit/manage result
+11. Password Reset edit/manage result
+12. Synthetic Preview result
+13. System-template protection result
+14. Phase A database/schema preservation
+15. Confirmation Phase A sent no email
+16. Phase B pre-send safety result
+17. Password Reset request result
+18. Challenge result
+19. Selected outbox result
+20. Isolated worker result
+21. SMTP acknowledgement
+22. Owner Gmail receipt
+23. Reset email presentation
+24. Customer UI reset completion
+25. Authoritative reset state
+26. Login with new password
+27. Previous-password result if safely tested
+28. Replay result
+29. Final queues/outbox
+30. Business/financial preservation
+31. Confirmation Verification was NOT resent
+32. Confirmation Admin SMTP Test was NOT repeated
+33. Confirmation financial templates remain deferred
+34. C1 final status
+35. O4 final status
+36. Updated 20-gate score
+37. Remaining blockers, if any
+38. Final GO/NO-GO recommendation
+
+
+======================================================================
+39. STOP CONDITIONS
+======================================================================
+
+STOP rather than improvise if:
+
+- normal Admin runtime authority cannot be established;
+- normal database authority cannot be established;
+- persisted templates unexpectedly disappeared;
+- duplicate verify/reset templates exist and safe reconciliation is unclear;
+- authenticated Admin API and database disagree unexpectedly;
+- completion would require Admin authorization bypass;
+- completion would require destructive reseeding;
+- completion would require changing Admin credentials;
+- Preview unexpectedly sends email;
+- Preview creates a real challenge/outbox/job;
+- approved Customer/recipient binding is uncertain;
+- unrelated pending email cannot be isolated;
+- real Reset requires broad email enablement;
+- SMTP credentials would need exposure/change;
+- selected worker cannot isolate the Reset email;
+- SMTP result becomes UNKNOWN/uncertain;
+- unexpected business/financial mutation occurs;
+- a new security/financial P0 is confirmed.
+
+Do not bypass a STOP condition merely to obtain a passing score.
+
+
+======================================================================
+40. FINAL AUTHORITY
+======================================================================
+
+APPROVED:
+
+PHASE A
+- diagnose the real Admin Email Templates management gap;
+- integrate Email Templates into the appropriate existing Admin
+  Settings/configuration/navigation if needed;
+- make the existing Verification and Password Reset templates actually visible
+  and manageable from the normal authenticated Admin panel;
+- implement the smallest confirmed frontend/API/navigation fix;
+- preserve system-template protections;
+- provide synthetic Preview;
+- perform bounded edit/save/restore acceptance if necessary;
+- restart/reload only the normal development Admin preview if legitimately
+  required;
+- request one final owner UI confirmation if the agent cannot access the
+  authenticated Admin session.
+
+PHASE B — ONLY AFTER PHASE A PASSES
+- ONE real Password Reset request;
+- ONE real Reset email to the already-approved owner-controlled recipient;
+- isolated selected processing;
+- owner Gmail confirmation;
+- normal Customer reset completion;
+- new-password login;
+- bounded previous-password check if safe;
+- reset replay denial;
+- final C1/O4 assessment.
+
+NOT APPROVED:
+
+- another Verification email;
+- another Verification challenge merely for acceptance;
+- generic Admin SMTP Test Email;
+- duplicate verify/reset template creation;
+- destructive reseeding;
+- Admin auth bypass;
+- Admin account creation/reset/modification for testing;
+- broad worker/scheduler activation;
+- booking-email expansion;
+- refund/payout-email implementation;
+- payment/provider activation;
+- Wallet/accounting changes;
+- production deployment;
+- unrelated refactoring;
+- a second Reset email without new explicit owner authorization.
+
+
+======================================================================
+41. DEFINITION OF DONE
+======================================================================
+
+This campaign is not complete merely because source code or automated tests pass.
+
+For the ADMIN feature, DONE means:
+
+The owner can use the normal authenticated Admin panel to navigate to the
+Email Templates management area and manage Email Verification and Password
+Reset without database/API/developer assistance.
+
+For C1/O4 acceptance, DONE means:
+
+After that Admin feature is confirmed, the single authorized Password Reset
+journey has been exercised through the real normal Customer flow, Gmail receipt
+has been owner-confirmed, password change/login/replay evidence has been
+established, operational evidence has been assessed, and C1/O4 have been
+rescored conservatively under the existing rubric.
+
+Finish these items sequentially in this campaign so the Admin email-template
+feature does not need to be reopened later.
+
+Proceed with PHASE A now.
+Do not send the Password Reset email until PHASE A has passed.

@@ -1,0 +1,164 @@
+OWNER APPROVAL — PORTABLE ORDER FIX + #60 EXECUTION
+
+I approve PORTABLE_ORDER_FIX_READY and the validated deterministic portable
+loading order.
+
+The offline review establishes:
+
+- all 73 intended portable tables are included exactly once;
+- all 3,727 approved portable rows remain unchanged;
+- all 123 native foreign-key constraints were reviewed;
+- 1,325 non-null portable FK references resolve to an earlier parent or an
+  accepted reference checkpoint;
+- nullable/no-reference cases were validated;
+- no insertion cycle exists;
+- foreign-key enforcement remains enabled;
+- no approved business row was changed;
+- Product NULL-media policy remains unchanged;
+- Service media and relationships remain unchanged;
+- the Administrator milestone remains before blogs;
+- all frozen application/migration/manifest/package hashes remain unchanged.
+
+I approve the corrected deterministic loader order recorded in:
+
+.local/portable-order-correction-20261007/portable-order.json
+
+and the associated private loader/proof implementation.
+
+This approval changes ONLY portable insertion ordering. It does not authorize
+changes to approved row payloads, application source, migrations, schema,
+foreign-key enforcement, security policy or business semantics.
+
+======================================================================
+FROZEN INPUTS
+======================================================================
+
+Require:
+
+Portable baseline:
+694a41397026c89bbf35b9257ae6d1ccc763eb62a434e39dec4d48b30d9c3daf
+
+Reference manifest:
+67fbcfdd51e136560337b54f4d4d492844c8d19e26be736189e65c8320ddc500
+
+229 native migrations:
+37954929be028d7e487a7720f2108d3f300b2862af85f46b724b3c9f63d3f896
+
+Service provenance:
+fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+Canonical Service package:
+8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e
+
+Executable application source:
+e90ec7c6cef4fddcca26ea2ea3f446c5e85e4a04b549e99d12080922fe06b2ce
+
+If any frozen input differs, STOP.
+
+======================================================================
+AUTHORIZED EXECUTION
+======================================================================
+
+Create ONE NEW empty disposable socket-only native MySQL lab.
+
+Do not resume, repair, mutate or reuse any of the three historical labs.
+
+Use the already validated:
+
+- corrected trigger-metadata reader;
+- deterministic portable dependency order;
+- background supervisor;
+- 1,200-second maximum runtime;
+- independent cleanup path.
+
+Preserve:
+
+- binary logging ON;
+- trusted function creators OFF;
+- scheduler OFF;
+- foreign-key enforcement ON;
+- temporary bootstrap elevation only as previously authorized;
+- runtime least privilege;
+- mandatory bootstrap revocation and account locking;
+- no external transports.
+
+Execute the existing #60 acceptance sequence:
+
+zero-table database
+→ 229/229 unchanged migrations
+→ trigger/native inspection
+→ accepted reference checkpoints
+→ portable baseline using the APPROVED dependency order
+→ synthetic Administrator
+→ blogs/blog_translations
+→ synthetic app/recovery-key validation
+→ complete zero-financial/external-side-effect verification
+→ second-run idempotency or designed pre-mutation fail-closed verification.
+
+======================================================================
+ACCEPTANCE REQUIREMENTS
+======================================================================
+
+Verify the complete existing #60 contract, including:
+
+- 229/229 migrations;
+- role IDs 1=user, 14=shop_manager, 99=admin;
+- four approved countries and seven cities;
+- exact approved portable/reference counts;
+- all 3,727 approved portable rows represented according to the approved
+  baseline and phase rules;
+- no unintended Finance grants;
+- 13 Products;
+- 14 Stocks;
+- Product/Stock unavailable media = NULL;
+- Product local images = 0;
+- Product Gallery rows = 0;
+- 51 Services;
+- 51 Service Gallery relationships;
+- all 15 approved Service JPEGs resolve locally;
+- no network media fetch;
+- exactly one NEW synthetic Administrator;
+- conditional blog-author references resolve correctly;
+- no duplicate Administrator on second execution;
+- correct independent synthetic authorities succeed;
+- missing/incorrect authorities fail closed;
+- no unintended financial/provider/SMTP/callback/webhook/worker side effects;
+- second execution is exactly idempotent OR follows the designed pre-mutation
+  fail-closed contract.
+
+Do not disable foreign keys at any point to make portable insertion succeed.
+
+======================================================================
+FAILURE POLICY
+======================================================================
+
+If another loader, harness, application, migration or data-integrity failure
+occurs:
+
+STOP.
+
+Record the exact phase/table/error and preserve evidence.
+
+Do not automatically repair, reorder, modify data or retry.
+
+In every exit path:
+
+- revoke temporary bootstrap authority;
+- lock the bootstrap account;
+- preserve bounded private evidence;
+- shut down the disposable MySQL lab.
+
+Return exactly one terminal classification:
+
+PASS_FIRST_INSTALL
+BLOCKED_FIRST_INSTALL_TIMEOUT
+BLOCKED_FIRST_INSTALL
+FAIL_FIRST_INSTALL
+
+If PASS_FIRST_INSTALL is reached, STOP.
+
+Do not start another audit or certification campaign.
+
+After PASS, the first-install/MySQL validation track is CLOSED.
+The next stage is provider/Replit-neutral cleanup, final clean-clone/build
+validation and private AgendaAlly-v2 GitHub publication preparation.

@@ -1,0 +1,133 @@
+{
+  "fixtureKind": "public synthetic development shop; not a verified real business",
+  "source": {
+    "database": ".migration-backup/backend/database/development/agendaally.sqlite",
+    "databaseAccess": "read-only",
+    "shopSeeder": ".migration-backup/backend/database/seeders/UserSeeder.php",
+    "locale": "en"
+  },
+  "shop": {
+    "id": 501,
+    "slug": "le-sawa-beauty-studio-501",
+    "title": "Le Sawa Beauty Studio",
+    "description": "A modern beauty studio in the heart of Douala, offering hair, nail, and spa services for the whole family.",
+    "publicShopAddress": "12 Rue de la Joie, Bonanjo, Douala, Cameroon"
+  },
+  "businessProfileFieldMapping": {
+    "identity": {
+      "databaseFields": ["shops.id", "shop_translations.title"],
+      "fixtureFields": ["shop.id", "shop.title"]
+    },
+    "routeSlug": {
+      "databaseField": "shops.slug",
+      "fixtureField": "shop.slug"
+    },
+    "logo": {
+      "databaseField": "shops.logo_img",
+      "fixtureField": "media.logo.url",
+      "use": "The existing seeded shop logo-slot image; do not substitute generated mockup art."
+    },
+    "cover": {
+      "databaseField": "shops.background_img",
+      "fixtureField": "media.cover.url",
+      "use": "The existing seeded shop cover image; do not substitute generated mockup art."
+    },
+    "description": {
+      "databaseField": "shop_translations.description",
+      "fixtureField": "shop.description"
+    },
+    "publicShopAddress": {
+      "databaseField": "shop_translations.address",
+      "fixtureField": "shop.publicShopAddress",
+      "scope": "Shop-level translated address, not a confirmed address for each branch."
+    },
+    "branchAddresses": {
+      "databaseFields": ["shop_locations.address", "shop_locations.alias"],
+      "fixtureField": "branches",
+      "scope": "Branch rows are included with public city/country labels; missing branch address and alias remain null."
+    },
+    "gallery": {
+      "databaseFields": ["shop_galleries", "galleries"],
+      "fixtureField": "shopGallery",
+      "scope": "Shop gallery relationships only; product galleries are not shop galleries."
+    }
+  },
+  "media": {
+    "logo": {
+      "databaseField": "shops.logo_img",
+      "url": "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=400&h=400&q=80",
+      "sourceSeederField": "UserSeeder.php shop definition: logo_img",
+      "observedResponse": {
+        "method": "HEAD",
+        "status": 200,
+        "contentType": "image/jpeg"
+      },
+      "sourceNote": "The seeder comment describes salon chairs, mirrors, and products. The photo's actual content and fit as a shop identity mark have not been independently verified.",
+      "authorshipAndLicense": "Unknown; not independently verified."
+    },
+    "cover": {
+      "databaseField": "shops.background_img",
+      "url": "https://images.unsplash.com/photo-1746723378067-83a345ff3160?auto=format&fit=crop&w=1200&q=80",
+      "sourceSeederField": "UserSeeder.php shop definition: background_img",
+      "observedResponse": {
+        "method": "HEAD",
+        "status": 200,
+        "contentType": "image/jpeg"
+      },
+      "sourceNote": "The seeder comment describes a salon interior. The photo's actual content and fit have not been independently verified.",
+      "authorshipAndLicense": "Unknown; not independently verified."
+    }
+  },
+  "branches": [
+    {
+      "id": 1,
+      "typeCode": 1,
+      "city": "Yaoundé",
+      "country": "Cameroon",
+      "address": null,
+      "alias": null
+    },
+    {
+      "id": 2,
+      "typeCode": 1,
+      "city": "Douala",
+      "country": "Cameroon",
+      "address": null,
+      "alias": null
+    },
+    {
+      "id": 3,
+      "typeCode": 2,
+      "city": "Yaoundé",
+      "country": "Cameroon",
+      "address": null,
+      "alias": null
+    },
+    {
+      "id": 4,
+      "typeCode": 2,
+      "city": "Douala",
+      "country": "Cameroon",
+      "address": null,
+      "alias": null
+    }
+  ],
+  "shopGallery": {
+    "relationshipCount": 0,
+    "shopMediaCount": 0,
+    "items": []
+  },
+  "unknowns": [
+    "No Le Sawa shop gallery items are linked in shop_galleries and no galleries rows are attached to this shop. Do not fill this with product gallery images.",
+    "Exact per-branch addresses and aliases are absent. The translated shop-level address is available, but cannot be asserted as an address for every branch.",
+    "The meaning of the stored branch type codes is not asserted by this fixture.",
+    "The photo bytes were not visually inspected or decoded; their subject fit, dimensions, and client rendering remain unverified.",
+    "Photo authorship, licensing, model/property releases, attribution obligations, and permission for ongoing use remain unknown.",
+    "The shop title, description, address, branches, and images are synthetic development seed content, not verification of an operating business or real-world location."
+  ],
+  "excluded": [
+    "User accounts, emails, phone numbers, credentials, private data, financial data, and environment values.",
+    "Generated mockup illustrations as substitutes for the seeded Le Sawa logo or cover.",
+    "Any database or native application write."
+  ]
+}

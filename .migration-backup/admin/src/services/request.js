@@ -1,0 +1,68 @@
+import axios from 'axios';
+import { notification } from 'antd';
+import { api_url } from '../configs/app-global';
+import { store } from '../redux/store';
+import { clearUser } from '../redux/slices/auth';
+import i18n from '../configs/i18next';
+import { toast } from 'react-toastify';
+import { getRequestErrorMessage } from './request-error.mjs';
+import { shouldClearAuthForResponse } from './request-auth-policy.mjs';
+
+const service = axios.create({
+  baseURL: api_url,
+  timeout: 16000,
+});
+
+// Config
+const TOKEN_PAYLOAD_KEY = 'authorization';
+const AUTH_TOKEN = 'token';
+const AUTH_TOKEN_TYPE = 'Bearer';
+
+// API Request interceptor
+service.interceptors.request.use(
+  (config) => {
+    const access_token = localStorage.getItem(AUTH_TOKEN);
+
+    if (access_token) {
+      config.headers[TOKEN_PAYLOAD_KEY] = AUTH_TOKEN_TYPE + ' ' + access_token;
+    }
+    if (config.method === 'get') {
+      config.params = { lang: i18n.language, ...config.params };
+    }
+
+    return config;
+  },
+  (error) => {
+    // Do something with request error here
+    notification.error({
+      message: 'Error',
+      description: getRequestErrorMessage(error, (key) => i18n.t(key)),
+    });
+    return Promise.reject(error);
+  }
+);
+
+// API respone interceptor
+service.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    const message = getRequestErrorMessage(error, (key) => i18n.t(key));
+
+    // Remove token and redirect
+    if (shouldClearAuthForResponse(error.response?.status, error.config)) {
+      localStorage.removeItem(AUTH_TOKEN);
+      store.dispatch(clearUser());
+    }
+
+    if (!error.config?.suppressErrorToast) {
+      toast.error(message, {
+        toastId: error.response?.status,
+      });
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default service;

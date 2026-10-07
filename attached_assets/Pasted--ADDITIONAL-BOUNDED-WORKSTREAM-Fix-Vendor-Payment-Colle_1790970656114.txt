@@ -1,0 +1,523 @@
+# ADDITIONAL BOUNDED WORKSTREAM — Fix Vendor Payment Collection Settings UX and Persistence
+
+While completing the Maps/location task, also audit and correct the existing Vendor “Payment collection” settings experience.
+
+This is NOT a new payment architecture phase.
+
+The underlying payment resolver, country policy, frozen intents, provider hardening and AgendaAlly Payments architecture must remain authoritative.
+
+The current Vendor screen is not acceptable as a production-facing settings experience.
+
+It currently shows:
+
+Payment collection
+
+“Choose how customer payments are collected for this transaction type. No merchant API credentials are required to use AgendaAlly Payments. This setting does not confirm that a payment was received or that payouts are available. Payout methods are separate and are not configured here.”
+
+Collection choices:
+
+- AgendaAlly Payments · Recommended
+- Use my own payment gateway
+
+But it also exposes implementation/debugging information such as:
+
+payment.transaction.type
+business.country.ids: 1
+transaction.currency: XAF
+payment.policy.status
+globally.active
+integration.ready
+country.permitted
+currency.supported
+configured
+collector_not_configured
+collector_disabled
+currency_support_unknown
+transaction_type_unsupported
+platform.managed.or.not.vendor.configurable
+environment_disabled
+etc.
+
+It also appears to require choosing either Services OR Products, with no obvious “Both” option, even though an AgendaAlly Vendor may sell products and provide services.
+
+There is also no clear Save/Submit/Apply action.
+
+Audit the complete implementation and correct it properly.
+
+Credit use is important. Do not reopen the broad payment architecture audit.
+
+## 1. Trace the current implementation before changing UI
+
+Trace:
+
+Vendor Payment collection UI
+→ transaction-type state
+→ collection-mode state
+→ resolver/policy request
+→ save/update endpoint
+→ Laravel validation
+→ service/model
+→ persisted shop/payment configuration
+→ checkout consumption.
+
+Determine exactly:
+
+- what Services means;
+- what Products means;
+- whether these are stored independently;
+- whether collection mode is currently one shop-wide setting or transaction-type-specific;
+- whether selecting a radio currently saves immediately;
+- whether there is an existing save endpoint;
+- whether the UI is showing unsaved state as if it were persisted;
+- whether changing transaction type changes the actual persisted policy;
+- how existing `collect_via_platform` compatibility is represented;
+- how the newer AgendaAlly Payments/default-platform model interacts with it.
+
+Do not guess.
+
+## 2. Support businesses that offer BOTH Services and Products
+
+A Vendor may:
+
+- provide Services only;
+- sell Products only;
+- do both.
+
+The settings experience must support this naturally.
+
+Preferred Vendor-facing choices:
+
+Transaction type
+
+[ Services ]
+[ Products ]
+[ Services & Products ]
+
+or an equivalent polished control consistent with the current Admin/Vendor UI.
+
+“Services & Products” should mean:
+
+Apply this collection preference to both service transactions and product transactions.
+
+However:
+
+DO NOT introduce a fake backend `both` transaction type if the financial/payment architecture requires separate service and product policy records.
+
+If Services and Products are stored separately, the UI may present “Services & Products” while the server safely validates and updates both underlying configurations.
+
+The operation must be atomic where practical:
+
+either both intended settings are updated,
+or neither is.
+
+Do not leave one updated and the other stale after a partial failure.
+
+## 3. Determine whether separate Service/Product collection settings are actually necessary
+
+Audit the underlying architecture.
+
+If the collection mode is genuinely shop-wide and Services/Products cannot currently have different modes, do not preserve a meaningless transaction selector merely because it already exists.
+
+In that case, simplify the Vendor UI appropriately.
+
+If the architecture intentionally supports:
+
+Services → AgendaAlly Payments
+Products → Vendor gateway
+
+or the inverse, preserve that capability.
+
+The UI should then clearly show the saved setting for each transaction type.
+
+Do not change the financial architecture merely to make the UI easier.
+
+## 4. Add an explicit Save action
+
+Payment collection configuration must have a clear persistence action.
+
+Use a production-quality action such as:
+
+Save payment settings
+
+or:
+
+Save changes
+
+The exact wording can follow the existing Vendor design system.
+
+The Vendor should be able to understand:
+
+- current saved configuration;
+- pending changes;
+- saving state;
+- successful save;
+- validation failure;
+- server failure.
+
+Do not rely on an ambiguous radio click if the current UI gives no indication that it immediately changed a consequential business setting.
+
+If the existing endpoint is toggle-based, audit it carefully.
+
+Prefer an idempotent desired-state contract such as:
+
+set collection mode = platform
+
+rather than:
+
+toggle collection mode
+
+if the current architecture allows this bounded correction.
+
+Do not create a second competing settings model.
+
+## 5. Default behavior
+
+Preserve the approved architecture:
+
+AgendaAlly Payments is the recommended/default collection model for new Vendors.
+
+The Vendor may opt into:
+
+Use my own payment gateway
+
+only when the business context and payment resolver determine that Vendor-direct collection is supported.
+
+Do not automatically enable a provider.
+
+Do not fabricate merchant configuration.
+
+Do not treat a personal phone/mobile-money account as a merchant gateway unless the actual provider integration supports that account type.
+
+## 6. Vendor-facing design
+
+Redesign this particular settings block to match the current AgendaAlly Admin/Vendor design system.
+
+It should feel like a business setting, not a developer diagnostics screen.
+
+Suggested information hierarchy:
+
+Payment collection
+
+Choose how you want to collect customer payments.
+
+Transaction type
+[ Services ] [ Products ] [ Services & Products ]
+
+Collection method
+
+○ AgendaAlly Payments
+  Recommended
+
+  AgendaAlly collects supported customer payments for this part of your business. Eligible Vendor earnings can later become available through the separate payout process.
+
+○ Use my own payment gateway
+
+  Connect an eligible merchant payment account and receive supported payments through your own gateway.
+
+[ Save payment settings ]
+
+Refine the wording based on what the implementation actually supports.
+
+Do NOT make unsupported claims about settlement or payout availability.
+
+## 7. Do not expose internal resolver diagnostics to Vendors
+
+Remove development/internal strings from the normal Vendor UI, including raw representations such as:
+
+payment.transaction.type
+business.country.ids
+payment.policy.status
+globally.active
+integration.ready
+country.permitted
+currency.supported
+configured
+collector_not_configured
+collector_disabled
+currency_support_unknown
+transaction_type_unsupported
+platform.managed.or.not.vendor.configurable
+environment_disabled
+country_policy_denied
+
+These values may remain internally useful.
+
+If an existing diagnostics component is useful to Superadmin/development, keep it behind an appropriate development/Admin diagnostic surface rather than deleting the underlying resolver information.
+
+Do not expose it to ordinary Vendors.
+
+## 8. Replace diagnostics with actionable Vendor information
+
+The Vendor should primarily see methods they can actually use.
+
+For AgendaAlly Payments, a concise section may say, for example:
+
+Available through AgendaAlly
+
+Cash
+Other eligible methods configured by AgendaAlly
+
+Only display methods actually returned as eligible by the authoritative resolver.
+
+For Vendor-direct mode:
+
+Show only payment methods that:
+
+- are Vendor-configurable;
+- are permitted for the Vendor's authoritative business country;
+- support the transaction type;
+- support the authoritative transaction currency;
+- are integration-ready;
+- are permitted by environment policy.
+
+If none are available, say something understandable such as:
+
+“No supported Vendor-managed payment gateway is currently available for this business configuration.”
+
+Do not show 15–20 unusable gateways with raw failure flags.
+
+## 9. Country and currency presentation
+
+Do not show:
+
+business.country.ids: 1
+
+Show the actual business geography if useful, for example:
+
+Business country
+Cameroon
+
+Transaction currency
+XAF
+
+Only if these help the Vendor understand payment eligibility.
+
+Do not allow the Vendor to manipulate country/currency from this payment block merely to unlock payment methods.
+
+Those remain authoritative business/location/currency settings.
+
+## 10. Own-gateway configuration
+
+If the Vendor selects:
+
+Use my own payment gateway
+
+then show/configure only genuinely supported Vendor-owned gateways.
+
+From the previous payment audit, do not resurrect generic credential forms for providers whose global platform credentials are not actually consumed from `shop_payments`.
+
+In particular, do not make Stripe/PayPal/etc appear Vendor-configurable merely because legacy generic client/secret fields exist.
+
+Use the authoritative capability/resolver work already implemented.
+
+Vendor-owned credentials must remain:
+
+- shop scoped;
+- encrypted where required;
+- redacted;
+- ownership protected;
+- country/currency/type constrained.
+
+## 11. AgendaAlly Payments does NOT require Vendor merchant credentials
+
+When AgendaAlly Payments is selected:
+
+Do not ask the Vendor for AgendaAlly's:
+
+- Stripe keys;
+- PayPal credentials;
+- MTN platform credentials;
+- Orange platform credentials;
+- Flutterwave keys;
+- Paystack keys;
+- or any other platform merchant credential.
+
+Those remain Superadmin/platform configuration.
+
+Vendor payout configuration is also separate.
+
+## 12. Keep payout settings separate
+
+Do not add payout destination configuration to this Payment collection card.
+
+The conceptual separation remains:
+
+Customer payment collection
+≠
+Vendor payout destination.
+
+A Vendor choosing AgendaAlly Payments means the platform may collect eligible customer payments according to payment policy.
+
+It does NOT by itself mean:
+
+- funds are already settled;
+- earnings are immediately withdrawable;
+- payout setup is complete;
+- payout accounting is implemented.
+
+Use accurate wording.
+
+## 13. Preserve existing businesses and frozen transactions
+
+Do not reinterpret historical transactions.
+
+Do not rewrite frozen payment intents.
+
+Do not automatically migrate existing Vendors from one collection mode to another merely because AgendaAlly Payments is now the default for NEW Vendors.
+
+Existing saved collection choices must remain intact unless there is a proven invalid legacy state requiring explicit migration.
+
+If migration is required, report it before destructive changes.
+
+## 14. Services & Products save semantics
+
+If “Services & Products” is selected:
+
+verify the server applies the requested collection setting to BOTH transaction domains safely.
+
+Then reload the settings from the server and confirm both show the persisted mode.
+
+Do not merely update React state.
+
+Test:
+
+Both → AgendaAlly Payments
+
+Both → own gateway, when a valid Vendor-direct gateway is actually eligible
+
+Services only change
+
+Products only change
+
+and verify changing one does not unintentionally overwrite the other if separate policies are supported.
+
+## 15. Translation/i18n cleanup
+
+The current raw strings:
+
+payment.transaction.type
+payment.policy.status
+
+strongly suggest missing translation keys or internal identifiers being rendered directly.
+
+Audit the changed Payment collection surface for missing i18n entries.
+
+Vendor-facing text must render as human-readable labels.
+
+Do not globally rewrite unrelated translation architecture.
+
+## 16. Responsive behavior
+
+Check the corrected settings at desktop and approximately 390px.
+
+At 390px:
+
+- Services / Products / Services & Products control remains usable;
+- cards stack appropriately;
+- Save button remains reachable;
+- no horizontal overflow;
+- no giant diagnostic table/list;
+- gateway configuration remains readable.
+
+## 17. Authorization
+
+Preserve server-side enforcement.
+
+Vendor may modify payment collection only for a shop/business they are authorized to manage.
+
+Forging:
+
+shop_id
+business_id
+transaction_type
+payment_method_id
+collection_mode
+
+must not allow cross-shop or unsupported configuration.
+
+Do not rely on hidden UI controls.
+
+Admin/Superadmin behavior should remain intentionally broader where already authorized.
+
+## 18. Focused tests
+
+Add focused tests proving at minimum:
+
+1. Vendor can read own saved Service collection mode.
+2. Vendor can read own saved Product collection mode.
+3. Vendor can save Service mode.
+4. Vendor can save Product mode.
+5. “Services & Products” safely applies to both underlying transaction types if separate records exist.
+6. Vendor cannot modify another shop.
+7. Unsupported transaction type is rejected.
+8. Vendor-direct cannot be saved without an eligible Vendor-configurable gateway where required.
+9. AgendaAlly Payments does not require Vendor merchant credentials.
+10. Existing saved Vendor choice survives page reload.
+11. New Vendor receives the approved AgendaAlly Payments default.
+12. Existing Vendor is not silently migrated.
+13. Raw resolver diagnostics are not rendered to ordinary Vendor UI.
+14. Country/currency/provider eligibility remains server enforced.
+
+Use isolated synthetic fixtures.
+
+Do not create financial transactions.
+
+## 19. Do not change
+
+Do NOT:
+
+- activate any external payment provider;
+- change country-payment assignments;
+- seed fake provider availability;
+- make a payment;
+- change callback/webhook verification;
+- implement payouts;
+- implement FX;
+- alter wallet balances;
+- implement refunds;
+- change accounting/settlement;
+- change frozen payment intents;
+- weaken resolver enforcement;
+- reopen the payment architecture audit.
+
+This is a Vendor configuration UX/persistence correction using the payment architecture already approved.
+
+## 20. Final report
+
+Report:
+
+A. Existing transaction-type persistence model found.
+
+B. Why only Services OR Products was presented.
+
+C. Whether separate modes per transaction type are genuinely supported.
+
+D. How “Services & Products” was implemented.
+
+E. Why there was no visible Save action.
+
+F. New save/persistence behavior.
+
+G. Internal diagnostics removed from Vendor UI.
+
+H. Vendor-facing eligibility presentation.
+
+I. Own-gateway behavior.
+
+J. AgendaAlly Payments behavior.
+
+K. Authorization boundary.
+
+L. Desktop and ~390px verification.
+
+M. Focused tests/results.
+
+N. Exact files/migrations changed.
+
+O. Any remaining payment-configuration limitation.
+
+Then STOP.
+
+Do not activate providers.
+Do not implement payouts.
+Do not proceed into another payment phase.

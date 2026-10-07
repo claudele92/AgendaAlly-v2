@@ -1,0 +1,545 @@
+You are working with the ORIGINAL existing AgendaAlly GitHub repository imported directly into Replit.
+
+This is NOT the LaraCopilot-generated version.
+
+Do NOT assume any previously generated Laravel architecture exists.
+
+Do NOT rebuild AgendaAlly from scratch.
+
+AgendaAlly is an existing multi-vendor marketplace combining:
+
+1. Service discovery and appointment booking
+2. Product discovery and ordering/e-commerce
+
+The existing repository is the source of truth for current functionality, database structure, UI/UX, business rules, APIs, integrations and mobile compatibility.
+
+Your job is to progressively modernize/refactor the existing application into a clean, production-ready Laravel application while preserving useful existing functionality.
+
+IMPORTANT:
+
+DO NOT WRITE OR REPLACE MAJOR APPLICATION CODE YET.
+
+FIRST AUDIT THE ORIGINAL APPLICATION.
+
+## PHASE 1 — COMPLETE REPOSITORY AUDIT
+
+Recursively inspect the entire repository.
+
+Identify the actual current technology stack and architecture.
+
+Inspect:
+
+- PHP/backend architecture
+- framework/version
+- composer.json
+- package.json
+- database schema
+- SQL dumps
+- migrations
+- models/entities
+- controllers
+- routes
+- middleware
+- authentication
+- authorization
+- sessions
+- admin application
+- vendor/business application
+- customer application
+- web application
+- APIs
+- mobile API endpoints
+- frontend technology
+- JavaScript
+- CSS
+- templates/views
+- assets
+- uploads/media
+- scheduled tasks
+- queues
+- caching
+- email
+- SMS
+- push notifications
+- localization
+- settings
+- third-party integrations
+- environment/configuration files
+
+Do not infer features from filenames alone. Trace routes, controllers, database relationships and frontend usage to determine what actually works.
+
+## AUDIT ALL EXISTING AGENDAALLY FEATURES
+
+Specifically investigate the existing implementation of:
+
+### Marketplace
+
+- vendors/businesses/shops
+- branches
+- countries
+- cities
+- categories
+- search
+- filtering
+- distance/geographic search
+- ratings
+- favorites
+
+### Service Booking
+
+- services
+- specialists/masters
+- vendor staff
+- branch assignments
+- schedules
+- availability
+- time slots
+- bookings
+- rescheduling
+- cancellation
+- reviews
+
+### Product Commerce
+
+AgendaAlly already includes product ordering.
+
+Find and document the existing implementation of:
+
+- product categories
+- products
+- product images
+- pricing
+- sale pricing
+- inventory/stock
+- cart
+- cart items
+- quantity management
+- checkout
+- orders
+- order items
+- order statuses
+- product payment
+- delivery/pickup if present
+- vendor product management
+- vendor order management
+- customer order history
+
+PRODUCT ORDERING MUST NOT BE LOST DURING THE LARAVEL REFACTOR.
+
+### Vendor Organization
+
+Investigate existing concepts for:
+
+- vendor owner
+- vendor master
+- vendor staff
+- specialists/masters
+- branch managers
+- staff permissions
+- invitations
+- staff account creation
+- business membership
+
+Determine exactly what "master", "staff", "vendor", and related concepts mean in the existing application before renaming or redesigning them.
+
+### Payments
+
+Find every existing payment implementation.
+
+Identify:
+
+- Stripe
+- PayPal
+- Flutterwave
+- Paystack
+- MTN MoMo
+- Orange Money
+- other mobile money
+- cash
+- offline payment
+- wallet
+- bank payment
+
+For each provider report:
+
+- where it is implemented
+- whether it is actually functional
+- credentials/configuration
+- customer checkout integration
+- vendor configuration
+- callbacks/webhooks
+- payout functionality
+
+Do not claim a provider exists simply because its name appears in configuration or database records.
+
+### Existing Payment Business Model
+
+Determine whether vendors currently configure their own payment gateways.
+
+Determine whether the existing system supports or partially supports platform/admin payment collection.
+
+Document the current payment flow before redesigning it.
+
+### Commission
+
+Find:
+
+- percentage commission
+- fixed commission
+- platform commission
+- vendor earnings
+- balances
+- wallets
+- settlements
+- payouts
+
+Trace the actual calculation code.
+
+### Multi-Country
+
+Determine how countries currently affect:
+
+- vendors
+- branches
+- customers
+- currency
+- payment providers
+- phone numbers
+- language
+- timezone
+- geographic search
+
+### APIs and Mobile Application
+
+This is critical.
+
+Find the APIs used by the existing AgendaAlly mobile application.
+
+Document:
+
+- authentication
+- registration
+- customer APIs
+- vendor APIs
+- specialist APIs
+- booking APIs
+- product APIs
+- cart APIs
+- order APIs
+- payment APIs
+- notification APIs
+
+Record existing request and response contracts that must remain compatible.
+
+## TARGET DIRECTION
+
+After understanding the existing application, propose a migration toward a modern Laravel architecture.
+
+Prefer:
+
+Laravel
++
+Inertia.js
++
+React
+
+for the web application where appropriate.
+
+Laravel must remain the source of truth for:
+
+- authentication
+- authorization
+- tenant isolation
+- availability
+- booking
+- pricing
+- coupons
+- taxes
+- commissions
+- payments
+- vendor balances
+- payouts
+- inventory
+- orders
+- database operations
+
+React should handle presentation and interactive UI.
+
+Do NOT create a completely independent React backend architecture unnecessarily.
+
+Maintain REST APIs for the existing/future mobile application.
+
+Both web controllers and API controllers should eventually reuse the same Laravel domain/service layer.
+
+## TARGET MARKETPLACE MODEL
+
+The target system must support:
+
+Platform
+→ Countries
+→ Vendors/Businesses
+→ Branches
+
+Businesses may provide:
+
+Business
+├── Services
+│   └── Bookings
+└── Products
+    └── Orders
+
+A business may offer services, products, or both.
+
+## TARGET VENDOR ORGANIZATION
+
+Eventually support a proper authenticated vendor organization model:
+
+Vendor Owner
+→ Vendor Admin/Manager
+→ Branch Manager
+→ Vendor Staff
+→ Specialist/Master
+
+Do not assume every staff member is a specialist.
+
+Examples:
+
+Receptionist = Staff
+Accountant = Staff
+Branch Manager = Staff
+Hair Stylist = Staff + Specialist
+
+Investigate existing implementation before proposing the final schema.
+
+Also determine whether an invitation workflow already exists.
+
+Target workflow:
+
+Vendor
+→ Invite Staff
+→ Assign Role
+→ Assign Branch(es)
+→ Assign Permissions
+→ Invitation
+→ Existing user links account OR new user registers
+→ Business membership activated
+
+## TARGET MULTI-COUNTRY ADMINISTRATION
+
+AgendaAlly should ultimately support:
+
+Super Admin
+→ Country Manager(s)
+→ Vendors
+→ Branches
+
+Country Managers should only administer assigned countries.
+
+Do not implement this yet.
+
+First determine what role/country architecture already exists.
+
+## TARGET PAYMENT MODEL
+
+The future architecture must support TWO vendor payment modes.
+
+### Vendor Direct
+
+Vendor configures and uses its own supported payment gateway.
+
+### Platform Collection
+
+Vendor enables:
+
+"Let AgendaAlly collect customer payments"
+
+AgendaAlly/platform gateway collects customer payment.
+
+Then:
+
+Customer payment
+→ AgendaAlly
+→ commission calculation
+→ vendor net
+→ vendor ledger
+→ payout
+
+Admin must ultimately be able to:
+
+- allow vendor choice
+- force Vendor Direct
+- force Platform Collection
+
+Payment mode must apply to both service bookings and product orders.
+
+## TARGET PAYMENT PROVIDERS
+
+Architecture should eventually support appropriate integrations for:
+
+- Stripe
+- Flutterwave
+- Paystack
+- MTN MoMo
+- Orange Money
+- PayPal
+- cash/offline
+- additional providers
+
+International customers should be able to use appropriate card/payment methods even when booking or purchasing from an African vendor.
+
+Collection method and vendor payout method must remain separate concepts.
+
+Example:
+
+US customer
+→ card payment
+→ AgendaAlly Platform Collection
+→ vendor ledger
+→ Cameroon vendor payout via MTN MoMo
+
+Do NOT implement fake integrations.
+
+## TARGET COMMISSION
+
+Support:
+
+- percentage commission
+- fixed commission
+
+Potential scope:
+
+- platform
+- country
+- vendor
+- category
+
+Historical transactions must preserve the commission actually applied.
+
+## SECURITY TARGET
+
+Eventually enforce authorization through Laravel Policies/Gates and scoped queries.
+
+A vendor must never access another vendor's:
+
+- branches
+- staff
+- specialists
+- services
+- products
+- bookings
+- orders
+- customers
+- transactions
+- payment credentials
+- balances
+- payouts
+
+Country Managers must be country-scoped.
+
+Never rely on frontend visibility for security.
+
+## DATA MIGRATION RULE
+
+THIS IS A REFACTOR OF AN EXISTING PRODUCT.
+
+Do not casually drop tables, columns or data.
+
+Before changing schema:
+
+1. Understand existing table.
+2. Understand relationships.
+3. Determine whether mobile/API code depends on it.
+4. Design migration.
+5. Preserve/transform existing data.
+6. Verify migration.
+7. Only then deprecate obsolete structures.
+
+## UI/BRANDING
+
+Preserve AgendaAlly's existing:
+
+- branding
+- logo
+- design identity
+- useful layouts
+- workflows
+- assets
+
+Do not replace it with a generic generated marketplace theme.
+
+Modernization is allowed, but it should still look and behave like AgendaAlly.
+
+## FIRST TASK ONLY
+
+DO NOT START THE LARAVEL REBUILD YET.
+
+For this first task:
+
+1. Audit the complete original repository.
+2. Determine the real existing architecture.
+3. Determine what currently works.
+4. Determine what is broken.
+5. Map the database.
+6. Map the web applications.
+7. Map admin/vendor/customer functionality.
+8. Map service booking.
+9. Map product ordering.
+10. Map vendor/master/staff relationships.
+11. Map payments.
+12. Map commissions.
+13. Map multi-country functionality.
+14. Map APIs/mobile dependencies.
+15. Identify security issues.
+16. Identify technical debt.
+17. Propose the target Laravel architecture.
+18. Propose a SAFE phased migration plan.
+
+Return a report containing:
+
+CURRENT STACK
+
+CURRENT APPLICATION STRUCTURE
+
+DATABASE / DOMAIN MODEL
+
+ADMIN FEATURES
+
+VENDOR FEATURES
+
+CUSTOMER FEATURES
+
+SERVICE BOOKING FEATURES
+
+PRODUCT / ORDERING FEATURES
+
+VENDOR / STAFF / MASTER MODEL
+
+PAYMENT PROVIDERS AND ACTUAL IMPLEMENTATION STATUS
+
+COMMISSION / EARNINGS MODEL
+
+MULTI-COUNTRY MODEL
+
+API / MOBILE CONTRACTS
+
+SECURITY FINDINGS
+
+TECHNICAL DEBT
+
+FEATURES THAT MUST BE PRESERVED
+
+FEATURES THAT SHOULD BE REFACTORED
+
+FEATURES THAT ARE BROKEN
+
+MISSING FEATURES
+
+PROPOSED LARAVEL ARCHITECTURE
+
+PROPOSED MIGRATION STRATEGY
+
+RECOMMENDED IMPLEMENTATION PHASES
+
+Do not make major architectural changes during this audit.
+
+STOP after the audit and wait for approval.

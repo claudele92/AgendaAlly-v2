@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="710" viewBox="0 0 1280 710"><rect width="1280" height="710" fill="#faf8f4"/>
+<text x="24" y="30" fill="#76522e" font-size="13" font-family="DejaVu Sans,sans-serif" font-weight="700">PROPOSAL · MOBILE DETAILS + NEW CLIENT + REVIEW</text>
+<rect x="24" y="57" width="389" height="605" rx="16" fill="white" stroke="#e5e2dc"/>
+<text x="43" y="94" fill="#191a19" font-size="17" font-family="DejaVu Sans,sans-serif" font-weight="700">Saved detail · full-screen</text>
+<text x="43" y="122" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Close / Back · calendar position retained</text>
+<text x="44" y="176" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Haircut</text>
+<text x="44" y="224" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Saved reference #1234</text>
+<text x="44" y="272" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Mon 5 Oct · 09:00–10:00</text>
+<text x="44" y="320" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Sample client</text>
+<text x="44" y="368" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist A · Authorized Shop A</text>
+<text x="44" y="416" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Saved total $100.00</text>
+<rect x="38" y="440" width="361" height="38" rx="7" fill="#f0e7d9" stroke="none"/>
+<text x="44" y="464" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="700">UNPAID / UNCOLLECTED</text>
+<text x="44" y="512" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Existing notes; no recalculation</text>
+<rect x="42" y="598" width="351" height="34" rx="10" fill="#76522e" stroke="none"/>
+<text x="54" y="620" fill="white" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Authorized lifecycle actions</text>
+<rect x="439" y="57" width="389" height="605" rx="16" fill="white" stroke="#e5e2dc"/>
+<text x="458" y="94" fill="#191a19" font-size="17" font-family="DejaVu Sans,sans-serif" font-weight="700">New local client · retry</text>
+<text x="458" y="122" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Close / Back · calendar position retained</text>
+<text x="459" y="176" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Name * · Sample local client</text>
+<text x="459" y="224" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Phone / email optional</text>
+<text x="459" y="272" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Verified Shop / branch context</text>
+<text x="459" y="320" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Save not confirmed — input retained</text>
+<text x="459" y="368" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Retry keeps the same save reference</text>
+<text x="459" y="416" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Names never merge different people</text>
+<text x="459" y="464" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">No account or booking is created</text>
+<text x="459" y="512" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">New person = explicit new save</text>
+<rect x="457" y="598" width="351" height="34" rx="10" fill="#76522e" stroke="none"/>
+<text x="469" y="620" fill="white" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Retry same client save</text>
+<rect x="854" y="57" width="389" height="605" rx="16" fill="white" stroke="#e5e2dc"/>
+<text x="873" y="94" fill="#191a19" font-size="17" font-family="DejaVu Sans,sans-serif" font-weight="700">Step 3 · Review</text>
+<text x="873" y="122" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Close / Back · calendar position retained</text>
+<text x="874" y="176" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Service: Haircut</text>
+<text x="874" y="224" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Specialist: assigned Specialist A</text>
+<text x="874" y="272" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Date: 5 Oct · Time: available 09:00</text>
+<text x="874" y="320" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Duration: backend 60 minutes</text>
+<text x="874" y="368" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Client: local / Shop A</text>
+<rect x="868" y="392" width="361" height="38" rx="7" fill="#f0e7d9" stroke="none"/>
+<text x="874" y="416" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="700">UNPAID / UNCOLLECTED</text>
+<text x="874" y="464" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Backend rechecks slot on confirmation</text>
+<text x="874" y="512" fill="#64665f" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="400">Conflict → preserve form, choose again</text>
+<rect x="872" y="598" width="351" height="34" rx="10" fill="#76522e" stroke="none"/>
+<text x="884" y="620" fill="white" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Confirm unpaid booking</text>
+<text x="24" y="694" fill="#64665f" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="400">Proposal only: durable same-intent retry protection is specified, not implemented. Payment state is prominent on final Review, not early entry steps.</text>
+</svg>

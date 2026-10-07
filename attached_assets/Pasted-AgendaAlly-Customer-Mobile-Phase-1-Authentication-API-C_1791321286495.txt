@@ -1,0 +1,895 @@
+AgendaAlly Customer Mobile — Phase 1 Authentication, API Confidentiality and Session-Foundation Repair
+
+AUTHORIZATION
+
+The AgendaAlly Customer Mobile read-only audit is complete.
+
+Authoritative audit report:
+
+docs/development/agendaally-customer-mobile-audit.md
+
+Evidence:
+
+docs/development/evidence/customer-mobile-audit/
+
+The audit concluded:
+
+CUSTOMER MOBILE FOUNDATION:
+B. REFACTOR IN PLACE
+
+CUSTOMER MOBILE MVP SOURCE-BASED IMPLEMENTATION COVERAGE:
+57.5%
+
+P0 FINDINGS:
+2
+
+P1 FINDINGS:
+9
+
+BACKEND CHANGES REQUIRED FOR THE PROPOSED BOUNDED FUNCTIONAL MOBILE MVP:
+NO
+
+CURRENT MOBILE ARCHITECTURE:
+SUITABLE FOR CONTINUED DEVELOPMENT WITH REFACTORING
+
+The existing Flutter application is the foundation to preserve.
+
+Do NOT rebuild or regenerate the mobile application.
+
+This task authorizes ONLY the first bounded implementation campaign:
+
+CUSTOMER MOBILE AUTHENTICATION / API CONFIDENTIALITY / SESSION-FOUNDATION REPAIR
+
+The purpose is to close the two source-confirmed confidentiality P0 findings and the directly related authentication/session-lifetime problems before broader Customer Mobile MVP implementation begins.
+
+==================================================
+1. AUTHORITATIVE FINDINGS TO CLOSE
+==================================================
+
+P0-01 — SENSITIVE AUTH/API TRANSPORT AND LOGGING
+
+The audit established:
+
+- login currently submits credentials using URL query parameters;
+- the shared HTTP client installs request/header/body/response logging without a sufficient release/sensitive-data guard;
+- WebView/deep-link helpers also contain URL logging risks;
+- credentials, bearer tokens, sensitive URLs or sensitive response content must not be exposed through application logs.
+
+Primary audit references include:
+
+M/lib/infrastructure/repository/auth_repository.dart
+
+M/lib/infrastructure/service/http_service.dart
+
+and related interceptors/helpers identified by the audit.
+
+Required outcome:
+
+Authentication secrets must use the current backend-supported safe request-body contract where applicable.
+
+Passwords, OTPs, bearer tokens, authorization headers, sensitive query values and equivalent authentication material must not be exposed through logs.
+
+Do not merely hide one login log statement while leaving equivalent disclosure paths active.
+
+--------------------------------------------------
+
+P0-02 — BEARER TOKEN STORED IN SHAREDPREFERENCES
+
+The audit established that bearer tokens are persisted in ordinary SharedPreferences.
+
+Primary audit reference:
+
+M/lib/infrastructure/local_storage/local_storage.dart
+
+Required outcome:
+
+Bearer/authentication tokens must use appropriate secure platform storage rather than ordinary SharedPreferences.
+
+Do not move ordinary non-sensitive application preferences into secure storage unnecessarily.
+
+Preserve the existing application's useful preference/cache architecture where safe.
+
+--------------------------------------------------
+
+DIRECTLY RELATED SESSION FOUNDATION
+
+The audit also established:
+
+- logout navigation occurs without properly awaiting/handling authoritative logout;
+- local credentials are cleared only after successful server logout;
+- an offline/timeout logout can leave old token/profile state on-device after UI navigation;
+- unauthorized/expired-session handling is not centrally coordinated;
+- account-specific cached/in-memory state may survive session/account transitions;
+- Firebase or other identity/session state must not accidentally survive an AgendaAlly Customer logout where it is part of the authenticated Customer identity path.
+
+This campaign MAY repair these directly related session-lifetime problems because they are necessary to close the authentication/confidentiality boundary coherently.
+
+Do not broaden the task into unrelated application-state refactoring.
+
+==================================================
+2. CURRENT CUSTOMER AUTH CONTRACT ALIGNMENT
+==================================================
+
+The audit found the ordinary Customer email-verification path stale.
+
+Current mobile source uses a GET verification path that does not represent the current ordinary six-digit Customer verification contract.
+
+Inspect the CURRENT backend implementation before editing.
+
+Align the Customer mobile client with the current backend-supported Customer email verification protocol.
+
+Do not revive or weaken legacy backend routes merely to preserve stale mobile behavior.
+
+Do not modify the backend unless a genuine previously unknown blocker is discovered.
+
+The current audit conclusion is:
+
+BACKEND CHANGES REQUIRED: NO
+
+Treat that as the starting assumption.
+
+If source inspection proves that assumption wrong, STOP and report the exact blocker before modifying backend behavior.
+
+Also inspect the password-recovery and identity-related auth methods touched by the same repository.
+
+Do not automatically redesign every phone/social authentication flow.
+
+For this campaign:
+
+- ordinary Customer email/password authentication is required;
+- ordinary Customer email verification is required;
+- existing password-recovery behavior directly affected by auth transport may be aligned;
+- phone/social/Firebase identity flows should only receive confidentiality/session-safe changes necessary to avoid leakage or broken shared infrastructure.
+
+Do not activate or expand social authentication.
+
+Do not invent refresh-token semantics if the backend does not provide them.
+
+==================================================
+3. COMPATIBLE TOOLCHAIN VALIDATION BASELINE
+==================================================
+
+The audit did NOT establish a source compile failure.
+
+It established an environment/toolchain qualification gap:
+
+Required by project:
+
+Flutter >= 3.38.5
+Dart >= 3.10.0
+
+Audit environment:
+
+Flutter 3.32.0
+Dart 3.8.0
+
+Android SDK was also unavailable.
+
+The audit explicitly concluded that this mismatch is not justification for regenerating the Flutter project.
+
+Before treating analyzer/build failures as application defects, establish an explicitly compatible isolated validation environment where feasible.
+
+AUTHORIZED:
+
+- provision/use a compatible Flutter/Dart toolchain for validation;
+- use an available Android SDK/toolchain if the environment supports doing so;
+- resolve the EXISTING declared dependency graph using the supported project toolchain;
+- run safe dependency/static/build validation;
+- use isolated caches/work directories as appropriate.
+
+NOT AUTHORIZED:
+
+- broad dependency upgrades;
+- replacing Flutter architecture;
+- changing dependencies merely because newer versions exist;
+- regenerating Android/iOS projects;
+- changing application behavior just to make old/new tooling happy;
+- rewriting lockfiles without necessity and evidence;
+- unrelated modernization.
+
+The goal is:
+
+USE THE PROJECT'S DECLARED SUPPORTED TOOLCHAIN
+
+not:
+
+UPGRADE THE APPLICATION.
+
+If Replit cannot provision the required Flutter/Android environment, document that limitation accurately and continue with source/test validation that is genuinely available.
+
+Do not falsely report BUILD-VERIFIED if a supported build could not execute.
+
+iOS native build acceptance is NOT required in this Linux/Replit campaign.
+
+Do not attempt to fake Xcode/iOS acceptance.
+
+==================================================
+4. SECRET-SAFE AUTHENTICATION TRANSPORT
+==================================================
+
+Inspect all Customer authentication requests, including at minimum:
+
+- login;
+- registration;
+- email verification;
+- password recovery/reset;
+- logout;
+- relevant phone/social auth paths using shared infrastructure.
+
+For sensitive authentication data:
+
+DO NOT place secrets in URL query parameters where the current backend supports body transport.
+
+This includes at minimum:
+
+- password;
+- password confirmation;
+- OTP/code where sensitive;
+- bearer token;
+- authorization header values;
+- provider credentials/tokens;
+- equivalent authentication secrets.
+
+Use the current backend's authoritative request contract.
+
+Do not change server semantics merely to accommodate stale mobile request construction.
+
+==================================================
+5. SAFE HTTP LOGGING
+==================================================
+
+Refactor the shared HTTP logging boundary so production/release operation cannot disclose:
+
+- passwords;
+- OTPs;
+- bearer tokens;
+- Authorization headers;
+- authentication cookies if applicable;
+- sensitive request bodies;
+- sensitive response bodies;
+- signed/private URLs;
+- provider secrets;
+- other authentication credentials.
+
+Do not solve this merely by deleting all useful diagnostic capability if safe diagnostics can be retained.
+
+Prefer an explicit, testable logging policy.
+
+For example, diagnostics may remain in controlled development contexts if:
+
+- release logging is disabled or appropriately constrained;
+- sensitive headers are redacted;
+- sensitive fields are redacted;
+- URLs do not expose credentials;
+- response logging cannot leak authentication/session/private financial data.
+
+Do not print actual credentials into test output or evidence.
+
+Tests should use synthetic sentinel values and assert that those values NEVER appear in captured logs.
+
+Also inspect WebView/deep-link URL logging identified by the audit.
+
+Do not perform a broad WebView/deep-link security campaign here.
+
+Only remove/redact confidentiality leaks necessary for this phase.
+
+==================================================
+6. SECURE TOKEN STORAGE
+==================================================
+
+Replace bearer-token persistence through ordinary SharedPreferences with an appropriate Flutter secure-storage abstraction backed by platform secure facilities.
+
+The design should support Android/iOS appropriately.
+
+Requirements:
+
+- bearer token must not remain in ordinary SharedPreferences after successful migration;
+- new tokens must be written only to the secure token store;
+- reads must use the secure token store;
+- logout/session invalidation must remove the secure token;
+- failed/expired/revoked sessions must not leave a usable token behind;
+- account switching must not expose a previous Customer token;
+- avoid duplicate token authorities.
+
+Do not store the token simultaneously in secure storage and SharedPreferences as permanent authorities.
+
+If a migration path from legacy SharedPreferences is necessary, make it bounded and one-way.
+
+A safe migration may:
+
+1. detect an existing legacy token;
+2. migrate it to secure storage if appropriate;
+3. remove the SharedPreferences token;
+4. thereafter use secure storage as the only persistent token authority.
+
+Do not expose the legacy token in logs.
+
+Do not make unsupported assumptions about backups/keychain behavior.
+
+Document the actual secure-storage package/configuration and platform behavior used.
+
+Do not move harmless UI preferences into secure storage simply for consistency.
+
+==================================================
+7. COORDINATED SESSION LIFETIME
+==================================================
+
+Repair the session boundary coherently.
+
+A Customer logout must not be represented as complete merely because the UI navigated to Login.
+
+Design the client so it safely handles:
+
+A. successful server logout;
+
+B. logout timeout/network failure;
+
+C. already-invalid/revoked token;
+
+D. server 401;
+
+E. server 403;
+
+F. app restart with valid local session;
+
+G. app restart with invalid/expired/revoked session;
+
+H. account switching.
+
+Distinguish authentication failure from authorization failure:
+
+401 generally indicates authentication/session handling.
+
+403 generally indicates authenticated-but-forbidden behavior and must not automatically be treated as logout unless the actual backend contract says otherwise.
+
+Do not globally convert every 403 into session destruction.
+
+Implement centralized handling where appropriate rather than duplicating inconsistent behavior across screens.
+
+==================================================
+8. LOGOUT SECURITY SEMANTICS
+==================================================
+
+The logout implementation must explicitly define and test what happens when the server cannot be reached.
+
+The client must not leave the user visually logged out while silently retaining reusable local authentication credentials indefinitely.
+
+At the same time, do not falsely claim the server session/token was revoked if the server logout request was not confirmed.
+
+Preserve this distinction:
+
+LOCAL SESSION/CREDENTIAL CLEARING
+
+is not identical to:
+
+SERVER TOKEN REVOCATION CONFIRMED.
+
+If server logout is uncertain because of network loss/timeout:
+
+- clear or securely invalidate local Customer authentication state as appropriate;
+- prevent continued local authenticated use;
+- do not claim server revocation was confirmed;
+- handle subsequent authentication safely.
+
+Use the actual Sanctum/backend behavior when designing this.
+
+Do not invent a refresh-token system.
+
+==================================================
+9. CUSTOMER-SPECIFIC STATE CLEARING / ISOLATION
+==================================================
+
+Audit and repair only the Customer-specific state directly associated with authentication/session lifetime.
+
+At minimum consider:
+
+- secure bearer token;
+- cached Customer profile;
+- cached Wallet snapshot;
+- authenticated Customer identifiers;
+- account-specific addresses where applicable;
+- authenticated notification state;
+- account-specific BLoC/provider state;
+- pending auth state;
+- Firebase identity state where actually linked to AgendaAlly Customer auth;
+- late async responses belonging to the previous Customer.
+
+Do NOT blindly delete all application preferences.
+
+Public/non-sensitive settings such as appropriate language/theme preferences may remain where safe.
+
+The important invariant is:
+
+CUSTOMER A MUST NOT SEE OR REUSE CUSTOMER B'S AUTHENTICATED STATE AFTER LOGOUT OR ACCOUNT SWITCH.
+
+Do not claim cross-account isolation accepted solely from source inspection.
+
+Add focused tests where practical.
+
+==================================================
+10. CURRENT EMAIL VERIFICATION
+==================================================
+
+Align ordinary Customer email verification with the CURRENT backend contract.
+
+The audit found:
+
+- stale mobile GET verification behavior;
+- current backend ordinary Customer flow uses the current recipient-bound six-digit verification protocol.
+
+Use the actual current route/controller/request contract.
+
+Do not change the backend to support the stale mobile GET behavior.
+
+Verify at source/test level:
+
+- correct method;
+- correct endpoint;
+- correct request body;
+- correct recipient/account binding;
+- correct handling of invalid code;
+- correct handling of expired code;
+- correct handling of successful verification;
+- no OTP leakage into logs.
+
+Do not send a real email merely to prove the mobile client.
+
+Use safe fixtures/mocks/existing test infrastructure where possible.
+
+Do not rerun the already accepted Web verification campaign.
+
+==================================================
+11. PASSWORD RECOVERY / RESET BOUNDARY
+==================================================
+
+Because authentication transport and logging are being repaired, inspect password recovery/reset requests that share this infrastructure.
+
+Ensure sensitive reset material is not leaked through:
+
+- URLs;
+- logs;
+- persistent storage;
+- debug output.
+
+Use current backend contracts.
+
+Do not redesign the accepted backend password-reset workflow.
+
+Do not send real reset email during this campaign.
+
+Do not rerun accepted Web reset acceptance.
+
+==================================================
+12. DO NOT TOUCH BOOKING/PAYMENT/REFUND FEATURES YET
+==================================================
+
+The audit found important later gaps including:
+
+- contextual booking payment eligibility;
+- authoritative financial completion presentation;
+- provider redirect interpretation;
+- manual Customer refunds;
+- durable mutation/retry behavior;
+- Refund & Cancellation Policy integration.
+
+DO NOT IMPLEMENT THOSE IN THIS CAMPAIGN.
+
+Specifically do NOT change:
+
+- booking creation semantics;
+- booking calculation;
+- availability rules;
+- cancellation rules;
+- payment-method eligibility;
+- Cash semantics;
+- Wallet spending semantics except authenticated cache/session clearing necessary for this task;
+- payment/provider WebView completion behavior;
+- manual refund workflows;
+- refund states;
+- refund amounts;
+- refund command keys;
+- transaction models for manual finance;
+- financial notifications;
+- Refund & Cancellation screens;
+- provider configuration.
+
+Those belong to later bounded phases.
+
+If authentication/session refactoring requires touching a shared file used by those features, preserve their behavior and keep the edit minimal.
+
+==================================================
+13. NO BACKEND BUSINESS-LOGIC CHANGES
+==================================================
+
+Do NOT change:
+
+- booking rules;
+- payment rules;
+- refund rules;
+- cancellation policy;
+- Wallet/accounting;
+- financial state machines;
+- provider verification;
+- manual-finance semantics;
+- Vendor/Specialist obligations;
+- permissions;
+- private financial evidence;
+- production policy content.
+
+The current backend is authoritative.
+
+Do not weaken backend validation to make mobile tests pass.
+
+If an unexpected genuine backend blocker is discovered:
+
+STOP.
+
+Document:
+
+- exact endpoint/controller/service;
+- expected mobile requirement;
+- actual backend behavior;
+- why the existing backend cannot satisfy it;
+- minimal proposed backend change.
+
+Wait for owner authorization before changing it.
+
+==================================================
+14. DEPENDENCY CHANGE POLICY
+==================================================
+
+A secure-storage dependency may be added if the existing dependency graph does not already provide a suitable secure platform-storage mechanism.
+
+Any new dependency must be:
+
+- narrowly justified;
+- actively maintained/reasonable for the supported Flutter baseline;
+- limited to this requirement;
+- documented.
+
+Do NOT start a general package upgrade campaign.
+
+Do NOT update unrelated packages.
+
+Do NOT change Git dependency refs merely because they are imperfect.
+
+Do NOT run broad "upgrade all" commands.
+
+If dependency resolution requires unrelated package changes, stop and report rather than cascading into modernization.
+
+==================================================
+15. FOCUSED TEST REQUIREMENTS
+==================================================
+
+This campaign should introduce focused automated tests around the repaired boundary.
+
+At minimum, where technically feasible, cover:
+
+A. AUTH TRANSPORT
+
+- login password is not placed in URL query parameters;
+- current email verification uses the correct request contract;
+- sensitive auth fields use expected body transport.
+
+B. LOG REDACTION
+
+Use synthetic unique sentinel values for:
+
+- password;
+- OTP;
+- bearer token;
+- Authorization header;
+- sensitive URL/query value.
+
+Capture relevant diagnostic output.
+
+Assert the sentinel values do NOT appear.
+
+C. SECURE TOKEN STORAGE
+
+- token write;
+- token read;
+- token delete;
+- legacy SharedPreferences token migration if implemented;
+- legacy token removed after migration;
+- logout removes secure token.
+
+D. SESSION HANDLING
+
+- successful logout;
+- failed/timeout logout;
+- 401;
+- 403;
+- local account clearing;
+- account switch isolation;
+- previous Customer state not retained.
+
+E. AUTH STATE
+
+- invalid verification code;
+- successful verification fixture;
+- expired/error response mapping where supported;
+- password recovery transport does not expose secrets.
+
+Do not weaken assertions to obtain passing results.
+
+Do not include real credentials in fixtures.
+
+==================================================
+16. SAFE STATIC / BUILD VALIDATION
+==================================================
+
+After implementation, perform the strongest validation the environment legitimately supports.
+
+Preferred if compatible tooling can be provisioned:
+
+- dependency resolution with the project's supported Flutter/Dart baseline;
+- formatting/static analysis of changed/relevant source;
+- focused Flutter/Dart tests;
+- Android debug build where an Android SDK is legitimately available.
+
+If Android SDK remains unavailable:
+
+state:
+
+ANDROID BUILD NOT EXECUTED / NOT QUALIFIED DUE TO ENVIRONMENT
+
+Do not report a source failure merely because the SDK is absent.
+
+iOS:
+
+Do not claim native build/runtime acceptance without macOS/Xcode.
+
+Source/configuration validation may be reported separately.
+
+==================================================
+17. SECURITY ACCEPTANCE CONDITIONS
+==================================================
+
+P0-01 may be considered CLOSED only if evidence demonstrates:
+
+- authentication credentials are no longer placed in unsafe query transport where body transport is supported;
+- sensitive auth values do not appear in captured application HTTP logs;
+- bearer/Authorization values are redacted/not logged;
+- release-sensitive logging is appropriately disabled/restricted;
+- touched URL logging cannot disclose the relevant auth/session secrets.
+
+P0-02 may be considered CLOSED only if evidence demonstrates:
+
+- persistent bearer-token authority uses secure platform storage;
+- ordinary SharedPreferences is no longer the ongoing bearer-token store;
+- any legacy migration is one-way and removes the old token;
+- logout/session invalidation removes local secure credentials;
+- focused tests pass.
+
+Do not close a P0 based solely on code presence.
+
+==================================================
+18. PRESERVATION
+==================================================
+
+The previous audit established:
+
+5,816 application baseline files unchanged before implementation.
+
+Normal database:
+
+214 tables.
+
+Schema/table fingerprints unchanged.
+
+This implementation campaign WILL intentionally change selected Customer mobile source/dependency/test files.
+
+Capture a new before-state before editing.
+
+At completion report:
+
+- exact files intentionally changed;
+- exact dependency/lockfile changes;
+- whether backend files changed — expected NONE;
+- whether Web/Admin files changed — expected NONE;
+- whether database/schema changed — expected NONE;
+- whether normal database rows changed — expected NONE.
+
+Do not attempt to preserve the old 5,816-file hash baseline by avoiding authorized mobile edits.
+
+Instead distinguish:
+
+AUTHORIZED MOBILE SOURCE CHANGES
+
+from:
+
+UNEXPECTED CHANGES.
+
+Database and non-mobile application preservation remain strict.
+
+==================================================
+19. PROHIBITED SCOPE
+==================================================
+
+Do NOT:
+
+- rebuild the Customer app from scratch;
+- regenerate the Flutter project;
+- redesign the app;
+- rebrand the entire app;
+- implement booking/payment/refund feature parity;
+- implement manual refunds;
+- activate payment providers;
+- execute real payments;
+- execute real refunds;
+- execute real payouts;
+- send real verification/reset emails;
+- implement Wallet-to-cash withdrawal;
+- change financial rules;
+- expose Finance receipts;
+- start Vendor mobile work;
+- start Driver mobile work;
+- start Specialist mobile work;
+- implement shared Web + Mobile Terms acceptance auditability;
+- change Terms/Privacy/Refund policy content;
+- deploy production;
+- change the canonical Web 16/20 score.
+
+==================================================
+20. STOP CONDITIONS
+==================================================
+
+STOP and report before proceeding if:
+
+- closing a P0 requires backend business-logic changes;
+- secure token storage requires broad dependency modernization;
+- current auth contract cannot be determined;
+- a new security/financial P0 outside this bounded auth/session area is discovered;
+- normal database/schema unexpectedly changes;
+- unrelated Web/Admin/backend source changes appear;
+- validation would require weakening tests/security controls;
+- the implementation requires redesigning booking/payment/refund behavior.
+
+Do not automatically open a second campaign.
+
+==================================================
+21. DURABLE IMPLEMENTATION REPORT
+==================================================
+
+Create/update a durable report such as:
+
+docs/development/agendaally-customer-mobile-phase1-auth-session.md
+
+Retain focused evidence under a directory such as:
+
+docs/development/evidence/customer-mobile-phase1-auth-session/
+
+Report:
+
+1. Executive summary.
+
+2. Exact original P0 findings.
+
+3. Compatible toolchain/environment used.
+
+4. Exact authentication transport changes.
+
+5. HTTP logging/redaction design.
+
+6. Secure token-storage design.
+
+7. Legacy token migration behavior, if any.
+
+8. Logout/session semantics.
+
+9. 401 handling.
+
+10. 403 handling.
+
+11. Customer/account state isolation.
+
+12. Email verification contract alignment.
+
+13. Password recovery/reset transport findings.
+
+14. Phone/social/Firebase boundaries touched or deliberately deferred.
+
+15. New/changed dependencies and exact justification.
+
+16. Tests added.
+
+17. Test results.
+
+18. Static-analysis results.
+
+19. Android build result or explicit environment qualification.
+
+20. iOS qualification status.
+
+21. Security acceptance evidence for P0-01.
+
+22. Security acceptance evidence for P0-02.
+
+23. P1-02/P1-03 status after this campaign.
+
+24. Exact files changed.
+
+25. Database/schema preservation result.
+
+26. Web/Admin/backend preservation result.
+
+27. Remaining mobile P0 findings.
+
+28. Remaining mobile P1 findings.
+
+29. Recommended next bounded implementation campaign.
+
+==================================================
+22. FINAL DECISION
+==================================================
+
+End with:
+
+CUSTOMER MOBILE PHASE 1:
+PASS / PARTIAL / BLOCKED
+
+P0-01 — AUTH/API CONFIDENTIALITY:
+CLOSED / PARTIAL / OPEN
+
+P0-02 — SECURE TOKEN STORAGE:
+CLOSED / PARTIAL / OPEN
+
+CURRENT CUSTOMER EMAIL VERIFICATION CONTRACT:
+ALIGNED / PARTIAL / BLOCKED
+
+SESSION/LOGOUT FOUNDATION:
+ALIGNED / PARTIAL / BLOCKED
+
+SUPPORTED FLUTTER/DART VALIDATION:
+PASS / FAILED / NOT AVAILABLE
+
+ANDROID BUILD:
+PASS / FAILED-SOURCE / BLOCKED-ENVIRONMENT / NOT EXECUTED
+
+IOS BUILD:
+PASS / FAILED-SOURCE / BLOCKED-ENVIRONMENT / NOT EXECUTED
+
+BACKEND CHANGES:
+NONE / STOPPED FOR OWNER REVIEW
+
+DATABASE/SCHEMA CHANGES:
+NONE EXPECTED
+
+WEB/ADMIN CHANGES:
+NONE EXPECTED
+
+REMAINING MOBILE P0 COUNT:
+__
+
+REMAINING MOBILE P1 COUNT:
+__
+
+CUSTOMER MOBILE PHASE 2 CAN BEGIN:
+YES / NO
+
+NEXT RECOMMENDED CAMPAIGN:
+one bounded recommendation only
+
+==================================================
+23. STOP AFTER PHASE 1
+==================================================
+
+Even if Phase 1 passes completely:
+
+STOP.
+
+Do NOT automatically begin:
+
+- booking/payment alignment;
+- manual refund implementation;
+- policy integration;
+- mobile redesign;
+- branding;
+- provider work;
+- dependency modernization;
+- Android/iOS release preparation.
+
+Return the implementation report and evidence for owner review.
+
+The next phase will be separately authorized based on the evidence.

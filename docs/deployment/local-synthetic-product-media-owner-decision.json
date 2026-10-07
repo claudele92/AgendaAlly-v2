@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "OWNER_APPROVED_PORTABLE_PRODUCT_NULL_POLICY",
+  "scope": "Portable first-install/demo baseline only",
+  "owner_decision_verbatim": "OWNER DECISION — PORTABLE PRODUCT MEDIA POLICY\n\nThe Product-photo dependency is resolved for the PORTABLE FIRST-INSTALL\nBASELINE as follows.\n\nI explicitly approve a NULL/no-local-media policy for the five unresolved\nProduct-photo dependencies.\n\nThis decision applies only to the portable first-install/demo baseline.\n\nDo NOT download, recover, scrape, generate, regenerate, substitute or otherwise\ncreate Product images from the historical Unsplash URLs or any other source.\n\nUpdate the portable baseline so that it does not reference Product image files\nthat are not included in the source distribution.\n\nSpecifically:\n\n1. Preserve all 13 approved Product records and their non-media business data.\n\n2. Preserve all 14 approved Stock records and their non-media business data.\n\n3. For Product/Stock image fields whose values depend on the five unresolved\n   Product-photo assets, use the application's valid NULL/no-image representation.\n\n4. Remove ONLY the 13 Product Gallery image rows whose sole purpose is to\n   reference those unavailable Product-photo assets.\n\n5. Do not alter the 51 Service records or their 51 approved Service-Gallery\n   relationships.\n\n6. Do not change the accepted Service package.\n\nAccepted Service provenance SHA256 remains:\n\nfae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6\n\nAccepted canonical Service-package SHA256 remains:\n\n8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e\n\n7. Update ONLY the portable-baseline/reference evidence necessary to encode\n   this explicit Product-media policy.\n\n8. Recompute and report the resulting portable-baseline SHA256.\n\nThe previous portable-baseline SHA256:\n\n7aba06496ffb8efd3aba99bc2599773245c196d453d902c9bcb370a92314335c\n\nis historical review evidence and is expected to change if the manifest is\nupdated.\n\nDo not rewrite historical approval/evidence files to pretend the old hash\nrepresented this new policy. Record this owner decision separately and preserve\nthe old evidence as historical.\n\nEXPECTED PORTABLE MEDIA RESULT\n\n- Products: 13 preserved\n- Stocks: 14 preserved\n- Product local images: 0\n- Product Gallery image rows depending on unresolved Product media: 0\n- Service local images: 15 approved JPEGs\n- Services: 51\n- Service Gallery relationships: 51\n- unresolved/broken Product image paths in executable portable baseline: 0\n\nThis NULL/no-image policy is intentionally NOT photo-complete visual parity.\nThe application may display its normal no-image/fallback UI for these Products.\n\nDo not make unrelated application/UI changes merely to improve Product\nappearance.\n\nAfter implementing this bounded manifest/policy change:\n\n- validate referential integrity;\n- validate that no executable portable-demo row references the five unresolved\n  Product-photo assets;\n- validate the Service package remains byte-for-byte unchanged;\n- report the new portable-baseline hash and exact changed files.\n\nSTOP after that report BEFORE creating the disposable MySQL lab.\n\nDo NOT:\n- download Product images;\n- generate Product images;\n- substitute Service images;\n- change Product business data;\n- change Service media;\n- initialize MySQL yet;\n- provision an Administrator;\n- generate keys;\n- activate providers/SMTP/workers;\n- perform financial operations;\n- perform GitHub/VPS/deployment actions.",
+  "historical_reference": {
+    "file": "docs/deployment/local-synthetic-reference-manifest.json",
+    "sha256": "0eb9befdc4f88c3d5cbce35be667de7f23417735f71b24adb7ea945576b16b1f"
+  },
+  "historical_portable_baseline": {
+    "file": "docs/deployment/local-synthetic-portable-baseline.json",
+    "sha256": "7aba06496ffb8efd3aba99bc2599773245c196d453d902c9bcb370a92314335c"
+  },
+  "active_reference_manifest": "docs/deployment/local-synthetic-reference-product-null-manifest.json",
+  "active_portable_baseline": "docs/deployment/local-synthetic-portable-baseline-product-null.json",
+  "expected_counts": {
+    "products": 13,
+    "stocks": 14,
+    "product_images": 0,
+    "product_galleries": 0,
+    "services": 51,
+    "service_galleries": 51
+  },
+  "service_package_unchanged": {
+    "provenance_sha256": "fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6",
+    "canonical_package_sha256": "8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e"
+  },
+  "product_image_field_policy": "Native nullable img columns: null, not an empty string or fallback image path.",
+  "removed_product_gallery_ids": [
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64
+  ],
+  "visual_parity": "NOT CLAIMED",
+  "next_execution": "STOP before MySQL lab, Administrator provisioning or key generation."
+}

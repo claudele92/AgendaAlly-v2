@@ -1,0 +1,56 @@
+{
+  "scope": "Final read-only protected original, retained native operations and normal demo; no disposable API retarget",
+  "protectedState": {
+    "tables": 59,
+    "changed": [],
+    "schemaCount": 465,
+    "schemaMatch": true,
+    "schemaCodec": [
+      "type,name,tbl_name,sql",
+      "1=1"
+    ],
+    "legacyOrders": {
+      "total": 12,
+      "unverified": 12
+    },
+    "completionEvidence": {
+      "electronic_collection_attempts": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "payment_financial_operations": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "payment_merchant_revisions": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "payment_receipt_evidence": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "ownedSchemaChange": "none",
+    "queryOnly": true
+  },
+  "normalDemo": {
+    "shops": 9,
+    "services": 51,
+    "service_masters": 75,
+    "specialists": 14
+  },
+  "normalApi": {
+    "status": 200,
+    "shops": 9
+  },
+  "checks": {
+    "all59FingerprintsMatch": true,
+    "all465SchemaObjectsMatch": true,
+    "legacy12RemainUnverified": true,
+    "retainedNativeOperationsUnchanged": true,
+    "normalDemoCounts": true,
+    "normalApiNotRetargeted": true
+  },
+  "status": "PASS"
+}

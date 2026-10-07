@@ -1,0 +1,10 @@
+{
+  "hostArchitecture": "x64",
+  "kvmDevicePresent": false,
+  "usbBusPresent": false,
+  "attachedAndroidDevices": 0,
+  "otherDeviceStates": [],
+  "adbServerPort": 5039,
+  "emulatorInstalled": false,
+  "runtimeJourneysExecuted": false
+}

@@ -1,0 +1,894 @@
+# AgendaAlly — Delivery Driver Phase 2 Secure Onboarding + Canonical Branding Integration
+
+Implement this as ONE bounded development pass.
+
+This task has exactly TWO approved scopes:
+
+A. Delivery Driver Phase 2:
+   Secure Vendor → Delivery Driver invitation, registration, acceptance, membership and offboarding lifecycle.
+
+B. AgendaAlly branding:
+   Import the newly attached approved AgendaAlly logo assets, make them the canonical platform branding, seed/configure them through the existing Admin branding/settings architecture, and use them on the appropriate existing surfaces.
+
+CREDIT USE IS IMPORTANT.
+
+Do not perform another broad audit.
+Do not rerun Stage 1/Stage 2 acceptance.
+Do not reopen completed work.
+Do not automatically continue into another Delivery phase.
+Do not change payment/accounting architecture.
+Do not redesign unrelated UI.
+
+============================================================
+IMPORTANT — ATTACHED LOGOS ARE THE SOURCE OF TRUTH
+============================================================
+
+The logo files attached to THIS request are the newly approved canonical AgendaAlly branding assets.
+
+Treat these attached files as the source of truth.
+
+Do NOT:
+
+- choose an older AgendaAlly logo from the repository when it conflicts with the attached assets;
+- recreate the logo;
+- redraw the logo;
+- generate a replacement logo;
+- change the symbol;
+- change the wordmark;
+- change the approved colors;
+- stretch/distort the logo;
+- substitute plain text for the logo where the real asset should be used.
+
+Import/store the attached assets appropriately in the native application and preserve their visual appearance.
+
+Where multiple attached variants exist, determine their intended role from the assets:
+
+- primary/light-background logo;
+- dark-background logo;
+- symbol-only/compact mark;
+- favicon/app-icon asset.
+
+Reuse those variants appropriately instead of modifying one asset repeatedly.
+
+If an attached asset is not suitable for a particular technical use, such as PDF rendering or favicon dimensions, create only the necessary technical derivative while preserving the exact approved visual identity.
+
+Do not redesign it.
+
+============================================================
+PART A — DELIVERY DRIVER PHASE 2
+============================================================
+
+Delivery Driver Phase 0 + Phase 1 is already complete.
+
+The completed implementation established:
+
+- authoritative per-shop Driver membership;
+- centralized `DriverMembership.php` eligibility;
+- `invitations.driver_active`;
+- accepted per-shop invitation relationships;
+- shop-scoped Vendor assignment;
+- `orders.deliveryman_id`;
+- cross-shop isolation;
+- containment of unsafe Vendor-side Driver provisioning;
+- containment of unassigned-order self-claim;
+- corrected Vendor assignment behavior.
+
+Do NOT redo Phase 0 or Phase 1.
+
+The goal now is:
+
+Vendor
+→ invites Delivery Driver
+→ Driver receives invitation
+→ existing user signs in OR new user registers
+→ Driver controls their own credentials
+→ Driver accepts invitation
+→ relationship becomes active for that specific shop
+→ Driver becomes eligible for that Vendor's delivery assignments
+→ Vendor can assign eligible delivery orders to that Driver
+
+The Delivery mobile app will be uploaded and refactored separately later.
+
+Do NOT start that work now.
+
+============================================================
+1. PRESERVE THE EXISTING AUTHORITY MODEL
+============================================================
+
+Do not replace, bypass or create a competing implementation for:
+
+- `app/Services/DeliveryDriver/DriverMembership.php`
+- `invitations.driver_active`
+- the existing accepted per-shop invitation relationship
+- `orders.deliveryman_id`
+- Phase 0/1 shop-scoped assignment authorization
+- existing Staff permission boundaries
+- intentionally authorized Admin behavior
+
+Phase 2 must build ON TOP of these controls.
+
+The authoritative eligibility state remains conceptually:
+
+authenticated Driver
++ global `deliveryman` role where required for compatibility
++ globally active account
++ valid invitation relationship for that exact shop/user
++ role = `deliveryman`
++ status = ACCEPTED
++ `driver_active = true`
+
+Only then should a Driver become eligible for that shop through the existing `DriverMembership` authority.
+
+Do NOT create another:
+
+- VendorDriver table;
+- ShopDriver table;
+- DriverMembership table;
+- parallel eligibility service/resolver.
+
+If the existing model is genuinely incapable of representing a required state, STOP and report the architectural blocker instead of creating a competing system.
+
+============================================================
+2. VENDOR DELIVERY DRIVER MANAGEMENT
+============================================================
+
+Use the existing native Admin/Vendor portal.
+
+Provide or improve the existing:
+
+Delivery Drivers
+
+management experience.
+
+An authorized Vendor/shop owner or permitted Staff member should be able to:
+
+- view Drivers associated with the current shop;
+- invite a Driver;
+- distinguish pending invitations;
+- distinguish active Drivers;
+- distinguish suspended/inactive relationships;
+- resend an eligible pending invitation where appropriate;
+- revoke/cancel an eligible pending invitation;
+- suspend an accepted Driver relationship;
+- reactivate an accepted Driver relationship;
+- see whether a Driver is currently eligible for assignment.
+
+Do not expose another shop's Driver relationships.
+
+Vendor-level suspension must NOT disable the Driver's global AgendaAlly account.
+
+A Driver may legitimately work with multiple Vendors.
+
+Example:
+
+Driver D
+→ Active at Shop A
+→ Active at Shop B
+→ Suspended at Shop C
+
+Shop C's action must not disable Shop A or Shop B.
+
+============================================================
+3. INVITE DRIVER
+============================================================
+
+Replace any remaining unsafe legacy Vendor-created-Driver behavior with a proper invitation workflow.
+
+Vendor enters only appropriate invitation information, preferably:
+
+- email and/or supported phone identifier;
+- first/last/display name only where useful;
+- optional invitation message only if the existing architecture already supports it.
+
+The Vendor must NOT:
+
+- choose the Driver's password;
+- receive a generated password;
+- know the Driver's password;
+- create authentication credentials for the Driver;
+- mark unrelated contact details verified;
+- impersonate the Driver.
+
+The invitation must be associated server-side with the authenticated Vendor's authorized shop.
+
+Never trust a submitted `shop_id` as authorization.
+
+============================================================
+4. EXISTING AGENDAALLY USER
+============================================================
+
+If the invited person already has an AgendaAlly account:
+
+do NOT create another account.
+
+Instead:
+
+- preserve the existing user;
+- preserve their credentials;
+- authenticate them normally;
+- present the appropriate invitation;
+- allow them to accept or decline it;
+- establish/activate the shop-specific Driver relationship only after valid acceptance.
+
+Do not expose unnecessary information about existing accounts.
+
+Do not make the user a Driver for every Vendor.
+
+============================================================
+5. NEW DRIVER REGISTRATION
+============================================================
+
+If the invited person does not have an AgendaAlly account:
+
+provide a secure invitation-based registration path using the existing AgendaAlly authentication architecture.
+
+The Driver should create their own:
+
+- account;
+- password;
+- required identity/contact information.
+
+Do not create a separate Delivery Driver authentication system.
+
+Do not store plaintext passwords.
+
+Do not send passwords by email/SMS.
+
+Do not allow the Vendor to set the password.
+
+After valid registration and invitation acceptance, create/activate the existing authoritative per-shop Driver relationship.
+
+============================================================
+6. INVITATION SECURITY
+============================================================
+
+Reuse the existing secure invitation/token architecture where possible.
+
+Otherwise implement only the smallest necessary secure mechanism.
+
+Requirements:
+
+- token must be unguessable;
+- token maps to a specific invitation;
+- invitation maps to the correct shop;
+- acceptance maps to the intended authenticated person;
+- expired invitations cannot activate membership;
+- revoked invitations cannot activate membership;
+- declined invitations do not activate membership;
+- accepted invitations cannot be replayed into duplicate memberships;
+- forged user/shop/invitation IDs cannot bypass authorization;
+- cross-shop invitation access must fail.
+
+Do not expose secrets or unnecessary account information.
+
+============================================================
+7. INVITATION / MEMBERSHIP STATES
+============================================================
+
+Reuse existing states where possible.
+
+Clearly distinguish:
+
+PENDING
+Invitation exists but is not accepted.
+
+ACTIVE
+Invitation accepted and `driver_active = true`.
+
+SUSPENDED
+Invitation accepted but `driver_active = false`.
+
+DECLINED / REVOKED / EXPIRED
+Use where supported by the existing architecture.
+
+Pending Drivers must NOT be assignable.
+
+============================================================
+8. DRIVER PROFILE
+============================================================
+
+Do not overbuild Driver profiles.
+
+Reuse the existing DeliveryMan/Driver settings where appropriate.
+
+Existing relevant fields may include:
+
+- contact information;
+- vehicle information;
+- online status;
+- operational/location settings.
+
+Prefer the Driver completing their own operational information after registration.
+
+Do not require the Vendor to create the Driver's personal profile unnecessarily.
+
+Do NOT implement:
+
+- Driver banking;
+- earnings;
+- commissions;
+- Driver payout;
+- Driver wallet;
+- COD economics.
+
+============================================================
+9. ORDER ASSIGNMENT
+============================================================
+
+After acceptance and activation, the Driver should automatically become eligible through the existing `DriverMembership` authority.
+
+Do not build another roster specifically for the assignment UI.
+
+Vendor assignment must continue to use the existing authoritative resolver.
+
+The picker must exclude:
+
+- pending Drivers;
+- suspended Drivers;
+- globally inactive Drivers;
+- foreign-shop Drivers;
+- ambiguous/conflicting memberships.
+
+Vendor A must never be able to assign Vendor B's Driver merely by manually submitting:
+
+`deliveryman_id`.
+
+Preserve:
+
+`orders.deliveryman_id`.
+
+============================================================
+10. OFFBOARDING / ACTIVE DELIVERY
+============================================================
+
+The previous audit identified active-delivery offboarding as unresolved.
+
+Resolve only the minimum safe policy needed for Driver membership management.
+
+A Vendor may deactivate a Driver from that Vendor/shop.
+
+However, do NOT silently orphan an active delivery.
+
+If the Driver currently has an active/in-progress delivery:
+
+preferred behavior is to block final deactivation and explain that the active delivery must first be completed or explicitly reassigned using an existing safe mechanism.
+
+Do NOT automatically select another Driver.
+
+Do NOT silently cancel the order.
+
+Do NOT alter financial records.
+
+Historical completed orders must preserve their Driver attribution.
+
+After successful deactivation:
+
+- Driver receives no new assignments for that shop;
+- shop-dependent operational access is removed;
+- global account remains;
+- relationships with other shops remain.
+
+If existing order statuses make the correct active-delivery boundary ambiguous, fail closed and report it.
+
+============================================================
+11. STAFF
+============================================================
+
+Preserve existing Staff permissions.
+
+Do not broaden Staff access.
+
+If Driver invitations already belong under an established permission such as `staff.invite`, reuse the existing authority where appropriate.
+
+A Staff member authorized for Shop A cannot invite/manage Drivers for Shop B.
+
+Order assignment remains governed by its existing order-management authority.
+
+============================================================
+12. ADMIN / SUPERADMIN
+============================================================
+
+Preserve legitimate Admin/Superadmin behavior.
+
+Do not accidentally constrain intentionally global Admin operations to Seller rules.
+
+But Admin access must not fabricate Vendor membership.
+
+Vendor-side Driver operational access still requires the valid shop relationship.
+
+============================================================
+13. NOTIFICATIONS
+============================================================
+
+Audit and reuse the existing notification/email infrastructure where appropriate.
+
+The invitation workflow should be capable of notifying the invited Driver.
+
+Do not build a large notification subsystem.
+
+Do not activate an external SMS/email provider merely for this development task.
+
+If external delivery infrastructure is unavailable:
+
+- implement the correct invitation lifecycle;
+- verify it locally;
+- report the external-delivery limitation.
+
+Do not pretend an email/SMS was delivered when it was not.
+
+============================================================
+14. FUTURE DELIVERY APP
+============================================================
+
+The Delivery app source will be uploaded separately later.
+
+Do not refactor or redesign it now.
+
+Preserve backend concepts needed by that future app:
+
+- authenticated Driver identity;
+- Driver role;
+- per-shop memberships;
+- membership status;
+- assigned orders;
+- assignment authorization.
+
+Keep additive API changes backward-compatible where practical.
+
+============================================================
+15. PARCEL AND PLATFORM DISPATCH ARE OUT OF SCOPE
+============================================================
+
+Do NOT expand this task into:
+
+- Parcel authorization redesign;
+- courier marketplace;
+- platform Driver pool;
+- nearest-Driver matching;
+- cross-Vendor dispatch;
+- automatic dispatch;
+- centralized AgendaAlly delivery operations.
+
+Report Parcel authorization separately if it remains unresolved.
+
+============================================================
+PART B — CANONICAL AGENDAALLY BRANDING
+============================================================
+
+The logo files attached to THIS request are the canonical approved AgendaAlly branding.
+
+Use those assets.
+
+Do not select an older repository logo when it conflicts with the attachments.
+
+============================================================
+16. IMPORT AND ORGANIZE THE APPROVED LOGOS
+============================================================
+
+Import/store the attached approved logo files in the appropriate native application asset location.
+
+Use clear durable filenames.
+
+Do not create unnecessary duplicates.
+
+Preserve source-quality assets.
+
+Where appropriate identify:
+
+- primary logo;
+- dark-mode logo;
+- symbol/compact logo;
+- favicon/app-icon asset.
+
+Do not modify the actual brand design.
+
+============================================================
+17. USE EXISTING ADMIN BRANDING/SETTINGS
+============================================================
+
+Audit the existing Admin branding/settings/media architecture first.
+
+Reuse it.
+
+The approved AgendaAlly branding should become the default configured platform branding AND should be visible in the appropriate Admin settings screen.
+
+The intended architecture is:
+
+approved attached asset
+→ local managed asset
+→ seeded/configured existing setting
+→ visible/editable through Admin
+→ consumed by Customer/Admin/Vendor surfaces.
+
+Do not hardcode the logo separately throughout dozens of components if the settings architecture already supports branding.
+
+Do not create another branding/settings system.
+
+============================================================
+18. SEED THE BRANDING
+============================================================
+
+Use the same guarded/idempotent development-data discipline used in the completed Stage 2 work.
+
+Seed/configure only the relevant branding settings.
+
+Do not overwrite unrelated settings.
+
+Do not overwrite user-created marketplace data.
+
+Do not alter:
+
+- users;
+- shops;
+- products;
+- services;
+- bookings;
+- orders;
+- transactions;
+- wallets;
+- payment settings;
+- financial records.
+
+Run the branding seed/configuration twice if appropriate and verify that the second run produces no duplicate branding records or destructive changes.
+
+The seeded branding must remain editable through Admin.
+
+============================================================
+19. CUSTOMER STOREFRONT
+============================================================
+
+Use configured AgendaAlly branding on appropriate existing Customer storefront surfaces, such as:
+
+- primary application header;
+- footer;
+- other existing platform-brand surfaces.
+
+Do NOT broadly redesign the storefront.
+
+Preserve the approved Stage 2 visual language:
+
+- black/neutral;
+- warm bronze;
+- warm ivory/off-white;
+- restrained borders;
+- professional typography;
+- clean marketplace identity.
+
+Do not replace Vendor/shop branding with AgendaAlly branding.
+
+============================================================
+20. ADMIN / VENDOR PORTAL
+============================================================
+
+Use the configured official AgendaAlly branding in the Admin/Vendor application shell where platform branding belongs.
+
+Preserve individual Vendor/shop logos in business-specific contexts.
+
+Do not confuse:
+
+AgendaAlly = platform identity.
+
+Vendor logo = individual business identity.
+
+============================================================
+21. INVOICE
+============================================================
+
+The invoice redesign is already complete.
+
+Do NOT redesign it again.
+
+The previous implementation reported that no official AgendaAlly raster asset was available and therefore reused an existing wordmark.
+
+Now use the newly attached approved canonical logo.
+
+Update only the branding integration where necessary.
+
+The invoice should continue to contain both:
+
+AGENDAALLY PLATFORM BRANDING
+
+and
+
+VENDOR/SHOP BRANDING.
+
+Preserve the existing professional invoice layout and authoritative information:
+
+- AgendaAlly logo;
+- Vendor/shop logo when available;
+- Business details;
+- Client details;
+- Specialist details;
+- service/booking information;
+- pricing;
+- currency formatting;
+- payment status;
+- booking status;
+- header/footer.
+
+Do not alter invoice calculations or payment/booking semantics.
+
+If PDF generation requires a compatible local PNG/raster asset, generate only a faithful technical derivative of the attached approved logo.
+
+Do not redesign it.
+
+============================================================
+22. FAVICON / COMPACT BRAND
+============================================================
+
+Use the approved attached symbol-only asset for compact/favicons where appropriate.
+
+Reuse the existing favicon architecture.
+
+Do not create a complicated new asset pipeline.
+
+If the supplied favicon is already technically appropriate, use it directly.
+
+============================================================
+23. SOCIAL FOOTER
+============================================================
+
+The storefront social/footer implementation is already complete.
+
+Do not redo it.
+
+Preserve:
+
+Instagram:
+https://www.instagram.com/agendaally
+
+Facebook:
+https://www.facebook.com/AgendaAlly/
+
+LinkedIn:
+https://www.linkedin.com/company/agendaally
+
+TikTok:
+prepared/configurable in Admin but hidden until a URL is supplied.
+
+Keep blank/unconfigured social destinations hidden.
+
+Use the existing proper official social-network icons.
+
+Do not invent links.
+
+============================================================
+24. PLATFORM BRAND VS BUSINESS BRAND
+============================================================
+
+Maintain this distinction throughout:
+
+AgendaAlly logo
+= platform/application identity.
+
+Shop logo
+= Vendor/business identity.
+
+Driver avatar/profile
+= individual Driver identity.
+
+Examples:
+
+Marketplace header
+→ AgendaAlly.
+
+Marketplace footer
+→ AgendaAlly.
+
+Admin/Vendor shell
+→ AgendaAlly.
+
+Invoice platform header/footer
+→ AgendaAlly.
+
+Invoice Business section
+→ Vendor/shop logo.
+
+Shop profile/storefront
+→ Vendor/shop branding.
+
+Driver management
+→ Driver identity/avatar where applicable.
+
+Do not replace Vendor branding with AgendaAlly.
+
+============================================================
+PART C — PRESERVE COMPLETED WORK
+============================================================
+
+Do not reopen or change completed work unless directly necessary for these two scopes.
+
+Do NOT change:
+
+- Payment Phase 0/1;
+- provider activation;
+- country-payment assignments;
+- Vendor payment configuration;
+- `collect_via_platform`;
+- payment credentials;
+- payment initiation;
+- callbacks/webhooks;
+- payment accounting;
+- payouts;
+- refunds;
+- wallets;
+- FX;
+- settlement;
+- PaymentList;
+- invoice calculations;
+- footer/social architecture;
+- Stage 2 storefront architecture;
+- Car Service taxonomy;
+- Stories;
+- Specialist public/private visibility;
+- booking semantics;
+- Customer marketplace taxonomy;
+- unrelated Laravel APIs;
+- Customer Flutter behavior.
+
+Do not publish/deploy.
+
+============================================================
+PART D — FOCUSED VERIFICATION
+============================================================
+
+Credit use is important.
+
+Run only focused checks for changed functionality.
+
+Do NOT rerun a broad Stage 1/Stage 2 acceptance suite.
+
+Do NOT rerun the complete payment hardening suite.
+
+Do NOT perform real payments.
+
+Use isolated synthetic Driver/invitation fixtures where tests require data.
+
+Delivery tests must prove at minimum:
+
+A. Vendor A can invite a Driver for Shop A.
+
+B. Vendor A cannot invite for Shop B by forging shop ID.
+
+C. Vendor B cannot view/manage Shop A's invitation.
+
+D. Vendor cannot choose or receive the Driver's password.
+
+E. Existing user can accept without duplicate account creation.
+
+F. New Driver can register with their own credentials and accept.
+
+G. Wrong authenticated user cannot accept another person's invitation.
+
+H. Expired/revoked invitation cannot activate membership.
+
+I. Replaying acceptance does not create duplicate active membership.
+
+J. Pending/declined Driver is not assignable.
+
+K. Accepted + active Driver becomes eligible through existing `DriverMembership`.
+
+L. Suspended Driver becomes ineligible for new assignments.
+
+M. Shop A suspension does not disable Shop B membership.
+
+N. Global `deliveryman` role alone remains insufficient.
+
+O. Forged `deliveryman_id` cannot bypass shop eligibility.
+
+P. Authorized Staff behavior remains correct.
+
+Q. Unauthorized Staff cannot manage foreign Drivers.
+
+R. Historical completed Driver attribution survives suspension.
+
+S. Active-delivery offboarding follows the safe policy.
+
+T. Legitimately authorized Admin/Superadmin behavior remains intact.
+
+Branding verification must prove:
+
+U. Attached logo assets are now the canonical configured assets.
+
+V. Branding is visible in the appropriate Admin settings panel.
+
+W. Admin can later change the configured branding through the existing settings architecture.
+
+X. Branding seed/configuration is idempotent.
+
+Y. Customer storefront displays the correct configured AgendaAlly logo.
+
+Z. Admin/Vendor shell displays the correct platform branding.
+
+AA. Vendor/shop logos remain separate and intact.
+
+AB. Invoice displays the correct AgendaAlly logo plus Vendor/shop logo where available.
+
+AC. Favicon/compact mark uses the approved asset where appropriate.
+
+AD. Instagram, Facebook and LinkedIn remain correct.
+
+AE. Blank TikTok remains hidden.
+
+AF. Desktop rendering is correct.
+
+AG. Approximately 390px rendering has no branding-related overflow or broken images.
+
+Run TypeScript/syntax checks only for affected files/components.
+
+Run one relevant build only if required.
+
+Do not repeatedly restart all previews.
+
+============================================================
+PART E — FINAL REPORT
+============================================================
+
+When complete, report concisely:
+
+DELIVERY DRIVER
+
+1. Existing invitation architecture reused.
+2. Exact Vendor invitation flow implemented.
+3. Existing-user acceptance behavior.
+4. New-user registration behavior.
+5. Confirmation that Driver owns their password.
+6. Invitation/token security behavior.
+7. Invitation/member states.
+8. Confirmation `DriverMembership.php` remains authoritative.
+9. Vendor Driver-management UI changes.
+10. Staff behavior.
+11. Admin/Superadmin behavior.
+12. Multi-shop behavior.
+13. Assignment integration.
+14. Suspension/reactivation behavior.
+15. Active-delivery offboarding policy.
+16. Notification behavior and external-delivery limitations.
+17. Focused Delivery tests/results.
+18. Remaining Delivery security issue.
+19. Parcel status.
+20. Confirmation Delivery mobile-app work remains deferred.
+
+BRANDING
+
+21. Exact attached assets imported.
+22. Asset roles selected.
+23. Existing settings architecture used.
+24. Branding settings seeded/configured.
+25. Where they appear in Admin.
+26. Storefront integration.
+27. Admin/Vendor integration.
+28. Invoice integration.
+29. Favicon/compact-brand integration.
+30. Vendor/shop branding separation.
+31. Social-footer verification.
+32. Seed idempotency result.
+33. Focused desktop/mobile verification.
+
+SAFETY
+
+34. Exact files/migrations changed.
+35. Confirm no payment/provider behavior changed.
+36. Confirm no payout/refund/wallet/accounting behavior changed.
+37. Confirm no real financial records were changed.
+38. Confirm no Delivery mobile-app refactor was started.
+39. Confirm no broad acceptance cycle was run.
+
+Restore the existing Customer, Admin/Vendor and Laravel previews if this work disturbed them.
+
+Then STOP.
+
+Do NOT automatically begin:
+
+- Delivery Driver Phase 3;
+- Delivery mobile app refactoring;
+- Parcel authorization work;
+- platform dispatch;
+- Driver earnings/COD;
+- payment work;
+- Stories work;
+- Specialist visibility;
+- another branding redesign;
+- unrelated cleanup.
+
+Wait for explicit approval.

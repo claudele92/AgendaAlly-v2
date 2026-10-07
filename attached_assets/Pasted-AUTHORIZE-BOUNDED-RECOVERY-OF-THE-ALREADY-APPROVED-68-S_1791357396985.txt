@@ -1,0 +1,106 @@
+AUTHORIZE BOUNDED RECOVERY OF THE ALREADY-APPROVED #68 SOURCE PACKAGE.
+
+This is NOT a new photo campaign, new photo approval, licensing review, or
+runtime installation.
+
+The read-only investigation established:
+
+- All 15 original approved Service JPEG inputs still exist at:
+  /home/runner/workspace/attached_assets/service-photos/
+
+- All 15 currently recompute to their already-approved exact byte counts and
+  SHA256 values.
+
+- The accepted generated provenance.json no longer exists.
+
+- Its accepted SHA256 is:
+  fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+- The frozen approval/owner evidence and deterministic provenance()/jsonBytes()
+  implementation needed to reproduce it remain available.
+
+- The previous package was lost because it was created only under the
+  parent-ignored .local sanitized snapshot and therefore was not included by
+  “Apply changes to main version.”
+
+Perform ONLY this bounded recovery:
+
+1. Revalidate the 15 surviving original JPEG inputs against the already-approved
+   filenames, exact byte counts, MIME image/jpeg and SHA256 values.
+
+2. Deterministically reproduce provenance.json using ONLY the already-frozen
+   approval/owner evidence and the existing approved serialization implementation.
+
+3. BEFORE accepting the reproduced provenance, require its exact SHA256 to equal:
+
+   fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+   If it differs by even one byte, STOP. Do not modify the approval or generate
+   a new expected hash.
+
+4. Reassemble the already-approved package from:
+   - those exact 15 surviving JPEG bytes;
+   - the exactly hash-matching reproduced provenance.json.
+
+5. Require the canonical package manifest SHA256 to reproduce exactly:
+
+   8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e
+
+   If it does not match exactly, STOP.
+
+IMPORTANT PERSISTENCE CORRECTION:
+
+The recovered package must become part of the TRACKED sanitized source that will
+ultimately be published as AgendaAlly-v2.
+
+Do not leave the only authoritative package inside a parent-ignored .local
+directory again.
+
+Use the existing approved repository-relative application package path:
+
+.migration-backup/backend/resources/demo-assets/
+  services/
+  provenance.json
+
+in the tracked source baseline from which AgendaAlly-v2 is constructed/published.
+
+Do not weaken the global .local ignore rule merely to preserve a temporary
+sanitized snapshot.
+
+If the current repository architecture means that this exact repository-relative
+path cannot be tracked/persisted safely, STOP and report the minimal repository
+boundary correction required before copying.
+
+6. After recovery, verify:
+   - exactly 15 Service JPEGs;
+   - exact individual hashes/bytes/MIME;
+   - exact provenance hash;
+   - exact canonical package hash;
+   - 51 approved Service relationships;
+   - 51 approved Service-Gallery relationships;
+   - zero Product images;
+   - zero unapproved images.
+
+7. Verify that the recovered package is included in the changes that Replit's
+   “Apply changes to main version” will actually preserve.
+
+Do not rerun the 28-case #68 negative campaign.
+Do not repeat licensing review.
+Do not download anything.
+Do not modify Product-photo policy.
+Do not initialize MySQL.
+Do not modify migrations or manifests.
+Do not install into runtime/public storage.
+Do not touch Administrator accounts, credentials, keys, providers, SMTP,
+workers, financial state, GitHub, VPS, Stories or production.
+
+Return:
+- PASS or BLOCKED;
+- provenance SHA256;
+- canonical package SHA256;
+- 15-file verification result;
+- tracked/persistence status;
+- exact files changed.
+
+If and only if both accepted hashes reproduce exactly and the package will
+persist through Apply, mark the bounded recovery PASS.

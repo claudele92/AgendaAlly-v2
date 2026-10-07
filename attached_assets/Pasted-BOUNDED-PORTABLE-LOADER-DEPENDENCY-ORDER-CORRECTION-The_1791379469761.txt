@@ -1,0 +1,186 @@
+BOUNDED PORTABLE LOADER DEPENDENCY-ORDER CORRECTION
+
+The FAIL_FIRST_INSTALL result is accepted.
+
+The evidence establishes:
+
+- 229/229 unchanged native migrations completed successfully;
+- all seven reference checkpoints completed;
+- corrected trigger-definer inspection passed;
+- the failure occurred afterward during approved portable baseline insertion;
+- the failing table was `countries`;
+- native `countries.currency_id` has a foreign-key dependency on `currencies`;
+- approved country rows for Burkina Faso, Nigeria and Ghana reference currency
+  IDs 2, 3 and 4;
+- those currency rows were scheduled for later portable insertion;
+- the loader currently follows frozen table enumeration in an order where
+  `countries` precedes `currencies`;
+- no application source, native migration, schema definition, approved business
+  row, Service package or security policy changed.
+
+This is authorization to correct ONLY the portable first-install loader's
+dependency ordering.
+
+Do NOT create another MySQL lab yet.
+
+======================================================================
+1. REQUIRED SEMANTICS
+======================================================================
+
+Preserve the approved portable data exactly.
+
+Do NOT:
+
+- change country IDs;
+- change currency IDs;
+- NULL country currency_id values;
+- substitute currencies;
+- remove countries;
+- remove currencies;
+- disable foreign-key checks;
+- defer or weaken foreign-key enforcement;
+- modify native migrations;
+- modify database schema;
+- modify application runtime source merely to accommodate the installer;
+- change approved Product-media semantics;
+- change Service media;
+- change Administrator semantics.
+
+The correction must ensure parent/reference rows are inserted before child rows
+that depend on them.
+
+At minimum:
+
+currencies
+→ countries
+
+must replace the currently invalid:
+
+countries
+→ currencies
+
+ordering.
+
+======================================================================
+2. REVIEW THE COMPLETE PORTABLE DEPENDENCY ORDER
+======================================================================
+
+Before changing the loader, inspect the CURRENT frozen portable manifest and
+native foreign-key relationships for every table the portable loader inserts.
+
+Do not fix only `countries` blindly if another already-known parent/child
+dependency would fail immediately afterward.
+
+Produce a deterministic dependency order for the EXISTING approved portable
+tables.
+
+The ordering must be derived from actual foreign-key dependencies and approved
+reference requirements, not guessed from table names.
+
+If a dependency cannot be satisfied without changing approved data, STOP and
+report PORTABLE_ORDER_BLOCKED.
+
+If a cycle exists, STOP and report the exact cycle. Do not disable foreign-key
+checks to bypass it.
+
+======================================================================
+3. AUTHORIZED CHANGE BOUNDARY
+======================================================================
+
+Change ONLY the private/local portable first-install loading/order mechanism
+and directly associated proof metadata if necessary.
+
+Do not change the approved portable rows themselves.
+
+The authoritative portable baseline must remain:
+
+694a41397026c89bbf35b9257ae6d1ccc763eb62a434e39dec4d48b30d9c3daf
+
+The authoritative reference manifest must remain:
+
+67fbcfdd51e136560337b54f4d4d492844c8d19e26be736189e65c8320ddc500
+
+Native migrations must remain:
+
+37954929be028d7e487a7720f2108d3f300b2862af85f46b724b3c9f63d3f896
+
+Service provenance must remain:
+
+fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+Canonical Service package must remain:
+
+8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e
+
+Executable application source must remain:
+
+e90ec7c6cef4fddcca26ea2ea3f446c5e85e4a04b549e99d12080922fe06b2ce
+
+If correcting the loader would require changing any of those frozen inputs,
+STOP and report why.
+
+======================================================================
+4. OFFLINE VALIDATION BEFORE ANOTHER LAB
+======================================================================
+
+Validate the corrected ordering without creating another MySQL lab.
+
+At minimum prove:
+
+- every portable foreign-key parent required by an inserted child is scheduled
+  before that child OR is already guaranteed by an accepted native/reference
+  checkpoint;
+- currencies required by countries exist before countries;
+- the ordering contains every intended portable table exactly once;
+- no intended portable table is silently omitted;
+- no additional table or row is introduced;
+- approved row payloads remain byte-for-byte/logically unchanged;
+- Product NULL-media policy remains unchanged;
+- Service relationships/media remain unchanged;
+- no foreign-key enforcement is disabled.
+
+Record:
+
+- old loader order;
+- corrected loader order;
+- dependency edges used to derive it;
+- exact private loader/proof files changed;
+- before/after private harness/loader hashes;
+- confirmation that all frozen application/migration/manifest/package hashes
+  remain unchanged.
+
+======================================================================
+5. PRESERVE ALL EXISTING LABS
+======================================================================
+
+Do not resume, repair, mutate or reuse:
+
+- the historical 125/229 timeout lab;
+- the historical 229/229 trigger-metadata harness-failure lab;
+- the current 229/229 portable-country FK-failure lab.
+
+They remain historical evidence.
+
+======================================================================
+6. STOP BEFORE EXECUTION
+
+After the offline dependency-order validation, STOP.
+
+Do not create another MySQL lab.
+Do not rerun migrations.
+Do not insert portable data.
+Do not provision an Administrator.
+Do not generate/use recovery authorities.
+Do not perform financial/external operations.
+Do not perform GitHub/VPS/deployment work.
+
+Return exactly:
+
+PORTABLE_ORDER_FIX_READY
+
+or
+
+PORTABLE_ORDER_BLOCKED
+
+If READY, include the corrected deterministic order, dependency validation
+summary, exact private files changed and frozen-hash confirmation.

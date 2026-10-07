@@ -1,0 +1,58 @@
+- [Modernization approval boundaries](modernization-approval.md) — Forward service-booking execution authorized; contract/reproduction first, stop on unresolved semantics or new financial failures.
+- [Booking boundaries](booking-boundaries.md) — Confirmed half-open/full-hour exclusion, monthly missing-date skipping and origin-based calendar occurrence counts.
+- [Africa-first demo photography](africa-first-demo-photography.md) — Relevant, naturally representative demo photos; no demographic application fields or behavioral logic.
+- [Database snapshot contracts](database-snapshot-contracts.md) — Store row order and serialization with fingerprints; counts alone cannot prove field-level immutability.
+- [SQLite money precision](sqlite-money-precision.md) — DECIMAL affinity is not exact fixed-point; new accounting proposals use integer units with frozen native scale.
+- [Delivery Driver product direction](delivery-driver-direction.md) — Vendor-owned authorization and hybrid invitation/self-registration; future Delivery app must be audited after upload.
+- [Native dev route discovery](native-dev-route-discovery.md) — Existing source plus a valid API lookup do not prove a running Next development server recognizes its dynamic route.
+- [Preview process custody](preview-process-custody.md) — Check listeners and shared Next caches; different ports do not isolate runtime ownership or justify repeating accepted journeys.
+- [Coupon SSR rendering](coupon-ssr-rendering.md) — Keep the small native Coupon field eagerly rendered; its lazy boundary caused tree-derived input/label IDs to differ during hydration.
+- [Native invoice printing](native-invoice-print.md) — DomPDF root HTML resets can defeat @page margins; inspect actual PDF boundaries, not only HTML.
+- [Partial public projections](partial-public-projections.md) — metadata-only relations must not serialize invented finance defaults through full resources.
+- [Audit runtime drift](audit-runtime-drift.md) — use existing Node for read-only document checks; invoking Python can coincide with automatic module changes.
+- [Isolated provider fixtures](isolated-provider-fixtures.md) — repeated Laravel HTTP fake calls append stubs; use sequences or a fresh factory when changing a URL's response.
+- [Preview file-serving boundaries](preview-file-serving.md) — Vite workspace inference can expose sibling runtimes; SPA fallback can return 200 for missing private paths.
+- [Laravel test sessions](laravel-session-isolation.md) — clear shared sessions as well as guards when simulating stateless API requests followed by CLI fixture work.
+- [Native build resources](native-build-resources.md) — separate large production builds from browser captures; pause unused previews and restore them afterward.
+- [Native preview API transport](native-preview-api-transport.md) — same-origin dev API routing avoids separate preview-edge access; internal-browser success is not creator acceptance.
+- [Native navigation scope](native-navigation-scope.md) — verified self grants, not broad role menus; no global branch switch until affected modules support it.
+- [Country finance attribution](country-finance-attribution.md) — unrelated invitations cannot attribute creator-level money to a country; ambiguous geography must fail closed.
+- [Native error contracts](native-error-contracts.md) — client error mocks must match real backend status and machine codes, not localized display phrases.
+- [Empty-state query guards](empty-state-query-guards.md) — verify anonymous/authenticated paths separately and bind guard tests to the actual query key and service call.
+- [Imported native secret exposure](imported-native-secret-exposure.md) — ignore rules do not prove imported build configuration is untracked; source cleanup cannot replace provider-side rotation.
+- [Patch batch semantics](patch-batch-semantics.md) — order hunks by source position; later file failures can leave earlier file actions applied.
+- [Native style resets](native-style-reset-boundaries.md) — wrapper foreground resets can override native transaction-button colors despite successful builds.
+- [Native component APIs](native-component-api-compatibility.md) — match installed UI library APIs; JSX parsing cannot prove dialogs respond to user interaction.
+- [Native UI fixtures](native-ui-fixtures.md) — prove completed synthetic responses and shared-consumer contracts before attributing fixture failures to application code.
+- [Maps bootstrap opt-in](maps-bootstrap-opt-in.md) — missing public runtime flags must keep the browser SDK off, even when an environment key exists.
+- [Native merchant currency capacity](native-merchant-currency-capacity.md) — shop-wide MTN collection cannot cover differing Product/Service currencies with one native merchant profile.
+- [Pickup location semantics](native-pickup-location-semantics.md) — postal branch requirements must not fabricate locations or block legacy ready-based pickup.
+- [Isolated Laravel fixtures](native-isolated-fixtures.md) — establish tenant and lazy framework contracts before interpreting isolated business-rule failures.
+- [Service photo preview boundary](native-service-photo-preview.md) — Next can reject local media before onError; verify direct image consumers and actual browser photo loading.
+- [Laravel event/audit evidence](laravel-event-money-evidence.md) — model events and audit entries may carry unsynchronized or previous original values; confirm against persisted evidence.
+- [MySQL CHECK portability](mysql-check-portability.md) — MySQL forbids AUTO_INCREMENT columns in CHECK expressions; SQLite guard passes do not prove native MySQL schema creation.
+- [Native JSON evidence](native-json-evidence.md) — MySQL reformats objects; immutable evidence needs strict semantic comparison without numeric rounding or container/type collapse.
+- [InnoDB authority snapshots](innodb-authority-snapshots.md) — Current allocation locks do not refresh an older RR monetary read view; fresh-transaction retries can miss over-reservation.
+- [Laravel auth limiter isolation](laravel-auth-limit-isolation.md) — narrow auth limits need named buckets; numeric nested throttles can inherit ordinary API traffic.
+- [Selected notification boundary](selected-notification-boundary.md) — manual PHPMailer needs its own test transport; uncertain acknowledgement never permits automatic resend.
+- [Request intent lifetime](request-intent-lifetime.md) — parent refresh can lose a child retry identity; verify the entire dialog lifetime and make new intent explicit.
+- [Test browser liveness](test-browser-liveness.md) — stale open page handles cannot prove the shared browser is alive; newContext does not relaunch a closed runtime.
+- [Staging key custody](staging-key-custody.md) — local derived authority must survive restore; independent custody/off-host retention is required for production recovery.
+- [MySQL DDL equivalence](mysql-ddl-equivalence.md) — preserve raw mismatch evidence; redundant charset syntax needs strict native contracts and narrow canonicalization.
+- [Vendor calendar direction](vendor-calendar-direction.md) — Agenda-first mobile, existing theme tokens, Review payment emphasis and safe client-save retries; final approval before implementation.
+- [Browser evidence retention](browser-acceptance-evidence.md) — Persist critical proof incrementally; long campaigns can lose UI traces that database effects cannot replace.
+- [SMTP approval boundaries](smtp-approval-boundaries.md) — Accepted Admin Gmail is not C1/O4 acceptance; require recipient/account authority and selected-only processing.
+- [Manual financial boundaries](financial-notification-states.md) — Platform payouts are Vendor-only; Specialist compensation belongs to the Shop; approval is not money movement.
+- [Admin template library](admin-template-library.md) — Centralized native library, honest sender classifications and real authenticated UI acceptance before gated sends.
+- [Manual refund policy authority](manual-refund-policy-authority.md) — Principal conservation does not conserve a smaller cancellation-policy budget across distinct held requests.
+- [Customer Mobile approval boundaries](customer-mobile-boundaries.md) — Preserve Flutter; auth repair does not authorize financial work, provider activation or backend/Web changes.
+- [Flutter on Nix](flutter-nix-validation.md) — Isolate compatible SDK validation; adapt downloaded ELF tooling without root modernization or native acceptance claims.
+- [Read-only repository audits](read-only-repository-audits.md) — Bound source/history inspection; separate ignored runtime snapshots and verify portable, not host-only, exclusions.
+- [MySQL trigger authority](mysql-trigger-authority.md) — Binary logging can block trigger creation despite scoped TRIGGER grants; require approved DBA policy, never weaken financial guards.
+- [Portable first-install baseline](portable-first-install-baseline.md) — Preserve intended geography/reference/demo in review; address automatic grants explicitly, not by deleting the baseline.
+- [MySQL backup loader authority](mysql-backup-loader-contract.md) — Consistent dump options do not prove emitted import commands fit approved restore privileges; preserve failed targets.
+- [Restored auth lifetime](restored-auth-lifetime.md) — Retain encryption keys; explicitly invalidate restored authentication in quarantine without changing money, grants or evidence.
+- [Temporal recovery authority](temporal-recovery-authority.md) — Restored uncertainty is not failure; independent outcome evidence never by itself permits replay or quarantine release.
+- [MySQL lab supervision](mysql-lab-supervision.md) — Foreground deadlines can interrupt DDL and cleanup; supervise long proofs independently and verify revocation/shutdown.
+- [Native MySQL metadata casing](mysql-metadata-casing.md) — Lowercase SELECT identifiers do not guarantee lowercase PDO metadata keys; alias or normalize explicitly.
+- [First-install closure](first-install-closure.md) — Owner closes the accepted MySQL first-install track; no further campaigns or GitHub/VPS work without separate authorization.

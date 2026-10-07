@@ -1,0 +1,32 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Http\Requests\SmsPayload;
+
+use App\Http\Requests\BaseRequest;
+use App\Models\SmsPayload;
+use Illuminate\Validation\Rule;
+
+class StoreRequest extends BaseRequest
+{
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            'type' => [
+                'required',
+                'string',
+                Rule::in(SmsPayload::TYPES),
+                Rule::unique('sms_payloads', 'type')
+            ],
+            'default' => 'required|in:0,1',
+            'payload' => 'required|array',
+            'payload.*' => ['required']
+        ];
+    }
+
+}

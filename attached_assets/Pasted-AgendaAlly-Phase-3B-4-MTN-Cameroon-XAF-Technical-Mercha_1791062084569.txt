@@ -1,0 +1,961 @@
+AgendaAlly — Phase 3B-4
+MTN Cameroon/XAF Technical & Merchant-Onboarding Inquiry Package
+DOCUMENTATION ONLY / NO PROVIDER CONTACT / NO IMPLEMENTATION
+
+Phase 3B-3 is accepted as complete.
+
+Accepted decisions:
+
+- Public EUR sandbox technical testing:
+  CONDITIONAL GO, but NOT approved in this phase.
+
+- Cameroon/XAF controlled non-production testing:
+  UNKNOWN.
+
+- Cameroon/XAF production activation:
+  NO-GO.
+
+- MTN Cameroon Collections availability:
+  established from official evidence.
+
+- Provider-managed Cameroon production guidance:
+  `mtncameroon` / XAF is documented.
+
+- AgendaAlly merchant approval:
+  NOT established.
+
+- Exact Cameroon/XAF non-production/UAT environment:
+  NOT established.
+
+- Complete current Cameroon Collection operation contract:
+  NOT sufficiently established.
+
+- Phase 3B-2 durable payment identity/recovery containment:
+  remains accepted within its bounded verification scope.
+
+The next dependency is authoritative written clarification from MTN Cameroon.
+
+THIS PHASE IS DOCUMENTATION/PREPARATION ONLY.
+
+Do NOT contact MTN.
+Do NOT submit forms.
+Do NOT create an MTN account.
+Do NOT obtain credentials.
+Do NOT activate MTN.
+Do NOT call provider APIs.
+Do NOT change AgendaAlly code, schema or configuration.
+
+============================================================
+1. OBJECTIVE
+============================================================
+
+Prepare a concise but technically complete inquiry package that can be sent to
+MTN Cameroon / MTN MoMo API onboarding or technical support.
+
+The package must ask only the questions that remain unresolved after Phase
+3B-3.
+
+The goal is to obtain enough authoritative information to decide whether
+AgendaAlly can proceed to:
+
+CAMEROON/XAF CONTROLLED NON-PRODUCTION TESTING
+
+without guessing provider contracts.
+
+Do not perform another broad provider audit.
+
+============================================================
+2. AUTHORITATIVE BASELINE
+============================================================
+
+Use these reports as the authoritative AgendaAlly baseline:
+
+docs/development/payment-phase3b-mtn-cameroon-readiness.md
+
+docs/development/payment-phase3b-mtn-identity-containment.md
+
+docs/development/payment-phase3-provider-readiness.md
+
+docs/development/payment-phase2-collection-allocation.md
+
+docs/development/payment-system-full-audit.md
+
+Do not reopen already resolved AgendaAlly findings unless necessary to formulate
+an MTN question.
+
+============================================================
+3. DO NOT ASK MTN QUESTIONS WE ALREADY ANSWERED
+============================================================
+
+Do not send a generic:
+
+"Does MTN support Cameroon?"
+
+The review already established official evidence for Cameroon Collections.
+
+Do not merely ask:
+
+"Does MTN support XAF?"
+
+Provider-managed production guidance already identifies `mtncameroon` / XAF.
+
+Instead ask specifically about:
+
+AgendaAlly merchant eligibility,
+commercial model,
+non-production entitlement,
+environment,
+credentials,
+exact API contract,
+settlement,
+refund/reversal capability,
+and certification requirements.
+
+============================================================
+4. AGENDAALLY BUSINESS DESCRIPTION
+============================================================
+
+Prepare a short neutral description of AgendaAlly for MTN.
+
+Describe it as a multi-Vendor marketplace/service-booking platform where:
+
+- Customers purchase Products and book Services from independent Vendors;
+- AgendaAlly may collect electronic payment through a platform-managed payment
+  method;
+- AgendaAlly calculates a platform commission;
+- the remaining Vendor entitlement is recorded internally;
+- Vendor settlement/payout is handled separately from Customer collection;
+- Cash, Wallet and electronic payment methods have separate custody semantics.
+
+Do not claim that AgendaAlly is:
+
+- already an MTN merchant;
+- already approved as an aggregator;
+- a licensed payment institution;
+- an MTN partner;
+- an MTN payment facilitator;
+- certified for Cameroon/XAF.
+
+The purpose of the inquiry is partly to determine what commercial/onboarding
+classification MTN requires.
+
+============================================================
+5. PRIMARY COMMERCIAL QUESTION
+============================================================
+
+Ask MTN to confirm whether the intended platform-managed model is permitted.
+
+Describe the proposed flow conceptually:
+
+Customer
+→ MTN MoMo Collection
+→ AgendaAlly's approved platform merchant relationship/account
+→ AgendaAlly records its platform commission
+→ AgendaAlly records the remaining Vendor entitlement
+→ Vendor settlement occurs separately.
+
+Ask MTN:
+
+A. Is this commercial model permitted for an online marketplace/service-booking
+platform in Cameroon?
+
+B. What merchant/product classification applies?
+
+C. Does it require ordinary merchant onboarding?
+
+D. Does it require aggregator, marketplace, payment-facilitator or another
+special approval?
+
+E. Are individual Vendors/submerchants required to be separately onboarded with
+MTN?
+
+F. Are there restrictions on collecting Customer funds on behalf of independent
+Vendors?
+
+Do not make a legal conclusion from the answer automatically.
+
+============================================================
+6. CAMEROON/XAF NON-PRODUCTION ENVIRONMENT
+============================================================
+
+Ask for the exact approved environment for testing Cameroon/XAF Collection
+before production.
+
+Request confirmation of:
+
+- sandbox/UAT/staging/pre-production name;
+- base URL;
+- `X-Target-Environment` value;
+- supported currency;
+- whether XAF is supported in that environment;
+- how access is provisioned;
+- whether merchant onboarding must happen first;
+- whether the environment uses a real or simulated merchant wallet;
+- whether special Cameroon test credentials are issued;
+- whether test MSISDNs are provided.
+
+Explicitly explain:
+
+The public documentation reviewed by AgendaAlly describes a generic sandbox
+using EUR.
+
+Ask whether that public EUR sandbox is:
+
+1. the required technical sandbox before Cameroon onboarding;
+
+2. separate from Cameroon/XAF UAT;
+
+3. capable of testing XAF;
+
+or
+
+4. not representative of Cameroon/XAF payment behavior.
+
+Do not suggest converting XAF transactions to EUR.
+
+============================================================
+7. REQUESTTOPAY CONTRACT
+============================================================
+
+Request the current authoritative Cameroon Collection RequestToPay
+specification.
+
+Ask MTN to confirm:
+
+- endpoint;
+- HTTP method;
+- authentication;
+- subscription-key requirements;
+- bearer-token requirements;
+- `X-Reference-Id`;
+- `X-Target-Environment`;
+- callback URL/header requirements;
+- content type;
+- current request body;
+- required versus optional fields;
+- `externalId` semantics;
+- amount format;
+- currency;
+- payer party ID type;
+- payer MSISDN format;
+- payer message;
+- payee note;
+- successful initiation response.
+
+Ask for a link or current API/OpenAPI specification if available.
+
+============================================================
+8. ASYNCHRONOUS IDENTITY / RETRY CONTRACT
+============================================================
+
+Explain only enough of AgendaAlly's design for MTN to validate it:
+
+AgendaAlly creates and durably commits a unique server-owned MTN request
+reference before RequestToPay.
+
+If the RequestToPay result is ambiguous, AgendaAlly retains that reference and
+queries the original transaction rather than generating another reference.
+
+Ask MTN to confirm:
+
+A. Is `X-Reference-Id` the correct durable identity for subsequent
+RequestToPay status lookup?
+
+B. After an ambiguous timeout, should the merchant query that reference rather
+than submit a new RequestToPay?
+
+C. What happens if RequestToPay is submitted again with the same
+`X-Reference-Id`?
+
+D. Is reuse rejected, idempotent, or otherwise defined?
+
+E. What retry/reconciliation procedure does MTN recommend after an uncertain
+network result?
+
+Do not ask MTN to review AgendaAlly source code.
+
+============================================================
+9. STATUS / RECONCILIATION
+============================================================
+
+Ask for the authoritative status contract.
+
+Request:
+
+- status endpoint;
+- authentication;
+- possible states;
+- exact meanings of PENDING/SUCCESSFUL/FAILED;
+- any additional states;
+- recommended polling interval;
+- recommended timeout/expiration period;
+- terminal-state rules;
+- handling of unknown/unrecognized state;
+- provider outage behavior.
+
+Ask whether a SUCCESSFUL status obtained from authenticated status lookup is
+the authoritative Collection confirmation.
+
+============================================================
+10. CALLBACK CONTRACT
+============================================================
+
+The Phase 3B-3 review found conflicting public callback guidance.
+
+Ask MTN to provide the current Cameroon requirement for:
+
+- callback URL registration/supply;
+- HTTP versus HTTPS;
+- allowed ports;
+- publicly reachable requirement;
+- TLS/certificate requirements;
+- callback HTTP method;
+- callback payload;
+- callback authentication/signature, if any;
+- retry behavior;
+- callback delivery guarantees.
+
+Ask explicitly:
+
+Is callback notification authoritative payment evidence, or should the merchant
+always confirm the transaction using authenticated status lookup?
+
+AgendaAlly intends to treat callback as a signal and perform authoritative
+reconciliation unless MTN's current contract establishes another required
+model.
+
+============================================================
+11. XAF AMOUNT CONTRACT
+============================================================
+
+Ask MTN for the authoritative Cameroon/XAF amount rules:
+
+- decimal places;
+- integer-only requirements, if any;
+- minimum transaction amount;
+- maximum transaction amount;
+- rounding rules;
+- permitted amount representation in JSON;
+- provider fee treatment;
+- whether fees alter the Customer-facing RequestToPay amount.
+
+Do not derive these rules solely from ISO currency metadata.
+
+============================================================
+12. CAMEROON MSISDN CONTRACT
+============================================================
+
+Ask for:
+
+- required payer MSISDN format;
+- international versus national format;
+- whether `+237` is accepted or must be omitted;
+- accepted `partyIdType`;
+- validation rules;
+- test MSISDNs;
+- any documented test scenarios.
+
+Do not ask for real Customer phone numbers.
+
+============================================================
+13. MERCHANT / CREDENTIAL IDENTITY
+============================================================
+
+Ask MTN to explain the relationship among:
+
+- MTN developer account;
+- subscription key;
+- API user;
+- API key;
+- access token;
+- target environment;
+- Cameroon merchant account/wallet;
+- legal merchant entity;
+- settlement beneficiary.
+
+Specifically ask:
+
+What provider-side identifier or relationship determines which merchant
+ultimately receives a successful Collection payment?
+
+This is required so AgendaAlly can freeze the correct merchant identity in its
+payment records.
+
+============================================================
+14. SETTLEMENT
+============================================================
+
+Ask what happens to funds after a successful Cameroon Collection.
+
+Request confirmation of:
+
+- immediate destination;
+- merchant wallet/account;
+- settlement currency;
+- settlement timing;
+- bank settlement availability;
+- withdrawal process;
+- provider fees;
+- settlement reports;
+- transaction/settlement identifiers;
+- reconciliation reports/API.
+
+Do not assume API `SUCCESSFUL` means funds have already reached a bank account.
+
+============================================================
+15. PLATFORM COMMISSION / MARKETPLACE
+============================================================
+
+Ask whether MTN offers any native functionality relevant to marketplaces such
+as:
+
+- split payment;
+- submerchant allocation;
+- marketplace commission;
+- automatic platform fee;
+- multiple beneficiaries.
+
+If not, ask whether AgendaAlly may collect into its approved merchant
+relationship and perform its Vendor accounting/settlement separately, subject
+to MTN's commercial approval.
+
+Do not assume that absence of split-payment functionality authorizes that
+commercial model.
+
+============================================================
+16. VENDOR-DIRECT FUTURE MODEL
+============================================================
+
+This is secondary.
+
+Ask whether MTN supports a model where:
+
+each AgendaAlly Vendor has its own approved MTN merchant relationship
+and
+AgendaAlly technically initiates Collection using that Vendor's credentials.
+
+Ask whether this is permitted and what onboarding/API model is required.
+
+Do NOT request activation.
+
+Do NOT allow this question to distract from platform-managed Collection, which
+is the immediate priority.
+
+============================================================
+17. REFUNDS
+============================================================
+
+Ask for the current Cameroon Collection refund/reversal capability.
+
+Request confirmation of:
+
+- whether refunds are supported;
+- whether full refunds are supported;
+- whether partial refunds are supported;
+- API/product name;
+- endpoint;
+- original payment identifier required;
+- currency/amount rules;
+- idempotency key/reference;
+- asynchronous behavior;
+- refund status lookup;
+- callback behavior;
+- refund window;
+- limitations;
+- sandbox/UAT availability.
+
+Ask MTN to distinguish:
+
+refund
+reversal
+cancellation
+correction
+
+if those are separate operations.
+
+Do not implement anything.
+
+============================================================
+18. DISBURSEMENT / FUTURE VENDOR PAYOUT
+============================================================
+
+Ask separately whether MTN MoMo Disbursement is available for Cameroon/XAF.
+
+If yes, request:
+
+- commercial eligibility;
+- currency;
+- recipient requirements;
+- merchant requirements;
+- credentials;
+- whether Collection and Disbursement credentials/accounts are separate;
+- testing environment;
+- settlement/funding requirements.
+
+Clearly state:
+
+This question concerns a possible FUTURE Vendor payout rail.
+
+It is not required for the initial Customer Collection test.
+
+============================================================
+19. RECONCILIATION / REPORTING
+============================================================
+
+Ask what facilities merchants receive for financial reconciliation:
+
+- individual transaction lookup;
+- transaction lists/history;
+- account balance;
+- merchant portal;
+- settlement report;
+- downloadable reports;
+- API reports;
+- dispute/refund reports.
+
+AgendaAlly eventually needs to reconcile:
+
+provider Collections
+→ internal canonical funding
+→ commission
+→ Vendor liability
+→ refunds
+→ settlement/payout.
+
+============================================================
+20. ONBOARDING REQUIREMENTS
+============================================================
+
+Ask MTN to provide the actual Cameroon merchant onboarding checklist.
+
+Request, where applicable:
+
+- business-registration requirements;
+- tax information;
+- bank/wallet requirements;
+- merchant agreement;
+- technical certification;
+- security requirements;
+- callback-domain requirements;
+- expected approval process;
+- UAT requirements;
+- production go-live requirements.
+
+Do not speculate about licenses.
+
+Ask MTN to identify requirements applicable specifically to AgendaAlly's
+marketplace model.
+
+============================================================
+21. TECHNICAL CERTIFICATION
+============================================================
+
+Ask whether MTN requires formal technical certification before production.
+
+If yes, request:
+
+- certification test cases;
+- mandatory scenarios;
+- expected evidence;
+- callback tests;
+- timeout/retry tests;
+- reconciliation tests;
+- refund tests;
+- production-readiness checklist.
+
+============================================================
+22. PREPARE TWO VERSIONS
+============================================================
+
+Create:
+
+A. A concise initial email/contact-form message.
+
+This should be readable by a commercial/onboarding representative and should
+not contain dozens of low-level API questions.
+
+Its purpose is to:
+
+- introduce AgendaAlly;
+- describe the intended model;
+- explain that Cameroon/XAF Collection is the target;
+- ask for the appropriate onboarding/technical contact;
+- request confirmation of the non-production environment;
+- attach/reference the detailed questionnaire.
+
+B. A detailed technical questionnaire.
+
+Organize it into sections:
+
+1. Marketplace/commercial model
+2. Cameroon/XAF environment
+3. RequestToPay
+4. Identity/retry/reconciliation
+5. Callback
+6. Amount/MSISDN
+7. Merchant identity/credentials
+8. Settlement
+9. Refund/reversal
+10. Future Disbursement
+11. Reconciliation/reporting
+12. UAT/production certification
+
+Use numbered questions so MTN can answer line-by-line.
+
+============================================================
+23. DO NOT OVERSHARE INTERNAL DETAILS
+============================================================
+
+The external package must NOT contain:
+
+- internal vulnerabilities;
+- prior P0/P1 findings;
+- protected-table counts;
+- internal test assertion counts;
+- source file names;
+- database fingerprints;
+- legacy Order state;
+- internal security findings;
+- Replit references;
+- private implementation details unnecessary for MTN.
+
+Only expose architectural information necessary for MTN to understand the
+payment model and answer the contract questions.
+
+============================================================
+24. DO NOT SEND SECRETS
+============================================================
+
+The package must contain no:
+
+- API keys;
+- subscription keys;
+- credentials;
+- tokens;
+- internal URLs;
+- database identifiers;
+- Customer data;
+- test secrets.
+
+Use placeholders where necessary.
+
+============================================================
+25. AGENDAALLY TECHNICAL SUMMARY
+============================================================
+
+Prepare a one-page internal technical summary to accompany the package.
+
+It may state that AgendaAlly currently supports a model where:
+
+- payment attempt identity is generated server-side;
+- provider reference is persisted before external dispatch;
+- ambiguous outcomes are reconciled using the same reference;
+- provider status must be authoritative before funded accounting;
+- duplicate verification is idempotent;
+- accounting records original collection custody;
+- Vendor entitlement is separate from provider principal collection.
+
+This summary is for comparing MTN's answer later.
+
+Do not include unnecessary internal security history.
+
+============================================================
+26. RESPONSE MAPPING TABLE
+============================================================
+
+Create an internal table mapping every important MTN question to the AgendaAlly
+decision it will unblock.
+
+Example:
+
+MTN QUESTION:
+Is XAF supported in the Cameroon UAT environment?
+
+UNBLOCKS:
+Cameroon/XAF controlled-test capability.
+
+MTN QUESTION:
+Is platform marketplace collection permitted?
+
+UNBLOCKS:
+Platform-managed commercial model.
+
+MTN QUESTION:
+What identifies the settlement merchant?
+
+UNBLOCKS:
+Immutable merchant/configuration identity.
+
+MTN QUESTION:
+What is the refund API?
+
+UNBLOCKS:
+MTN refund-readiness design.
+
+Do this for all material blockers.
+
+============================================================
+27. ANSWER CLASSIFICATION TEMPLATE
+============================================================
+
+Prepare a template for recording MTN's eventual response.
+
+For each answer capture:
+
+QUESTION ID
+
+MTN ANSWER
+
+SOURCE:
+email / official document / portal / contract / API specification
+
+DATE
+
+MTN CONTACT/TEAM
+
+MARKET:
+Cameroon / generic
+
+ENVIRONMENT:
+sandbox / UAT / production
+
+STATUS:
+CONFIRMED
+PARTIAL
+UNKNOWN
+CONFLICTING
+
+AGENDAALLY IMPACT
+
+CODE CHANGE REQUIRED:
+YES / NO / UNKNOWN
+
+SCHEMA CHANGE REQUIRED:
+YES / NO / UNKNOWN
+
+ACTIVATION BLOCKER:
+YES / NO
+
+Do not populate answers that MTN has not provided.
+
+============================================================
+28. DO NOT CONTACT MTN
+============================================================
+
+This authorization is PREPARATION ONLY.
+
+Do not:
+
+- send the email;
+- submit a web form;
+- open a support ticket;
+- create an MTN account;
+- register AgendaAlly;
+- upload business documents;
+- request credentials;
+- agree to terms;
+- accept contracts.
+
+Prepare the package only.
+
+============================================================
+29. NO APPLICATION CHANGES
+============================================================
+
+Do not modify:
+
+- payment code;
+- MTN code;
+- schema;
+- migrations;
+- provider configuration;
+- payment catalog;
+- Admin UI;
+- Vendor UI;
+- Customer UI;
+- accounting;
+- Wallet;
+- Cash;
+- refunds;
+- payouts.
+
+No tests are required unless needed to verify that documentation generation did
+not accidentally modify source, which should not occur.
+
+============================================================
+30. PROTECTED STATE
+============================================================
+
+This phase should make no database changes.
+
+At completion confirm:
+
+- no financial data changed;
+- no provider configuration changed;
+- no schema changed;
+- MTN remains disabled;
+- Customer payment catalog remains unchanged;
+- all 12 legacy Product Orders remain `unverified`.
+
+Do not rerun large regression suites solely for this documentation phase.
+
+============================================================
+31. OUTPUT FILES
+============================================================
+
+Create:
+
+docs/development/mtn-cameroon-onboarding-inquiry.md
+
+It must contain:
+
+A. concise initial email;
+B. detailed numbered technical questionnaire;
+C. AgendaAlly technical summary;
+D. response-mapping table;
+E. MTN-answer recording template.
+
+Update:
+
+docs/development/payment-phase3b-mtn-cameroon-readiness.md
+
+only to record that the inquiry package was prepared and NOT sent.
+
+Do not change the existing readiness decisions merely because the package
+exists.
+
+============================================================
+32. REQUIRED FINAL ANSWERS
+============================================================
+
+At completion answer:
+
+1. Was the MTN inquiry package created?
+
+2. Was anything sent to MTN?
+
+3. Does the package accurately describe AgendaAlly without claiming approval?
+
+4. Does it ask whether the platform-managed marketplace model is permitted?
+
+5. Does it ask for the exact Cameroon/XAF non-production environment?
+
+6. Does it explicitly distinguish the public EUR sandbox?
+
+7. Does it request the current RequestToPay specification?
+
+8. Does it ask MTN to confirm X-Reference-Id retry/reconciliation semantics?
+
+9. Does it ask for callback HTTP/HTTPS clarification?
+
+10. Does it ask whether callbacks are authoritative or require status
+    reconciliation?
+
+11. Does it request XAF amount rules?
+
+12. Does it request Cameroon MSISDN rules?
+
+13. Does it ask how the actual receiving merchant is identified?
+
+14. Does it ask where collected funds settle?
+
+15. Does it ask about marketplace/split-payment support?
+
+16. Does it ask about Vendor-direct merchant orchestration separately?
+
+17. Does it ask about full/partial refunds and reversals?
+
+18. Does it ask about future Cameroon/XAF Disbursement?
+
+19. Does it ask about reconciliation/reporting facilities?
+
+20. Does it request merchant onboarding requirements?
+
+21. Does it request UAT/technical certification requirements?
+
+22. Were internal vulnerability details excluded?
+
+23. Were credentials/secrets excluded?
+
+24. Was a response-mapping table created?
+
+25. Was an MTN-response recording template created?
+
+26. Were any application files changed?
+
+27. Were any schema changes made?
+
+28. Were any financial/configuration records changed?
+
+29. Does MTN remain disabled?
+
+30. Does Customer checkout remain unchanged?
+
+31. Confirm all 12 legacy Product Orders remain `unverified`.
+
+32. What should I personally send to MTN?
+
+33. What documents, if any, should accompany the first contact?
+
+34. Which MTN team/contact type should receive the inquiry?
+
+35. What is the single next action after I approve the package?
+
+============================================================
+33. DEFINITION OF SUCCESS
+============================================================
+
+Success means we have transformed the remaining:
+
+UNKNOWN
+
+items from Phase 3B-3 into a precise set of questions that MTN Cameroon can
+answer authoritatively.
+
+The package should make it possible for MTN to tell us:
+
+WHAT COMMERCIAL MODEL IS ALLOWED,
+WHAT ENVIRONMENT TO USE,
+WHAT CREDENTIALS ARE REQUIRED,
+WHAT EXACT API CONTRACT APPLIES,
+WHERE MONEY SETTLES,
+AND WHAT MUST BE CERTIFIED BEFORE GO-LIVE.
+
+Do not try to answer those unresolved questions yourself where Phase 3B-3
+already determined that authoritative MTN confirmation is required.
+
+============================================================
+34. FINAL STOP
+============================================================
+
+After preparing the inquiry package and updating the readiness report:
+
+STOP.
+
+Do NOT send it.
+
+Do NOT contact MTN.
+
+Do NOT start EUR sandbox testing.
+
+Do NOT start Cameroon/XAF testing.
+
+Do NOT activate MTN.
+
+Do NOT create/configure credentials.
+
+Do NOT change payment code.
+
+Do NOT create migrations.
+
+Do NOT implement refunds.
+
+Do NOT implement Disbursement.
+
+Do NOT work on other providers.
+
+Do NOT access production.
+
+Do NOT publish.
+
+Wait for explicit approval.

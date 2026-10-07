@@ -1,0 +1,1376 @@
+AGENDAALLY LIMITED MVP — FORWARD EXECUTION / CLOSE B1 AND CONTINUE INTO ROLE ACCEPTANCE
+
+This is a FORWARD IMPLEMENTATION AND ACCEPTANCE RUN.
+
+The objective is to materially advance AgendaAlly toward the selected limited
+service-booking MVP.
+
+Do not perform another broad architecture audit.
+Do not reopen already-settled architecture or business decisions.
+Do not merely produce another readiness report.
+Do not stop after every ordinary defect and ask me what to do next.
+
+The operating rule for this run is:
+
+    FIND → PRESERVE FAILURE EVIDENCE → FIX → VERIFY NATIVELY →
+    REGRESSION TEST → UPDATE EVIDENCE → CONTINUE
+
+When a defect is inside the already-approved MVP contract and can be corrected
+without changing business semantics, financial custody/equations, resource
+identity, or requiring destructive/production/external actions, make the
+smallest source-backed correction and continue automatically.
+
+Only stop at a TRUE decision boundary defined near the end of this prompt.
+
+
+======================================================================
+1. AUTHORITATIVE BASELINE — DO NOT REOPEN
+======================================================================
+
+The existing MVP readiness report and evidence bundle are the authoritative
+baseline.
+
+MySQL 8/InnoDB is the selected MVP database.
+
+PostgreSQL was evaluated and is technically viable for tested financial
+invariants, but it is DEFERRED because porting/conversion work provides
+insufficient MVP benefit relative to the existing MySQL implementation.
+
+Do NOT:
+- reopen PostgreSQL;
+- port current work to PostgreSQL;
+- repeat PostgreSQL certification;
+- introduce a second database architecture;
+- reopen Strategy G;
+- redesign the accepted financial architecture.
+
+The accepted MySQL financial baseline remains authoritative unless this run
+produces direct contradictory native evidence.
+
+Existing protected-state evidence remains authoritative:
+- 59 protected row/value fingerprints unchanged;
+- 465 owned schema objects unchanged;
+- all 12 legacy Orders remain unverified;
+- completion evidence tables retain their accepted state;
+- no historical custody/classification may be invented or backfilled.
+
+Preserve existing financial receipts and historical failure receipts.
+
+
+======================================================================
+2. SELECTED LIMITED MVP — FIXED SCOPE
+======================================================================
+
+The first MVP is SERVICE-BOOKING-FIRST.
+
+IN SCOPE:
+
+- Customer registration/login/profile/location;
+- service and Shop discovery;
+- specialist availability;
+- service booking;
+- rescheduling;
+- cancellation;
+- Vendor onboarding/approval;
+- Shop/service/staff setup required for service booking;
+- Vendor booking/calendar management;
+- Customer/Vendor/Admin booking visibility;
+- Cash;
+- Wallet spending from legitimately funded/verified Wallet balances;
+- booking/payment history and receipts;
+- basic durable in-app state/history;
+- transactional account/booking email where existing infrastructure supports it;
+- restricted Admin financial operations required by this scope;
+- minimum release security;
+- minimum background-worker/scheduler reliability;
+- responsive selected-role acceptance.
+
+DEFERRED:
+
+- Product purchasing;
+- Product stock correction;
+- multi-Shop commerce;
+- electronic provider activation;
+- MTN live activation;
+- Orange live activation;
+- Flutterwave activation;
+- Paystack activation;
+- Stripe activation;
+- PayPal activation;
+- Vendor-direct payment;
+- own-gateway payment;
+- external Vendor payouts;
+- real electronic refunds;
+- advanced electronic reconciliation;
+- Delivery expansion;
+- SMS expansion;
+- push expansion beyond what is necessary for the selected MVP;
+- speculative performance architecture;
+- production VPS deployment.
+
+Existing Product discovery may remain visible only where it does not imply that
+Product purchasing is launch-ready.
+
+Do NOT allow deferred features to become blockers for the service-booking MVP.
+
+
+======================================================================
+3. CLOSED BUSINESS / SCHEDULING DECISIONS — DO NOT ASK AGAIN
+======================================================================
+
+The following decisions are CONFIRMED and CLOSED.
+
+A. CAPACITY OWNER
+
+Booking.master_id identifies the specialist User.
+
+The specialist User is the exclusive scheduling resource.
+
+Capacity is global across that specialist's applicable assignments/Shops.
+
+Do not invent:
+- per-ServiceMaster independent capacity;
+- per-Shop duplicate capacity;
+- capacity greater than one;
+- a new scheduling resource model.
+
+Distinct specialists remain independent.
+
+
+B. INTERVAL RULE
+
+Use half-open intervals:
+
+    [start, end)
+
+Therefore:
+
+    existing 09:00–10:00
+    requested 10:00–11:00
+
+is allowed.
+
+But:
+
+    existing 09:00–10:00
+    requested 09:30–10:30
+
+must be rejected.
+
+Bookings may touch exactly at their stored endpoints.
+
+
+C. PROCESSING / PAUSE TIME
+
+Stored end already includes:
+
+    service duration + processing/pause time
+
+exactly once.
+
+Do NOT add another artificial buffer.
+
+Adjacency is evaluated against the stored end.
+
+
+D. WORKING HOURS
+
+The complete stored appointment interval must fit within the specialist's
+working interval.
+
+If working hours end at 18:00:
+
+    17:00–18:00
+
+may be valid if otherwise available.
+
+    17:30–18:30
+
+must be rejected.
+
+
+E. MONTHLY RECURRENCE
+
+Monthly recurrence preserves the ORIGINAL CALENDAR-DAY ANCHOR.
+
+Example:
+
+    original = January 31
+
+Occurrences are:
+
+    Jan 31
+    Feb = skipped if Feb 31 does not exist
+    Mar 31
+    Apr = skipped if Apr 31 does not exist
+    May 31
+    ...
+
+Do NOT clamp to the final day of the month.
+
+Do NOT drift the recurrence anchor after a skipped month.
+
+
+F. COUNTED RECURRENCE
+
+"End after N occurrences" counts scheduled recurrence occurrences beginning
+with the original rule occurrence.
+
+The first/original occurrence counts as occurrence 1.
+
+Occurrence count is based on recurrence generation, NOT whether that occurrence
+falls on:
+- a working day;
+- an open Shop day;
+- a Customer-visible availability day;
+- a later queried availability range.
+
+Closed dates and working hours do not reset or extend the recurrence count.
+
+Example:
+
+    start = Jan 1
+    daily
+    end after 3
+
+means:
+
+    Jan 1 = #1
+    Jan 2 = #2
+    Jan 3 = #3
+
+The recurrence is finished after Jan 3 even if Jan 2 was otherwise closed.
+
+
+G. RECURRENCE ORIGIN
+
+Recurring disabled-time evaluation must be anchored to the original recurrence
+rule.
+
+It must NOT depend on the requested availability window containing the original
+rule date.
+
+A daily recurring block beginning Jan 7 must still be evaluated when Jan 14 is
+requested.
+
+
+H. CLEANUP
+
+Scheduled cleanup must not guess recurrence semantics.
+
+For counted recurring rules, cleanup may remove/archive the rule only when the
+true final recurrence is definitively in the past under the confirmed recurrence
+contract.
+
+Do not delete a counted rule merely because:
+- its original date is old;
+- today's date is outside the current query range;
+- a working day was closed;
+- an occurrence was not bookable.
+
+Do not remove a recurrence on its inclusive final occurrence before that
+occurrence has passed.
+
+If safe automatic cleanup cannot be proven from the stored rule, retaining the
+rule is preferable to premature deletion.
+
+
+I. TIMEZONE
+
+The existing backend comparison baseline is UTC and current persisted/request
+times are naive date-time strings.
+
+Do NOT invent a new timezone conversion architecture in this phase.
+
+Preserve existing clock behavior.
+
+However, explicitly test and document:
+- midnight boundaries;
+- current UTC behavior;
+- Customer/Vendor rendering consistency;
+- whether existing UI/API transformations shift the selected booking time.
+
+A material Shop-timezone/Customer-timezone redesign is a STOP boundary.
+
+
+======================================================================
+4. ALREADY IMPLEMENTED / VERIFIED — RETAIN, DO NOT REDO FROM SCRATCH
+======================================================================
+
+The following work already exists and must be treated as the starting point.
+
+The original calculator defect was reproduced:
+
+    existing 09:00–10:00
+    requested 09:30–10:30
+
+was incorrectly accepted.
+
+The original calculator also accepted an appointment extending beyond working
+hours.
+
+Those ordinary interval/hour defects were corrected.
+
+The confirmed half-open rule has been implemented across the bounded booking
+logic.
+
+The correction includes shared authoritative interval/hour validation.
+
+The existing specialist/resource PK is used as the scheduling admission mutex.
+
+Fresh-owned MySQL transactions and resource locking are used before protected
+availability validation and mutation.
+
+Native independent-worker evidence showed:
+
+- two Customers competing for one specialist/time resulted in ONE durable
+  booking;
+- the losing request created no financial effect;
+- another specialist could commit while the first specialist's transaction
+  remained open.
+
+Cash and Wallet tests passed for:
+- overlap rejection;
+- failed-write rollback;
+- duplicate-request handling;
+- rescheduling without repricing.
+
+The Wallet fixture used documented synthetic opening funds in the disposable
+native database.
+
+It did NOT use:
+- an Admin manual balance adjustment;
+- a live electronic top-up;
+- a provider call.
+
+The earlier-origin recurrence defect was subsequently corrected.
+
+The following recurrence decisions are now implemented:
+
+- monthly recurrence retains original anchor and skips nonexistent dates;
+- counted recurrence includes the first occurrence;
+- counted recurrence does not reset/extend because of closed dates,
+  working hours or queried availability windows;
+- recurrence evaluation is independent of whether the original date is inside
+  the requested range;
+- cleanup no longer guesses counted recurrence expiry or deletes on the
+  inclusive final occurrence.
+
+Latest recurrence verification reported:
+
+    27 tests / 48 assertions PASS
+    75 native MySQL calendar checks PASS
+
+Laravel and Customer previews returned HTTP 200.
+
+Do not spend the run proving again that these decisions exist unless regression
+testing requires it.
+
+
+======================================================================
+5. PRIMARY OBJECTIVE — CLOSE B1
+======================================================================
+
+B1 is currently PARTIAL.
+
+The purpose of the first part of this run is to finish the remaining booking
+correctness/certification work and either:
+
+    B1 = VERIFIED
+
+or identify a genuine TRUE STOP condition.
+
+Do not leave B1 PARTIAL merely because additional optional tests could always
+be imagined.
+
+Establish a finite acceptance set from the known remaining risks and execute it.
+
+
+======================================================================
+6. B1 REQUIRED ACCEPTANCE
+======================================================================
+
+Use disposable native MySQL 8/InnoDB/REPEATABLE READ fixtures and the REAL
+application service/repository/domain paths wherever feasible.
+
+Do not replace meaningful database contention with mocks.
+
+Preserve failed receipts before correcting legitimate defects.
+
+
+A. INTERVAL REGRESSION
+
+Verify at minimum:
+
+- exact overlap;
+- left partial overlap;
+- right partial overlap;
+- requested interval contained inside existing;
+- requested interval containing existing;
+- before adjacency;
+- after adjacency;
+- mixed service durations;
+- processing/pause included exactly once;
+- working-hour start;
+- working-hour end;
+- overrun past closing;
+- disabled intervals;
+- multiple disjoint disabled intervals;
+- closed dates.
+
+
+B. RECURRENCE
+
+Verify the implemented contract for:
+
+- daily recurrence with origin before requested range;
+- weekly recurrence;
+- monthly ordinary date;
+- monthly 29;
+- monthly 30;
+- monthly 31;
+- February leap year;
+- February non-leap year;
+- skipped nonexistent monthly date;
+- return to original monthly anchor after skipped month;
+- never-ending recurrence;
+- end-by-date recurrence;
+- end-after-N recurrence;
+- N=1;
+- first occurrence counting;
+- closed date inside counted recurrence;
+- non-working day inside counted recurrence;
+- requested availability window beginning after original rule;
+- recurrence crossing month boundary;
+- recurrence crossing year boundary;
+- overlapping recurring and one-time blocks;
+- multiple recurrence rules;
+- exact disabled-end adjacency.
+
+Discovery/availability and authoritative admission MUST agree.
+
+If availability says a time is available, authoritative admission must not
+reject it because of a different interval interpretation.
+
+If authoritative admission rejects a blocked time, availability must not offer
+it.
+
+
+C. SAME-SPECIALIST CONTENTION
+
+Run independent native MySQL workers/connections.
+
+At minimum test:
+
+1. same specialist + same interval;
+2. same specialist + partial overlap;
+3. same specialist + one request containing the other;
+4. stale availability followed by competing creation;
+5. same specialist across different applicable assignments/Shops if the
+   existing source contract permits those assignments.
+
+Expected:
+
+Only a valid non-overlapping result may persist.
+
+No losing transaction may create:
+- extra booking;
+- Wallet debit;
+- contribution;
+- allocation;
+- platform fee;
+- receivable/payable effect;
+- duplicate financial evidence.
+
+
+D. INDEPENDENT SPECIALISTS
+
+Verify that locking specialist A does NOT unnecessarily serialize specialist B.
+
+Use independent native connections and prove specialist B can make progress
+while A's scheduling transaction remains open.
+
+Do not introduce Shop-wide/global locks merely to make tests pass.
+
+
+E. ROLLBACK
+
+Inject failures at meaningful points after scheduling admission but before final
+commit.
+
+Verify rollback restores:
+- booking state;
+- capacity;
+- Wallet state where applicable;
+- Transaction/allocation/contribution/evidence state;
+- original appointment during failed reschedule.
+
+After rollback, another valid request for the same slot must be able to succeed.
+
+
+F. CANCELLATION
+
+Verify:
+
+- cancellation releases capacity where the existing supported contract says it
+  should;
+- repeated cancellation does not double-release or duplicate financial effects;
+- another Customer can book the released slot after committed cancellation;
+- cancellation rollback does not release capacity;
+- unsupported linked financial contexts remain fail-closed;
+- terminal-state contention does not allow an impossible booking state.
+
+Do not invent new refund semantics.
+
+
+G. RESCHEDULING
+
+Verify atomic rescheduling:
+
+- destination free → move succeeds;
+- destination occupied → original remains unchanged;
+- destination becomes occupied concurrently → only valid result commits;
+- old slot releases only after successful committed move;
+- new slot becomes occupied atomically;
+- Wallet/Cash economics are not repriced;
+- processing duration remains original contract;
+- rollback restores original appointment;
+- adjacent destination works under half-open rule.
+
+
+H. CASCADE / NEXT-TIME UPDATE
+
+The existing source supports optional movement of subsequent specialist
+bookings.
+
+Do NOT remove that feature merely because it is harder to certify.
+
+Test its actual existing contract.
+
+Verify:
+- affected rows are authorized;
+- all destinations are planned before mutation;
+- overlap validation applies to every moved booking;
+- another transaction cannot take an intended destination between validation
+  and commit;
+- failure leaves the entire cascade unchanged;
+- no cross-Shop unauthorized booking is moved;
+- stored durations are preserved;
+- financial economics are unchanged.
+
+If the existing cascade semantics themselves are ambiguous in a way requiring a
+new business decision, that specific ambiguity may be a TRUE STOP.
+
+Ordinary race/locking bugs are NOT a stop; fix them within the existing
+contract.
+
+
+I. DEADLOCK / LOCK TIMEOUT
+
+Exercise realistic booking/reschedule contention capable of producing lock
+timeout/deadlock.
+
+Verify:
+- no partial booking persists;
+- no partial financial effect persists;
+- retry occurs only at a safe whole-operation/root boundary if the existing
+  architecture supports retry;
+- bounded retry does not duplicate bookings or money;
+- unrelated specialists remain able to progress.
+
+Do not invent unlimited retry loops.
+
+
+J. RETRY / DOUBLE SUBMIT
+
+No new durable booking request-id identity was established.
+
+Do NOT invent a new idempotency architecture merely for this phase.
+
+Nevertheless verify that duplicate/repeated same-slot submission cannot create
+two active bookings or duplicate financial effects.
+
+If the first request commits, a later same-slot retry should fail safely because
+capacity is occupied.
+
+If the first request rolls back, a valid retry may succeed.
+
+Do not confuse financial contribution replay protection with booking creation
+idempotency.
+
+
+K. CLOCK / BOUNDARY
+
+Within the EXISTING UTC/naive-time contract, verify:
+
+- same-day ordinary booking;
+- midnight boundary;
+- appointment ending exactly at closing;
+- request extending past closing;
+- date transition;
+- API → persisted booking → Customer/Vendor display consistency for selected
+  test times.
+
+Do not redesign timezone architecture.
+
+Record remaining Shop/Customer timezone limitations accurately.
+
+
+======================================================================
+7. FINANCIAL NON-REGRESSION DURING B1
+======================================================================
+
+Scheduling corrections must NOT modify financial semantics.
+
+Retain the accepted MySQL financial architecture.
+
+For representative Cash and legitimately funded Wallet bookings verify:
+
+- successful booking;
+- overlap rejection;
+- stale request rejection;
+- rollback;
+- cancellation where supported;
+- reschedule;
+- duplicate submission;
+- concurrent loser.
+
+For each rejected/rolled-back operation verify absence of unintended:
+- Wallet debit;
+- Wallet history;
+- Transaction;
+- allocation;
+- collection context;
+- financial operation;
+- platform fee;
+- payable;
+- receivable;
+- receipt/evidence mutation.
+
+Do not activate electronic providers.
+
+Do not create Admin Wallet funds.
+
+Do not change:
+- money equations;
+- custody classification;
+- commission meaning;
+- refund authority;
+- payout authority;
+- merchant identity.
+
+If a NEW independent financial P0 is demonstrated, preserve the native receipt
+and STOP affected financial work.
+
+
+======================================================================
+8. PROTECTED STATE
+======================================================================
+
+Do not mutate protected development financial data for destructive tests.
+
+Use disposable native fixtures.
+
+At the end of B1, rerun the accepted protected-state comparison appropriate to
+the current baseline.
+
+Verify:
+- protected fingerprints remain unchanged;
+- owned schema objects remain unchanged unless an explicitly authorized bounded
+  source migration was necessary;
+- 12 legacy Orders remain unverified;
+- no historical custody/classification was manufactured.
+
+If no owned schema change is needed, say so explicitly.
+
+
+======================================================================
+9. WHEN B1 PASSES — DO NOT STOP
+======================================================================
+
+This instruction is important:
+
+IF B1 PASSES, DO NOT STOP JUST TO TELL ME THAT BOOKING CORRECTNESS PASSED.
+
+Continue automatically in the SAME RUN into selected limited-MVP role
+acceptance.
+
+Proceed:
+
+    B1
+      ↓
+    A1 / U1
+      ↓
+    N1 / S1
+
+Do not begin VPS deployment.
+
+Do not activate external payment providers.
+
+
+======================================================================
+10. A1 — CUSTOMER ACCESS / VENDOR ONBOARDING
+======================================================================
+
+Run the selected real application paths as far end-to-end as the local
+environment permits.
+
+CUSTOMER:
+
+Verify:
+
+- registration;
+- validation;
+- login;
+- logout;
+- password reset request;
+- reset expiry;
+- one-time reset consumption;
+- profile;
+- location/address;
+- unauthorized access rejection;
+- neutral account-enumeration behavior where applicable;
+- rate limiting for sensitive endpoints;
+- 429/retry behavior.
+
+Do not claim email/SMS delivery unless an actual configured transport delivers
+it.
+
+Separate:
+- application state acceptance;
+- external delivery dependency.
+
+
+VENDOR:
+
+Verify:
+
+- Vendor registration/application;
+- Admin approval;
+- Shop creation/configuration;
+- Service creation;
+- Service pricing;
+- specialist/staff assignment;
+- invitation acceptance where applicable;
+- branch/Shop ownership;
+- rejection of cross-Shop forged IDs;
+- correct role isolation.
+
+Do NOT solve authorization failures by widening roles globally.
+
+
+======================================================================
+11. U1 — SELECTED CUSTOMER/VENDOR/ADMIN SERVICE JOURNEY
+======================================================================
+
+Execute the closest practical complete service-booking journey using the real
+application.
+
+CUSTOMER FLOW:
+
+    fresh/authorized Customer
+      → discover Shop/service
+      → view specialist availability
+      → select legitimate slot
+      → book with Cash
+      → see persisted booking
+      → Vendor sees booking
+      → permitted Vendor transition
+      → Customer refreshes and sees new state
+      → history/receipt reflects correct state
+
+Repeat representative booking with legitimately funded synthetic Wallet funds
+in disposable native acceptance data.
+
+Verify zero-Wallet Customer has a working Cash path.
+
+Do NOT create Wallet balance through unauthorized Admin adjustment.
+
+
+VENDOR FLOW:
+
+Verify:
+
+- only permitted Shop/staff sees/manages booking;
+- calendar shows correct specialist/time;
+- overlapping booking cannot be admitted;
+- cancellation/reschedule is reflected correctly;
+- financial history uses existing semantics;
+- reserved payout/request state is not displayed as externally paid;
+- unrelated Shop/Vendor cannot access or mutate the booking.
+
+
+ADMIN FLOW:
+
+Verify:
+
+- fresh Vendor approval does not grant excessive permissions;
+- correct Customer/Vendor/booking visibility;
+- permitted financial operation access;
+- original allocation/contribution history;
+- PENDING/UNKNOWN remains distinguishable from success;
+- unsupported legacy rows fail closed;
+- cancellation/refund terminology is not misleading;
+- external payout reservation is not shown as completed payout;
+- audit/history survives reload.
+
+
+======================================================================
+12. RESPONSIVE ACCEPTANCE
+======================================================================
+
+For the selected Customer/Vendor/Admin flows, verify at:
+
+- 1280px;
+- 390px;
+- 320px.
+
+Check actual authenticated screens, not only login/public pages.
+
+At minimum inspect:
+
+- navigation;
+- forms;
+- service detail;
+- availability/calendar;
+- booking confirmation;
+- booking history;
+- booking detail;
+- Vendor calendar/list;
+- Vendor booking detail/action UI;
+- Admin selected approval/financial screens;
+- modals;
+- tables;
+- loading;
+- empty state;
+- validation error;
+- server error;
+- 429/retry state where practical.
+
+Correct bounded UI defects that prevent the selected MVP journey.
+
+Do not redesign the entire UI.
+
+No horizontal document overflow should occur in the selected journey.
+
+
+======================================================================
+13. N1 — COMMUNICATION / BACKGROUND RELIABILITY
+======================================================================
+
+After selected role acceptance is working, review ONLY the background processes
+required by this MVP.
+
+Minimum selected scope:
+
+- transactional account email;
+- booking-created/status email where currently supported;
+- durable in-app booking state/history;
+- booking reminder if retained for MVP;
+- queue worker;
+- scheduler;
+- failed-job visibility.
+
+Do NOT enable:
+- MTN reconciliation;
+- electronic-provider reconciliation;
+- auction jobs;
+- unrelated destructive cleanup;
+- deferred Product/Delivery jobs
+
+merely because they exist in the scheduler.
+
+
+Verify selected background behavior for:
+
+- transaction commit before durable async side effect;
+- worker restart;
+- process crash before send;
+- process crash after send/before acknowledgement where practical;
+- retry;
+- duplicate dispatch;
+- late scheduler execution;
+- missed reminder catch-up;
+- event/recipient deduplication;
+- failed-job visibility.
+
+A reminder must not be the only way a Customer can determine booking time/state.
+
+If live SMTP credentials are unavailable, test the application boundary with an
+appropriate local/test transport and classify actual delivery as EXTERNAL
+DEPENDENCY.
+
+Do not purchase or activate an external service.
+
+
+======================================================================
+14. S1 — MINIMUM RELEASE SECURITY
+======================================================================
+
+Perform bounded security acceptance for the selected MVP.
+
+Do NOT run destructive broad exploitation.
+
+Verify:
+
+AUTH / ABUSE
+- narrow login rate limit;
+- registration/verification/reset rate limits where appropriate;
+- 429 behavior;
+- reset expiry/replay;
+- neutral enumeration behavior.
+
+AUTHORIZATION
+- Customer cannot access another Customer's protected booking;
+- Vendor cannot access unrelated Shop booking;
+- specialist/staff permissions remain scoped;
+- forged Shop/branch/resource IDs reject;
+- Admin-only financial actions reject non-Admin callers.
+
+CSRF / COOKIE / SESSION
+- identify actual cookie-authenticated state-changing paths;
+- ensure appropriate CSRF behavior there;
+- retain bearer/API semantics where applicable;
+- verify production-required secure cookie/proxy/domain settings are documented,
+  not silently applied to development.
+
+UPLOAD
+- verify selected upload paths enforce expected ownership;
+- MIME/type restrictions;
+- size restrictions;
+- path safety;
+- uploaded executable/script content cannot execute.
+
+LOGGING / SECRETS
+- selected auth headers/challenges are redacted;
+- decrypted merchant payloads are not logged;
+- provider secrets are not returned;
+- selected build/public artifacts contain no newly exposed secret.
+
+Do not rotate real provider credentials automatically.
+
+If historical credential rotation remains externally required, keep it as an
+explicit dependency.
+
+
+======================================================================
+15. BOUNDED CORRECTION AUTHORITY
+======================================================================
+
+You ARE AUTHORIZED to make bounded application corrections necessary to pass
+B1/A1/U1/N1/S1 when they preserve the already-established contract.
+
+Examples include:
+
+- interval comparison bugs;
+- recurrence query bugs;
+- missing protected revalidation;
+- lock ordering bugs;
+- transaction-boundary bugs;
+- rollback defects;
+- stale availability bugs;
+- authorization mistakes clearly contradicting existing ownership;
+- missing validation;
+- incorrect error handling;
+- rate-limit configuration for sensitive endpoints;
+- bounded CSRF/cookie configuration defects;
+- selected upload validation;
+- selected UI state/cache issues;
+- selected notification retry/dedup defects;
+- selected scheduler reliability defects.
+
+For such defects:
+
+1. reproduce;
+2. preserve failure receipt;
+3. trace source;
+4. implement smallest correction;
+5. run focused native test;
+6. run relevant regression;
+7. continue.
+
+Do NOT ask for approval simply because application source must change.
+
+
+======================================================================
+16. TRUE STOP CONDITIONS
+======================================================================
+
+STOP and ask me ONLY if one of the following is encountered:
+
+1. NEW BUSINESS SEMANTICS
+
+The source/evidence presents multiple legitimate behaviors and choosing among
+them would create a new product rule not already settled above.
+
+2. NEW INDEPENDENT FINANCIAL P0
+
+Native evidence demonstrates a new ability to create/lose/duplicate/reassign
+money or financial authority outside the accepted model.
+
+3. NEW INDEPENDENT SECURITY P0
+
+A demonstrated severe authorization/credential/data-exposure issue requires a
+material security architecture decision.
+
+4. MATERIAL DATA MODEL / CAPACITY REDESIGN
+
+The required correction needs a new capacity identity, resource architecture,
+major scheduling schema, or material persistent-domain redesign.
+
+5. FINANCIAL SEMANTICS CHANGE
+
+The correction requires changing custody, accounting equations, commission,
+refund authority, payout authority or merchant identity.
+
+6. DESTRUCTIVE PROTECTED-DATA MIGRATION
+
+The work would reinterpret/delete/reclassify existing protected financial or
+legacy data.
+
+7. REAL EXTERNAL FINANCIAL ACTION
+
+The next step requires:
+- provider credentials;
+- real provider API calls;
+- real refund;
+- real payout;
+- electronic activation;
+- merchant activation.
+
+8. PRODUCTION ACTION
+
+The next step requires:
+- real VPS deployment;
+- production DNS;
+- production TLS/cert changes;
+- production database mutation;
+- production secret installation;
+- public launch.
+
+Those require separate approval.
+
+
+======================================================================
+17. THINGS THAT ARE NOT STOP CONDITIONS
+======================================================================
+
+Do NOT stop merely because:
+
+- a test fixture is wrong;
+- a synthetic UUID/status constant is wrong;
+- a harness hook fails to trigger;
+- an ephemeral MySQL instance restarts;
+- a test needs to be rerun;
+- a bounded source bug is discovered;
+- a recurrence implementation contradicts the already-confirmed rules;
+- a lock must be reordered;
+- rollback must be corrected;
+- a rate limiter needs a bounded change;
+- a selected UI screen has a fixable bug;
+- a selected notification needs bounded retry/dedup correction;
+- an optional cleanup task remains;
+- a report is stale;
+- another desirable non-MVP test could be imagined.
+
+Preserve relevant failure evidence, fix the issue, and continue.
+
+
+======================================================================
+18. "SAFELY REMOVE EXPIRED COUNTED CALENDAR BLOCKS"
+======================================================================
+
+Do NOT turn this suggested cleanup task into a new independent MVP project.
+
+The recurrence contract is already established.
+
+Review the cleanup only insofar as necessary to ensure it does NOT violate the
+confirmed recurrence rules.
+
+Required behavior:
+
+- original occurrence counts as #1;
+- count progresses by recurrence occurrences;
+- closed/non-working days do not extend count;
+- monthly skipped nonexistent dates follow the anchored monthly recurrence;
+- the final valid occurrence remains effective for its full interval/date;
+- cleanup occurs only after the recurrence has definitively expired;
+- queried availability windows do not determine expiry.
+
+If existing cleanup can safely compute that from the existing rule, make the
+bounded correction and test it.
+
+If safe expiry cannot be derived from the stored rule, retain the row rather
+than deleting it prematurely.
+
+Do not introduce a new recurrence subsystem merely for cleanup.
+
+
+======================================================================
+19. EVIDENCE REQUIREMENTS
+======================================================================
+
+Continue using the existing evidence/report structure rather than creating a
+competing architecture document.
+
+Preserve:
+- original failing receipts;
+- corrected receipts;
+- fixture/test failures clearly labelled as fixture/test issues;
+- native MySQL results;
+- role/browser evidence;
+- protected-state comparison;
+- relevant source diffs;
+- test counts.
+
+Clearly distinguish:
+
+VERIFIED
+PARTIAL
+BLOCKED
+DEFERRED
+EXTERNAL DEPENDENCY
+FIXTURE/TEST ISSUE
+SOURCE-CONFIRMED RISK
+REPRODUCED DEFECT
+
+Do not promote source tracing to native verification.
+
+Do not promote synthetic transport to external delivery UAT.
+
+Do not promote service-level tests to browser acceptance.
+
+
+======================================================================
+20. UPDATE THE EXISTING READINESS REPORT
+======================================================================
+
+Update the existing authoritative MVP readiness report in place.
+
+Do NOT create a second competing readiness matrix.
+
+Correct stale statements.
+
+For example, once verified, the report must no longer say:
+
+    unresolved endpoint policy
+
+because half-open endpoint semantics are already confirmed.
+
+Likewise, once recurrence passes, it must no longer list recurrence semantics
+as unresolved.
+
+The report must reflect CURRENT evidence, not preserve obsolete blocker wording
+as if it were current.
+
+Historical defects should remain in evidence/history but not as active blockers
+after correction and verification.
+
+
+======================================================================
+21. READINESS SCORE
+======================================================================
+
+Do NOT artificially keep the readiness estimate at 40–50% merely because that
+was the previous estimate.
+
+Recalculate it from the same explicit gate methodology after this run.
+
+A gate may move from:
+
+    blocked → partial → verified
+
+only when evidence supports it.
+
+Do not increase readiness merely because code was written.
+
+Do increase readiness when an actual previously incomplete launch gate receives
+the required acceptance.
+
+Show:
+
+- previous equivalent verified gates;
+- newly verified gates;
+- remaining partial/unverified gates;
+- resulting percentage/range;
+- why it changed.
+
+
+======================================================================
+22. REQUIRED FINAL OUTPUT
+======================================================================
+
+Do not stop at the first successful subsection.
+
+At the end of the run, return ONE consolidated execution result containing:
+
+A. B1 STATUS
+
+State:
+
+    VERIFIED
+or
+    BLOCKED by <true stop condition>
+
+List exactly what passed.
+
+If B1 is still partial for ordinary fixable defects, continue working instead
+of returning.
+
+
+B. CUSTOMER STATUS
+
+Report:
+- registration/access;
+- booking;
+- Cash;
+- Wallet;
+- cancellation/reschedule;
+- history/receipt;
+- responsive acceptance.
+
+
+C. VENDOR STATUS
+
+Report:
+- onboarding;
+- Shop/service/staff;
+- isolation;
+- booking/calendar;
+- status transitions;
+- financial visibility;
+- responsive acceptance.
+
+
+D. ADMIN STATUS
+
+Report:
+- Vendor approval;
+- role isolation;
+- booking visibility;
+- financial operations;
+- UNKNOWN/PENDING behavior;
+- history/audit visibility;
+- responsive acceptance.
+
+
+E. COMMUNICATION
+
+Report:
+- in-app;
+- transactional email application path;
+- worker;
+- scheduler;
+- retry;
+- restart;
+- external delivery dependency.
+
+
+F. SECURITY
+
+Report selected:
+- authorization;
+- sensitive rate limits;
+- reset/replay;
+- CSRF/session;
+- uploads;
+- logging/secrets.
+
+Separate verified findings from external/configuration dependencies.
+
+
+G. PROTECTED STATE
+
+Report:
+- fingerprint result;
+- schema comparison;
+- legacy Orders;
+- whether any protected financial data changed.
+
+
+H. REMAINING BLOCKERS
+
+Use ONE list divided into:
+
+    P0
+    P1
+    DEFERRED
+    EXTERNAL DEPENDENCY
+
+Do not reintroduce already-fixed historical defects as active blockers.
+
+
+I. MVP READINESS
+
+Recalculate the evidence-weighted limited-MVP readiness using the existing gate
+methodology.
+
+Explain the delta from the previous ~42.5% baseline.
+
+
+J. NEXT ACTION
+
+If B1/A1/U1/N1/S1 have passed sufficiently for isolated staging preparation,
+say exactly:
+
+    LIMITED MVP APPLICATION GATES READY FOR STAGING PREPARATION
+
+This does NOT authorize deployment.
+
+Then identify the next bounded phase as:
+
+    D1 / R1 / O1:
+    isolated production-like MySQL/runtime cutover rehearsal,
+    backup/restore acceptance,
+    and minimum observability.
+
+If application gates are not ready, identify ONLY the actual remaining
+launch-blocking gate.
+
+Do not suggest unrelated Product/electronic-provider work.
+
+
+======================================================================
+23. FINAL EXECUTION DIRECTIVE
+======================================================================
+
+Move forward.
+
+Do not turn this into another architecture review.
+
+Do not repeatedly ask me to reconfirm decisions already made.
+
+Do not stop after fixing recurrence.
+
+Do not stop after B1 passes.
+
+Do not stop because a fixture needs repair.
+
+Do not stop because another optional cleanup could be performed.
+
+Do not reopen PostgreSQL.
+
+Do not reopen payments.
+
+Do not activate electronic providers.
+
+Do not work on Product purchasing.
+
+Do not deploy to the VPS.
+
+Within the authorized service-booking MVP contract:
+
+    reproduce → fix → verify → regress → continue.
+
+The immediate objective is:
+
+1. CLOSE B1;
+2. CONTINUE INTO A1/U1;
+3. COMPLETE THE SELECTED CUSTOMER/VENDOR/ADMIN SERVICE JOURNEY;
+4. COMPLETE THE BOUNDED N1/S1 APPLICATION GATES;
+5. RECALCULATE ACTUAL MVP READINESS;
+6. STOP BEFORE D1/R1/O1 production-like staging/deployment work unless separately
+   authorized.
+
+We need measurable movement toward the limited MVP, not another loop of
+assessment-only reporting.

@@ -1,0 +1,3 @@
+# AgendaAlly Stage 2 shared surface
+
+`Shell.tsx` exports `PageShell({ children, business?, title? })`, `Brand({ compact?, dark?, business? })`, `LinkButton({ page, children, variant? })`, and `PreviewBadge({ children? })`. `LinkButton` only routes within `/__mockup/preview/agendaally-stage2/{page}`. Pages import `../_group.css`; all visual classes are prefixed `aa-s2` and are reusable without editing sandbox globals. The shared shell supplies the customer/business navigation, explicit editable Cameroon → Douala context, keyboard-dismissible location dialog, prototype boundary, and footer.

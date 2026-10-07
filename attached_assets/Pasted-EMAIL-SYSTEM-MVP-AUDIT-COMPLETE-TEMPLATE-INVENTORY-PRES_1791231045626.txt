@@ -1,0 +1,979 @@
+EMAIL SYSTEM MVP AUDIT — COMPLETE TEMPLATE INVENTORY, PRESENTATION CONSISTENCY, MISSING-TEMPLATE PROPOSAL, AND READINESS IMPACT
+
+Context / accepted evidence
+
+AgendaAlly SMTP transport has already been successfully tested end-to-end from the existing normal Admin preview.
+
+The Admin Test Email:
+- successfully connected through the configured Zoho SMTP provider;
+- displayed “Test email sent successfully”;
+- was actually received in Gmail at the intended recipient;
+- used the current encrypted SMTP credential;
+- used verified TLS;
+- successfully rendered the corrected AgendaAlly logo;
+- successfully rendered the corrected Instagram, Facebook and LinkedIn icons;
+- rendered the footer correctly in Gmail.
+
+The previous SMTP failure was caused by an issue with the Zoho account/configuration and has been resolved.
+
+The original email-presentation defects were:
+- logo URL pointed to localhost and therefore could not be fetched by Gmail;
+- social icons were literal text labels;
+- social links could become malformed by prepending https:// to URLs that already contained a scheme.
+
+Those presentation defects have already been corrected using owned/local email-safe assets, CID embedding and normalized links.
+
+Therefore:
+
+SMTP TRANSPORT: VERIFIED
+ACTUAL GMAIL DELIVERY: VERIFIED
+CORRECTED ADMIN TEST EMAIL PRESENTATION IN GMAIL: VERIFIED
+
+Do NOT repeat the generic Admin SMTP Test Email.
+
+The purpose of this task is now to audit the complete AgendaAlly email system, verify presentation consistency locally, identify missing MVP transactional emails, and determine exactly what remains necessary for communications/readiness gates C1 and O4.
+
+This is primarily an AUDIT + LOCAL VERIFICATION + PROPOSAL task.
+
+Do not implement new email workflows without approval.
+
+Do not send any email during this task.
+
+
+==================================================
+1. HARD SAFETY / SCOPE BOUNDARIES
+==================================================
+
+Do NOT:
+
+- send a real email;
+- make an SMTP connection;
+- repeat the Admin SMTP Test Email;
+- retrieve, print, expose, log or replace the SMTP password;
+- change SMTP credentials;
+- disable TLS certificate verification;
+- disable hostname verification;
+- enable self-signed certificates;
+- change EMAIL_MODE globally;
+- activate general outbound email;
+- activate password-reset/verification/booking mail merely for this audit;
+- activate workers or schedulers;
+- activate payment providers;
+- activate payouts or refunds;
+- activate SMS;
+- activate push;
+- change Wallet/accounting behavior;
+- change booking/scheduling semantics;
+- create bookings;
+- create Customers/local clients;
+- create payment records;
+- create Wallet transactions;
+- modify production;
+- deploy anything;
+- rerun unrelated scheduling/security/payment/calendar campaigns that already passed.
+
+Preserve:
+
+- SMTP credential encryption;
+- password-free API responses;
+- blank-password preservation;
+- sanitized SMTP errors;
+- verified TLS;
+- port 465 implicit TLS behavior;
+- existing environment suppression policies;
+- existing tenant/security fixes;
+- existing scheduling semantics;
+- existing payment/accounting semantics;
+- normal demo data;
+- protected fingerprints/schema baseline;
+- previously accepted readiness evidence.
+
+Use synthetic/non-sensitive data for local email rendering.
+
+Do not award readiness credit for behavior that has not actually been verified.
+
+
+==================================================
+2. INVENTORY EVERY EMAIL-PRODUCING PATH
+==================================================
+
+Perform a repository-wide audit for every mechanism capable of generating or sending an email.
+
+Search at minimum for:
+
+- Blade email templates;
+- email layouts;
+- PHPMailer usage;
+- Laravel Mail usage;
+- Mailables;
+- Notification classes;
+- notification channels;
+- email services;
+- EmailSendService or equivalents;
+- direct mail calls;
+- queued email jobs;
+- scheduler-driven email;
+- worker-driven email;
+- Admin-triggered email;
+- event/listener-driven email;
+- password-reset email;
+- verification email;
+- registration/account email;
+- booking email;
+- cancellation email;
+- rescheduling email;
+- reminder email;
+- Vendor notification;
+- Specialist notification;
+- Customer notification;
+- local-client email;
+- subscription/digest email;
+- invitation email;
+- order email;
+- invoice email;
+- payment email;
+- refund email;
+- payout email;
+- delivery/driver email;
+- legacy notification/email code.
+
+Do not assume that a template is active simply because it exists.
+
+Trace each email from:
+
+authoritative application event/state
+→ controller/service/event/job
+→ email service
+→ template
+→ recipient
+→ delivery mechanism.
+
+Identify dead, duplicate and legacy paths separately.
+
+
+==================================================
+3. PRODUCE A COMPLETE EMAIL INVENTORY MATRIX
+==================================================
+
+For every discovered email/template/path report:
+
+1. Email/template name
+2. Source file(s)
+3. Trigger
+4. Recipient role
+5. Authoritative event/state
+6. Synchronous / queued / scheduled
+7. Current enabled/suppressed state
+8. Whether it currently uses the shared AgendaAlly email layout
+9. Whether it has duplicated header/footer markup
+10. Whether it uses the corrected logo handling
+11. Whether it uses corrected social icons/links
+12. Whether it contains external assets
+13. Whether it contains action URLs
+14. Whether it exposes sensitive information
+15. Whether it is relevant to current MVP
+16. Whether its actual delivery has been verified
+17. Recommended classification.
+
+Use these classifications:
+
+EXISTS + READY
+
+EXISTS + PRESENTATION VERIFIED LOCALLY
+
+EXISTS + NEEDS PRESENTATION FIX
+
+EXISTS + NEEDS FUNCTIONAL/DELIVERY VERIFICATION
+
+MISSING + RECOMMENDED FOR MVP
+
+DEFERRED / NOT REQUIRED FOR CURRENT MVP
+
+LEGACY / UNUSED — CANDIDATE FOR REMOVAL
+
+
+==================================================
+4. AUDIT THE SHARED EMAIL PRESENTATION
+==================================================
+
+The current corrected Admin Test Email has now been received in Gmail and visually confirmed.
+
+Use that as the approved presentation baseline.
+
+Audit every existing MVP-relevant email template against that baseline.
+
+Verify that each appropriate template has:
+
+- AgendaAlly logo;
+- correct logo dimensions;
+- email-safe image delivery;
+- no localhost image source;
+- no private Replit preview image dependency;
+- no temporary workspace URL;
+- no inaccessible storage URL;
+- no SVG requirement for essential rendering;
+- no webfont dependency for essential content;
+- no external icon CDN dependency;
+- no background-image dependency for essential information;
+- appropriate alt text;
+- consistent AgendaAlly footer;
+- current copyright;
+- Instagram icon where configured;
+- Facebook icon where configured;
+- LinkedIn icon where configured;
+- X/Twitter omitted when unconfigured;
+- normalized social URLs;
+- no https://https:// malformed links;
+- no credential-bearing URL;
+- no placeholder social link;
+- no unsafe/private social destination;
+- usable narrow/mobile rendering;
+- readable typography;
+- accessible primary CTA;
+- essential meaning available without images;
+- no accidental secret/internal data exposure.
+
+Prefer one reusable presentation system instead of maintaining duplicated logo/footer implementations.
+
+
+==================================================
+5. AUDIT EMAIL ACTION LINKS
+==================================================
+
+For emails containing action links, inspect how those URLs are generated.
+
+Examples:
+
+- Verify Email
+- Reset Password
+- View Booking
+- Manage Booking
+- Vendor dashboard
+- Specialist dashboard
+- Order/invoice links
+- invitations.
+
+Determine whether links are generated from an appropriate configurable public application URL rather than:
+
+- localhost;
+- Replit workspace URL;
+- private preview URL;
+- hard-coded development host.
+
+Do NOT replace URLs during this audit unless an existing source defect can be safely corrected without changing workflow semantics.
+
+If changing the URL would require choosing a production domain/environment policy that has not yet been approved, report it instead.
+
+For verification/reset links, also inspect whether tokens are handled safely.
+
+Do not expose tokens in the report.
+
+
+==================================================
+6. ACCOUNT / SECURITY EMAILS
+==================================================
+
+Determine whether AgendaAlly currently implements:
+
+- email verification;
+- password reset;
+- password changed/security notification;
+- account invitation;
+- account activation/welcome message.
+
+For each one determine:
+
+- whether the template exists;
+- whether the trigger exists;
+- whether the token/link generation exists;
+- whether expiration/security behavior exists;
+- whether the correct recipient is selected;
+- whether the shared layout is used;
+- whether delivery is currently suppressed;
+- whether the workflow is actually required for MVP.
+
+Do not activate or send these emails yet.
+
+
+==================================================
+7. CUSTOMER BOOKING EMAILS
+==================================================
+
+Determine which Customer booking emails currently exist and which are missing.
+
+At minimum evaluate:
+
+- Booking created / confirmed
+- Booking rescheduled
+- Booking cancelled
+- Appointment reminder
+- Meaningful booking status change
+
+Do NOT automatically recommend an email for every status.
+
+Only recommend notifications that are useful to the Customer and correspond to an authoritative saved state.
+
+For every proposed notification identify the exact authoritative event that should trigger it.
+
+Example principle:
+
+successful committed Booking creation
+→ Booking confirmation email
+
+NOT:
+
+opening Review
+→ confirmation email
+
+and NOT:
+
+calculation/preview
+→ confirmation email.
+
+No notification may imply that a booking exists before successful persistence.
+
+
+==================================================
+8. VENDOR / SPECIALIST BOOKING EMAILS
+==================================================
+
+Evaluate whether the MVP needs:
+
+- Vendor notification of new booking;
+- Specialist notification of newly assigned booking;
+- booking reschedule notification;
+- cancellation notification;
+- assignment-change notification;
+- upcoming appointment reminder.
+
+Respect existing tenant and assignment authority.
+
+A Specialist must never receive another Shop's booking information merely because they have a global Specialist identity.
+
+Use accepted same-Shop assignment relationships and existing authorization semantics.
+
+Do not modify those semantics during this task.
+
+
+==================================================
+9. LOCAL CLIENT EMAIL SEMANTICS
+==================================================
+
+Audit how the new local-client model should interact with email.
+
+Remember:
+
+A local client is a Shop-scoped directory record.
+
+It does NOT automatically have a platform User account.
+
+It must NOT:
+
+- receive platform credentials;
+- be told that an AgendaAlly account was created;
+- receive account verification intended for platform Users;
+- be automatically linked to a global account merely because an email matches.
+
+Determine whether a local client with a valid email address can safely receive:
+
+- booking confirmation;
+- reschedule notice;
+- cancellation notice;
+- reminder.
+
+If the existing contract does not safely support this, classify it as proposed/deferred.
+
+Do not invent automatic account linking.
+
+
+==================================================
+10. PAYMENT / FINANCIAL EMAILS
+==================================================
+
+Audit existing or proposed:
+
+- payment confirmation;
+- receipt;
+- invoice;
+- refund notification;
+- payout notification;
+- Vendor settlement notification;
+- order payment notification.
+
+Be extremely conservative here.
+
+Do NOT create or recommend sending a financial email from a state that AgendaAlly does not authoritatively establish.
+
+A Booking being confirmed does NOT automatically mean payment was collected.
+
+Cash selection does NOT mean Cash was collected.
+
+UNPAID/UNCOLLECTED must remain distinct from booking status.
+
+Do not imply:
+
+PAID
+COLLECTED
+REFUNDED
+SETTLED
+PAYOUT COMPLETE
+
+unless the existing authoritative accounting/provider state establishes it.
+
+Current payment-provider/refund/payout/reconciliation limitations remain in force.
+
+Where authoritative financial state is not currently available, classify the email as:
+
+DEFERRED — FINANCIAL AUTHORITY NOT YET CERTIFIED.
+
+Do not modify accounting to support an email.
+
+
+==================================================
+11. PRODUCT COMMERCE / ORDER EMAILS
+==================================================
+
+Audit the existing order/invoice email separately.
+
+Determine:
+
+- trigger;
+- recipient;
+- authoritative order state;
+- whether it uses the corrected logo;
+- whether it uses corrected social icons;
+- whether MIME/CID handling is correct;
+- whether invoice attachment handling is correct;
+- whether any gallery/product images rely on inaccessible URLs;
+- whether it contains any financial statement that exceeds currently verified accounting authority.
+
+Remember the known Product fulfillment/accounting findings.
+
+Do not treat legacy Admin Wallet credits or unverified provider states as evidence of real external payment settlement.
+
+If the order email makes such a claim, flag it.
+
+
+==================================================
+12. SUBSCRIPTION / DIGEST EMAILS
+==================================================
+
+Audit subscription/digest email paths separately.
+
+Determine:
+
+- whether these are part of AgendaAlly's actual marketplace MVP;
+- whether they are legacy/general platform functionality;
+- trigger;
+- scheduler/worker dependency;
+- recipient;
+- unsubscribe behavior if applicable;
+- shared layout usage;
+- logo/footer/social rendering.
+
+Do not activate schedulers during this task.
+
+
+==================================================
+13. INVITATION EMAILS
+==================================================
+
+Audit all invitation-related email flows, including any:
+
+- Specialist invitation;
+- Vendor/team invitation;
+- delivery-driver invitation;
+- Admin invitation.
+
+Determine whether each invitation:
+
+- actually corresponds to a supported current MVP relationship;
+- has an authoritative invitation record;
+- expires appropriately if applicable;
+- cannot expose another Shop's data;
+- uses safe URLs;
+- uses the shared layout where appropriate.
+
+Do not redesign authorization merely to standardize an email.
+
+
+==================================================
+14. DETERMINE THE MINIMUM MVP EMAIL SET
+==================================================
+
+After inventorying the current implementation, propose the smallest coherent email set that AgendaAlly should have for MVP.
+
+Do not simply generate a huge list of desirable emails.
+
+Separate them into:
+
+A. REQUIRED FOR MVP
+
+B. USEFUL BUT CAN FOLLOW AFTER MVP
+
+C. DEFERRED UNTIL PAYMENT/FINANCIAL FEATURES ARE CERTIFIED
+
+D. LEGACY / NOT RELEVANT
+
+For REQUIRED FOR MVP, strongly evaluate:
+
+ACCOUNT
+- Email verification
+- Password reset
+
+CUSTOMER
+- Booking confirmation
+- Booking rescheduled
+- Booking cancelled
+- Appointment reminder
+
+VENDOR/SPECIALIST
+- New booking
+- Booking rescheduled
+- Booking cancelled
+- Specialist assignment notification where needed
+
+LOCAL CLIENT
+- Appropriate booking communications where email exists and semantics allow
+
+Do not automatically classify every item above as required. Base the decision on AgendaAlly's actual current application behavior.
+
+
+==================================================
+15. PROPOSE CONSISTENT TEMPLATE STRUCTURE
+==================================================
+
+For missing MVP templates, propose—not implement—a consistent design structure.
+
+Prefer:
+
+HEADER
+AgendaAlly logo
+
+TITLE
+Clear purpose of email
+
+PRIMARY CONTENT
+Only authoritative information
+
+ACTION
+One clear CTA where needed
+
+SECONDARY DETAILS
+Reference / Shop / Service / Specialist / date / time / status
+
+PAYMENT SECTION
+Only if authoritative
+
+HELP / SUPPORT
+Appropriate support path
+
+FOOTER
+AgendaAlly branding
+configured social icons
+copyright
+
+Booking emails should normally make the following easy to understand where applicable:
+
+- Booking reference
+- Shop
+- Service
+- Specialist
+- Date
+- Start/end time
+- Duration
+- Booking status
+
+Payment state should be shown separately.
+
+Example:
+
+Booking status: CONFIRMED
+Payment status: UNPAID / UNCOLLECTED
+
+Do not merge these concepts.
+
+
+==================================================
+16. EMAIL RESPONSIVENESS
+==================================================
+
+Perform local rendering checks using synthetic data at representative email widths.
+
+At minimum inspect approximately:
+
+- desktop email width;
+- ~390px;
+- ~320px.
+
+Check:
+
+- logo scaling;
+- long Customer names;
+- long Shop names;
+- long Service names;
+- long Specialist names;
+- booking reference;
+- dates;
+- time;
+- CTA wrapping;
+- footer;
+- social icons;
+- invoice/order details where applicable.
+
+No horizontal page overflow should be required for normal email content.
+
+Use email-compatible HTML.
+
+Do not convert the application UI design system directly into unsupported email CSS.
+
+
+==================================================
+17. LOCAL MIME VERIFICATION
+==================================================
+
+For existing MVP-relevant templates, locally generate/render the email using synthetic addresses/data.
+
+Do NOT call send/postSend or any SMTP/network method.
+
+Verify where applicable:
+
+- HTML output;
+- MIME structure;
+- CID references;
+- CID attachment existence;
+- image MIME type;
+- embedded logo bytes;
+- social icon bytes;
+- attachment names;
+- invoice attachment handling;
+- no unresolved localhost resources;
+- no malformed URLs;
+- no synthetic secrets appearing unexpectedly.
+
+Network/mail functions should remain disabled during these tests where practical.
+
+
+==================================================
+18. DUPLICATION / MAINTAINABILITY AUDIT
+==================================================
+
+Identify duplicated email presentation logic.
+
+Specifically determine whether:
+
+- shared layout;
+- order invoice;
+- invitation emails;
+- legacy emails
+
+duplicate:
+
+- logo resolution;
+- social links;
+- footer;
+- copyright;
+- CTA styles;
+- MIME attachment handling.
+
+Recommend consolidation where safe.
+
+Do NOT force every email into the same component if it would alter business semantics or break specialized MIME requirements.
+
+
+==================================================
+19. SECURITY REVIEW
+==================================================
+
+Check existing email generation for:
+
+- HTML injection;
+- unsafe unescaped Customer/vendor-controlled fields;
+- header injection;
+- recipient manipulation;
+- arbitrary attachment paths;
+- path traversal;
+- remote asset SSRF;
+- credential leakage;
+- token leakage in logs;
+- sensitive information in error responses;
+- cross-Shop information exposure;
+- unsafe redirect/action URLs.
+
+Do not run harmful destructive exploits.
+
+Use synthetic fixtures/static analysis/local rendering where sufficient.
+
+Any discovered security issue must be reported separately from presentation defects.
+
+
+==================================================
+20. DO NOT CONFUSE TEMPLATE EXISTENCE WITH DELIVERY VERIFICATION
+==================================================
+
+For every email clearly distinguish:
+
+TEMPLATE EXISTS
+
+LOCAL RENDER VERIFIED
+
+MIME VERIFIED
+
+TRIGGER VERIFIED
+
+QUEUED/WORKER PATH VERIFIED
+
+SMTP DELIVERY VERIFIED
+
+MAILBOX RECEIPT VERIFIED
+
+USER JOURNEY VERIFIED
+
+Do not mark an email READY merely because its Blade template renders.
+
+Likewise, do not infer that password-reset or booking email delivery works simply because the Admin SMTP Test Email works.
+
+However, reuse the already verified SMTP transport rather than retesting SMTP unnecessarily.
+
+
+==================================================
+21. C1 / O4 READINESS ANALYSIS
+==================================================
+
+Map the results directly to the existing 20-gate MVP/readiness framework.
+
+C1 and O4 are currently partial.
+
+Determine exactly what each partial gate is missing.
+
+Report:
+
+- what C1 currently proves;
+- what C1 does not prove;
+- what exact test(s) would move C1 from 0.5 to 1;
+- what O4 currently proves;
+- what O4 does not prove;
+- what exact test(s) would move O4 from 0.5 to 1.
+
+Do not award points during this audit merely because templates exist.
+
+Calculate the hypothetical score only if the required missing tests later pass.
+
+For example, if closing C1 and/or O4 would move:
+
+16/20 → 16.5/20
+or
+16/20 → 17/20
+
+state that explicitly based on the actual scoring model.
+
+Do not change unrelated gate scores.
+
+
+==================================================
+22. MINIMUM FUTURE REAL-EMAIL ACCEPTANCE CAMPAIGN
+==================================================
+
+After the audit, propose the smallest possible real-email acceptance campaign necessary to close remaining communications gates.
+
+Do not execute it.
+
+Avoid sending one email for every template if fewer representative end-to-end journeys can safely prove the architecture.
+
+Determine whether the minimum should include something such as:
+
+1. Email verification:
+   trigger → delivery → Gmail receipt → valid verification link → expected account state
+
+2. Password reset:
+   request → delivery → Gmail receipt → valid reset link → password reset → token cannot be reused
+
+3. Customer booking notification:
+   authoritative booking event → email generation → delivery → Gmail receipt → correct saved booking information
+
+4. Vendor/Specialist notification:
+   only if separately required by the gate and not sufficiently covered by the booking journey.
+
+Do not assume these are exactly the required tests. Determine the minimum from the actual implementation and readiness rubric.
+
+Do not send them yet.
+
+
+==================================================
+23. IMPLEMENTATION PROPOSAL FOR MISSING TEMPLATES
+==================================================
+
+If important MVP templates are missing, provide an implementation proposal only.
+
+For every proposed new template identify:
+
+- template name;
+- recipient;
+- trigger;
+- authoritative source data;
+- expected subject;
+- required fields;
+- CTA;
+- payment wording if any;
+- shared layout components;
+- queue/synchronous behavior;
+- expected tests;
+- exact files likely to change.
+
+Do not implement them during this task.
+
+
+==================================================
+24. PRESERVATION
+==================================================
+
+At completion recheck the protected baseline appropriate to this non-mutating audit.
+
+Reuse existing evidence wherever possible.
+
+Do not run expensive unrelated acceptance campaigns solely to reproduce already accepted evidence.
+
+Verify that this task has not altered:
+
+- normal demo data;
+- protected schema unexpectedly;
+- bookings;
+- Customers/local clients;
+- payments;
+- Wallets;
+- Orders;
+- SMTP provider configuration;
+- SMTP credential;
+- scheduling;
+- financial state.
+
+If the audit itself requires no application changes, there should be no business-data mutation.
+
+
+==================================================
+25. FINAL REPORT FORMAT
+==================================================
+
+Return one concise but complete report with these sections:
+
+1. Executive conclusion
+
+2. Complete existing email inventory
+
+3. Email-producing application paths
+
+4. Shared layout audit
+
+5. Logo audit
+
+6. Footer/social audit
+
+7. Action-link audit
+
+8. Account/security emails
+
+9. Customer booking emails
+
+10. Vendor/Specialist emails
+
+11. Local-client emails
+
+12. Financial/payment emails
+
+13. Product/order/invoice emails
+
+14. Subscription/digest emails
+
+15. Invitation emails
+
+16. Security findings
+
+17. Responsive/local-render results
+
+18. MIME/CID/attachment results
+
+19. Missing MVP emails
+
+20. Deferred/non-MVP emails
+
+21. Legacy/unused email paths
+
+22. Recommended minimum MVP email set
+
+23. Proposed implementation files/architecture
+
+24. C1 readiness result
+
+25. O4 readiness result
+
+26. Current 20-gate score — do not inflate it
+
+27. Hypothetical score after specifically identified missing acceptance tests pass
+
+28. Minimum future real-email acceptance campaign
+
+29. Preservation result
+
+30. Final recommendation
+
+
+==================================================
+26. IMPORTANT DECISION RULE
+==================================================
+
+Do not treat “more email templates” as automatically improving MVP readiness.
+
+The objective is:
+
+correct emails
++
+authoritative triggers
++
+secure generation
++
+consistent presentation
++
+appropriate recipients
++
+verified critical journeys
+
+—not the largest possible number of notifications.
+
+If AgendaAlly already has enough email functionality for MVP, say so.
+
+If an email is unnecessary for MVP, classify it as optional/deferred.
+
+If a proposed email depends on an unverified payment/refund/payout/accounting state, defer it.
+
+If a template exists but the application has no authoritative trigger, do not call it ready.
+
+
+==================================================
+27. STOP CONDITION
+==================================================
+
+STOP after:
+
+- repository-wide email inventory;
+- trigger/path tracing;
+- presentation audit;
+- local synthetic rendering;
+- local MIME/CID verification;
+- security review;
+- missing-template analysis;
+- MVP email-set proposal;
+- C1/O4 readiness analysis;
+- minimum future acceptance-test proposal;
+- preservation verification.
+
+DO NOT:
+
+- send another email;
+- make another SMTP connection;
+- enable additional email delivery;
+- implement new email workflows/templates;
+- activate workers/schedulers;
+- change payment/SMS/push behavior;
+- deploy.
+
+Return the report and wait for explicit approval before implementation or additional real-email testing.

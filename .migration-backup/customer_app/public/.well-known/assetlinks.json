@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ibeauty.app",
+      "sha256_cert_fingerprints": [
+        "5D:24:11:29:0A:03:C0:DA:EA:5F:4B:66:38:5C:49:55:17:68:68:8F:37:16:B7:52:FC:C4:4C:DA:B9:6E:39:3A",
+        "D0:3E:1F:C5:43:6D:AF:68:D5:7C:95:27:B1:1B:34:AB:3F:45:51:D9:26:F7:2A:52:72:7E:55:3A:7E:1F:B0:B1"
+      ]
+    }
+  }
+]

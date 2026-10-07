@@ -1,0 +1,1153 @@
+AgendaAlly — Payment Implementation Phase 2
+Immutable Collection Context, Custody, Allocation and Liability
+
+Phase 1 financial-correctness work is complete and accepted:
+
+- P1-A payout conservation/atomicity: CONTAINED / VERIFIED.
+- P1-B alternate Booking electronic paid-authority: CONTAINED / VERIFIED.
+- No provider was activated.
+- No payment configuration was changed.
+- All 53 protected tables retained identical counts/fingerprints.
+- The 12 legacy Product Orders remain `unverified`.
+- Production-engine concurrency remains uncertified.
+
+I now approve the SECOND bounded implementation phase from the completed
+payment architecture audit.
+
+This phase is:
+
+IMMUTABLE COLLECTION CONTEXT
++
+CUSTODY / ALLOCATION / LIABILITY CORRECTNESS
+
+Do NOT activate providers.
+
+Do NOT yet fix or enable `Use my own payment gateway`.
+
+Do NOT jump ahead to provider-readiness UX, provider refunds, external payout
+rails or production activation.
+
+============================================================
+1. AUTHORITATIVE BASELINE
+============================================================
+
+Use these as authoritative baselines:
+
+docs/development/payment-system-full-audit.md
+docs/development/payment-phase1-financial-correctness.md
+
+Also preserve every previously accepted P0/P1 containment and its invariants.
+
+Do NOT restart the audit.
+
+Do NOT reinterpret already established payment terminology without source
+evidence.
+
+The intended collection models remain:
+
+A. PLATFORM-MANAGED ELECTRONIC
+
+Customer
+→ AgendaAlly checkout
+→ platform merchant credentials
+→ provider collection
+→ authoritative Transaction
+→ commission/platform fee
+→ Vendor entitlement/payable
+→ later Vendor settlement/payout.
+
+B. VENDOR-DIRECT ELECTRONIC
+
+Customer
+→ AgendaAlly checkout
+→ Vendor's eligible merchant credentials
+→ provider collection into Vendor merchant relationship
+→ authoritative AgendaAlly Transaction
+→ AgendaAlly commission receivable/recovery
+→ NO duplicate platform liability for principal already collected by Vendor.
+
+C. CASH
+
+Customer pays outside AgendaAlly's electronic custody according to native Cash
+semantics.
+
+D. WALLET
+
+AgendaAlly's internal Wallet accounting moves value according to the verified
+Wallet invariants.
+
+Do NOT assume the current implementation already matches these intended models.
+
+============================================================
+2. PRIMARY OBJECTIVE
+============================================================
+
+Establish one authoritative, immutable financial answer for each payment:
+
+WHO WAS SUPPOSED TO COLLECT THIS PAYMENT?
+
+WHO ACTUALLY COLLECTED / IS TREATED AS COLLECTING IT?
+
+WHAT COLLECTION MODEL APPLIED AT PAYMENT TIME?
+
+WHAT PRINCIPAL, COMMISSION, VENDOR ENTITLEMENT AND PLATFORM LIABILITY FOLLOW
+FROM THAT MODEL?
+
+The collection decision used for financial accounting must not silently change
+later because:
+
+- Shop preferences change;
+- Vendor payment settings change;
+- provider settings change;
+- provider availability changes;
+- global activation changes;
+- environment flags change;
+- country/currency policy changes;
+- Product/Service configuration changes;
+- the Vendor later switches between AgendaAlly Payments and their own gateway.
+
+Historical financial meaning must come from the persisted transaction/payment
+context, not from today's Shop configuration.
+
+============================================================
+3. TRACE BEFORE EDITING
+============================================================
+
+Before changing application code, trace the current authoritative data flow for
+all four collection models:
+
+1. platform-managed electronic;
+2. Vendor-direct electronic;
+3. Cash;
+4. Wallet.
+
+Trace separately for:
+
+A. Product Orders;
+
+B. Service Bookings.
+
+At minimum inspect:
+
+- Order;
+- Booking;
+- Transaction;
+- Payment;
+- Shop;
+- payment method/provider configuration;
+- Shop collection preference;
+- Vendor merchant configuration;
+- Product checkout;
+- Booking checkout;
+- TransactionService;
+- BookingPaymentAuthority;
+- Order payment/fulfillment services;
+- observers/listeners;
+- commission/platform-fee logic;
+- Vendor balance/payable logic;
+- platform_fee_ledger_entries;
+- payout eligibility;
+- refund allocation/reversal logic where needed to understand ownership;
+- existing collection snapshot fields;
+- existing provider/collector fields.
+
+Document the CURRENT authoritative sources before proposing changes.
+
+============================================================
+4. PRODUCT VS BOOKING ASYMMETRY
+============================================================
+
+The completed audit identified an important asymmetry:
+
+Booking has persisted collection context/snapshot behavior.
+
+Product Orders do not have equivalent immutable collector/collection context
+with sufficient financial authority.
+
+Verify the exact current state.
+
+Determine:
+
+- what Booking persists;
+- when it persists it;
+- whether it is immutable;
+- whether it identifies collection model;
+- whether it identifies collector;
+- whether it identifies provider;
+- whether it identifies credential ownership;
+- whether accounting consumes the snapshot or later Shop configuration;
+- what Product Order persists;
+- what Product Transaction persists;
+- what Product accounting later recomputes;
+- whether current Shop preferences can change historical Product financial
+  interpretation.
+
+Do not simply copy Booking fields into Order without first establishing their
+semantics.
+
+============================================================
+5. CANONICAL COLLECTION MODE
+============================================================
+
+Determine the minimum canonical collection-mode vocabulary required by the
+native architecture.
+
+Prefer existing terminology where it is sufficient.
+
+At minimum the financial architecture must be able to distinguish conceptually:
+
+PLATFORM_MANAGED
+
+VENDOR_DIRECT
+
+CASH
+
+WALLET
+
+and any genuinely distinct existing native mode that cannot safely map to one
+of those.
+
+Do not create redundant modes merely because provider names differ.
+
+Provider is not collection mode.
+
+For example:
+
+MTN may theoretically be platform-managed or Vendor-direct depending on whose
+merchant credentials are used.
+
+The financial model must not infer collection mode merely from:
+
+provider == MTN
+
+or another provider name.
+
+============================================================
+6. COLLECTOR IDENTITY
+============================================================
+
+Determine whether collection mode alone is sufficient.
+
+For electronic payments the durable financial context may need to identify:
+
+- platform collector;
+- Shop/Vendor collector;
+- provider;
+- merchant/configuration owner;
+- payment method;
+- transaction currency;
+- authoritative gross amount.
+
+Do NOT store secrets in the snapshot.
+
+Do NOT copy API keys, merchant secrets, tokens or sensitive credentials into
+Order/Booking/Transaction snapshots.
+
+If credential/configuration identity is required, use a safe durable reference
+or non-secret ownership classification.
+
+============================================================
+7. IMMUTABILITY
+============================================================
+
+Once a financial collection context has become authoritative for a payment, it
+must not be silently rewritten by ordinary application updates.
+
+Audit whether existing generic update/mass-assignment/API paths could mutate
+the relevant fields.
+
+The authoritative snapshot must be:
+
+- server-owned;
+- not Customer-controlled;
+- not Vendor request-controlled after financial commitment;
+- not generic Admin-editable as ordinary commerce metadata;
+- not recomputed from current Shop settings after payment;
+- stable across refund/payout/reconciliation processing.
+
+Do not make historical financial meaning depend on mutable presentation
+settings.
+
+============================================================
+8. WHEN DOES THE SNAPSHOT BECOME AUTHORITATIVE?
+============================================================
+
+Determine the correct lifecycle point.
+
+Possible stages include:
+
+- checkout selection;
+- Transaction creation;
+- provider initiation;
+- authoritative payment verification;
+- Cash acceptance;
+- Wallet settlement.
+
+Do NOT choose a stage merely for implementation convenience.
+
+The snapshot must accurately represent the collection contract that produced
+the financial Transaction.
+
+If an initial selection can legitimately change before payment initiation,
+distinguish:
+
+selection/preference
+
+from
+
+authoritative financial collection context.
+
+Document the decision.
+
+============================================================
+9. PLATFORM-MANAGED ACCOUNTING
+============================================================
+
+For platform-managed electronic collection, establish the required accounting
+invariant.
+
+Conceptually:
+
+Customer gross payment = G
+
+AgendaAlly/platform actually collects G through platform merchant credentials.
+
+Commission/platform revenue = C
+
+Vendor economic entitlement = V
+
+where, subject to the native fee model:
+
+G = C + V + any explicitly modeled adjustments.
+
+Do not invent a new fee formula.
+
+Use the existing AgendaAlly fee/commission rules.
+
+Determine exactly what record should represent:
+
+- gross collected;
+- platform commission;
+- Vendor entitlement;
+- amount payable to Vendor;
+- amount already paid;
+- refund/reversal;
+- remaining liability.
+
+The platform must not treat its own gross collection as pure revenue.
+
+============================================================
+10. VENDOR-DIRECT ACCOUNTING
+============================================================
+
+For Vendor-direct electronic collection, establish the opposite custody rule.
+
+If Customer principal G is collected through the Vendor's merchant account:
+
+AgendaAlly must NOT also create a platform liability to pay G to the Vendor.
+
+Otherwise the Vendor could receive:
+
+G from provider
+
+AND
+
+G again from AgendaAlly payout.
+
+Determine what AgendaAlly should record under the existing intended model:
+
+- authoritative gross transaction;
+- Vendor-direct collection evidence;
+- platform commission C;
+- commission receivable/recovery state;
+- any legitimate adjustment.
+
+Do NOT implement a new commission collection mechanism yet unless the current
+architecture already has one and a minimal correction is necessary for
+accounting correctness.
+
+If Vendor-direct commission recovery is incomplete, preserve that as an
+explicit liability/receivable gap rather than fabricating settlement.
+
+============================================================
+11. NO FALSE PLATFORM PAYABLE
+============================================================
+
+This is a mandatory invariant:
+
+VENDOR-DIRECT COLLECTION MUST NOT CREATE A PLATFORM PAYOUT OBLIGATION FOR
+PRINCIPAL THE VENDOR ALREADY COLLECTED DIRECTLY.
+
+Trace every path that creates:
+
+- Vendor balance;
+- Vendor payable;
+- payout eligibility;
+- payout requestable amount;
+- platform fee ledger;
+- Wallet credit associated with Vendor settlement.
+
+Ensure collection context controls those decisions.
+
+Do not rely solely on current Shop preference.
+
+============================================================
+12. NO MISSING PLATFORM PAYABLE
+============================================================
+
+The inverse invariant also applies.
+
+If AgendaAlly/platform collected Customer principal on behalf of a Vendor,
+the architecture must not lose the Vendor economic entitlement merely because:
+
+- Shop preference later changes;
+- provider configuration changes;
+- payment method becomes unavailable;
+- Vendor switches to Vendor-direct later.
+
+The immutable collection context must preserve the platform's liability for the
+specific transaction.
+
+============================================================
+13. CASH ACCOUNTING
+============================================================
+
+Trace Cash under the same model.
+
+Determine:
+
+- who physically/economically receives Cash;
+- whether AgendaAlly ever holds the principal;
+- when Cash becomes authoritative `paid`;
+- whether commission becomes due;
+- how commission is represented;
+- whether Vendor entitlement/payable is appropriate;
+- whether current code creates a platform payout obligation for Cash principal;
+- whether that would duplicate funds already received by the Vendor.
+
+Do NOT redesign Cash in this phase unless necessary to prevent incorrect
+allocation/liability.
+
+Preserve previously verified Cash authorization behavior.
+
+============================================================
+14. WALLET ACCOUNTING
+============================================================
+
+Trace Wallet under the same model while preserving the verified Wallet
+containments.
+
+Determine:
+
+- what Wallet value represents;
+- who economically holds the principal;
+- how Customer Wallet payment reaches Vendor economic entitlement;
+- whether platform liability is created;
+- how commission is represented;
+- how refunds reverse the allocation.
+
+Do NOT redesign Wallet transfers.
+
+Do NOT change the verified Wallet transfer finality containment.
+
+============================================================
+15. COMMISSION VS VENDOR ENTITLEMENT
+============================================================
+
+Keep these concepts separate:
+
+PLATFORM COMMISSION / PLATFORM FEE
+
+VENDOR ECONOMIC ENTITLEMENT
+
+VENDOR PAYABLE LIABILITY
+
+VENDOR PAYOUT
+
+CUSTOMER PRINCIPAL
+
+PROVIDER SETTLEMENT
+
+A Transaction becoming `paid` must not automatically mean all of these are the
+same thing.
+
+Determine which existing records represent each concept today.
+
+Where the architecture conflates them, document the exact gap.
+
+Implement only the minimum correction authorized by this phase.
+
+Do not create a full new double-entry accounting system.
+
+============================================================
+16. PLATFORM FEE LEDGER
+============================================================
+
+Trace `platform_fee_ledger_entries` carefully.
+
+Determine:
+
+- creation identity;
+- uniqueness;
+- relationship to Transaction;
+- relationship to Order/Booking;
+- collection mode;
+- amount;
+- reversal;
+- replay behavior.
+
+The completed audit identified transaction-based fee/payable duplication as a
+remaining concern.
+
+Determine whether one economic payment can create multiple fee/payable entries
+because Transaction records are replaced/recreated.
+
+If this can be corrected safely using existing durable commerce/payment
+identity without schema, contain it within this phase.
+
+If a new durable schema identity is required:
+
+STOP BEFORE MIGRATION.
+
+Do not improvise a migration.
+
+============================================================
+17. PRODUCT COLLECTION SNAPSHOT
+============================================================
+
+Determine whether Product Orders require a new immutable collection snapshot to
+reach parity with Booking.
+
+If the existing schema can safely represent the required immutable context,
+implement the minimum correction without schema.
+
+If not:
+
+STOP BEFORE CREATING A MIGRATION.
+
+Propose the minimum server-owned schema.
+
+The proposal must specify:
+
+- table;
+- field(s);
+- enum/value semantics;
+- collector identity;
+- provider identity if required;
+- amount/currency snapshot if required;
+- nullability;
+- creation point;
+- immutability rules;
+- legacy default/backfill policy;
+- API exposure;
+- rollback behavior;
+- effect on existing Orders;
+- effect on the 12 `unverified` fulfillment Orders;
+- indexing/uniqueness if required.
+
+Do not create the migration until separately approved.
+
+============================================================
+18. BOOKING COLLECTION SNAPSHOT
+============================================================
+
+Do not assume Booking is already perfect merely because it has more context.
+
+Verify:
+
+- whether its snapshot is actually immutable;
+- whether all Booking payment paths use it;
+- whether later accounting uses it;
+- whether refund/payout logic uses it;
+- whether Vendor-direct and platform-managed are distinguishable;
+- whether provider/config ownership is durable;
+- whether current Shop preference can override historical meaning.
+
+If a minimal non-schema correction is required, it may be included.
+
+If Booking also requires schema:
+
+STOP BEFORE MIGRATION.
+
+============================================================
+19. MULTI-SHOP PRODUCT ORDERS
+============================================================
+
+Explicitly trace multi-Shop/multi-Vendor Product checkout.
+
+Determine whether collection context is:
+
+- per cart;
+- per Order;
+- per Shop Order;
+- per Transaction.
+
+A collection decision for Shop A must not incorrectly control Shop B.
+
+Vendor A's direct merchant configuration must never apply to Vendor B.
+
+Platform-managed collection for one Shop must not accidentally classify another
+Shop's Vendor-direct payment as platform-managed, or vice versa.
+
+Do not redesign cart UX in this phase.
+
+============================================================
+20. PROVIDER CREDENTIAL OWNERSHIP
+============================================================
+
+This phase may inspect credential ownership but must NOT configure credentials.
+
+For each electronic Transaction determine whether financial context can
+authoritatively identify:
+
+PLATFORM CREDENTIAL OWNERSHIP
+
+or
+
+VENDOR/SHOP CREDENTIAL OWNERSHIP.
+
+Do not expose or print secrets.
+
+Do not copy secrets into financial snapshots.
+
+Do not change provider activation.
+
+============================================================
+21. REFUND CONSEQUENCES — TRACE ONLY
+============================================================
+
+Refund implementation is a later phase.
+
+However, collection context must be sufficient for future refund routing.
+
+Verify conceptually:
+
+Platform-managed payment
+→ provider refund would use platform merchant relationship.
+
+Vendor-direct payment
+→ provider refund would need Vendor merchant relationship.
+
+Cash
+→ no electronic provider refund.
+
+Wallet
+→ internal Wallet reversal semantics.
+
+Determine whether the proposed/current immutable collection context preserves
+enough information to make that decision later.
+
+Do NOT implement missing provider refunds in this phase.
+
+============================================================
+22. PAYOUT CONSEQUENCES — TRACE ONLY
+============================================================
+
+External payout/reconciliation is a later phase.
+
+However, allocation must determine whether a platform payout liability exists.
+
+Verify:
+
+Platform-managed:
+platform collected Vendor principal
+→ Vendor entitlement/payable may exist.
+
+Vendor-direct:
+Vendor collected principal directly
+→ no platform payout of the same principal.
+
+Cash:
+determine according to actual custody; do not fabricate platform custody.
+
+Wallet:
+determine according to existing internal value/accounting model.
+
+Do NOT implement external payout rails.
+
+Preserve Phase 1 payout atomicity containment.
+
+============================================================
+23. LEGACY DATA POLICY
+============================================================
+
+Do not guess historical financial meaning.
+
+For any new immutable financial field, existing records must not be silently
+classified based solely on mutable/deletable evidence such as:
+
+- current Shop preference;
+- current provider configuration;
+- current Transaction status;
+- current Order/Booking status;
+- WalletHistory;
+- notes;
+- current fee ledger;
+- current payout status.
+
+If historical classification cannot be proven safely, propose a conservative
+legacy state such as:
+
+unverified
+
+or equivalent.
+
+Do NOT automatically backfill ambiguous historical records as
+platform-managed or Vendor-direct.
+
+Do not rewrite historical financial records without separate approval.
+
+============================================================
+24. 12 LEGACY PRODUCT ORDERS
+============================================================
+
+The 12 existing Orders currently marked:
+
+fulfillment_financial_state = unverified
+
+must remain unchanged.
+
+Do NOT use this phase to classify them.
+
+Do NOT infer their collection model from their fulfillment state.
+
+Do NOT create a legacy Admin override.
+
+Any new collection-context migration proposal must explain how those 12 Orders
+would be treated without weakening their existing fulfillment fail-closed
+boundary.
+
+============================================================
+25. NEW ORDERS / BOOKINGS
+============================================================
+
+If no schema change is needed, verify that new commerce records receive their
+authoritative collection context at the correct trusted lifecycle point.
+
+If schema is required, do not implement until separately approved.
+
+Do not let Customer request payloads directly author immutable financial
+classification.
+
+The server must derive it from:
+
+- Shop policy;
+- provider/method eligibility;
+- actual credential ownership;
+- payment initiation/verification context;
+- persisted commerce ownership.
+
+============================================================
+26. IDEMPOTENCY
+============================================================
+
+Verify allocation/accounting cannot duplicate because of:
+
+- duplicate callback;
+- duplicate paid transition;
+- replacement Transaction;
+- stale model;
+- lifecycle replay;
+- duplicate fulfillment;
+- duplicate refund state;
+- repeated observer execution.
+
+Use existing durable commerce/payment identity where safe.
+
+Do not create a generalized idempotency framework unless necessary.
+
+If safe once-only allocation requires new schema:
+
+STOP BEFORE MIGRATION.
+
+============================================================
+27. CONCURRENCY
+============================================================
+
+Where allocation creation uses atomic claims, unique constraints, locks or
+compare-and-set behavior, test contention.
+
+If only SQLite is available, report:
+
+SQLITE CONCURRENCY VERIFIED
+
+and separately:
+
+PRODUCTION-ENGINE CONCURRENCY NOT CERTIFIED.
+
+Do not claim production concurrency certification without exercising the
+production-equivalent database engine.
+
+============================================================
+28. EXISTING VERIFIED CONTAINMENTS
+============================================================
+
+Preserve all verified security/financial boundaries, including:
+
+- Seller payment-status ownership;
+- Seller refund ownership;
+- Booking Staff Shop authorization;
+- Wallet transfer finality;
+- Wallet amount protection;
+- Booking refund replay containment;
+- Product refund finality;
+- Product fulfillment authorization;
+- Product fulfillment once-only finality;
+- Phase 1 payout atomicity;
+- Phase 1 Booking electronic payment authority.
+
+Do not redesign these.
+
+Run selected regressions to prove they remain intact.
+
+============================================================
+29. PROVIDER READINESS — NOT THIS PHASE
+============================================================
+
+Do NOT yet implement:
+
+capability
+→ eligibility
+→ configurability
+→ configured
+→ activation
+→ environment readiness
+→ checkout readiness.
+
+Do NOT fix the Vendor settings UI.
+
+Do NOT enable:
+
+Use my own payment gateway.
+
+Do NOT change why MTN/Orange currently display unavailable.
+
+Do NOT change Flutterwave/Paystack capability.
+
+Do NOT activate any provider.
+
+Those are later phases.
+
+============================================================
+30. NO REAL FINANCIAL OPERATIONS
+============================================================
+
+Do NOT:
+
+- charge a real payment;
+- submit a real Order;
+- submit a real Booking;
+- transfer real Wallet value;
+- issue a refund;
+- execute a payout;
+- call a live provider;
+- configure credentials;
+- change merchant accounts;
+- publish.
+
+Use isolated databases, fixtures and synthetic provider evidence.
+
+============================================================
+31. PROTECTED STATE
+============================================================
+
+Capture the CURRENT post-Phase-1 development database as the before-state.
+
+Use the established protected-state methodology.
+
+Explicitly include:
+
+platform_fee_ledger_entries.
+
+If no schema change is made, all protected development financial state should
+remain unchanged.
+
+If a schema migration becomes necessary:
+
+STOP BEFORE MIGRATION.
+
+Therefore this phase should not intentionally change the development database
+schema without separate approval.
+
+Do not confuse isolated test-fixture mutations with application financial data.
+
+============================================================
+32. SCHEMA GATE
+============================================================
+
+THIS IS IMPORTANT.
+
+You are authorized to implement non-schema corrections required for this phase.
+
+You are NOT authorized to create a new migration in this prompt.
+
+If correct immutable collection/allocation behavior requires schema changes:
+
+STOP BEFORE CREATING THE MIGRATION.
+
+Do not choose an inferior in-memory, note-based, mutable, derived or
+configuration-based workaround merely to avoid the schema gate.
+
+Instead report:
+
+SCHEMA REQUIRED
+
+and provide the minimum proposed design.
+
+The proposal must include:
+
+- why existing schema is insufficient;
+- exact proposed fields/tables;
+- ownership;
+- allowed states;
+- trusted creation point;
+- immutability;
+- uniqueness/idempotency;
+- legacy policy;
+- rollback behavior;
+- concurrency strategy;
+- API exposure;
+- migration/backfill behavior;
+- effect on current records.
+
+Wait for approval.
+
+============================================================
+33. NARROW SIBLING REVIEW
+============================================================
+
+Inspect only sibling paths that create or consume the SAME collection,
+allocation or payable state.
+
+Do not branch into:
+
+- unrelated Booking authorization;
+- Staff permissions;
+- Driver permissions;
+- Pickup;
+- scheduling;
+- Shop UI;
+- unrelated Wallet functionality;
+- unrelated Product lifecycle behavior.
+
+Record incidental P1/P2/P3 findings for later.
+
+Do not expand them.
+
+============================================================
+34. NEW P0 STOP RULE
+============================================================
+
+If this authorized work uncovers a NEW independent:
+
+SOURCE-CONFIRMED
+
+IMMEDIATELY EXPLOITABLE
+
+financial P0:
+
+STOP.
+
+Do not remediate it automatically.
+
+Report:
+
+- route/path;
+- actor;
+- financial effect;
+- source chain;
+- reachability;
+- whether exercised;
+- protected-state result.
+
+Do not proactively hunt outside the approved scope for additional P0s.
+
+============================================================
+35. REQUIRED TEST MATRIX
+============================================================
+
+If implementation can proceed WITHOUT schema, add focused tests proving at
+minimum:
+
+1. platform-managed payment preserves immutable collection context;
+
+2. Vendor-direct payment preserves immutable collection context;
+
+3. later Shop preference change cannot reinterpret old payment;
+
+4. later provider configuration change cannot reinterpret old payment;
+
+5. platform-managed payment creates only the correct Vendor liability;
+
+6. Vendor-direct does NOT create platform payout liability for principal
+   collected directly by Vendor;
+
+7. Vendor-direct commission obligation remains represented correctly according
+   to current supported architecture;
+
+8. Cash does not fabricate platform custody;
+
+9. Wallet preserves existing accounting semantics;
+
+10. Product and Booking use consistent collection classification;
+
+11. multi-Shop Product transactions remain Shop-isolated;
+
+12. Vendor A configuration cannot classify Vendor B payment;
+
+13. replacement Transaction cannot duplicate allocation;
+
+14. duplicate paid transition cannot duplicate allocation;
+
+15. stale model cannot duplicate allocation;
+
+16. duplicate callback cannot duplicate allocation where the existing verifier
+    is available synthetically;
+
+17. platform fee entry cannot duplicate for one economic payment;
+
+18. later refund logic can identify the correct collection owner without using
+    current Shop preference;
+
+19. later payout logic can determine whether platform liability exists without
+    using current Shop preference;
+
+20. existing P0/P1 containment regressions remain green.
+
+If schema is required, do NOT fake these tests against a temporary architecture
+and claim the phase complete.
+
+Instead stop at the schema proposal.
+
+============================================================
+36. REPORT
+============================================================
+
+Update:
+
+docs/development/payment-system-full-audit.md
+
+Create:
+
+docs/development/payment-phase2-collection-allocation.md
+
+Document:
+
+- current Product collection model;
+- current Booking collection model;
+- Product/Booking asymmetry;
+- authoritative collection-mode semantics;
+- collector identity;
+- snapshot lifecycle;
+- immutability;
+- platform-managed custody;
+- Vendor-direct custody;
+- Cash custody;
+- Wallet custody;
+- commission representation;
+- Vendor entitlement;
+- payable liability;
+- platform fee ledger identity;
+- duplicate-allocation analysis;
+- multi-Shop behavior;
+- refund-routing implications;
+- payout-routing implications;
+- files changed;
+- schema decision;
+- tests/assertions if implementation occurred;
+- protected-state result;
+- remaining limitations.
+
+============================================================
+37. REQUIRED DECISION SUMMARY
+============================================================
+
+At completion or schema stop, answer clearly:
+
+1. What immutable financial context does Booking have today?
+
+2. What immutable financial context does Product Order have today?
+
+3. Can current Shop settings reinterpret an old payment?
+
+4. What is the canonical collection-mode model?
+
+5. How is platform-managed collection identified?
+
+6. How is Vendor-direct collection identified?
+
+7. How is credential ownership represented without storing secrets?
+
+8. Where does Customer principal economically go for each mode?
+
+9. When does AgendaAlly owe Vendor principal?
+
+10. When must AgendaAlly NOT create a Vendor payout liability?
+
+11. How is AgendaAlly commission represented for platform collection?
+
+12. How is AgendaAlly commission represented/recovered for Vendor-direct?
+
+13. Does Cash currently create any false platform liability?
+
+14. Does Wallet currently create the correct liability?
+
+15. Can Transaction replacement duplicate commission/payable accounting?
+
+16. Is `platform_fee_ledger_entries` durably tied to one economic payment?
+
+17. Can Product and Booking use one coherent allocation model?
+
+18. Is schema required?
+
+19. If schema is required, what is the minimum migration?
+
+20. How should legacy records be treated safely?
+
+21. What remains before provider/configuration readiness can be implemented?
+
+============================================================
+38. FINAL STOP
+============================================================
+
+There are only TWO valid outcomes for this phase.
+
+OUTCOME A — NO SCHEMA REQUIRED
+
+Implement the bounded corrections.
+
+Run focused tests and selected regressions.
+
+Verify protected state.
+
+Update both reports.
+
+Then STOP.
+
+Do not begin provider readiness.
+
+OUTCOME B — SCHEMA REQUIRED
+
+Complete the source trace and minimum schema proposal.
+
+Do NOT create the migration.
+
+Do NOT implement a fragile workaround.
+
+Update both reports.
+
+Verify protected state remains unchanged.
+
+Then STOP and wait for explicit approval.
+
+Under neither outcome should you:
+
+- activate a provider;
+- enable Vendor-direct;
+- fix `Use my own payment gateway`;
+- configure credentials;
+- implement provider refunds;
+- implement external payout rails;
+- classify legacy Orders;
+- publish;
+- start Phase 3 automatically.

@@ -1,0 +1,132 @@
+{
+  "run": "AgendaAlly restored native legal-policy presentation; read-only anonymous browser journey",
+  "runtime": "http://127.0.0.1:3002",
+  "verdict": "success for previously blocked policy-navigation/readability checks; all policy pages and footer link traversed after selecting Cameroon/Douala in the signed-out empty context",
+  "desktop": {
+    "/refund-cancellation": {
+      "loaded": true,
+      "title": "Refund & Cancellation Policy",
+      "numberedSections": 8,
+      "paragraphsAndLinksRenderedAsHTML": true,
+      "draftNotice": true,
+      "visibleContent": "substantive policy text",
+      "policyLoadErrorObserved": false,
+      "legalNavToTerms": "physically clicked successfully"
+    },
+    "/terms": {
+      "loadedDirectly": true,
+      "title": "Terms of Service",
+      "newBookingPaymentStateSeparation": "present in rendered policy",
+      "ShopFundedSpecialistCompensation": "present in rendered policy",
+      "fullNumberedPolicy": "17 sections in layout observation",
+      "legalNavToPrivacy": "physically traversed; body settled after asynchronous route transition"
+    },
+    "/privacy": {
+      "loadedDirectly": true,
+      "title": "Privacy Policy",
+      "receiptAndAccessInformation": "present in rendered policy",
+      "notificationsAndCookies": "present in rendered policy",
+      "fullNumberedPolicy": "10 sections in layout observation",
+      "footerRefund": "physically clicked and reached /refund-cancellation"
+    }
+  },
+  "mobile390": {
+    "routesVisited": [
+      "/refund-cancellation",
+      "/terms",
+      "/privacy"
+    ],
+    "documentScrollWidth": 375,
+    "viewportClientWidth": 390,
+    "horizontalOverflow": false,
+    "readability": "unobscured screenshots show each page title and policy text wrapping legibly; small floating devtools icon overlaps a small portion of lower-left content in some captures",
+    "footerInformation": "expanded; mobile Refund link physically scrolled into view and clicked successfully",
+    "footerRefundLinks": {
+      "present": true,
+      "physicallyReachedAndClicked": true
+    },
+    "viewportWidth": 390,
+    "clientWidth": 375
+  },
+  "signup": {
+    "route": "/sign-up",
+    "rendered": true,
+    "termsCheckboxChecked": false,
+    "termsLink": "/terms",
+    "separatePrivacyLink": "/privacy",
+    "separateRefundLink": "/refund-cancellation",
+    "submitDisabled": true,
+    "submitted": false,
+    "privacyLinkClicked": true,
+    "refundLinkClicked": true
+  },
+  "blockers": [
+    "No policy-load error observed; policy bodies rendered after short asynchronous SPA transitions.",
+    "Repeated browser HMR WebSocket handshake failures at /_next/webpack-hmr (ERR_INVALID_HTTP_RESPONSE) were observed and left unrepaired, as requested.",
+    "One generic 404 resource console message occurred while Terms rendered; the page body and requested content still loaded."
+  ],
+  "notExercised": [
+    "authenticated booking payment selection",
+    "booking-detail cancellation",
+    "manual-refund account surfaces",
+    "all account/business journeys",
+    "registration submission",
+    "login",
+    "financial/calendar campaigns"
+  ],
+  "screenshotEvidence": {
+    "browserObservationIds": [
+      "v45o2w",
+      "rlhryr",
+      "35m62m",
+      "qr42a2",
+      "cz6iku",
+      "rqn9ki",
+      "hwcsu6",
+      "mrsa5m",
+      "bqqf4f",
+      "ftndgt"
+    ],
+    "imageFilesPersisted": false,
+    "note": "Final unobscured screenshots are captured as browser observation evidence IDs and attached to the response; the Playwright observation tool did not expose a supported local image-export operation, so only the updated result JSON/text are persisted."
+  },
+  "sourceOnlySurfaces": {
+    "requestedLocations": [
+      "booking payment selection",
+      "booking-detail cancellation section",
+      "manual-refund account header"
+    ],
+    "browser": "not exercised",
+    "sourceVerification": {
+      "result": "confirmed from exact native files; LegalPolicyLinks is rendered in each specified location",
+      "files": {
+        "paymentSelection": {
+          "path": ".migration-backup/web/app/(store)/(booking)/(witout-footer)/(navigation)/shops/[id]/booking/payment/components/payment-list/payment-list.tsx",
+          "lines": "7, 35-47",
+          "placement": "LegalPolicyLinks immediately after PaymentList"
+        },
+        "bookingDetail": {
+          "path": ".migration-backup/web/app/(store)/(booking)/components/booking-detail/booking-detail.tsx",
+          "lines": "4, 346-350",
+          "placement": "LegalPolicyLinks in cancellation policy section"
+        },
+        "manualRefund": {
+          "path": ".migration-backup/web/app/(store)/(settings)/manual-refunds/page.tsx",
+          "lines": "4, 113-119",
+          "placement": "LegalPolicyLinks in manual refund account header"
+        }
+      }
+    }
+  },
+  "discoveryPreference": {
+    "selected": "Cameroon / Douala",
+    "savedInExistingNativeDialog": true,
+    "context": "same anonymous signed-out browser; before selection address country/city were null, sessionStorage empty, no cart controls or cart key, signup email empty; no account/business data changed"
+  },
+  "legalNavigation": {
+    "desktop": "Refund -> Terms via visible legal navigation, then Terms -> Privacy via visible legal navigation; both pages rendered after async route transition",
+    "mobile": "Refund -> Terms -> Privacy visible legal-navigation flow completed at 390px; SPA route/content updated asynchronously",
+    "footerRefund": "Information footer Refund link physically clicked on desktop and mobile; scrolled into view on mobile and reached /refund-cancellation",
+    "signupLinks": "Separate Privacy and Refund signup links both clicked and reached their policy routes; no registration submitted"
+  }
+}

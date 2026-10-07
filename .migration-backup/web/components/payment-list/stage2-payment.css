@@ -1,0 +1,7 @@
+.aa-stage2-payment-options { text-align:start; }
+.aa-stage2-payment-note { border-inline-start:3px solid #a2835f; padding:8px 12px; margin:0 0 16px; font-size:13px; line-height:1.65; color:#635849; }
+.aa-stage2-payment-description { margin-top:5px; font-size:12px; line-height:1.5; color:#635849; }
+.aa-stage2-payment-options [role="radio"] { min-height:60px; border-color:#d6cdbc; border-radius:12px; }
+.aa-stage2-payment-options [role="radio"][aria-checked="true"] { border-color:#8a6644; background:#f9f4ec; color:#25251f; }
+.aa-stage2-payment-options [role="radio"]:focus-visible { outline:3px solid #8a6644; outline-offset:3px; }
+.dark .aa-stage2-payment-note,.dark .aa-stage2-payment-description { color:#d7c6ad; }

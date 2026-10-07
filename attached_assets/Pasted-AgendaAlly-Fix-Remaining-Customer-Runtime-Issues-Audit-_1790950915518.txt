@@ -1,0 +1,737 @@
+AgendaAlly — Fix Remaining Customer Runtime Issues + Audit Vendor Delivery Driver Architecture
+
+This is a bounded two-part task.
+
+Credit use is important.
+
+PART A:
+Fix the two unrelated runtime issues discovered during the successfully completed booking/payment verification:
+
+1. Coupon-label hydration mismatch.
+2. Unidentified resource 404.
+
+PART B:
+Perform a source-level audit of the existing Vendor delivery-person/delivery-driver functionality and propose the cleanest architecture for Vendor-owned Delivery Drivers and order assignment.
+
+IMPORTANT:
+
+Do NOT implement the Delivery Driver redesign/architecture yet.
+
+For Delivery Drivers, AUDIT + RECOMMENDATION ONLY unless there is an extremely small existing wiring defect that must be identified in the report. Do not silently implement a new role, migration, invitation system or order workflow.
+
+The existing Delivery mobile app will be uploaded/refactored later, so preserve compatibility and identify what contracts it will eventually need.
+
+Do not reopen completed payment, invoice, footer, Stage 2, Stories, category or booking work.
+
+==================================================
+PART A — FIX THE TWO CUSTOMER RUNTIME ISSUES
+==================================================
+
+The previous native booking verification successfully reached:
+
+Shop
+→ Book now
+→ Service
+→ Specialist
+→ Date/time
+→ Notes
+→ Payment
+
+and confirmed that the PaymentList controlled-state fix works.
+
+During that check, two unrelated issues were observed:
+
+- Coupon-label hydration mismatch.
+- An unidentified resource returned 404.
+
+Investigate and fix these narrowly.
+
+--------------------------------------------------
+A1. Coupon hydration mismatch
+--------------------------------------------------
+
+Find the exact component producing the Coupon-label hydration mismatch.
+
+Determine the actual root cause before changing code.
+
+Check for common SSR/client inconsistencies such as:
+
+- translated text differing server/client;
+- locale initialization differences;
+- conditional rendering using browser-only state;
+- persisted client settings unavailable during SSR;
+- currency/location state;
+- authentication state;
+- dynamic IDs;
+- invalid nested markup;
+- browser extensions only after application causes are excluded.
+
+Do NOT suppress hydration warnings.
+
+Do NOT use `suppressHydrationWarning` merely to hide the problem.
+
+Do NOT convert an otherwise appropriate server-rendered component to client-only rendering merely to silence the warning unless that is genuinely the correct architecture.
+
+Fix the actual deterministic-rendering problem.
+
+Preserve existing Coupon behavior and terminology.
+
+--------------------------------------------------
+A2. Identify the unexplained 404
+--------------------------------------------------
+
+Use the browser/network information from the normal booking journey to determine exactly which resource returns 404.
+
+Classify it.
+
+Examples might include:
+
+- image;
+- favicon;
+- font;
+- API;
+- source map;
+- static asset;
+- shop media;
+- specialist media;
+- coupon request;
+- Next internal request;
+- another resource.
+
+Do not guess.
+
+Identify:
+
+- exact URL/path;
+- request initiator;
+- expected purpose;
+- whether it is application-owned;
+- whether it is actually required;
+- why it returns 404.
+
+If it is a genuine AgendaAlly defect, make the smallest appropriate correction.
+
+If it is harmless development tooling, browser behavior or an intentionally missing optional resource, document that and do not manufacture a source change.
+
+Do not create fake images/data merely to eliminate a legitimate optional 404.
+
+--------------------------------------------------
+A3. Focused verification
+--------------------------------------------------
+
+Verify only:
+
+- booking journey no longer produces the Coupon hydration mismatch;
+- identified application-owned resource no longer incorrectly returns 404, if a fix was required;
+- booking/payment route still works;
+- PaymentList fix remains intact;
+- no new runtime/console errors from the changed files.
+
+Do NOT confirm a booking.
+Do NOT submit payment.
+Do NOT call providers.
+Do NOT rerun the complete payment hardening suite.
+Do NOT run another broad Stage 2 acceptance cycle.
+
+==================================================
+PART B — AUDIT EXISTING DELIVERY DRIVER FUNCTIONALITY
+==================================================
+
+AgendaAlly needs to support Vendor-owned delivery operations.
+
+The intended business model is:
+
+Vendor / Business
+    ↓
+Vendor's Delivery Drivers
+    ↓
+Vendor receives product order
+    ↓
+Vendor assigns order to one of its authorized Delivery Drivers
+    ↓
+Driver sees assigned delivery in Delivery app
+    ↓
+Driver performs delivery
+    ↓
+Authorized delivery status updates flow back to Vendor/Customer
+
+We expect to upload the existing Delivery mobile application later for refactoring.
+
+Before changing architecture, audit what already exists.
+
+Use “Delivery Driver” in recommendations/new UI terminology rather than “Delivery Man,” while documenting legacy names exactly where they exist in source.
+
+==================================================
+B1. Inventory the existing delivery architecture
+==================================================
+
+Audit Laravel/backend, Admin/Vendor portal, Customer storefront and any currently available mobile/shared contracts.
+
+Search for concepts including:
+
+- deliveryman
+- delivery_man
+- delivery-man
+- delivery driver
+- driver
+- delivery partner
+- delivery boy
+- delivery personnel
+- courier
+- shipper
+- delivery assignment
+- delivery status
+- order delivery
+- delivery fee
+- delivery zone
+- delivery type
+- in-house delivery
+- partner delivery
+- shop delivery
+- delivery address
+- delivery coordinates
+- delivery app APIs
+- driver authentication/role
+- driver wallet/earnings
+- delivery transactions
+
+Do not assume terminology is consistent.
+
+Produce an architecture trace showing:
+
+UI
+→ API
+→ Controller
+→ Service
+→ Repository
+→ Model/database
+→ order assignment
+→ driver authorization
+→ status updates
+→ customer visibility
+
+where those pieces actually exist.
+
+==================================================
+B2. Determine who owns Delivery Drivers today
+==================================================
+
+Answer explicitly:
+
+1. Can a Vendor currently create/add its own Delivery Drivers?
+
+2. Can Vendor Staff create/manage Delivery Drivers?
+
+3. Can only Admin/Superadmin create them?
+
+4. Are Delivery Drivers global platform users or associated with a specific shop/business?
+
+5. Is there currently a `shop_id`, seller/vendor ID, business ID or equivalent ownership relationship?
+
+6. Can one driver belong to multiple shops?
+
+7. Is driver access represented by:
+   - user role;
+   - separate model/account;
+   - shop staff;
+   - invitation;
+   - permission;
+   - another mechanism?
+
+8. How does a driver authenticate?
+
+9. Are driver credentials currently created manually by Admin/Vendor?
+
+10. Is there an invitation/registration flow already?
+
+11. Can a Vendor disable/remove a driver?
+
+12. What happens to assigned orders if the driver is disabled?
+
+Do not infer functionality merely from UI labels.
+
+Trace the actual backend enforcement.
+
+==================================================
+B3. Audit order → Delivery Driver assignment
+==================================================
+
+Determine whether a Vendor can currently assign one of its orders to a Delivery Driver.
+
+Trace:
+
+Order
+→ Shop/Vendor ownership
+→ Delivery type
+→ Driver selection
+→ assignment persistence
+→ notification/event
+→ driver retrieval
+→ status updates
+→ completion.
+
+Answer:
+
+- Who can assign?
+- At what order status?
+- Can assignments be changed?
+- Can a driver reject an assignment?
+- Can an order be unassigned?
+- Can Admin override an assignment?
+- Can Staff assign if authorized?
+- Can Vendor A assign Vendor B's order?
+- Can Vendor A assign Vendor B's driver?
+- Can Driver A access Driver B's delivery?
+- Can a driver access orders not assigned to them?
+- Are these restrictions enforced server-side?
+
+Treat any tenant-isolation issue as a security finding.
+
+Do not exploit live data.
+
+==================================================
+B4. Audit delivery status lifecycle
+==================================================
+
+Document the existing delivery lifecycle.
+
+For example, determine whether statuses equivalent to these exist:
+
+Assigned
+→ Accepted
+→ Picked up
+→ Out for delivery
+→ Delivered
+
+or whatever the native system actually uses.
+
+Do NOT invent new statuses in the current-state section.
+
+Determine:
+
+- which actor can set each status;
+- whether customer order status changes automatically;
+- whether Vendor can override driver status;
+- whether proof of delivery exists;
+- whether signature/photo/OTP exists;
+- whether delivery timestamps exist;
+- whether location tracking exists;
+- whether customer notifications exist.
+
+Also identify what the future Delivery app currently would need from the backend.
+
+==================================================
+B5. Audit delivery economics separately
+==================================================
+
+Do not confuse driver operations with the payment architecture.
+
+Identify existing concepts for:
+
+- delivery fee charged to customer;
+- in-house delivery fee;
+- Vendor delivery;
+- platform delivery;
+- driver earning;
+- delivery commission;
+- driver wallet;
+- partner payment;
+- cash collected by driver;
+- COD;
+- Vendor payout;
+- Admin/platform settlement.
+
+Explain what exists versus what is missing.
+
+Do NOT modify:
+
+- payments;
+- payouts;
+- wallets;
+- accounting;
+- commissions;
+- refunds;
+- provider integrations.
+
+This section is audit only.
+
+==================================================
+B6. Evaluate the desired Vendor-owned driver model
+==================================================
+
+The preferred AgendaAlly direction is:
+
+A Vendor should be able to manage its own Delivery Drivers from the Vendor portal.
+
+A Vendor receives an order belonging to its business and can assign that order to one of its own active Delivery Drivers.
+
+The driver later signs into the AgendaAlly Delivery app and sees only deliveries they are authorized to handle.
+
+Evaluate whether this fits the existing architecture.
+
+Prefer extending/reusing existing models and APIs rather than creating a competing delivery subsystem.
+
+==================================================
+B7. Evaluate registration vs invitation
+==================================================
+
+Determine the safest and cleanest onboarding model.
+
+Preferred concept:
+
+Vendor Portal
+→ Delivery Drivers
+→ Invite Delivery Driver
+
+Vendor enters something such as:
+
+- name;
+- email and/or phone;
+- optional employee/reference information.
+
+AgendaAlly creates an invitation.
+
+Driver receives invitation.
+
+Driver:
+→ opens invite
+→ creates/signs into AgendaAlly account
+→ accepts Vendor relationship
+→ obtains Delivery Driver access for that business.
+
+The Vendor should NOT need to know or create the driver's password.
+
+Compare this with whatever the existing system currently does.
+
+Recommend whether:
+
+A. Vendor-created accounts;
+B. invitation + driver self-registration;
+C. existing AgendaAlly user linked as driver;
+D. hybrid invitation supporting both new and existing users
+
+best fits the current code.
+
+Unless existing architecture strongly argues otherwise, prefer the hybrid invitation model:
+
+Existing AgendaAlly user
+→ accepts driver invitation.
+
+New user
+→ registers
+→ accepts invitation.
+
+==================================================
+B8. Tenant isolation requirements
+==================================================
+
+The target design must enforce server-side:
+
+Vendor A can manage:
+- Vendor A's drivers;
+- Vendor A's eligible orders.
+
+Vendor A cannot:
+- view Vendor B's private driver records;
+- edit Vendor B's drivers;
+- disable Vendor B's drivers;
+- assign Vendor B's drivers;
+- assign Vendor B's orders.
+
+Driver A can access:
+- Driver A's authorized profile;
+- Driver A's assigned deliveries;
+- only information required to perform those deliveries.
+
+Driver A cannot:
+- enumerate another driver's assignments;
+- access another Vendor's unrelated orders;
+- modify an order not assigned to them.
+
+Staff access must follow existing Vendor staff/permission architecture.
+
+Admin/Superadmin may retain broader access where intentionally authorized.
+
+Do not rely on frontend filtering.
+
+==================================================
+B9. Proposed Vendor portal experience
+==================================================
+
+If the existing Vendor portal does not already provide a good implementation, propose a design consistent with the approved AgendaAlly Stage 2/Business UI.
+
+Suggested navigation:
+
+Business
+→ Delivery Drivers
+
+Page:
+
+Delivery Drivers
+
+[ Invite Delivery Driver ]
+
+Driver cards/table:
+
+Name
+Phone/email
+Status
+Active deliveries
+Completed deliveries
+Last activity if legitimately available
+Actions
+
+Possible states:
+
+Invited
+Active
+Suspended
+Inactive
+
+Do not implement these states unless they fit the existing data model or are part of the approved future architecture.
+
+Order detail should eventually provide:
+
+Delivery
+
+Fulfillment:
+Vendor delivery
+
+Assigned driver:
+[ Select Delivery Driver ]
+
+[ Assign ]
+
+After assignment:
+
+Assigned to:
+Driver Name
+
+Status:
+...
+
+[ Change driver ]
+
+only where business rules allow it.
+
+==================================================
+B10. Prepare for future Delivery mobile app
+==================================================
+
+The existing Delivery mobile app will be uploaded later.
+
+Do NOT invent or build the mobile application now.
+
+Instead identify the backend contract it will need.
+
+Likely capabilities to evaluate against existing APIs:
+
+Authentication
+GET driver profile
+GET assigned deliveries
+GET delivery detail
+Accept/reject assignment if supported
+Pickup/status updates
+Delivery completion
+Customer contact information subject to privacy policy
+Navigation coordinates if legitimately stored
+Proof of delivery
+Notification registration
+History
+Earnings only if the existing business model actually supports it.
+
+Recommend which existing APIs can be reused and which additive endpoints would eventually be required.
+
+Preserve `/api/v1` compatibility where practical.
+
+==================================================
+B11. Privacy and security
+==================================================
+
+Delivery drivers may need customer information to fulfill an order.
+
+Audit what customer information is currently exposed to delivery actors.
+
+Recommend least-privilege access.
+
+A driver should receive only fulfillment-required information, such as where legitimately needed:
+
+- customer display/name;
+- delivery address;
+- delivery instructions;
+- appropriate contact mechanism;
+- order/package information necessary for delivery.
+
+Do not expose unrelated:
+
+- customer account data;
+- payment credentials;
+- payment-provider details;
+- internal financial records;
+- Vendor secrets.
+
+Determine whether access should stop or become restricted after delivery completion.
+
+==================================================
+B12. Do NOT implement the delivery redesign yet
+==================================================
+
+This task is:
+
+DELIVERY DRIVER AUDIT + ARCHITECTURE PROPOSAL ONLY.
+
+Do not:
+
+- add migrations;
+- seed drivers;
+- create fake delivery accounts;
+- change roles;
+- add invitation tables;
+- create new APIs;
+- modify order lifecycle;
+- change delivery fees;
+- change payments;
+- modify the mobile app;
+- redesign the Vendor portal.
+
+We need to understand and approve the architecture first.
+
+==================================================
+B13. Required delivery audit report
+==================================================
+
+Create a concise but complete report containing:
+
+A. Executive summary
+
+B. Current delivery architecture diagram
+
+C. Existing models/tables
+
+D. Existing roles and permissions
+
+E. Current Vendor delivery-management capability
+
+F. Current Admin capability
+
+G. Current Delivery Driver capability
+
+H. Current order-assignment workflow
+
+I. Existing delivery statuses/lifecycle
+
+J. Current delivery economics
+
+K. Tenant-isolation/security findings
+
+L. Existing API inventory
+
+M. Existing Admin/Vendor UI inventory
+
+N. Compatibility considerations for the future Delivery app
+
+O. Gap matrix:
+   - works already
+   - partially wired
+   - UI-only
+   - missing backend
+   - authorization/security issue
+   - model limitation
+   - future mobile requirement
+
+P. Recommended target architecture
+
+Q. Recommended invitation/registration architecture
+
+R. Recommended Vendor portal workflow
+
+S. Recommended order-assignment workflow
+
+T. Recommended driver authorization model
+
+U. Recommended future Delivery-app API contract
+
+V. Minimal additive data-model changes, reusing existing structures first
+
+W. Ordered implementation phases
+
+X. Explicit list of what should NOT be changed yet
+
+==================================================
+B14. Implementation proposal should be phased
+==================================================
+
+The recommendation should separate at least:
+
+Phase 0
+Fix any proven delivery authorization/tenant-isolation vulnerabilities.
+
+Phase 1
+Normalize Vendor ↔ Delivery Driver ownership/relationship.
+
+Phase 2
+Vendor invitation + registration/acceptance flow.
+
+Phase 3
+Vendor driver-management UI.
+
+Phase 4
+Vendor order → driver assignment.
+
+Phase 5
+Driver-scoped API contract.
+
+Phase 6
+Delivery mobile-app refactor after its source is uploaded.
+
+Phase 7
+Notifications, proof-of-delivery and operational improvements if approved.
+
+Phase 8
+Only later, separately approved delivery economics/driver earnings/COD reconciliation if needed.
+
+Do NOT automatically start any phase.
+
+==================================================
+FINAL VERIFICATION / STOP CONDITION
+==================================================
+
+For Part A:
+
+Run only focused runtime/type verification needed for the hydration/404 fixes.
+
+For Part B:
+
+Source inspection only.
+
+Do not run delivery transactions or create delivery records.
+
+At completion report:
+
+PART A
+- Coupon hydration root cause;
+- fix;
+- unidentified 404 root cause;
+- whether it required a source change;
+- files changed;
+- focused verification results.
+
+PART B
+- whether Vendors can currently add/manage their own Delivery Drivers;
+- who currently owns/creates drivers;
+- whether Vendor order assignment already works;
+- existing driver authentication/role model;
+- major security/tenant-isolation findings;
+- recommendation for Vendor invitation/self-registration;
+- recommendation for Vendor-owned driver assignment;
+- future Delivery-app compatibility plan;
+- exact proposed implementation phases.
+
+Restore the existing Customer and Admin/Vendor previews if disturbed.
+
+Then STOP.
+
+Do not automatically implement the Delivery Driver proposal.
+Do not start another payment phase.
+Do not reopen completed Stage 2 work.
+Do not perform broad acceptance testing.

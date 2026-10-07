@@ -1,0 +1,1667 @@
+AGENDAALLY — CLEAN PRIVATE REPOSITORY + VPS DEPLOYMENT READINESS CAMPAIGN
+
+FRESH GIT HISTORY
+SANITIZED CURRENT SNAPSHOT
+CLEAN-CLONE REPRODUCIBILITY
+VPS DEPLOYMENT PREPARATION
+
+STOP BEFORE GITHUB REMOTE CREATION, PUSH, OR REAL VPS DEPLOYMENT
+
+
+======================================================================
+0. AUTHORITATIVE STARTING POINT
+======================================================================
+
+The completed read-only Git repository readiness audit is the authoritative
+starting point.
+
+Audit report:
+
+docs/development/agendaally-git-repository-readiness-audit.md
+
+CURRENT ACCEPTED FINDINGS
+
+- Existing Git repository exists.
+- Existing repository is on main.
+- Existing repository has 271 reachable commits.
+- Existing repository has a configured GitHub origin.
+- The existing repository/history must be preserved.
+- Active Backend, Web, Admin and Customer Mobile source trees currently live
+  under .migration-backup/.
+- The historical name ".migration-backup" does NOT mean those active source
+  trees are obsolete.
+- Historical reachable Git content contains credential-shaped native
+  configuration requiring owner review.
+- Some indispensable test/preview helpers currently live under ignored .local/.
+- Clean-clone reproducibility is currently PARTIAL.
+- Normal database/schema and existing application files were unchanged by the
+  read-only audit.
+- The audit reported 214 normal database tables/schema unchanged.
+- No Git mutation was performed by the audit.
+
+The current accepted AgendaAlly application/runtime state remains authoritative.
+
+Do not reopen unrelated completed MVP acceptance work.
+
+
+======================================================================
+1. OWNER DECISION
+======================================================================
+
+Do NOT sanitize, rewrite, reinitialize, force-push, or otherwise modify the
+existing Git repository/history.
+
+Instead:
+
+prepare a SEPARATE clean publication repository from a sanitized snapshot of
+the CURRENT accepted AgendaAlly source.
+
+The intended future destination is a NEW PRIVATE GitHub repository controlled
+by the owner.
+
+The intended future deployment model is:
+
+REPLIT DEVELOPMENT
+        ↓
+SANITIZED PRIVATE GITHUB MONOREPO
+        ↓
+FRESH VPS DEPLOYMENT
+
+This campaign prepares and validates that path.
+
+It does NOT authorize:
+
+- GitHub repository creation;
+- adding a GitHub remote;
+- pushing source;
+- modifying the existing remote;
+- force-pushing;
+- making anything public;
+- connecting to a production VPS;
+- provisioning a VPS;
+- deploying to a VPS;
+- changing DNS;
+- issuing production TLS certificates;
+- modifying production databases;
+- sending real emails;
+- activating payment providers;
+- executing payments;
+- executing refunds;
+- executing payouts.
+
+STOP before any remote publication or real VPS action.
+
+Owner approval is required after the final report.
+
+
+======================================================================
+2. CAMPAIGN OBJECTIVES
+======================================================================
+
+This campaign has five primary objectives:
+
+A. Preserve the existing historical repository unchanged.
+
+B. Build a sanitized current AgendaAlly source snapshot suitable for a new
+   private Git repository with FRESH Git history.
+
+C. Remove hidden dependencies on Replit workspace state, ignored local files,
+   databases, secrets, caches, or generated artifacts where safely possible.
+
+D. Prove clean-clone reproducibility as far as safely possible.
+
+E. Produce a verified deployment specification showing how the clean private
+   repository can later be deployed to a fresh Linux VPS.
+
+Do not optimize for cosmetic repository structure.
+
+Correctness, security, portability, and reproducibility are the priorities.
+
+
+======================================================================
+3. HARD PRESERVATION BOUNDARY — EXISTING REPOSITORY
+======================================================================
+
+The existing repository and its 271-commit history are historical evidence.
+
+Do NOT:
+
+- run git filter-repo;
+- run git filter-branch;
+- use BFG;
+- rewrite commits;
+- amend historical commits;
+- squash the existing history;
+- delete the existing .git directory;
+- replace the existing .git directory;
+- modify existing branches;
+- modify existing tags;
+- change existing origin;
+- remove existing origin;
+- push to existing origin;
+- force-push;
+- rebase existing history for publication;
+- attempt historical secret cleanup in place.
+
+The existing repository must remain unchanged.
+
+The clean publication repository must be prepared separately.
+
+Do not accidentally place the new repository's .git directory inside a
+location that causes it to become part of the old repository.
+
+At the end explicitly prove:
+
+OLD REPOSITORY MODIFIED:
+NO
+
+
+======================================================================
+4. SOURCE OF TRUTH
+======================================================================
+
+Use the CURRENT accepted application state as the source of the clean snapshot.
+
+Authoritative active applications include:
+
+- Backend
+- Web
+- Admin
+- Customer Mobile
+
+The audit identifies Customer Mobile as:
+
+.migration-backup/customer_app/
+
+Use:
+
+- the completed Git audit;
+- actual build configuration;
+- actual runtime references;
+- package/dependency manifests;
+- project instructions;
+- launch configuration;
+
+to identify the authoritative paths for ALL active applications.
+
+Do not infer obsolescence from directory names.
+
+Specifically:
+
+do NOT assume ".migration-backup" means obsolete.
+
+Do not omit active application code because of that historical directory name.
+
+
+======================================================================
+5. FREEZE APPLICATION BEHAVIOR
+======================================================================
+
+This is primarily repository/deployment preparation.
+
+Do not alter accepted AgendaAlly business behavior merely to make publication
+easier.
+
+Do NOT make unrelated changes to:
+
+- authentication behavior;
+- verification;
+- password reset;
+- logout;
+- bookings;
+- calendar;
+- Customers;
+- Specialists;
+- Shops;
+- payments;
+- payment eligibility;
+- refunds;
+- payouts;
+- Wallet/accounting;
+- order fulfillment;
+- email delivery behavior;
+- SMTP;
+- provider configuration;
+- subscription behavior;
+- tenant isolation;
+- authorization rules.
+
+If repository portability exposes a genuine application defect:
+
+STOP and classify it.
+
+Do not silently repair business logic under the repository campaign.
+
+
+======================================================================
+6. PUBLICATION MANIFEST — REQUIRED BEFORE COPYING
+======================================================================
+
+Before copying content into the clean repository, create a publication manifest.
+
+Classify relevant content into:
+
+A. INCLUDE
+
+Required source code and safe project configuration.
+
+B. INCLUDE AFTER SANITIZATION
+
+Required files containing environment-specific or sensitive values that must be
+converted into safe examples/templates.
+
+C. GENERATE / DOCUMENT
+
+Required runtime/test assets that should be generated during setup rather than
+stored as machine-specific state.
+
+D. EXCLUDE
+
+Secrets, databases, runtime data, logs, caches, generated output, private
+evidence, credentials, temporary files, and machine-specific artifacts.
+
+E. OWNER REVIEW
+
+Anything ambiguous or potentially sensitive.
+
+For each important path record:
+
+- source path;
+- classification;
+- reason;
+- clean-repository destination if included;
+- sanitization requirement if applicable.
+
+Produce this manifest BEFORE initializing the new Git repository.
+
+
+======================================================================
+7. CURRENT SECRET / CREDENTIAL REVIEW
+======================================================================
+
+Perform a bounded secret review of the CURRENT snapshot that would be copied.
+
+Also use the completed audit findings to identify historical values that must
+not transfer into the new repository.
+
+Look for credential categories including:
+
+- API keys;
+- SMTP credentials;
+- payment-provider credentials;
+- database passwords;
+- OAuth client secrets;
+- signing secrets;
+- private keys;
+- access tokens;
+- webhook secrets;
+- mobile service credentials;
+- cloud credentials;
+- Google/API configuration;
+- hard-coded Authorization headers;
+- service credentials;
+- real environment URLs containing embedded credentials;
+- credential-bearing configuration files.
+
+Do NOT print credential values.
+
+Do NOT place credential values in the report.
+
+Report only:
+
+- path;
+- credential category;
+- CURRENT or HISTORICAL;
+- tracked or ignored where relevant;
+- whether apparently required at runtime;
+- risk classification;
+- proposed treatment.
+
+If a CURRENT credential appears real:
+
+DO NOT copy it into the clean repository.
+
+Replace the repository representation with a safe configuration mechanism where
+appropriate.
+
+If evidence suggests a credential may still be active, report:
+
+ROTATION/REVOCATION REQUIRED
+
+but do NOT rotate or revoke it during this campaign.
+
+
+======================================================================
+8. HISTORICAL CREDENTIAL RULE
+======================================================================
+
+The clean repository must NOT inherit the existing Git history.
+
+The suspected historical Google/API credential-shaped material must therefore
+NOT become reachable through the new repository's Git history.
+
+Creating fresh Git history does NOT revoke a credential that may previously
+have been exposed.
+
+Classify historical credential-shaped findings as:
+
+- obvious placeholder/test;
+- obsolete but plausibly real;
+- currently referenced;
+- unknown.
+
+Do not expose the value.
+
+For any plausibly real historical credential, recommend whether owner
+rotation/revocation is appropriate.
+
+Do not rewrite the old repository to remove it.
+
+
+======================================================================
+9. DATABASE AND RUNTIME DATA EXCLUSION
+======================================================================
+
+The clean repository must not contain runtime database/data state merely because
+it exists in the Replit workspace.
+
+Review and exclude where appropriate:
+
+- SQLite databases;
+- MySQL/PostgreSQL dumps if any;
+- database exports;
+- database backups;
+- uploaded Customer/user data;
+- sessions;
+- queues;
+- cache;
+- framework runtime storage;
+- logs;
+- temporary files;
+- generated mail artifacts;
+- private runtime evidence;
+- runtime PID files;
+- lock files;
+- build output;
+- dependency directories;
+- IDE/editor state;
+- OS metadata.
+
+Do NOT delete these from the authoritative Replit workspace.
+
+This is publication filtering only.
+
+Existing production/development data must not be accidentally copied into Git.
+
+
+======================================================================
+10. ENVIRONMENT CONFIGURATION
+======================================================================
+
+Do not publish real environment files containing secrets.
+
+Prepare safe examples where required, such as:
+
+.env.example
+
+and/or application-specific equivalents.
+
+Safe examples may contain:
+
+- variable names;
+- safe development defaults;
+- comments;
+- explanatory placeholders.
+
+They must NOT contain real secrets.
+
+Document configuration required for:
+
+- Backend;
+- Web;
+- Admin;
+- Customer Mobile;
+- database;
+- mail/SMTP;
+- application URLs;
+- CORS;
+- session/cookie configuration where relevant;
+- supported payment configuration;
+- supported external integrations;
+- storage;
+- queue;
+- scheduler;
+- production environment.
+
+Do not fabricate credentials.
+
+
+======================================================================
+11. .LOCAL REVIEW
+======================================================================
+
+The audit found indispensable helpers under ignored .local/.
+
+Classify every required .local/ dependency.
+
+For each determine whether it should become:
+
+A. tracked safe test/helper source;
+
+B. moved/copied into a normal repository tools/tests/scripts location;
+
+C. generated during setup;
+
+D. replaced by a documented prerequisite;
+
+E. excluded because it is machine-specific or sensitive.
+
+The clean repository must NOT silently depend on an ignored .local/ file that a
+fresh clone cannot obtain.
+
+Do NOT copy all of .local/ blindly.
+
+Do NOT copy secrets from .local/.
+
+
+======================================================================
+12. EVIDENCE / AUDIT MATERIAL
+======================================================================
+
+Review existing evidence packages and development reports.
+
+Separate:
+
+SAFE ENGINEERING DOCUMENTATION
+
+from:
+
+SENSITIVE RUNTIME EVIDENCE.
+
+Do not publish evidence containing:
+
+- real credentials;
+- verification codes;
+- password-reset codes;
+- session tokens;
+- private Customer information;
+- SMTP secrets;
+- provider secrets;
+- database content;
+- unnecessary personal information;
+- real authentication artifacts.
+
+Curate only documentation/evidence useful and safe for development.
+
+Preserve original workspace evidence unchanged.
+
+
+======================================================================
+13. REPOSITORY STRUCTURE
+======================================================================
+
+Target repository model:
+
+MONOREPO
+
+The monorepo must contain all authoritative AgendaAlly applications needed for
+development and future deployment.
+
+Do NOT rename/move active .migration-backup application trees merely for
+cosmetic reasons during this campaign unless relocation is independently proven
+safe.
+
+If moving:
+
+.migration-backup/backend
+.migration-backup/web
+.migration-backup/admin
+.migration-backup/customer_app
+
+to cleaner top-level paths would require changes to:
+
+- imports;
+- build scripts;
+- preview configuration;
+- runtime configuration;
+- application references;
+- deployment assumptions;
+- tests;
+
+do NOT perform that relocation now.
+
+Instead document:
+
+FUTURE REPOSITORY LAYOUT CLEANUP
+
+as a separate optional task.
+
+Correctness is more important than directory aesthetics.
+
+
+======================================================================
+14. CLEAN REPOSITORY WORKSPACE
+======================================================================
+
+Prepare the clean repository in a SEPARATE directory outside the original
+repository's Git control where practical.
+
+Use a clearly named staging path such as:
+
+agendaally-clean-repository
+
+or equivalent.
+
+Copy only content approved by the publication manifest.
+
+Do not copy:
+
+.git
+
+from the old repository.
+
+Do not copy historical Git objects.
+
+Do not modify authoritative application source merely because a sanitized copy
+is being prepared.
+
+
+======================================================================
+15. SAFE IGNORE RULES
+======================================================================
+
+Create portable ignore rules for the NEW repository.
+
+Cover relevant:
+
+- environment secrets;
+- dependency directories;
+- runtime storage;
+- databases;
+- dumps;
+- caches;
+- logs;
+- temporary files;
+- build output;
+- generated files;
+- IDE metadata;
+- OS metadata;
+- sensitive/generated evidence;
+- mobile build artifacts;
+- local runtime state.
+
+Do not copy existing ignore rules blindly.
+
+Validate the new ignore rules against actual project content.
+
+Required source must not accidentally become ignored.
+
+
+======================================================================
+16. REPRODUCIBLE DEVELOPMENT SETUP DOCUMENTATION
+======================================================================
+
+Create/update safe development documentation for a fresh developer.
+
+Document:
+
+- repository structure;
+- prerequisites;
+- Backend setup;
+- Web setup;
+- Admin setup;
+- Customer Mobile setup;
+- environment configuration;
+- database initialization;
+- migrations;
+- required safe helpers;
+- dependency installation;
+- bounded test execution;
+- supported development preview startup;
+- optional services;
+- externally supplied credentials.
+
+Do not embed real credentials.
+
+Do not require undocumented Replit workspace state.
+
+
+======================================================================
+17. CLEAN-CLONE REPRODUCIBILITY TEST
+======================================================================
+
+After preparing the sanitized snapshot, verify reproducibility from another
+temporary directory.
+
+Treat the test environment as a brand-new developer clone.
+
+The test must NOT silently rely on:
+
+- parent workspace files;
+- old repository files;
+- ignored .local/ helpers;
+- existing dependency directories;
+- existing databases;
+- existing environment secrets;
+- existing build output;
+- Replit runtime state unless explicitly documented as an optional/platform
+  prerequisite.
+
+Verify as far as safely possible:
+
+- repository structure;
+- dependency manifests;
+- dependency installation;
+- safe configuration examples;
+- Backend initialization;
+- database schema initialization through documented source-controlled methods;
+- Web initialization/build;
+- Admin initialization/build;
+- Customer Mobile source/build prerequisites;
+- required safe test helpers;
+- selected bounded tests.
+
+Do NOT:
+
+- send real email;
+- activate real payment providers;
+- execute payments;
+- execute refunds;
+- execute payouts;
+- alter the accepted normal database.
+
+
+======================================================================
+18. VPS DEPLOYMENT READINESS
+======================================================================
+
+The clean private repository must also be suitable as the source repository for
+a future VPS deployment.
+
+This campaign does NOT authorize deployment to a real VPS.
+
+Determine whether a fresh supported Linux VPS could deploy AgendaAlly from the
+new repository WITHOUT relying on the existing Replit workspace.
+
+The VPS-hosted platform scope includes the CURRENT supported server/web
+components:
+
+- Backend / API
+- Web application
+- Admin application
+
+Customer Mobile must NOT be treated as a VPS-hosted service.
+
+Instead document how Customer Mobile receives/configures its production API
+base URL and any other required public application endpoints.
+
+Identify all current Replit-specific assumptions, including where applicable:
+
+- /home/runner/workspace paths;
+- Replit preview ports;
+- Replit development hostnames;
+- Replit launch scripts;
+- Replit environment variables;
+- Replit Secrets;
+- .local helpers;
+- development proxies;
+- localhost URLs;
+- Replit filesystem assumptions;
+- Replit process assumptions;
+- Replit-only storage/runtime behavior.
+
+For each classify:
+
+- PORTABLE AS-IS;
+- REQUIRES PRODUCTION CONFIGURATION;
+- REQUIRES VPS REPLACEMENT;
+- DEVELOPMENT ONLY;
+- BLOCKING.
+
+
+======================================================================
+19. VPS PRODUCTION ARCHITECTURE
+======================================================================
+
+Produce a concrete recommended VPS deployment architecture based on the ACTUAL
+AgendaAlly stack discovered from source.
+
+Do not invent technologies merely because they are common.
+
+Determine from source which components actually exist and are required.
+
+Document where applicable:
+
+- supported Linux/server requirements;
+- reverse proxy/web server;
+- PHP runtime;
+- required PHP extensions;
+- Composer;
+- Node.js version/runtime/build requirements;
+- frontend production build;
+- database engine/client;
+- queue processing;
+- scheduler/cron;
+- persistent storage;
+- public uploads;
+- TLS/HTTPS;
+- domain/DNS requirements;
+- environment configuration;
+- SMTP requirements;
+- provider configuration;
+- application logging;
+- process supervision;
+- backup requirements.
+
+Explicitly separate:
+
+DEVELOPMENT-ONLY COMPONENTS
+
+from:
+
+PRODUCTION-REQUIRED COMPONENTS.
+
+
+======================================================================
+20. PRODUCTION DATABASE STRATEGY
+======================================================================
+
+The existing Replit runtime database must NOT become the deployment mechanism.
+
+Determine the supported production database strategy from the actual
+application source/configuration.
+
+Document:
+
+- supported database engine(s);
+- recommended production engine based on existing application support;
+- required database/server creation;
+- database-user requirements;
+- required environment variables;
+- migration procedure;
+- initial safe bootstrap procedure;
+- whether seeders contain demo/test data;
+- which seeders, if any, are safe/required for production;
+- schema migration ordering;
+- backup requirements;
+- restore considerations.
+
+A clean VPS deployment should initialize the database from source-controlled
+migrations/schema plus explicitly approved bootstrap data.
+
+Do NOT copy the current Replit database into Git.
+
+Do NOT execute a production migration during this campaign.
+
+
+======================================================================
+21. PRODUCTION ENVIRONMENT TEMPLATE
+======================================================================
+
+Prepare safe production-oriented configuration documentation.
+
+If useful and supported by the application structure, create:
+
+.env.production.example
+
+or application-specific equivalent examples.
+
+The production example may contain:
+
+- variable names;
+- safe placeholders;
+- comments explaining expected values;
+- non-secret production guidance.
+
+It must NOT contain real:
+
+- passwords;
+- API keys;
+- SMTP credentials;
+- database credentials;
+- provider secrets;
+- OAuth secrets;
+- signing keys;
+- access tokens.
+
+Clearly identify values that must be securely generated/supplied on the VPS.
+
+
+======================================================================
+22. BUILD AND RELEASE PROCEDURE
+======================================================================
+
+Document a deterministic release procedure starting from a fresh private Git
+clone.
+
+The intended conceptual workflow is:
+
+PRIVATE GIT REPOSITORY
+        ↓
+FRESH VPS CLONE
+        ↓
+INSTALL REQUIRED SYSTEM DEPENDENCIES
+        ↓
+INSTALL APPLICATION DEPENDENCIES
+        ↓
+CONFIGURE PRODUCTION ENVIRONMENT
+        ↓
+BUILD REQUIRED APPLICATIONS
+        ↓
+CREATE / CONNECT DATABASE
+        ↓
+RUN APPROVED DATABASE MIGRATIONS
+        ↓
+CONFIGURE PERSISTENT STORAGE
+        ↓
+START APPLICATION SERVICES
+        ↓
+START REQUIRED QUEUE / SCHEDULER SERVICES
+        ↓
+CONFIGURE REVERSE PROXY
+        ↓
+CONFIGURE HTTPS
+        ↓
+RUN HEALTH / SMOKE CHECKS
+
+Derive actual commands and order from the source.
+
+Do not guess commands.
+
+Document which steps require:
+
+- root/system administration privileges;
+
+versus:
+
+- application deployment user privileges.
+
+
+======================================================================
+23. PROCESS SUPERVISION
+======================================================================
+
+Determine which long-running processes AgendaAlly actually requires in
+production.
+
+Examples may include, ONLY if supported by source:
+
+- Backend application runtime;
+- queue worker;
+- scheduler;
+- frontend server;
+- supporting service.
+
+Recommend an appropriate production supervision model based on the discovered
+stack.
+
+Examples may include:
+
+- systemd;
+- Supervisor;
+- an existing project-native mechanism.
+
+Do not introduce unnecessary infrastructure.
+
+For every required process document:
+
+- command;
+- working directory;
+- environment source;
+- execution user;
+- restart behavior;
+- log destination;
+- dependency/order considerations.
+
+Do NOT start production workers in this campaign.
+
+
+======================================================================
+24. REVERSE PROXY / HTTPS DESIGN
+======================================================================
+
+Determine how Web, Admin and Backend/API should be exposed through HTTPS on a
+VPS.
+
+Derive routing/base URL requirements from actual source/configuration.
+
+Propose production domains/subdomains or paths only after checking application
+compatibility.
+
+Account for where relevant:
+
+- API base URL;
+- Web base URL;
+- Admin base URL;
+- Customer Mobile API base URL;
+- CORS;
+- cookies;
+- session domain;
+- trusted proxies;
+- HTTPS;
+- redirects;
+- static assets;
+- uploaded assets;
+- backend routing.
+
+Do NOT hard-code current Replit preview URLs into production configuration.
+
+Do not modify real DNS.
+
+
+======================================================================
+25. PERSISTENT STORAGE
+======================================================================
+
+Identify every file/directory class requiring persistence across deployments.
+
+Examples may include:
+
+- user uploads;
+- Shop media;
+- product/service images;
+- generated public media;
+- required application storage.
+
+Separate persistent application data from:
+
+- source;
+- cache;
+- logs;
+- temporary files;
+- build output;
+- dependencies.
+
+Document:
+
+- required path;
+- purpose;
+- ownership;
+- permissions;
+- backup requirement.
+
+Do not grant unnecessarily broad filesystem permissions.
+
+
+======================================================================
+26. VPS SECURITY BASELINE
+======================================================================
+
+Provide a bounded VPS deployment-security checklist based on AgendaAlly's
+actual requirements.
+
+At minimum assess:
+
+- non-root application execution;
+- deployment user;
+- SSH access;
+- firewall exposure;
+- database network exposure;
+- HTTPS;
+- TLS certificate handling;
+- file ownership;
+- file permissions;
+- environment-secret permissions;
+- production debug mode;
+- error-detail exposure;
+- production logging;
+- dependency installation;
+- backups;
+- service-account privileges;
+- queue/scheduler privileges;
+- writable directories;
+- public directory exposure.
+
+Do NOT modify an actual VPS.
+
+
+======================================================================
+27. PAYMENT / EMAIL / EXTERNAL SERVICE DEPLOYMENT BOUNDARY
+======================================================================
+
+Deployment readiness must distinguish application deployment from activation of
+external financial or communication services.
+
+Do not activate:
+
+- payment providers;
+- provider webhooks;
+- automated refunds;
+- automated payouts;
+- real financial workers;
+- real SMTP delivery;
+
+during generic VPS readiness testing.
+
+Document which environment configuration will eventually be required.
+
+Preserve the accepted MVP financial direction and existing application
+behavior.
+
+A successful deployment must NOT be interpreted as payment/refund/payout
+certification.
+
+
+======================================================================
+28. DEPLOYMENT / UPDATE STRATEGY
+======================================================================
+
+Document how future approved releases should be deployed after initial VPS
+setup.
+
+Conceptually:
+
+git fetch/pull approved release
+        ↓
+install/update dependencies
+        ↓
+build production assets
+        ↓
+run approved migrations
+        ↓
+restart/reload required services
+        ↓
+health checks
+
+Determine the actual safe procedure from source.
+
+Identify:
+
+- potential downtime;
+- migration risk;
+- persistent-data risk;
+- build failure handling;
+- application restart behavior.
+
+Recommend rollback behavior.
+
+Do not implement automated production deployment unless an existing safe,
+inert deployment mechanism is already part of the project and can be included
+without external effects.
+
+
+======================================================================
+29. DEPLOYMENT HEALTH CHECK
+======================================================================
+
+Define a safe post-deployment acceptance checklist.
+
+At minimum cover where applicable:
+
+- Backend/API responds;
+- Web loads;
+- Admin loads;
+- database connectivity;
+- authentication entry points;
+- static assets;
+- persistent uploads;
+- queue worker health;
+- scheduler configuration;
+- no debug stack traces;
+- production error handling;
+- HTTPS;
+- expected redirects;
+- Customer Mobile API endpoint reachability.
+
+Generic deployment smoke testing must NOT:
+
+- send real email;
+- execute payments;
+- execute refunds;
+- execute payouts;
+- alter real financial records.
+
+
+======================================================================
+30. VPS DEPLOYMENT DOCUMENTATION
+======================================================================
+
+Create a safe deployment guide in the CLEAN repository, for example:
+
+docs/deployment/vps-deployment.md
+
+The guide must be sufficient for a competent administrator to understand how
+to deploy AgendaAlly from the future private Git repository to a fresh
+supported Linux VPS.
+
+The guide must be based on VERIFIED project requirements.
+
+Clearly mark:
+
+VERIFIED
+
+versus:
+
+PROPOSED
+
+versus:
+
+REQUIRES OWNER CONFIGURATION
+
+where appropriate.
+
+Do not include credentials.
+
+
+======================================================================
+31. OPTIONAL DEPLOYMENT AUTOMATION ASSESSMENT
+======================================================================
+
+Assess whether safe deployment automation would be useful later.
+
+Examples could include:
+
+- deployment shell script;
+- Ansible;
+- GitHub Actions;
+- container deployment;
+- another existing project-supported mechanism.
+
+This section is ASSESSMENT ONLY unless equivalent safe inert automation already
+exists.
+
+Do not introduce a new production orchestration stack during this campaign.
+
+Do not create GitHub Actions requiring secrets.
+
+Do not deploy anything.
+
+Recommend the smallest appropriate future automation model based on the actual
+application architecture.
+
+
+======================================================================
+32. SECRET SCAN OF CLEAN SNAPSHOT
+======================================================================
+
+Before considering the clean snapshot ready, scan the CLEAN repository content.
+
+After local Git initialization, also inspect the NEW repository's reachable
+history.
+
+Report findings by category/path only.
+
+There should be no known real:
+
+- password;
+- token;
+- API secret;
+- private key;
+- SMTP credential;
+- payment-provider credential;
+- database credential;
+- OAuth secret;
+- signing secret.
+
+Potential false positives must be classified rather than deleted blindly.
+
+Do not expose matching secret values in output.
+
+
+======================================================================
+33. GIT INITIALIZATION
+======================================================================
+
+ONLY after:
+
+- publication manifest;
+- sanitization;
+- clean-clone testing;
+- portability assessment;
+- VPS deployment-readiness documentation;
+- clean snapshot secret review;
+
+initialize a NEW Git repository inside the clean publication directory.
+
+This must create FRESH HISTORY.
+
+Do NOT copy the original .git directory.
+
+Do NOT import the 271 historical commits.
+
+Do NOT preserve old Git objects.
+
+Use:
+
+main
+
+as the intended primary branch.
+
+Prepare the initial commit locally.
+
+Recommended checkpoint identity:
+
+agendaally-pre-mobile-phase2-baseline-2026-10-06
+
+Suggested initial commit message:
+
+Initial sanitized AgendaAlly pre-mobile Phase 2 baseline
+
+Do NOT add a remote.
+
+Do NOT push.
+
+
+======================================================================
+34. VERIFY INITIAL COMMIT CONTENT
+======================================================================
+
+Before stopping, inspect exactly what the NEW initial commit contains.
+
+Verify:
+
+- Backend represented;
+- Web represented;
+- Admin represented;
+- Customer Mobile represented;
+- required project files represented;
+- safe configuration examples represented;
+- safe development documentation represented;
+- VPS deployment documentation represented;
+- required safe helpers represented;
+- no runtime database;
+- no database dump;
+- no credential file;
+- no real .env secret file;
+- no accidental parent-workspace files;
+- no nested old .git;
+- no historical Git objects;
+- no sensitive evidence;
+- no unnecessary generated output.
+
+Record:
+
+- branch;
+- initial commit hash;
+- tracked file count;
+- high-level directory structure;
+- secret-scan result;
+- clean-clone result;
+- deployment-readiness result.
+
+
+======================================================================
+35. PRIVATE GITHUB READINESS
+======================================================================
+
+Assess whether the prepared clean repository is safe to become a PRIVATE GitHub
+repository.
+
+This is an assessment only.
+
+Do NOT:
+
+- create the GitHub repository;
+- call GitHub APIs to create it;
+- authenticate for publication;
+- add a GitHub remote;
+- push;
+- alter the old remote.
+
+Determine whether anything remains that would prevent private publication.
+
+
+======================================================================
+36. PUBLICATION READINESS
+======================================================================
+
+Assess private and public publication separately.
+
+PRIVATE publication may have different requirements from PUBLIC publication.
+
+Do not declare public publication safe merely because private publication is
+safe.
+
+Historical/current credential concerns, licensing, private evidence,
+configuration, personal data, proprietary material, or other concerns must be
+classified separately.
+
+
+======================================================================
+37. VPS DEPLOYMENT READINESS VERDICT
+======================================================================
+
+Add explicit verdicts:
+
+VPS DEPLOYMENT DOCUMENTATION:
+PASS / PARTIAL / FAIL
+
+REPLIT-SPECIFIC DEPENDENCIES REMAINING:
+NONE / DOCUMENTED / BLOCKING
+
+FRESH VPS DEPLOYMENT READINESS:
+READY / PARTIAL / NOT READY
+
+PRODUCTION DATABASE BOOTSTRAP:
+DOCUMENTED / PARTIAL / BLOCKED
+
+PRODUCTION PROCESS SUPERVISION:
+DOCUMENTED / PARTIAL / BLOCKED
+
+REVERSE PROXY / HTTPS DESIGN:
+DOCUMENTED / PARTIAL / BLOCKED
+
+PERSISTENT STORAGE STRATEGY:
+DOCUMENTED / PARTIAL / BLOCKED
+
+PRODUCTION SECRET STRATEGY:
+DOCUMENTED / PARTIAL / BLOCKED
+
+CUSTOMER MOBILE PRODUCTION API CONFIGURATION:
+DOCUMENTED / PARTIAL / BLOCKED
+
+ACTUAL VPS DEPLOYMENT PERFORMED:
+MUST BE NO
+
+
+======================================================================
+38. PRESERVATION / SAFETY CHECKS
+======================================================================
+
+Before finishing, confirm:
+
+- original repository unchanged;
+- original .git unchanged;
+- existing origin unchanged;
+- existing 271-commit history unchanged;
+- authoritative Replit application source not accidentally modified by staging;
+- normal database unchanged;
+- no production data mutation;
+- no real email sent;
+- no payment executed;
+- no refund executed;
+- no payout executed;
+- no provider activated;
+- no GitHub repository created;
+- no remote added to the new repository;
+- no push performed;
+- no VPS contacted;
+- no DNS changed;
+- no production TLS action performed.
+
+
+======================================================================
+39. REQUIRED FINAL REPORT
+======================================================================
+
+Return one consolidated report with these sections:
+
+1. Executive Summary
+
+2. Existing Repository Preservation
+
+3. Original Repository Status
+
+4. Existing Git Origin Summary
+   - repository/account identification if safely observable
+   - do not expose credentials
+
+5. Publication Manifest
+
+6. Authoritative Active Source Trees
+
+7. Current Secret/Credential Findings
+
+8. Historical Credential Assessment
+
+9. Rotation/Revocation Recommendations
+
+10. Database/Runtime Exclusions
+
+11. Environment Configuration Strategy
+
+12. .local Helper Classification
+
+13. Evidence/Documentation Classification
+
+14. Clean Monorepo Structure
+
+15. Ignore Rules
+
+16. Development Setup Documentation
+
+17. Clean-Clone Reproducibility Results
+
+18. Remaining Clean-Clone Dependencies
+
+19. Replit-Specific Dependency Matrix
+
+20. VPS Production Architecture
+
+21. Production Database Strategy
+
+22. Production Environment Strategy
+
+23. Build/Release Procedure
+
+24. Process Supervision
+
+25. Reverse Proxy / HTTPS Design
+
+26. Persistent Storage Strategy
+
+27. VPS Security Baseline
+
+28. External Service Activation Boundary
+
+29. Deployment / Update Strategy
+
+30. Deployment Health Check
+
+31. Deployment Documentation Status
+
+32. Optional Future Deployment Automation Recommendation
+
+33. Clean Snapshot Secret Scan
+
+34. New Local Repository Status
+
+35. Initial Commit Hash
+
+36. Initial Commit Content Summary
+
+37. Tracked File Count
+
+38. Remaining Reproducibility Gaps
+
+39. Remaining Security/Publication Gaps
+
+40. Private GitHub Publication Readiness
+
+41. Public GitHub Publication Readiness
+
+42. VPS Deployment Readiness
+
+43. Explicit List of Things Not Changed
+
+44. Owner Decisions Still Required
+
+45. Recommended Next Action
+
+
+======================================================================
+40. FINAL VERDICT BLOCK
+======================================================================
+
+Conclude with EXACTLY this style of summary:
+
+CLEAN LOCAL REPOSITORY PREPARED:
+YES / NO
+
+NEW REPOSITORY USES FRESH HISTORY:
+YES / NO
+
+NEW REPOSITORY CONTAINS OLD GIT HISTORY:
+MUST BE NO
+
+OLD REPOSITORY MODIFIED:
+MUST BE NO
+
+OLD GIT ORIGIN MODIFIED:
+MUST BE NO
+
+CURRENT KNOWN REAL SECRETS IN NEW REPOSITORY:
+YES / NO / OWNER REVIEW
+
+CREDENTIAL ROTATION/REVOCATION REQUIRED:
+YES / NO / OWNER REVIEW
+
+CLEAN-CLONE REPRODUCIBILITY:
+PASS / PARTIAL / FAIL
+
+SAFE TO CREATE PRIVATE GITHUB REMOTE:
+YES / NO
+
+SAFE TO PUSH TO PRIVATE GITHUB REMOTE:
+YES / NO
+
+SAFE TO MAKE PUBLIC:
+YES / NO
+
+VPS DEPLOYMENT DOCUMENTATION:
+PASS / PARTIAL / FAIL
+
+FRESH VPS DEPLOYMENT READINESS:
+READY / PARTIAL / NOT READY
+
+REPLIT-SPECIFIC BLOCKERS:
+NONE / DOCUMENTED / BLOCKING
+
+PRODUCTION DATABASE BOOTSTRAP:
+DOCUMENTED / PARTIAL / BLOCKED
+
+PRODUCTION PROCESS SUPERVISION:
+DOCUMENTED / PARTIAL / BLOCKED
+
+REVERSE PROXY / HTTPS DESIGN:
+DOCUMENTED / PARTIAL / BLOCKED
+
+PRODUCTION SECRET STRATEGY:
+DOCUMENTED / PARTIAL / BLOCKED
+
+CUSTOMER MOBILE PRODUCTION API CONFIGURATION:
+DOCUMENTED / PARTIAL / BLOCKED
+
+GITHUB REPOSITORY CREATED:
+MUST BE NO
+
+GITHUB PUSH PERFORMED:
+MUST BE NO
+
+ACTUAL VPS DEPLOYMENT PERFORMED:
+MUST BE NO
+
+APPLICATION BUSINESS LOGIC CHANGED:
+MUST BE NO
+
+NORMAL DATABASE MUTATED:
+MUST BE NO
+
+
+======================================================================
+41. STOP CONDITIONS
+======================================================================
+
+STOP immediately and report before continuing if:
+
+A. a CURRENT real credential cannot safely be separated from source;
+
+B. sanitization would require changing application/business behavior;
+
+C. required active source cannot be confidently identified;
+
+D. the clean snapshot would require copying sensitive runtime data;
+
+E. clean-clone testing reveals a genuine application/security defect rather
+   than a repository/configuration problem;
+
+F. the new repository accidentally contains old Git history;
+
+G. preparing VPS deployment requires changing financial/payment behavior;
+
+H. a requested action would mutate the existing repository/history;
+
+I. a requested action would require contacting or modifying a real production
+   VPS;
+
+J. a requested action would require publishing source remotely.
+
+Do not work around these boundaries silently.
+
+
+======================================================================
+42. NEXT ACTION — DO NOT EXECUTE
+======================================================================
+
+If and only if the final verdict establishes that the repository is safe for
+private publication, recommend a separate owner-approved campaign:
+
+PHASE A
+Create a NEW PRIVATE GitHub repository in the owner's intended GitHub account.
+
+PHASE B
+Add that new repository as the remote of ONLY the sanitized fresh-history local
+repository.
+
+PHASE C
+Verify remote destination and privacy before push.
+
+PHASE D
+Push the sanitized main branch.
+
+PHASE E
+Verify GitHub content and secret exposure.
+
+PHASE F
+Provision/configure a fresh VPS according to the reviewed deployment design.
+
+PHASE G
+Clone the PRIVATE GitHub repository onto the VPS.
+
+PHASE H
+Configure production secrets OUTSIDE Git.
+
+PHASE I
+Build/deploy Backend, Web and Admin.
+
+PHASE J
+Configure database, persistent storage, process supervision, reverse proxy and
+HTTPS.
+
+PHASE K
+Configure Customer Mobile production API endpoint separately.
+
+PHASE L
+Run bounded deployment acceptance.
+
+Do NOT execute any of those phases in this campaign.
+
+
+======================================================================
+43. HARD STOP
+======================================================================
+
+STOP after:
+
+- preparing the sanitized local repository;
+- proving as much clean-clone reproducibility as safely possible;
+- preparing VPS deployment documentation;
+- performing the clean snapshot/history secret scan;
+- initializing the NEW local Git repository;
+- creating the first LOCAL clean commit;
+- producing the final report.
+
+DO NOT:
+
+- create a GitHub repository;
+- add a GitHub remote;
+- push;
+- publish;
+- contact a VPS;
+- deploy;
+- modify DNS;
+- activate providers;
+- send real email;
+- execute financial operations.
+
+Return control to the owner for review and explicit authorization.

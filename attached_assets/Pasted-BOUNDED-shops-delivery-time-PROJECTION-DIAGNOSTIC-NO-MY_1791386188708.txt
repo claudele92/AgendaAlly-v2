@@ -1,0 +1,182 @@
+BOUNDED shops.delivery_time PROJECTION DIAGNOSTIC — NO MYSQL RETRY
+
+Accept the latest FAIL_FIRST_INSTALL exactly as recorded.
+
+The following completed stages are established and must NOT be rerun:
+
+- 229/229 unchanged native migrations;
+- all seven reference checkpoints;
+- trigger/native inspection;
+- runtime privilege handover;
+- validated ordered portable load;
+- synthetic Administrator creation;
+- bcrypt positive/negative checks;
+- corrected Blog/blog_translation insertion;
+- independent synthetic app/recovery authority checks.
+
+The first-install proof stopped only during final exact-count/integrity
+verification at:
+
+JSON projection mismatch: shops.delivery_time
+
+The failed receipt did not preserve the actual JSON value or Shop ID.
+
+This authorization is OFFLINE / READ-ONLY DIAGNOSTIC ONLY.
+
+Do NOT:
+
+- start or restart MySQL;
+- create another lab;
+- rerun migrations;
+- rerun #60;
+- modify the preserved failed lab;
+- modify application data;
+- modify the baseline/reference artifacts;
+- modify application source or migrations;
+- change JSON values merely to satisfy the assertion;
+- perform GitHub/VPS/deployment work.
+
+======================================================================
+1. TRACE shops.delivery_time END TO END
+======================================================================
+
+Using the frozen canonical baseline, native schema metadata, application
+source and private proof source, determine:
+
+- every approved Shop row containing delivery_time;
+- exact frozen delivery_time value for each Shop;
+- exact JSON type/shape for each value;
+- native shops.delivery_time column definition;
+- default and nullability;
+- any Laravel cast/accessor/mutator affecting delivery_time;
+- how the portable loader binds/inserts the value;
+- how the final proof SELECT retrieves it;
+- how the proof decodes it;
+- what PHP value/type the strict === comparison expects.
+
+Do not infer an actual persisted value that was not captured.
+
+Clearly distinguish:
+
+A. values proven from the frozen input/source/schema; and
+B. the actual failed-lab persisted value, which is unknown unless existing
+   preserved evidence already contains it.
+
+Do NOT restart MySQL merely to recover B.
+
+======================================================================
+2. DETERMINE WHETHER THE ASSERTION ITSELF IS DETERMINISTICALLY WRONG
+======================================================================
+
+The failing proof currently performs:
+
+json_decode($actual[$key], true, 512, JSON_THROW_ON_ERROR) === $value
+
+Determine whether the expected frozen representation and the representation
+returned by MySQL/PDO can be semantically equivalent but fail PHP strict
+identity because of representation/type differences.
+
+Examples to inspect only if applicable include:
+
+- JSON object versus associative-array representation;
+- numeric JSON values versus numeric strings;
+- integer versus float;
+- ordering differences;
+- null versus omitted key;
+- nested representation differences.
+
+Do not introduce generic normalization unless the application's actual
+storage contract supports it.
+
+======================================================================
+3. CHECK THE ENTIRE EXISTING JSON-PROJECTION ASSERTION CLASS OFFLINE
+======================================================================
+
+Perform ONE bounded offline check over every field/table already verified by
+the SAME JSON-projection comparison mechanism used for shops.delivery_time.
+
+The purpose is to prevent another expensive full run from merely stopping at
+the next deterministic representation mismatch.
+
+Do NOT perform another general 73-table audit.
+
+For each field covered by this exact assertion mechanism, determine whether
+its frozen expected value can be compared correctly under the current proof
+logic given:
+
+- native column type;
+- frozen JSON representation;
+- PDO retrieval representation;
+- json_decode(..., true) behavior.
+
+Report all deterministic verifier incompatibilities together.
+
+Do not edit anything.
+
+======================================================================
+4. CLASSIFICATION
+======================================================================
+
+Return exactly one:
+
+PROJECTION_HARNESS_MISMATCH
+
+PERSISTED_DATA_MISMATCH
+
+PROJECTION_AUTHORITY_AMBIGUOUS
+
+INSUFFICIENT_PRESERVED_EVIDENCE
+
+Use PROJECTION_HARNESS_MISMATCH only if source/schema/type analysis proves
+the verifier comparison itself is incorrect without needing to assume the
+failed database contents.
+
+Use PERSISTED_DATA_MISMATCH only if existing preserved evidence actually
+proves incorrect persisted data.
+
+Use PROJECTION_AUTHORITY_AMBIGUOUS if competing representations have
+different legitimate semantics and application authority does not resolve
+them.
+
+Use INSUFFICIENT_PRESERVED_EVIDENCE if the actual failed-lab value would be
+required to distinguish the cases and that value was not preserved.
+
+======================================================================
+5. IF HARNESS DEFECT IS PROVEN
+======================================================================
+
+If PROJECTION_HARNESS_MISMATCH:
+
+- identify the exact affected field(s);
+- show expected representation/type;
+- show why current strict comparison is invalid;
+- identify the authoritative semantic comparison;
+- propose the smallest proof-only correction;
+- prove it would not weaken detection of genuinely different JSON values;
+- identify every field affected by the same correction;
+- do NOT implement it yet.
+
+======================================================================
+6. PRESERVATION
+
+Keep unchanged:
+
+Canonical baseline:
+f340ed13b0c6b14faf889de76f76fb07ac863146f73f5a4c35de1b887b7c7803
+
+Canonical reference:
+d18e58d07995242f0208d9d96ab85a750e3f5b5297396fc94b9956b446d5e238
+
+229 migrations:
+37954929be028d7e487a7720f2108d3f300b2862af85f46b724b3c9f63d3f896
+
+Executable application source:
+e90ec7c6cef4fddcca26ea2ea3f446c5e85e4a04b549e99d12080922fe06b2ce
+
+Service provenance:
+fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+Canonical Service package:
+8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e
+
+No MySQL execution is authorized by this diagnostic.

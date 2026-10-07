@@ -1,0 +1,698 @@
+{
+  "attachments": [
+    {
+      "id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+      "workflow_id": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "created_by": 3,
+      "path": "manual-finance/24ba0e11-4918-4ca5-93aa-97ac1d320f9a.png",
+      "mime": "image/png",
+      "bytes": 658,
+      "sha256": "33e79b8e63286ab2bc40a0a3ff81006ddfa6e30752e1991c7ad70178880cf0fd",
+      "created_at": "2026-10-06 17:52:36",
+      "retained_sha256": "33e79b8e63286ab2bc40a0a3ff81006ddfa6e30752e1991c7ad70178880cf0fd",
+      "retained_bytes": 658
+    },
+    {
+      "id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "workflow_id": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "created_by": 3,
+      "path": "manual-finance/255194b8-c401-4057-a0d4-9cb33cdb21fa.pdf",
+      "mime": "application/pdf",
+      "bytes": 614,
+      "sha256": "881d58fc6d63352596ab5be572479afb0b334ed6a6e9315c3294dfb44a026af4",
+      "created_at": "2026-10-06 17:52:28",
+      "retained_sha256": "881d58fc6d63352596ab5be572479afb0b334ed6a6e9315c3294dfb44a026af4",
+      "retained_bytes": 614
+    },
+    {
+      "id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+      "workflow_id": "60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+      "created_by": 3,
+      "path": "manual-finance/93dd97f8-419c-4da6-88f1-8df83ab2afd1.jpg",
+      "mime": "image/jpeg",
+      "bytes": 4316,
+      "sha256": "52a409062aadd6b2d308e8e7b32e8ae7aa24228ed4b1a3d2d597201cf936081e",
+      "created_at": "2026-10-06 17:52:57",
+      "retained_sha256": "52a409062aadd6b2d308e8e7b32e8ae7aa24228ed4b1a3d2d597201cf936081e",
+      "retained_bytes": 4316
+    }
+  ],
+  "evidence": [],
+  "access": [
+    {
+      "id": "f2715c8e-33e8-4286-8ec4-0d66752e7b5a",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "actor_id": 3,
+      "action": "link",
+      "created_at": "2026-10-06 17:53:58"
+    },
+    {
+      "id": "2933fff9-69b2-4909-b3b7-4401875b034d",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "actor_id": 3,
+      "action": "link",
+      "created_at": "2026-10-06 17:56:07"
+    },
+    {
+      "id": "b024a880-1e19-41da-b232-13c6752c1c81",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "actor_id": 3,
+      "action": "link",
+      "created_at": "2026-10-06 17:57:21"
+    },
+    {
+      "id": "c02a1567-7e38-4ea3-b776-737536b28d93",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "actor_id": 3,
+      "action": "download",
+      "created_at": "2026-10-06 17:57:21"
+    },
+    {
+      "id": "17f47850-9a8f-4952-bf41-7bae96d5c04e",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "actor_id": 3,
+      "action": "download",
+      "created_at": "2026-10-06 17:58:52"
+    },
+    {
+      "id": "b12a8996-869c-48ca-975f-5857aec98ed0",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "actor_id": 3,
+      "action": "link",
+      "created_at": "2026-10-06 17:58:52"
+    },
+    {
+      "id": "26cce5d0-b3b7-4930-b5be-462fea610834",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "actor_id": 3,
+      "action": "download",
+      "created_at": "2026-10-06 18:01:05"
+    },
+    {
+      "id": "34741f08-dd96-48cf-b0e5-71163282d54c",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "actor_id": 3,
+      "action": "link",
+      "created_at": "2026-10-06 18:01:05"
+    },
+    {
+      "id": "9f9b690e-1ec2-4daf-8d96-534a39356110",
+      "attachment_id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+      "actor_id": 3,
+      "action": "download",
+      "created_at": "2026-10-06 18:01:35"
+    },
+    {
+      "id": "bba32b6f-6371-4248-b029-9852a6fbe414",
+      "attachment_id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+      "actor_id": 3,
+      "action": "link",
+      "created_at": "2026-10-06 18:01:35"
+    },
+    {
+      "id": "84927d3e-107f-408f-bafa-ddf9ba8ad494",
+      "attachment_id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+      "actor_id": 3,
+      "action": "download",
+      "created_at": "2026-10-06 18:02:02"
+    },
+    {
+      "id": "aebf5c25-33c2-483e-af6b-30681295882f",
+      "attachment_id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+      "actor_id": 3,
+      "action": "link",
+      "created_at": "2026-10-06 18:02:02"
+    }
+  ],
+  "effects": {
+    "commerce_payment_allocations": [
+      {
+        "id": 1,
+        "checkout_key": "b9a11a89-b051-43b8-8a5e-73e8074b6613",
+        "origin_type": "booking",
+        "origin_id": 1,
+        "shop_id": 1,
+        "vendor_user_id": 1,
+        "payer_user_id": 2,
+        "local_client_id": null,
+        "country_id": 1,
+        "currency_id": 1,
+        "currency_code": "USD",
+        "money_scale": 2,
+        "purpose": "base",
+        "obligation_key": "base",
+        "payable_type": "booking",
+        "payable_id": 1,
+        "gross_amount": 10000,
+        "commission_amount": 1000,
+        "vendor_entitlement_amount": 9000,
+        "adjustment_amount": 0,
+        "native_components": "{\"authority\":\"isolated_native_fixture\",\"service_fee_units\":\"1000\"}",
+        "policy_key": "platform_held_first_commission",
+        "state": "funded",
+        "version": 15,
+        "committed_at": "2026-10-06 17:44:12",
+        "finalized_at": "2026-10-06 17:44:12",
+        "created_at": "2026-10-06 17:44:12",
+        "updated_at": "2026-10-06 17:44:12",
+        "original_platform_amount": 10000,
+        "original_vendor_direct_amount": 0,
+        "original_commission_satisfied": 1000,
+        "original_commission_receivable": 0,
+        "original_platform_adjustment": 0,
+        "original_vendor_adjustment": 0,
+        "original_vendor_payable": 9000
+      },
+      {
+        "id": 2,
+        "checkout_key": "91eec962-b4f4-42b9-8137-875f53c1d690",
+        "origin_type": "booking",
+        "origin_id": 2,
+        "shop_id": 1,
+        "vendor_user_id": 1,
+        "payer_user_id": 2,
+        "local_client_id": null,
+        "country_id": 1,
+        "currency_id": 1,
+        "currency_code": "USD",
+        "money_scale": 2,
+        "purpose": "base",
+        "obligation_key": "base",
+        "payable_type": "booking",
+        "payable_id": 2,
+        "gross_amount": 10000,
+        "commission_amount": 1000,
+        "vendor_entitlement_amount": 9000,
+        "adjustment_amount": 0,
+        "native_components": "{\"authority\":\"isolated_native_fixture\",\"service_fee_units\":\"1000\"}",
+        "policy_key": "platform_held_first_commission",
+        "state": "funded",
+        "version": 15,
+        "committed_at": "2026-10-06 17:44:12",
+        "finalized_at": "2026-10-06 17:44:12",
+        "created_at": "2026-10-06 17:44:12",
+        "updated_at": "2026-10-06 17:44:12",
+        "original_platform_amount": 10000,
+        "original_vendor_direct_amount": 0,
+        "original_commission_satisfied": 1000,
+        "original_commission_receivable": 0,
+        "original_platform_adjustment": 0,
+        "original_vendor_adjustment": 0,
+        "original_vendor_payable": 9000
+      }
+    ],
+    "manual_financial_attachments": [
+      {
+        "id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+        "workflow_id": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+        "created_by": 3,
+        "path": "manual-finance/24ba0e11-4918-4ca5-93aa-97ac1d320f9a.png",
+        "mime": "image/png",
+        "bytes": 658,
+        "sha256": "33e79b8e63286ab2bc40a0a3ff81006ddfa6e30752e1991c7ad70178880cf0fd",
+        "created_at": "2026-10-06 17:52:36"
+      },
+      {
+        "id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+        "workflow_id": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+        "created_by": 3,
+        "path": "manual-finance/255194b8-c401-4057-a0d4-9cb33cdb21fa.pdf",
+        "mime": "application/pdf",
+        "bytes": 614,
+        "sha256": "881d58fc6d63352596ab5be572479afb0b334ed6a6e9315c3294dfb44a026af4",
+        "created_at": "2026-10-06 17:52:28"
+      },
+      {
+        "id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+        "workflow_id": "60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+        "created_by": 3,
+        "path": "manual-finance/93dd97f8-419c-4da6-88f1-8df83ab2afd1.jpg",
+        "mime": "image/jpeg",
+        "bytes": 4316,
+        "sha256": "52a409062aadd6b2d308e8e7b32e8ae7aa24228ed4b1a3d2d597201cf936081e",
+        "created_at": "2026-10-06 17:52:57"
+      }
+    ],
+    "manual_financial_commands": [
+      {
+        "id": "74c6c9df-7a68-4eb3-9c48-fdc53cdfecb7",
+        "actor_id": 2,
+        "command_key": "433498b2-0d49-4d13-ad64-3577463265c9",
+        "action": "request",
+        "scope": "refund:1",
+        "payload_digest": "7c00e1871451cf4b7d17ca39386e1b1c26a72d1dd92596b0c9a6f72269558ec6",
+        "result": "{\"actions\":[\"cancel\"],\"allocation_id\":1,\"amount_units\":\"10000\",\"approved_at\":null,\"beneficiary_id\":2,\"claim_actor_id\":null,\"claimed_at\":null,\"completed_at\":null,\"currency_code\":\"USD\",\"destination_mask\":\"****1234\",\"executed_at\":null,\"external_reference\":null,\"id\":\"6713761d-5795-4456-98f1-52c4f3ee25e1\",\"institution\":\"synthetic_bank\",\"kind\":\"refund\",\"method\":\"bank_transfer\",\"money_scale\":2,\"operation_id\":\"8ed47c7b-93aa-4302-87d2-d969032224be\",\"requested_at\":\"2026-10-06 17:44:12\",\"requester_id\":2,\"shop_id\":1,\"state\":\"REQUESTED\",\"version\":0}",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "79ff373b-4657-41bc-8f9d-a36d42fb3d9c",
+        "actor_id": 3,
+        "command_key": "ebe89a1d-3a70-42f4-b421-7db751a6813f",
+        "action": "claim",
+        "scope": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+        "payload_digest": "59942b29c794845590a68dd4b5ca7065eb523fb3f14b62d2f86fae91f0f8062c",
+        "result": "{\"actions\":[\"complete\",\"review\",\"evidence-view\",\"upload-evidence\"],\"allocation_id\":1,\"amount_units\":\"10000\",\"approved_at\":\"2026-10-06 17:44:12\",\"beneficiary_id\":2,\"claim_actor_id\":3,\"claimed_at\":\"2026-10-06 17:44:12\",\"completed_at\":null,\"currency_code\":\"USD\",\"destination_mask\":\"****1234\",\"executed_at\":null,\"external_reference\":null,\"id\":\"6713761d-5795-4456-98f1-52c4f3ee25e1\",\"institution\":\"synthetic_bank\",\"kind\":\"refund\",\"method\":\"bank_transfer\",\"money_scale\":2,\"operation_id\":\"8ed47c7b-93aa-4302-87d2-d969032224be\",\"requested_at\":\"2026-10-06 17:44:12\",\"requester_id\":2,\"shop_id\":1,\"state\":\"APPROVED\",\"version\":2}",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "91dd884d-4b94-4262-9326-6b590ef8b779",
+        "actor_id": 3,
+        "command_key": "17fb3f0d-1842-40e2-bf78-5d39c0eb9ba7",
+        "action": "claim",
+        "scope": "60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+        "payload_digest": "35bc4275650e94eb7237aa9fa7c0f96ab73c01fb4f383b0d1917eaa5c6e4d016",
+        "result": "{\"actions\":[\"complete\",\"review\",\"evidence-view\",\"upload-evidence\"],\"allocation_id\":2,\"amount_units\":\"9000\",\"approved_at\":\"2026-10-06 17:44:12\",\"beneficiary_id\":1,\"claim_actor_id\":3,\"claimed_at\":\"2026-10-06 17:44:12\",\"completed_at\":null,\"currency_code\":\"USD\",\"destination_mask\":\"****1234\",\"executed_at\":null,\"external_reference\":null,\"id\":\"60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d\",\"institution\":\"synthetic_bank\",\"kind\":\"payout\",\"method\":\"bank_transfer\",\"money_scale\":2,\"operation_id\":\"714ea4d2-c944-4b42-a871-c5562f310a7a\",\"requested_at\":\"2026-10-06 17:44:12\",\"requester_id\":1,\"shop_id\":1,\"state\":\"APPROVED\",\"version\":2}",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "a58c532d-de07-46d5-a64e-36bc8adddc92",
+        "actor_id": 3,
+        "command_key": "1716b852-d6ec-4f37-9d58-d04b89a9c6c2",
+        "action": "approve",
+        "scope": "60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+        "payload_digest": "a81862647715947662e86df25d55552c9f109c8148bcdb17752be8f18605f1e5",
+        "result": "{\"actions\":[\"cancel\",\"claim\",\"evidence-view\",\"upload-evidence\"],\"allocation_id\":2,\"amount_units\":\"9000\",\"approved_at\":\"2026-10-06 17:44:12\",\"beneficiary_id\":1,\"claim_actor_id\":null,\"claimed_at\":null,\"completed_at\":null,\"currency_code\":\"USD\",\"destination_mask\":\"****1234\",\"executed_at\":null,\"external_reference\":null,\"id\":\"60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d\",\"institution\":\"synthetic_bank\",\"kind\":\"payout\",\"method\":\"bank_transfer\",\"money_scale\":2,\"operation_id\":\"714ea4d2-c944-4b42-a871-c5562f310a7a\",\"requested_at\":\"2026-10-06 17:44:12\",\"requester_id\":1,\"shop_id\":1,\"state\":\"APPROVED\",\"version\":1}",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "dc6b51fe-aa0a-4cd2-9940-4eb487b4adbc",
+        "actor_id": 3,
+        "command_key": "1de3a77e-2265-4752-8c65-758242290020",
+        "action": "approve",
+        "scope": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+        "payload_digest": "7368256c5dcd1dde117573209904f844cb6ac571e28bea397f82fb4597b8c138",
+        "result": "{\"actions\":[\"cancel\",\"claim\",\"evidence-view\",\"upload-evidence\"],\"allocation_id\":1,\"amount_units\":\"10000\",\"approved_at\":\"2026-10-06 17:44:12\",\"beneficiary_id\":2,\"claim_actor_id\":null,\"claimed_at\":null,\"completed_at\":null,\"currency_code\":\"USD\",\"destination_mask\":\"****1234\",\"executed_at\":null,\"external_reference\":null,\"id\":\"6713761d-5795-4456-98f1-52c4f3ee25e1\",\"institution\":\"synthetic_bank\",\"kind\":\"refund\",\"method\":\"bank_transfer\",\"money_scale\":2,\"operation_id\":\"8ed47c7b-93aa-4302-87d2-d969032224be\",\"requested_at\":\"2026-10-06 17:44:12\",\"requester_id\":2,\"shop_id\":1,\"state\":\"APPROVED\",\"version\":1}",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "dead8090-8781-4633-bd17-6870cdd1853c",
+        "actor_id": 1,
+        "command_key": "b005525a-c585-4707-8b59-484dd3f97455",
+        "action": "request",
+        "scope": "payout:2",
+        "payload_digest": "571797ef531da81d06ffa6031c8c825d401f728a016604f66f828356b0136afb",
+        "result": "{\"actions\":[\"cancel\"],\"allocation_id\":2,\"amount_units\":\"9000\",\"approved_at\":null,\"beneficiary_id\":1,\"claim_actor_id\":null,\"claimed_at\":null,\"completed_at\":null,\"currency_code\":\"USD\",\"destination_mask\":\"****1234\",\"executed_at\":null,\"external_reference\":null,\"id\":\"60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d\",\"institution\":\"synthetic_bank\",\"kind\":\"payout\",\"method\":\"bank_transfer\",\"money_scale\":2,\"operation_id\":\"714ea4d2-c944-4b42-a871-c5562f310a7a\",\"requested_at\":\"2026-10-06 17:44:12\",\"requester_id\":1,\"shop_id\":1,\"state\":\"REQUESTED\",\"version\":0}",
+        "created_at": "2026-10-06 17:44:12"
+      }
+    ],
+    "manual_financial_events": [
+      {
+        "id": "59be4a0a-3f2a-4b53-8b1e-a79b35cde575",
+        "workflow_id": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+        "command_id": "dc6b51fe-aa0a-4cd2-9940-4eb487b4adbc",
+        "version": 1,
+        "action": "approve",
+        "previous_state": "REQUESTED",
+        "new_state": "APPROVED",
+        "actor_id": 3,
+        "authority": "payments.refunds.approve",
+        "evidence": "{\"allocation_id\":1,\"amount_units\":\"10000\",\"currency\":\"USD\",\"operation_id\":\"8ed47c7b-93aa-4302-87d2-d969032224be\",\"reason\":\"Synthetic verified operator reason\",\"scale\":2,\"snapshot_digest\":\"93492109ca425a83b9362d0f00d299d966646fa6d8053d6d8f5fe7cb4e9fbce8\"}",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "5effa2b7-35b3-476a-903d-20020a9e954f",
+        "workflow_id": "60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+        "command_id": "dead8090-8781-4633-bd17-6870cdd1853c",
+        "version": 0,
+        "action": "request",
+        "previous_state": null,
+        "new_state": "REQUESTED",
+        "actor_id": 1,
+        "authority": "original_source_request",
+        "evidence": "{\"allocation_id\":2,\"amount_units\":\"9000\",\"currency\":\"USD\",\"operation_id\":\"714ea4d2-c944-4b42-a871-c5562f310a7a\",\"scale\":2,\"snapshot_digest\":\"0a0e240eca2adb68f6ee63cd1b7be47b316faa99b55f26706206b5f5f483bd87\"}",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "6d2bff43-bd6e-404a-932a-feb94a679bbc",
+        "workflow_id": "60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+        "command_id": "91dd884d-4b94-4262-9326-6b590ef8b779",
+        "version": 2,
+        "action": "claim",
+        "previous_state": "APPROVED",
+        "new_state": "APPROVED",
+        "actor_id": 3,
+        "authority": "payments.payouts.claim",
+        "evidence": "{\"allocation_id\":2,\"amount_units\":\"9000\",\"attempt\":1,\"claim_id\":\"7c4c486b-b2fb-4d24-87f8-4fee5673e171\",\"claimed_by\":3,\"currency\":\"USD\",\"operation_id\":\"714ea4d2-c944-4b42-a871-c5562f310a7a\",\"reason\":\"Synthetic verified operator reason\",\"scale\":2,\"snapshot_digest\":\"0a0e240eca2adb68f6ee63cd1b7be47b316faa99b55f26706206b5f5f483bd87\"}",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "906f738d-d58c-4a3e-91d6-daa7a0e9bf24",
+        "workflow_id": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+        "command_id": "79ff373b-4657-41bc-8f9d-a36d42fb3d9c",
+        "version": 2,
+        "action": "claim",
+        "previous_state": "APPROVED",
+        "new_state": "APPROVED",
+        "actor_id": 3,
+        "authority": "payments.refunds.claim",
+        "evidence": "{\"allocation_id\":1,\"amount_units\":\"10000\",\"attempt\":1,\"claim_id\":\"73c5283d-74e5-4ecc-841b-26e1ceab690a\",\"claimed_by\":3,\"currency\":\"USD\",\"operation_id\":\"8ed47c7b-93aa-4302-87d2-d969032224be\",\"reason\":\"Synthetic verified operator reason\",\"scale\":2,\"snapshot_digest\":\"93492109ca425a83b9362d0f00d299d966646fa6d8053d6d8f5fe7cb4e9fbce8\"}",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "aee96bd6-8120-4e02-8ce5-b513098d2b0f",
+        "workflow_id": "60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+        "command_id": "a58c532d-de07-46d5-a64e-36bc8adddc92",
+        "version": 1,
+        "action": "approve",
+        "previous_state": "REQUESTED",
+        "new_state": "APPROVED",
+        "actor_id": 3,
+        "authority": "payments.payouts.approve",
+        "evidence": "{\"allocation_id\":2,\"amount_units\":\"9000\",\"currency\":\"USD\",\"operation_id\":\"714ea4d2-c944-4b42-a871-c5562f310a7a\",\"reason\":\"Synthetic verified operator reason\",\"scale\":2,\"snapshot_digest\":\"0a0e240eca2adb68f6ee63cd1b7be47b316faa99b55f26706206b5f5f483bd87\"}",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "c519c86b-013a-4a89-b634-985bc61d977a",
+        "workflow_id": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+        "command_id": "74c6c9df-7a68-4eb3-9c48-fdc53cdfecb7",
+        "version": 0,
+        "action": "request",
+        "previous_state": null,
+        "new_state": "REQUESTED",
+        "actor_id": 2,
+        "authority": "original_source_request",
+        "evidence": "{\"allocation_id\":1,\"amount_units\":\"10000\",\"currency\":\"USD\",\"operation_id\":\"8ed47c7b-93aa-4302-87d2-d969032224be\",\"scale\":2,\"snapshot_digest\":\"93492109ca425a83b9362d0f00d299d966646fa6d8053d6d8f5fe7cb4e9fbce8\"}",
+        "created_at": "2026-10-06 17:44:12"
+      }
+    ],
+    "manual_financial_evidence": [],
+    "manual_financial_evidence_access": [
+      {
+        "id": "17f47850-9a8f-4952-bf41-7bae96d5c04e",
+        "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+        "actor_id": 3,
+        "action": "download",
+        "created_at": "2026-10-06 17:58:52"
+      },
+      {
+        "id": "26cce5d0-b3b7-4930-b5be-462fea610834",
+        "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+        "actor_id": 3,
+        "action": "download",
+        "created_at": "2026-10-06 18:01:05"
+      },
+      {
+        "id": "2933fff9-69b2-4909-b3b7-4401875b034d",
+        "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+        "actor_id": 3,
+        "action": "link",
+        "created_at": "2026-10-06 17:56:07"
+      },
+      {
+        "id": "34741f08-dd96-48cf-b0e5-71163282d54c",
+        "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+        "actor_id": 3,
+        "action": "link",
+        "created_at": "2026-10-06 18:01:05"
+      },
+      {
+        "id": "84927d3e-107f-408f-bafa-ddf9ba8ad494",
+        "attachment_id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+        "actor_id": 3,
+        "action": "download",
+        "created_at": "2026-10-06 18:02:02"
+      },
+      {
+        "id": "9f9b690e-1ec2-4daf-8d96-534a39356110",
+        "attachment_id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+        "actor_id": 3,
+        "action": "download",
+        "created_at": "2026-10-06 18:01:35"
+      },
+      {
+        "id": "aebf5c25-33c2-483e-af6b-30681295882f",
+        "attachment_id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+        "actor_id": 3,
+        "action": "link",
+        "created_at": "2026-10-06 18:02:02"
+      },
+      {
+        "id": "b024a880-1e19-41da-b232-13c6752c1c81",
+        "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+        "actor_id": 3,
+        "action": "link",
+        "created_at": "2026-10-06 17:57:21"
+      },
+      {
+        "id": "b12a8996-869c-48ca-975f-5857aec98ed0",
+        "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+        "actor_id": 3,
+        "action": "link",
+        "created_at": "2026-10-06 17:58:52"
+      },
+      {
+        "id": "bba32b6f-6371-4248-b029-9852a6fbe414",
+        "attachment_id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+        "actor_id": 3,
+        "action": "link",
+        "created_at": "2026-10-06 18:01:35"
+      },
+      {
+        "id": "c02a1567-7e38-4ea3-b776-737536b28d93",
+        "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+        "actor_id": 3,
+        "action": "download",
+        "created_at": "2026-10-06 17:57:21"
+      },
+      {
+        "id": "f2715c8e-33e8-4286-8ec4-0d66752e7b5a",
+        "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+        "actor_id": 3,
+        "action": "link",
+        "created_at": "2026-10-06 17:53:58"
+      }
+    ],
+    "manual_financial_notifications": [
+      {
+        "id": "26b7c5a7-aced-4c0b-acf9-ef0f049a09ff",
+        "event_id": "aee96bd6-8120-4e02-8ce5-b513098d2b0f",
+        "recipient_id": 1,
+        "template_type": "payout_approved",
+        "state": "LIBRARY_ONLY",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "c9486336-3574-4621-8efd-0b05024e1ae1",
+        "event_id": "c519c86b-013a-4a89-b634-985bc61d977a",
+        "recipient_id": 2,
+        "template_type": "refund_requested",
+        "state": "LIBRARY_ONLY",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "eda9e847-4bdd-4765-a9d0-92431f1b1311",
+        "event_id": "59be4a0a-3f2a-4b53-8b1e-a79b35cde575",
+        "recipient_id": 2,
+        "template_type": "refund_approved",
+        "state": "LIBRARY_ONLY",
+        "created_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "ff94e301-d4d5-4eb6-960a-143c24f2c23c",
+        "event_id": "5effa2b7-35b3-476a-903d-20020a9e954f",
+        "recipient_id": 1,
+        "template_type": "payout_requested",
+        "state": "LIBRARY_ONLY",
+        "created_at": "2026-10-06 17:44:12"
+      }
+    ],
+    "manual_financial_workflows": [
+      {
+        "id": "60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+        "operation_id": "714ea4d2-c944-4b42-a871-c5562f310a7a",
+        "allocation_id": 2,
+        "requester_id": 1,
+        "beneficiary_id": 1,
+        "shop_id": 1,
+        "country_id": 1,
+        "kind": "payout",
+        "amount_units": 9000,
+        "currency_code": "USD",
+        "money_scale": 2,
+        "state": "APPROVED",
+        "version": 2,
+        "method": "bank_transfer",
+        "institution": "synthetic_bank",
+        "destination_mask": "****1234",
+        "destination_fingerprint": "6bf16d29656ade6259dcf6af91f3da09584b9888033737906d8cd070aeb822f6",
+        "execution_scope": "platform",
+        "policy_snapshot": "{\"authority\":\"verified_matured_platform_vendor_payable\"}",
+        "snapshot_digest": "0a0e240eca2adb68f6ee63cd1b7be47b316faa99b55f26706206b5f5f483bd87",
+        "requested_at": "2026-10-06 17:44:12",
+        "approved_at": "2026-10-06 17:44:12",
+        "approved_by": 3,
+        "completed_at": null,
+        "completed_by": null,
+        "claim_id": "7c4c486b-b2fb-4d24-87f8-4fee5673e171",
+        "claim_actor_id": 3,
+        "claimed_at": "2026-10-06 17:44:12",
+        "attempt": 1
+      },
+      {
+        "id": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+        "operation_id": "8ed47c7b-93aa-4302-87d2-d969032224be",
+        "allocation_id": 1,
+        "requester_id": 2,
+        "beneficiary_id": 2,
+        "shop_id": 1,
+        "country_id": 1,
+        "kind": "refund",
+        "amount_units": 10000,
+        "currency_code": "USD",
+        "money_scale": 2,
+        "state": "APPROVED",
+        "version": 2,
+        "method": "bank_transfer",
+        "institution": "synthetic_bank",
+        "destination_mask": "****1234",
+        "destination_fingerprint": "a6c3875b3cfb489124ee0537166a279f3e207f944e7bb2f06e753b8982e0015f",
+        "execution_scope": "platform",
+        "policy_snapshot": "{\"authority\":\"native_refund_policy\",\"evaluated_at\":\"2026-10-06T17:44:12+00:00\",\"fee_basis_points\":0,\"source_id\":1,\"source_type\":\"booking\",\"window_hours\":\"24\"}",
+        "snapshot_digest": "93492109ca425a83b9362d0f00d299d966646fa6d8053d6d8f5fe7cb4e9fbce8",
+        "requested_at": "2026-10-06 17:44:12",
+        "approved_at": "2026-10-06 17:44:12",
+        "approved_by": 3,
+        "completed_at": null,
+        "completed_by": null,
+        "claim_id": "73c5283d-74e5-4ecc-841b-26e1ceab690a",
+        "claim_actor_id": 3,
+        "claimed_at": "2026-10-06 17:44:12",
+        "attempt": 1
+      }
+    ],
+    "payment_financial_operations": [
+      {
+        "id": "714ea4d2-c944-4b42-a871-c5562f310a7a",
+        "kind": "payout",
+        "allocation_id": 2,
+        "context_id": null,
+        "revision_id": null,
+        "actor_id": 1,
+        "request_key": "b005525a-c585-4707-8b59-484dd3f97455",
+        "amount_units": 9000,
+        "provider": null,
+        "original_payment_id": null,
+        "state": "UNKNOWN",
+        "version": 1,
+        "claimed_at": "2026-10-06 17:44:12",
+        "external_reference": null,
+        "completed_at": null,
+        "created_at": "2026-10-06 17:44:12",
+        "updated_at": "2026-10-06 17:44:12"
+      },
+      {
+        "id": "8ed47c7b-93aa-4302-87d2-d969032224be",
+        "kind": "refund",
+        "allocation_id": 1,
+        "context_id": 1,
+        "revision_id": "65d792da-efc2-4fb1-aedf-89835e7bef34",
+        "actor_id": 2,
+        "request_key": "433498b2-0d49-4d13-ad64-3577463265c9",
+        "amount_units": 10000,
+        "provider": "paystack",
+        "original_payment_id": "original-payment",
+        "state": "UNKNOWN",
+        "version": 1,
+        "claimed_at": "2026-10-06 17:44:12",
+        "external_reference": null,
+        "completed_at": null,
+        "created_at": "2026-10-06 17:44:12",
+        "updated_at": "2026-10-06 17:44:12"
+      }
+    ],
+    "platform_fee_ledger_entries": [
+      {
+        "id": 1,
+        "payable_type": "App\\Models\\Booking",
+        "payable_id": 1,
+        "shop_id": 1,
+        "transaction_id": null,
+        "payment_id": null,
+        "currency_id": 1,
+        "amount": 10,
+        "status": "pending",
+        "collected_at": null,
+        "note": null,
+        "created_at": "2026-10-06 17:44:12",
+        "updated_at": "2026-10-06 17:44:12",
+        "entry_type": "fee",
+        "allocation_id": 1,
+        "collection_context_id": null,
+        "effect_key": "base:commission",
+        "event_group_key": null,
+        "effect_kind": "base_commission",
+        "exact_amount": 1000,
+        "effect_data": "{\"policy\":\"platform_held_first_commission\"}"
+      },
+      {
+        "id": 2,
+        "payable_type": "App\\Models\\Booking",
+        "payable_id": 1,
+        "shop_id": 1,
+        "transaction_id": null,
+        "payment_id": null,
+        "currency_id": 1,
+        "amount": 90,
+        "status": "pending",
+        "collected_at": null,
+        "note": null,
+        "created_at": "2026-10-06 17:44:12",
+        "updated_at": "2026-10-06 17:44:12",
+        "entry_type": "payable",
+        "allocation_id": 1,
+        "collection_context_id": null,
+        "effect_key": "base:payable",
+        "event_group_key": null,
+        "effect_kind": "base_payable",
+        "exact_amount": 9000,
+        "effect_data": "{\"policy\":\"platform_held_first_commission\"}"
+      },
+      {
+        "id": 3,
+        "payable_type": "App\\Models\\Booking",
+        "payable_id": 2,
+        "shop_id": 1,
+        "transaction_id": null,
+        "payment_id": null,
+        "currency_id": 1,
+        "amount": 10,
+        "status": "pending",
+        "collected_at": null,
+        "note": null,
+        "created_at": "2026-10-06 17:44:12",
+        "updated_at": "2026-10-06 17:44:12",
+        "entry_type": "fee",
+        "allocation_id": 2,
+        "collection_context_id": null,
+        "effect_key": "base:commission",
+        "event_group_key": null,
+        "effect_kind": "base_commission",
+        "exact_amount": 1000,
+        "effect_data": "{\"policy\":\"platform_held_first_commission\"}"
+      },
+      {
+        "id": 4,
+        "payable_type": "App\\Models\\Booking",
+        "payable_id": 2,
+        "shop_id": 1,
+        "transaction_id": null,
+        "payment_id": null,
+        "currency_id": 1,
+        "amount": 90,
+        "status": "pending",
+        "collected_at": null,
+        "note": null,
+        "created_at": "2026-10-06 17:44:12",
+        "updated_at": "2026-10-06 17:44:12",
+        "entry_type": "payable",
+        "allocation_id": 2,
+        "collection_context_id": null,
+        "effect_key": "base:payable",
+        "event_group_key": null,
+        "effect_kind": "base_payable",
+        "exact_amount": 9000,
+        "effect_data": "{\"policy\":\"platform_held_first_commission\"}"
+      }
+    ]
+  }
+}

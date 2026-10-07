@@ -1,0 +1,32 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.env.testing
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/.idea
+/.vscode
+
+# Project exclude paths
+/storage/app/
+/storage/debugbar/
+/storage/framework/cache/*
+!/storage/framework/cache/.gitkeep
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitkeep
+/storage/framework/testing/*
+/storage/framework/views/*
+!/storage/framework/views/.gitkeep
+
+#branch exclude path
+.github/workflows/main.yml
+rr
+.rr.yaml

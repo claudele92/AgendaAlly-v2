@@ -1,0 +1,87 @@
+{
+  "provenance": "Main-agent unauthenticated direct-path HTTP probes, not a substitute for role browser checks",
+  "note": "A Vite SPA fallback may return HTTP 200 HTML for an absent storage path; status alone is not proof of receipt exposure.",
+  "checks": [
+    {
+      "surface": "native-storage",
+      "attachment_id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+      "mime": "image/png",
+      "status": 404,
+      "response_content_type": "application/json",
+      "response_sha256": "751a59ba9c42dca8aa58b58d71f49fd5acff9c2620c79c888b7ac2fbb888e4bb",
+      "receipt_bytes_exposed": false
+    },
+    {
+      "surface": "vite-storage-fallback",
+      "attachment_id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+      "mime": "image/png",
+      "status": 200,
+      "response_content_type": "text/html",
+      "response_sha256": "ce7f60a7f071a030c127c7f639612c0c3d3949bcc46c77125355c70b2739b590",
+      "receipt_bytes_exposed": false
+    },
+    {
+      "surface": "vite-sibling-filesystem",
+      "attachment_id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+      "mime": "image/png",
+      "status": 403,
+      "response_content_type": null,
+      "response_sha256": "862a53a4deac425d3f6dd7ab1153734204ae77f5dee4a9fceb6bc6dc3963bfed",
+      "receipt_bytes_exposed": false
+    },
+    {
+      "surface": "native-storage",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "mime": "application/pdf",
+      "status": 404,
+      "response_content_type": "application/json",
+      "response_sha256": "e00b58e8285b667f7895e318f3091a6b7caba95286d733399000be164e478723",
+      "receipt_bytes_exposed": false
+    },
+    {
+      "surface": "vite-storage-fallback",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "mime": "application/pdf",
+      "status": 200,
+      "response_content_type": "text/html",
+      "response_sha256": "ce7f60a7f071a030c127c7f639612c0c3d3949bcc46c77125355c70b2739b590",
+      "receipt_bytes_exposed": false
+    },
+    {
+      "surface": "vite-sibling-filesystem",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "mime": "application/pdf",
+      "status": 403,
+      "response_content_type": null,
+      "response_sha256": "00499c559e970997a17d07ded13dbb1f4c866eb9bd90d086dbf6103e91204cb1",
+      "receipt_bytes_exposed": false
+    },
+    {
+      "surface": "native-storage",
+      "attachment_id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+      "mime": "image/jpeg",
+      "status": 404,
+      "response_content_type": "application/json",
+      "response_sha256": "f135ed70564a4a5d77c90bdd6d0ae169f6387e2b98051688b49368197531b07d",
+      "receipt_bytes_exposed": false
+    },
+    {
+      "surface": "vite-storage-fallback",
+      "attachment_id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+      "mime": "image/jpeg",
+      "status": 200,
+      "response_content_type": "text/html",
+      "response_sha256": "ce7f60a7f071a030c127c7f639612c0c3d3949bcc46c77125355c70b2739b590",
+      "receipt_bytes_exposed": false
+    },
+    {
+      "surface": "vite-sibling-filesystem",
+      "attachment_id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+      "mime": "image/jpeg",
+      "status": 403,
+      "response_content_type": null,
+      "response_sha256": "9a502dcb8fd99372f5cc974f0e0616a43ba4b43ca3203d991a2bb50d6318ce15",
+      "receipt_bytes_exposed": false
+    }
+  ]
+}

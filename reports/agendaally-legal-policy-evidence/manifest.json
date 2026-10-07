@@ -1,0 +1,65 @@
+{
+  "files": [
+    {
+      "name": "admin-startup.log",
+      "bytes": 264,
+      "sha256": "d7e5ffeeb69bade0b64cf341b4e32f2accf1a605bbcc933b093f6f8967ccd04e"
+    },
+    {
+      "name": "customer-startup.log",
+      "bytes": 2464,
+      "sha256": "00be694275546a212eea6a8c9cc61ce9a723eab96ce2ed74b0b9887cff0cdaa0"
+    },
+    {
+      "name": "fresh-seed-validation.json",
+      "bytes": 1130,
+      "sha256": "06ac0b3e76a5676a5d1587a6199965eb1b2b0ade5cca7144b987687926198bd2"
+    },
+    {
+      "name": "preservation.json",
+      "bytes": 701,
+      "sha256": "09aa005f83706ccf338627922db060a6b0e962e78e1f3ee0a8cb459a83c82d11"
+    },
+    {
+      "name": "privacy-after.json",
+      "bytes": 7336,
+      "sha256": "2f8276f16bc87ddd5e76c476a82e0df68b7a65aee9a6459f1c555539d6557a59"
+    },
+    {
+      "name": "privacy-before.json",
+      "bytes": 5253,
+      "sha256": "e5a9a7f7e878e6bc1d83e5cedaa460f191270eb84bd7069e3b35633a26470490"
+    },
+    {
+      "name": "refund-after.json",
+      "bytes": 12054,
+      "sha256": "03348e780b835e3f94afadf9ee32a0efdf4e91916c4a23778e7ce29cbbf3da5b"
+    },
+    {
+      "name": "result.json",
+      "bytes": 5773,
+      "sha256": "d816106b7304ca6c042f8c85ebc97e913d6830024832f4d6a0c27251f1879eab"
+    },
+    {
+      "name": "result.txt",
+      "bytes": 2367,
+      "sha256": "83ce95189edc8c0f01a9a997d75b87ff9d53c9d156644f148eba6b199a5e0302"
+    },
+    {
+      "name": "static-checks.json",
+      "bytes": 498,
+      "sha256": "11b50a73d6a6cc0377ce795a86ddfc47c3b1c115bf5412d7de7fc8781e53b201"
+    },
+    {
+      "name": "terms-after.json",
+      "bytes": 10677,
+      "sha256": "cc959bbb4902f7acedd05a1cf5db6f89bf24d67487bdfa8daf0ff0cdd394fd10"
+    },
+    {
+      "name": "terms-before.json",
+      "bytes": 8307,
+      "sha256": "1ba1e42517d82ec029385621f39f5286a9490c6e7855cbf4df56d738c1b39ea8"
+    }
+  ],
+  "browserImages": "Observation IDs recorded in result.json; no exported image files"
+}

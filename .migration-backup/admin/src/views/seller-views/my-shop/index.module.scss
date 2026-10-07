@@ -1,0 +1,55 @@
+.myShop {
+  min-width: 0;
+  max-width: 100%;
+
+  :global(.ant-card-body),
+  :global(.ant-row) {
+    min-width: 0;
+  }
+
+  :global(.ant-col) {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  :global(.ant-descriptions),
+  :global(.ant-descriptions-view) {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  :global(.ant-descriptions-view > table) {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  :global(.ant-descriptions-item-container),
+  :global(.ant-descriptions-item-label),
+  :global(.ant-descriptions-item-content) {
+    min-width: 0;
+  }
+
+  :global(.ant-descriptions-item-label),
+  :global(.ant-descriptions-item-content) {
+    overflow-wrap: anywhere;
+  }
+
+  :global(.ant-descriptions-item-content img) {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .myShop :global(.ant-col-20) {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .myShop :global(.ant-descriptions-bordered .ant-descriptions-item-content),
+  .myShop :global(.ant-descriptions-bordered .ant-descriptions-item-label) {
+    padding: 8px 10px;
+  }
+}

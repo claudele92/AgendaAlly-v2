@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<body>
+    <p>You have been invited to work as a delivery driver for Synthetic Shop Synthetic Shop Synthetic Shop Synthetic Shop Synthetic Shop Synthetic Shop  on AgendaAlly.</p>
+    <p><a href="https://example.invalid/delivery-driver-invitation#token=synthetic-do-not-use">Review invitation</a></p>
+    <p>This invitation expires January 7, 2030 10:00 UTC. You will create or use your own AgendaAlly account and credentials.</p>
+</body>
+</html><script>
+addEventListener('load', async () => {
+  await Promise.all([...document.images].map(i => i.decode().catch(() => null)));
+  const d=document.documentElement;
+  console.info('EMAIL_AUDIT '+JSON.stringify({
+    fixture:"driver-invitation",viewport:d.clientWidth,documentWidth:d.scrollWidth,
+    horizontalOverflow:d.scrollWidth>d.clientWidth,
+    images:[...document.images].map(i=>({alt:i.alt,loaded:i.complete&&i.naturalWidth>0,
+      width:Math.round(i.getBoundingClientRect().width),height:Math.round(i.getBoundingClientRect().height)})),
+    imageSourcesLocalOnly:[...document.images].every(i=>i.src.startsWith('data:')),
+    bodyTextPresent:document.body.innerText.length>0
+  }));
+});
+</script>

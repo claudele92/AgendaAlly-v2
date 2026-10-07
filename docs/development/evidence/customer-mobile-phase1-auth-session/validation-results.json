@@ -1,0 +1,51 @@
+{
+  "toolchain": {
+    "flutter": "3.38.5",
+    "dart": "3.10.4",
+    "platform": "Linux/Nix, isolated SDK"
+  },
+  "checks": {
+    "lockedDependencyResolution": {
+      "exitCode": 0,
+      "status": "PASS"
+    },
+    "baselineAnalysis": {
+      "exitCode": 0,
+      "status": "PASS — no issues"
+    },
+    "finalAnalysis": {
+      "exitCode": 0,
+      "status": "PASS — no issues"
+    },
+    "focusedTests": {
+      "exitCode": 0,
+      "passed": 36,
+      "failed": 0
+    },
+    "androidDebug": {
+      "exitCode": 1,
+      "status": "BLOCKED-ENVIRONMENT"
+    },
+    "ios": {
+      "status": "NOT EXECUTED — no macOS/Xcode"
+    },
+    "preservation": {
+      "applicationBaselineFiles": 5816,
+      "authorizedMobileChanges": 32,
+      "unexpectedNonMobileChanges": 0,
+      "identicalDatabaseTables": 214,
+      "schemaIdentical": true
+    }
+  },
+  "acceptance": {
+    "phase1": "PARTIAL",
+    "p001": "CLOSED — application HTTP contract/logging",
+    "p002": "PARTIAL — native secure persistence/erasure unqualified",
+    "remainingP0": 1,
+    "remainingP1": 9,
+    "phase2CanBegin": "NO",
+    "activeMission": "NONE"
+  },
+  "nativeAcceptance": "No Android/iOS compilation, encryption, real provider/device or release-runtime acceptance claimed.",
+  "syntheticOnly": "No real emails/SMS, provider activation, backend requests or financial actions performed."
+}

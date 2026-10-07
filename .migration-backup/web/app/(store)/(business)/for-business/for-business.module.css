@@ -1,0 +1,541 @@
+.page {
+  --s2-ink: #26241f;
+  --s2-ink-soft: #46433d;
+  --s2-muted: #77746d;
+  --s2-line: #e8e3d9;
+  --s2-paper: #fbfaf7;
+  --s2-surface: #fffefa;
+  --s2-sand: #f2eee6;
+  --s2-bronze: #956a42;
+  --s2-bronze-deep: #715033;
+  --s2-bronze-pale: #f2e9dd;
+  --s2-olive: #66745a;
+  --s2-olive-pale: #edf0e9;
+  color: var(--s2-ink);
+  background: var(--s2-paper);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+:global(.dark) .page,
+:global([data-theme="dark"]) .page {
+  --s2-ink: #f2eee6;
+  --s2-ink-soft: #ddd6ca;
+  --s2-muted: #b7b0a5;
+  --s2-line: #514b42;
+  --s2-paper: #211f1b;
+  --s2-surface: #2c2924;
+  --s2-sand: #343029;
+  --s2-bronze: #c59a6b;
+  --s2-bronze-deep: #e0bb92;
+  --s2-bronze-pale: #42372c;
+  --s2-olive: #a7b595;
+  --s2-olive-pale: #343b30;
+}
+
+.container {
+  width: min(100% - 48px, 1220px);
+  margin-inline: auto;
+}
+
+.hero {
+  padding: 52px 0 58px;
+  background:
+    radial-gradient(ellipse at 89% 12%, rgb(149 106 66 / 11%), transparent 28%),
+    linear-gradient(130deg, var(--s2-paper), var(--s2-sand));
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+  align-items: center;
+  gap: 42px;
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.eyebrow {
+  color: var(--s2-bronze-deep);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.heroCopy h1,
+.sectionHeading h2,
+.downloadCopy h2 {
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+
+.heroCopy h1 {
+  max-width: 640px;
+  margin: 13px 0 18px;
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1.06;
+}
+
+.heroCopy > p {
+  max-width: 510px;
+  margin: 0;
+  color: var(--s2-muted);
+  font-size: 15px;
+}
+
+.heroActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 23px;
+}
+
+.primaryAction {
+  min-height: 46px;
+  padding-inline: 18px !important;
+  border-radius: 9px !important;
+  background: var(--s2-ink) !important;
+  color: var(--s2-paper) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  text-decoration: none;
+}
+
+.primaryAction:focus-visible,
+.secondaryAction:focus-visible,
+.textLink:focus-visible {
+  outline: 3px solid #bd956e;
+  outline-offset: 3px;
+}
+
+.secondaryAction {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--s2-line);
+  border-radius: 9px;
+  background: var(--s2-surface);
+  padding: 0 15px;
+  color: var(--s2-ink-soft);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.calendarCard {
+  overflow: hidden;
+  border: 1px solid var(--s2-line);
+  border-radius: 14px;
+  background: var(--s2-surface);
+  box-shadow: 0 20px 50px rgb(67 55 37 / 9%);
+  transform: rotate(1deg);
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px solid var(--s2-line);
+  padding: 15px 18px;
+}
+
+.calendarHeader h2 {
+  margin: 3px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.illustrativeTag {
+  flex: none;
+  border: 1px solid #d9c4aa;
+  border-radius: 999px;
+  background: var(--s2-bronze-pale);
+  padding: 5px 9px;
+  color: var(--s2-bronze-deep);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.calendarBody {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  padding: 13px 14px 16px;
+}
+
+.calendarTimes {
+  display: flex;
+  flex-direction: column;
+  color: var(--s2-muted);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.calendarTimes span {
+  height: 47px;
+  transform: translateY(-5px);
+}
+
+.calendarGrid {
+  position: relative;
+  min-height: 282px;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 45px,
+    var(--s2-line) 46px,
+    var(--s2-line) 47px
+  );
+}
+
+.calendarEvent {
+  position: absolute;
+  right: 8px;
+  left: 8px;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 3px solid var(--s2-olive);
+  border-radius: 0 6px 6px 0;
+  background: var(--s2-olive-pale);
+  padding: 7px 9px;
+  color: var(--s2-ink-soft);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.calendarEvent strong {
+  color: var(--s2-ink);
+  font-size: 11px;
+}
+
+.calendarEvent small {
+  color: var(--s2-muted);
+  font-size: 9px;
+}
+
+.eventOne {
+  top: 8px;
+  height: 65px;
+}
+
+.eventTwo {
+  top: 87px;
+  height: 73px;
+  border-color: #b8895a;
+  background: var(--s2-bronze-pale);
+}
+
+.disabledEvent {
+  top: 178px;
+  height: 60px;
+  border-color: #8d7460;
+  background: var(--s2-sand);
+}
+
+.calendarNote {
+  margin: 0;
+  border-top: 1px solid var(--s2-line);
+  padding: 10px 16px;
+  color: var(--s2-muted);
+  font-size: 10px;
+}
+
+.capabilitiesSection,
+.businessToolsSection,
+.downloadSection {
+  padding-top: 60px;
+}
+
+.sectionHeading {
+  max-width: 760px;
+  margin-bottom: 23px;
+}
+
+.sectionHeading h2,
+.downloadCopy h2 {
+  margin: 7px 0 9px;
+  font-size: clamp(25px, 3vw, 36px);
+  line-height: 1.14;
+}
+
+.sectionHeading p,
+.downloadCopy p {
+  max-width: 700px;
+  margin: 0;
+  color: var(--s2-muted);
+  font-size: 14px;
+}
+
+.capabilityGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.capabilityCard {
+  min-height: 178px;
+  border: 1px solid var(--s2-line);
+  border-radius: 12px;
+  background: var(--s2-surface);
+  padding: 19px;
+}
+
+.capabilityIcon,
+.marketplaceIcon,
+.branchIcon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  place-items: center;
+  border-radius: 11px;
+  background: var(--s2-bronze-pale);
+  color: var(--s2-bronze-deep);
+}
+
+.capabilityCard h3,
+.marketplaceCard h3 {
+  margin: 12px 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.capabilityCard p,
+.marketplaceCard p {
+  margin: 0;
+  color: var(--s2-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.marketplaceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.marketplaceCard {
+  position: relative;
+  display: flex;
+  min-height: 205px;
+  align-items: flex-start;
+  gap: 16px;
+  border: 1px solid var(--s2-line);
+  border-radius: 14px;
+  background: var(--s2-surface);
+  padding: 23px;
+}
+
+.marketplaceCard h3 {
+  margin-top: 1px;
+  font-size: 20px;
+}
+
+.productCard {
+  background: var(--s2-olive-pale);
+}
+
+.productCard .marketplaceIcon,
+.productCard .branchIcon {
+  background: var(--s2-surface);
+  color: var(--s2-olive);
+}
+
+.branchIcon {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.75;
+}
+
+.textLink {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 6px;
+  margin-top: 13px;
+  color: var(--s2-bronze-deep);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.textLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.marketplaceStatus {
+  max-width: 460px;
+  margin-top: 13px !important;
+  border-left: 2px solid var(--s2-bronze);
+  padding-left: 9px;
+}
+
+.categoriesSection {
+  margin-top: 60px;
+  padding: 48px 0 14px;
+  background: var(--s2-sand);
+  color: var(--s2-ink);
+}
+
+.page .categoriesSection {
+  min-height: 0;
+  background: var(--s2-sand);
+}
+
+.categoriesSection :global(.aa-s2-section) {
+  padding: 0;
+}
+
+.downloadSection {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  align-items: center;
+  gap: 32px;
+  padding-bottom: 24px;
+}
+
+.downloadLinks {
+  min-width: 0;
+  border-radius: 14px;
+  background: var(--s2-sand);
+  padding: 18px;
+}
+
+.downloadLinks > div > a {
+  border: 1px solid var(--s2-line);
+  color: var(--s2-ink);
+  text-decoration: none;
+}
+
+.downloadLinks > div > a:hover {
+  border-color: var(--s2-bronze);
+}
+
+@media (max-width: 900px) {
+  .container {
+    width: min(100% - 40px, 1220px);
+  }
+
+  .heroGrid {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 24px;
+  }
+
+  .capabilityGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+@media (max-width: 700px) {
+  .container {
+    width: min(100% - 38px, 1220px);
+  }
+
+  .hero {
+    padding: 31px 0 36px;
+  }
+
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .heroCopy h1 {
+    margin: 10px 0 13px;
+    font-size: 40px;
+  }
+
+  .heroCopy > p {
+    font-size: 14px;
+  }
+
+  .calendarCard {
+    transform: none;
+  }
+
+  .calendarBody {
+    grid-template-columns: 43px minmax(0, 1fr);
+    padding-inline: 10px;
+  }
+
+  .calendarEvent {
+    right: 4px;
+    left: 4px;
+    padding: 6px 7px;
+    font-size: 9px;
+  }
+
+  .calendarEvent strong {
+    font-size: 10px;
+  }
+
+  .calendarEvent small {
+    font-size: 8px;
+  }
+
+  .capabilitiesSection,
+  .businessToolsSection {
+    padding-top: 41px;
+  }
+
+  .sectionHeading {
+    margin-bottom: 18px;
+  }
+
+  .capabilityGrid {
+    gap: 9px;
+  }
+
+  .capabilityCard {
+    min-height: 174px;
+    padding: 14px;
+  }
+
+  .capabilityCard h3 {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+
+  .marketplaceGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .marketplaceCard {
+    min-height: 175px;
+    padding: 18px;
+  }
+
+  .categoriesSection {
+    margin-top: 40px;
+    padding: 35px 0 11px;
+  }
+
+  .downloadSection {
+    grid-template-columns: 1fr;
+    gap: 19px;
+    padding-top: 40px;
+  }
+
+  .downloadLinks {
+    padding: 13px;
+  }
+}

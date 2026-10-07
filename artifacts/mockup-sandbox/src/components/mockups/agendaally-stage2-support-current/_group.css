@@ -1,0 +1,207 @@
+@font-face {
+  font-family: "AgendaAlly Support Inter";
+  src: url("/__mockup/images/agendaally-stage2-support-current/inter-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+.agendaally-stage2-support-current {
+  --primary: #bb9b6a;
+  --primary-button-font-color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #222628;
+  background: #ffffff;
+  font-family: "AgendaAlly Support Inter", sans-serif;
+}
+
+.agendaally-stage2-support-current *,
+.agendaally-stage2-support-current *::before,
+.agendaally-stage2-support-current *::after {
+  box-sizing: border-box;
+}
+
+.agendaally-stage2-support-current a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.agendaally-stage2-support-current button,
+.agendaally-stage2-support-current input {
+  font: inherit;
+}
+
+.agendaally-stage2-support-current .xl\:container {
+  width: 100%;
+  margin-inline: auto;
+}
+
+@media (min-width: 1280px) {
+  .agendaally-stage2-support-current .xl\:container {
+    max-width: 1280px;
+  }
+}
+
+/* The extracted storefront's custom Tailwind tokens, scoped to this group. */
+.agendaally-stage2-support-current .rounded-button {
+  border-radius: 10px;
+}
+
+.agendaally-stage2-support-current .text-head {
+  font-size: 26px;
+}
+
+.agendaally-stage2-support-current .bg-dark {
+  background-color: #000000;
+}
+
+.agendaally-stage2-support-current .text-dark {
+  color: #000000;
+}
+
+.agendaally-stage2-support-current .border-dark {
+  border-color: #000000;
+}
+
+.agendaally-stage2-support-current .bg-primary {
+  background-color: var(--primary);
+}
+
+.agendaally-stage2-support-current .text-primary {
+  color: var(--primary);
+}
+
+.agendaally-stage2-support-current .border-primary {
+  border-color: var(--primary);
+}
+
+.agendaally-stage2-support-current .bg-footerBg {
+  background-color: #080210;
+}
+
+.agendaally-stage2-support-current .border-footerBg {
+  border-color: #080210;
+}
+
+.agendaally-stage2-support-current .text-gray-field {
+  color: #a0a09c;
+}
+
+.agendaally-stage2-support-current .text-gray-placeholder {
+  color: #939393;
+}
+
+.agendaally-stage2-support-current .text-gray-bold {
+  color: #707070;
+}
+
+.agendaally-stage2-support-current .bg-gray-faq {
+  background-color: #f7f7f5;
+}
+
+.agendaally-stage2-support-current .bg-gray-bright {
+  background-color: #f4f4f7;
+}
+
+.agendaally-stage2-support-current .bg-gray-segment {
+  background-color: #f4f4f4;
+}
+
+.agendaally-stage2-support-current .bg-gray-link {
+  background-color: #eaeaea;
+}
+
+.agendaally-stage2-support-current .border-gray-link {
+  border-color: #eaeaea;
+}
+
+.agendaally-stage2-support-current .border-gray-border {
+  border-color: #f3f3f3;
+}
+
+.agendaally-stage2-support-current .drop-shadow-gray {
+  filter: drop-shadow(0 12px 50px rgb(138 138 138 / 25%));
+}
+
+.agendaally-stage2-support-current .dropdown-shadow {
+  box-shadow: 0 2px 12px 0 #0000001f;
+}
+
+.agendaally-stage2-support-current .shadow-fixedBooking {
+  box-shadow: 0 0 30px 0 rgb(109 109 109 / 32%);
+}
+
+.agendaally-stage2-support-current .store-bg {
+  background: linear-gradient(180deg, rgb(0 0 0 / 0%) -2.42%, rgb(0 0 0 / 50%) 81.06%);
+}
+
+.agendaally-stage2-support-current .bg-white.bg-opacity-30 {
+  background-color: rgb(255 255 255 / 30%);
+}
+
+.agendaally-stage2-support-current .bg-white.bg-opacity-60 {
+  background-color: rgb(255 255 255 / 60%);
+}
+
+.agendaally-stage2-support-current .text-white.text-opacity-75 {
+  color: rgb(255 255 255 / 75%);
+}
+
+.agendaally-stage2-support-current .border-white.border-opacity-20 {
+  border-color: rgb(255 255 255 / 20%);
+}
+
+.agendaally-stage2-support-current .aa-support-footer-column > summary {
+  list-style: none;
+}
+
+.agendaally-stage2-support-current .aa-support-footer-column > summary::-webkit-details-marker {
+  display: none;
+}
+
+.agendaally-stage2-support-current .aa-support-image-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.agendaally-stage2-support-current .aa-support-section-label {
+  color: #707070;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.agendaally-stage2-support-current .aa-support-faq-answer {
+  overflow: hidden;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.agendaally-stage2-support-current .aa-support-faq-answer[data-open="false"] {
+  display: none;
+}
+
+.agendaally-stage2-support-current .aa-support-faq-chevron {
+  transition: transform 500ms ease;
+}
+
+.agendaally-stage2-support-current .aa-support-faq-chevron[data-open="true"] {
+  transform: rotate(270deg);
+}
+
+.agendaally-stage2-support-current .aa-support-faq-chevron[data-open="false"] {
+  transform: rotate(90deg);
+}
+
+@media (min-width: 640px) {
+  .agendaally-stage2-support-current .aa-support-footer-column > summary {
+    pointer-events: none;
+  }
+
+  .agendaally-stage2-support-current .aa-support-footer-column > summary svg {
+    display: none;
+  }
+}

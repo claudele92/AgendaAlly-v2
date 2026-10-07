@@ -1,0 +1,22 @@
+{
+    "status": "PASS",
+    "storage": "disposable :memory: using native policy schema",
+    "checks": [
+        "Fresh Terms default matches authoritative content",
+        "Fresh Privacy default matches authoritative content",
+        "Fresh Refund\/Cancellation default matches authoritative content",
+        "Existing About defaults plus distinct legal Page seeded",
+        "Reseeding is an exact no-op",
+        "Exact previous preview Terms upgraded",
+        "Exact historical Privacy placeholder upgraded",
+        "Admin-customized Terms preserved, including additions to a known draft",
+        "Admin-customized Refund text preserved",
+        "Owner-customized policy title preserved",
+        "Non-English owner content preserved",
+        "Missing legal translation filled without replacing the Page",
+        "Text-only Refund Page can be edited without a fabricated image",
+        "Nonlegal CMS image requirement unchanged",
+        "New policy included in native public route and Admin type allowlist"
+    ],
+    "scope": "Policy\/content seeding only; not full application reseeding or legal certification"
+}

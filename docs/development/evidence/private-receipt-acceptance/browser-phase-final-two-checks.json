@@ -1,0 +1,94 @@
+{
+  "scope": "Only the two authorized native completion forms and the Customer2 UI/native projection acceptance were executed; successful prior uploads/downloads, denial matrix, revocation, and role checks were not repeated.",
+  "native_completions": [
+    {
+      "workflow": "payout:60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+      "finance_actor": 3,
+      "upload_http": 200,
+      "attachment_id": "06840cea-1a12-4063-ac9e-3949f4747e3e",
+      "attachment_sha256": "52a409062aadd6b2d308e8e7b32e8ae7aa24228ed4b1a3d2d597201cf936081e",
+      "matches_original_synthetic_jpeg": true,
+      "bytes": 4316,
+      "completion_http": 200,
+      "state": "COMPLETED",
+      "external_reference": "SYNTHETIC-PAYOUT-RECEIPT-20261006-01",
+      "executed_at_utc": "2026-10-06T18:16:39Z",
+      "attested": true,
+      "browser_screenshots": {
+        "upload_success": "6jsduc",
+        "submitted_success": "7ftg39"
+      }
+    },
+    {
+      "workflow": "refund:6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "finance_actor": 3,
+      "upload_http": 200,
+      "attachment_id": "8ce5a64b-9499-46ab-a671-46aa7e50213c",
+      "attachment_sha256": "33e79b8e63286ab2bc40a0a3ff81006ddfa6e30752e1991c7ad70178880cf0fd",
+      "matches_original_synthetic_png": true,
+      "bytes": 658,
+      "completion_http": 200,
+      "state": "COMPLETED",
+      "external_reference": "SYNTHETIC-REFUND-RECEIPT-20261006-01",
+      "executed_at_utc": "2026-10-06T18:18:06Z",
+      "attested": true,
+      "browser_screenshots": {
+        "upload_success": "90y7u1",
+        "submitted_success": "9laqe4"
+      }
+    }
+  ],
+  "terminal_binding_snapshot": "phase-file-bound-completions.json",
+  "snapshot_counts": {
+    "attachments": 5,
+    "evidence_rows": 2,
+    "evidence_access_rows": 14,
+    "effects": 37
+  },
+  "new_evidence_bindings": [
+    {
+      "workflow": "payout:60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+      "attachment_id": "06840cea-1a12-4063-ac9e-3949f4747e3e",
+      "sha256": "52a409062aadd6b2d308e8e7b32e8ae7aa24228ed4b1a3d2d597201cf936081e",
+      "retained_bytes": 4316
+    },
+    {
+      "workflow": "refund:6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "attachment_id": "8ce5a64b-9499-46ab-a671-46aa7e50213c",
+      "sha256": "33e79b8e63286ab2bc40a0a3ff81006ddfa6e30752e1991c7ad70178880cf0fd",
+      "retained_bytes": 658
+    }
+  ],
+  "original_three_attachments": {
+    "unchanged": true,
+    "ids": [
+      "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+      "93dd97f8-419c-4da6-88f1-8df83ab2afd1"
+    ]
+  },
+  "revocation_and_view_isolation": {
+    "finance3_evidence_view_grants_restored": false,
+    "new_receipt_links_requested": false,
+    "new_receipts_viewed_or_downloaded": false,
+    "access_rows_after_both_completions": 14,
+    "access_rows_unchanged_from_post_revocation": true
+  },
+  "customer2_acceptance": {
+    "route": "/manual-refunds",
+    "synthetic_actor": 2,
+    "native_finance_get_http": 200,
+    "native_finance_get_row_count": 1,
+    "own_refund_id": "6713761d-5795-4456-98f1-52c4f3ee25e1",
+    "state": "COMPLETED",
+    "amount_units": "10000",
+    "private_attachment_hash_path_or_evidence_fields": false,
+    "visible_private_receipt_controls": false,
+    "customer_screenshot": "hkol1b",
+    "generic_location": "synthetic Cameroon only; city left blank",
+    "unrelated_public_country_lookup": "source-shaped GET-only browser mock for /api/v1/rest/countries; no financial route mocked"
+  },
+  "admin_final_screenshot": "lh5v6m",
+  "browser_no_receipt_view_after_revoke": "Finance3 completed/uploads remained available while evidence-view grants stayed revoked; no new evidence link request was made.",
+  "nonblocking_environment_note": "Customer preview still logged failures for unrelated public layout/bootstrap requests and HMR; the actual Customer2 finance GET and rendered own Refund row succeeded after a narrow public country lookup mock. Normal backend/providers/email/production were not started."
+}

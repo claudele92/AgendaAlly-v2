@@ -1,0 +1,319 @@
+OWNER APPROVAL — BOUNDED PROVIDER-NEUTRAL CLEANUP
+
+I accept the provider-neutral portability review.
+
+Approved classification:
+
+REMOVE: 0
+ADAPT: 7
+PRESERVE: 18
+
+The objective is NOT to remove every reference to Replit.
+
+The objective is to make the maintained AgendaAlly applications clearly
+buildable and deployable outside Replit while preserving useful development
+tooling, historical evidence and accepted security controls.
+
+======================================================================
+APPROVED CLEANUP
+======================================================================
+
+Implement ONLY the minimal provider-neutral cleanup described below.
+
+1. PROVIDER-NEUTRAL ROOT README
+
+Create a provider-neutral root README.md.
+
+Document clearly:
+
+- maintained AgendaAlly application locations;
+- Laravel backend;
+- Next.js storefront;
+- Admin frontend;
+- Flutter customer application;
+- native package managers/build entrypoints;
+- distinction between production applications, development tooling,
+  design/scaffold tooling and historical evidence;
+- Replit is optional development tooling, not a runtime/deployment
+  requirement;
+- Hostinger is the planned first VPS provider, not an application dependency.
+
+Do not duplicate large historical documentation unnecessarily.
+
+======================================================================
+2. CLEAR AGENDAALLY ROOT ENTRYPOINTS
+======================================================================
+
+Clarify the root project commands so an operator does not mistake the
+unrelated scaffold build for the AgendaAlly production build.
+
+Add clearly named AgendaAlly-oriented entrypoints or documentation directing
+operators to the native application build commands.
+
+Preserve existing workspace/scaffold commands under explicit names where
+needed.
+
+Do NOT:
+
+- change dependency versions;
+- regenerate lockfiles;
+- make pnpm scaffold installation a prerequisite for Laravel/Web/Admin;
+- remove workspace tooling merely because it originated in Replit.
+
+======================================================================
+3. REPOSITORY-OWNED IGNORE PROTECTIONS
+======================================================================
+
+Make required private/runtime exclusions repository-owned rather than relying
+on this host's global Git configuration.
+
+Preserve all existing protections for:
+
+- secrets;
+- dotenv/private configuration;
+- .local/private runtime evidence;
+- databases;
+- uploads/runtime storage;
+- generated build output;
+- logs/private host configuration where appropriate.
+
+Use narrow rules.
+
+Do not hide intentional tracked evidence.
+
+Do not untrack, delete or rewrite existing accepted evidence.
+
+======================================================================
+4. DEPLOYMENT AND PRODUCTION CONFIGURATION DOCUMENTATION
+======================================================================
+
+Correct stale deployment documentation.
+
+In particular:
+
+- remove/correct inaccurate claims that Composer automatically executes the
+  three historical seeders;
+- clearly distinguish ordinary future production deployment from the CLOSED
+  first-install validation campaign;
+- do not instruct operators to replay synthetic validation/bootstrap
+  procedures during normal deployment;
+- document production prerequisites;
+- document required PHP extensions;
+- document Node/PHP/Composer/Yarn requirements based on the current locked
+  application;
+- document build-time versus runtime configuration;
+- document persistent storage requirements;
+- document writable Laravel paths and permissions;
+- document production URLs/origins;
+- document that production must not inherit local-development flags.
+
+Preserve historical deployment/audit documents when they serve as evidence.
+If a historical document should not be treated as current deployment
+authority, label or reference it appropriately rather than rewriting accepted
+historical evidence.
+
+======================================================================
+5. PROVIDER-NEUTRAL PRODUCTION CONFIGURATION GUIDANCE
+======================================================================
+
+Preserve the existing local .env.example files.
+
+Add placeholder-only production configuration guidance/examples as
+appropriate.
+
+Document the actual consumed environment names, including:
+
+Backend:
+- APP_ENV
+- APP_DEBUG
+- APP_KEY
+- APP_URL
+- DB_CONNECTION
+- DB_HOST / DB_SOCKET
+- DB_PORT
+- DB_DATABASE
+- DB_USERNAME
+- DB_PASSWORD
+- CORS_ALLOWED_ORIGINS
+- FILESYSTEM_DRIVER
+- CACHE_DRIVER
+- SESSION_DRIVER
+- production cookie/domain settings
+
+Storefront:
+- NEXT_PUBLIC_APP_ENV
+- production development-mode setting
+- API URL
+- storefront/admin origins
+- media URL
+
+Admin:
+- VITE_APP_ENV
+- production development-mode setting
+- API origin
+- storefront/admin origins
+- valid CAPTCHA public configuration
+
+Document optional integrations without activating them.
+
+Do not place secrets in NEXT_PUBLIC_* or VITE_* variables.
+
+Do not assume every secret supports a _FILE interface.
+
+Do not generate, rotate, reveal or activate credentials.
+
+======================================================================
+6. NEUTRAL PRODUCTION SERVICE LAYOUT
+======================================================================
+
+Document a provider-neutral production architecture suitable for a standard
+supported Ubuntu LTS VPS:
+
+Nginx
+→ Laravel/PHP-FPM backend
+→ supervised Node.js/Next.js storefront
+→ static Admin build
+→ MySQL 8.x
+→ persistent Laravel/media storage
+→ HTTPS
+→ deployment-owned environment/secrets
+
+Document:
+
+- service identities;
+- application/release paths;
+- persistent/shared paths;
+- writable directories;
+- Next host/port;
+- Nginx routing responsibilities;
+- PHP-FPM relationship;
+- process supervision expectations;
+- HTTPS boundary.
+
+Do NOT configure actual services during this cleanup.
+
+Do NOT make the documentation Hostinger-specific.
+
+Ubuntu 24.04 LTS is the immediate deployment target.
+
+Do not claim Ubuntu 26.04 compatibility has been validated.
+
+Express portability primarily through required dependency versions rather
+than unnecessarily coupling the repository to a specific Ubuntu release.
+
+======================================================================
+PRESERVE WITHOUT FUNCTIONAL CHANGE
+======================================================================
+
+Preserve the review's PRESERVE findings, including:
+
+- .replit;
+- .replitignore;
+- root workspace configuration where still useful;
+- mockup/design tooling;
+- Express/shared-library scaffold;
+- replit.md;
+- development launcher and optional --replit path;
+- post-merge development hook;
+- existing Web runtime configuration;
+- existing Admin runtime/host/CAPTCHA controls;
+- Laravel database/cache/session/filesystem/CORS configuration;
+- defensive REPLIT_DEPLOYMENT checks;
+- existing staging rehearsal implementation;
+- Admin build metadata behavior;
+- every existing lockfile;
+- Flutter/mobile tooling;
+- historical Replit/preview evidence;
+- canonical first-install/reference artifacts;
+- Product NULL-media policy;
+- approved Service media;
+- private accepted evidence under .local.
+
+Do not rewrite historical evidence simply to remove the word "Replit".
+
+======================================================================
+STRICT PRESERVATION BOUNDARY
+======================================================================
+
+Do NOT change:
+
+- application behavior;
+- UI/UX;
+- API behavior;
+- authentication/authorization behavior;
+- financial behavior or invariants;
+- payment/refund/payout containment;
+- database schema;
+- any of the 229 migrations;
+- canonical first-install data;
+- PASS_FIRST_INSTALL authorities/evidence;
+- Product NULL-media policy;
+- Service data/media;
+- accepted recovery/upgrade evidence;
+- accepted email evidence;
+- security controls;
+- framework versions;
+- dependency versions;
+- lockfiles.
+
+Task #60 and the MySQL first-install track remain CLOSED.
+
+Do not run another first-install/database/recovery/media/financial/email
+campaign.
+
+======================================================================
+BOUNDED VALIDATION AFTER CLEANUP
+======================================================================
+
+After applying the cleanup:
+
+- inspect the exact diff;
+- verify changes remain within the approved cleanup scope;
+- verify no lockfile changed;
+- verify no migration changed;
+- verify canonical first-install/reference artifacts unchanged;
+- verify accepted Service package/media unchanged;
+- verify executable application behavior was not changed unexpectedly;
+- syntax/parse-check any configuration or script that was edited;
+- confirm historical evidence was not rewritten.
+
+Do NOT perform the final clean-clone/build campaign yet.
+
+That is the next separately authorized task.
+
+======================================================================
+REQUIRED RESULT
+======================================================================
+
+Return exactly one:
+
+PROVIDER_NEUTRAL_CLEANUP_READY
+
+or
+
+PROVIDER_NEUTRAL_CLEANUP_BLOCKED
+
+If READY, report:
+
+- exact files created;
+- exact files modified;
+- purpose of each change;
+- confirmation of preserved files;
+- whether package.json commands changed and exactly how;
+- whether .gitignore changed and exactly how;
+- confirmation no dependencies/lockfiles changed;
+- confirmation no application/database/financial behavior changed;
+- confirmation no canonical first-install authority changed;
+- any remaining deployment prerequisite that belongs in the later VPS
+  deployment stage.
+
+STOP after the bounded cleanup and validation.
+
+Do not:
+
+- perform final clean-clone/build validation;
+- connect to GitHub;
+- create/push AgendaAlly-v2;
+- access Hostinger;
+- configure the VPS;
+- deploy the application.

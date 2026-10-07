@@ -1,0 +1,911 @@
+AGENDAALLY — MVP FORWARD EXECUTION PHASE
+
+Booking Correctness → Core Role Acceptance → Launch-Readiness Gates
+
+This is a forward-execution phase.
+
+The purpose is to move AgendaAlly materially closer to a limited production MVP,
+not to reopen previously settled architecture decisions or perform another broad
+architecture audit.
+
+============================================================
+1. AUTHORITATIVE BASELINE
+============================================================
+
+Treat the completed MySQL MVP-readiness milestone and its retained evidence as the
+authoritative baseline.
+
+Database decision is CLOSED for the MVP:
+
+- MySQL 8
+- InnoDB
+- REPEATABLE READ
+- Existing tested Laravel/MySQL architecture
+
+Do not perform database-engine comparison, portability analysis, alternative-engine
+testing, or database-selection work in this phase.
+
+Current accepted technical evidence includes:
+
+- Full source bootstrap: 224 migrations PASS
+- Financial tail lifecycle: 8 down + 8 reapply PASS
+- Original Phase 3C: 13 tests / 51 assertions PASS
+- Expanded MySQL financial core: 20 groups PASS
+- Wallet: 28 groups PASS
+- MTN/owned-entry boundary: 5 tests / 38 assertions PASS
+- Focused Product/auth/security/domain regressions:
+  98 tests / 649 assertions PASS
+- 59 protected table fingerprints unchanged
+- 465 protected schema objects unchanged
+- Four completion evidence tables remain empty
+- All 12 legacy Orders remain unverified
+- Customer payment catalogue remains Cash and Wallet only
+- Electronic providers remain disabled
+- External Vendor payout execution remains deferred
+- Product purchasing remains deferred from the first MVP
+
+The tested application-side financial subsystem is substantially further along than
+the whole product.
+
+Do NOT restart payment architecture work unless this phase discovers a genuinely
+new financial invariant failure affecting the selected MVP journey.
+
+============================================================
+2. SELECTED MVP
+============================================================
+
+The selected first MVP is SERVICE-BOOKING-FIRST.
+
+The intended MVP includes:
+
+CUSTOMER
+- registration/login/account recovery
+- profile/location
+- Shop and Service discovery
+- service details
+- availability
+- booking
+- Cash
+- legitimately funded Wallet
+- booking status/history
+- booking receipt/details
+- supported cancellation/rescheduling
+- essential transactional communication
+
+VENDOR
+- approved onboarding
+- owned Shop
+- service configuration
+- staff/specialist/resource configuration where currently supported
+- booking/calendar visibility
+- permitted booking lifecycle actions
+- relevant booking/financial history
+
+ADMIN
+- Customer/Vendor oversight
+- Vendor approval
+- Shop/service oversight where currently supported
+- booking oversight
+- restricted canonical financial operations
+- UNKNOWN/PENDING/intervention visibility
+- appropriate audit/history visibility
+
+Explicitly DEFER from the first MVP:
+
+- Product purchasing
+- Product stock correction
+- multi-Shop checkout
+- electronic payment activation
+- Vendor-direct payment activation
+- own-gateway checkout
+- external Vendor payout execution
+- advanced payment-provider work
+- SMS/push expansion unless essential to an accepted journey
+- Delivery application expansion
+- speculative scaling architecture
+- unrelated feature development
+
+Product discovery may remain visible only if it does not imply that Product
+purchasing is launch-ready.
+
+============================================================
+3. PRIMARY OBJECTIVE
+============================================================
+
+The immediate P0 is:
+
+BOOKING EXCLUSIVE-SLOT CORRECTNESS.
+
+Do this first.
+
+Do not begin another broad product assessment before resolving this gate.
+
+Previous source review found:
+
+1. Booking creation calculates availability before creating the booking.
+
+2. Availability relies on ordinary reads.
+
+3. No demonstrated resource/day admission mutex or equivalent exclusion mechanism
+   was found in the traced creation path.
+
+4. Independent Customer transactions may therefore observe the same available slot
+   before either transaction commits.
+
+5. Existing disabled/occupied-time evaluation appears capable of evaluating
+   containment rather than true interval intersection.
+
+Example:
+
+Existing occupied/disabled interval:
+09:00–10:00
+
+Requested:
+09:30–10:30
+
+These intervals overlap.
+
+The request must not be accepted merely because it is not completely contained
+inside the existing interval.
+
+This is currently a source-confirmed correctness concern and launch gate.
+Do not exaggerate it into a proven full checkout exploit until native reproduction.
+
+============================================================
+4. PHASE A — DETERMINE THE REAL BOOKING CONTRACT
+============================================================
+
+Trace the actual application source end-to-end before changing scheduling code.
+
+Identify:
+
+- authoritative booking resource
+- Shop relationship
+- specialist/staff/resource relationship
+- booking start
+- booking end
+- service duration
+- pause/buffer/additional-time behavior if supported
+- working hours
+- closed dates
+- disabled times
+- existing bookings
+- cancellation states
+- rescheduling
+- booking status transitions
+- availability calculation
+- timezone conversion
+- Customer timezone
+- Vendor/Shop timezone
+- persistence timezone
+- any existing retry/request identity
+
+Determine exactly what existing entity owns exclusive appointment capacity.
+
+Do not invent a new resource model.
+
+Determine from current application semantics:
+
+- whether appointments are exclusive
+- whether capacity greater than one exists
+- whether adjacent appointments are allowed
+- which booking states consume capacity
+- which states release capacity
+- how rescheduling is supposed to transfer capacity
+- whether buffers/pause times participate in exclusion
+- authoritative timezone for comparison
+
+Produce a short source-backed contract before implementation.
+
+If these semantics cannot be established without making a new product decision,
+STOP and report the unresolved decision.
+
+Do not silently invent scheduling behavior.
+
+============================================================
+5. PHASE B — REPRODUCE THE BOOKING PROBLEM NATIVELY
+============================================================
+
+Use disposable MySQL 8/InnoDB with the selected production transaction contract.
+
+Use the closest real application/service path possible.
+
+Do not replace the real scheduling code with an artificial algorithm merely to
+demonstrate a race.
+
+Create focused native evidence for:
+
+1. Exact overlap
+
+   Existing: 09:00–10:00
+   Request:  09:00–10:00
+
+2. Left partial overlap
+
+   Existing: 09:00–10:00
+   Request:  08:30–09:30
+
+3. Right partial overlap
+
+   Existing: 09:00–10:00
+   Request:  09:30–10:30
+
+4. Request contained inside existing
+
+   Existing: 09:00–11:00
+   Request:  09:30–10:00
+
+5. Request contains existing
+
+   Existing: 09:30–10:00
+   Request:  09:00–11:00
+
+6. Adjacency
+
+   Existing: 09:00–10:00
+   Request:  10:00–11:00
+
+Use the actual established boundary rule for adjacency.
+
+7. Independent resources
+
+Two different legitimate resources must not unnecessarily block one another.
+
+8. Concurrent same-slot booking
+
+Two independent Customers attempt the same exclusive slot concurrently.
+
+9. Stale availability
+
+Both Customers observe availability before either booking commits.
+
+10. Rollback
+
+A failed booking must not leave the slot consumed.
+
+11. Cancellation
+
+A legitimate cancellation must release capacity according to the existing lifecycle.
+
+12. Reschedule
+
+Moving a booking must not double-book the destination or incorrectly free/retain
+the original slot.
+
+13. Same-request retry/double-click
+
+Use an existing request/idempotency identity if one exists.
+
+Do not invent a new financial or booking identity merely for the test.
+
+14. Closed dates
+
+15. Disabled times
+
+16. Working-hour boundaries
+
+17. Duration/buffer/pause behavior where actually supported
+
+18. Midnight/date boundary
+
+19. Relevant timezone boundary
+
+20. DST behavior where applicable to the actual supported timezone contract
+
+Classify findings precisely:
+
+- REPRODUCED DEFECT
+- SOURCE-CONFIRMED RISK
+- EXPECTED EXISTING BEHAVIOR
+- FIXTURE/TEST ISSUE
+
+Preserve failure receipts.
+
+============================================================
+6. PHASE C — IMPLEMENT THE MINIMUM SAFE BOOKING CORRECTION
+============================================================
+
+If the defect is reproducible and the existing scheduling contract is sufficiently
+defined, implement the smallest safe correction.
+
+Required design properties:
+
+- serialize only bookings competing for the same exclusive resource
+- independent resources continue to progress independently
+- perform authoritative availability/overlap revalidation inside the protected
+  transaction
+- do not treat the earlier availability screen as booking authority
+- correctly evaluate interval intersection
+- preserve existing booking identity
+- preserve existing resource ownership
+- preserve existing authorization
+- preserve existing pricing
+- preserve existing currency
+- preserve existing financial allocation/custody semantics
+- preserve Cash/Wallet semantics
+- preserve legitimate cancellation semantics
+- preserve legitimate rescheduling semantics
+- preserve existing Shop/Vendor boundaries
+
+The conceptual overlap condition will generally resemble:
+
+requested_start < existing_end
+AND
+requested_end > existing_start
+
+but do NOT blindly implement this until the actual application's rules for:
+
+- adjacency
+- buffers
+- pause/additional time
+- canceled bookings
+- disabled periods
+- timezone conversion
+
+have been established.
+
+Do NOT solve the problem using:
+
+- a global booking mutex
+- table-wide serialization
+- role widening
+- arbitrary capacity fields
+- invented recurring-booking semantics
+- financial repricing
+- Product stock architecture
+- electronic payment changes
+
+If the minimum correct solution requires a material new scheduling schema,
+new capacity model, new resource identity, changed pricing semantics, destructive
+migration, or another product-level decision:
+
+STOP BEFORE IMPLEMENTING THAT MATERIAL CHANGE.
+
+Provide the evidence and smallest proposal for approval.
+
+============================================================
+7. PHASE D — BOOKING CONCURRENCY CERTIFICATION
+============================================================
+
+After the bounded correction, rerun the native MySQL tests using genuinely
+independent connections/workers where concurrency matters.
+
+Required invariants:
+
+1. Two Customers cannot both obtain the same exclusive appointment capacity.
+
+2. Independent resources can book concurrently.
+
+3. Partial overlaps are rejected.
+
+4. Contained overlaps are rejected.
+
+5. Containing overlaps are rejected.
+
+6. Valid adjacency behaves according to the established contract.
+
+7. Stale availability cannot authorize a slot that is no longer available.
+
+8. Failed/rolled-back booking creation does not consume capacity.
+
+9. Cancellation releases capacity exactly once and only when permitted.
+
+10. Rescheduling transfers capacity atomically.
+
+11. A failed reschedule leaves the original booking valid and does not consume
+    the destination slot.
+
+12. Same-request retry/double-click does not unintentionally duplicate bookings.
+
+13. Closed/disabled periods remain authoritative.
+
+14. Duration/buffer rules remain correct.
+
+15. Booking admission cannot duplicate financial effects.
+
+16. Booking failure cannot incorrectly consume Wallet authority.
+
+17. Booking retry cannot duplicate Wallet debit.
+
+18. Cash booking remains offline-custody accounting and does not become platform
+    collection.
+
+19. Existing frozen booking economics are not silently recalculated.
+
+20. Independent Shop/resource activity must not be unnecessarily serialized.
+
+Capture:
+
+- actual database error codes
+- deadlocks
+- lock waits/timeouts
+- rollback behavior
+- retry behavior
+
+Do not make a concurrency test green by weakening exclusivity.
+
+A newly reproduced independent financial invariant failure is a STOP gate.
+
+============================================================
+8. PHASE E — CORE CUSTOMER MVP ACCEPTANCE
+============================================================
+
+Only after booking correctness passes, move directly into selected Customer
+acceptance.
+
+Do not start another architecture review.
+
+Exercise the actual selected MVP journey as completely as the environment allows:
+
+NEW CUSTOMER
+→ registration
+→ verification where available
+→ login
+→ profile/location
+→ discover Shop
+→ discover Service
+→ inspect Service
+→ inspect availability
+→ select legitimate slot
+→ create booking
+→ Cash OR legitimately funded Wallet
+→ booking confirmation
+→ booking history/details
+→ Vendor lifecycle update
+→ Customer refreshed state
+→ receipt/history
+→ supported cancellation/reschedule
+
+Test Wallet and Cash separately.
+
+Do not manufacture Wallet balances through an unauthorized Admin path.
+
+If electronic top-up is disabled, a zero-balance Customer must have a legitimate
+Cash path for the selected MVP.
+
+Verify:
+
+- authorization
+- validation
+- duplicate submission
+- reload durability
+- stale UI state
+- expired session
+- unauthorized resource ID
+- cross-Shop/resource ID
+- loading state
+- empty state
+- server error state
+- validation errors
+- successful state
+- canceled/rescheduled state
+- history consistency
+
+Account/reset external delivery that cannot be genuinely tested should be marked
+EXTERNAL/UNVERIFIED rather than simulated into a production-ready claim.
+
+============================================================
+9. PHASE F — CORE VENDOR MVP ACCEPTANCE
+============================================================
+
+Exercise the selected Vendor journey:
+
+NEW/APPROVED VENDOR
+→ Vendor access
+→ owned Shop
+→ Service configuration
+→ legitimate staff/specialist/resource configuration
+→ availability/calendar
+→ receive Customer booking
+→ inspect booking
+→ perform permitted lifecycle action
+→ Customer-visible update
+→ booking history
+→ appropriate financial/history view
+
+Verify ownership boundaries.
+
+Vendor A must not:
+
+- manage Vendor B's Shop
+- modify Vendor B's Service
+- modify Vendor B's staff/resource
+- modify Vendor B's booking
+- use Vendor B's financial configuration
+- satisfy its own configuration with another Vendor's credentials
+
+Do not broaden roles to make acceptance pass.
+
+Verify the authenticated Vendor experience at:
+
+- approximately 1280px
+- approximately 390px
+- approximately 320px
+
+Focus on selected MVP screens, especially:
+
+- calendar
+- booking detail
+- status actions
+- service/resource forms
+- financial/history screens that remain in MVP
+- modal behavior
+- tables/cards
+- errors/loading/empty states
+
+============================================================
+10. PHASE G — CORE ADMIN MVP ACCEPTANCE
+============================================================
+
+Exercise the selected Admin workflow.
+
+Verify:
+
+- Vendor approval
+- Customer/Vendor inspection
+- Shop ownership relationship
+- Service/booking inspection
+- booking lifecycle oversight
+- canonical financial history
+- original contribution/allocation evidence
+- permitted financial operation creation
+- same-key replay
+- cancellation where permitted
+- UNKNOWN/PENDING visibility
+- unsupported historical evidence behavior
+
+Do not allow Admin screens to imply:
+
+- reservation = payout
+- Cash = platform custody
+- UNKNOWN = failed
+- electronic provider configured = provider active
+- legacy Order = verified electronic payment
+- Vendor payable reserved = Vendor externally paid
+
+All 12 legacy Orders must remain unverified unless separately approved in a future
+historical-classification project.
+
+Test selected authenticated Admin surfaces at:
+
+- approximately 1280px
+- approximately 390px
+- approximately 320px
+
+Do not attempt to make every Admin feature mobile-perfect in this phase.
+Fix selected-MVP usability blockers only.
+
+============================================================
+11. PHASE H — BOUNDED MVP SECURITY ACCEPTANCE
+============================================================
+
+After the selected role journeys work, perform bounded security acceptance around
+those exact journeys.
+
+Do not launch a broad destructive penetration exercise.
+
+Verify at minimum:
+
+AUTHORIZATION
+- Customer cannot access another Customer's protected records
+- Vendor cannot cross Shop/Vendor boundaries
+- staff/resource IDs cannot be forged across ownership
+- Admin-only operations reject non-Admin actors
+- financial operation permissions remain unchanged
+
+AUTHENTICATION
+- login failure behavior
+- reset challenge expiry/replay where locally testable
+- logout/session invalidation
+- appropriate sensitive endpoint rate limits
+
+Do not retain a generic 5,000/minute policy as the only login-abuse protection.
+
+CSRF/SESSION
+- determine actual cookie-authenticated state-changing paths
+- apply/verify appropriate protection
+- secure production cookie assumptions documented
+- do not rely solely on SameSite
+
+INPUT/ASSIGNMENT
+- reject forged role
+- reject forged Shop ID
+- reject forged resource ID
+- reject forged country/ownership relationship
+- validated fields only
+
+UPLOADS
+For selected MVP upload paths verify:
+- permitted MIME/type
+- size
+- ownership
+- path handling
+- nonexecution
+- inaccessible private files where applicable
+
+Do not expand into unrelated media features.
+
+SECRETS/LOGS
+Verify selected flows do not expose:
+- Authorization headers
+- reset challenges
+- invitation secrets
+- decrypted merchant credentials
+- provider secrets
+- APP_KEY
+- database password
+- sensitive provider responses
+
+Do not rotate or request real provider credentials in this phase.
+
+============================================================
+12. PHASE I — COMMUNICATION AND BACKGROUND-JOB MVP GATE
+============================================================
+
+Do not enable every existing scheduled command.
+
+Determine the minimum background work required for the selected service-booking MVP.
+
+At minimum assess:
+
+- transactional account email
+- booking created/confirmed/canceled/rescheduled communication
+- appointment reminders if included in MVP
+- queue processing
+- failed jobs
+- scheduler heartbeat
+- retry behavior
+- application restart behavior
+
+The existing sync/afterResponse behavior is not automatically durable production
+delivery.
+
+Review the booking:auto:ended behavior before enabling it against live bookings.
+A bulk status update must not silently bypass required financial or notification
+transitions.
+
+Do not enable:
+
+- electronic provider reconciliation jobs
+- auction jobs
+- unrelated destructive cleanup
+- Product/Delivery jobs
+
+unless required and explicitly accepted for this MVP.
+
+Required communication invariant:
+
+The durable booking state/history is authoritative.
+
+An email, push message, SMS, or reminder must not be the only place where the
+Customer can discover the true booking state.
+
+If external email transport cannot yet be tested, classify it as a remaining
+external launch dependency.
+
+============================================================
+13. DO NOT IMPLEMENT PRODUCTION DEPLOYMENT YET
+============================================================
+
+This phase may ASSESS what is needed for staging/VPS readiness after the application
+gates above.
+
+Do NOT:
+
+- access the production VPS
+- deploy AgendaAlly
+- migrate production data
+- configure real DNS
+- configure real TLS
+- use production secrets
+- activate real provider credentials
+- run live payments
+- run live refunds
+- run live payouts
+- publish a release
+
+Those require the next separately approved phase.
+
+============================================================
+14. PROTECTED STATE
+============================================================
+
+Capture the accepted protected baseline before work and compare it afterward.
+
+At minimum report:
+
+- all 59 protected table fingerprints
+- all 465 protected schema objects, except an explicitly approved booking schema
+  change if one becomes necessary
+- four completion evidence tables
+- all 12 legacy Orders
+- legacy Order verification state
+
+Do not:
+
+- classify legacy Orders
+- delete legacy Orders
+- backfill electronic payment meaning
+- reinterpret original custody
+- modify historical financial identity
+- clean up financial history merely because it looks inconsistent
+
+Disposable test data is permitted in isolated native test databases.
+
+============================================================
+15. STOP GATES
+============================================================
+
+STOP the affected work immediately and report evidence before remediation if:
+
+1. A new independent financial P0 is reproduced.
+
+2. Booking correctness requires a new material scheduling/capacity model.
+
+3. Booking correctness requires a material scheduling schema redesign not already
+   authorized by the existing product contract.
+
+4. Booking concurrency duplicates, loses or incorrectly releases money.
+
+5. Wallet conservation fails.
+
+6. Cash is accidentally treated as platform custody.
+
+7. Booking correction changes frozen pricing/economics.
+
+8. Cross-Customer, cross-Vendor, cross-Shop or cross-resource authorization bypass
+   is reproduced and its correction would require material permission redesign.
+
+9. A destructive migration is required.
+
+10. Historical financial records would need reinterpretation.
+
+11. Real provider credentials/calls become necessary.
+
+12. Electronic payment activation becomes necessary.
+
+13. External payout execution becomes necessary.
+
+14. Production/VPS access becomes necessary.
+
+Do not automatically remediate beyond the approved phase when a stop gate is hit.
+
+============================================================
+16. DO NOT REOPEN THESE AREAS
+============================================================
+
+Unless a direct selected-MVP invariant proves otherwise, do not spend this phase on:
+
+- payment architecture redesign
+- provider comparison
+- electronic provider activation
+- external payout architecture
+- Vendor-direct payment
+- own-gateway payment
+- Product inventory correction
+- Product checkout
+- multi-Shop checkout
+- advanced marketplace architecture
+- speculative performance redesign
+- large-scale infrastructure
+- unrelated refactoring
+
+We need to move forward toward the selected MVP.
+
+============================================================
+17. FINAL DELIVERABLE
+============================================================
+
+Produce ONE authoritative updated MVP report.
+
+Do not create multiple competing readiness backlogs.
+
+Use these classifications:
+
+- VERIFIED
+- PARTIAL
+- BLOCKED
+- DEFERRED
+- EXTERNAL DEPENDENCY
+
+Include one P0–P3 remaining-work matrix.
+
+Answer explicitly:
+
+1. Was the booking overlap defect reproduced?
+2. Was the concurrent same-slot race reproduced?
+3. What exact entity owns exclusive booking capacity?
+4. What is the final booking exclusion mechanism?
+5. Can two Customers receive the same exclusive slot?
+6. Are all partial/contained/containing overlaps handled correctly?
+7. Are legitimate adjacent bookings accepted where intended?
+8. Can independent resources progress concurrently?
+9. Can stale availability authorize a booking?
+10. Is rollback capacity-safe?
+11. Is cancellation release verified?
+12. Is rescheduling atomic?
+13. Is same-request retry/double-click safe?
+14. What timezone is authoritative?
+15. Are midnight/timezone/DST boundaries accepted or deferred?
+16. Did booking correction change pricing or financial semantics?
+17. Did any schema change?
+18. Did any existing financial record change?
+19. Do all protected fingerprints still match?
+20. Are all 12 legacy Orders still unverified?
+21. Does the selected Customer service-booking journey pass?
+22. Does Cash booking pass?
+23. Does legitimately funded Wallet booking pass?
+24. Does Wallet retry/replay remain safe?
+25. Does the selected Vendor journey pass?
+26. Does Vendor ownership isolation pass?
+27. Does the selected Admin journey pass?
+28. Do selected Customer/Vendor/Admin screens pass at 1280/390/320?
+29. What selected authentication/security gates pass?
+30. What communication/background-job gates pass?
+31. What remains dependent on external email/other services?
+32. What P0 issues remain?
+33. What P1 issues remain?
+34. What is intentionally deferred?
+35. Is Product purchasing still excluded from MVP?
+36. Are electronic providers still disabled?
+37. Are external Vendor payouts still unavailable?
+38. Is Cash + legitimately funded Wallet sufficient for the selected MVP?
+39. Is the application ready for an isolated VPS STAGING rehearsal?
+40. If not, list the exact blockers.
+41. If yes, list the exact acceptance boundaries that justify proceeding.
+42. What must be verified during VPS staging before production?
+43. What must be verified for backup/restore?
+44. What must be monitored for the first production release?
+45. What is the new evidence-weighted limited-MVP readiness percentage/range?
+46. Explain exactly how that estimate was derived.
+47. Do not present the percentage as coding completion.
+48. What is the single safest next bounded phase?
+
+============================================================
+18. SUCCESS CRITERION FOR THIS PHASE
+============================================================
+
+The desired outcome is not another architecture report.
+
+The desired outcome is:
+
+BOOKING P0 CLOSED
++
+SELECTED CUSTOMER JOURNEY ACCEPTED
++
+SELECTED VENDOR JOURNEY ACCEPTED
++
+SELECTED ADMIN JOURNEY ACCEPTED
++
+BOUNDED SECURITY/COMMUNICATION GATES ASSESSED
++
+A CLEAR GO/NO-GO DECISION FOR VPS STAGING
+
+If those conditions pass without a stop-gate event, recommend the next phase as:
+
+ISOLATED VPS STAGING + PRODUCTION-RUNTIME SECURITY +
+BACKUP/RESTORE + MONITORING + RELEASE REHEARSAL.
+
+Do not start that phase automatically.
+
+============================================================
+19. FINAL STOP
+============================================================
+
+After completing the authorized work:
+
+STOP.
+
+Do not automatically begin:
+
+- VPS deployment
+- production migration
+- provider UAT
+- provider activation
+- Product stock remediation
+- Product checkout
+- external payout implementation
+- SMS/push expansion
+- unrelated feature development
+
+Preserve all evidence and give the go/no-go assessment for the next phase.

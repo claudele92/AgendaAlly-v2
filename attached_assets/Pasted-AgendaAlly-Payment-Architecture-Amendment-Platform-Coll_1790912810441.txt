@@ -1,0 +1,804 @@
+AgendaAlly — Payment Architecture Amendment: Platform Collection by Default + Optional Vendor Direct Gateways
+
+This is a correction/refinement to the payment architecture work already completed or currently being implemented.
+
+DO NOT restart the payment audit.
+DO NOT discard valid Phase 0 security fixes.
+DO NOT redo completed work unnecessarily.
+DO NOT activate any payment provider.
+
+Review the current implementation against this amended business rule and make only the changes necessary to align the Phase 0 / foundational Phase 1 implementation with it.
+
+# CORE BUSINESS DECISION
+
+AgendaAlly should use the following hierarchy:
+
+SUPERADMIN
+    ↓
+Defines which payment methods are permitted for each country
+    ↓
+AGENDAALLY PLATFORM COLLECTION — DEFAULT
+    ↓
+Vendor can use the country's supported platform payment methods
+without supplying their own merchant gateway credentials
+    ↓
+OPTIONAL VENDOR DIRECT COLLECTION
+    ↓
+Vendor may choose to connect their own eligible merchant gateways
+only where the payment method, country, currency and provider
+support vendor-direct merchant collection
+
+This replaces any implementation assumption that every Vendor must configure their own payment gateway before customers can use that payment method.
+
+# 1. SUPERADMIN OWNS COUNTRY PAYMENT POLICY
+
+Superadmin remains responsible for determining which payment methods are permitted for each country.
+
+Reuse the existing:
+
+country_payments
+
+architecture.
+
+Conceptually:
+
+Country
+    ↓
+Superadmin-approved payment methods
+    ↓
+Payment resolver
+    ↓
+Platform-collected methods
+and/or
+Vendor-direct-capable methods
+
+A Vendor must NEVER be able to add a payment method that Superadmin has not permitted for the Vendor's authoritative business country.
+
+Country assignment remains policy eligibility only.
+
+It does NOT mean that a provider is:
+
+- globally active
+- configured
+- legally approved
+- integration-ready
+- settlement-ready
+- payout-ready
+- available for real transactions
+
+Preserve all existing readiness/environment/configuration gates.
+
+# 2. PLATFORM COLLECTION SHOULD BE THE DEFAULT MODEL
+
+For supported online payment methods, the default AgendaAlly model should be:
+
+Customer
+    ↓
+Supported payment method
+    ↓
+AgendaAlly platform merchant/provider configuration
+    ↓
+Verified payment
+    ↓
+AgendaAlly records Vendor liability
+    ↓
+Vendor becomes eligible for payout under the future payout architecture
+
+This is the DEFAULT architectural collection model.
+
+However, this task does NOT authorize real platform collection yet.
+
+The existing audit already established that Vendor liability, product liability, settlement, payout, refunds and multi-currency accounting are not complete.
+
+Therefore:
+
+IMPLEMENT THE ARCHITECTURAL DEFAULT AND ELIGIBILITY MODEL,
+
+but DO NOT activate platform payment processing merely because platform collection is now the default design.
+
+External providers must remain disabled/fail-closed until their required later phases are approved and completed.
+
+# 3. VENDORS SHOULD NOT NEED THEIR OWN GATEWAY ACCOUNT BY DEFAULT
+
+A Vendor should be able to participate in an AgendaAlly platform-supported payment method without having their own provider merchant/API credentials.
+
+Example architectural behavior:
+
+Cameroon
+    ↓
+Superadmin permits MTN MoMo
+    ↓
+AgendaAlly has a valid platform MTN configuration
+    ↓
+Vendor uses AgendaAlly Payments
+    ↓
+Customer pays through AgendaAlly's MTN merchant integration
+    ↓
+Vendor does NOT enter MTN API credentials
+
+The same principle should apply to any future platform-managed provider such as:
+
+- MTN MoMo
+- Orange Money
+- Paystack
+- Flutterwave
+- Stripe
+- PayPal
+- other legitimate platform-managed providers
+
+where the actual provider architecture, country, merchant agreement and regulations support that model.
+
+Do not assume that every listed provider supports this arrangement.
+
+Unknown capability must remain UNKNOWN / unavailable until verified.
+
+# 4. VENDOR DIRECT COLLECTION BECOMES OPTIONAL
+
+Vendors may optionally choose to receive supported payments through their own merchant gateway configuration.
+
+This should be treated as:
+
+VENDOR DIRECT COLLECTION
+
+rather than the default payment model.
+
+Conceptually:
+
+Vendor chooses:
+“Use my own payment gateways”
+        ↓
+Resolver determines Vendor country
+        ↓
+Country policy determines permitted methods
+        ↓
+Resolver determines which methods support Vendor-direct collection
+        ↓
+Vendor configures only those eligible methods
+        ↓
+Valid merchant configuration is required
+        ↓
+Customer payment goes through that Vendor's merchant account
+
+Do not show Vendor credential forms for methods that are platform-only.
+
+Do not let Vendors enter arbitrary credentials merely because a Payment catalog record exists.
+
+# 5. CHANGE THE MEANING/PRESENTATION OF collect_via_platform
+
+Preserve the existing:
+
+collect_via_platform
+
+field/API semantics where necessary for compatibility.
+
+Do NOT unnecessarily remove or rename the database field if doing so would affect Laravel, Web, Admin/Vendor or Flutter compatibility.
+
+But change the PRODUCT MODEL so that:
+
+collect_via_platform = true
+
+is the normal/default collection architecture.
+
+The Vendor-facing UI should no longer primarily present:
+
+“Collect via platform”
+
+as an optional feature the Vendor must discover and enable.
+
+Instead, redesign the setting conceptually as:
+
+PAYMENT COLLECTION
+
+How would you like to receive customer payments?
+
+OPTION 1 — DEFAULT / RECOMMENDED
+
+AgendaAlly Payments
+
+“Use payment methods supported by AgendaAlly for your business country. AgendaAlly processes eligible online payments and your earnings are handled through the platform settlement/payout system.”
+
+OPTION 2 — OPTIONAL
+
+My own payment gateways
+
+“Connect eligible merchant payment accounts and receive supported payments directly through your own provider accounts.”
+
+Wording can be refined to fit the existing AgendaAlly UI.
+
+Do not imply that platform payouts are currently operational if the payout architecture is not complete.
+
+In development, clearly represent unavailable/incomplete states.
+
+# 6. DEFAULT FOR NEW VENDORS / SHOPS
+
+For newly created development Vendors/shops, the intended collection preference should be:
+
+collect_via_platform = true
+
+unless there is a strong existing compatibility reason preventing this.
+
+Before changing an existing database default/migration, inspect the current creation path and determine the safest additive approach.
+
+DO NOT rewrite historical shops blindly.
+
+DO NOT reinterpret historical payment transactions.
+
+If changing the schema default would create compatibility problems, implement the default in the appropriate shop creation/service layer and document the reason.
+
+Existing Vendors should not be destructively migrated without an explicit migration policy.
+
+Report exactly how the default is established.
+
+# 7. PERSONAL MOBILE MONEY ACCOUNT IS NOT A MERCHANT GATEWAY
+
+This distinction is critical for African markets.
+
+Many small businesses may have:
+
+- personal MTN MoMo accounts
+- personal Orange Money accounts
+- ordinary mobile-money phone numbers
+
+without having:
+
+- merchant API credentials
+- collection API accounts
+- provider merchant contracts
+
+Do NOT treat a personal mobile-money number as equivalent to a payment gateway merchant configuration.
+
+Separate:
+
+PAYMENT COLLECTION CREDENTIALS
+
+from:
+
+PAYOUT DESTINATION
+
+Conceptually:
+
+Collection credentials
+→ used to charge/collect customer payments.
+
+Payout destination
+→ where AgendaAlly may eventually remit Vendor earnings.
+
+A Vendor's personal MTN/Orange number might eventually be eligible as a payout destination IF the provider, country, KYC requirements and AgendaAlly payout architecture support it.
+
+That is NOT authorization to implement it now.
+
+Do not ask Vendors for personal mobile-money information as merchant API credentials.
+
+# 8. DO NOT IMPLEMENT PAYOUT DESTINATIONS YET
+
+Do not add:
+
+- personal MTN payout
+- Orange Money payout
+- bank payout
+- Stripe payout
+- Paystack transfer
+- Flutterwave transfer
+- automatic settlement
+
+during this amendment.
+
+The future payout architecture must separately determine:
+
+Vendor
++
+Country
++
+Currency
++
+Available liability
++
+Payout method
++
+Verified destination
++
+KYC/provider requirements
++
+Reserve
++
+Transfer
++
+Completion/reconciliation
+
+That belongs to a later approved phase.
+
+# 9. COUNTRY POLICY AND COLLECTION MODE ARE DIFFERENT
+
+Maintain these as separate concepts.
+
+Example:
+
+Cameroon
+
+Superadmin country policy:
+- Cash
+- MTN MoMo
+- Orange Money
+- etc.
+
+This does NOT mean every Cameroon Vendor must configure MTN and Orange.
+
+Instead, the resolver should determine:
+
+MTN
+Country permitted? YES
+Platform supported/configured? maybe
+Vendor-direct supported? maybe
+Vendor configured direct merchant? maybe
+Currency supported? maybe
+Provider globally enabled? maybe
+Integration ready? maybe
+
+The resulting method can then be classified correctly.
+
+# 10. METHOD CAPABILITY MODEL
+
+The foundational resolver should be capable of distinguishing at least:
+
+PLATFORM MANAGED
+
+VENDOR DIRECT CAPABLE
+
+BOTH
+
+OFFLINE
+
+INTERNAL / WALLET
+
+and:
+
+AVAILABLE
+
+CONFIGURATION REQUIRED
+
+PLATFORM CONFIGURATION REQUIRED
+
+DISABLED
+
+UNSUPPORTED COUNTRY
+
+UNSUPPORTED CURRENCY
+
+INTEGRATION NOT READY
+
+Do not infer these classifications solely from provider names.
+
+Use actual implementation/configuration capability.
+
+# 11. VENDOR PAYMENT UI
+
+Adjust the Vendor payment-management experience to reflect the new architecture.
+
+The Vendor should first understand their collection model.
+
+When using:
+
+AGENDAALLY PAYMENTS
+
+show the country-permitted platform methods relevant to the Vendor.
+
+Do not request Vendor merchant credentials for those platform-managed methods.
+
+Represent status accurately, for example:
+
+Platform managed
+Available through AgendaAlly
+Not yet available
+Unsupported for your country
+Unsupported currency
+
+depending on actual resolver state.
+
+When using:
+
+MY OWN PAYMENT GATEWAYS
+
+show ONLY methods that:
+
+- are permitted by Superadmin for the Vendor's country
+- support Vendor-direct collection
+- are globally/integration enabled as required
+- support the relevant currency
+- genuinely consume Vendor-owned merchant credentials
+
+Only then show the appropriate credential/configuration form.
+
+# 12. PLATFORM-ONLY PROVIDERS
+
+Providers configured centrally by AgendaAlly must not expose merchant credentials to Vendors.
+
+For example, if Stripe is configured as a platform rail:
+
+Vendor sees:
+
+Stripe
+Managed by AgendaAlly
+
+not:
+
+Enter Stripe secret key
+
+unless AgendaAlly later explicitly supports a legitimate Vendor-direct Stripe model.
+
+Apply the same rule to other platform-managed providers.
+
+# 13. COUNTRY DEVELOPMENT SEEDS
+
+Keep the previously requested development country/payment assignments for:
+
+- Cameroon
+- Nigeria
+- Ghana
+- Burkina Faso
+
+But update their interpretation according to this architecture.
+
+The development matrix should now distinguish:
+
+Country
+Payment method
+Country permitted
+Platform-managed capable
+Vendor-direct capable
+Offline/internal
+Globally active
+Integration ready
+Platform configured
+Vendor configuration required
+Supported transaction currency
+Usable now
+
+Do NOT use country assignment as provider activation.
+
+Do NOT claim actual commercial/provider-country support unless it has been verified.
+
+UNKNOWN remains acceptable.
+
+# 14. CASH
+
+Cash remains conceptually separate.
+
+Cash / Pay at business:
+
+Customer
+    ↓
+Vendor receives payment offline
+
+AgendaAlly does not automatically hold those funds.
+
+Do not create Vendor platform liability merely because an order/booking is marked cash-paid unless the accounting rules explicitly require a platform commission receivable.
+
+Do not change accounting behavior in this amendment.
+
+# 15. WALLET
+
+Wallet remains an internal balance mechanism.
+
+Do not treat:
+
+Wallet
+
+as equivalent to:
+
+AgendaAlly platform gateway collection
+
+or:
+
+Vendor merchant gateway.
+
+The audit already identified accounting issues around split-wallet transactions.
+
+Do not expand wallet behavior in this task.
+
+# 16. CUSTOMER CHECKOUT RESOLVER
+
+Customer checkout should continue using the authoritative server resolver.
+
+Conceptually:
+
+Owned booking/cart/order
+        ↓
+Authoritative Vendor/shop
+        ↓
+Vendor business country
+        ↓
+Superadmin country payment policy
+        ↓
+Transaction currency/type
+        ↓
+Vendor collection preference
+        ↓
+Platform or Vendor-direct capability
+        ↓
+Exact valid configuration
+        ↓
+Provider readiness/environment
+        ↓
+Eligible payment methods
+
+If Vendor uses default AgendaAlly Payments:
+
+use eligible PLATFORM configuration.
+
+If Vendor uses My own payment gateways:
+
+use eligible VENDOR configuration.
+
+Never fall back from missing Vendor credentials to platform credentials silently unless the Vendor is actually in platform collection mode.
+
+Never fall back from unavailable platform configuration to Vendor credentials unless Vendor direct collection is explicitly selected/configured.
+
+# 17. PRODUCT AND BOOKING CONSISTENCY
+
+Apply the same collection-model concept to:
+
+- service bookings
+- product checkout
+
+Do not solve the later accounting differences yet.
+
+But the eligibility resolver should not treat platform-vs-direct collection differently merely because one transaction is a booking and the other is a product.
+
+Where current backend differences prevent full consistency, fail closed and document the dependency.
+
+# 18. WEB / ADMIN / VENDOR / FLUTTER
+
+Laravel remains authoritative.
+
+Do not create separate payment business rules in each frontend.
+
+Update only the affected interfaces/contracts necessary to reflect:
+
+Superadmin country policy
++
+Platform default
++
+Optional Vendor direct collection
+
+Preserve API compatibility where possible.
+
+If Flutter requires additive fields later, preserve existing fields and report the required follow-up.
+
+Do not broadly redesign Flutter in this task.
+
+# 19. PRESERVE PHASE 0 SECURITY FIXES
+
+Do not undo any valid work already completed for:
+
+- secret redaction
+- ShopPayment ownership
+- Vendor status wiring
+- payout ownership containment
+- country policy authorization
+- provider fail-closed behavior
+- payment target ownership
+- frozen payment intent
+- callback verification
+- replay protection
+
+This amendment changes the COLLECTION MODEL, not those protections.
+
+# 20. DO NOT ACTIVATE PROVIDERS
+
+Even though platform collection is now the architectural default:
+
+DO NOT activate:
+
+- MTN
+- Orange
+- Stripe
+- PayPal
+- Paystack
+- Flutterwave
+- or any other external provider
+
+unless they were already legitimately active before this work.
+
+Do not make real provider calls.
+
+Do not create credentials.
+
+Do not create successful payments.
+
+Do not simulate settlement.
+
+Do not perform refunds.
+
+Do not perform payouts.
+
+# 21. DO NOT IMPLEMENT ACCOUNTING/PAYOUT YET
+
+The future architecture will eventually need:
+
+Customer payment
+        ↓
+Verified provider settlement
+        ↓
+Platform-held amount
+        ↓
+Platform fees
+        ↓
+Vendor liability
+        ↓
+Available Vendor balance
+        ↓
+Payout reserve
+        ↓
+Vendor payout
+        ↓
+Reconciliation
+
+The existing audit established that this is incomplete.
+
+Do NOT pretend it is complete simply because platform collection becomes the default.
+
+Keep platform payment methods unavailable for real transactions until those later approved phases are complete.
+
+# 22. FOCUSED TESTS
+
+Do not restart the full payment audit or broad acceptance cycle.
+
+Add/run only focused tests for the amended behavior.
+
+Verify at minimum:
+
+1. New Vendor/shop defaults to platform collection according to the chosen compatibility-safe implementation.
+
+2. Superadmin country policy determines which methods may be considered.
+
+3. Country assignment does not activate a disabled provider.
+
+4. Platform-mode Vendor does not need Vendor credentials for a platform-managed method.
+
+5. Platform-mode Vendor cannot see platform secrets.
+
+6. Direct-mode Vendor sees only country-permitted Vendor-direct-capable methods.
+
+7. Direct-mode Vendor cannot configure a platform-only method.
+
+8. Vendor cannot configure another shop's gateway.
+
+9. Vendor cannot enable a country-disallowed gateway.
+
+10. Personal mobile-money number is not treated as merchant API configuration.
+
+11. Customer checkout uses platform configuration only in platform collection mode.
+
+12. Customer checkout uses Vendor configuration only in direct collection mode.
+
+13. Missing required configuration fails closed.
+
+14. Unsupported currency fails closed.
+
+15. Product and booking resolver behavior follows the same collection-mode policy.
+
+16. Existing disabled providers remain disabled.
+
+17. No financial balances, payouts, refunds or provider transactions are created by these tests except isolated synthetic records strictly required for resolver testing.
+
+# 23. DO NOT REPEAT COMPLETED WORK
+
+Inspect what has already been implemented from the previous Phase 0 / foundational Phase 1 instruction.
+
+Keep correct work.
+
+Modify only what conflicts with this amended collection model.
+
+Do not:
+
+- recreate migrations unnecessarily
+- create duplicate resolver services
+- create duplicate payment policy tables
+- repeat the original audit
+- repeat unrelated UI testing
+- repeat Stage 1/Stage 2 acceptance
+- redesign unrelated pages
+- perform broad cleanup
+
+Prefer adapting the implementation already present.
+
+# 24. REQUIRED REPORT
+
+When complete, report:
+
+A. What previous implementation was retained unchanged.
+
+B. What changed because platform collection is now the default.
+
+C. How new Vendors/shops receive the default collection mode.
+
+D. How Superadmin country payment policy works.
+
+E. How Vendor-direct collection is selected.
+
+F. Which existing providers are currently classified as:
+   - Platform managed
+   - Vendor direct capable
+   - Both
+   - Offline
+   - Internal
+   - Unknown/incomplete
+
+G. Updated development matrix for:
+   - Cameroon
+   - Nigeria
+   - Ghana
+   - Burkina Faso
+
+H. How the resolver chooses platform versus Vendor configuration.
+
+I. How Vendor UI changed.
+
+J. How personal mobile-money accounts are kept separate from merchant gateway credentials.
+
+K. Focused test results.
+
+L. Any Flutter compatibility follow-up.
+
+M. Remaining accounting/payout blockers.
+
+N. Exact files/migrations/API contracts changed.
+
+O. Confirmation that:
+   - no external provider was activated
+   - no real credential was read or created
+   - no provider API call was made
+   - no real payment was performed
+   - no refund was performed
+   - no payout was performed
+   - no FX routing was implemented
+   - no production operation occurred
+
+# FINAL TARGET ARCHITECTURE
+
+The foundational relationship should now be:
+
+SUPERADMIN
+    ↓
+Country payment policy
+    ↓
+Vendor authoritative business country
+    ↓
+AGENDAALLY PAYMENTS — DEFAULT
+    ↓
+Platform-managed eligible methods
+
+OR
+
+Vendor explicitly chooses
+MY OWN PAYMENT GATEWAYS
+    ↓
+Country-permitted Vendor-direct-capable methods
+    ↓
+Vendor supplies valid merchant configuration
+
+Then both paths continue through:
+
+Transaction type
+    ↓
+Transaction currency
+    ↓
+Configuration/readiness
+    ↓
+Authoritative server eligibility
+    ↓
+Customer checkout
+
+Keep:
+
+PERSONAL MOBILE MONEY / BANK / OTHER PAYOUT DESTINATION
+
+separate from:
+
+MERCHANT PAYMENT COLLECTION CREDENTIALS.
+
+Do not implement the future payout destination architecture during this task.
+
+Once this amendment has been integrated into the work already completed, perform the focused verification, restore the existing Customer and Admin/Vendor previews if disturbed, report the result, and STOP.
+
+Do not automatically continue to accounting, FX, payout, refund, provider activation, sandbox transactions or production deployment.

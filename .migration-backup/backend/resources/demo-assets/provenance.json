@@ -1,0 +1,895 @@
+{
+  "format": "agendaally-approved-service-demo-assets-v1",
+  "authority": "OWNER_APPROVED_SERVICE_SOURCE_PACKAGING_ONLY",
+  "approval_json_sha256": "e3da6988652481194b281e231e1da8ce8f1608c4c26b3b13035b52cd9ebe3a31",
+  "owner_decision_sha256": "ce64984255b623a06ad32502aafd8b92c61be653edfc07eda04324f6e4ce2694",
+  "frozen_evidence": {
+    "docs/deployment/local-synthetic-portable-baseline.json": "7aba06496ffb8efd3aba99bc2599773245c196d453d902c9bcb370a92314335c",
+    "docs/deployment/local-synthetic-demo-asset-review.json": "354e00c29323e66dd235bcd2e67627ade92bc1820d4851e0e7d4e18d468880a3",
+    "docs/deployment/local-synthetic-demo-asset-review.md": "b255895e27deedd501a0eac22ffa7f4af52d7dc0b2fb1e557683c2843f19eac1",
+    "attached_assets/service-photos/sources.json": "abb43fcd6b6bfefb153a8898177a22459ab4424b38ac25c498b74a89af1b1b7e"
+  },
+  "repository_package_root": ".migration-backup/backend/resources/demo-assets",
+  "approved_use": "Include these exact Service bytes in sanitized source for AgendaAlly demo/application use.",
+  "restrictions": [
+    "No implied endorsement.",
+    "No misleading or offensive use involving identifiable people.",
+    "No redistribution as a stock-photo/wallpaper service.",
+    "No standalone resale of unaltered images.",
+    "No use of the imagery as an AgendaAlly trademark/service mark."
+  ],
+  "attribution": "Owner states attribution is not required by the current Pexels license; retain provenance in the repository for traceability.",
+  "license_authority": "Owner approval subject to recorded and current Pexels license restrictions; no independent live license verification or external download authorized by this work.",
+  "public_namespace": "/storage/portable-demo/services/",
+  "runtime_installation": "NOT AUTHORIZED",
+  "products": "BLOCKED_NOT_PACKAGED",
+  "assets": [
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/0",
+        "key": "beard-trim"
+      },
+      "path": "services/beard-trim.jpg",
+      "bytes": 76210,
+      "mime": "image/jpeg",
+      "sha256": "c3c037350ad6dff3011f13b4bb1404c5cb2cc8590ed427e4cd3257372213c755",
+      "source": "https://www.pexels.com/photo/3998417/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/beard-trim.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 5,
+          "shop_id": 501,
+          "title": "Beard Trim"
+        },
+        {
+          "table": "services",
+          "id": 11,
+          "shop_id": 502,
+          "title": "Beard Trim"
+        },
+        {
+          "table": "services",
+          "id": 17,
+          "shop_id": 503,
+          "title": "Beard Trim"
+        },
+        {
+          "table": "services",
+          "id": 23,
+          "shop_id": 504,
+          "title": "Beard Trim"
+        },
+        {
+          "table": "services",
+          "id": 29,
+          "shop_id": 505,
+          "title": "Beard Trim"
+        },
+        {
+          "table": "services",
+          "id": 35,
+          "shop_id": 506,
+          "title": "Beard Trim"
+        },
+        {
+          "table": "services",
+          "id": 41,
+          "shop_id": 507,
+          "title": "Beard Trim"
+        },
+        {
+          "table": "galleries",
+          "id": 5,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 5
+        },
+        {
+          "table": "galleries",
+          "id": 11,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 11
+        },
+        {
+          "table": "galleries",
+          "id": 17,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 17
+        },
+        {
+          "table": "galleries",
+          "id": 23,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 23
+        },
+        {
+          "table": "galleries",
+          "id": 29,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 29
+        },
+        {
+          "table": "galleries",
+          "id": 35,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 35
+        },
+        {
+          "table": "galleries",
+          "id": 41,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 41
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/1",
+        "key": "hair-coloring"
+      },
+      "path": "services/hair-coloring.jpg",
+      "bytes": 76776,
+      "mime": "image/jpeg",
+      "sha256": "109cdcd88574ee68a0e3d43c0fda88cb119b478faf659628e2c15cfe6ffe64e7",
+      "source": "https://www.pexels.com/photo/4981460/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/hair-coloring.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 2,
+          "shop_id": 501,
+          "title": "Hair Coloring"
+        },
+        {
+          "table": "services",
+          "id": 8,
+          "shop_id": 502,
+          "title": "Hair Coloring"
+        },
+        {
+          "table": "services",
+          "id": 14,
+          "shop_id": 503,
+          "title": "Hair Coloring"
+        },
+        {
+          "table": "services",
+          "id": 20,
+          "shop_id": 504,
+          "title": "Hair Coloring"
+        },
+        {
+          "table": "services",
+          "id": 26,
+          "shop_id": 505,
+          "title": "Hair Coloring"
+        },
+        {
+          "table": "services",
+          "id": 32,
+          "shop_id": 506,
+          "title": "Hair Coloring"
+        },
+        {
+          "table": "services",
+          "id": 38,
+          "shop_id": 507,
+          "title": "Hair Coloring"
+        },
+        {
+          "table": "galleries",
+          "id": 2,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 2
+        },
+        {
+          "table": "galleries",
+          "id": 8,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 8
+        },
+        {
+          "table": "galleries",
+          "id": 14,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 14
+        },
+        {
+          "table": "galleries",
+          "id": 20,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 20
+        },
+        {
+          "table": "galleries",
+          "id": 26,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 26
+        },
+        {
+          "table": "galleries",
+          "id": 32,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 32
+        },
+        {
+          "table": "galleries",
+          "id": 38,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 38
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/2",
+        "key": "music-lessons"
+      },
+      "path": "services/music-lessons.jpg",
+      "bytes": 81424,
+      "mime": "image/jpeg",
+      "sha256": "0c738c821996adfc28d56ea071be0c325364d1ba42232293b30f7c37a044b011",
+      "source": "https://www.pexels.com/photo/8520499/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/music-lessons.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 46,
+          "shop_id": 508,
+          "title": "Music Lessons"
+        },
+        {
+          "table": "galleries",
+          "id": 46,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 46
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/3",
+        "key": "custom-tattoo"
+      },
+      "path": "services/custom-tattoo.jpg",
+      "bytes": 104367,
+      "mime": "image/jpeg",
+      "sha256": "0c977c87e55fd624862a41761d02d772dccc84650f168f552eb1b98d16e4f47f",
+      "source": "https://www.pexels.com/photo/28943303/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/custom-tattoo.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 48,
+          "shop_id": 509,
+          "title": "Custom Tattoo"
+        },
+        {
+          "table": "galleries",
+          "id": 48,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 48
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/4",
+        "key": "tattoo-touch-up"
+      },
+      "path": "services/tattoo-touch-up.jpg",
+      "bytes": 126510,
+      "mime": "image/jpeg",
+      "sha256": "7c42bfd9a6938d6d6ba83bd126b93325bab7efcd096297c405432f86edea224a",
+      "source": "https://www.pexels.com/photo/29251824/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/tattoo-touch-up.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 49,
+          "shop_id": 509,
+          "title": "Tattoo Cover-Up & Touch-Up"
+        },
+        {
+          "table": "galleries",
+          "id": 49,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 49
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/5",
+        "key": "body-piercing"
+      },
+      "path": "services/body-piercing.jpg",
+      "bytes": 58186,
+      "mime": "image/jpeg",
+      "sha256": "d7f194de667ee635de3b2b51700f79374b02d46db0c83483972c35386e82e89b",
+      "source": "https://www.pexels.com/photo/7901237/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/body-piercing.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 51,
+          "shop_id": 509,
+          "title": "Body Piercing"
+        },
+        {
+          "table": "galleries",
+          "id": 51,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 51
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/6",
+        "key": "ear-piercing"
+      },
+      "path": "services/ear-piercing.jpg",
+      "bytes": 75045,
+      "mime": "image/jpeg",
+      "sha256": "c3fe6419b9eff980539d3b3b3a01d5891b8fda51fc0166ef465407cc7fbf62ff",
+      "source": "https://www.pexels.com/photo/19875392/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/ear-piercing.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 50,
+          "shop_id": 509,
+          "title": "Ear Piercing"
+        },
+        {
+          "table": "galleries",
+          "id": 50,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 50
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/7",
+        "key": "haircut-africa-first"
+      },
+      "path": "services/haircut-africa-first.jpg",
+      "bytes": 62536,
+      "mime": "image/jpeg",
+      "sha256": "3e4f2ac6f6da13a4915758a4a48f6fe8a5f417a67f23081622a98984f79542f7",
+      "source": "https://www.pexels.com/photo/7447126/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/haircut-africa-first.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 1,
+          "shop_id": 501,
+          "title": "Haircut"
+        },
+        {
+          "table": "services",
+          "id": 7,
+          "shop_id": 502,
+          "title": "Haircut"
+        },
+        {
+          "table": "services",
+          "id": 13,
+          "shop_id": 503,
+          "title": "Haircut"
+        },
+        {
+          "table": "services",
+          "id": 19,
+          "shop_id": 504,
+          "title": "Haircut"
+        },
+        {
+          "table": "services",
+          "id": 25,
+          "shop_id": 505,
+          "title": "Haircut"
+        },
+        {
+          "table": "services",
+          "id": 31,
+          "shop_id": 506,
+          "title": "Haircut"
+        },
+        {
+          "table": "services",
+          "id": 37,
+          "shop_id": 507,
+          "title": "Haircut"
+        },
+        {
+          "table": "galleries",
+          "id": 1,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 1
+        },
+        {
+          "table": "galleries",
+          "id": 7,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 7
+        },
+        {
+          "table": "galleries",
+          "id": 13,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 13
+        },
+        {
+          "table": "galleries",
+          "id": 19,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 19
+        },
+        {
+          "table": "galleries",
+          "id": 25,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 25
+        },
+        {
+          "table": "galleries",
+          "id": 31,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 31
+        },
+        {
+          "table": "galleries",
+          "id": 37,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 37
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/8",
+        "key": "bridal-makeup-africa-first"
+      },
+      "path": "services/bridal-makeup-africa-first.jpg",
+      "bytes": 41220,
+      "mime": "image/jpeg",
+      "sha256": "448697ee57c25205aff282e5ca999d12cda01c9baf262ed794e79ecc7dc25b93",
+      "source": "https://www.pexels.com/photo/11360229/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/bridal-makeup-africa-first.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 6,
+          "shop_id": 501,
+          "title": "Bridal Makeup"
+        },
+        {
+          "table": "services",
+          "id": 12,
+          "shop_id": 502,
+          "title": "Bridal Makeup"
+        },
+        {
+          "table": "services",
+          "id": 18,
+          "shop_id": 503,
+          "title": "Bridal Makeup"
+        },
+        {
+          "table": "services",
+          "id": 24,
+          "shop_id": 504,
+          "title": "Bridal Makeup"
+        },
+        {
+          "table": "services",
+          "id": 30,
+          "shop_id": 505,
+          "title": "Bridal Makeup"
+        },
+        {
+          "table": "services",
+          "id": 36,
+          "shop_id": 506,
+          "title": "Bridal Makeup"
+        },
+        {
+          "table": "services",
+          "id": 42,
+          "shop_id": 507,
+          "title": "Bridal Makeup"
+        },
+        {
+          "table": "galleries",
+          "id": 6,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 6
+        },
+        {
+          "table": "galleries",
+          "id": 12,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 12
+        },
+        {
+          "table": "galleries",
+          "id": 18,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 18
+        },
+        {
+          "table": "galleries",
+          "id": 24,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 24
+        },
+        {
+          "table": "galleries",
+          "id": 30,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 30
+        },
+        {
+          "table": "galleries",
+          "id": 36,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 36
+        },
+        {
+          "table": "galleries",
+          "id": 42,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 42
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/9",
+        "key": "manicure-africa-first"
+      },
+      "path": "services/manicure-africa-first.jpg",
+      "bytes": 81265,
+      "mime": "image/jpeg",
+      "sha256": "0e30dccb1edb99cf23abde2478d04da4e80be588db1168708d515938c9e8114c",
+      "source": "https://www.pexels.com/photo/7755248/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/manicure-africa-first.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 3,
+          "shop_id": 501,
+          "title": "Manicure"
+        },
+        {
+          "table": "services",
+          "id": 9,
+          "shop_id": 502,
+          "title": "Manicure"
+        },
+        {
+          "table": "services",
+          "id": 15,
+          "shop_id": 503,
+          "title": "Manicure"
+        },
+        {
+          "table": "services",
+          "id": 21,
+          "shop_id": 504,
+          "title": "Manicure"
+        },
+        {
+          "table": "services",
+          "id": 27,
+          "shop_id": 505,
+          "title": "Manicure"
+        },
+        {
+          "table": "services",
+          "id": 33,
+          "shop_id": 506,
+          "title": "Manicure"
+        },
+        {
+          "table": "services",
+          "id": 39,
+          "shop_id": 507,
+          "title": "Manicure"
+        },
+        {
+          "table": "galleries",
+          "id": 3,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 3
+        },
+        {
+          "table": "galleries",
+          "id": 9,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 9
+        },
+        {
+          "table": "galleries",
+          "id": 15,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 15
+        },
+        {
+          "table": "galleries",
+          "id": 21,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 21
+        },
+        {
+          "table": "galleries",
+          "id": 27,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 27
+        },
+        {
+          "table": "galleries",
+          "id": 33,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 33
+        },
+        {
+          "table": "galleries",
+          "id": 39,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 39
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/10",
+        "key": "massage-africa-first"
+      },
+      "path": "services/massage-africa-first.jpg",
+      "bytes": 104117,
+      "mime": "image/jpeg",
+      "sha256": "abc59d92be779f6df7b229c62f0d34eb801dcb1d1c6275a2b6acfbd7e011a130",
+      "source": "https://www.pexels.com/photo/19641816/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/massage-africa-first.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 4,
+          "shop_id": 501,
+          "title": "Massage Therapy"
+        },
+        {
+          "table": "services",
+          "id": 10,
+          "shop_id": 502,
+          "title": "Massage Therapy"
+        },
+        {
+          "table": "services",
+          "id": 16,
+          "shop_id": 503,
+          "title": "Massage Therapy"
+        },
+        {
+          "table": "services",
+          "id": 22,
+          "shop_id": 504,
+          "title": "Massage Therapy"
+        },
+        {
+          "table": "services",
+          "id": 28,
+          "shop_id": 505,
+          "title": "Massage Therapy"
+        },
+        {
+          "table": "services",
+          "id": 34,
+          "shop_id": 506,
+          "title": "Massage Therapy"
+        },
+        {
+          "table": "services",
+          "id": 40,
+          "shop_id": 507,
+          "title": "Massage Therapy"
+        },
+        {
+          "table": "galleries",
+          "id": 4,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 4
+        },
+        {
+          "table": "galleries",
+          "id": 10,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 10
+        },
+        {
+          "table": "galleries",
+          "id": 16,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 16
+        },
+        {
+          "table": "galleries",
+          "id": 22,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 22
+        },
+        {
+          "table": "galleries",
+          "id": 28,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 28
+        },
+        {
+          "table": "galleries",
+          "id": 34,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 34
+        },
+        {
+          "table": "galleries",
+          "id": 40,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 40
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/11",
+        "key": "academic-tutoring-africa-first"
+      },
+      "path": "services/academic-tutoring-africa-first.jpg",
+      "bytes": 47472,
+      "mime": "image/jpeg",
+      "sha256": "521af75496781305188b57ec1e1315d1fb3c281e3722d3f33d71d30976c7a004",
+      "source": "https://www.pexels.com/photo/5905444/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/academic-tutoring-africa-first.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 43,
+          "shop_id": 508,
+          "title": "Academic Tutoring"
+        },
+        {
+          "table": "galleries",
+          "id": 43,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 43
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/12",
+        "key": "language-lessons-africa-first"
+      },
+      "path": "services/language-lessons-africa-first.jpg",
+      "bytes": 45978,
+      "mime": "image/jpeg",
+      "sha256": "27aceff04fbb10a01c5f8571611f6f97b27ba675c3f2223393eeb48bf2a7479b",
+      "source": "https://www.pexels.com/photo/5905936/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/language-lessons-africa-first.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 45,
+          "shop_id": 508,
+          "title": "Language Lessons"
+        },
+        {
+          "table": "galleries",
+          "id": 45,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 45
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/13",
+        "key": "computer-skills-africa-first"
+      },
+      "path": "services/computer-skills-africa-first.jpg",
+      "bytes": 61369,
+      "mime": "image/jpeg",
+      "sha256": "2acd95ea89d21b5ecc647d0e10f1aeaeb36343f061a3a6e6730f1fce9f5c3f69",
+      "source": "https://www.pexels.com/photo/5940706/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/computer-skills-africa-first.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 47,
+          "shop_id": 508,
+          "title": "Computer & Digital Skills"
+        },
+        {
+          "table": "galleries",
+          "id": 47,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 47
+        }
+      ]
+    },
+    {
+      "inventory_identity": {
+        "file": "docs/deployment/local-synthetic-demo-asset-review.json",
+        "pointer": "/service_photos/14",
+        "key": "exam-preparation-africa-first"
+      },
+      "path": "services/exam-preparation-africa-first.jpg",
+      "bytes": 49195,
+      "mime": "image/jpeg",
+      "sha256": "8f7282e47fda1a0cd860565aa84cf6066e5df973557bee078aacbd58167c29c0",
+      "source": "https://www.pexels.com/photo/5940708/",
+      "license_reference": "https://www.pexels.com/license/",
+      "recorded_redistribution_basis": "Pexels License, https://www.pexels.com/license/; development/demo use, original downloaded assets, no runtime hotlinks. No implied endorsement. Do not resell unaltered assets or portray depicted people in a misleading or offensive context.",
+      "public_demo_path": "/storage/portable-demo/services/exam-preparation-africa-first.jpg",
+      "relationships": [
+        {
+          "table": "services",
+          "id": 44,
+          "shop_id": 508,
+          "title": "Exam Preparation"
+        },
+        {
+          "table": "galleries",
+          "id": 44,
+          "loadable_type": "App\\Models\\Service",
+          "loadable_id": 44
+        }
+      ]
+    }
+  ]
+}

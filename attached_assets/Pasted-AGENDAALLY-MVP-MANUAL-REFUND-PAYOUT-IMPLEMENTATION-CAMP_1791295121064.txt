@@ -1,0 +1,1573 @@
+AGENDAALLY MVP — MANUAL REFUND & PAYOUT IMPLEMENTATION CAMPAIGN
+
+IMPLEMENT THE APPROVED MANUAL FINANCIAL ARCHITECTURE
+REFUND + VENDOR PAYOUT + FINANCE EVIDENCE + RECONCILIATION + UI
++ FINANCIAL NOTIFICATIONS
+
+This is an IMPLEMENTATION campaign.
+
+The completed 47-section AgendaAlly Financial Readiness Campaign report is the
+authoritative architecture/design baseline for this work.
+
+Do not redesign the financial architecture from scratch.
+
+Do not reinterpret legacy financial states.
+
+Do not activate provider-driven refunds or payouts.
+
+Do not perform real money movement.
+
+Do not send real financial email unless separately authorized at a later
+acceptance boundary.
+
+The objective is to implement the smallest safe MVP manual Refund/Payout system
+described by the approved architecture while preserving all accepted AgendaAlly
+financial, account, booking, calendar, payment, Product and email evidence.
+
+======================================================================
+1. ACCEPTED BASELINE
+======================================================================
+
+Preserve the frozen financial-readiness baseline and its evidence.
+
+Current accepted baseline from the completed audit:
+
+- 207 native normal-development SQLite tables
+- 453 schema objects under the recorded fingerprint method
+- 1,608 protected backend application/routes/config/migration PHP fingerprints
+- jobs = 0
+- failed_jobs = 0
+- no temporary real-send permission
+- existing provider/collection gates unchanged
+- Product legacy Orders remain separately qualified
+- current canonical MVP score = 16/20 = 80%
+- production = NO-GO
+
+The completed financial audit found no new confirmed P0 within its bounded scope.
+
+Current payout deletion fault is contained in isolated evidence:
+- in-transaction funding Wallet deletion returns error;
+- original persisted state is restored;
+- clean retry settles once;
+- replay produces no additional mutation.
+
+Historical broad-run payout causation remains unresolved.
+Do not invent an A/B/C/D explanation.
+
+Product fulfillment repeat-credit P0 remains VERIFIED CONTAINED within its
+retained evidence boundary.
+
+Do not rerun those campaigns merely for reassurance.
+
+======================================================================
+2. OWNER-APPROVED MVP PRODUCT DECISIONS
+======================================================================
+
+The following decisions are now approved for this implementation.
+
+2.1 INITIAL FINANCIAL SCOPE
+
+One manual financial request represents:
+
+- one authoritative original financial source/allocation;
+- one beneficiary;
+- one Shop where applicable;
+- one currency;
+- one fixed eligible amount;
+- one financial workflow.
+
+Do NOT implement:
+
+- batching;
+- FX;
+- arbitrary amount editing after request;
+- arbitrary partial-completion workflows;
+- split beneficiary payouts;
+- multi-Shop financial requests.
+
+If the existing authoritative refund policy computes an eligible amount lower
+than gross, that fixed computed amount may be used.
+
+This is not an open manual partial-refund editor.
+
+2.2 REFUNDS
+
+Implement the manual Refund workflow for eligible authoritative collected
+principal.
+
+Cancellation and Refund remain separate concepts.
+
+BOOKING CANCELLED != REFUNDED.
+
+Refund approval does not mean money moved.
+
+Refund completion requires authoritative terminal external-execution evidence.
+
+2.3 VENDOR PAYOUTS
+
+Implement Vendor payout requests only against verified matured Vendor payable.
+
+Do not derive payout authority from an arbitrary Wallet display balance.
+
+Do not treat an Admin Wallet transfer as proof of external payout.
+
+2.4 SPECIALIST PAYOUTS
+
+Do NOT activate Specialist payout requests in this MVP implementation.
+
+The architecture may remain extensible to a future Specialist beneficiary, but
+an assignment, Specialist role, booking statistic or displayed Wallet balance
+does not establish a matured Specialist payable.
+
+Specialist payout requires a separately approved earning/commission/maturity
+contract later.
+
+Fail closed.
+
+2.5 WALLET-FUNDED PRINCIPAL
+
+Preserve existing accepted internal Wallet refund semantics.
+
+Do NOT implement Wallet-to-cash redemption.
+
+Do NOT both:
+
+- return the same principal as spendable internal Wallet credit; and
+- externally refund that same principal.
+
+Any future Wallet redemption policy requires separate owner approval.
+
+2.6 CASH
+
+"CASH selected" is not proof of collection.
+
+Manual external Cash refund eligibility requires authoritative retained proof
+that the Customer principal was actually collected under an approved Cash
+collection authority.
+
+If that authority cannot be proven, fail closed.
+
+Do not infer collection from booking status or payment-method selection.
+
+2.7 VENDOR-DIRECT COLLECTION
+
+Vendor-direct collection remains custody of the original Vendor/merchant.
+
+Do not fabricate platform custody.
+
+A Vendor-direct refund may only proceed where the execution mandate and
+evidence truthfully correspond to the actual collector/executor.
+
+Do not fund a Vendor-direct refund from an invented platform liability.
+
+2.8 LEGACY FINANCIAL STATES
+
+Legacy:
+
+- pending
+- accepted
+- canceled
+
+must NOT automatically map to the new manual workflow's:
+
+- REQUESTED
+- APPROVED
+- COMPLETED
+- REJECTED
+- CANCELLED
+- REQUIRES_REVIEW
+
+In particular:
+
+LEGACY ACCEPTED != MANUAL COMPLETED.
+
+Ambiguous historical records require reconciliation/manual review.
+
+Do not fabricate completion during migration.
+
+======================================================================
+3. AUTHORITATIVE MANUAL STATE MACHINE
+======================================================================
+
+Implement the business workflow in a companion financial workflow model.
+
+Required states:
+
+REQUESTED
+APPROVED
+COMPLETED
+REJECTED
+CANCELLED
+REQUIRES_REVIEW
+
+Do not replace canonical accounting/reservation states with these business
+states.
+
+The companion workflow must preserve the existing core reservation semantics.
+
+In particular, the completed architecture found that core reserved authority
+currently depends on existing technical states such as:
+
+RESERVED / UNKNOWN / PENDING
+
+Do not change a canonical financial operation to business APPROVED if doing so
+would remove it from available-authority deductions.
+
+Business APPROVED belongs in the companion workflow while the authoritative
+financial reservation remains held.
+
+======================================================================
+4. REFUND TRANSITIONS
+======================================================================
+
+Implement these bounded transitions.
+
+NONE -> REQUESTED
+
+Allowed only when:
+
+- actor is authorized;
+- original financial source is authoritative;
+- collection is proven;
+- beneficiary is correct;
+- currency/scale are authoritative;
+- eligible refundable amount is fixed;
+- sufficient unreserved refund authority exists;
+- request identity/idempotency is valid.
+
+Atomically reserve the financial authority.
+
+No external money movement.
+
+No completion claim.
+
+REQUESTED -> APPROVED
+
+Finance approval permission required.
+
+Revalidate:
+
+- original source;
+- beneficiary;
+- amount;
+- currency;
+- eligibility;
+- reservation;
+- tenant/source authority.
+
+Record approval actor/time/reason/audit event.
+
+No money movement.
+
+REQUESTED -> REJECTED
+
+Authorized Finance only.
+
+Reason required.
+
+Release eligible reservation atomically.
+
+No money movement.
+
+REQUESTED -> CANCELLED
+
+Requester may cancel own still-pending/unclaimed request where permitted.
+
+Authorized Finance may cancel with reason.
+
+Release reservation.
+
+No money movement.
+
+APPROVED -> CANCELLED
+
+Finance only.
+
+Allowed only when there is affirmative evidence that external execution has NOT
+started and no execution responsibility claim prevents cancellation.
+
+APPROVED -> REQUIRES_REVIEW
+
+Use when an external execution was claimed/attempted but outcome or evidence is
+uncertain.
+
+Keep the reservation.
+
+Do not claim refund completion.
+
+Do not authorize blind retry.
+
+APPROVED -> COMPLETED
+
+Only an authorized Finance completion actor.
+
+Requires:
+
+- valid prior approval;
+- valid execution responsibility claim;
+- authoritative terminal execution evidence;
+- exact amount match;
+- exact currency match;
+- beneficiary/destination match;
+- original source match;
+- acceptable method/institution;
+- unique external execution identity/reference;
+- immutable evidence/audit record.
+
+Completion must atomically:
+
+- record evidence;
+- consume the held refund authority;
+- append the correct existing canonical refund/reversal accounting effects once;
+- transition workflow to COMPLETED;
+- append immutable completion audit event.
+
+No duplicate principal return.
+
+REQUIRES_REVIEW -> COMPLETED
+
+Only after definitive reconciliation evidence proves the original external
+execution succeeded.
+
+Do not redispatch money.
+
+REQUIRES_REVIEW -> REJECTED
+
+Only where authoritative reconciliation establishes that money did NOT move.
+
+Release authority safely.
+
+REQUIRES_REVIEW -> APPROVED
+
+Only after authoritative proof that the previous attempt moved no money and
+Finance explicitly authorizes a new execution attempt.
+
+Never perform this automatically.
+
+PROHIBIT:
+
+- REQUESTED -> COMPLETED
+- REJECTED -> APPROVED
+- CANCELLED -> APPROVED
+- COMPLETED -> APPROVED
+- COMPLETED -> REQUESTED
+- arbitrary status toggles
+- completion without evidence
+- amount/currency/beneficiary mutation after request
+
+Corrections must be append-only linked events/new authorized operations.
+
+======================================================================
+5. VENDOR PAYOUT TRANSITIONS
+======================================================================
+
+Use the same business-state meanings for Vendor payouts.
+
+NONE -> REQUESTED
+
+Vendor may request only against:
+
+- own verified Shop;
+- own authoritative beneficiary identity;
+- verified matured payable;
+- sufficient unencumbered payable;
+- fixed original-currency amount;
+- approved payout method/destination snapshot.
+
+Atomically reserve payable authority.
+
+Do not use arbitrary Wallet display balance as the source.
+
+REQUESTED -> APPROVED
+
+Scoped Finance only.
+
+Revalidate:
+
+- Shop;
+- beneficiary;
+- matured payable;
+- reservation;
+- amount;
+- currency;
+- method/destination snapshot.
+
+Approval is NOT payment.
+
+REQUESTED -> REJECTED/CANCELLED
+
+Release reservation safely.
+
+No money moved.
+
+APPROVED -> CANCELLED
+
+Only before external execution claim and only with known no-movement evidence.
+
+APPROVED -> REQUIRES_REVIEW
+
+Use after claimed external execution where result/evidence is uncertain.
+
+Keep payable reserved.
+
+Do not tell Vendor "Paid."
+
+APPROVED -> COMPLETED
+
+Requires:
+
+- prior approval;
+- execution claim;
+- authorized completing Finance actor;
+- authoritative terminal external evidence;
+- exact beneficiary;
+- exact amount;
+- exact currency;
+- exact method/destination identity;
+- unique external execution reference.
+
+Atomically consume the held payable through the accepted canonical accounting
+boundary and record completion/evidence/event once.
+
+REQUIRES_REVIEW transitions follow the same no-blind-retry rules as Refund.
+
+COMPLETED is terminal.
+
+======================================================================
+6. EXECUTION RESPONSIBILITY CLAIM
+======================================================================
+
+Implement a durable execution-responsibility claim.
+
+This is critical.
+
+Before an authorized Finance operator performs the external manual action, that
+operator must claim execution responsibility for the APPROVED workflow.
+
+Only one active execution responsibility may exist for the workflow/approved
+execution attempt.
+
+The claim must be committed independently before the operator is instructed to
+move money externally.
+
+A second operator must be prevented from independently executing the same
+approved request.
+
+The claim must record at minimum:
+
+- workflow/operation identity;
+- claiming Finance actor;
+- claim identity;
+- server timestamp;
+- workflow version;
+- command identity.
+
+Do not make the claim automatically expire into permission for another payment.
+
+If outcome becomes uncertain:
+
+REQUIRES_REVIEW
+
+not "available to pay again."
+
+======================================================================
+7. FINANCE AUTHORIZATION
+======================================================================
+
+Do not implement:
+
+Admin role == unrestricted financial authority.
+
+Use explicit permission boundaries.
+
+At minimum create/reuse equivalent explicit grants for:
+
+REFUNDS
+- request/on-behalf where applicable
+- approve/reject
+- complete
+- reconcile
+- evidence view
+
+PAYOUTS
+- approve/reject
+- complete
+- reconcile
+- evidence view
+
+Use the project's existing permission naming conventions rather than inventing
+inconsistent naming if equivalent permission structures already exist.
+
+Approval permission must not automatically imply completion permission unless
+explicitly granted through the accepted role configuration.
+
+Completion must not automatically imply evidence-file viewing.
+
+Reconciliation should be separately controllable.
+
+All permissions remain constrained by current Shop/country/tenant/source
+authority.
+
+Do not weaken existing PayableShopAuthorization or canonical financial scope.
+
+======================================================================
+8. MAKER/CHECKER MVP POLICY
+======================================================================
+
+Architect approval and completion as separate actions with separately recorded
+actors.
+
+For this MVP:
+
+- the same authorized Finance/Admin user MAY hold both permissions;
+- do not require two different humans for every transaction yet.
+
+However:
+
+- preserve approved_by and completed_by separately;
+- preserve timestamps separately;
+- do not collapse approval and completion into one command;
+- design so mandatory maker/checker can later be enforced without changing
+  financial meaning.
+
+Do not add a new authentication subsystem merely to implement this campaign.
+
+Step-up authentication may remain a documented future hardening gate unless an
+existing native step-up mechanism can be reused safely without scope expansion.
+
+======================================================================
+9. IDEMPOTENCY AND REPLAY
+======================================================================
+
+Every mutation must have durable command identity.
+
+At minimum protect:
+
+- request
+- approve
+- reject
+- cancel
+- execution claim
+- complete
+- reconcile
+
+Use actor/scope-aware idempotency and canonical payload digests.
+
+Same key + same intent:
+return the previously recorded safe result.
+
+Same key + changed intent:
+409 conflict.
+
+Browser refresh/retry must not create another financial intent.
+
+Completion replay must never:
+
+- create another accounting effect;
+- consume authority twice;
+- add another completion event;
+- send another financial notification later.
+
+Use database uniqueness as part of the financial guarantee, not only
+application-level checks.
+
+======================================================================
+10. TRANSACTION AND LOCKING BOUNDARY
+======================================================================
+
+Preserve the accepted canonical financial locking hierarchy.
+
+For request/reservation:
+
+- own a fresh transaction;
+- acquire original allocation/financial authority mutex first;
+- lock operation/workflow;
+- lock required Wallet/accounting rows in stable order where relevant;
+- revalidate current authority under lock;
+- reserve and create workflow/event atomically.
+
+Do not call an entrypoint that independently commits a reservation before its
+workflow exists.
+
+Do not nest an incompatible reserveOwned transaction.
+
+For approve/reject/cancel:
+
+- lock authoritative parent;
+- workflow;
+- reservation;
+- expected version/state;
+- relevant source authority.
+
+For completion:
+
+- parent allocation/source first;
+- financial operation/workflow;
+- required Wallet/accounting rows in stable order;
+- evidence/reference uniqueness;
+- effect-group uniqueness;
+- original approval/claim;
+- current Finance authority.
+
+Evidence + financial effects + reservation consumption + workflow finality +
+audit event must commit atomically.
+
+If a required database write fails:
+
+ROLL BACK.
+
+Never return success.
+
+Never claim completion.
+
+Do not automatically retry an external execution.
+
+Database deadlock/serialization retry may retry the SAME DATABASE COMMAND with
+the same command identity where safe.
+
+======================================================================
+11. MANUAL EXECUTION EVIDENCE
+======================================================================
+
+Implement structured evidence for COMPLETED.
+
+Required structured evidence should support:
+
+- workflow/operation identity;
+- actual execution timestamp;
+- exact executed amount;
+- currency;
+- method classification;
+- institution/provider classification;
+- external transaction/reference;
+- beneficiary identity;
+- masked destination fingerprint;
+- original payment/payable linkage;
+- terminal-success classification;
+- completing Finance actor;
+- server recording timestamp;
+- Finance attestation that amount/currency/beneficiary/reference were checked.
+
+A free-text "paid" or "refunded" note is NOT sufficient.
+
+Evidence attachment support should exist where appropriate.
+
+Do not require an attachment when an approved execution method provides
+sufficient structured authoritative reference evidence under the configured
+evidence policy.
+
+If a private receipt/document is uploaded:
+
+- validate file type;
+- validate size;
+- use existing malware/file-safety controls where available;
+- store privately;
+- use scoped/expiring access;
+- compute server-side digest;
+- retain digest with evidence;
+- audit evidence access;
+- do not expose the raw private document in ordinary Customer/Vendor responses.
+
+Never store:
+
+- CVV
+- full card number
+- bank login credentials
+- provider secret
+- password
+- SMTP credential
+
+External execution reference uniqueness must use an approved institution/method
+scope.
+
+Do not use amount as the uniqueness key.
+
+======================================================================
+12. PROPOSED DATA MODEL
+======================================================================
+
+Implement the smallest additive data-model delta needed for the approved
+architecture.
+
+Prefer companion structures equivalent to:
+
+manual_financial_workflows
+manual_financial_evidence
+manual_financial_events / durable command records
+
+Use the project's existing naming/style conventions where a more appropriate
+name already exists.
+
+The workflow must retain sufficient immutable linkage for:
+
+- canonical financial operation/source;
+- workflow type REFUND/PAYOUT;
+- requester;
+- beneficiary;
+- Shop/source scope;
+- amount in exact native units;
+- currency;
+- frozen scale;
+- state;
+- version;
+- request/approval/completion actors;
+- timestamps;
+- execution claim;
+- method/destination snapshot digest;
+- policy snapshot/provenance;
+- terminal evidence linkage.
+
+Use restrictive foreign keys.
+
+Do not cascade-delete financial history.
+
+Use appropriate uniqueness for:
+
+- one workflow per canonical operation where required;
+- durable command identity;
+- completion;
+- external execution identity/reference;
+- event version/identity.
+
+Do not modify existing canonical accounting tables merely to fit the UI if the
+companion model can preserve their accepted meaning.
+
+======================================================================
+13. MIGRATION SAFETY
+======================================================================
+
+Use additive migrations.
+
+Do not:
+
+- reseed financial data;
+- rewrite existing history;
+- convert legacy accepted to COMPLETED;
+- fabricate evidence;
+- backfill ambiguous money movement;
+- reset Product finality markers;
+- change existing provider credentials/gates.
+
+Any existing legacy record without authoritative source/evidence remains
+legacy/reconciliation-only.
+
+Before migration:
+
+capture the approved baseline/fingerprint evidence using the existing campaign
+method.
+
+After migration:
+
+report the expected schema delta separately from unexpected changes.
+
+Do not expect schema equality after an approved additive migration.
+
+Instead prove:
+
+- only intended new structures/indexes/permissions/configuration changed;
+- protected existing data remained unchanged unless explicitly required by the
+  new feature;
+- no existing financial row was silently reclassified.
+
+======================================================================
+14. REFUND ELIGIBILITY INTEGRATION
+======================================================================
+
+Integrate Refund requests with authoritative existing collection/accounting
+evidence.
+
+UNPAID / UNCOLLECTED:
+no financial Refund request.
+
+CASH SELECTED BUT NOT COLLECTED:
+no financial Refund request.
+
+CASH AUTHORITATIVELY COLLECTED:
+may be eligible under approved refund policy and actual custody authority.
+
+PLATFORM PROVIDER-PAID:
+bind request to original verified captured payment, collector, merchant
+revision, currency/scale and eligible amount.
+
+VENDOR-DIRECT:
+retain Vendor as original collector; do not fabricate platform custody.
+
+WALLET-PAID:
+preserve existing internal Wallet refund semantics.
+Do not activate external cash redemption.
+
+Cancellation remains separate from Refund workflow.
+
+The UI must never turn:
+
+Cancelled
+
+into:
+
+Refunded
+
+without authoritative Refund COMPLETED.
+
+======================================================================
+15. VENDOR PAYOUT ELIGIBILITY
+======================================================================
+
+Payout authority must come from verified matured Vendor payable.
+
+Do not use:
+
+- Shop role alone;
+- arbitrary Wallet balance;
+- Admin Wallet balance;
+- gross Customer payment;
+- booking statistics;
+- projected revenue
+
+as payout authority.
+
+Reserve against authoritative available Vendor payable.
+
+Do not pay Vendor-direct funds already held directly by the Vendor as though the
+platform owes the same amount again.
+
+Specialist payout request remains disabled.
+
+======================================================================
+16. ADMIN / FINANCE UI
+======================================================================
+
+Implement a permission-scoped Finance interface.
+
+Provide queue/filter capability appropriate to the existing Admin design.
+
+At minimum show safely:
+
+- workflow type;
+- request/reference ID;
+- requester;
+- beneficiary;
+- Shop/source;
+- amount;
+- currency;
+- state;
+- age;
+- request timestamp;
+- approval timestamp;
+- completion timestamp;
+- method snapshot;
+- execution claim owner/status;
+- safe external reference summary;
+- eligible actions.
+
+Use explicit actions.
+
+DO NOT implement a generic unrestricted status dropdown.
+
+Actions should include as authorized:
+
+- Approve
+- Reject
+- Cancel
+- Claim external execution
+- Record completion
+- Reconcile
+
+Approval confirmation must clearly state:
+
+APPROVAL DOES NOT MEAN MONEY HAS MOVED.
+
+Completion UI must require the structured evidence contract.
+
+REQUIRES_REVIEW must clearly warn:
+
+DO NOT PAY AGAIN — RECONCILIATION REQUIRED.
+
+If another Finance operator owns the execution claim, prevent another external
+execution action.
+
+======================================================================
+17. CUSTOMER / VENDOR UI
+======================================================================
+
+Customer Refund UI must distinguish:
+
+- Refund requested
+- Refund approved — not yet refunded
+- Refund completed
+- Refund rejected
+- Refund cancelled
+- Refund under review
+
+Do not show "Refunded" for APPROVED.
+
+Vendor Payout UI must distinguish:
+
+- Payout requested
+- Payout approved — not yet paid
+- Payout completed
+- Payout rejected
+- Payout cancelled
+- Payout under review
+
+Show only safe external receipt/reference summary after completion.
+
+Do not expose:
+
+- private evidence documents;
+- Finance-only notes;
+- internal account identifiers;
+- credentials;
+- payer secrets.
+
+Specialist payout UI should remain disabled/not exposed unless there is already
+a safe non-action informational surface.
+
+Do not create a false Specialist payable.
+
+======================================================================
+18. RECONCILIATION
+======================================================================
+
+Implement the smallest useful reconciliation capability for manual MVP.
+
+Finance must be able to identify:
+
+- requested;
+- approved outstanding;
+- execution claimed but not completed;
+- requires review;
+- completed;
+- rejected/cancelled;
+- aged/stale;
+- ambiguous legacy records where exposed safely.
+
+Reconciliation may:
+
+- attach definitive evidence;
+- confirm prior external success and complete once;
+- prove no movement and release/re-authorize according to the state machine;
+- record discrepancy/correction provenance.
+
+It must NOT:
+
+- automatically release uncertain holds;
+- automatically retry external money movement;
+- silently change terminal states;
+- delete prior attempt history.
+
+Do not turn this into a general ERP.
+
+======================================================================
+19. IMMUTABLE AUDIT TRAIL
+======================================================================
+
+Every financial transition must append immutable audit evidence containing as
+appropriate:
+
+- workflow/operation ID;
+- command/event identity;
+- previous state;
+- new state;
+- version;
+- actual actor;
+- actor authority/scope;
+- server UTC timestamp;
+- exact amount;
+- currency;
+- scale;
+- original source/payment/payable;
+- reason;
+- snapshot/evidence digest;
+- external reference where applicable.
+
+Record execution claims.
+
+Record uncertain/failed execution evidence without overwriting the final
+financial fact.
+
+Replay of an already committed command must not append duplicate transition
+events.
+
+Corrections reference previous events.
+
+Do not delete/overwrite financial audit history.
+
+======================================================================
+20. PROVIDER AUTOMATION BOUNDARY
+======================================================================
+
+DO NOT call external refund/payout APIs in this campaign.
+
+DO NOT:
+
+- activate providers;
+- relax environment gates;
+- alter provider credentials;
+- create provider transactions;
+- impersonate testing mode;
+- enable RefundTransport in normal production-like execution;
+- implement webhooks;
+- automate external payouts.
+
+The manual workflow must be designed so a future trusted execution adapter can
+replace the human external-execution step while preserving:
+
+- request;
+- approval;
+- reservation;
+- execution claim;
+- evidence;
+- idempotency;
+- accounting;
+- finality;
+- reconciliation.
+
+======================================================================
+21. FINANCIAL NOTIFICATIONS
+======================================================================
+
+Implement notification EVENT INTEGRATION and Admin-managed template support only
+after the authoritative workflow states exist and pass local financial tests.
+
+Required financial template types:
+
+REFUND
+- Refund Requested
+- Refund Approved
+- Refund Completed
+- Refund Rejected
+
+PAYOUT
+- Payout Requested
+- Payout Approved
+- Payout Completed
+- Payout Rejected
+
+If the existing template architecture supports safe additional states without
+scope expansion, CANCELLED / REQUIRES_REVIEW may be represented appropriately;
+otherwise document them for the next notification increment.
+
+Wording invariants:
+
+REQUESTED:
+"request received" or equivalent.
+
+APPROVED:
+"approved — not yet completed/refunded/paid."
+
+COMPLETED:
+may say "refund completed" / "payout completed" ONLY after authoritative
+COMPLETED commit.
+
+REJECTED:
+must not imply an attempted payment failed unless evidence establishes that.
+
+REQUIRES_REVIEW:
+must not say paid/refunded.
+
+Notifications must originate from committed financial events.
+
+Mail delivery failure must NEVER:
+
+- roll back money/accounting;
+- alter financial state;
+- authorize another payment;
+- duplicate financial effects.
+
+Deduplicate notification intent by authoritative financial
+event + recipient + template intent.
+
+======================================================================
+22. EMAIL DELIVERY AUTHORITY
+======================================================================
+
+This implementation campaign DOES NOT authorize real financial email.
+
+You may:
+
+- create/register templates;
+- render locally;
+- preview with synthetic data;
+- test event/outbox generation locally;
+- prove deduplication without SMTP.
+
+You may NOT:
+
+- enable general SMTP;
+- send real Refund email;
+- send real Payout email;
+- reuse account-email send authority;
+- run broad mail workers.
+
+Real financial email acceptance requires a later explicit owner authorization.
+
+Do not repeat:
+
+- Verification
+- Password Reset
+- Admin Test Email
+
+Account/email acceptance remains closed.
+
+======================================================================
+23. PRODUCT REPEAT-CREDIT PROTECTION
+======================================================================
+
+Preserve the contained Product fulfillment financial boundary.
+
+Do not:
+
+- reset its financial finality marker;
+- restore legacy gross Admin Wallet credit behavior;
+- create a second gross collection from lifecycle status;
+- reinterpret delivered as payment;
+- modify the 12 unverified legacy Orders.
+
+If the new Refund workflow interacts with Product/Order authority, it must use
+the original canonical financial source and preserve once-only effect identity.
+
+If implementation reveals a new valid Product financial P0:
+
+STOP.
+
+Do not repair it under this campaign without explicit approval.
+
+======================================================================
+24. PAYOUT ATOMICITY PROTECTION
+======================================================================
+
+Preserve the current payout rollback guarantees.
+
+Do not weaken:
+
+- Wallet identity revalidation;
+- transaction ownership;
+- rollback behavior;
+- sorted Wallet locking;
+- replay rejection;
+- required-write failure handling.
+
+Retain the valid funding-Wallet deletion fault as a regression.
+
+Do not claim the unresolved historical broad-run cause is solved unless direct
+evidence establishes it.
+
+If a new valid current partial-commit/false-success P0 appears:
+
+STOP before repair and report it.
+
+======================================================================
+25. TESTING — LOCAL / DISPOSABLE FIRST
+======================================================================
+
+Build focused tests alongside implementation.
+
+At minimum cover:
+
+REFUND REQUEST
+- valid own request
+- unauthorized actor
+- foreign Shop/source
+- uncollected source
+- wrong amount
+- wrong currency
+- duplicate idempotency
+- changed-intent conflict
+- insufficient/refunded/reserved authority
+
+REFUND TRANSITIONS
+- approve
+- reject
+- cancel
+- completion without approval denied
+- completion without claim denied
+- completion without evidence denied
+- wrong evidence amount denied
+- wrong currency denied
+- wrong beneficiary denied
+- duplicate reference denied
+- replay completion once-only
+- terminal state immutable
+- cancellation != refund completion
+
+PAYOUT REQUEST
+- valid matured Vendor payable
+- insufficient payable
+- already reserved
+- foreign Shop
+- Vendor-direct double-liability denial
+- arbitrary Wallet balance cannot create payable
+- Specialist payout denied
+
+PAYOUT TRANSITIONS
+- approve
+- reject
+- cancel
+- execution claim uniqueness
+- completion without approval denied
+- completion without claim denied
+- evidence mismatch
+- duplicate external reference
+- replay once-only
+- terminal immutability
+
+ATOMICITY
+Inject failure into each required:
+- reservation write
+- workflow write
+- event write
+- evidence write
+- accounting effect
+- reservation consumption
+- completion write
+
+Prove exact rollback.
+
+Retain payout Wallet deletion fault.
+
+IDEMPOTENCY
+- same key/same payload
+- same key/changed payload
+- refresh/retry
+- concurrent claim
+- concurrent completion
+- replay after success
+
+AUTHORIZATION
+- Customer own
+- Vendor own Shop
+- same-country foreign Shop denial
+- Finance scope
+- approval permission separate from completion
+- evidence-view permission
+- reconciliation permission
+
+EVIDENCE
+- malformed
+- pending/nonterminal
+- duplicate
+- wrong beneficiary
+- wrong amount
+- wrong currency
+- private-file authorization
+- digest integrity
+
+UI
+- explicit actions only
+- APPROVED wording does not say paid/refunded
+- REQUIRES_REVIEW warning
+- Customer/Vendor safe status
+- no evidence leakage
+
+NOTIFICATIONS
+- committed event only
+- correct state wording
+- deduplication
+- no SMTP
+- no financial-state mutation on simulated delivery failure
+
+======================================================================
+26. NATIVE MYSQL / CONCURRENCY ACCEPTANCE
+======================================================================
+
+Do not claim production financial concurrency from SQLite alone.
+
+After local/disposable implementation passes, run the bounded native database
+acceptance available in the approved test environment.
+
+At minimum validate where safely possible:
+
+- simultaneous reservations against same authority;
+- simultaneous execution claims;
+- simultaneous completions;
+- Refund vs Payout competition for same underlying authority where applicable;
+- REPEATABLE READ authority ordering;
+- required row deletion/failure;
+- deadlock/serialization retry behavior;
+- unique completion/effect;
+- unique external reference.
+
+No real external money movement.
+
+No provider call.
+
+No real email.
+
+If native environment is unavailable, report that gate as UNVERIFIED.
+
+Do not fabricate certification.
+
+======================================================================
+27. MIGRATION / PRESERVATION EVIDENCE
+======================================================================
+
+Before approved schema mutation:
+
+capture baseline.
+
+After implementation:
+
+report:
+
+- intended migrations;
+- intended new tables;
+- intended new indexes;
+- intended permission/config additions;
+- existing tables intentionally modified, if any;
+- row-count/fingerprint preservation for protected existing financial data;
+- provider settings unchanged;
+- account/email state unchanged;
+- Product markers unchanged;
+- payout baseline unchanged except approved test/disposable contexts;
+- jobs/failed_jobs;
+- SMTP/send authority;
+- unexpected delta.
+
+Do not treat expected additive schema changes as preservation failure.
+
+Any unexpected existing financial-data mutation is a STOP condition.
+
+======================================================================
+28. STOP CONDITIONS
+======================================================================
+
+STOP immediately before proceeding further if any of these is found:
+
+- new valid financial P0;
+- partial financial commit after required failure;
+- false success response after rollback/failure;
+- replay creates another economic effect;
+- cross-tenant financial mutation;
+- arbitrary Wallet value can become external payout authority;
+- Specialist payout becomes enabled without authoritative entitlement;
+- approval is treated as completion;
+- cancellation is treated as refund;
+- external evidence can be bypassed;
+- execution claim allows duplicate external responsibility;
+- uncertain execution automatically becomes retryable;
+- legacy accepted is migrated to completed without proof;
+- provider execution becomes required/activated;
+- Product repeat-credit containment regresses;
+- payout atomicity regresses;
+- migration mutates unrelated protected financial records;
+- real email would be required to continue;
+- real money movement would be required to continue.
+
+If a stop condition occurs:
+
+1. preserve evidence;
+2. do not repair beyond already-authorized architecture;
+3. report the exact condition;
+4. stop for owner approval.
+
+======================================================================
+29. DO NOT EXPAND SCOPE
+======================================================================
+
+Do not work on:
+
+- unrelated Booking UI
+- calendar
+- account verification/reset
+- general SMTP
+- provider activation
+- mobile app
+- Driver app
+- unrelated POS work
+- broad role redesign
+- broad observability
+- unrelated production cutover
+- unrelated test-suite cleanup
+- cosmetic refactoring
+- legacy historical cleanup
+- unverified Product Orders
+- broad financial ERP features
+
+Do not accept Replit-generated suggested tasks outside this campaign.
+
+======================================================================
+30. SCORE CONTROL
+======================================================================
+
+Use only the canonical existing 20-gate rubric.
+
+Current baseline:
+
+16/20 = 80%
+production NO-GO.
+
+Do NOT award points simply because:
+
+- code exists;
+- migrations exist;
+- tests pass;
+- UI exists;
+- architecture was implemented.
+
+At the end, reassess only gates genuinely affected by accepted evidence,
+particularly existing financial/Admin/operational gates.
+
+Do not invent new gates.
+
+Do not automatically close C1/O4.
+
+Account/email qualifications remain as already accepted.
+
+Production remains NO-GO unless the canonical rubric and required production
+evidence independently support otherwise.
+
+======================================================================
+31. IMPLEMENTATION ORDER
+======================================================================
+
+Use this order unless source constraints require a safer equivalent:
+
+PHASE 1
+Freeze baseline and map exact implementation points.
+
+PHASE 2
+Add durable command/workflow/evidence/event foundations and additive migration.
+
+PHASE 3
+Implement authorization/scope + transaction/reservation/idempotency foundations.
+
+PHASE 4
+Implement Refund request/state machine/evidence/completion.
+
+PHASE 5
+Implement Vendor Payout request/state machine/evidence/completion.
+
+PHASE 6
+Implement execution claim + REQUIRES_REVIEW/reconciliation.
+
+PHASE 7
+Implement Finance/Admin UI.
+
+PHASE 8
+Implement safe Customer/Vendor visibility.
+
+PHASE 9
+Implement financial notification event integration and Admin-managed templates,
+with SMTP disabled.
+
+PHASE 10
+Run focused local/disposable acceptance.
+
+PHASE 11
+Run bounded native MySQL/concurrency acceptance if available and authorized by
+the existing environment boundary.
+
+PHASE 12
+Run preservation comparison and produce final implementation report.
+
+Do not expose mutation UI before its financial authorization/idempotency/
+transaction foundations exist.
+
+======================================================================
+32. REQUIRED FINAL REPORT
+======================================================================
+
+Return one consolidated implementation report containing:
+
+1. Executive summary
+2. Frozen before-state
+3. Files changed
+4. Migrations/schema delta
+5. Permission delta
+6. Existing-data preservation
+7. Manual workflow data model
+8. Refund state-machine implementation
+9. Payout state-machine implementation
+10. Specialist payout disabled proof
+11. Wallet-funded refund boundary
+12. Cash boundary
+13. Vendor-direct boundary
+14. Authorization matrix
+15. Approval/completion separation
+16. Execution-claim implementation
+17. Idempotency implementation
+18. Transaction/locking implementation
+19. Evidence model
+20. Private evidence security
+21. External-reference uniqueness
+22. Refund eligibility
+23. Vendor payout eligibility
+24. Accounting/effect integration
+25. Booking cancellation/refund separation
+26. Product replay preservation
+27. Payout atomicity preservation
+28. REQUIRES_REVIEW behavior
+29. Reconciliation implementation
+30. Immutable audit trail
+31. Finance/Admin UI
+32. Customer Refund UI
+33. Vendor Payout UI
+34. Financial notification events
+35. Admin financial templates
+36. Notification wording invariants
+37. SMTP/send state
+38. Focused Refund tests
+39. Focused Payout tests
+40. Authorization/tenant tests
+41. Idempotency/replay tests
+42. Atomicity/fault-injection tests
+43. Evidence/privacy tests
+44. UI tests
+45. Native MySQL/concurrency result
+46. Final jobs/failed_jobs state
+47. Provider configuration preservation
+48. Account/email preservation
+49. Unexpected findings
+50. Remaining production gates
+51. Canonical 20-gate score
+52. Production GO/NO-GO
+53. Recommended next bounded action
+
+For each item distinguish:
+
+IMPLEMENTED
+VERIFIED
+PARTIAL
+UNVERIFIED
+DEFERRED
+BLOCKED
+
+Do not use "verified" where only source inspection or SQLite simulation exists.
+
+======================================================================
+33. FINAL AUTHORITY
+======================================================================
+
+You are authorized to implement the bounded manual Refund + Vendor Payout MVP
+described above.
+
+You are authorized to make the additive schema, backend, permission, Admin UI,
+Customer/Vendor UI, local notification-template and focused test changes
+required by this architecture.
+
+You are NOT authorized to:
+
+- move real money;
+- execute a real refund;
+- execute a real payout;
+- activate provider automation;
+- change provider credentials;
+- send real financial email;
+- repeat account verification/reset acceptance;
+- enable Specialist payout;
+- implement Wallet-to-cash redemption;
+- perform arbitrary legacy financial backfill;
+- publish/activate production.
+
+If a new valid financial/security P0 is discovered, STOP before repairing it
+unless the repair is already unambiguously within the approved architecture.
+
+Begin with the immutable before-state capture and exact source/migration mapping.
+
+Then implement the approved phases in order.
+
+Do not stop merely to ask whether to continue between ordinary implementation
+phases that are already authorized.
+
+Stop only at a defined stop condition or when the bounded implementation and
+local/native non-money acceptance are complete.

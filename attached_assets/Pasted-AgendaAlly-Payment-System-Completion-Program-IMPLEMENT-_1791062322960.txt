@@ -1,0 +1,1171 @@
+AgendaAlly — Payment System Completion Program
+IMPLEMENT REMAINING PAYMENT FUNCTIONALITY
+
+The completed payment-system audit and all accepted containment/architecture
+reports are the authoritative baseline.
+
+We are now moving from repeated architecture auditing to COMPLETING the
+remaining payment system.
+
+Do NOT restart the payment audit.
+
+Do NOT repeatedly re-prove already accepted architecture unless a change being
+implemented directly affects it.
+
+OBJECTIVE
+=========
+
+Complete the remaining payment system so AgendaAlly has a coherent,
+production-preparable implementation for:
+
+- Cash
+- AgendaAlly Wallet
+- MTN MoMo
+- Orange Money
+- Flutterwave
+- Paystack
+- Stripe where supported
+- PayPal where supported
+- platform-managed collection
+- Vendor-direct collection
+- provider configuration
+- provider verification
+- callbacks/webhooks
+- refunds
+- commission accounting
+- Vendor payable/receivable accounting
+- reconciliation
+- Vendor payouts
+- Admin operations
+- Vendor operations
+
+Real provider activation, production credentials and real-money transactions
+remain prohibited unless separately approved.
+
+============================================================
+1. ACCEPTED ARCHITECTURE — DO NOT REDESIGN
+============================================================
+
+Treat the completed audit and accepted Phase 1/2/3 work as authoritative.
+
+Preserve:
+
+- canonical Shop economic allocation;
+- contribution/custody identity;
+- commission calculated once;
+- platform-held funds satisfy commission first;
+- remaining eligible platform-held principal creates Vendor payable;
+- Vendor-direct principal does NOT create platform principal payable;
+- Vendor-received Cash does NOT create platform principal payable;
+- unsatisfied commission becomes Vendor commission receivable;
+- immutable original collection context;
+- replacement-Transaction protection;
+- callback/reconciliation idempotency;
+- Product and Booking canonical accounting;
+- Wallet conservation/finality;
+- payout atomicity;
+- fulfillment financial finality;
+- payment authorization containments;
+- MTN durable request identity and UNKNOWN recovery.
+
+Do not redesign these merely for convenience.
+
+============================================================
+2. TARGET CONFIGURATION MODEL
+============================================================
+
+ALL payment-provider credentials/settings must be manageable through the
+application.
+
+There are two credential ownership models.
+
+A. PLATFORM-MANAGED
+
+Admin configures AgendaAlly/platform provider credentials through the Admin
+Panel.
+
+These credentials may be used only for platform-managed collection.
+
+B. VENDOR-DIRECT
+
+Vendor configures that Shop's own provider credentials through the Vendor
+Panel.
+
+These credentials may be used only for that Shop's Vendor-direct collection.
+
+There must be NO credential-owner fallback.
+
+Platform credentials must never silently satisfy Vendor-direct configuration.
+
+Vendor credentials must never silently satisfy platform-managed configuration.
+
+Vendor A credentials must never be usable by Vendor B.
+
+============================================================
+3. ADMIN PAYMENT SETTINGS
+============================================================
+
+Complete the Admin payment-provider configuration experience.
+
+For every supported provider, Admin should be able to see/configure applicable:
+
+- provider;
+- country/market;
+- supported/configured currency;
+- environment/mode;
+- merchant/account identity;
+- public identifier;
+- API key;
+- API secret;
+- subscription key;
+- API user;
+- client ID;
+- client secret;
+- webhook/callback settings;
+- provider-specific required fields;
+- configuration completeness;
+- capability;
+- runtime readiness;
+- activation status.
+
+Fields must be provider-specific.
+
+Do not expose irrelevant credential fields merely because another provider
+uses them.
+
+============================================================
+4. VENDOR PAYMENT SETTINGS
+============================================================
+
+Complete the Vendor/Shop payment-provider configuration experience.
+
+Authorized Shop owners/staff with the accepted payment-management grant should
+be able to configure supported Vendor-direct providers for their own Shop.
+
+Vendor UI must clearly distinguish:
+
+AGENDAALLY PAYMENTS
+(platform-managed)
+
+from:
+
+USE MY OWN PAYMENT GATEWAY
+(Vendor-direct).
+
+For Vendor-direct show:
+
+- providers supported for that Shop country/currency;
+- configuration state;
+- required merchant fields;
+- environment where applicable;
+- readiness;
+- activation/availability;
+- reason unavailable.
+
+Do not allow cross-Shop configuration access.
+
+============================================================
+5. SECRET SECURITY
+============================================================
+
+Provider secrets entered through Admin/Vendor panels must:
+
+- be encrypted at rest using the application's accepted secure mechanism;
+- never be returned in plaintext by API responses;
+- never be placed in frontend state unnecessarily;
+- never appear in logs;
+- never appear in validation errors;
+- never appear in audit output;
+- never appear in exception traces returned to clients;
+- be redacted in UI;
+- support blank-means-preserve-existing-secret editing;
+- require explicit replacement to rotate;
+- be owner-scoped;
+- preserve immutable configuration/revision identity needed by payments.
+
+Do not log secrets in tests.
+
+If legacy provider storage cannot satisfy these requirements without schema
+work, stop only that affected provider/configuration item and document the
+minimum required correction. Continue independent work where safe.
+
+============================================================
+6. FOUR DISTINCT PROVIDER STATES
+============================================================
+
+Preserve the Phase 3A separation:
+
+CAPABILITY
+CONFIGURATION
+RUNTIME READINESS
+ACTIVATION.
+
+A provider can therefore be:
+
+capable but unconfigured;
+
+configured but runtime-incomplete;
+
+runtime-ready but disabled;
+
+fully checkout-available.
+
+Do not collapse these states again.
+
+============================================================
+7. CHECKOUT PROVIDER RESOLUTION
+============================================================
+
+Complete the checkout resolver for Product and Booking.
+
+Provider visibility must use the authoritative payment context:
+
+- Shop;
+- Shop country/market;
+- authoritative quote currency;
+- collection model;
+- provider capability;
+- correct credential owner;
+- configuration completeness;
+- runtime readiness;
+- activation policy.
+
+Customer display/storefront currency alone must NOT determine provider
+availability.
+
+Examples:
+
+A USD display choice must not automatically expose Stripe/PayPal.
+
+An XAF display choice must not automatically expose MTN/Orange.
+
+The underlying payable context must actually support that provider.
+
+============================================================
+8. PLATFORM-MANAGED FLOW
+============================================================
+
+Complete the generic platform-managed electronic flow:
+
+Customer
+→ authoritative Product/Booking quote
+→ eligible provider
+→ platform-owned merchant configuration
+→ provider attempt
+→ provider verification
+→ confirmed contribution
+→ canonical allocation
+→ commission
+→ Vendor payable
+→ later payout.
+
+Eligibility/configuration/initiation must never equal paid authority.
+
+============================================================
+9. VENDOR-DIRECT FLOW
+============================================================
+
+Complete the Vendor-direct architecture for providers where repository and
+provider contracts safely support it.
+
+Flow:
+
+Customer
+→ authoritative Product/Booking quote
+→ Shop-owned provider configuration
+→ provider collects directly for Vendor merchant
+→ authoritative provider verification
+→ canonical Vendor-direct contribution
+→ Vendor principal excluded from platform payout liability
+→ AgendaAlly commission satisfied from platform-held value where available
+   or recorded as Vendor commission receivable.
+
+Never create a platform payable for principal already received directly by the
+Vendor.
+
+============================================================
+10. VENDOR-DIRECT AVAILABILITY
+============================================================
+
+"Use my own payment gateway" should be selectable only when at least one
+provider is actually supported for Vendor-direct configuration for that Shop.
+
+However:
+
+configuration availability
+must not require
+checkout activation.
+
+A Vendor should be allowed to SAVE valid merchant configuration before a
+provider is activated for real checkout.
+
+Show accurate reasons when checkout remains unavailable.
+
+============================================================
+11. CASH
+============================================================
+
+Treat the accepted Cash architecture as baseline.
+
+Verify supported Product/Booking Cash journeys.
+
+Cash received directly by Vendor:
+
+- does not create platform principal custody;
+- does not create platform principal payable;
+- commission obligations follow canonical accounting.
+
+Do not redesign Cash unless a regression directly requires correction.
+
+============================================================
+12. WALLET
+============================================================
+
+Treat accepted Wallet containment/accounting as baseline.
+
+Verify:
+
+- actual debit required;
+- platform-controlled custody;
+- terminal completed transfer behavior;
+- replay protection;
+- commission-first allocation;
+- Vendor payable from eligible remaining held value;
+- mixed funding.
+
+Do not reopen the Wallet audit absent a direct regression.
+
+============================================================
+13. MTN
+============================================================
+
+Preserve completed Phase 3B-2 identity containment.
+
+Do not undo:
+
+reference reservation
+→ durable commit
+→ RequestToPay
+→ UNKNOWN recovery
+→ same-reference reconciliation
+→ authoritative finality.
+
+Complete only application-side configuration/readiness pieces that can be
+implemented without inventing unknown MTN Cameroon contract values.
+
+Prepare Admin platform credentials/settings.
+
+Prepare Vendor settings only if Vendor-direct MTN is structurally supported.
+
+Unknown Cameroon/UAT values must remain unset/UNKNOWN.
+
+Do NOT call MTN.
+
+Do NOT claim Cameroon/XAF certification.
+
+============================================================
+14. ORANGE MONEY
+============================================================
+
+Complete the application-side Orange integration as far as authoritative
+repository/provider evidence safely permits.
+
+The previous audit established that Orange lacked the complete authoritative
+verification contract available for MTN.
+
+Trace and implement the missing provider-verification boundary if the required
+contract is available from authoritative evidence.
+
+Require:
+
+- server-owned attempt identity;
+- authoritative verification;
+- replay/idempotency;
+- owner-bound configuration;
+- Product integration;
+- Booking integration;
+- canonical accounting;
+- callback/reconciliation behavior.
+
+If the actual provider contract cannot be established:
+
+do NOT invent it.
+
+Mark the provider:
+
+CONTRACT BLOCKED
+
+and continue other providers.
+
+============================================================
+15. FLUTTERWAVE
+============================================================
+
+Complete Flutterwave as a platform-managed provider using the existing verifier
+foundation.
+
+Verify/complete:
+
+- Admin configuration;
+- merchant ownership;
+- environment separation;
+- initiation;
+- authoritative verification;
+- webhook authentication;
+- replay protection;
+- Product;
+- Booking;
+- canonical accounting;
+- refund adapter where provider contract supports it;
+- reconciliation metadata.
+
+Determine Vendor-direct support separately.
+
+Do not assume platform implementation implies Vendor-direct support.
+
+============================================================
+16. PAYSTACK
+============================================================
+
+Complete Paystack using the existing verifier foundation.
+
+Verify/complete:
+
+- Admin configuration;
+- merchant ownership;
+- initiation;
+- authoritative verification;
+- webhook verification;
+- replay protection;
+- Product;
+- Booking;
+- canonical accounting;
+- refund adapter;
+- reconciliation.
+
+Correct the previously documented refund credential/status issue if it remains
+and can be corrected without changing accepted financial architecture.
+
+Determine Vendor-direct support separately.
+
+============================================================
+17. STRIPE
+============================================================
+
+Complete Stripe only for markets/currencies/account models actually supported
+by the current provider integration.
+
+Do not force Stripe into Cameroon/XAF.
+
+Complete:
+
+- Admin configuration;
+- capability resolver;
+- initiation;
+- authoritative server verification/webhook;
+- Product;
+- Booking;
+- canonical accounting;
+- refunds;
+- reconciliation.
+
+Vendor-direct requires an explicitly supported merchant-account model.
+
+Do not equate a Vendor entering arbitrary Stripe credentials with a safe
+marketplace integration unless the provider architecture supports it.
+
+============================================================
+18. PAYPAL
+============================================================
+
+Complete PayPal for supported markets/currencies.
+
+Do not force PayPal into Cameroon/XAF.
+
+Complete:
+
+- Admin configuration;
+- capability resolver;
+- authoritative payment verification;
+- Product;
+- Booking;
+- canonical accounting;
+- webhook/reconciliation;
+- refunds.
+
+Revisit the previously documented PayPal refund-response defect and correct it
+within this provider-completion scope if still present.
+
+Vendor-direct support must be independently valid.
+
+============================================================
+19. PROVIDER MATRIX
+============================================================
+
+Maintain ONE implementation matrix rather than creating another giant audit.
+
+For each provider show:
+
+- platform-managed configurable?
+- Vendor-direct configurable?
+- country capability;
+- currency capability;
+- initiation implemented?
+- authoritative verification?
+- webhook/callback?
+- replay protection?
+- Product?
+- Booking?
+- refund?
+- reconciliation?
+- external settlement known?
+- activation state?
+- remaining external dependency?
+
+Providers:
+
+MTN
+Orange
+Flutterwave
+Paystack
+Stripe
+PayPal.
+
+============================================================
+20. ELECTRONIC REFUNDS
+============================================================
+
+Complete the generic refund orchestration required by the canonical accounting
+model.
+
+Refund must use frozen ORIGINAL payment/custody evidence.
+
+Do not use current Shop/provider settings to reinterpret historical payment.
+
+For each contribution being refunded determine:
+
+- original collector;
+- provider;
+- merchant owner;
+- original provider payment identity;
+- refundable amount;
+- prior refund effects.
+
+Provider refund success must produce canonical refund effects exactly once.
+
+Vendor-direct refund must not create platform repayment of principal that the
+platform never collected.
+
+Cash refund semantics must preserve offline custody.
+
+Wallet refunds must preserve Wallet conservation.
+
+============================================================
+21. PROVIDER REFUND ADAPTERS
+============================================================
+
+Implement refund adapters only where authoritative provider contracts are
+available.
+
+Each adapter must support, as applicable:
+
+- full refund;
+- partial refund;
+- provider refund identity;
+- idempotency;
+- pending state;
+- success;
+- failure;
+- unknown outcome;
+- reconciliation.
+
+A provider without a certified refund contract must remain:
+
+PAYMENT MAY BE IMPLEMENTED
+BUT
+REFUND NOT READY
+
+and must not be considered production-ready unless an explicit operational
+refund policy has been approved.
+
+============================================================
+22. RECONCILIATION
+============================================================
+
+Complete the internal reconciliation architecture.
+
+AgendaAlly must be able to relate:
+
+provider attempt
+→ provider payment
+→ Transaction
+→ contribution
+→ allocation
+→ commission
+→ Vendor payable/receivable
+→ refund
+→ payout/settlement effects.
+
+Create Admin-visible reconciliation status where appropriate.
+
+Do not fabricate external settlement confirmation.
+
+Distinguish:
+
+PAYMENT VERIFIED
+
+from:
+
+EXTERNAL SETTLEMENT VERIFIED.
+
+============================================================
+23. VENDOR PAYOUTS
+============================================================
+
+The accepted internal payout accounting identifies what the platform owes.
+
+Complete the application-side payout workflow:
+
+Vendor payable
+→ payout request/eligibility
+→ Admin/authorized processing
+→ external payout method
+→ payout result
+→ canonical settlement effect.
+
+Preserve the accepted once-only/atomic payout accounting.
+
+Do not mark an external payout successful merely because internal bookkeeping
+succeeded.
+
+============================================================
+24. PAYOUT METHODS
+============================================================
+
+Inventory existing payout-method infrastructure.
+
+Complete Admin/Vendor configuration surfaces required for supported payout
+methods.
+
+Vendor must be able to configure its own payout destination where applicable.
+
+Examples may include bank/mobile-money/provider destinations only where
+existing implementation/provider contracts support them.
+
+Do not invent a financial rail.
+
+If no actual external payout rail is currently implemented, clearly leave:
+
+EXTERNAL PAYOUT NOT READY
+
+while completing the internal workflow and configuration safely.
+
+============================================================
+25. COMMISSION RECEIVABLE
+============================================================
+
+Complete operational handling for Vendor-direct/Cash cases where AgendaAlly is
+owed commission but did not hold enough Customer funds to satisfy it.
+
+The canonical commission receivable already represents the accounting
+obligation.
+
+Determine and implement only the safe application lifecycle needed to:
+
+- display amount owed;
+- associate it with Vendor/Shop;
+- track open/settled state;
+- prevent duplicate collection;
+- record settlement when legitimately received.
+
+Do not invent automatic debits from Vendor accounts.
+
+============================================================
+26. ADMIN FINANCIAL OPERATIONS
+============================================================
+
+Complete the Admin financial views necessary to operate the system.
+
+Admin should be able to inspect, with proper authorization:
+
+- Transactions;
+- provider;
+- collection model;
+- custody;
+- provider attempt/reference;
+- payment status;
+- verification status;
+- allocation;
+- commission;
+- Vendor payable;
+- commission receivable;
+- refund status;
+- payout status;
+- reconciliation status.
+
+Do not expose secrets.
+
+============================================================
+27. VENDOR FINANCIAL VIEWS
+============================================================
+
+Vendor should be able to inspect only its own Shop financial information:
+
+- payment method;
+- gross;
+- commission;
+- direct amount received where known;
+- platform-held Vendor entitlement;
+- payable;
+- payout status;
+- commission receivable;
+- refund effects.
+
+Never expose another Shop's provider configuration or financial records.
+
+============================================================
+28. FAILURE / UNKNOWN STATES
+============================================================
+
+Electronic provider integrations must not reduce uncertainty to false success
+or false failure.
+
+Where the provider contract is asynchronous, support:
+
+PRE-DISPATCH
+PENDING
+UNKNOWN
+SUCCESS
+FAILURE
+
+or equivalent provider-specific states.
+
+UNKNOWN must be recoverable.
+
+UNKNOWN must not mean paid.
+
+UNKNOWN must not create duplicate payment attempts.
+
+============================================================
+29. IDEMPOTENCY
+============================================================
+
+For every electronic provider prove the applicable protections against:
+
+- double click;
+- frontend retry;
+- duplicate callback;
+- webhook replay;
+- polling retry;
+- worker retry;
+- stale model;
+- replacement Transaction;
+- provider timeout;
+- process restart.
+
+At most one canonical financial effect may result from one authoritative
+funding event.
+
+============================================================
+30. PRODUCT + BOOKING
+============================================================
+
+Every provider considered complete must be tested through BOTH:
+
+Product purchase
+and
+Service/Booking payment
+
+unless the provider is intentionally restricted to one domain and the UI
+clearly enforces that restriction.
+
+Do not certify a provider from a standalone service test alone.
+
+============================================================
+31. MULTI-SHOP
+============================================================
+
+Preserve Shop isolation.
+
+Do not pretend that a single provider transaction can safely settle multiple
+independent merchants unless the provider and canonical accounting explicitly
+support that model.
+
+Fail closed for unsupported multi-Shop electronic checkout.
+
+============================================================
+32. COUNTRY + CURRENCY
+============================================================
+
+Complete provider capability resolution using authoritative country/currency
+context.
+
+Never report:
+
+UNSUPPORTED
+
+merely because credentials are absent.
+
+Use distinct states such as:
+
+CAPABLE
+UNKNOWN
+UNSUPPORTED
+UNCONFIGURED
+NOT READY
+DISABLED.
+
+============================================================
+33. SETTINGS UX
+============================================================
+
+Admin and Vendor screens should explain why a provider cannot be used.
+
+Examples:
+
+Supported but credentials missing.
+
+Configured but verifier unavailable.
+
+Ready but disabled by Admin.
+
+Currency unsupported.
+
+Country unsupported.
+
+Provider contract awaiting certification.
+
+Vendor-direct not supported for this provider.
+
+Do not show a generic "unsupported" for every blocker.
+
+============================================================
+34. ACTIVATION GATE
+============================================================
+
+Keep all currently disabled electronic providers disabled.
+
+Implementation completion does NOT authorize activation.
+
+The activation gate must require the provider to have, at minimum:
+
+- capability established;
+- correct merchant configuration;
+- runtime readiness;
+- authoritative verification;
+- canonical accounting integration;
+- replay protection;
+- required refund/operational policy;
+- approved test evidence.
+
+Actual activation requires separate approval.
+
+============================================================
+35. PRODUCTION CONCURRENCY
+============================================================
+
+Identify the actual intended production database engine from repository/runtime
+configuration.
+
+Prepare the accepted financial contention tests so they can be executed
+against a disposable instance of that engine.
+
+If such a disposable engine already exists locally and using it requires no
+production access, run the tests.
+
+Otherwise report the exact command/environment required.
+
+Do not access production.
+
+SQLite success must remain explicitly separate from production-engine
+certification.
+
+============================================================
+36. TESTING STRATEGY
+============================================================
+
+STOP spending credits rerunning huge unrelated suites after every small change.
+
+Use:
+
+A. focused tests for the component being changed;
+
+B. provider-specific Product/Booking journeys;
+
+C. canonical accounting regression set;
+
+D. authorization/finality regression set when financial mutation changed;
+
+E. one consolidated selected payment regression run at major milestones.
+
+Do not rerun a broad suite merely to repeat previously accepted evidence.
+
+============================================================
+37. PROTECTED DATA
+============================================================
+
+Preserve existing development financial records.
+
+Do not repeatedly perform expensive whole-system fingerprint exercises after
+documentation-only work.
+
+For actual financial/schema changes, use the established protected-state
+methodology.
+
+All 12 legacy Product Orders remain `unverified` unless a separate legacy
+decision is approved.
+
+Do not delete them merely to obtain clean test results.
+
+============================================================
+38. SCHEMA CHANGES
+============================================================
+
+Schema changes are permitted ONLY when they are the minimum necessary to
+complete an explicitly listed payment function above and do not materially
+change accepted Phase 2 economics.
+
+Before a migration that materially changes:
+
+economic identity;
+custody;
+commission;
+Vendor liability;
+provider-attempt identity;
+
+STOP and report the proposed deviation.
+
+Routine additive operational fields consistent with accepted architecture may
+be implemented with tests and documented.
+
+============================================================
+39. NEW P0 RULE
+============================================================
+
+Do not proactively start another broad security audit.
+
+If implementation directly exposes a NEW independent, source-confirmed,
+immediately exploitable financial P0:
+
+STOP that affected financial path.
+
+Document it.
+
+Do not automatically expand into unrelated investigation.
+
+Continue independent provider/workstream items only where doing so cannot
+interact with the P0.
+
+============================================================
+40. IMPLEMENTATION ORDER
+============================================================
+
+Work in this order:
+
+1. shared Admin/Vendor provider configuration and secret handling;
+
+2. shared capability/readiness/activation resolver;
+
+3. Cash/Wallet final regression baseline;
+
+4. Flutterwave completion;
+
+5. Paystack completion;
+
+6. Stripe completion for supported markets;
+
+7. PayPal completion for supported markets;
+
+8. MTN application-side completion while preserving external Cameroon
+   contract blockers;
+
+9. Orange completion as far as authoritative contract permits;
+
+10. generic refund orchestration;
+
+11. provider refund adapters;
+
+12. reconciliation;
+
+13. commission-receivable operations;
+
+14. Vendor payout workflow/configuration;
+
+15. Admin financial operations UI;
+
+16. Vendor financial UI;
+
+17. consolidated payment regression/capability matrix.
+
+Do not stop after every provider asking for permission unless a defined stop
+gate is reached.
+
+============================================================
+41. CHECKPOINTS
+============================================================
+
+Provide concise checkpoints after major workstreams.
+
+Do not write another 40-page audit after each one.
+
+Each checkpoint should state:
+
+COMPLETED
+BLOCKED EXTERNALLY
+BLOCKED BY CONTRACT
+BLOCKED BY SCHEMA
+or
+REMAINING.
+
+Continue automatically to the next independent item unless a stop gate applies.
+
+============================================================
+42. FINAL PAYMENT MATRIX
+============================================================
+
+At completion produce a concise final matrix:
+
+Provider | Platform config | Vendor config | Product | Booking | Verify |
+Refund | Reconcile | Platform collection | Vendor-direct | Countries |
+Currencies | Activation readiness | Remaining blocker
+
+Also include:
+
+Cash
+Wallet
+Vendor payout.
+
+============================================================
+43. FINAL CLASSIFICATION
+============================================================
+
+At completion classify the whole payment system:
+
+CORE ACCOUNTING
+CASH
+WALLET
+PLATFORM ELECTRONIC COLLECTION
+VENDOR-DIRECT
+REFUNDS
+COMMISSION RECEIVABLE
+VENDOR PAYOUTS
+RECONCILIATION
+ADMIN OPERATIONS
+VENDOR OPERATIONS
+PRODUCTION CONCURRENCY
+
+as:
+
+COMPLETE
+FUNCTIONAL BUT NOT PRODUCTION-CERTIFIED
+PARTIAL
+EXTERNAL DEPENDENCY
+or
+NOT IMPLEMENTED.
+
+============================================================
+44. DOCUMENTATION
+============================================================
+
+Update the existing authoritative payment documentation rather than creating
+another fragmented audit series wherever possible.
+
+Update:
+
+docs/development/payment-system-full-audit.md
+
+Create one implementation tracker if useful:
+
+docs/development/payment-system-completion.md
+
+Keep it concise and operational.
+
+============================================================
+45. WHAT MUST REMAIN DISABLED
+============================================================
+
+Until separately approved:
+
+- no real provider credentials;
+- no real electronic provider activation;
+- no real MTN/Orange/Flutterwave/Paystack/Stripe/PayPal transactions;
+- no real refunds;
+- no real Vendor payouts;
+- no production access;
+- no legacy classification/deletion;
+- no publishing.
+
+The goal is to make the APPLICATION ready for credentials, controlled provider
+testing and eventual activation.
+
+============================================================
+46. DEFINITION OF DONE
+============================================================
+
+This completion program is done when:
+
+1. Admin can securely configure every supported platform provider.
+
+2. Vendor can securely configure every supported Vendor-direct provider.
+
+3. Provider capability/configuration/readiness/activation are separate.
+
+4. Product and Booking use the same accepted canonical accounting.
+
+5. Electronic success requires authoritative provider evidence.
+
+6. Duplicate/replayed evidence cannot duplicate accounting.
+
+7. Platform-held principal creates the correct Vendor liability.
+
+8. Vendor-direct/Cash principal cannot create duplicate platform liability.
+
+9. Refund orchestration follows original custody.
+
+10. Supported provider refund adapters are implemented.
+
+11. Commission receivables are operationally visible/manageable.
+
+12. Vendor payable/payout workflow is operationally complete on the application
+    side.
+
+13. Reconciliation can relate provider evidence to canonical accounting.
+
+14. Admin has the necessary operational financial visibility.
+
+15. Vendor has correct Shop-scoped financial visibility.
+
+16. Unsupported provider/market combinations fail closed.
+
+17. All remaining external dependencies are explicitly identified.
+
+18. The only work remaining before real activation is provider onboarding,
+    credentials, provider-specific UAT, production-engine certification and
+    explicit activation approval — not another redesign of the payment system.
+
+============================================================
+47. FINAL STOP
+============================================================
+
+After completing all safely implementable application-side work, tests,
+provider matrix and completion report:
+
+STOP.
+
+Do not activate any electronic provider.
+
+Do not enter real credentials.
+
+Do not perform real payments/refunds/payouts.
+
+Do not access production.
+
+Return:
+
+- what is now complete;
+- what is functional but awaiting external certification;
+- what is blocked by provider contract/onboarding;
+- what requires credentials;
+- what requires UAT;
+- what requires production-engine certification;
+- the exact shortest path to first real electronic payment.

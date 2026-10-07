@@ -1,0 +1,19 @@
+{
+  "link_status": 200,
+  "download_status": 200,
+  "redacted_url": {
+    "path": "/api/v1/dashboard/manual-finance/6713761d-5795-4456-98f1-52c4f3ee25e1/attachments/255194b8-c401-4057-a0d4-9cb33cdb21fa/download",
+    "actor": "3",
+    "expires": "1791309965",
+    "has_lang": false
+  },
+  "suggested_filename": "receipt.pdf",
+  "headers": {
+    "content-type": "application/pdf",
+    "content-disposition": "attachment; filename=\"receipt.pdf\"",
+    "x-content-type-options": "nosniff",
+    "content-security-policy": "sandbox; default-src 'none'",
+    "cache-control": "no-store, private",
+    "referrer-policy": "no-referrer"
+  }
+}

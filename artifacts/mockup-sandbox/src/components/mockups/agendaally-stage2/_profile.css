@@ -1,0 +1,7 @@
+.aa-s2 .aa-s2-profile-cover img.aa-s2-logo-photo {
+  width: 54px !important;
+  height: 54px !important;
+  max-width: 54px;
+  flex: 0 0 54px;
+  object-fit: cover;
+}

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="900" viewBox="0 0 320 900"><rect width="320" height="900" fill="#faf8f4"/>
+<text x="16" y="26" fill="#76522e" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="700">320px · OPTIONAL WEEK PROPOSAL</text>
+<rect x="0" y="42" width="320" height="86" rx="16" fill="#fff" stroke="none"/>
+<text x="16" y="73" fill="#76522e" font-size="14" font-family="DejaVu Sans,sans-serif" font-weight="700">AgendaAlly</text>
+<text x="16" y="109" fill="#191a19" font-size="24" font-family="DejaVu Sans,sans-serif" font-weight="700">Calendar</text>
+<rect x="16" y="146" width="137" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="28" y="168" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Return to Agenda</text>
+<rect x="167" y="146" width="137" height="34" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<text x="179" y="168" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">5–11 Oct</text>
+<text x="16" y="213" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Week is opt-in from More, not the default.</text>
+<rect x="16" y="247" width="288" height="450" rx="10" fill="#fff" stroke="#e5e2dc"/>
+<defs><clipPath id="week-window"><rect x="24" y="257" width="272" height="425"/></clipPath></defs><g clip-path="url(#week-window)">
+<text x="33" y="280" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Mon 5</text>
+<path d="M24 312h100" stroke="#e5e2dc"/>
+<path d="M24 360h100" stroke="#e5e2dc"/>
+<path d="M24 408h100" stroke="#e5e2dc"/>
+<path d="M24 456h100" stroke="#e5e2dc"/>
+<path d="M24 504h100" stroke="#e5e2dc"/>
+<path d="M24 552h100" stroke="#e5e2dc"/>
+<path d="M24 600h100" stroke="#e5e2dc"/>
+<path d="M122 292v366" stroke="#e5e2dc"/>
+<text x="133" y="280" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Tue 6</text>
+<path d="M124 312h100" stroke="#e5e2dc"/>
+<path d="M124 360h100" stroke="#e5e2dc"/>
+<path d="M124 408h100" stroke="#e5e2dc"/>
+<path d="M124 456h100" stroke="#e5e2dc"/>
+<path d="M124 504h100" stroke="#e5e2dc"/>
+<path d="M124 552h100" stroke="#e5e2dc"/>
+<path d="M124 600h100" stroke="#e5e2dc"/>
+<path d="M222 292v366" stroke="#e5e2dc"/>
+<text x="233" y="280" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Wed 7</text>
+<path d="M224 312h100" stroke="#e5e2dc"/>
+<path d="M224 360h100" stroke="#e5e2dc"/>
+<path d="M224 408h100" stroke="#e5e2dc"/>
+<path d="M224 456h100" stroke="#e5e2dc"/>
+<path d="M224 504h100" stroke="#e5e2dc"/>
+<path d="M224 552h100" stroke="#e5e2dc"/>
+<path d="M224 600h100" stroke="#e5e2dc"/>
+<path d="M322 292v366" stroke="#e5e2dc"/>
+<text x="333" y="280" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Thu 8</text>
+<path d="M324 312h100" stroke="#e5e2dc"/>
+<path d="M324 360h100" stroke="#e5e2dc"/>
+<path d="M324 408h100" stroke="#e5e2dc"/>
+<path d="M324 456h100" stroke="#e5e2dc"/>
+<path d="M324 504h100" stroke="#e5e2dc"/>
+<path d="M324 552h100" stroke="#e5e2dc"/>
+<path d="M324 600h100" stroke="#e5e2dc"/>
+<path d="M422 292v366" stroke="#e5e2dc"/>
+<text x="433" y="280" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Fri 9</text>
+<path d="M424 312h100" stroke="#e5e2dc"/>
+<path d="M424 360h100" stroke="#e5e2dc"/>
+<path d="M424 408h100" stroke="#e5e2dc"/>
+<path d="M424 456h100" stroke="#e5e2dc"/>
+<path d="M424 504h100" stroke="#e5e2dc"/>
+<path d="M424 552h100" stroke="#e5e2dc"/>
+<path d="M424 600h100" stroke="#e5e2dc"/>
+<path d="M522 292v366" stroke="#e5e2dc"/>
+<text x="533" y="280" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Sat 10</text>
+<path d="M524 312h100" stroke="#e5e2dc"/>
+<path d="M524 360h100" stroke="#e5e2dc"/>
+<path d="M524 408h100" stroke="#e5e2dc"/>
+<path d="M524 456h100" stroke="#e5e2dc"/>
+<path d="M524 504h100" stroke="#e5e2dc"/>
+<path d="M524 552h100" stroke="#e5e2dc"/>
+<path d="M524 600h100" stroke="#e5e2dc"/>
+<path d="M622 292v366" stroke="#e5e2dc"/>
+<text x="633" y="280" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Sun 11</text>
+<path d="M624 312h100" stroke="#e5e2dc"/>
+<path d="M624 360h100" stroke="#e5e2dc"/>
+<path d="M624 408h100" stroke="#e5e2dc"/>
+<path d="M624 456h100" stroke="#e5e2dc"/>
+<path d="M624 504h100" stroke="#e5e2dc"/>
+<path d="M624 552h100" stroke="#e5e2dc"/>
+<path d="M624 600h100" stroke="#e5e2dc"/>
+<path d="M722 292v366" stroke="#e5e2dc"/>
+<rect x="29" y="343" width="87" height="72" rx="10" fill="#f0e7d9" stroke="none"/>
+<text x="37" y="365" fill="#76522e" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="700">09:00</text>
+<text x="37" y="388" fill="#191a19" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">Haircut</text>
+<rect x="128" y="438" width="87" height="72" rx="10" fill="#f0e7d9" stroke="none"/>
+<text x="137" y="461" fill="#76522e" font-size="11" font-family="DejaVu Sans,sans-serif" font-weight="700">11:00</text>
+<text x="137" y="484" fill="#191a19" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="600">Consultation</text>
+</g>
+<rect x="31" y="705" width="258" height="5" rx="2" fill="#e5e2dc" stroke="none"/>
+<rect x="31" y="705" width="90" height="5" rx="2" fill="#76522e" stroke="none"/>
+<text x="16" y="742" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Swipe only inside the bounded Week panel.</text>
+<text x="16" y="764" fill="#64665f" font-size="10" font-family="DejaVu Sans,sans-serif" font-weight="400">Page / body width stays fixed at 320px.</text>
+<rect x="0" y="817" width="320" height="83" rx="16" fill="#fff" stroke="none"/>
+<rect x="16" y="833" width="288" height="34" rx="10" fill="#76522e" stroke="none"/>
+<text x="28" y="855" fill="white" font-size="12" font-family="DejaVu Sans,sans-serif" font-weight="600">+ Add Booking</text>
+<text x="16" y="883" fill="#64665f" font-size="9" font-family="DejaVu Sans,sans-serif" font-weight="400">Agenda remains the primary mobile experience</text>
+</svg>

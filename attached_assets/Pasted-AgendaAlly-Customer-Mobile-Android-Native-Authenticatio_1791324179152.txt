@@ -1,0 +1,765 @@
+AgendaAlly Customer Mobile — Android Native Authentication & Secure-Session Qualification
+
+AUTHORIZATION
+
+AgendaAlly Customer Mobile Phase 1 authentication/API confidentiality and session-foundation implementation is complete and stopped for owner review.
+
+Authoritative Phase 1 report:
+
+docs/development/agendaally-customer-mobile-phase1-auth-session.md
+
+Evidence:
+
+docs/development/evidence/customer-mobile-phase1-auth-session/
+
+Current authoritative Phase 1 result:
+
+CUSTOMER MOBILE PHASE 1:
+PARTIAL
+
+P0-01 — AUTH/API CONFIDENTIALITY:
+CLOSED
+
+P0-02 — SECURE TOKEN STORAGE:
+PARTIAL
+
+CURRENT CUSTOMER EMAIL VERIFICATION CONTRACT:
+ALIGNED
+
+SESSION/LOGOUT FOUNDATION:
+ALIGNED
+
+SUPPORTED FLUTTER/DART VALIDATION:
+PASS
+
+ANDROID BUILD:
+BLOCKED-ENVIRONMENT
+
+IOS BUILD:
+NOT EXECUTED
+
+BACKEND CHANGES:
+NONE
+
+REMAINING MOBILE P0:
+1
+
+REMAINING MOBILE P1:
+9
+
+CUSTOMER MOBILE PHASE 2:
+NOT YET AUTHORIZED
+
+This task authorizes ONLY:
+
+ANDROID NATIVE AUTHENTICATION / SECURE-STORAGE / SESSION QUALIFICATION
+
+This is primarily a qualification campaign for the already implemented Phase 1 behavior.
+
+Do NOT begin Customer Mobile Phase 2 feature development.
+
+==================================================
+1. PRIMARY OBJECTIVE
+==================================================
+
+Close or accurately retain the remaining P0-02 qualification:
+
+BEARER TOKEN SECURE NATIVE PERSISTENCE / ERASURE
+
+Phase 1 implemented:
+
+- flutter_secure_storage 9.2.4;
+- dedicated Customer secure-storage namespace;
+- Android secure-storage configuration;
+- SharedPreferences no longer being ongoing bearer-token authority;
+- one-way legacy plaintext-token discard;
+- coordinated local session invalidation;
+- logout handling;
+- 401 handling;
+- 403 preservation;
+- stale-session/generation protection;
+- account-state isolation;
+- blocked recovery after local cleanup failure.
+
+However, Phase 1 deliberately left P0-02 PARTIAL because Linux memory/method-channel tests do not prove actual Android Keystore-backed persistence or deletion.
+
+This campaign must qualify the existing implementation on a real Android runtime environment if one can legitimately be provisioned.
+
+Do NOT rewrite the implementation merely to create more source-level evidence.
+
+==================================================
+2. REQUIRED ANDROID ENVIRONMENT
+==================================================
+
+Use the already qualified application toolchain baseline:
+
+Flutter 3.38.5
+Dart 3.10.4
+
+Preserve the existing dependency graph.
+
+flutter_secure_storage 9.2.4 is already the approved direct dependency.
+
+Provision/use an appropriate Android SDK, build tools and Android runtime environment if available.
+
+Preferred runtime:
+
+- Android emulator, or
+- legitimate attached Android device.
+
+Use isolated tooling/caches where practical.
+
+Do NOT:
+
+- broadly upgrade Flutter;
+- broadly upgrade Dart;
+- upgrade unrelated dependencies;
+- regenerate the Flutter project;
+- modernize Gradle merely because newer versions exist;
+- change application architecture;
+- change package identity merely for this qualification;
+- change backend APIs.
+
+If Android compilation exposes a genuine source/configuration defect in the Phase 1 implementation, a minimal Android-specific repair MAY be made only if:
+
+1. it is necessary for the authorized native qualification;
+2. it does not change business/financial behavior;
+3. it is documented exactly;
+4. focused regression validation is rerun.
+
+If fixing the problem requires broad dependency/toolchain modernization:
+
+STOP and report.
+
+==================================================
+3. BUILD QUALIFICATION
+==================================================
+
+First establish whether the existing Customer app can compile using the supported Flutter/Dart baseline and Android SDK.
+
+Run the strongest appropriate validation available, including:
+
+- dependency resolution with lockfile enforcement;
+- flutter analyze;
+- existing Phase 1 focused tests;
+- Android debug build;
+- installation/launch on emulator/device if available.
+
+Do not treat missing external service credentials as application-source defects unless the build/runtime actually reaches and proves that boundary.
+
+Classify failures accurately:
+
+PASS
+
+FAILED-SOURCE
+
+BLOCKED-ENVIRONMENT
+
+BLOCKED-CONFIGURATION
+
+BLOCKED-EXTERNAL-SERVICE
+
+UNKNOWN
+
+Do not weaken security controls just to make an APK build.
+
+==================================================
+4. NATIVE SECURE STORAGE QUALIFICATION
+==================================================
+
+The principal objective is to establish whether the Phase 1 secure-token implementation behaves correctly on actual Android storage.
+
+Qualify, where technically observable without exposing credentials:
+
+A. SECURE TOKEN WRITE
+
+Establish a synthetic Customer authentication/session token through a controlled test/fixture path.
+
+Verify the application persists the bearer using the configured secure-storage adapter.
+
+Do NOT print the token.
+
+Use a unique synthetic sentinel/hash if evidence needs identity correlation.
+
+--------------------------------------------------
+
+B. NO PLAINTEXT SHARED PREFERENCES AUTHORITY
+
+Verify that the bearer token is not stored as an ongoing plaintext SharedPreferences value.
+
+Inspect only the specific relevant application storage boundary.
+
+Do not dump unrelated Customer/private application data into evidence.
+
+Do not expose actual credentials.
+
+--------------------------------------------------
+
+C. PROCESS RESTART PERSISTENCE
+
+With a controlled valid synthetic/session fixture:
+
+1. establish secure session;
+2. terminate/restart the application process;
+3. verify the secure bearer can be restored through the intended secure-storage path;
+4. verify the app follows the current profile/session validation boundary before exposing private Customer content.
+
+Do not claim server validity unless actually established by the controlled fixture.
+
+--------------------------------------------------
+
+D. LOGOUT ERASURE
+
+Qualify successful logout/local invalidation:
+
+1. secure bearer exists;
+2. logout begins;
+3. private Customer view is invalidated according to Phase 1 semantics;
+4. secure bearer is removed;
+5. app process is restarted;
+6. previous bearer is not restored;
+7. previous private Customer state is not exposed.
+
+If remote server revocation is not exercised, clearly distinguish:
+
+LOCAL NATIVE CREDENTIAL ERASURE VERIFIED
+
+from:
+
+SERVER TOKEN REVOCATION NOT EXECUTED.
+
+Do not invent remote confirmation.
+
+--------------------------------------------------
+
+E. 401 INVALIDATION
+
+Using an isolated controlled fixture:
+
+1. establish Customer session;
+2. cause/fixture a current protected 401;
+3. verify local native token authority is invalidated;
+4. verify Customer private navigation/state is replaced;
+5. restart;
+6. verify the invalidated bearer is not restored.
+
+Do not send real financial/provider requests.
+
+--------------------------------------------------
+
+F. 403 PRESERVATION
+
+Using a controlled fixture:
+
+1. establish valid local Customer session;
+2. produce a normal protected 403;
+3. verify the client treats it as authorization failure;
+4. verify it does NOT globally erase the Customer token/session merely because a 403 occurred.
+
+This distinction must remain:
+
+401 → authentication/session handling
+
+403 → authorization failure unless an actual backend contract explicitly says otherwise.
+
+--------------------------------------------------
+
+G. ACCOUNT SWITCHING
+
+Using synthetic Customer identities/session fixtures:
+
+Customer A → logout/invalidation → Customer B
+
+Verify:
+
+- A's secure bearer cannot be reused;
+- A's private cached profile/Wallet/account state is not displayed to B;
+- stale A responses cannot update B;
+- B establishes a separate current session;
+- restarting the app does not resurrect A.
+
+Do not use real Customer credentials.
+
+--------------------------------------------------
+
+H. LEGACY PLAINTEXT TOKEN DISCARD
+
+If safely testable on the native runtime:
+
+1. create a synthetic legacy SharedPreferences bearer in the old key location;
+2. initialize the current application/session layer;
+3. verify the legacy token is discarded rather than promoted to active authority;
+4. verify legacy plaintext key removal;
+5. verify Customer/account cache cleanup required by Phase 1;
+6. verify reauthentication is required.
+
+Do not use a real historical token.
+
+--------------------------------------------------
+
+I. CLEANUP FAILURE / RECOVERY
+
+Phase 1 introduced blocked recovery when durable local cleanup cannot be confirmed.
+
+Where a controlled fault can legitimately be injected without corrupting the environment:
+
+- simulate secure deletion/storage failure;
+- verify the application does not present logout as successfully completed;
+- verify private Customer access remains blocked;
+- verify retry/recovery behavior;
+- verify the application does not silently reactivate an uncertain token.
+
+Do not claim actual Android Keystore corruption if only an adapter-level fault is injected.
+
+Clearly label the evidence level.
+
+==================================================
+5. ANDROID KEYSTORE / STORAGE EVIDENCE BOUNDARY
+==================================================
+
+The objective is behavioral qualification of secure persistence/erasure.
+
+Do NOT attempt to extract cryptographic keys from Android Keystore.
+
+Do NOT expose secret material merely to prove encryption.
+
+Do NOT include bearer tokens in:
+
+- screenshots;
+- console logs;
+- test reports;
+- evidence JSON;
+- shell history where avoidable;
+- report text.
+
+Evidence may use:
+
+- boolean existence/nonexistence;
+- synthetic identifiers;
+- hashes of synthetic sentinel values;
+- application storage metadata that does not disclose secrets;
+- controlled test assertions.
+
+The report must distinguish:
+
+SOURCE-CONFIGURED
+
+TEST-VERIFIED
+
+ANDROID-RUNTIME-VERIFIED
+
+Do not equate source configuration with Android runtime proof.
+
+==================================================
+6. BACKUP / DEVICE-TRANSFER CONFIGURATION
+==================================================
+
+Phase 1 added dedicated Android backup/device-transfer exclusions for Customer secure-storage state.
+
+Inspect/qualify those Android configuration files as part of this campaign.
+
+Confirm that the intended Customer encrypted-preference file is excluded according to the current Android configuration.
+
+Do NOT claim actual cloud-backup/restore qualification unless a real supported backup/restore scenario is executed.
+
+Configuration validation is sufficient to report:
+
+ANDROID BACKUP EXCLUSION CONFIGURATION VERIFIED
+
+but NOT:
+
+ANDROID CLOUD BACKUP BEHAVIOR VERIFIED
+
+unless actually tested.
+
+==================================================
+7. PHASE 1 REGRESSION
+==================================================
+
+Rerun the existing focused Phase 1 suite.
+
+Current retained baseline:
+
+36 tests passing
+flutter analyze clean
+
+The existing security assertions must remain strong.
+
+At minimum preserve qualification of:
+
+- body-only auth transport;
+- log confidentiality;
+- secure token adapter behavior;
+- logout success;
+- logout timeout;
+- 401 behavior;
+- 403 behavior;
+- stale-session rejection;
+- account isolation;
+- duplicate logout handling;
+- email verification contract;
+- blocked recovery.
+
+Do not weaken existing assertions to obtain a pass.
+
+==================================================
+8. NO REAL CUSTOMER / PROVIDER ACTIVITY
+==================================================
+
+Use synthetic fixtures/test identities where possible.
+
+Do NOT:
+
+- use real Customer passwords;
+- send real verification emails;
+- send real password-reset emails;
+- send SMS;
+- activate Google/Facebook/Apple login;
+- activate payment providers;
+- execute payment;
+- execute Wallet movement;
+- execute refund;
+- execute payout;
+- send financial notifications;
+- mutate normal financial records.
+
+This campaign is authentication/session qualification only.
+
+==================================================
+9. NO BOOKING/PAYMENT/REFUND IMPLEMENTATION
+==================================================
+
+Do NOT begin the remaining Mobile MVP feature work.
+
+Specifically do NOT implement or refactor:
+
+- booking payment eligibility;
+- payment selection;
+- Cash collection semantics;
+- Wallet spending authority;
+- payment provider redirect interpretation;
+- payment completion presentation;
+- booking mutation reconciliation;
+- manual Customer refunds;
+- refund eligibility;
+- refund requests;
+- refund command keys;
+- refund state/history UI;
+- Refund & Cancellation Policy integration;
+- financial notifications.
+
+Those belong to later separately authorized phases.
+
+==================================================
+10. NO IOS QUALIFICATION CLAIM
+==================================================
+
+This campaign is Android-native qualification.
+
+Do not claim that Android secure-storage behavior proves iOS Keychain behavior.
+
+iOS remains:
+
+SOURCE/CONFIGURATION REVIEWED
+
+but:
+
+NATIVE BUILD/RUNTIME NOT QUALIFIED
+
+unless a legitimate macOS/Xcode environment is separately available and explicitly authorized.
+
+Do not broaden this campaign into iOS implementation or release preparation.
+
+==================================================
+11. P0-02 CLOSURE CRITERIA
+==================================================
+
+For the Android-first Customer Mobile target, P0-02 may be classified:
+
+CLOSED — ANDROID
+
+only if evidence establishes, on an actual Android runtime:
+
+1. secure bearer persistence through the intended secure-storage implementation;
+
+2. no continuing plaintext SharedPreferences bearer authority;
+
+3. process restart restores only appropriately valid secure session state;
+
+4. successful local logout removes/inactivates durable bearer authority;
+
+5. restart after logout does not restore the previous bearer;
+
+6. current protected 401 invalidates durable local authority;
+
+7. ordinary 403 does not incorrectly destroy a valid session;
+
+8. account switching does not expose/reuse the previous Customer session;
+
+9. legacy plaintext token handling behaves according to the Phase 1 design where safely testable;
+
+10. no relevant bearer/password/OTP disclosure occurs in logs/evidence.
+
+If these cannot be established because a native runtime is unavailable:
+
+retain:
+
+P0-02 PARTIAL / BLOCKED-ENVIRONMENT
+
+Do NOT close it from source or Linux method-channel tests.
+
+If native runtime reveals a real defect:
+
+classify:
+
+P0-02 OPEN
+
+or:
+
+P0-02 PARTIAL
+
+as supported by evidence.
+
+==================================================
+12. ANDROID-FIRST SCOPE DECISION
+==================================================
+
+For this campaign, treat Android as the first native qualification target.
+
+If Android P0-02 closes successfully:
+
+report the Android-first Customer MVP confidentiality prerequisite separately from iOS.
+
+Do NOT silently claim:
+
+REMAINING MOBILE P0 COUNT = 0 ACROSS ALL PLATFORMS
+
+if iOS secure-storage native behavior remains unqualified.
+
+Instead report both:
+
+ANDROID-FIRST REMAINING P0 COUNT
+
+and
+
+CROSS-PLATFORM / IOS QUALIFICATION STATUS.
+
+This distinction is important.
+
+A successful Android result may allow the owner to authorize the next functional implementation phase for the Android-first Customer MVP while iOS native qualification remains a separate required campaign before an iOS release.
+
+Do not make that owner decision automatically.
+
+==================================================
+13. PRESERVATION
+==================================================
+
+Capture fresh before-state before any authorized changes.
+
+Expected:
+
+Normal database:
+214 tables
+
+Web/Admin/backend:
+unchanged
+
+Financial/business behavior:
+unchanged
+
+If no source repair is required, application source should remain unchanged except new qualification tests/evidence/report artifacts.
+
+If a minimal Android-specific repair is required, list it explicitly.
+
+At completion verify:
+
+- database schema fingerprint;
+- all 214 table fingerprints;
+- Web source fingerprints;
+- Admin source fingerprints;
+- backend source fingerprints;
+- financial repository/business logic preservation;
+- dependency graph preservation except already approved Phase 1 direct dependency classification.
+
+No normal database writes are authorized.
+
+==================================================
+14. STOP CONDITIONS
+==================================================
+
+STOP and report before broadening work if:
+
+- Android build requires broad dependency upgrades;
+- Android build requires Flutter project regeneration;
+- secure storage cannot operate with the approved dependency graph;
+- P0-02 reveals an architectural defect requiring substantial redesign;
+- a backend change appears necessary;
+- financial/business logic would need modification;
+- normal database/schema changes unexpectedly;
+- unrelated Web/Admin/backend changes appear;
+- testing would require real credentials or real financial/provider activity;
+- a new independent P0 is discovered;
+- security assertions would need weakening.
+
+Do not automatically repair outside these boundaries.
+
+==================================================
+15. DURABLE REPORT / EVIDENCE
+==================================================
+
+Create a durable report such as:
+
+docs/development/agendaally-customer-mobile-android-auth-qualification.md
+
+Store evidence under a dedicated directory such as:
+
+docs/development/evidence/customer-mobile-android-auth-qualification/
+
+Include:
+
+1. Executive summary.
+
+2. Exact authorization/scope.
+
+3. Android SDK/toolchain versions.
+
+4. Flutter/Dart versions.
+
+5. Dependency graph result.
+
+6. Android build result.
+
+7. Emulator/device environment used.
+
+8. App installation/launch result.
+
+9. Native secure-token write evidence.
+
+10. Plaintext SharedPreferences absence evidence.
+
+11. Process-restart persistence evidence.
+
+12. Logout-erasure evidence.
+
+13. Restart-after-logout evidence.
+
+14. 401 invalidation evidence.
+
+15. 403 preservation evidence.
+
+16. Account-switch isolation evidence.
+
+17. Legacy plaintext-token discard evidence, if executed.
+
+18. Cleanup-failure/recovery evidence and evidence level.
+
+19. Backup/device-transfer configuration validation.
+
+20. Secret/log confidentiality evidence.
+
+21. Existing Phase 1 regression result.
+
+22. Static-analysis result.
+
+23. Exact source/config/test files changed.
+
+24. Exact dependency changes — expected NONE.
+
+25. Database/schema preservation.
+
+26. Web/Admin/backend preservation.
+
+27. P0-02 closure determination.
+
+28. Android-first remaining P0 count.
+
+29. iOS qualification status.
+
+30. Whether Android-first functional Phase 2 may be recommended.
+
+31. One next bounded recommendation only.
+
+==================================================
+16. FINAL DECISION FORMAT
+==================================================
+
+End the report with:
+
+ANDROID NATIVE AUTH/SESSION QUALIFICATION:
+PASS / PARTIAL / BLOCKED / FAILED
+
+ANDROID DEBUG BUILD:
+PASS / FAILED-SOURCE / BLOCKED-ENVIRONMENT / BLOCKED-CONFIGURATION
+
+ANDROID RUNTIME:
+QUALIFIED / PARTIAL / NOT AVAILABLE
+
+P0-01 — AUTH/API CONFIDENTIALITY:
+CLOSED / REGRESSION FOUND
+
+P0-02 — SECURE TOKEN STORAGE:
+CLOSED-ANDROID / PARTIAL / OPEN
+
+NATIVE SECURE TOKEN PERSISTENCE:
+VERIFIED-ANDROID / PARTIAL / NOT VERIFIED
+
+NATIVE TOKEN ERASURE:
+VERIFIED-ANDROID / PARTIAL / NOT VERIFIED
+
+RESTART AFTER LOGOUT:
+PASS / PARTIAL / NOT EXECUTED
+
+401 SESSION INVALIDATION:
+PASS / PARTIAL / NOT EXECUTED
+
+403 SESSION PRESERVATION:
+PASS / PARTIAL / NOT EXECUTED
+
+ACCOUNT SWITCH ISOLATION:
+PASS / PARTIAL / NOT EXECUTED
+
+LEGACY PLAINTEXT TOKEN DISCARD:
+PASS / PARTIAL / NOT EXECUTED
+
+PHASE 1 REGRESSION SUITE:
+PASS / FAIL
+
+STATIC ANALYSIS:
+PASS / FAIL
+
+BACKEND CHANGES:
+NONE / STOPPED FOR OWNER REVIEW
+
+DATABASE/SCHEMA CHANGES:
+NONE EXPECTED
+
+WEB/ADMIN CHANGES:
+NONE EXPECTED
+
+ANDROID-FIRST REMAINING MOBILE P0 COUNT:
+__
+
+IOS NATIVE SECURE-STORAGE QUALIFICATION:
+NOT EXECUTED / PARTIAL / QUALIFIED
+
+ANDROID-FIRST CUSTOMER MOBILE PHASE 2 CAN BE RECOMMENDED:
+YES / NO
+
+NEXT RECOMMENDED CAMPAIGN:
+one bounded recommendation only
+
+==================================================
+17. STOP AFTER QUALIFICATION
+==================================================
+
+Even if Android qualification passes and P0-02 becomes CLOSED-ANDROID:
+
+STOP.
+
+Do NOT automatically start Customer Mobile Phase 2.
+
+Do NOT implement booking/payment/refund/policy features.
+
+Return the report and evidence for owner review.
+
+The owner will separately authorize the next functional Customer Mobile implementation campaign.

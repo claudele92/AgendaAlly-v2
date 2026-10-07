@@ -1,0 +1,9 @@
+{
+  "algorithm": "SHA256 of exact file bytes, compared over the original 5,816-file baseline",
+  "baselineFiles": 5816,
+  "comparedFiles": 5816,
+  "changedOrMissingFiles": [],
+  "identical": true,
+  "scope": "Existing mobile/web/admin/backend files represented by baseline; dependencies, generated caches, storage and SQLite excluded",
+  "limitation": "Fixed baseline detects modification/deletion, not newly created files; use the independent git status evidence for additions and tracked root configuration."
+}

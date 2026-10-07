@@ -1,0 +1,1001 @@
+AgendaAlly — Wallet Concurrent-Spend P0 Containment,
+Engine Certification, and Payment Completion Continuation
+
+The latest engine-proof report is accepted as the authoritative starting point.
+
+CURRENT ACCEPTED STATE
+======================
+
+The stale contribution-confirmation defect is corrected.
+
+Accepted correction:
+- `AllocationWriter.php` reloads authoritative contribution state after the
+  parent lock, inside the transaction.
+- Identical receipts converge idempotently.
+- Different receipts remain denied.
+- Both MySQL and PostgreSQL passed the corrected confirmation races.
+- Both engines passed all 13 expanded reservation groups.
+- SQLite focused confirmation tests passed: 11 tests / 72 assertions.
+- Original MySQL suite passed: 13 tests / 51 assertions.
+
+Do NOT reopen or redesign that correction unless this Wallet work directly
+causes a regression.
+
+However, neither production-engine candidate is certified because both exposed
+a NEW independent Wallet financial P0:
+
+Starting sender balance: 100
+Starting recipient balance: 30
+
+Concurrent transfers:
+- transfer A = 70
+- transfer B = 70
+
+Observed on BOTH MySQL and PostgreSQL:
+- both transfers succeeded;
+- sender ended at -40;
+- recipient ended at 170;
+- both workers returned HTTP 200;
+- both workers exited outside transactions.
+
+This phase authorizes containment of that Wallet P0 and, if successful,
+continuation toward completion of the payment system.
+
+Do not stop merely because the Wallet fix or engine certification succeeds.
+
+============================================================
+1. PRIMARY OBJECTIVE
+============================================================
+
+Correct the demonstrated concurrent Wallet overspend so the same Wallet value
+cannot be spent concurrently by:
+
+- Wallet transfer;
+- Product Wallet payment;
+- Booking Wallet payment;
+- withdrawal;
+- any other existing native caller of the same Wallet debit primitive.
+
+Then rerun BOTH MySQL and PostgreSQL certification.
+
+IF at least one engine passes the complete required certification matrix,
+continue automatically with the remaining application-side Payment System
+Completion Program wherever no separate stop gate applies.
+
+The goal is to MOVE FORWARD, not start another broad audit cycle.
+
+============================================================
+2. AUTHORIZED WALLET SCOPE
+============================================================
+
+First trace the exact Wallet debit path.
+
+Determine:
+
+- authoritative Wallet balance source;
+- where spendable balance is calculated;
+- where sufficient-funds validation occurs;
+- transaction boundaries;
+- existing row/database locks;
+- sender debit writer;
+- recipient credit writer;
+- WalletHistory writes;
+- Transaction writes;
+- finality writes;
+- Product Wallet debit caller;
+- Booking Wallet debit caller;
+- withdrawal debit caller;
+- any other caller sharing the same debit primitive.
+
+Confirm exactly why two concurrent 70 debits can both authorize against 100.
+
+Do not broaden this into an unrelated Wallet/security audit.
+
+============================================================
+3. REQUIRED WALLET INVARIANT
+============================================================
+
+For every Wallet debit D:
+
+the sufficient-funds decision and debit authorization must occur under one
+authoritative serialized database boundary.
+
+The system must guarantee:
+
+available spendable Wallet value >= newly authorized debit
+
+at the point where the debit becomes financially authoritative.
+
+Concurrent requests must not independently consume the same available funds.
+
+A Wallet must not become negative from these spending operations.
+
+============================================================
+4. AUTHORITATIVE SERIALIZATION
+============================================================
+
+Use the minimum correct database-level serialization mechanism.
+
+The authoritative Wallet boundary must be locked/updated inside the financial
+transaction BEFORE accepting the debit.
+
+After waiting for a lock, reload/recalculate the authoritative Wallet state.
+
+Do not trust a PHP/ORM model hydrated before the lock wait.
+
+Do not use:
+
+- frontend serialization;
+- process-local mutexes;
+- arbitrary sleeps;
+- timing assumptions;
+- check-then-update outside one authoritative transaction;
+- SQLite behavior as production proof.
+
+If the existing schema can safely provide the serialization boundary, use it.
+
+No schema migration is authorized by this brief.
+
+If a schema change is actually required, STOP BEFORE MIGRATION and explain why.
+
+============================================================
+5. PRESERVE ACCEPTED WALLET SEMANTICS
+============================================================
+
+Do not redesign previously accepted Wallet behavior.
+
+Preserve:
+
+- sender debited exactly once;
+- recipient credited exactly once;
+- atomic transfer legs;
+- completed transfers terminal/non-cancellable;
+- rollback of all legs on failure;
+- persisted Wallet ownership checks;
+- legitimate pending withdrawal cancellation once;
+- Admin top-up approval behavior;
+- canonical Wallet custody;
+- commission-first allocation where applicable;
+- canonical Product/Booking accounting;
+- existing replay/finality protections.
+
+This is a concurrency containment, not a Wallet redesign.
+
+============================================================
+6. EXACT P0 REGRESSION
+============================================================
+
+Create a deterministic regression for the demonstrated failure.
+
+Initial:
+
+sender = 100
+recipient = 30
+
+Concurrent:
+
+A transfers 70
+B transfers 70
+
+Required:
+
+EXACTLY ONE succeeds.
+
+The other fails cleanly because sufficient spendable funds no longer exist.
+
+Final:
+
+sender = 30
+recipient = 100
+
+combined = 130
+
+Also prove:
+
+- no negative Wallet;
+- no second recipient credit;
+- no orphan history;
+- no orphan Transaction;
+- no duplicate canonical effect;
+- no transaction left open.
+
+============================================================
+7. CONCURRENT DEBIT MATRIX
+============================================================
+
+Test at minimum:
+
+100 with 70 + 70
+→ exactly one succeeds.
+
+100 with 60 + 60
+→ exactly one succeeds.
+
+100 with 70 + 40
+→ only a serialized combination totaling <=100 may succeed;
+  both cannot succeed.
+
+100 with 40 + 50
+→ both MAY succeed;
+  final balance must be 10.
+
+100 with 100 + 1
+→ the 100 debit may succeed and the 1 debit must then fail.
+
+100 with two exact 50 debits
+→ both may succeed;
+  final balance 0.
+
+The solution must enforce conservation rather than simply allowing one
+concurrent operation.
+
+============================================================
+8. CROSS-OPERATION CONTENTION
+============================================================
+
+This is critical.
+
+The same Wallet funds must not be independently spendable through different
+features.
+
+Test contention such as:
+
+Wallet balance 100
+
+A = Wallet transfer 70
+B = Product Wallet payment 70
+
+and:
+
+A = Wallet transfer 70
+B = Booking Wallet payment 70
+
+and where supported:
+
+A = withdrawal 70
+B = Product/Booking/transfer 70.
+
+They must share the same authoritative debit boundary.
+
+Do NOT fix only the transfer controller while leaving Product/Booking able to
+double-spend the same Wallet.
+
+============================================================
+9. PRODUCT WALLET
+============================================================
+
+Verify Product Wallet payment still:
+
+- requires actual Wallet debit;
+- uses canonical allocation/accounting;
+- creates platform-controlled custody only after debit;
+- cannot overspend concurrently;
+- cannot duplicate contribution/payable/commission;
+- rolls back completely on downstream failure.
+
+============================================================
+10. BOOKING WALLET
+============================================================
+
+Verify Booking Wallet payment still:
+
+- requires actual Wallet debit;
+- cannot become paid from eligibility alone;
+- uses canonical accounting;
+- cannot overspend concurrently;
+- preserves Booking lifecycle independently of false payment authority;
+- rolls back completely on failure.
+
+============================================================
+11. WITHDRAWALS
+============================================================
+
+If withdrawal consumes the same spendable Wallet funds, it must participate in
+the same serialization boundary.
+
+Preserve legitimate pending withdrawal cancellation behavior.
+
+A pending/cancelable withdrawal must not allow the same funds to be spent
+elsewhere simultaneously if those funds are financially reserved.
+
+Do not invent new withdrawal semantics; enforce the existing financial meaning
+consistently.
+
+============================================================
+12. RECIPIENT CREDIT SAFETY
+============================================================
+
+Do not introduce lost credits while serializing sender debits.
+
+Test multiple independently funded senders concurrently crediting the same
+recipient.
+
+All legitimate credits must survive.
+
+Conservation must hold.
+
+============================================================
+13. TRANSFER LOCK ORDER
+============================================================
+
+Transfers may involve two Wallets.
+
+Use deterministic lock ordering where required so:
+
+A → B
+
+and
+
+B → A
+
+do not introduce avoidable deadlocks.
+
+Preserve the accepted bounded native deadlock retry behavior.
+
+Do not weaken transaction atomicity to avoid deadlocks.
+
+============================================================
+14. FAILURE INJECTION
+============================================================
+
+Verify rollback for failures:
+
+- after authority acquisition;
+- before debit;
+- after debit;
+- before recipient credit;
+- after recipient credit;
+- during WalletHistory creation;
+- during Transaction creation;
+- during finalization;
+- during canonical accounting integration.
+
+An unsuccessful operation must not create or destroy Wallet value.
+
+============================================================
+15. REPLAY / IDEMPOTENCY
+============================================================
+
+Completed transfer replay must remain terminal.
+
+A retry of the SAME durable financial operation must not create:
+
+- another sender debit;
+- another recipient credit;
+- another Transaction;
+- another contribution;
+- another canonical effect.
+
+A genuinely separate newly authorized transfer may still execute if sufficient
+funds exist.
+
+Do not confuse financial idempotency with permanently preventing future
+transfers.
+
+============================================================
+16. SQLITE REGRESSION
+============================================================
+
+Run focused SQLite regressions for:
+
+- normal transfer;
+- insufficient funds;
+- terminal cancellation protection;
+- rollback;
+- replay;
+- Product Wallet;
+- Booking Wallet;
+- withdrawal where applicable;
+- canonical accounting;
+- conservation.
+
+SQLite is regression evidence only.
+
+Do not call SQLite production concurrency certification.
+
+============================================================
+17. MYSQL WALLET PROOF
+============================================================
+
+On disposable MySQL:
+
+FIRST rerun the exact original failure:
+
+100 with concurrent 70 + 70.
+
+If it fails:
+
+STOP the MySQL proof.
+
+If it passes, execute the complete Wallet concurrency matrix including:
+
+- 70 + 70;
+- 60 + 60;
+- 70 + 40;
+- 40 + 50;
+- 100 + 1;
+- 50 + 50;
+- cross-operation transfer/Product;
+- cross-operation transfer/Booking;
+- withdrawal contention where applicable;
+- recipient-credit concurrency;
+- replay;
+- rollback;
+- deadlock/retry.
+
+Verify exact integer conservation.
+
+============================================================
+18. POSTGRESQL WALLET PROOF
+============================================================
+
+Perform the same proof under PostgreSQL READ COMMITTED.
+
+Do not infer PostgreSQL correctness from MySQL.
+
+FIRST rerun the exact 70 + 70 failure.
+
+If it fails:
+
+STOP the PostgreSQL proof.
+
+If it passes, execute the complete Wallet matrix.
+
+============================================================
+19. COMPLETE ENGINE CERTIFICATION
+============================================================
+
+For each engine that passes its Wallet matrix, continue through the COMPLETE
+payment-engine certification matrix.
+
+Do not stop simply because the Wallet test passes.
+
+Run all previously required groups, including:
+
+- corrected same-receipt confirmation;
+- different-receipt rejection;
+- reservation conservation;
+- exact remainders;
+- independent-allocation progress;
+- retained replay;
+- rollback;
+- timeout/unknown handling;
+- deadlock retry;
+- Wallet compatibility;
+- Product compatibility;
+- Booking compatibility;
+- fulfillment compatibility;
+- refund-operation concurrency;
+- receivable-settlement concurrency;
+- payout-reservation concurrency;
+- every previously explicitly-not-run compatibility gate.
+
+NOT RUN is not PASS.
+
+SKIPPED is not PASS.
+
+============================================================
+20. ENGINE DECISIONS
+============================================================
+
+Classify independently:
+
+MYSQL:
+CERTIFIED WITHIN TESTED SCOPE
+or
+NOT CERTIFIED.
+
+POSTGRESQL:
+CERTIFIED WITHIN TESTED SCOPE
+or
+NOT CERTIFIED.
+
+Do not force a winner.
+
+If both certify, compare:
+
+- demonstrated correctness;
+- deadlock behavior;
+- retry requirements;
+- operational complexity;
+- compatibility with the current application;
+- migration/deployment implications.
+
+Then recommend one engine if the evidence supports doing so.
+
+Do not convert the application database merely because one is recommended.
+
+============================================================
+21. NEW FAILURE STOP RULE
+============================================================
+
+If testing exposes another NEW independent source-confirmed financial
+correctness P0:
+
+STOP the affected engine proof.
+
+Preserve database/log evidence.
+
+Do not recursively remediate that new P0 under this authorization.
+
+The other engine may continue if safe.
+
+This stop rule is for independent financial correctness failures—not ordinary
+test fixture issues, expected denials, environmental skips or already-known
+external provider blockers.
+
+============================================================
+22. DEVELOPMENT DATA
+============================================================
+
+Use disposable databases for concurrency proof.
+
+Preserve the owned development database.
+
+At the appropriate final boundary verify:
+
+- protected financial records unchanged;
+- intentional source changes documented;
+- schema unchanged unless separately approved;
+- all 12 legacy Product Orders remain `unverified`.
+
+Do not repeatedly fingerprint the entire system after every test.
+
+============================================================
+23. AFTER ENGINE CERTIFICATION — MOVE FORWARD
+============================================================
+
+IMPORTANT:
+
+If at least one production-engine candidate becomes CERTIFIED WITHIN TESTED
+SCOPE and no new independent financial P0 blocks safe continuation:
+
+DO NOT STOP MERELY TO ASK WHETHER TO CONTINUE.
+
+Resume the already-approved Payment System Completion Program.
+
+Do NOT start another architecture audit.
+
+Do NOT repeat already accepted Phase 1/2/3 analysis.
+
+Continue application-side completion wherever safely possible.
+
+============================================================
+24. GLOBAL ELECTRONIC PROVIDERS
+============================================================
+
+Continue the already-authorized application-side completion for:
+
+- Flutterwave;
+- Paystack;
+- Stripe;
+- PayPal.
+
+Preserve:
+
+- immutable merchant configuration revisions;
+- durable pre-dispatch attempts;
+- authoritative verification;
+- callback/webhook authentication where applicable;
+- replay protection;
+- Product integration;
+- Booking integration;
+- canonical accounting;
+- credential rotation history.
+
+All four previously passed synthetic native Product/Booking journeys; preserve
+that evidence and rerun only what is affected by subsequent changes.
+
+Do not activate them.
+
+============================================================
+25. PAYSTACK + PAYPAL REFUNDS
+============================================================
+
+Continue the previously authorized generic refund work.
+
+Verify the known fixes through the durable refund-operation model:
+
+PAYSTACK:
+- original configuration revision;
+- original provider payment identity;
+- correct credential owner;
+- provider refund status handling;
+- full/partial refund limits;
+- UNKNOWN/pending handling;
+- replay protection;
+- canonical refund effect once.
+
+PAYPAL:
+- original capture/payment identity;
+- original configuration revision;
+- correct interpretation of provider refund response;
+- COMPLETED/success behavior;
+- pending/unknown behavior;
+- replay protection;
+- canonical effect once.
+
+Do not use current settings to reinterpret historical payments.
+
+============================================================
+26. REFUND ORCHESTRATION
+============================================================
+
+Finish application-side generic refund orchestration wherever provider
+contracts are authoritative.
+
+Refund must use:
+
+original allocation
+→ original contribution
+→ original custody
+→ original merchant/config revision
+→ original provider payment
+→ durable refund operation
+→ authoritative provider result
+→ canonical refund effect exactly once.
+
+Vendor-direct principal must not be refunded from platform funds when the
+platform never collected it.
+
+Cash must preserve offline custody.
+
+Wallet refunds must preserve Wallet conservation.
+
+============================================================
+27. COMMISSION RECEIVABLE
+============================================================
+
+Finish the application-side commission-receivable workflow.
+
+Vendor-direct/Cash cases may leave AgendaAlly commission receivable.
+
+Provide the authorized Admin/Vendor operational visibility.
+
+Settlement requires legitimate receipt evidence.
+
+Do not invent automatic Vendor debits.
+
+Prevent duplicate settlement.
+
+============================================================
+28. VENDOR PAYOUT
+============================================================
+
+Finish the internal Vendor payout workflow:
+
+Vendor payable
+→ reservation
+→ payout operation
+→ external attempt where an approved rail exists
+→ pending/unknown/success/failure
+→ canonical settlement effect.
+
+If no authoritative external payout rail is approved:
+
+leave:
+
+EXTERNAL PAYOUT NOT READY.
+
+Do not pretend an internal accounting operation means the Vendor received
+money.
+
+============================================================
+29. RECONCILIATION
+============================================================
+
+Finish the application-side reconciliation chain:
+
+provider attempt
+→ provider payment
+→ Transaction
+→ contribution
+→ allocation
+→ commission
+→ Vendor payable/receivable
+→ refund
+→ payout/settlement effects.
+
+Distinguish:
+
+PAYMENT VERIFIED
+
+from:
+
+EXTERNAL SETTLEMENT VERIFIED.
+
+Do not fabricate provider settlement evidence.
+
+============================================================
+30. ADMIN OPERATIONS
+============================================================
+
+Complete/verify Admin operational views for:
+
+- provider;
+- collection model;
+- merchant owner;
+- configuration revision;
+- provider attempt/reference;
+- payment verification;
+- custody;
+- allocation;
+- commission;
+- Vendor payable;
+- commission receivable;
+- refund;
+- payout;
+- reconciliation.
+
+Never expose secrets.
+
+Preserve the already implemented canonical-finance panel.
+
+============================================================
+31. VENDOR OPERATIONS
+============================================================
+
+Complete/verify Shop-scoped Vendor views for:
+
+- payment method;
+- collection model;
+- gross;
+- commission;
+- direct amount received where known;
+- platform-held entitlement;
+- payable;
+- commission receivable;
+- refund effects;
+- payout status;
+- provider configuration/readiness.
+
+Never expose another Shop's data or merchant configuration.
+
+============================================================
+32. MTN
+============================================================
+
+Do not redesign the accepted MTN durable attempt/recovery implementation.
+
+Keep MTN disabled.
+
+Application-side settings/readiness may remain prepared.
+
+The following remain external:
+
+- Cameroon merchant permission;
+- exact Cameroon/XAF non-production environment;
+- final Collection contract compatibility;
+- UAT/certification;
+- credentials/onboarding.
+
+Do not contact MTN under this brief.
+
+Do not call MTN.
+
+============================================================
+33. ORANGE
+============================================================
+
+Continue only as far as authoritative evidence permits.
+
+If authoritative Orange verification/refund contracts remain unavailable:
+
+classify:
+
+EXTERNAL CONTRACT BLOCKER.
+
+Do not invent API behavior.
+
+Do not let Orange block independent completion work.
+
+============================================================
+34. VENDOR-DIRECT
+============================================================
+
+Continue only for provider/account models actually proven to support safe
+Shop-owned merchant collection.
+
+Do not assume that because Admin/platform configuration works, Vendor-direct
+also works.
+
+Vendor-direct principal must remain excluded from platform principal payout
+liability.
+
+Configuration availability may exist before checkout activation.
+
+============================================================
+35. CUSTOMER PROVIDER RESOLUTION
+============================================================
+
+Keep real electronic providers disabled until separately approved.
+
+Customer checkout may continue to expose Wallet/Cash only.
+
+Do not expose a provider merely because:
+
+- credentials exist;
+- Customer display currency matches;
+- a Shop selected the provider.
+
+Availability must still require:
+
+capability
++ authoritative payable country/currency
++ correct merchant owner
++ complete configuration
++ runtime readiness
++ activation approval.
+
+============================================================
+36. DO NOT BURN CREDITS REPEATING ACCEPTED WORK
+============================================================
+
+Avoid rerunning large unrelated suites after every small change.
+
+Use:
+
+A. focused changed-component tests;
+
+B. relevant Product/Booking journeys;
+
+C. affected canonical accounting regressions;
+
+D. affected authorization/finality regressions;
+
+E. one consolidated payment regression run at major completion boundaries.
+
+Do not repeat completed read-only audits.
+
+Do not recreate provider matrices from scratch after every increment.
+
+Update the existing completion tracker.
+
+============================================================
+37. FINAL PAYMENT COMPLETION MATRIX
+============================================================
+
+At the end, update:
+
+`docs/development/payment-system-completion.md`
+
+and the authoritative audit only where necessary.
+
+Provide ONE concise matrix for:
+
+- Cash;
+- Wallet;
+- MTN;
+- Orange;
+- Flutterwave;
+- Paystack;
+- Stripe;
+- PayPal;
+- platform-managed collection;
+- Vendor-direct;
+- refunds;
+- commission receivables;
+- Vendor payouts;
+- reconciliation;
+- Admin operations;
+- Vendor operations;
+- production-engine concurrency.
+
+Classify each:
+
+COMPLETE
+
+FUNCTIONAL BUT NOT PRODUCTION-CERTIFIED
+
+PARTIAL
+
+EXTERNAL DEPENDENCY
+
+NOT IMPLEMENTED.
+
+============================================================
+38. REQUIRED FINAL ANSWERS
+============================================================
+
+Answer:
+
+1. What caused the Wallet concurrent overspend?
+2. What is now the authoritative Wallet debit boundary?
+3. Can 70 + 70 from 100 both succeed?
+4. What are the exact final balances?
+5. Does 60 + 60 behave correctly?
+6. Does 70 + 40 behave correctly?
+7. Can valid 40 + 50 both succeed?
+8. Can valid 50 + 50 both succeed?
+9. Are Product Wallet payments protected?
+10. Are Booking Wallet payments protected?
+11. Are withdrawals protected where applicable?
+12. Does cross-operation contention conserve funds?
+13. Are concurrent recipient credits preserved?
+14. Does rollback preserve conservation?
+15. Does replay remain protected?
+16. Which production files changed?
+17. Did schema change?
+18. MySQL Wallet result?
+19. Full MySQL certification result?
+20. PostgreSQL Wallet result?
+21. Full PostgreSQL certification result?
+22. Were all previously unrun gates executed?
+23. Did contribution confirmation remain correct?
+24. Did fulfillment compatibility pass?
+25. Did any new financial P0 appear?
+26. Which engine(s) are certified within tested scope?
+27. If both certify, which is recommended and why?
+28. Are Flutterwave Product/Booking application flows complete?
+29. Are Paystack Product/Booking application flows complete?
+30. Are Stripe Product/Booking application flows complete?
+31. Are PayPal Product/Booking application flows complete?
+32. Is generic refund orchestration complete?
+33. Is the Paystack refund defect contained?
+34. Is the PayPal refund defect contained?
+35. Is commission-receivable settlement operationally complete?
+36. Is Vendor payable reservation operationally complete?
+37. Is an external Vendor payout rail actually implemented?
+38. Is reconciliation operationally complete?
+39. Are Admin financial operations complete?
+40. Are Vendor financial operations complete?
+41. What remains externally blocked for MTN?
+42. What remains externally blocked for Orange?
+43. Which providers safely support platform-managed collection?
+44. Which providers safely support Vendor-direct?
+45. Which providers are application-side ready for controlled UAT?
+46. Are electronic providers still disabled?
+47. Does Customer checkout remain Wallet/Cash only?
+48. Were real credentials used?
+49. Were real provider calls made?
+50. Were real refunds/payouts performed?
+51. Were existing development financial values changed?
+52. Do all 12 legacy Orders remain `unverified`?
+53. What application-side payment work still remains?
+54. What remaining work is now EXTERNAL rather than application development?
+55. What is the shortest path to the first controlled electronic payment?
+56. What is the shortest path from there to production activation?
+
+============================================================
+39. FINAL STOP
+============================================================
+
+STOP only after:
+
+A. the Wallet P0 has been contained and verified;
+
+B. the authorized engine certification has completed or hit a genuine new
+   financial correctness stop;
+
+and, IF safe continuation was possible,
+
+C. the remaining already-approved application-side payment completion work has
+   been advanced as far as possible without external credentials/contracts/UAT.
+
+Do NOT:
+
+- activate providers;
+- enter real credentials;
+- contact providers;
+- make real provider calls;
+- perform real payments;
+- perform real refunds;
+- perform real Vendor payouts;
+- access production;
+- delete/reclassify legacy Orders;
+- publish.
+
+The desired end state is no longer another architecture report.
+
+The desired end state is:
+
+APPLICATION-SIDE PAYMENT SYSTEM COMPLETE AS FAR AS POSSIBLE
+
+with remaining blockers reduced to clearly identified:
+
+- provider onboarding;
+- provider credentials;
+- authoritative external contracts;
+- controlled UAT;
+- external payout rail where applicable;
+- and production deployment/operational approval.

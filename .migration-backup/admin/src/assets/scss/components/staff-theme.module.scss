@@ -1,0 +1,88 @@
+// Scoped design-system tokens for the Staff management screens only
+// (seller Staff + the upcoming country-admin Staff screen). Deliberately
+// NOT touching assets/css/variables.scss (the global --primary theme) —
+// this is the first application of the new teal/coral/gray system, and a
+// full site re-theme is a separate, later decision.
+
+$staff-teal: #1d9e75;
+$staff-teal-dark: #167a5b;
+$staff-teal-soft: #e3f4ee;
+$staff-coral: #d85a30;
+$staff-coral-soft: #fbeae3;
+$staff-gray: #888780;
+$staff-gray-soft: #f0efed;
+
+$staff-success: #1d9e75;
+$staff-success-soft: #e3f4ee;
+$staff-warning: #b8860b;
+$staff-warning-soft: #fbf2de;
+$staff-danger: #c0392b;
+$staff-danger-soft: #f8e2df;
+
+@mixin badge($color, $bg) {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  color: $color;
+  background: $bg;
+  white-space: nowrap;
+}
+
+// Role-name badge (e.g. "Owner", "Manager", "Receptionist", "Accountant").
+.roleBadge {
+  @include badge($staff-teal, $staff-teal-soft);
+}
+
+// Status badges — semantic only, never decorative.
+.statusActive {
+  @include badge($staff-success, $staff-success-soft);
+}
+
+.statusPending {
+  @include badge($staff-warning, $staff-warning-soft);
+}
+
+.statusCancelled {
+  @include badge($staff-danger, $staff-danger-soft);
+}
+
+.primaryButton {
+  background: $staff-teal !important;
+  border-color: $staff-teal !important;
+}
+.primaryButton:hover,
+.primaryButton:focus {
+  background: $staff-teal-dark !important;
+  border-color: $staff-teal-dark !important;
+}
+
+.dangerLink {
+  color: $staff-coral !important;
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-right: 8px;
+}
+
+.groupCount {
+  color: $staff-gray;
+  font-weight: 400;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.emptyStatePrompt {
+  border: 1px dashed $staff-gray;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  color: $staff-gray;
+}

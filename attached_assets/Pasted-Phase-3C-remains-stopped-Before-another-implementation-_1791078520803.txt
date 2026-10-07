@@ -1,0 +1,30 @@
+Phase 3C remains stopped. Before another implementation, produce a revised proposal that satisfies both financial correctness and independent-allocation concurrency. Do not modify production application code, schema or migrations in this turn.
+The previous candidate proved that current locking reads can prevent the reproduced refund over-reservation, but it is rejected because its child range locks caused an unrelated allocation to block. Treat both of these as mandatory invariants:
+Same-allocation conservation: concurrent reservations must never authorize more than the current eligible financial capacity.
+Independent-allocation progress: an open transaction for Allocation A must not unnecessarily prevent a reservation for unrelated Allocation B from completing.
+Use the retained MySQL/InnoDB access plans, lock evidence, candidate diff and strengthened tests to determine precisely which query/index/lock combination produced the cross-allocation gap/supremum contention.
+Evaluate narrowly, without implementing, the viable alternatives, including:
+whether current reads can rely on the already-exclusive allocation-row mutex while avoiding child FOR SHARE range locking;
+whether MySQL current reads performed after acquiring the allocation mutex can obtain fresh committed child state without locking broad child ranges;
+whether point/unique-key reads can replace any range reads;
+whether an allocation-leading covering/index change would materially narrow the locking range;
+whether maintaining authoritative reservation-capacity state on an existing locked parent record is possible without changing financial meaning;
+whether a transaction-level isolation/read strategy can be scoped only to this financial operation rather than globally;
+and whether another standard InnoDB pattern provides the same conservation guarantee with independent-allocation progress.
+For every candidate strategy, report:
+exact SQL/read/lock sequence;
+expected InnoDB record/gap/next-key locks;
+why a stale transaction snapshot cannot authorize excess capacity;
+why Allocation B can progress while Allocation A remains open;
+behavior for an empty child set;
+behavior after another transaction commits a reservation/effect;
+replay/idempotency behavior;
+rollback/savepoint/deadlock behavior;
+whether it requires schema/index/migration changes;
+whether it changes financial identity, capacity equations, accounting semantics or SQLite behavior;
+and expected portability implications for PostgreSQL.
+Do not choose a strategy merely because it makes the failing test pass. Prefer the smallest design that establishes both invariants using ordinary database concurrency guarantees.
+Also determine whether the cross-allocation blocking is caused by an inadequate existing index/access path rather than by the allocation-mutex design itself. If an index change is the safest correction, specify the exact proposed index, its purpose and migration implications, but do not create it.
+Keep the previously identified sibling financial paths as test/trace-only. Do not remediate Wallet, finalization, receipt settlement, contribution confirmation, fulfillment or other paths.
+Maintain the baseline of 59 protected tables, 465 schema objects, four empty evidence tables and 12 legacy Orders remaining unverified.
+STOP after the revised design comparison and recommendation. Do not implement the recommendation.

@@ -1,0 +1,102 @@
+Finalize Stage 2 — Restore Previews and Perform Safe Cleanup
+The native Stage 2 implementation is visually approved based on my review. Do not reopen the design proposal or repeat already completed acceptance work.
+Please complete this as one bounded finalization pass.
+1. Restore both native previews
+The Customer storefront preview is currently available, but the Admin/Vendor Business preview is not available to me.
+Restore and confirm both externally accessible native review URLs:
+- Customer storefront
+- Admin/Vendor Business portal
+Preserve the completed Stage 2 implementation and all fixes from the latest run, including:
+- mobile overflow fixes;
+- category/location request fixes;
+- stock-filter reset;
+- location Cancel behavior;
+- shop-profile request/error handling;
+- blog UUID/numeric-link compatibility;
+- mobile business-profile tabs;
+- native AgendaAlly for Business page;
+- support/legal/CMS presentation;
+- button/contrast fixes;
+- development same-origin API proxy;
+- country/city persistence;
+- existing authentication and authorization behavior.
+Do not rerun the full Stage 1/Stage 2 acceptance suite, production builds, role matrix, browser journeys or design work merely to restore previews. The previous valid evidence remains valid unless cleanup directly changes something relevant.
+Perform only a lightweight external availability check after restoration.
+2. Safe cleanup is authorized
+Once the previews are restored, proceed directly with a bounded cleanup of obsolete development/design/template material.
+You do not need to stop and ask me for another cleanup approval.
+First determine references/dependencies before deleting anything.
+You may remove or consolidate items that are demonstrably obsolete or unused, including:
+- temporary Stage 2 mockup/proposal implementation artifacts that are no longer required by the native application;
+- obsolete preview-only adapters/workarounds superseded by the final development setup;
+- unused purchased-template visual assets;
+- irrelevant purchased-template demo presentation/content;
+- duplicate or superseded Stage 2 styles/components;
+- temporary build/test artifacts that should not be retained;
+- obsolete design experiments;
+- dead frontend components proven to have no remaining references;
+- other clearly unused presentation artifacts discovered during the cleanup.
+Do not spend substantial time attempting to clean every historical file in the repository. Focus on material directly related to the completed migration/Stage 1/Stage 2 work.
+3. Legacy storefront variants
+The new Stage 2 storefront is now the approved primary experience.
+The legacy routes /home-2, /home-3, and /home-4 do not need to remain permanently merely for historical reasons.
+Audit their dependencies during cleanup.
+If their components/assets are completely superseded and nothing required by the approved storefront still depends on them, you are authorized to remove the obsolete implementations.
+If removing the routes themselves could create compatibility/bookmark issues, prefer a lightweight redirect to the approved primary storefront rather than maintaining several complete legacy UIs.
+Do not duplicate the new storefront four times.
+The objective is one maintainable primary AgendaAlly storefront, not four parallel themes.
+Preserve reusable components from legacy variants when the new implementation still uses them.
+4. Do NOT remove or change
+Cleanup must not alter or remove:
+- Laravel migrations/history required by the application;
+- current models or API contracts;
+- authentication;
+- authorization;
+- country/shop/branch enforcement;
+- booking behavior;
+- product/order behavior;
+- accounting;
+- wallet/balance behavior;
+- payout behavior;
+- payment-provider behavior;
+- Flutter REST compatibility;
+- reproducible development bootstrap/seeding;
+- seeded Cameroon/Douala marketplace data;
+- CMS/legal/blog development representation;
+- Stage 1 development proxy;
+- portable development configuration;
+- security hardening;
+- anything still referenced by the approved native Customer or Business applications.
+Do not perform destructive database migrations or reset/reseed the existing development database merely for cleanup.
+5. Payment boundary
+Do not use cleanup as an opportunity to change payment architecture.
+Country payment assignment, vendor payment configuration, customer-selected currency compatibility, platform-versus-vendor collection, wallet/accounting and vendor payout remain subject to the separate payment architecture audit.
+Preserve current hardened behavior until that audit is reviewed and implementation is separately authorized.
+6. Logo/media boundary
+Preserve the current working AgendaAlly branding and Stage 2 visual system.
+I will provide final canonical logo assets separately if needed.
+Do not regenerate or redefine the canonical logo during cleanup.
+Preserve reproducible marketplace media/seed mappings and documented provenance.
+7. Verification after cleanup
+Keep verification proportional to what changed.
+Do not launch another exhaustive two-hour acceptance cycle.
+Run focused checks for files/routes/components actually affected by cleanup.
+If frontend source changes materially enough to require compilation, run the relevant build once—not repeated build/browser loops.
+Then restore both previews.
+Confirm only that:
+- Customer storefront loads;
+- Admin/Vendor portal loads;
+- approved primary storefront loads;
+- basic navigation affected by cleanup is intact;
+- no removed legacy dependency breaks the new implementation.
+Final delivery
+When finished, give me:
+1. Customer preview URL.
+2. Admin/Vendor preview URL.
+3. Concise list of what was cleaned up.
+4. Whether /home-2, /home-3, /home-4 were removed, redirected or retained, and why.
+5. Any legacy dependency intentionally retained.
+6. Focused verification/build results.
+7. Any genuinely unresolved issue requiring my attention.
+Do not start another design round. Do not repeat completed acceptance testing. Do not publish.
+After this finalization pass, STOP. The next separate work item will be the payment architecture/workflow audit.

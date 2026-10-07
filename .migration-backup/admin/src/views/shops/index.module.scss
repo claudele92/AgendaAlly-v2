@@ -1,0 +1,81 @@
+.page {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  > :first-child {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+.header {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+
+  :global(.ant-space-item) {
+    min-width: 0;
+  }
+}
+
+.controls {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+
+  > :global(.ant-space-item) {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  > :global(.ant-space-item:first-child) {
+    flex: 1 1 220px;
+  }
+
+  > :global(.ant-space-item:last-child) {
+    flex: 0 1 auto;
+  }
+}
+
+.statusTabs {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  :global(.ant-tabs-nav) {
+    margin-bottom: 0;
+  }
+
+  :global(.ant-tabs-nav-wrap) {
+    overflow-x: auto;
+  }
+
+  :global(.ant-tabs-nav-list) {
+    flex-wrap: nowrap;
+  }
+}
+
+.tableViewport {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+
+  :global(.ant-table-wrapper) {
+    width: 100%;
+    min-width: 0;
+  }
+
+  :global(.ant-table-content) {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .controls > :global(.ant-space-item:first-child) {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}

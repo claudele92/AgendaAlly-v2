@@ -1,0 +1,215 @@
+ADMIN EMAIL TEMPLATE LIBRARY — REQUIRED DESIGN
+
+Do not treat Email Verification and Password Reset as the only templates that
+belong in the Admin Email Templates management area.
+
+The required end state is a centralized Admin Email Template Library.
+
+1. DEFAULT / SEEDED TEMPLATES
+
+Inventory every CURRENTLY SUPPORTED application email type and determine which
+ones are genuinely compatible with the Admin-managed template system.
+
+For every supported Admin-managed email type, provision a repeatable default
+template so a normal installation does not start with an empty Email Templates
+page.
+
+Default provisioning must be:
+
+- idempotent;
+- non-destructive;
+- customization-preserving;
+- safe on existing databases;
+- safe on fresh installations;
+- tied to actual supported application email types.
+
+At minimum evaluate and correctly classify:
+
+- Email Verification
+- Password Reset
+- Subscription / Digest
+- Product Order / Invoice
+- Driver Invitation
+- Admin Test Email
+- any other existing application email sender discovered in the current source
+
+Do not seed a template merely to make the Admin page look complete.
+
+If an email path is application-controlled and does NOT consume Admin-managed
+template content, either:
+
+A. leave it explicitly application-controlled; or
+B. wire it into the template system only if doing so is clearly within the
+   existing accepted architecture and does not change security/business/
+   financial semantics.
+
+Do not falsely expose a template as editable if changes to it would have no
+effect on the actual email sent.
+
+Financial Refund/Payout templates remain DEFERRED until their authoritative
+state-machine work is approved.
+
+
+2. DEFAULT TEMPLATE LIBRARY
+
+A fresh/normal AgendaAlly installation should expose the appropriate supported
+default templates in:
+
+Admin
+→ Settings / Email configuration
+→ Email Templates
+
+The Admin should not have to manually create basic platform templates such as
+Verification or Password Reset before those platform features can be managed.
+
+
+3. CREATE EMAIL TEMPLATE
+
+Provide a normal:
+
++ Create Email Template
+
+action/form in the Email Templates management interface.
+
+The form should allow creation of additional templates within the application's
+supported template model.
+
+Use the existing Admin UI/design system.
+
+Appropriate fields may include, according to the existing schema/architecture:
+
+- Template Name
+- supported Template Type / purpose
+- Subject
+- HTML/body content
+- alternate/plain-text content
+- supported placeholders
+- provider/presentation association only where appropriate
+
+Do not expose security-sensitive application behavior as presentation settings.
+
+
+4. IMPORTANT CREATE-TEMPLATE BOUNDARY
+
+Creating an Email Template MUST NOT automatically invent an application event,
+sender, scheduler, recipient rule or workflow.
+
+Clearly distinguish:
+
+TEMPLATE
+= presentation/content
+
+from:
+
+EMAIL WORKFLOW
+= application trigger + recipient selection + authorization + delivery logic.
+
+If the application supports only a fixed registry of executable email types,
+the Create form must respect that registry.
+
+Do not allow an arbitrary user-created type string to cause application code,
+events, jobs or financial actions to execute.
+
+If custom informational templates can legitimately exist without an automatic
+trigger, label them accordingly so Admin understands that creating the template
+does not itself schedule/send email.
+
+
+5. TEMPLATE CLASSIFICATION
+
+The Admin library should clearly distinguish where useful:
+
+SYSTEM TEMPLATE
+- tied to an existing AgendaAlly workflow;
+- required identity/type protected;
+- cannot be accidentally deleted/reassigned;
+- presentation can be customized.
+
+CUSTOM TEMPLATE
+- Admin-created presentation content;
+- can be edited/deleted according to authorization;
+- does not automatically create a sending workflow.
+
+Do not allow Custom templates to impersonate/override protected system template
+identities.
+
+
+6. SYSTEM TEMPLATE PROTECTION
+
+Seeded system templates must preserve their system identity.
+
+Admin may customize permitted presentation fields, but must not be able to
+accidentally:
+
+- delete required system templates;
+- change Verification into Reset;
+- change Reset into Subscription;
+- duplicate a protected system identity;
+- alter recipient binding;
+- alter code/token generation;
+- alter expiry/replay;
+- alter authorization;
+- alter outbox/worker semantics;
+- alter SMTP credentials;
+- alter financial state.
+
+
+7. CRUD ACCEPTANCE
+
+Through the real authenticated Admin interface verify:
+
+SYSTEM TEMPLATES:
+- visible;
+- openable;
+- editable in permitted presentation fields;
+- save/reload works;
+- Preview works;
+- protected identity cannot be deleted/reassigned.
+
+CUSTOM TEMPLATE:
+- Create Template form is discoverable;
+- one harmless custom test template can be created;
+- appears in the list;
+- can be opened;
+- can be edited;
+- can be synthetically previewed where supported;
+- can be deleted if custom-template deletion is supported;
+- deletion does not affect system templates.
+
+Use a disposable test custom template for CRUD acceptance and remove it afterward
+unless retaining it is intentionally part of the product.
+
+
+8. SEEDING ACCEPTANCE
+
+Prove that default provisioning is idempotent:
+
+- first provisioning creates only missing supported defaults;
+- repeated provisioning creates no duplicates;
+- customized existing templates are not overwritten;
+- existing installations are preserved;
+- fresh-install behavior is deterministic.
+
+Do not use destructive reseeding to prove this.
+
+
+9. FINAL ADMIN EXPERIENCE
+
+The owner should ultimately be able to navigate to:
+
+Admin → Email Templates
+
+and see a useful template library rather than an empty or partially hidden page.
+
+The page should provide:
+
+- existing supported system templates;
+- clear template names/types;
+- subject;
+- edit/manage action;
+- Preview where supported;
+- Create Email Template action;
+- appropriate Custom-template management.
+
+The owner should not require Replit, database access, API calls or source-code
+changes for ordinary template-content management.

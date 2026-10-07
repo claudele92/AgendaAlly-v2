@@ -1,0 +1,23 @@
+.aa-stage2-location { box-sizing:border-box; width:100%; max-width:100%; max-height:80dvh; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain; padding:clamp(22px,4vw,42px); background:#fcfaf6; color:#242521; border-radius:16px; text-align:start; }
+.aa-stage2-location h2 { font-size:clamp(24px,4vw,32px); line-height:1.15; font-weight:600; margin:8px 0 15px; }
+.aa-stage2-location p { font-size:15px; line-height:1.65; margin:0 0 20px; }
+.aa-stage2-location .aa-stage2-location-eyebrow { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#775b3e; margin:0; }
+.aa-stage2-location-notice { padding:14px; border:1px solid #dfd5c6; border-radius:10px; background:#f2ece2; color:#514a40; font-size:13px; line-height:1.65; margin:20px 0; }
+.aa-stage2-location input,.aa-stage2-location select,.aa-stage2-location button { min-height:44px; }
+.aa-stage2-location-cancel { border:1px solid #d8d0c4; background:#fff; border-radius:10px; color:#242521; padding:10px 18px; font-weight:600; }
+.aa-stage2-location :focus-visible { outline:3px solid #886441; outline-offset:3px; }
+.aa-stage2-location-trigger { min-height:44px; background:#fff; color:#242521; border-color:#ddd8cf; font-size:13px; white-space:nowrap; }
+.aa-stage2-location-trigger :is(svg) { width:15px; height:15px; }
+.aa-stage2-location-trigger:focus-visible { outline:3px solid #886441; outline-offset:3px; }
+.aa-stage2-location-error { padding:12px 14px; border:1px solid #c97d67; border-radius:10px; background:#f8ece8; color:#743c2d; font-size:13px; line-height:1.55; margin:16px 0; }
+.aa-stage2-location-error button { margin-top:8px; min-height:44px; font-weight:700; text-decoration:underline; }
+@media(max-width:480px) {
+  .aa-stage2-location { padding:20px 16px 24px; border-radius:16px 16px 0 0; }
+  .aa-stage2-location h2 { max-width:100%; font-size:25px; }
+  .aa-stage2-location-notice { margin:16px 0; padding:12px; }
+}
+@media(max-width:760px) {
+  .aa-stage2-location-trigger { max-width:112px; padding:8px 10px; overflow:hidden; }
+  .aa-stage2-location-trigger .font-medium { overflow:hidden; text-overflow:ellipsis; }
+  .aa-stage2-location-country { display:none; }
+}

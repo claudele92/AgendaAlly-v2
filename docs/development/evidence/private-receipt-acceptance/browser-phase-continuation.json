@@ -1,0 +1,233 @@
+{
+  "browser_observed_downloads": [
+    {
+      "workflow": "refund:6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "link_http": 200,
+      "download_http": 200,
+      "browser_download_event": true,
+      "filename": "receipt.pdf",
+      "file": "download-refund-pdf.bin",
+      "bytes": 614,
+      "sha256": "881d58fc6d63352596ab5be572479afb0b334ed6a6e9315c3294dfb44a026af4",
+      "matches_manifest": true,
+      "headers": {
+        "content-type": "application/pdf",
+        "content-disposition": "attachment; filename=\"receipt.pdf\"",
+        "x-content-type-options": "nosniff",
+        "content-security-policy": "sandbox; default-src 'none'",
+        "cache-control": "no-store, private",
+        "referrer-policy": "no-referrer"
+      },
+      "redacted_url": {
+        "path": "/api/v1/dashboard/manual-finance/6713761d-5795-4456-98f1-52c4f3ee25e1/attachments/255194b8-c401-4057-a0d4-9cb33cdb21fa/download",
+        "actor": "3",
+        "expires": "1791309965",
+        "has_lang": false
+      },
+      "pre_click_screenshot": "pfwz3y"
+    },
+    {
+      "workflow": "refund:6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "attachment_id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+      "link_http": 200,
+      "download_http": 200,
+      "browser_download_event": true,
+      "filename": "receipt.png",
+      "file": "download-refund-png.bin",
+      "bytes": 658,
+      "sha256": "33e79b8e63286ab2bc40a0a3ff81006ddfa6e30752e1991c7ad70178880cf0fd",
+      "matches_manifest": true,
+      "headers": {
+        "content-type": "image/png",
+        "content-disposition": "attachment; filename=\"receipt.png\"",
+        "x-content-type-options": "nosniff",
+        "content-security-policy": "sandbox; default-src 'none'",
+        "cache-control": "no-store, private",
+        "referrer-policy": "no-referrer"
+      },
+      "redacted_url": {
+        "path": "/api/v1/dashboard/manual-finance/6713761d-5795-4456-98f1-52c4f3ee25e1/attachments/24ba0e11-4918-4ca5-93aa-97ac1d320f9a/download",
+        "actor": "3",
+        "expires": "1791309995",
+        "has_lang": false
+      },
+      "pre_click_screenshot": "lrzsep"
+    },
+    {
+      "workflow": "payout:60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+      "attachment_id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+      "link_http": 200,
+      "download_http": 200,
+      "browser_download_event": true,
+      "filename": "receipt.jpg",
+      "file": "download-payout-jpg.bin",
+      "bytes": 4316,
+      "sha256": "52a409062aadd6b2d308e8e7b32e8ae7aa24228ed4b1a3d2d597201cf936081e",
+      "matches_manifest": true,
+      "headers": {
+        "content-type": "image/jpeg",
+        "content-disposition": "attachment; filename=\"receipt.jpg\"",
+        "x-content-type-options": "nosniff",
+        "content-security-policy": "sandbox; default-src 'none'",
+        "cache-control": "no-store, private",
+        "referrer-policy": "no-referrer"
+      },
+      "redacted_url": {
+        "path": "/api/v1/dashboard/manual-finance/60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d/attachments/93dd97f8-419c-4da6-88f1-8df83ab2afd1/download",
+        "actor": "3",
+        "expires": "1791310022",
+        "has_lang": false
+      },
+      "pre_click_screenshot": "tmy1o9"
+    }
+  ],
+  "authorization_negatives": {
+    "link_issuance_403_no_url": [
+      "customer2-refund",
+      "customer2-payout",
+      "vendor1-refund",
+      "vendor1-payout",
+      "no-grants-admin4-refund",
+      "no-grants-admin4-payout",
+      "foreign5-refund",
+      "foreign5-payout",
+      "outsider7-refund",
+      "outsider7-payout"
+    ],
+    "upload_attempts_403": [
+      "customer2-refund",
+      "customer2-payout",
+      "vendor1-refund",
+      "vendor1-payout"
+    ],
+    "uploads_were_denied_only": true,
+    "cross_workflow_link_refund_attachment_on_payout_404": true,
+    "signed_wrong_binding_download_404": true,
+    "cli_expired_link_browser_status": 403,
+    "missing_signature_status": 403,
+    "tampered_actor_status": 403,
+    "changed_expiry_status": 403,
+    "tampered_signature_status": 403,
+    "screenshots": {
+      "expired": "xa7imp",
+      "missing_signature": "l533mi",
+      "tampered_actor": "yoj1j3",
+      "changed_expiry": "dm2iof",
+      "tampered_signature": "urqa22",
+      "cross_workflow": "qd08o4",
+      "signed_wrong_binding": "29vgg8"
+    }
+  },
+  "safe_projections": {
+    "customer2_native_api": {
+      "list_status": 200,
+      "one_owned_refund_row": true,
+      "detail_status": 200,
+      "attachments_or_private_keys": false,
+      "evidence_actions": []
+    },
+    "vendor1_native_api": {
+      "list_status": 200,
+      "one_owned_payout_row": true,
+      "detail_status": 200,
+      "attachments_or_private_keys": false,
+      "evidence_actions": []
+    },
+    "admin4_foreign5_outsider7": {
+      "list_status": 200,
+      "rows": 0,
+      "detail_status": 404
+    },
+    "vendor_ui": {
+      "route": "/seller/manual-payout-requests",
+      "owned_payout_row_visible": true,
+      "private_attachment_fields_or_view_action": false,
+      "screenshot": "8eth5m"
+    },
+    "outsider_ui": {
+      "route": "/manual-finance",
+      "access_warning_and_empty_scope": true,
+      "screenshot": "9dvfym"
+    },
+    "customer_ui": {
+      "route": "/manual-refunds",
+      "status": "blocked: page APIs returned 500 / server fetch failed; refund state not rendered",
+      "screenshot": "ykfcle"
+    }
+  },
+  "revocation": {
+    "cli_removed_grants": 2,
+    "pre_snapshot": "pre-revocation.json",
+    "post_snapshot": "post-revocation.json",
+    "post_denials_snapshot": "post-revocation-after-checks.json",
+    "pre": {
+      "attachments": 3,
+      "evidence": 0,
+      "access": 14,
+      "effects": 37
+    },
+    "post": {
+      "attachments": 3,
+      "evidence": 0,
+      "access": 14,
+      "effects": 37
+    },
+    "post_check_delta": {
+      "attachments": 0,
+      "evidence": 0,
+      "access": 0,
+      "effects": 0
+    },
+    "two_retained_links_issued_2026-10-06T18:08:25Z_expire_2026-10-06T18:13:25Z_tested_2026-10-06T18:09:12Z": {
+      "refund_status": 403,
+      "payout_status": 403,
+      "credentials_omitted": true,
+      "receipt_bytes_delivered": false
+    },
+    "new_link_issuance_refund_and_payout": {
+      "status": 403,
+      "url_returned": false
+    },
+    "finance3_list": {
+      "status": 200,
+      "rows": 2
+    },
+    "finance3_details": {
+      "status": 200,
+      "attachments_field": false,
+      "evidence_view_action": false,
+      "actions": [
+        "complete",
+        "review",
+        "upload-evidence"
+      ]
+    },
+    "refund_detail_ui_view_evidence_buttons": 0,
+    "payout_detail_ui_view_evidence_buttons": 0,
+    "screenshots": {
+      "refund_detail": "rjkegr",
+      "payout_detail": "aabq4j"
+    }
+  },
+  "completion_blocker": {
+    "reason": "The completion dialog has only a new file input and no existing-attachment selector. The UI resets attachmentId when opening the action and only sets it after a new upload.",
+    "reupload_forbidden": true,
+    "completion_commands": 0,
+    "workflow_states": "Refund and Payout remain APPROVED and not completed",
+    "terminal_document_digest_binding": "not verified",
+    "screenshot": "s3u3d9"
+  },
+  "main_agent_diagnostic": {
+    "file": "diagnostic-download.json",
+    "classification": "supplemental diagnostic only; not used as browser acceptance evidence",
+    "browser_proof": "separately captured link/download 200 responses, browser download events, saved bytes and matching hashes above"
+  },
+  "privacy_and_isolation": {
+    "signed_signatures_or_tokens_in_report": false,
+    "temporary_expiry_and_wrong_binding_url_files_deleted": true,
+    "raw_signed_urls_retained_only_in_browser_notebook_memory_until_revocation_tests": true,
+    "normal_backend_provider_email_or_production_workflows_started": false,
+    "successful_reuploads_or_financial_completions_after_resume": false
+  }
+}

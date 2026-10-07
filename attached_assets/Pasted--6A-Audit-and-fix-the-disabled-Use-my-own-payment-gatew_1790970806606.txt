@@ -1,0 +1,187 @@
+## 6A. Audit and fix the disabled “Use my own payment gateway” option
+
+The Vendor-facing option:
+
+“Use my own payment gateway”
+
+has become inactive/disabled.
+
+Audit this end-to-end before changing it.
+
+Trace:
+
+Vendor UI
+→ disabled-state calculation
+→ transaction type
+→ business country
+→ transaction currency
+→ payment capability/resolver response
+→ Vendor-configurable methods
+→ shop gateway configuration
+→ country payment policy
+→ environment/integration readiness.
+
+Determine exactly WHY the option is disabled.
+
+Do not simply remove the `disabled` attribute or force-enable the control.
+
+### Expected behavior
+
+“Use my own payment gateway” should be selectable when at least one genuinely Vendor-configurable payment gateway is eligible for the selected business context.
+
+Eligibility must remain server-authoritative and include, where applicable:
+
+- authenticated Vendor owns/manages the shop;
+- authoritative business country;
+- selected transaction type:
+  - Services
+  - Products
+  - or Services & Products;
+- authoritative transaction currency;
+- country payment policy;
+- provider integration readiness;
+- environment policy;
+- provider support for Vendor-direct collection;
+- provider currency support;
+- provider transaction-type support.
+
+The Vendor does NOT necessarily need to have credentials configured before selecting Vendor-direct mode.
+
+This distinction is important:
+
+1. Gateway is eligible for this Vendor/business context.
+2. Vendor has configured credentials for that gateway.
+3. Credentials/configuration are valid enough for checkout.
+
+Do not collapse those three states into one boolean.
+
+For example, if MTN is legitimately available for Vendor-direct collection in Cameroon/XAF but the Vendor has not configured MTN yet, “Use my own payment gateway” should not necessarily be permanently disabled.
+
+Instead, allow the Vendor to select the mode and clearly guide them:
+
+“Set up at least one supported payment gateway to use this payment collection option.”
+
+Then show the eligible Vendor-managed gateway configuration.
+
+However, the final saved/active configuration must follow the existing backend safety policy. If the architecture requires at least one configured gateway before Vendor-direct mode can become active, enforce that server-side and explain it clearly in the UI.
+
+Do not fabricate eligibility merely to make the button clickable.
+
+### Important distinction for African mobile-money accounts
+
+Do not assume that an ordinary MTN Mobile Money or Orange Money personal account can be used as a merchant/API gateway.
+
+The UI must reflect what the actual integration supports.
+
+If MTN/Orange require merchant/API credentials, keep that requirement.
+
+Do not allow a Vendor to enter only a personal phone number and represent that as an API-capable merchant gateway unless the provider integration explicitly supports that model.
+
+Vendor payout destinations are separate and may eventually support different account types.
+
+### Better UI states
+
+The Vendor-direct card should have one of these meaningful states:
+
+**Available**
+
+Use my own payment gateway
+
+“Connect one of the supported payment gateways available for your business.”
+
+**Setup required**
+
+Use my own payment gateway
+
+“Vendor-managed payments are available for your business, but you need to configure an eligible gateway.”
+
+[Set up payment gateway]
+
+**Unavailable**
+
+Use my own payment gateway
+
+“Vendor-managed payment gateways are not currently available for this business configuration.”
+
+If unavailable, optionally provide a concise human-readable reason such as:
+
+- Not currently available in Cameroon
+- Not supported for XAF
+- Not available for Services
+- No Vendor-managed gateway is currently supported
+
+Do NOT expose internal resolver codes such as:
+
+collector_not_configured
+collector_disabled
+currency_support_unknown
+environment_disabled
+transaction_type_unsupported
+
+to the Vendor.
+
+### Services & Products behavior
+
+Audit the option independently for:
+
+- Services
+- Products
+- Services & Products
+
+If Vendor-direct is eligible for Services but not Products, do NOT represent “Services & Products” as fully eligible.
+
+The UI should explain the mismatch and allow the Vendor to configure each transaction type separately if the architecture supports separate collection modes.
+
+Do not weaken the resolver just to make “Both” available.
+
+### Existing configured gateway
+
+If the Vendor already has a valid Vendor-managed gateway configured and eligible for the current business context, verify that:
+
+“Use my own payment gateway”
+
+is selectable.
+
+If it remains disabled despite an eligible configured gateway, treat that as a bug and fix the state propagation.
+
+### No eligible gateway
+
+If the authoritative resolver determines there is genuinely no Vendor-configurable gateway available for that country/currency/transaction type, keeping the option disabled is correct.
+
+In that situation:
+
+- keep AgendaAlly Payments available/default where eligible;
+- show a concise explanation;
+- do not expose unavailable global/platform gateways;
+- do not activate providers;
+- do not change country assignments merely to enable the option.
+
+### Focused tests
+
+Add focused tests for:
+
+1. Eligible Vendor-direct gateway + configured credentials → option selectable.
+2. Eligible Vendor-direct gateway + setup required → correct setup-required state.
+3. No eligible Vendor-direct gateway → option disabled with human-readable explanation.
+4. Platform-only providers do not make Vendor-direct selectable.
+5. Globally disabled/integration-unavailable providers do not falsely enable Vendor-direct.
+6. Foreign-country gateway does not enable Vendor-direct.
+7. Unsupported currency does not enable Vendor-direct.
+8. Services eligibility is evaluated correctly.
+9. Products eligibility is evaluated correctly.
+10. Services & Products handles differing eligibility correctly.
+11. Vendor cannot bypass disabled UI by submitting Vendor-direct mode directly to the API.
+12. Existing eligible Vendor configuration remains selectable after page reload.
+
+Report the exact reason the option had become inactive and whether the root cause was:
+
+- UI state;
+- resolver policy;
+- country assignment;
+- currency capability;
+- transaction-type capability;
+- integration/environment readiness;
+- missing Vendor configuration;
+- or a combination.
+
+Do not activate or configure a provider merely to make this test pass.

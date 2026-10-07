@@ -1,0 +1,1251 @@
+AgendaAlly — Payment Implementation Phase 3C
+MySQL Financial Concurrency & Conservation Certification
+
+The completed payment architecture, containment work, Phase 2 accounting,
+Phase 3A provider-state separation, and the latest payment-system completion
+milestone are accepted within their documented scopes.
+
+The latest milestone established:
+
+- Durable provider/payment identity is implemented.
+- Provider attempts exist before dispatch.
+- Original merchant/configuration revisions are retained.
+- Product and Booking use canonical accounting for supported paths.
+- Refund orchestration exists for supported provider adapters.
+- Commission receivable settlement exists.
+- Vendor payable reservation exists.
+- External Vendor payout execution is NOT implemented.
+- Electronic providers remain disabled.
+- No production certification has been performed.
+- SQLite concurrency tests passed for the accepted financial boundaries.
+- 13 prepared MySQL-specific cases were explicitly skipped.
+- All 55 pre-existing protected tables retained identical fingerprints.
+- Four new evidence tables remain empty in the owned development database.
+- All 12 legacy Product Orders remain `unverified`.
+
+This phase exists specifically to remove the remaining DATABASE-ENGINE
+UNCERTAINTY around MySQL/InnoDB financial concurrency.
+
+This is NOT provider activation.
+This is NOT production deployment.
+This is NOT permission to implement an external payout rail.
+
+============================================================
+1. PRIMARY OBJECTIVE
+============================================================
+
+Certify that AgendaAlly's accepted financial invariants remain correct under
+MySQL/InnoDB transaction, row-locking, uniqueness and concurrent-request
+semantics.
+
+The primary question is:
+
+CAN TWO OR MORE CONCURRENT REQUESTS CAUSE A FINANCIAL EFFECT TO EXCEED THE
+MONEY, LIABILITY, REFUNDABLE AMOUNT, RECEIVABLE OR PAYMENT EVIDENCE ACTUALLY
+AVAILABLE?
+
+The answer must be established using an isolated disposable MySQL database
+with synthetic financial fixtures.
+
+Do not use production.
+
+============================================================
+2. AUTHORITATIVE BASELINE
+============================================================
+
+Use the current accepted implementation and these reports as the baseline:
+
+docs/development/payment-system-completion.md
+docs/development/payment-architecture-audit.md
+docs/development/payment-system-full-audit.md
+docs/development/payment-phase2-collection-allocation.md
+docs/development/payment-phase3-provider-readiness.md
+
+Also consult the accepted P0/P1 containment reports where directly relevant.
+
+Do NOT restart the broad payment architecture audit.
+
+Do NOT redesign working financial semantics merely because a different design
+might be preferable.
+
+============================================================
+3. MYSQL ENVIRONMENT
+============================================================
+
+Use a disposable/non-production MySQL environment only.
+
+Prefer the same MySQL major version and relevant configuration expected for
+AgendaAlly deployment if that information is already available.
+
+Record:
+
+- MySQL version;
+- storage engine;
+- transaction isolation level;
+- autocommit behavior relevant to tests;
+- relevant SQL modes;
+- Laravel database driver/version;
+- whether tests use multiple truly independent database connections.
+
+If the actual intended production MySQL version is unknown, state that clearly.
+
+Do NOT connect to production to discover it.
+
+============================================================
+4. DATA SAFETY
+============================================================
+
+Use synthetic fixtures only.
+
+Do NOT:
+
+- copy production financial records;
+- mutate existing development financial records;
+- use real Customers/Vendors;
+- use real provider credentials;
+- call provider APIs;
+- send money;
+- issue refunds;
+- execute payouts;
+- activate providers.
+
+Capture the current protected-state baseline before any work.
+
+Existing development financial data must remain unchanged.
+
+All 12 legacy Product Orders must remain:
+
+fulfillment_financial_state = unverified.
+
+============================================================
+5. RUN THE 13 PREPARED MYSQL CASES
+============================================================
+
+First identify the exact 13 MySQL-specific tests/cases that were previously
+skipped.
+
+Document each case before running it:
+
+- test name;
+- financial invariant;
+- tables/rows involved;
+- expected lock/uniqueness behavior;
+- why SQLite was insufficient.
+
+Run them against actual MySQL.
+
+Do not silently replace, weaken or remove assertions merely to make them pass.
+
+If a test itself contains an invalid SQLite-only assumption, document the
+difference before changing the test.
+
+============================================================
+6. CONSERVATION INVARIANT
+============================================================
+
+For every relevant concurrent financial operation establish:
+
+TOTAL ECONOMIC EFFECT
+<=
+AUTHORITATIVELY AVAILABLE VALUE.
+
+Depending on the operation, "available value" means:
+
+- refundable amount;
+- confirmed platform-held contribution;
+- unsettled Vendor payable;
+- outstanding commission receivable;
+- Wallet balance;
+- reserved-but-not-finalized amount;
+- provider evidence that has not already produced its canonical effect.
+
+Concurrency must never manufacture additional value.
+
+============================================================
+7. REFUND RESERVATION
+============================================================
+
+This is a critical test.
+
+Given a payment with a known refundable amount, create competing refund
+requests using independent MySQL connections.
+
+Test at minimum:
+
+A. Two refunds individually valid but jointly excessive.
+
+Example:
+
+refundable = 100
+
+Concurrent requests:
+
+refund A = 70
+refund B = 70
+
+At most 100 total may become reserved/finalized.
+
+Both must never successfully reserve 140.
+
+B. Exact concurrent exhaustion.
+
+refundable = 100
+
+refund A = 60
+refund B = 40
+
+Both may succeed only if the final state is exactly 100 and all accounting
+effects remain correct.
+
+C. Same refund replay.
+
+Two workers attempt the same refund identity/effect.
+
+Only one economic reservation/effect may exist.
+
+D. Existing partial refund.
+
+gross = 100
+already refunded = 30
+
+Concurrent new refund attempts must respect remaining refundable = 70.
+
+Verify locking and calculations occur against authoritative persisted state,
+not stale application models.
+
+============================================================
+8. REFUND FINALIZATION
+============================================================
+
+Where the current architecture supports synthetic provider refund
+finalization:
+
+Test concurrent finalization of the same refund.
+
+Only one final refund effect may be created.
+
+Repeated success evidence must be idempotent.
+
+A stale worker must not:
+
+- finalize twice;
+- increase refunded amount twice;
+- reverse commission twice;
+- reduce Vendor liability twice;
+- create duplicate ledger effects.
+
+Do not call real providers.
+
+============================================================
+9. REFUND FAILURE / RELEASE
+============================================================
+
+Test:
+
+reserve refund
+→ synthetic provider failure
+→ release reservation.
+
+Then race:
+
+failure/release
+against
+another refund request.
+
+Verify that released value becomes reusable exactly once and that no
+over-refund window exists.
+
+Also test exception rollback.
+
+============================================================
+10. VENDOR PAYABLE RESERVATION
+============================================================
+
+This is the second critical area.
+
+Given:
+
+available canonical Vendor payable = 100
+
+test competing payout requests.
+
+A.
+
+request A = 70
+request B = 70
+
+Both must never reserve 140.
+
+B.
+
+request A = 60
+request B = 40
+
+Final reserved amount may equal exactly 100.
+
+C.
+
+same payout operation replayed concurrently.
+
+Only one reservation/economic operation may exist.
+
+D.
+
+existing reserved amount.
+
+payable = 100
+already reserved = 30
+
+concurrent requests must respect remaining unreserved liability = 70.
+
+============================================================
+11. EXTERNAL PAYOUT FINALIZATION MUST REMAIN BLOCKED
+============================================================
+
+The current accepted architecture has NO approved external Vendor payout rail.
+
+Therefore:
+
+payout reservation is allowed according to current rules.
+
+REAL/VERIFIED EXTERNAL PAYOUT FINALIZATION must remain impossible.
+
+Do not weaken this boundary to make a concurrency test pass.
+
+Test concurrent attempts to finalize an external payout without authoritative
+external rail evidence.
+
+Expected:
+
+NO external payout settlement effect.
+
+NO fabricated provider transfer ID.
+
+NO Vendor payable reduction based on an unproven transfer.
+
+The test should certify that payout finalization remains blocked, not that
+payouts work.
+
+============================================================
+12. PAYOUT CANCELLATION / RESERVATION RELEASE
+============================================================
+
+Test concurrent:
+
+payout cancellation
+vs
+second payout reservation.
+
+Released payable may become available again exactly once.
+
+A stale cancellation must not release an already-consumed or differently
+transitioned reservation.
+
+Test repeated cancellation.
+
+============================================================
+13. COMMISSION RECEIVABLE SETTLEMENT
+============================================================
+
+For Vendor-received Cash / direct-custody scenarios where AgendaAlly has a
+commission receivable:
+
+Given:
+
+receivable = 10
+
+test concurrent retained cash-receipt settlement attempts.
+
+The receivable may be satisfied exactly once.
+
+Two workers must not each collect 10 against the same 10 receivable.
+
+Test:
+
+- exact duplicate receipt;
+- different operation IDs for same receipt;
+- stale model;
+- retry after rollback;
+- partial settlement if supported by current semantics.
+
+Do not invent Admin Wallet funding.
+
+============================================================
+14. WALLET CONSERVATION
+============================================================
+
+Re-certify the accepted Wallet finality under MySQL.
+
+At minimum:
+
+sender balance = 100
+recipient balance = 30
+transfer = 40.
+
+After successful transfer:
+
+sender = 60
+recipient = 70
+combined = 130.
+
+Race:
+
+- transfer finalization;
+- cancellation/rejection;
+- repeated status changes;
+- duplicate transfer finalization.
+
+Combined value must remain 130.
+
+Completed transfers remain terminal.
+
+No sender restoration may occur without the corresponding economic reversal
+required by the accepted model.
+
+============================================================
+15. WALLET INSUFFICIENT-BALANCE RACE
+============================================================
+
+Test two concurrent debits against the same Wallet.
+
+Example:
+
+Wallet = 100
+
+debit A = 70
+debit B = 70.
+
+Both must never succeed.
+
+Final Wallet balance must never become negative or permit 140 of funded value.
+
+Also test exact exhaustion:
+
+60 + 40 against 100.
+
+============================================================
+16. PROVIDER ATTEMPT CREATION
+============================================================
+
+Using synthetic provider data only, test concurrent creation of the same
+durable payment attempt.
+
+The accepted identity model requires:
+
+canonical payment identity
+→ one durable provider attempt
+→ dispatch claim
+→ reconciliation.
+
+Two concurrent requests for the same economic payment must not create two
+independent provider attempts capable of separate dispatch.
+
+============================================================
+17. DISPATCH CLAIM
+============================================================
+
+Race two workers attempting to claim the same undispatched provider attempt.
+
+Exactly one may acquire the dispatch boundary.
+
+The other must observe/reuse the existing attempt.
+
+Do NOT actually dispatch an external provider request.
+
+Verify that rollback of the winning claim behaves according to the accepted
+retry model.
+
+============================================================
+18. UNKNOWN OUTCOME / RECOVERY
+============================================================
+
+Simulate:
+
+provider attempt exists
+→ dispatch claimed
+→ remote outcome UNKNOWN
+→ concurrent recovery workers.
+
+All workers must reconcile the SAME immutable provider identity.
+
+They must not create a replacement provider reference merely because the
+outcome is unknown.
+
+No second economic payment attempt may be generated unless the accepted
+new-attempt rules explicitly permit it.
+
+============================================================
+19. PROVIDER SUCCESS FINALIZATION
+============================================================
+
+Using synthetic verified provider evidence:
+
+race two independent workers finalizing the same successful collection.
+
+Exactly one canonical funding effect may result.
+
+Verify no duplication of:
+
+- confirmed contribution;
+- Customer debit where applicable;
+- commission;
+- Vendor payable;
+- fee ledger;
+- canonical effect group.
+
+============================================================
+20. CALLBACK + POLLING RACE
+============================================================
+
+Simulate:
+
+authenticated synthetic callback
+and
+independent reconciliation/polling worker
+
+both observing the same successful provider payment concurrently.
+
+They must converge on one canonical financial result.
+
+The callback and polling paths must not each create a separate contribution.
+
+============================================================
+21. REPLACEMENT TRANSACTION RACE
+============================================================
+
+Test a replacement Transaction or retry racing with finalization of the
+original Transaction.
+
+The canonical economic allocation must remain singular.
+
+No second full commission.
+
+No second Vendor payable.
+
+No second provider-funded contribution for the same retained payment evidence.
+
+============================================================
+22. PRODUCT FULFILLMENT FINALITY
+============================================================
+
+Re-certify the accepted Product fulfillment P0-B finality under MySQL.
+
+For a trusted new Order with the correct financial state:
+
+race two fulfillment transitions.
+
+Only one worker may claim fulfillment financial settlement.
+
+No duplicate:
+
+- Admin/legacy accounting credit;
+- cashback;
+- commission effect;
+- Vendor entitlement;
+- fulfillment receipt/effect.
+
+Legacy Orders remain `unverified` and fail closed.
+
+Do NOT classify them.
+
+============================================================
+23. PAYOUT APPROVAL ATOMICITY
+============================================================
+
+Re-certify the accepted payout bookkeeping correction under MySQL.
+
+Where current internal payout acceptance semantics apply:
+
+status + permitted accounting legs must commit atomically.
+
+Inject a failure between financial legs.
+
+Expected:
+
+full rollback.
+
+No partial debit/credit.
+
+No duplicate approver debit.
+
+Remember:
+
+this does NOT certify external Vendor payout execution.
+
+============================================================
+24. CANONICAL ALLOCATION CREATION
+============================================================
+
+Race two workers creating the same:
+
+Shop
++
+purpose
++
+obligation
++
+checkout_key
+
+economic allocation.
+
+The approved uniqueness model must result in one canonical allocation.
+
+A database duplicate-key result may be handled safely by loading the retained
+canonical allocation, but must not produce a second economic identity.
+
+============================================================
+25. CONTRIBUTION CONFIRMATION
+============================================================
+
+Race confirmation of the same funding contribution.
+
+Only one confirmation/base economic effect may occur.
+
+Repeated confirmation must converge idempotently.
+
+============================================================
+26. FEE / COMMISSION EFFECT
+============================================================
+
+Race commission recognition for the same canonical Shop allocation.
+
+Commission must be calculated/recognized once.
+
+Replacement Transactions or competing workers must not create multiple full
+commission effects.
+
+============================================================
+27. MIXED FUNDING
+============================================================
+
+Re-test under MySQL the accepted example:
+
+gross = 100
+commission = 10
+Wallet = 40
+Vendor-direct = 60.
+
+Expected:
+
+commission satisfied from platform-controlled Wallet value = 10
+platform Vendor payable = 30
+Vendor-direct principal = 60
+commission receivable = 0.
+
+Race contribution/finalization workers.
+
+The result must remain exactly the same.
+
+Also test the accepted platform-managed provider equivalent where appropriate
+using synthetic provider evidence.
+
+============================================================
+28. MULTI-SHOP ISOLATION
+============================================================
+
+Concurrency must not cross economic Shop boundaries.
+
+Race operations for Shop A and Shop B that happen to share:
+
+- Customer;
+- Cart;
+- provider family;
+- similar amounts;
+- timestamps.
+
+Shop A's locks, evidence or reservations must never authorize or consume
+Shop B's financial value.
+
+============================================================
+29. CONFIGURATION ROTATION
+============================================================
+
+Using synthetic merchant/provider revisions:
+
+start a payment under revision R1.
+
+Rotate configuration to R2.
+
+Concurrently finalize/reconcile the R1 payment.
+
+It must resolve R1.
+
+Current credentials/configuration must not reinterpret the historical attempt.
+
+No real credentials.
+
+============================================================
+30. DEADLOCK HANDLING
+============================================================
+
+MySQL may expose deadlocks that SQLite does not.
+
+Intentionally exercise realistic lock ordering where practical.
+
+If MySQL reports a deadlock:
+
+determine whether the application safely retries the transaction or returns a
+safe retryable failure.
+
+A deadlock must never result in:
+
+- partial financial state;
+- duplicate retry effect;
+- silently lost reservation;
+- automatic new provider payment identity.
+
+Do not hide deadlocks by globally weakening isolation.
+
+============================================================
+31. LOCK WAIT / TIMEOUT
+============================================================
+
+Test a controlled lock-wait/timeout scenario.
+
+Verify:
+
+- transaction rolls back;
+- no partial financial effects remain;
+- retry can safely resume;
+- retry does not create a duplicate economic identity.
+
+Document MySQL error handling.
+
+============================================================
+32. TRANSACTION ISOLATION
+============================================================
+
+Document the isolation level actually used by the test environment.
+
+Do not change it merely to obtain passing tests unless there is an explicit
+application requirement.
+
+If correctness depends on a specific isolation level, report that as an
+operational requirement.
+
+============================================================
+33. SELECT ... FOR UPDATE / ATOMIC CLAIMS
+============================================================
+
+Trace each critical financial boundary and document whether it relies on:
+
+- SELECT ... FOR UPDATE;
+- atomic conditional UPDATE;
+- unique constraint;
+- append-only effect identity;
+- transaction isolation;
+- combination of these.
+
+Do not assume Laravel model freshness is sufficient concurrency protection.
+
+============================================================
+34. UNIQUE CONSTRAINT BEHAVIOR
+============================================================
+
+Verify MySQL uniqueness behavior for the new identity/evidence tables,
+especially around nullable columns.
+
+MySQL NULL uniqueness semantics can differ from assumptions made in SQLite.
+
+Explicitly test all financial uniqueness constraints containing nullable
+columns.
+
+If MySQL permits duplicate financial identities because NULL values bypass an
+intended unique boundary:
+
+STOP.
+
+Report:
+
+MYSQL FINANCIAL UNIQUENESS DEFECT.
+
+Do not patch it with application-only pre-checks.
+
+============================================================
+35. FOREIGN KEY / DELETE BEHAVIOR
+============================================================
+
+Verify the accepted retained-evidence foreign keys behave as designed on MySQL.
+
+Historical provider/payment evidence must not disappear because a mutable
+configuration, Shop-related record or operational object is deleted.
+
+Do not delete existing development data.
+
+Use disposable fixtures.
+
+============================================================
+36. MONEY TYPES
+============================================================
+
+Confirm the accepted integer monetary-unit model behaves identically on MySQL.
+
+No float/double arithmetic should enter canonical accounting.
+
+Verify:
+
+- scale;
+- integer range;
+- signedness where relevant;
+- casts;
+- aggregate SUM behavior.
+
+Do not redesign currency scale in this phase.
+
+============================================================
+37. ROLLBACK TESTS
+============================================================
+
+For each critical operation inject failures at meaningful boundaries.
+
+At minimum:
+
+refund reservation/finalization;
+payable reservation;
+receivable settlement;
+Wallet debit/credit;
+provider contribution confirmation;
+commission effect;
+Product fulfillment settlement.
+
+After rollback:
+
+no partial economic state.
+
+A legitimate retry must succeed at most once.
+
+============================================================
+38. STALE MODEL TESTS
+============================================================
+
+Use two independent connections to load the same financial object before either
+mutation.
+
+Then mutate through one connection and attempt a stale mutation through the
+other.
+
+The stale model must not bypass persisted financial state.
+
+============================================================
+39. TEST AUTHENTIC DATABASE CONCURRENCY
+============================================================
+
+Do not simulate concurrency merely by calling two service methods sequentially
+on one connection.
+
+For concurrency claims use:
+
+- independent MySQL connections;
+- controlled transaction barriers/locks;
+- deterministic synchronization where practical.
+
+Document the method.
+
+============================================================
+40. NO REAL PROVIDER ACTIVITY
+============================================================
+
+All provider behavior remains synthetic/faked.
+
+Do NOT:
+
+- activate MTN;
+- activate Orange;
+- activate Flutterwave;
+- activate Paystack;
+- activate Stripe;
+- activate PayPal;
+- create provider credentials;
+- call provider transactional APIs;
+- send callbacks from provider systems;
+- process real refunds.
+
+============================================================
+41. NO EXTERNAL PAYOUT RAIL
+============================================================
+
+Do not implement:
+
+- bank transfer;
+- mobile-money Vendor payout;
+- provider transfer API;
+- payout beneficiary onboarding;
+- payout funding account;
+- automatic settlement.
+
+This phase verifies accounting reservation/conservation only.
+
+============================================================
+42. NO FX
+============================================================
+
+Do not implement multi-currency/FX.
+
+Preserve the existing fail-closed rules for unsupported FX contracts.
+
+============================================================
+43. NO LEGACY CLASSIFICATION
+============================================================
+
+Do not classify, backfill or delete historical financial records.
+
+All 12 legacy Product Orders remain `unverified`.
+
+No historical provider evidence should be manufactured.
+
+============================================================
+44. SCHEMA CHANGE GATE
+============================================================
+
+Prefer NO new migration.
+
+The existing approved schema should be tested as-is.
+
+If MySQL demonstrates that the existing schema cannot enforce an intended
+financial invariant—for example nullable uniqueness behaves differently and
+permits duplicate canonical identity—STOP BEFORE MIGRATION.
+
+Report:
+
+MYSQL SCHEMA CORRECTION REQUIRED.
+
+Include:
+
+- exact invariant;
+- SQLite behavior;
+- MySQL behavior;
+- affected constraint/index;
+- minimum proposed correction;
+- migration/backfill implications;
+- whether existing development data is affected.
+
+Wait for approval.
+
+============================================================
+45. APPLICATION CHANGE GATE
+============================================================
+
+Small test-harness or MySQL compatibility corrections are allowed only if they
+do not change financial meaning.
+
+If correctness requires changing:
+
+- economic identity;
+- custody meaning;
+- commission semantics;
+- refund entitlement;
+- Vendor payable semantics;
+- provider identity;
+- payout meaning;
+
+STOP.
+
+Report the design issue before implementation.
+
+============================================================
+46. NEW P0 STOP RULE
+============================================================
+
+If testing reveals a new:
+
+SOURCE-CONFIRMED
++
+REPRODUCIBLE IN ISOLATED MYSQL
++
+FINANCIAL P0
+
+such as concurrent requests actually creating unbacked money, excessive refund,
+excessive payout reservation or duplicate canonical liability:
+
+STOP after safely reproducing it in synthetic fixtures.
+
+Do not continue into unrelated remediation.
+
+Report:
+
+- operation;
+- actor;
+- exact race;
+- starting balances/liabilities;
+- resulting balances/liabilities;
+- database behavior;
+- source chain;
+- whether SQLite caught it;
+- protected-state status;
+- minimum containment direction.
+
+Do not exercise it against existing financial data.
+
+============================================================
+47. PROTECTED-STATE VERIFICATION
+============================================================
+
+After testing compare the owned development database against the captured
+baseline.
+
+At minimum report:
+
+- protected table count;
+- before/after row counts;
+- fingerprints;
+- schema count/fingerprint;
+- four evidence-table row counts;
+- platform_fee_ledger_entries;
+- Orders;
+- Bookings;
+- Transactions;
+- Wallets/histories;
+- refunds;
+- payouts;
+- provider configuration records.
+
+Existing development financial values must remain unchanged.
+
+The four evidence tables should remain unchanged unless this phase explicitly
+requires an approved development-only schema action—which it currently does
+not.
+
+All synthetic financial tests belong in disposable MySQL databases.
+
+============================================================
+48. UI
+============================================================
+
+No UI redesign is required.
+
+Only verify that existing Admin financial/recovery pages still load after the
+backend work if relevant.
+
+Do not broaden into responsive/UI cleanup.
+
+============================================================
+49. REQUIRED REPORT
+============================================================
+
+Create:
+
+docs/development/payment-phase3c-mysql-concurrency.md
+
+and update:
+
+docs/development/payment-system-completion.md
+
+and, where necessary:
+
+docs/development/payment-architecture-audit.md
+
+The Phase 3C report must include:
+
+- MySQL version/configuration;
+- isolation level;
+- connection strategy;
+- exact 13 previously skipped cases;
+- result of each;
+- additional concurrency tests;
+- lock strategy by financial boundary;
+- refund conservation results;
+- payable reservation results;
+- Wallet conservation results;
+- provider identity results;
+- canonical accounting results;
+- fulfillment finality results;
+- deadlock/timeout results;
+- nullable-unique analysis;
+- foreign-key retention analysis;
+- money-type analysis;
+- failures found;
+- code changes;
+- schema changes, if any;
+- tests/assertions;
+- protected-state comparison;
+- remaining production uncertainty.
+
+============================================================
+50. REQUIRED FINAL MATRIX
+============================================================
+
+Produce:
+
+| Financial boundary | SQLite | MySQL | Invariant | Result / blocker |
+
+At minimum include:
+
+Provider attempt identity
+Dispatch claim
+Provider success finalization
+Callback/polling replay
+Canonical allocation creation
+Contribution confirmation
+Commission recognition
+Wallet debit
+Wallet transfer
+Refund reservation
+Refund finalization
+Refund release
+Commission receivable settlement
+Vendor payable reservation
+Payout reservation cancellation
+External payout finalization
+Product fulfillment finality
+Configuration revision retention.
+
+Use classifications:
+
+VERIFIED
+PARTIAL
+BLOCKED
+FAILED
+NOT APPLICABLE.
+
+============================================================
+51. REQUIRED FINAL ANSWERS
+============================================================
+
+At completion answer:
+
+1. What exact MySQL version was tested?
+
+2. What storage engine was used?
+
+3. What transaction isolation level was used?
+
+4. Were the 13 previously skipped MySQL cases all executed?
+
+5. How many passed/failed?
+
+6. Can two concurrent refund requests exceed refundable value?
+
+7. Can refund finalization occur twice?
+
+8. Can refund release make value available twice?
+
+9. Can two payout requests reserve more than available Vendor payable?
+
+10. Can payout cancellation release liability twice?
+
+11. Can external payout finalization occur without an approved rail?
+
+12. Can commission receivable settlement occur twice?
+
+13. Can two Wallet debits overspend the same balance?
+
+14. Does Wallet transfer conserve total value under concurrency?
+
+15. Can the same provider payment attempt be created twice?
+
+16. Can the same attempt be dispatch-claimed twice?
+
+17. Can UNKNOWN recovery create a second provider payment identity?
+
+18. Can callback and polling races duplicate confirmed funding?
+
+19. Can provider success create commission twice?
+
+20. Can provider success create Vendor payable twice?
+
+21. Can replacement Transactions duplicate economic effects?
+
+22. Can the same canonical allocation be created twice?
+
+23. Can the same contribution be confirmed twice?
+
+24. Can Product fulfillment settlement occur twice?
+
+25. Do stale Laravel models bypass persisted financial locks?
+
+26. Were any MySQL deadlocks observed?
+
+27. If so, are they handled safely?
+
+28. Were lock-wait timeouts tested?
+
+29. Are retries after rollback idempotent?
+
+30. Do nullable unique constraints enforce the intended identities on MySQL?
+
+31. Do retained-evidence foreign keys behave correctly?
+
+32. Are canonical monetary values still integer-based and exact?
+
+33. Did any test require changing financial semantics?
+
+34. Were any migrations required?
+
+35. Were any existing development financial records changed?
+
+36. Are all four new evidence tables unchanged in the owned development DB?
+
+37. Do all 12 legacy Orders remain `unverified`?
+
+38. How many MySQL-focused tests/assertions passed?
+
+39. Which selected regressions were rerun?
+
+40. Is MySQL financial concurrency now certified within the tested scope?
+
+41. What remains uncertified?
+
+42. Does any remaining uncertainty block controlled provider UAT?
+
+43. Does any remaining uncertainty block production activation?
+
+44. What is the single safest next step?
+
+============================================================
+52. SUCCESS CRITERIA
+============================================================
+
+Do not call this phase successful merely because tests run on MySQL.
+
+Success means the accepted financial invariants survive actual independent
+MySQL/InnoDB concurrent transactions:
+
+AVAILABLE MONEY CANNOT BE SPENT/REFUNDED/RESERVED TWICE.
+
+ONE PROVIDER PAYMENT CANNOT CREATE TWO ECONOMIC PAYMENTS.
+
+ONE ECONOMIC PAYMENT CANNOT CREATE TWO COMMISSIONS.
+
+ONE ECONOMIC PAYMENT CANNOT CREATE TWO VENDOR LIABILITIES.
+
+ONE WALLET BALANCE CANNOT FUND MORE VALUE THAN IT CONTAINS.
+
+ONE REFUNDABLE BALANCE CANNOT REFUND MORE THAN IT CONTAINS.
+
+ONE VENDOR PAYABLE CANNOT BE RESERVED BEYOND ITS AVAILABLE LIABILITY.
+
+AN INTERNAL PAYOUT RESERVATION CANNOT PRETEND AN EXTERNAL PAYOUT OCCURRED.
+
+A valid result may be:
+
+MYSQL CERTIFICATION FAILED.
+
+If so, report exactly why rather than weakening the invariant.
+
+============================================================
+53. FINAL STOP
+============================================================
+
+After Phase 3C verification and reports:
+
+STOP.
+
+Do NOT:
+
+- activate any electronic provider;
+- enable Vendor-direct checkout;
+- configure real credentials;
+- call real provider APIs;
+- perform real payments/refunds/payouts;
+- implement an external payout rail;
+- implement FX;
+- connect to production;
+- migrate production;
+- classify/delete legacy Orders;
+- publish;
+- automatically begin provider UAT.
+
+If MySQL certification passes, recommend the next controlled step separately.
+
+If a schema/design correction is required, stop and request approval before
+implementing it.

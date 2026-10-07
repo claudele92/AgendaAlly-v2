@@ -1,0 +1,96 @@
+OWNER DECISION — PORTABLE PRODUCT MEDIA POLICY
+
+The Product-photo dependency is resolved for the PORTABLE FIRST-INSTALL
+BASELINE as follows.
+
+I explicitly approve a NULL/no-local-media policy for the five unresolved
+Product-photo dependencies.
+
+This decision applies only to the portable first-install/demo baseline.
+
+Do NOT download, recover, scrape, generate, regenerate, substitute or otherwise
+create Product images from the historical Unsplash URLs or any other source.
+
+Update the portable baseline so that it does not reference Product image files
+that are not included in the source distribution.
+
+Specifically:
+
+1. Preserve all 13 approved Product records and their non-media business data.
+
+2. Preserve all 14 approved Stock records and their non-media business data.
+
+3. For Product/Stock image fields whose values depend on the five unresolved
+   Product-photo assets, use the application's valid NULL/no-image representation.
+
+4. Remove ONLY the 13 Product Gallery image rows whose sole purpose is to
+   reference those unavailable Product-photo assets.
+
+5. Do not alter the 51 Service records or their 51 approved Service-Gallery
+   relationships.
+
+6. Do not change the accepted Service package.
+
+Accepted Service provenance SHA256 remains:
+
+fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+Accepted canonical Service-package SHA256 remains:
+
+8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e
+
+7. Update ONLY the portable-baseline/reference evidence necessary to encode
+   this explicit Product-media policy.
+
+8. Recompute and report the resulting portable-baseline SHA256.
+
+The previous portable-baseline SHA256:
+
+7aba06496ffb8efd3aba99bc2599773245c196d453d902c9bcb370a92314335c
+
+is historical review evidence and is expected to change if the manifest is
+updated.
+
+Do not rewrite historical approval/evidence files to pretend the old hash
+represented this new policy. Record this owner decision separately and preserve
+the old evidence as historical.
+
+EXPECTED PORTABLE MEDIA RESULT
+
+- Products: 13 preserved
+- Stocks: 14 preserved
+- Product local images: 0
+- Product Gallery image rows depending on unresolved Product media: 0
+- Service local images: 15 approved JPEGs
+- Services: 51
+- Service Gallery relationships: 51
+- unresolved/broken Product image paths in executable portable baseline: 0
+
+This NULL/no-image policy is intentionally NOT photo-complete visual parity.
+The application may display its normal no-image/fallback UI for these Products.
+
+Do not make unrelated application/UI changes merely to improve Product
+appearance.
+
+After implementing this bounded manifest/policy change:
+
+- validate referential integrity;
+- validate that no executable portable-demo row references the five unresolved
+  Product-photo assets;
+- validate the Service package remains byte-for-byte unchanged;
+- report the new portable-baseline hash and exact changed files.
+
+STOP after that report BEFORE creating the disposable MySQL lab.
+
+Do NOT:
+- download Product images;
+- generate Product images;
+- substitute Service images;
+- change Product business data;
+- change Service media;
+- initialize MySQL yet;
+- provision an Administrator;
+- generate keys;
+- activate providers/SMTP/workers;
+- perform financial operations;
+- perform GitHub/VPS/deployment actions.

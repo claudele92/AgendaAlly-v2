@@ -1,0 +1,1529 @@
+Continue forward from the CURRENT AUTHORITATIVE AgendaAlly MVP conclusion in Section 18 of the existing readiness report and evidence bundle.
+
+This prompt SUPERSEDES the previous instruction that calendar modernization must wait until after MVP.
+
+The calendar/scheduling modernization described below IS NOW AUTHORIZED as part of the limited MVP and must be completed in isolated staging before final production approval.
+
+Do not restart architecture discovery.
+Do not restart payment design.
+Do not repeat already completed calendar-design research.
+Do not reopen already verified gates without new evidence of an actual regression.
+
+Move forward.
+
+==================================================
+CURRENT AUTHORITATIVE BASELINE
+==================================================
+
+CURRENT DECISION:
+
+READY TO ENTER STAGING
+for the limited service-booking MVP.
+
+Current evidence-weighted readiness:
+
+14.5 / 20 = 72.5%
+
+This is NOT production readiness.
+
+The following application gates are already closed for the selected MVP scope:
+
+- B1: VERIFIED
+- U1: VERIFIED for selected Customer/Vendor/Specialist/Admin scope
+- A1: VERIFIED locally; live account-email delivery remains external
+- N1: VERIFIED locally; production supervision/live SMTP remain runtime/external dependencies
+- S1: VERIFIED for selected local MVP scope; production TLS/proxy/cookie/secret/rotation evidence remains
+- MySQL financial boundary: accepted
+- Cash booking lifecycle: accepted for selected scope
+- Wallet booking lifecycle: accepted for selected scope
+- Vendor calendar lifecycle: accepted
+- Specialist selected scheduling/read lifecycle: accepted
+- Admin selected approval/financial visibility: accepted
+
+Protected baseline:
+
+- 59 protected fingerprints unchanged
+- 465 owned schema objects unchanged
+- 12 legacy Orders remain unverified
+- retained UNKNOWN/CANCELED financial operations unchanged
+
+Normal demo baseline:
+
+- 9 approved visible Shops
+- 51 Services
+- 14 distinct assigned Specialists
+- 75 assignment links
+- 66 gallery records
+- 90 media files
+- existing Shop/Service/specialist media working
+
+The normal demo was restored WITHOUT reseeding.
+
+Do not replace it with disposable acceptance fixtures again.
+
+==================================================
+SELECTED MVP SCOPE
+==================================================
+
+The MVP remains SERVICE-BOOKING-FIRST.
+
+IN SCOPE:
+
+- Customer registration/auth/profile
+- Vendor onboarding and approval
+- Shop/service/specialist configuration required for service booking
+- Customer service discovery
+- availability
+- booking
+- rescheduling
+- cancellation where supported
+- Vendor booking/calendar management
+- Specialist scheduling workflow
+- Admin oversight
+- Cash
+- legitimate funded Wallet spending
+- booking/history/receipt visibility
+- transactional account/booking email when approved infrastructure exists
+- selected queue/scheduler/background behavior
+- production-like staging runtime
+- backup/restore
+- monitoring
+- modernized scheduling/calendar UX
+
+OUT OF SCOPE / DEFERRED:
+
+- Product purchasing
+- Product stock correction
+- multi-Shop Product checkout
+- electronic payment activation
+- MTN activation
+- Orange activation
+- Flutterwave activation
+- Paystack activation
+- Stripe activation
+- PayPal activation
+- Vendor-direct collection
+- own-gateway collection
+- real electronic refunds
+- real external payouts
+- provider reconciliation activation
+- Delivery expansion
+- SMS expansion
+- push expansion
+- PostgreSQL conversion
+- Strategy G
+- speculative infrastructure redesign
+
+Existing Product discovery may remain visible only where already intentionally supported.
+
+Do not turn Product browsing into a claim that Product purchasing is launch-ready.
+
+==================================================
+PRIMARY OBJECTIVE
+==================================================
+
+Complete the shortest safe path from the current 72.5% staging-entry baseline toward:
+
+READY FOR LIMITED PRODUCTION APPROVAL
+
+without deploying production automatically.
+
+Execute the work in this order:
+
+PHASE 1 — preservation and isolated staging foundation
+
+PHASE 2 — D1 production-like staging runtime
+
+PHASE 3 — implement the already-selected modern scheduling/calendar UX
+
+PHASE 4 — targeted B1/U1 regression after calendar modernization
+
+PHASE 5 — R1 backup/PITR/restore rehearsal
+
+PHASE 6 — O1 observability/operations rehearsal
+
+PHASE 7 — live-email acceptance only if approved SMTP/TLS is available
+
+PHASE 8 — final preservation, scoring and production-approval decision
+
+Do not stop between ordinary phases merely to ask permission.
+
+==================================================
+FORWARD-EXECUTION AUTHORITY
+==================================================
+
+Ordinary defects discovered during this bounded work may be corrected and verified without asking for approval.
+
+Examples include:
+
+- responsive defects
+- component defects
+- incorrect UI state
+- stale frontend state
+- ordinary API/frontend contract mismatch where intended behavior is already established
+- production-build configuration defects
+- staging-only proxy/CORS issues
+- migration portability defects that preserve the accepted schema contract
+- worker/scheduler configuration defects
+- monitoring instrumentation defects
+- fixture defects
+- test defects
+- missing labels
+- accessibility defects
+- safe refactoring needed to consolidate scheduling components
+
+Preserve failed receipts before correction.
+
+FIX AND CONTINUE.
+
+STOP only for:
+
+1. a new independent financial/security P0;
+2. a proposed accounting/custody change;
+3. a proposed booking-capacity identity change;
+4. a new unresolved scheduling/business semantic decision;
+5. material role/permission widening;
+6. destructive operation against protected data;
+7. real provider credentials/calls;
+8. real payout/refund;
+9. production deployment;
+10. a material architecture decision that cannot safely be derived from the accepted contract.
+
+Do not stop for ordinary bugs.
+
+==================================================
+PHASE 1 — PRESERVATION BASELINE
+==================================================
+
+Before staging mutations:
+
+1. Preserve the existing authoritative:
+   - Markdown report
+   - HTML report
+   - evidence ZIP
+   - historical failure receipts
+
+2. Capture the current protected-state comparison.
+
+Confirm:
+
+- 59 protected fingerprints match
+- 465 schema objects match
+- 12 legacy Orders remain unverified
+- retained UNKNOWN/CANCELED financial operations remain unchanged
+
+3. Verify the normal demo still contains and serves:
+
+- 9 visible approved Shops
+- 51 Services
+- 14 distinct assigned Specialists
+- 75 assignment links
+- existing gallery/media records
+
+4. Keep the normal demo environment and isolated staging/acceptance environment separate.
+
+5. Never point the normal demo storefront at a disposable acceptance database again.
+
+6. Do NOT reseed the protected normal demo.
+
+7. If staging needs synthetic records, create them only in the isolated staging environment and identify them clearly as staging evidence.
+
+==================================================
+PHASE 2 — D1 PRODUCTION-LIKE STAGING FOUNDATION
+==================================================
+
+Establish an ISOLATED production-like staging runtime before performing the calendar modernization.
+
+Do NOT touch production.
+
+If no safe isolated staging target exists, build everything possible in an isolated local/staging-equivalent environment and explicitly identify the missing external prerequisite.
+
+Use actual project-supported versions and lockfiles.
+
+Do not perform speculative framework upgrades.
+
+--------------------------------------------------
+D1-A — Runtime
+--------------------------------------------------
+
+Verify:
+
+- production-mode Laravel
+- PHP-FPM
+- production-built Customer frontend
+- production-built Business frontend
+- Nginx/reverse proxy
+- MySQL 8
+- InnoDB
+- explicit REPEATABLE READ
+- strict SQL mode
+- correct charset
+- correct collation
+- correct timezone
+- required PHP extensions
+- supervised application processes
+- APP_ENV appropriate for staging
+- APP_DEBUG=false
+
+Development servers do NOT count as D1 acceptance.
+
+Do not count:
+
+- PHP built-in server
+- Vite development server
+- Next development server
+
+as the production-like runtime.
+
+--------------------------------------------------
+D1-B — Network/security
+--------------------------------------------------
+
+Verify through the real staging proxy:
+
+- HTTPS/TLS
+- trusted proxy configuration
+- exact allowed origins
+- CORS
+- secure cookies
+- HttpOnly
+- SameSite
+- correct session behavior
+- correct bearer behavior
+- correct CSRF behavior for applicable cookie-auth paths
+- no public MySQL
+- no public queue/debug/dashboard/dev ports
+- restricted application DB user
+- migration account separated where appropriate
+- application does not use root DB credentials
+
+--------------------------------------------------
+D1-C — Secrets
+--------------------------------------------------
+
+Verify:
+
+- APP_KEY remains stable
+- secrets remain outside Git
+- secrets remain outside public frontend bundles
+- no staging secret is committed to source
+- restart/redeploy does not change APP_KEY
+- later restore uses the SAME staging APP_KEY
+
+Do not reveal secret values in evidence.
+
+Do not rotate real credentials merely to satisfy testing.
+
+Historical credential-rotation evidence remains an external requirement where already identified.
+
+--------------------------------------------------
+D1-D — Persistent media
+--------------------------------------------------
+
+Verify:
+
+- Shop images survive restart/redeploy
+- Service images survive restart/redeploy
+- profile/specialist media survives where applicable
+- persistent storage is outside disposable release directories
+- public storage linkage works
+- release replacement cannot delete persistent media
+- permissions are limited to required writable paths
+
+--------------------------------------------------
+D1-E — Migration/cutover
+--------------------------------------------------
+
+Using isolated staging/disposable data only:
+
+- run the exact release migration path
+- verify MySQL guards
+- verify triggers
+- verify FKs
+- verify indexes
+- verify native integer money
+- verify IDs
+- verify JSON contracts where relevant
+- verify legacy unverified records are not silently reclassified
+- record migration duration
+- record failure behavior
+- demonstrate safe recovery from a failed release/migration attempt where possible
+
+Do NOT blindly execute destructive down() migrations against populated financial data.
+
+--------------------------------------------------
+D1-F — Restart/release
+--------------------------------------------------
+
+Exercise:
+
+- API restart
+- Customer frontend restart
+- Business frontend restart
+- queue worker restart
+- scheduler continuity
+- DB reconnect
+- persistent media survival
+
+Record evidence.
+
+==================================================
+PHASE 3 — MODERN SCHEDULING/CALENDAR IMPLEMENTATION
+==================================================
+
+The calendar/scheduling design discovery is COMPLETE.
+
+DO NOT repeat the design inventory.
+
+DO NOT spend another phase comparing calendar products or design directions.
+
+Previous discovery established:
+
+- 17 selected scheduling implementation units
+- eight role workflows
+- four selected UI engine/library families
+- five families across wider source including deferred Delivery
+
+The selected design direction is:
+
+TASK-FOCUSED BOOKING AND SCHEDULING
+
+Implement that direction now as part of the MVP.
+
+This is the LAST significant application UX modernization before final production approval.
+
+Do not build one giant universal calendar.
+
+Use a shared AgendaAlly scheduling design language and reusable primitives while retaining role-specific workflows.
+
+The objective is CONSISTENCY WITHOUT DESTROYING ROLE-SPECIFIC FUNCTION.
+
+==================================================
+CALENDAR PRINCIPLE
+==================================================
+
+Customer, Vendor/Seller, Specialist and Admin do NOT need identical calendars.
+
+They need a coherent scheduling system optimized for their respective tasks.
+
+Use shared primitives where practical, but select the appropriate presentation for each role.
+
+Avoid independently rebuilding all 17 scheduling implementations.
+
+Prefer consolidation and reuse.
+
+Do not introduce multiple new calendar libraries.
+
+Do not perform a framework migration merely to modernize appearance.
+
+==================================================
+CUSTOMER SCHEDULING EXPERIENCE
+==================================================
+
+Customer scheduling should be task-focused, not an operational staff calendar.
+
+The Customer should clearly understand:
+
+1. selected Service
+2. selected Specialist
+3. selected date
+4. available times
+5. duration
+6. processing time where customer-relevant
+7. price
+8. payment method
+9. final confirmation
+
+Modernize:
+
+- Service/Specialist scheduling entry
+- date selection
+- availability
+- time selection
+- booking summary
+- confirmation
+- supported reschedule flow
+- supported cancellation flow
+- history/detail scheduling presentation
+
+Provide:
+
+- clean modern date selector
+- obvious selected date
+- obvious available/unavailable states
+- accessible time-slot buttons/cards
+- clear selected time
+- clear duration
+- clear price
+- clear payment method
+- non-obstructive booking summary
+- useful loading state
+- useful empty state
+- useful error state
+- confirmation state
+
+Do not expose internal locks/capacity concepts.
+
+Do not calculate authoritative availability solely in frontend code.
+
+Backend remains authoritative.
+
+==================================================
+VENDOR / SELLER SCHEDULING EXPERIENCE
+==================================================
+
+Vendor/Seller needs an operational scheduling workspace.
+
+Use only views that improve the accepted workflow.
+
+Appropriate options include:
+
+- Today
+- Day
+- Week
+- Agenda/List
+
+Do not add Month or other views solely because a calendar library supports them.
+
+Appointments should clearly expose appropriate information such as:
+
+- time
+- Customer/local client
+- Service
+- Specialist
+- duration
+- status
+- payment state where authorized
+
+Preserve accepted actions:
+
+- inspect booking
+- create supported local-client booking
+- edit supported fields
+- reschedule
+- cancel where authorized
+- transition supported status
+
+Draft appointments MUST NOT appear as confirmed events.
+
+The previous ghost-draft defect must remain fixed.
+
+Local-client appointments remain explicitly UNPAID unless legitimate collection evidence exists.
+
+Never visually imply Cash/electronic collection that did not occur.
+
+==================================================
+SPECIALIST SCHEDULING EXPERIENCE
+==================================================
+
+Optimize Specialist scheduling around the Specialist's own work.
+
+Prioritize:
+
+- today's appointments
+- upcoming appointments
+- day/week schedule
+- appointment detail
+- permitted status actions
+- working hours
+- closed dates
+- blocked time
+- recurrence controls already supported
+
+Appointment detail must use the SAVED authoritative appointment record.
+
+Do not recalculate historical appointment economics/time from mutable current Service configuration.
+
+Preserve explicit Shop scope.
+
+If a Specialist has multiple accepted Shop invitations and existing policy requires Shop context:
+
+DO NOT silently choose a Shop.
+
+Preserve the accepted fail-closed behavior.
+
+==================================================
+ADMIN SCHEDULING EXPERIENCE
+==================================================
+
+Admin scheduling is primarily oversight.
+
+Prioritize:
+
+- booking overview
+- search
+- filters
+- Shop
+- Specialist
+- Customer
+- date/time
+- status
+- payment state where authorized
+- booking detail
+
+Do not turn Admin into an unrestricted scheduling identity.
+
+Do not widen permissions.
+
+==================================================
+SHARED SCHEDULING PRIMITIVES
+==================================================
+
+Where practical, consolidate reusable components such as:
+
+- scheduling page shell
+- scheduling toolbar
+- date navigation
+- Today action
+- view selector
+- date picker
+- time-slot selector
+- appointment/event card
+- status indicator
+- payment-state indicator
+- Specialist indicator
+- booking summary
+- appointment detail drawer
+- appointment modal/sheet
+- loading skeleton
+- empty state
+- error state
+- responsive drawer/sheet behavior
+
+Use the existing AgendaAlly design system and existing dependencies where practical.
+
+If the existing four selected calendar/UI families can safely be reduced through wrappers/shared components, do so incrementally.
+
+Do NOT perform a broad risky library migration solely to reduce the count.
+
+==================================================
+VISUAL / INTERACTION QUALITY
+==================================================
+
+The new scheduling experience should look intentionally modern and production-quality.
+
+Prioritize:
+
+- strong information hierarchy
+- clean spacing
+- clear typography
+- restrained controls
+- obvious primary actions
+- understandable event cards
+- readable status indicators
+- consistent drawer/modal behavior
+- consistent navigation
+- predictable selected states
+- clear loading/empty/error behavior
+
+Avoid:
+
+- oversized toolbars
+- cramped desktop grids on mobile
+- excessive borders
+- unnecessary controls
+- duplicate actions
+- unexplained icons
+- fixed overlays covering interactive content
+- visual treatment that makes draft state look persisted
+- payment/status meaning communicated by color alone
+
+Do not alter AgendaAlly branding merely for the calendar.
+
+==================================================
+RESPONSIVE CONTRACT
+==================================================
+
+Verify critical scheduling surfaces at:
+
+- 1280px
+- 390px
+- 320px
+
+At 1280:
+
+- efficient desktop workspace
+- appropriate contextual information
+- no unnecessary empty space
+- usable calendar/event density
+
+At 390 and 320:
+
+- no horizontal document overflow
+- no clipped toolbar
+- no inaccessible controls
+- no controls hidden behind fixed summary
+- drawers/sheets remain inside viewport
+- date navigation remains usable
+- time slots remain tappable
+- primary action remains accessible
+- appointment detail remains readable
+
+Do NOT squeeze a desktop staff grid onto a 320px screen.
+
+Prefer:
+
+- agenda
+- list
+- day
+- task-focused scheduling
+
+where those formats are more usable on narrow screens.
+
+==================================================
+ACCESSIBILITY
+==================================================
+
+Preserve or improve:
+
+- keyboard navigation where supported
+- visible focus
+- semantic controls
+- useful labels
+- touch target size
+- selected-state clarity
+- disabled-state clarity
+- status readability
+- validation feedback
+- loading feedback
+
+Do not rely solely on color for:
+
+- status
+- availability
+- payment state
+- selected state
+
+==================================================
+FROZEN BOOKING CONTRACT
+==================================================
+
+THE CALENDAR MODERNIZATION MUST NOT CHANGE B1.
+
+Preserve:
+
+- Booking.master_id specialist capacity ownership
+- specialist-level exclusivity
+- half-open [start,end) intervals
+- endpoint adjacency
+- processing/pause included exactly once
+- full working-hour containment
+- recurring-block semantics
+- monthly missing-date skip rule
+- repeat counts anchored at original occurrence
+- closed-date semantics
+- disabled/block-time semantics
+- fresh protected revalidation
+- existing specialist resource mutex
+- stale-request rejection
+- cancellation capacity release
+- rescheduling atomicity
+- cascade rules already accepted
+- independent specialist progress
+- saved booking economics
+- authoritative backend availability
+
+Frontend must not manufacture availability.
+
+Frontend must not bypass backend scheduling admission.
+
+==================================================
+FROZEN FINANCIAL CONTRACT
+==================================================
+
+Calendar modernization must not change:
+
+- Cash custody semantics
+- Wallet funding semantics
+- Wallet debit semantics
+- booking financial identities
+- canonical allocation evidence
+- refund/cancellation guards
+- UNKNOWN meaning
+- payout meaning
+- commission equations
+- original payment ownership
+- historical booking economics
+
+Cash remains offline custody.
+
+Local-client UNPAID remains UNPAID.
+
+Do not manufacture Cash collection.
+
+Do not manufacture Wallet funding.
+
+A Wallet booking requires legitimate staging funding authority.
+
+UNKNOWN remains UNKNOWN until legitimate evidence resolves it.
+
+Reservation is not payout.
+
+==================================================
+FROZEN AUTHORIZATION CONTRACT
+==================================================
+
+Do not widen:
+
+- Customer permissions
+- Vendor permissions
+- Specialist permissions
+- Admin permissions
+- Shop ownership
+- branch/country scope
+- staff invitation scope
+
+UI inconvenience is not permission to broaden access.
+
+==================================================
+CALENDAR IMPLEMENTATION STRATEGY
+==================================================
+
+Implement incrementally to conserve credits and reduce regression cost.
+
+Recommended order:
+
+1. establish shared scheduling primitives
+2. Customer booking experience
+3. Vendor/Seller operational scheduling
+4. Specialist schedule
+5. Admin oversight
+6. responsive normalization
+7. accessibility pass
+
+After each role surface:
+
+- run focused component/browser acceptance
+- preserve failure evidence
+- correct ordinary defects
+- continue
+
+Do NOT rerun the entire historical certification after every UI change.
+
+==================================================
+PHASE 4 — TARGETED B1/U1 REGRESSION
+==================================================
+
+After calendar modernization, run ONE focused regression campaign.
+
+Do not repeat the entire historical B1/U1 suite unless a genuine regression requires deeper investigation.
+
+--------------------------------------------------
+Customer
+--------------------------------------------------
+
+Verify:
+
+- normal Service/Specialist selection
+- availability
+- legitimate adjacency
+- time selection
+- Cash booking
+- Wallet booking
+- confirmation
+- history
+- detail
+- reschedule where supported
+- cancellation where supported
+- released capacity
+- funded Wallet capacity remains occupied until legitimate lifecycle change
+- no duplicate booking from UI retry
+
+--------------------------------------------------
+Vendor/Seller
+--------------------------------------------------
+
+Verify:
+
+- persisted Customer booking appears
+- local-client draft does NOT create ghost event
+- local-client booking remains UNPAID
+- local-client persisted booking appears once
+- supported reschedule
+- supported cancellation
+- status transition
+- no duplicate financial effects
+
+--------------------------------------------------
+Specialist
+--------------------------------------------------
+
+Verify:
+
+- saved Cash appointment detail
+- saved Wallet appointment detail
+- status choices
+- working hours
+- closed dates
+- blocked-time list
+- recurrence presentation
+- explicit Shop scope
+- multi-Shop ambiguity remains fail-closed
+- no Specialist record changed merely by reading the schedule
+
+--------------------------------------------------
+Admin
+--------------------------------------------------
+
+Verify:
+
+- booking visibility
+- search/filter behavior
+- detail
+- Shop/Specialist/Customer context
+- permitted financial visibility
+- role restrictions
+
+--------------------------------------------------
+Native scheduling regression
+--------------------------------------------------
+
+Run bounded native verification that UI modernization did not alter server scheduling correctness.
+
+At minimum:
+
+- same-slot contention still admits one durable booking
+- independent Specialist still progresses
+- right/left/exact/containing/contained overlap rules remain correct
+- endpoint adjacency remains valid
+- working-hour overrun rejects
+- recurring blocks remain authoritative
+- rollback releases capacity
+- reschedule remains atomic
+
+Do not redesign server scheduling merely because UI changed.
+
+--------------------------------------------------
+Financial regression
+--------------------------------------------------
+
+Verify:
+
+- Cash booking does not fabricate collection
+- Wallet booking debits once
+- duplicate UI submission creates no duplicate financial effect
+- reschedule does not reprice frozen economics
+- failed booking does not leave financial effects
+- funded cancellation guard remains intact
+- unpaid local-client cancellation uses accepted unfunded path
+
+Use isolated staging synthetic records.
+
+==================================================
+RESPONSIVE CALENDAR ACCEPTANCE
+==================================================
+
+Capture critical role scheduling evidence at:
+
+1280
+390
+320
+
+At minimum capture:
+
+Customer:
+- date/time selection
+- summary/continue
+- booking detail/history
+
+Vendor:
+- calendar
+- booking detail/drawer
+- local-client flow
+
+Specialist:
+- schedule
+- detail/drawer
+- working-hours/block controls
+
+Admin:
+- booking overview/detail where calendar/scheduling UI applies
+
+Require:
+
+- no horizontal document overflow
+- no clipped primary controls
+- no hidden continuation button
+- no drawer outside viewport
+- no summary covering time controls
+- no broken toolbar
+- no ghost event
+- no undefined processing-time label
+- no stale draft shown as confirmed
+
+==================================================
+D1 MINIMAL PRODUCTION-LIKE REGRESSION
+==================================================
+
+Once calendar modernization passes targeted regression, complete D1 runtime equivalence.
+
+Verify through production-like staging:
+
+- public storefront loads
+- original demo media loads
+- Customer login
+- Vendor login
+- Specialist login
+- Admin login
+- one supported Cash lifecycle
+- one supported Wallet lifecycle
+- Vendor transition
+- Customer refreshed history
+- Admin visibility
+- responsive critical surfaces
+
+Do not use the normal protected demo database for destructive lifecycle tests.
+
+==================================================
+D1 CODE ROLLBACK
+==================================================
+
+Demonstrate safe CODE rollback/redeploy.
+
+Do not use destructive populated financial migration down() operations as the rollback strategy.
+
+Prove:
+
+- prior compatible application release can be restored
+- persistent media remains
+- DB evidence remains
+- APP_KEY remains
+- accepted records remain readable
+- no financial evidence is deleted
+
+Record:
+
+D1 = PASS / PARTIAL / FAIL
+
+with exact evidence.
+
+==================================================
+PHASE 5 — R1 BACKUP / PITR / RESTORE
+==================================================
+
+Implement and TEST recovery in isolated staging.
+
+Recommended targets remain:
+
+- financial DB RPO <= 15 minutes
+- media RPO <= 1 hour
+- RTO <= 4 hours
+
+These are targets until measured.
+
+--------------------------------------------------
+Database backup
+--------------------------------------------------
+
+Create a consistent MySQL backup containing:
+
+- schema
+- data
+- triggers
+- routines/events if applicable
+- native financial guards
+- exact integer money/IDs
+
+--------------------------------------------------
+PITR/binlog
+--------------------------------------------------
+
+Verify:
+
+- binlog configuration
+- PITR configuration
+- encrypted off-instance/off-host storage where available
+- selected recovery-point identification
+
+Do not claim PITR simply because binary logging is enabled.
+
+--------------------------------------------------
+Media backup
+--------------------------------------------------
+
+Back up persistent media separately.
+
+Verify recovery of:
+
+- Shop images
+- Service images
+- profile/specialist images where applicable
+
+--------------------------------------------------
+APP_KEY/config recovery
+--------------------------------------------------
+
+Recovery must preserve the SAME staging APP_KEY.
+
+Do not print or expose the key.
+
+Verify encrypted application data remains decryptable after restore.
+
+--------------------------------------------------
+Isolated restore
+--------------------------------------------------
+
+Restore to a NEW isolated database/runtime.
+
+Do not overwrite the source staging environment.
+
+Measure:
+
+- backup start
+- backup finish
+- restore start
+- restore finish
+- achieved RTO
+- recovery point
+- achieved RPO
+- missing media, if any
+
+After restore verify:
+
+- schema inventory
+- triggers/guards
+- fingerprints
+- integer values
+- Wallet conservation
+- financial allocations/contributions
+- booking history
+- Cash history
+- Wallet history
+- receipts
+- encrypted data decryption
+- media
+- Customer selected reads
+- Vendor selected reads
+- Specialist selected reads
+- Admin selected reads
+
+Compare restored state with the pre-backup staging baseline.
+
+A successful backup command is NOT R1 PASS.
+
+R1 requires successful restore and verification.
+
+Record:
+
+R1 = PASS / PARTIAL / FAIL
+
+==================================================
+PHASE 6 — O1 OBSERVABILITY / OPERATIONS
+==================================================
+
+Use the simplest appropriate monitoring/alerting implementation.
+
+Do not introduce speculative enterprise infrastructure.
+
+Verify visibility for:
+
+- Customer frontend
+- Business frontend
+- API
+- MySQL
+- DB connections
+- DB lock/deadlock/error conditions
+- disk
+- inode usage where applicable
+- CPU
+- memory
+- queue worker
+- failed jobs
+- queue backlog
+- retry visibility
+- scheduler heartbeat
+- missed/late booking reminders
+- TLS certificate expiry
+- HTTP 5xx
+- login abuse/429
+- retained UNKNOWN/PENDING financial operations
+- refund failure/intervention state where applicable
+- payout reservation/intervention state where applicable
+
+==================================================
+O1 FAILURE REHEARSALS
+==================================================
+
+Perform safe staging simulations.
+
+1. Queue worker failure
+
+Stop a worker.
+
+Verify:
+- monitoring detects it
+- queued work remains visible
+- worker can restart
+- selected-MVP queued work recovers
+- no duplicate financial effect occurs
+
+2. Scheduler interruption
+
+Interrupt scheduler execution.
+
+Verify:
+- missed heartbeat is detected
+- selected booking reminder catch-up works
+- duplicate reminder behavior is controlled
+
+3. Synthetic HTTP/API failure
+
+Cause a safe synthetic failure.
+
+Verify:
+- alert/log visibility
+- useful operator evidence
+- sensitive values redacted
+
+4. Low-disk simulation
+
+Use a safe threshold simulation where practical.
+
+Do NOT exhaust the actual filesystem.
+
+5. UNKNOWN/PENDING operation
+
+Preserve a synthetic UNKNOWN/PENDING operation.
+
+Verify:
+- monitoring/operator view surfaces it
+- no automatic resend
+- no automatic capacity release
+- no automatic reclassification
+
+6. Failed-job recovery
+
+Verify:
+- failed job appears
+- operator can identify it
+- retry/recovery is safe
+
+==================================================
+LOG REDACTION
+==================================================
+
+Verify selected staging logs do NOT expose:
+
+- Authorization headers
+- passwords
+- reset challenges
+- invitation challenges
+- APP_KEY
+- merchant credentials
+- decrypted provider payloads
+- sensitive provider responses
+
+Record who/what receives each alert.
+
+If no approved external alert destination exists:
+
+- prove alert generation locally
+- classify external alert delivery separately
+
+Do not invent external alert success.
+
+Record:
+
+O1 = PASS / PARTIAL / FAIL
+
+==================================================
+PHASE 7 — LIVE TRANSACTIONAL EMAIL
+==================================================
+
+Do NOT invent SMTP success.
+
+If approved staging SMTP/TLS is available, perform bounded live transactional-email acceptance.
+
+Test:
+
+- account verification/reset as applicable
+- booking-related transactional email
+
+Verify:
+
+- actual delivery
+- correct recipient
+- no duplicate delivery on retry
+- failure visibility
+- retry behavior
+- worker restart behavior
+- logs remain redacted
+
+If approved SMTP/TLS is NOT available:
+
+classify live email as:
+
+EXTERNAL DEPENDENCY / NOT YET VERIFIED
+
+Do not reduce the already accepted local application evidence.
+
+Do not purchase or activate an email provider automatically.
+
+==================================================
+ABSOLUTE EXCLUSIONS
+==================================================
+
+Throughout this phase:
+
+NO production deployment.
+
+NO real payment provider activation.
+
+NO MTN call.
+
+NO Orange call.
+
+NO Flutterwave call.
+
+NO Paystack call.
+
+NO Stripe call.
+
+NO PayPal call.
+
+NO real refund.
+
+NO real payout.
+
+NO Vendor-direct activation.
+
+NO own-gateway activation.
+
+NO legacy financial reclassification.
+
+NO PostgreSQL conversion.
+
+NO Strategy G.
+
+NO Product purchasing implementation.
+
+NO Product stock correction unless Product purchasing is separately authorized.
+
+NO Delivery expansion.
+
+NO SMS/push expansion.
+
+NO speculative architecture rewrite.
+
+==================================================
+FINAL PROTECTED-STATE CHECK
+==================================================
+
+At completion compare against the ORIGINAL protected development baseline.
+
+Confirm:
+
+- all 59 protected fingerprints unchanged
+- all 465 schema objects unchanged
+- all 12 legacy Orders still unverified
+- retained UNKNOWN/CANCELED operations unchanged
+- normal demo still points to correct API/database
+- 9 demo Shops still present
+- 51 Services still present
+- specialist assignments still present
+- media still renders
+- no production action occurred
+- no provider call occurred
+- no payout occurred
+- no real refund occurred
+
+Staging synthetic records must remain clearly separated from protected development data.
+
+==================================================
+READINESS SCORING
+==================================================
+
+Keep the SAME existing 20-gate model.
+
+Starting score:
+
+14.5 / 20 = 72.5%
+
+Do NOT invent a new scoring model.
+
+Do NOT award readiness points for:
+
+- calendar visual improvement alone
+- number of components consolidated
+- documentation
+- screenshots alone
+- number of files changed
+- production asset compilation alone
+- writing deployment scripts
+- creating a backup without restoring it
+- configuring monitoring without exercising it
+
+Calendar modernization earns no independent readiness point unless it closes an already-defined gate.
+
+Award existing gates only when their required acceptance passes.
+
+Specifically determine whether this phase earns:
+
+- production-like runtime/cutover gate
+- restore gate
+- observability gate
+- remaining communication/runtime acceptance
+- any other existing partial gate genuinely completed by staging evidence
+
+Do not manipulate the score to reach a desired percentage.
+
+==================================================
+EVIDENCE DISCIPLINE
+==================================================
+
+Update the EXISTING authoritative:
+
+- Markdown readiness report
+- HTML report
+- evidence ZIP
+
+Do NOT create a competing readiness report.
+
+Preserve historical failure evidence.
+
+Clearly distinguish:
+
+- historical failure
+- superseded failure
+- current PASS
+- current PARTIAL
+- external dependency
+- deferred scope
+
+Add dedicated sections for:
+
+1. calendar/scheduling modernization implementation
+2. targeted B1/U1 regression
+3. D1 staging runtime/cutover/rollback
+4. R1 backup/PITR/restore
+5. O1 monitoring/operations
+6. live-email status
+7. final preservation comparison
+
+==================================================
+FINAL REQUIRED ANSWERS
+==================================================
+
+At completion answer explicitly:
+
+1. Did the modern calendar/scheduling implementation complete?
+2. Which of the 17 scheduling implementation units changed?
+3. Which were consolidated/shared?
+4. Which legacy calendar implementations remain, and why?
+5. Did Customer scheduling pass 1280/390/320?
+6. Did Vendor scheduling pass 1280/390/320?
+7. Did Specialist scheduling pass 1280/390/320?
+8. Did Admin scheduling pass applicable responsive checks?
+9. Did targeted B1 regression pass?
+10. Did targeted U1 regression pass?
+11. Did same-slot native exclusion remain correct?
+12. Did legitimate adjacency remain correct?
+13. Did recurrence remain correct?
+14. Did cancellation release remain correct?
+15. Did rescheduling remain atomic?
+16. Did Cash semantics remain unchanged?
+17. Did Wallet semantics remain unchanged?
+18. Did local-client UNPAID remain uncollected?
+19. Did protected financial state remain unchanged?
+20. Did all 59 fingerprints match?
+21. Did all 465 schema objects match?
+22. Do all 12 legacy Orders remain unverified?
+23. Did the normal demo remain intact?
+24. Did all expected demo media remain usable?
+25. D1 status?
+26. Was a production-like staging runtime actually exercised?
+27. Did code rollback/redeploy pass?
+28. Did persistent media survive?
+29. Did APP_KEY remain stable?
+30. R1 status?
+31. Was a REAL isolated restore performed?
+32. Measured RPO?
+33. Measured RTO?
+34. Did restored financial invariants match?
+35. Did restored media work?
+36. O1 status?
+37. Were worker-failure alerts exercised?
+38. Was scheduler interruption exercised?
+39. Was failed-job recovery exercised?
+40. Was UNKNOWN/PENDING operational visibility exercised without reclassification?
+41. Did log-redaction checks pass?
+42. Was live SMTP actually tested?
+43. If not, what exact external dependency remains?
+44. Did any new P0 appear?
+45. What P1 remains?
+46. What external dependencies remain?
+47. Which features remain deferred?
+48. Updated same-20-gate score?
+49. Exact score derivation?
+50. Is the decision now:
+    - READY FOR LIMITED PRODUCTION APPROVAL,
+    - REMAIN IN STAGING,
+    - or NO-GO?
+51. What is the exact safest next action?
+
+==================================================
+FINAL DECISION BOUNDARY
+==================================================
+
+If calendar modernization and the required targeted regression pass, and D1/R1/O1 pass, but production still requires owner authorization:
+
+STOP AT:
+
+READY FOR LIMITED PRODUCTION APPROVAL
+
+Do NOT deploy production automatically.
+
+Do NOT activate electronic payments automatically.
+
+Do NOT start deferred Product/electronic/payout features automatically.
+
+If approved SMTP or another external dependency remains unavailable, distinguish:
+
+APPLICATION/RUNTIME READINESS
+
+from
+
+EXTERNAL SERVICE READINESS.
+
+Do not call an unavailable external dependency an application regression.
+
+If an ordinary staging/calendar defect appears:
+FIX IT, preserve the failure evidence, and continue.
+
+If a genuine new P0 appears:
+STOP the affected path, preserve evidence, and report it.
+
+==================================================
+CREDIT / EXECUTION EFFICIENCY
+==================================================
+
+Minimize repeated work.
+
+Do not rerun expensive historical suites unless new evidence requires them.
+
+Prefer:
+
+- focused regression
+- incremental calendar verification
+- reuse of accepted fixtures
+- reuse of existing evidence harnesses
+- one final consolidated staging regression
+- one final preservation comparison
+
+Do not repeatedly rebuild/restart unrelated frontends when one frontend is sufficient for the current role check.
+
+Do not repeat the calendar-design proposal.
+
+Do not repeat the scheduling inventory.
+
+Do not rewrite the readiness report from scratch.
+
+Do not reopen financial architecture.
+
+Do not investigate deferred Product/electronic features.
+
+Use the existing accepted work as the baseline and MOVE FORWARD.
+
+The goal of this phase is not more analysis.
+
+The goal is to finish the modern scheduling experience, prove it did not regress the accepted MVP, certify the production-like staging/recovery/operations boundary, and reach the strongest evidence-supported launch decision possible without touching production.

@@ -1,0 +1,1393 @@
+AgendaAlly — Payment Implementation Phase 3A
+Provider Capability, Merchant Configuration & Runtime Readiness
+
+Phase 2B and Phase 2C are accepted within their documented scopes.
+
+The canonical payment/accounting foundation is now the authoritative baseline.
+
+Accepted baseline includes:
+
+- Canonical Shop economic allocations.
+- Immutable funding/collection contributions.
+- Commission calculated once per Shop economic allocation.
+- Platform-held funds satisfy commission first.
+- Remaining eligible platform-held value becomes Vendor payable.
+- Vendor-direct and Vendor-received Cash principal do not create platform
+  principal payout liability.
+- Verified Wallet debit is platform-controlled funding.
+- Unsatisfied commission is represented separately as Vendor commission
+  receivable.
+- Original contribution/custody evidence is immutable.
+- Replacement Transactions and duplicate callbacks cannot duplicate canonical
+  commission/allocation/payable.
+- Supported Product and Booking Cash, Wallet and verified electronic paths
+  reach canonical accounting.
+- Unsupported/unproven monetary contracts fail closed.
+- Same-currency XAF accounting is supported within the documented Phase 2C
+  limits.
+- All 12 legacy Product Orders remain
+  `fulfillment_financial_state = unverified`.
+- Production-engine concurrency remains NOT CERTIFIED.
+- No production deployment/payment activation has been approved.
+
+Phase 3A is authorized to correct and verify the PROVIDER CONFIGURATION
+ARCHITECTURE.
+
+This is NOT authorization to process real payments.
+
+============================================================
+1. PRIMARY OBJECTIVE
+============================================================
+
+Implement and verify a clean separation between:
+
+A. PROVIDER CAPABILITY
+
+What the AgendaAlly integration is designed to support:
+
+- country;
+- currency;
+- payment method;
+- platform-managed collection;
+- Vendor-direct collection;
+- verification;
+- callbacks/webhooks;
+- refunds;
+- payout/remittance capabilities where applicable.
+
+B. MERCHANT CONFIGURATION
+
+Whether the appropriate merchant owner has supplied the configuration required
+for that collection model.
+
+Merchant owner may be:
+
+- AgendaAlly/platform;
+- Vendor/Shop.
+
+C. RUNTIME READINESS
+
+Whether the configured integration is actually operationally ready:
+
+- required credentials present;
+- verifier implemented;
+- callback/webhook implementation present;
+- required callback URL/configuration present;
+- environment requirements satisfied;
+- provider-specific requirements satisfied.
+
+D. CHECKOUT AVAILABILITY
+
+Whether a Customer may actually use that provider for THIS payment given:
+
+- capability;
+- merchant configuration;
+- runtime readiness;
+- country;
+- currency;
+- collection model;
+- Shop;
+- canonical quote compatibility;
+- current environment/activation policy.
+
+These concepts MUST NOT be collapsed into one boolean.
+
+In particular:
+
+NOT CONFIGURED
+
+must not mean:
+
+UNSUPPORTED.
+
+And:
+
+SUPPORTED
+
+must not mean:
+
+READY FOR CUSTOMER PAYMENT.
+
+============================================================
+2. AUTHORITATIVE PROVIDERS FOR THIS PASS
+============================================================
+
+Focus on:
+
+- MTN Mobile Money;
+- Orange Money;
+- Flutterwave;
+- Paystack.
+
+Primary target market:
+
+Cameroon
+
+Primary currency:
+
+XAF
+
+You may inspect Stripe/PayPal and other existing providers only where necessary
+to understand shared architecture or prevent regression.
+
+Do not expand this into a general provider rewrite.
+
+============================================================
+3. TRACE CURRENT PROVIDER ARCHITECTURE FIRST
+============================================================
+
+Before editing, inventory the current provider system.
+
+For each provider identify:
+
+- provider identifier;
+- implementation/service classes;
+- platform credential source;
+- Vendor credential source;
+- Admin settings;
+- Vendor/Shop settings;
+- country restrictions;
+- currency restrictions;
+- collection-mode restrictions;
+- capability checks;
+- configuration checks;
+- runtime readiness checks;
+- checkout eligibility checks;
+- payment initialization;
+- authoritative verification;
+- callback/webhook path;
+- idempotency mechanism;
+- refund implementation;
+- payout/remittance implementation if any;
+- UI/API surfaces exposing availability.
+
+Explicitly document where these concerns are currently mixed together.
+
+============================================================
+4. PROVIDER STATE MODEL
+============================================================
+
+Establish an explicit provider-state model.
+
+At minimum the architecture must distinguish states equivalent to:
+
+SUPPORTED
+UNSUPPORTED
+
+CONFIGURED
+NOT_CONFIGURED
+
+READY
+NOT_READY
+
+CHECKOUT_AVAILABLE
+CHECKOUT_UNAVAILABLE
+
+Do not necessarily add these exact database columns if they are safely
+derivable.
+
+Prefer derived state where appropriate.
+
+The important requirement is semantic separation.
+
+For example:
+
+MTN may be:
+
+SUPPORTED for Cameroon/XAF
++
+NOT_CONFIGURED
++
+NOT_READY
++
+CHECKOUT_UNAVAILABLE
+
+That must NOT be reported simply as:
+
+"XAF unsupported"
+
+if the actual problem is missing configuration/readiness.
+
+============================================================
+5. CAPABILITY MUST BE STATIC / AUTHORITATIVE
+============================================================
+
+Provider capability must answer:
+
+"Can this AgendaAlly integration support this combination in principle?"
+
+It must NOT depend on whether credentials happen to exist today.
+
+Capability should consider:
+
+- provider;
+- country;
+- currency;
+- payment method;
+- collection mode;
+- implementation capability.
+
+Do not mark a provider unsupported merely because:
+
+- credentials are absent;
+- environment variables are absent;
+- merchant configuration has not been entered;
+- provider is disabled for checkout;
+- callback URL is not configured.
+
+Those are readiness/configuration concerns.
+
+============================================================
+6. CONFIGURATION MUST BE OWNER-AWARE
+============================================================
+
+Merchant configuration must be evaluated against the COLLECTION OWNER.
+
+For platform-managed collection:
+
+configuration belongs to AgendaAlly/platform.
+
+For Vendor-direct collection:
+
+configuration belongs to the Vendor/Shop merchant relationship.
+
+Do not accidentally use platform credentials to declare a Vendor-direct
+merchant configured.
+
+Do not accidentally use Vendor credentials to declare platform-managed
+collection configured.
+
+Merchant ownership must be persisted/source-proven.
+
+============================================================
+7. RUNTIME READINESS
+============================================================
+
+Readiness must determine whether the configured provider can safely execute.
+
+Provider-specific readiness may require:
+
+- merchant/account identifier;
+- API key;
+- API secret;
+- subscription key;
+- callback/webhook secret;
+- environment identifier;
+- verifier implementation;
+- callback implementation;
+- required URL/configuration;
+- provider-specific signing/verification support.
+
+Do NOT expose secrets.
+
+Do NOT log secrets.
+
+Do NOT include secrets in reports.
+
+Report only redacted presence/absence and structural requirements.
+
+============================================================
+8. CHECKOUT AVAILABILITY
+============================================================
+
+Checkout availability must be the final decision layer.
+
+A provider may be shown/configurable in Admin or Vendor settings while remaining
+unavailable to Customers.
+
+Customer checkout availability requires all applicable conditions:
+
+CAPABLE
++
+CORRECT MERCHANT OWNER
++
+CONFIGURED
++
+RUNTIME READY
++
+COUNTRY ALLOWED
++
+CURRENCY ALLOWED
++
+COLLECTION MODEL ALLOWED
++
+QUOTE SUPPORTED
++
+ENVIRONMENT/ACTIVATION POLICY ALLOWED.
+
+Do not weaken the Phase 2C fail-closed quote rules.
+
+============================================================
+9. "AGENDAALLY PAYMENTS"
+============================================================
+
+Define what the UI/business concept:
+
+AgendaAlly Payments
+
+actually means.
+
+It should represent PLATFORM-MANAGED collection.
+
+For electronic payment under AgendaAlly Payments:
+
+- AgendaAlly/platform merchant configuration is used;
+- Customer funds are collected under platform-controlled custody according to
+  the verified provider event;
+- canonical accounting records platform-controlled contribution;
+- commission is satisfied according to the Phase 2 accounting model;
+- remaining eligible Vendor entitlement becomes platform Vendor payable.
+
+Do NOT claim that AgendaAlly physically holds provider funds unless the provider
+settlement contract actually establishes that.
+
+Distinguish:
+
+ACCOUNTING CUSTODY CLASSIFICATION
+
+from:
+
+LEGAL/BANK SETTLEMENT CUSTODY.
+
+Document that distinction.
+
+============================================================
+10. "USE MY OWN PAYMENT GATEWAY"
+============================================================
+
+Correct the architecture behind:
+
+Use my own payment gateway
+
+so that it means:
+
+VENDOR-DIRECT MERCHANT CONFIGURATION.
+
+A Vendor choosing this option is expressing a COLLECTION POLICY/PREFERENCE.
+
+It must NOT automatically mean:
+
+- provider configured;
+- provider ready;
+- checkout enabled;
+- Customer payment possible.
+
+The Vendor should be able to configure a capable Vendor-direct provider even
+when runtime readiness is incomplete, provided storing that configuration is
+safe and supported.
+
+Configuration and checkout availability are separate.
+
+============================================================
+11. DO NOT ENABLE VENDOR-DIRECT CHECKOUT YET
+============================================================
+
+This phase MAY make the Vendor-direct configuration workflow structurally
+correct.
+
+This phase must NOT make Vendor-direct available to real Customer checkout.
+
+Even if all synthetic readiness checks pass, keep real Vendor-direct checkout
+behind the existing disabled/controlled activation boundary.
+
+The goal is:
+
+CONFIGURABLE
+
+not yet:
+
+LIVE.
+
+============================================================
+12. VENDOR PROVIDER SELECTION
+============================================================
+
+For `Use my own payment gateway`, determine which providers are actually
+capable of Vendor-direct operation.
+
+Do not assume every platform provider supports Vendor-direct.
+
+For each of:
+
+MTN
+Orange
+Flutterwave
+Paystack
+
+classify:
+
+- platform-managed capability;
+- Vendor-direct capability;
+- configuration ownership;
+- verification capability;
+- callback capability;
+- refund capability;
+- settlement implications.
+
+If source does not support Vendor-direct for a provider:
+
+report Vendor-direct unsupported.
+
+Do not fabricate it.
+
+============================================================
+13. MTN MOBILE MONEY — CAMEROON/XAF
+============================================================
+
+Complete the MTN analysis and implementation architecture.
+
+Determine from existing code/configuration:
+
+- whether Cameroon is capability-supported;
+- whether XAF is capability-supported;
+- whether platform-managed MTN is implemented;
+- whether Vendor-direct MTN is implemented/capable;
+- required platform configuration;
+- required Vendor configuration if applicable;
+- payment initiation path;
+- authoritative verifier;
+- callback/webhook behavior;
+- idempotency;
+- refund support;
+- current runtime readiness.
+
+Phase 1 already demonstrated an existing synthetic MTN verifier.
+
+Preserve that authoritative verification boundary.
+
+Do NOT activate MTN.
+
+Do NOT add real credentials.
+
+============================================================
+14. ORANGE MONEY — CAMEROON/XAF
+============================================================
+
+Complete the Orange analysis.
+
+The previous audit found Orange configuration foundations but incomplete
+verification/readiness.
+
+Determine exactly:
+
+- capability for Cameroon;
+- capability for XAF;
+- platform-managed capability;
+- Vendor-direct capability;
+- configuration requirements;
+- verifier implementation status;
+- callback status;
+- refund status;
+- readiness blockers.
+
+If Orange is technically capable of Cameroon/XAF but verifier/readiness is
+missing:
+
+report:
+
+SUPPORTED / NOT READY
+
+not:
+
+XAF UNSUPPORTED.
+
+Do NOT implement speculative provider verification without an authoritative
+existing contract.
+
+If implementing the missing verifier requires provider documentation or
+credentials not available in the repository:
+
+leave NOT READY and document the blocker.
+
+============================================================
+15. FLUTTERWAVE — CAMEROON/XAF
+============================================================
+
+Determine:
+
+- Cameroon capability;
+- XAF capability;
+- payment-method capability;
+- platform-managed support;
+- Vendor-direct support;
+- merchant ownership;
+- configuration;
+- verification;
+- callbacks;
+- idempotency;
+- refunds;
+- readiness.
+
+Previous audit evidence indicated Flutterwave was platform-only in the current
+architecture.
+
+Do not convert it to Vendor-direct unless the native integration genuinely
+supports that model.
+
+============================================================
+16. PAYSTACK — CAMEROON/XAF
+============================================================
+
+Determine:
+
+- Cameroon capability;
+- XAF capability;
+- platform-managed support;
+- Vendor-direct support;
+- configuration ownership;
+- initialization;
+- verification;
+- callbacks;
+- refund behavior;
+- readiness.
+
+Previous audit identified Paystack refund credential/status concerns.
+
+Do not silently treat refund support as ready merely because payment
+initialization works.
+
+Payment readiness and refund readiness must be reported separately.
+
+============================================================
+17. COUNTRY/CURRENCY CAPABILITY
+============================================================
+
+Fix architectural cases where provider capability is incorrectly inferred from
+runtime readiness.
+
+Specifically investigate why MTN/Orange previously surfaced:
+
+XAF unsupported
+
+Determine whether that came from:
+
+- actual provider capability;
+- missing capability metadata;
+- missing merchant configuration;
+- missing verifier;
+- environment disablement;
+- checkout activation;
+- incorrect coupling of readiness and capability.
+
+Correct the classification architecture where source evidence supports it.
+
+Do not claim external provider capability that cannot be established from the
+implementation or authoritative provider requirements.
+
+============================================================
+18. CAPABILITY MATRIX
+============================================================
+
+Produce an explicit matrix for:
+
+MTN
+Orange
+Flutterwave
+Paystack
+
+with columns:
+
+Provider
+
+Cameroon capable?
+
+XAF capable?
+
+Platform-managed capable?
+
+Vendor-direct capable?
+
+Platform configuration available?
+
+Vendor configuration available?
+
+Payment initialization implemented?
+
+Authoritative verification implemented?
+
+Callback/webhook implemented?
+
+Callback idempotency?
+
+Refund implemented?
+
+Refund verified?
+
+Runtime ready?
+
+Checkout enabled?
+
+Primary blocker.
+
+Do not collapse unknown into "No."
+
+Use:
+
+YES
+NO
+PARTIAL
+UNKNOWN
+
+where appropriate.
+
+============================================================
+19. CONFIGURATION UX/API
+============================================================
+
+Review the Admin and Vendor configuration APIs/UI sufficiently to ensure the
+new state model can be represented correctly.
+
+For Admin/platform provider settings:
+
+show capability separately from configuration/readiness.
+
+For Vendor:
+
+`Use my own payment gateway`
+
+should allow the Vendor to understand:
+
+- which providers are capable for the Shop's country/currency;
+- which can be configured;
+- whether configuration is incomplete;
+- whether configuration is ready;
+- whether Customer checkout remains disabled.
+
+Do not redesign unrelated Admin/Vendor UI.
+
+Make only the minimum changes necessary to represent the correct provider
+states.
+
+============================================================
+20. SECRET HANDLING
+============================================================
+
+Audit provider credential storage used by the paths changed in this phase.
+
+Do not expose secret values.
+
+Verify at minimum:
+
+- secrets are not returned to Customer APIs;
+- secrets are not returned in plaintext unnecessarily to Vendor/Admin UI;
+- logs do not contain secrets;
+- reports contain only redacted presence/status.
+
+The previous audit identified secrets-at-rest risk.
+
+Do NOT expand this phase into a full secrets-management migration unless the
+minimum configuration implementation would otherwise introduce a new
+immediate risk.
+
+If secure implementation requires a material secret-storage migration:
+
+STOP and report:
+
+SECRET STORAGE DESIGN REQUIRED.
+
+Do not invent a new secrets architecture without approval.
+
+============================================================
+21. CONFIGURATION OWNERSHIP
+============================================================
+
+Vendor merchant configuration must be bound to the correct Shop/Vendor.
+
+Verify:
+
+Vendor A cannot:
+
+- read Vendor B's merchant configuration;
+- update Vendor B's configuration;
+- cause Vendor B's credentials to classify Vendor A as ready;
+- use Vendor B's merchant identity for a contribution.
+
+Do not conduct a broad authorization audit.
+
+Only verify ownership necessary for merchant configuration correctness.
+
+============================================================
+22. CALLBACK / WEBHOOK OWNERSHIP
+============================================================
+
+For providers with callback/webhook support, verify the callback can resolve:
+
+- provider;
+- merchant owner;
+- collection mode;
+- canonical checkout/payment identity;
+- Transaction/funding evidence;
+- Shop allocation.
+
+A Vendor-direct callback must not be interpreted as platform-managed merely
+because the provider name is the same.
+
+Merchant identity must participate where necessary.
+
+============================================================
+23. CALLBACK IDEMPOTENCY
+============================================================
+
+Preserve Phase 2 accounting idempotency.
+
+Duplicate provider callback:
+
+→ must not create another confirmed contribution.
+
+Duplicate verifier response:
+
+→ must not create another allocation.
+
+Replacement Transaction:
+
+→ must not create another commission/payable.
+
+Provider retry:
+
+→ must resolve to the same canonical economic event when it represents the
+same provider payment.
+
+Use synthetic provider events only.
+
+============================================================
+24. PROVIDER PAYMENT IDENTITY
+============================================================
+
+Determine the durable provider payment identity used for each supported
+provider.
+
+Document:
+
+- provider transaction/reference ID;
+- merchant owner;
+- Shop;
+- canonical funding key;
+- Transaction relation;
+- callback/verifier relation.
+
+Do not rely solely on mutable request fields.
+
+Do not allow Customer-supplied provider identifiers to establish authoritative
+payment without verification.
+
+============================================================
+25. REFUND READINESS IS SEPARATE
+============================================================
+
+Do NOT implement missing provider refunds in Phase 3A.
+
+For each provider report independently:
+
+PAYMENT READY?
+
+REFUND READY?
+
+A provider may be:
+
+PAYMENT READY
++
+REFUND NOT READY.
+
+Do not hide that distinction.
+
+Canonical Phase 2 accounting already retains the original custody evidence
+required for future refund routing.
+
+============================================================
+26. PAYOUT / SETTLEMENT READINESS IS SEPARATE
+============================================================
+
+Do NOT implement external payout rails.
+
+For platform-managed providers determine only whether current source establishes
+how provider settlement reaches AgendaAlly/platform.
+
+For Vendor-direct providers determine whether settlement goes directly to the
+Vendor merchant relationship.
+
+Do not fabricate legal custody or settlement timing.
+
+Canonical accounting remains authoritative for internal Vendor liability.
+
+============================================================
+27. ACCOUNTING INTEGRATION
+============================================================
+
+Every provider state/configuration change must preserve the Phase 2 accounting
+model.
+
+Provider readiness must NOT alter historical accounting.
+
+Changing:
+
+- credentials;
+- provider enabled state;
+- Shop preference;
+- runtime readiness;
+- country policy;
+
+must not reinterpret an existing allocation/contribution.
+
+New verified payments use the immutable collection context created for that
+payment.
+
+============================================================
+28. VENDOR-DIRECT ACCOUNTING
+============================================================
+
+Synthetic Vendor-direct verification must continue to produce:
+
+Vendor-controlled contribution
++
+NO platform principal payable for that contribution
++
+once-only Shop commission
++
+commission satisfied from other platform-held funds first
++
+remaining unsatisfied commission as Vendor commission receivable.
+
+Do not make Vendor-direct principal enter platform payout merely because the
+provider also supports platform-managed collection.
+
+============================================================
+29. PLATFORM-MANAGED ACCOUNTING
+============================================================
+
+Synthetic platform-managed verification must produce:
+
+platform-controlled contribution
++
+once-only commission
++
+commission satisfied first
++
+remaining eligible held Vendor entitlement as platform payable.
+
+Do not change the Phase 2 equations.
+
+============================================================
+30. CASH AND WALLET MUST REMAIN UNAFFECTED
+============================================================
+
+Provider refactoring must not break:
+
+Cash
+or
+Wallet.
+
+Cash remains Vendor/direct custody where native semantics establish direct
+receipt.
+
+Wallet remains platform-controlled only after authoritative Customer debit.
+
+Run regressions for both.
+
+============================================================
+31. LEGACY DATA
+============================================================
+
+Do not classify, delete or backfill historical payments merely because provider
+capability is now modeled more accurately.
+
+All 12 legacy Product Orders remain:
+
+fulfillment_financial_state = unverified
+
+Do not change them.
+
+Do not create provider collection contexts for old Transactions from current
+provider settings.
+
+============================================================
+32. DATABASE / MIGRATION GATE
+============================================================
+
+Prefer no financial schema changes in Phase 3A.
+
+If provider configuration architecture requires a migration:
+
+first determine whether it is merely configuration metadata or whether it
+changes:
+
+- economic identity;
+- collection ownership;
+- custody;
+- accounting;
+- historical financial meaning.
+
+If it materially changes financial architecture:
+
+STOP BEFORE MIGRATION.
+
+Report:
+
+FINANCIAL SCHEMA DEVIATION REQUIRED.
+
+If it requires a new secure secret-storage architecture:
+
+STOP BEFORE MIGRATION.
+
+Report:
+
+SECRET STORAGE DESIGN REQUIRED.
+
+Do not improvise either.
+
+============================================================
+33. NO PRODUCTION DATABASE
+============================================================
+
+Do NOT run:
+
+"Confirm production database upgrades preserve financial records"
+
+or any equivalent production task.
+
+Do not connect to production.
+
+Do not migrate production.
+
+Do not certify production readiness.
+
+Development and isolated disposable test databases only.
+
+============================================================
+34. NO REAL PROVIDER CALLS
+============================================================
+
+Do not:
+
+- contact MTN;
+- contact Orange;
+- contact Flutterwave;
+- contact Paystack;
+- submit real payment requests;
+- submit real refunds;
+- create real payouts;
+- use real Customer/Vendor money.
+
+Use:
+
+- source inspection;
+- configuration inspection;
+- redacted readiness checks;
+- synthetic provider responses;
+- isolated fixtures.
+
+============================================================
+35. ENVIRONMENT ACTIVATION
+============================================================
+
+Keep the current real-payment activation boundary OFF.
+
+Even if a provider becomes:
+
+CAPABLE
++
+CONFIGURED
++
+READY
+
+during synthetic verification, do NOT make it live for Customer checkout.
+
+This phase establishes readiness architecture.
+
+Actual activation requires a separate explicit approval.
+
+============================================================
+36. TEST: CAPABILITY VS CONFIGURATION
+============================================================
+
+Add tests proving:
+
+capable + no credentials
+→ SUPPORTED / NOT CONFIGURED / NOT READY / CHECKOUT UNAVAILABLE.
+
+capable + incomplete configuration
+→ SUPPORTED / CONFIGURATION INCOMPLETE / NOT READY.
+
+capable + complete configuration but missing verifier
+→ SUPPORTED / CONFIGURED / NOT READY.
+
+capable + configured + verifier ready but activation disabled
+→ SUPPORTED / CONFIGURED / READY / CHECKOUT UNAVAILABLE.
+
+unsupported country/currency
+→ UNSUPPORTED regardless of credentials.
+
+Credentials must never transform an unsupported capability into supported.
+
+============================================================
+37. TEST: PLATFORM VS VENDOR MERCHANT
+============================================================
+
+Prove:
+
+platform credentials do not satisfy Vendor-direct configuration.
+
+Vendor credentials do not satisfy platform-managed configuration.
+
+Vendor A credentials do not satisfy Vendor B.
+
+A provider capable of both collection modes evaluates each mode independently.
+
+============================================================
+38. TEST: XAF
+============================================================
+
+For Cameroon/XAF verify each provider's classification independently.
+
+If source supports Cameroon/XAF capability but runtime configuration is absent:
+
+the result must identify readiness/configuration as the blocker.
+
+Do not return:
+
+XAF unsupported
+
+unless capability itself is actually unsupported.
+
+============================================================
+39. TEST: CALLBACK / VERIFICATION
+============================================================
+
+For implemented provider verification:
+
+- valid synthetic evidence;
+- invalid evidence;
+- mismatched amount;
+- mismatched currency;
+- mismatched merchant;
+- mismatched Shop;
+- duplicate event;
+- stale/replacement Transaction;
+- wrong collection mode.
+
+Only valid authoritative evidence may confirm funding.
+
+============================================================
+40. TEST: VENDOR-DIRECT CONFIGURATION
+============================================================
+
+Where a provider is Vendor-direct capable:
+
+verify a Shop can persist its OWN safe merchant configuration through the
+authorized Vendor configuration path.
+
+Verify:
+
+- another Shop cannot use it;
+- configuration state becomes accurate;
+- readiness is evaluated separately;
+- Customer checkout remains disabled;
+- no financial allocation is created by configuration alone.
+
+Do not use real secrets in tests.
+
+============================================================
+41. TEST: ACCOUNTING REGRESSION
+============================================================
+
+Use synthetic provider evidence to prove:
+
+platform-managed 100, commission 10
+→ platform contribution 100
+→ commission 10
+→ Vendor payable 90.
+
+Vendor-direct 100, commission 10
+→ Vendor direct contribution 100
+→ platform payable 0
+→ commission receivable 10
+unless another platform-held contribution satisfies it.
+
+Wallet 40 + Vendor-direct 60, commission 10
+→ commission satisfied 10
+→ Vendor payable 30
+→ Vendor direct 60
+→ commission receivable 0.
+
+No duplicate commission/payable on callback replay.
+
+============================================================
+42. EXISTING CONTAINMENT REGRESSIONS
+============================================================
+
+Run selected regressions covering at minimum:
+
+- Phase 2B accounting;
+- Phase 2C native integration;
+- Wallet transfer finality;
+- payment Shop authorization;
+- refund Shop authorization;
+- Booking Staff boundary;
+- Booking refund finality;
+- Product refund finality;
+- Product fulfillment authorization/finality;
+- payout atomicity;
+- Booking electronic payment authority;
+- Cash accounting;
+- Wallet accounting.
+
+Do not claim a full-project green result unless actually run and passed.
+
+============================================================
+43. PROTECTED STATE
+============================================================
+
+Capture the post-Phase-2C baseline before edits.
+
+Maintain protected-state comparison.
+
+No existing financial records should change.
+
+Configuration tests must use isolated fixtures where mutation is necessary.
+
+At completion explicitly report:
+
+- protected table counts/fingerprints;
+- provider configuration records intentionally changed, if any;
+- schema changes, if any;
+- financial records changed, if any.
+
+Existing development financial values must not be recalculated.
+
+============================================================
+44. NEW FINANCIAL P0 STOP RULE
+============================================================
+
+If Phase 3A discovers a NEW independent:
+
+SOURCE-CONFIRMED
++
+IMMEDIATELY EXPLOITABLE
++
+FINANCIAL P0
+
+STOP.
+
+Do not automatically remediate it.
+
+Report:
+
+- route/path;
+- actor;
+- provider/configuration involved;
+- financial effect;
+- source chain;
+- current reachability;
+- whether exercised;
+- protected-state result.
+
+Do not proactively expand into unrelated security work.
+
+============================================================
+45. MATERIAL ARCHITECTURE STOP RULE
+============================================================
+
+STOP before implementation if correct provider configuration requires a
+material change to:
+
+- canonical accounting identity;
+- custody semantics;
+- commission semantics;
+- Vendor liability;
+- immutable contribution evidence;
+- legacy policy.
+
+Explain the conflict and propose the minimum correction.
+
+Do not silently redesign Phase 2.
+
+============================================================
+46. REPORTS
+============================================================
+
+Update:
+
+docs/development/payment-system-full-audit.md
+
+and create/update:
+
+docs/development/payment-phase3-provider-readiness.md
+
+Document:
+
+- current provider architecture;
+- capability model;
+- configuration model;
+- readiness model;
+- checkout availability model;
+- AgendaAlly Payments semantics;
+- Use my own payment gateway semantics;
+- MTN findings;
+- Orange findings;
+- Flutterwave findings;
+- Paystack findings;
+- Cameroon/XAF matrix;
+- platform vs Vendor merchant ownership;
+- verifier status;
+- callback status;
+- callback idempotency;
+- refund readiness;
+- settlement/payout readiness;
+- configuration UI/API changes;
+- exact production files changed;
+- migrations if any;
+- tests/assertions;
+- selected regressions;
+- protected-state result;
+- remaining blockers.
+
+============================================================
+47. REQUIRED CURRENT-vs-INTENDED MATRIX
+============================================================
+
+Produce:
+
+CURRENT IMPLEMENTATION
+vs
+PHASE 3A RESULT
+vs
+REMAINING ACTIVATION REQUIREMENT
+
+for:
+
+AgendaAlly Payments
+Use my own payment gateway
+MTN
+Orange
+Flutterwave
+Paystack
+platform-managed collection
+Vendor-direct collection
+provider verification
+callbacks
+refunds
+settlement/payout
+Cameroon/XAF.
+
+============================================================
+48. REQUIRED FINAL DECISION SUMMARY
+============================================================
+
+At completion answer:
+
+1. What exactly does AgendaAlly Payments mean after Phase 3A?
+
+2. What exactly does `Use my own payment gateway` mean after Phase 3A?
+
+3. Can Vendors configure their own gateway without making it live?
+
+4. Is capability now independent from credential presence?
+
+5. Is configuration now independent from runtime readiness?
+
+6. Is runtime readiness independent from checkout activation?
+
+7. Which providers are CAPABLE for Cameroon/XAF?
+
+8. Which providers are CONFIGURABLE for platform-managed collection?
+
+9. Which providers are CONFIGURABLE for Vendor-direct collection?
+
+10. Which providers have authoritative payment verification?
+
+11. Which providers have callback/webhook verification?
+
+12. Which providers have callback idempotency?
+
+13. Which providers are PAYMENT READY in the development architecture?
+
+14. Which providers are REFUND READY?
+
+15. Which providers have known external settlement/payout behavior?
+
+16. Why did MTN previously report XAF unsupported?
+
+17. Why did Orange previously report XAF unsupported?
+
+18. Can platform credentials accidentally make Vendor-direct ready?
+
+19. Can Vendor credentials accidentally make platform collection ready?
+
+20. Can Vendor A's configuration affect Vendor B?
+
+21. Does changing provider configuration reinterpret historical payments?
+
+22. Does Vendor-direct principal remain excluded from platform payout liability?
+
+23. Does platform-managed verified funding still create the correct Vendor
+    payable?
+
+24. Do Cash and Wallet semantics remain unchanged?
+
+25. Were any schema changes required?
+
+26. Were any secret-storage changes required?
+
+27. What existing financial records changed?
+
+28. Confirm all 12 legacy Product Orders remain `unverified`.
+
+29. Focused tests/assertions?
+
+30. Selected regressions/assertions?
+
+31. What remains before the FIRST real Cameroon/XAF provider can be activated?
+
+32. Which provider is the best candidate for the first controlled activation,
+    based strictly on verified implementation readiness?
+
+============================================================
+49. DEFINITION OF PHASE 3A SUCCESS
+============================================================
+
+Phase 3A is successful only if we can independently answer:
+
+IS THE PROVIDER CAPABLE?
+
+IS THE CORRECT MERCHANT CONFIGURED?
+
+IS THE INTEGRATION RUNTIME READY?
+
+IS CUSTOMER CHECKOUT ACTIVATED?
+
+without using one state as a proxy for another.
+
+`Use my own payment gateway` must become a legitimate Vendor merchant
+configuration concept, not a misleading all-or-nothing availability switch.
+
+Provider configuration must not alter the Phase 2 accounting model.
+
+No real payment must be required to prove this architecture.
+
+============================================================
+50. FINAL STOP
+============================================================
+
+After Phase 3A implementation, synthetic verification and reporting:
+
+STOP.
+
+Do NOT:
+
+- activate MTN;
+- activate Orange;
+- activate Flutterwave;
+- activate Paystack;
+- enable real Vendor-direct checkout;
+- configure real credentials;
+- call real provider APIs;
+- implement missing provider refunds automatically;
+- implement external payout rails;
+- migrate/certify production;
+- classify/delete legacy Orders;
+- publish;
+- automatically begin Phase 3B.
+
+Wait for explicit approval.
+
+The next phase should be proposed only after the final provider matrix shows
+which Cameroon/XAF provider is genuinely closest to controlled activation.

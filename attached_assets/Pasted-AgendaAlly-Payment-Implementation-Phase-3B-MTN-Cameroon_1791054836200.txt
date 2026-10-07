@@ -1,0 +1,1486 @@
+AgendaAlly — Payment Implementation Phase 3B
+MTN Cameroon/XAF Activation-Readiness Certification
+
+Phase 2B, Phase 2C and Phase 3A are accepted within their documented scopes.
+
+Phase 3A established the authoritative provider-state architecture:
+
+CAPABILITY
+≠
+MERCHANT CONFIGURATION
+≠
+RUNTIME READINESS
+≠
+CHECKOUT ACTIVATION.
+
+The four-provider Phase 3A analysis concluded:
+
+- MTN is the strongest first controlled activation candidate.
+- MTN has declared XAF code-level routing.
+- MTN has an implemented authoritative verification/reconciliation path.
+- Native MTN custody, mixed-funding and replay behavior were verified
+  synthetically.
+- MTN is NOT currently activated.
+- Live Cameroon onboarding/readiness is NOT certified.
+- No provider is currently externally refund-ready.
+- External settlement/payout behavior is not certified.
+- Customer payment catalog currently remains Cash and Wallet.
+- All 12 legacy Product Orders remain `unverified`.
+- All 55 protected financial tables were unchanged at the end of Phase 3A.
+- Production-engine/database certification has NOT been performed.
+
+This Phase 3B is MTN-ONLY.
+
+The purpose is to determine whether the existing AgendaAlly MTN integration is
+actually suitable for a controlled Cameroon/XAF activation and, where safely
+possible, correct NON-ACTIVATING implementation/configuration gaps necessary
+to reach that point.
+
+THIS PHASE DOES NOT AUTHORIZE LIVE ACTIVATION.
+
+============================================================
+1. PRIMARY OBJECTIVE
+============================================================
+
+Certify the complete MTN Cameroon/XAF contract from:
+
+AgendaAlly capability
+→ merchant ownership
+→ merchant configuration requirements
+→ payment initiation
+→ Customer authorization
+→ authoritative provider verification/reconciliation
+→ callback/notification handling
+→ replay/idempotency
+→ canonical Phase 2 accounting
+→ custody classification
+→ Vendor liability
+→ settlement understanding
+→ refund/reversal readiness
+→ activation requirements.
+
+At completion I need a defensible answer to:
+
+CAN AGENDAALLY SAFELY PROCEED TO A CONTROLLED MTN CAMEROON/XAF SANDBOX OR
+TEST-ENVIRONMENT ACTIVATION?
+
+Do NOT answer YES merely because the existing code passes synthetic tests.
+
+============================================================
+2. AUTHORITATIVE INTERNAL BASELINE
+============================================================
+
+Use these reports as the accepted internal baseline:
+
+docs/development/payment-system-full-audit.md
+
+docs/development/payment-phase2-collection-allocation.md
+
+docs/development/payment-phase3-provider-readiness.md
+
+docs/development/payment-phase1-financial-correctness.md
+
+and the accepted P0/P1 containment reports where relevant.
+
+Do NOT restart the general payment audit.
+
+Do NOT revisit unrelated providers except where shared infrastructure must be
+checked for MTN regression.
+
+============================================================
+3. OFFICIAL MTN DOCUMENTATION IS AUTHORIZED
+============================================================
+
+For this phase, authoritative external verification of the MTN contract is
+required.
+
+If internet/documentation access is available, use CURRENT OFFICIAL MTN MoMo
+developer/documentation sources only for MTN contract facts.
+
+Prefer first-party MTN documentation over blogs, tutorials or third-party
+summaries.
+
+Record:
+
+- exact documentation page/source;
+- access date;
+- environment/product described;
+- whether the documentation applies specifically to Cameroon;
+- whether it applies to sandbox, production or both.
+
+Do NOT treat code comments or existing AgendaAlly configuration as proof of
+MTN's external product capability.
+
+If official documentation does NOT establish a fact:
+
+mark it UNKNOWN / REQUIRES MTN CONFIRMATION.
+
+Do not infer it.
+
+Do not use unofficial sources to convert UNKNOWN into YES.
+
+============================================================
+4. NO TRANSACTIONAL PROVIDER CALLS
+============================================================
+
+External documentation lookup is permitted.
+
+Transactional MTN interaction is NOT.
+
+Do NOT:
+
+- create an MTN account;
+- register an MTN application;
+- provision credentials;
+- create API users;
+- create API keys;
+- submit payment requests;
+- request Customer payment;
+- query a real financial transaction;
+- submit refunds;
+- submit reversals;
+- submit disbursements;
+- trigger callbacks;
+- send real money;
+- use Customer/Vendor financial data.
+
+If documentation requires login/onboarding that is unavailable, report the
+missing evidence rather than bypassing it.
+
+============================================================
+5. CAMEROON CAPABILITY
+============================================================
+
+Establish whether MTN's relevant payment product actually supports Cameroon.
+
+Do not rely solely on:
+
+- `CM`;
+- `XAF`;
+- an existing country profile;
+- a currency enum;
+- existing AgendaAlly routing code.
+
+Determine from authoritative evidence:
+
+- relevant MTN product;
+- Cameroon market availability;
+- Customer collection capability;
+- merchant requirements;
+- currency;
+- environment availability;
+- any market-specific restrictions.
+
+The final classification must distinguish:
+
+DECLARED BY AGENDAALLY CODE
+
+from:
+
+CONFIRMED BY CURRENT MTN CONTRACT/DOCUMENTATION.
+
+============================================================
+6. XAF CAPABILITY
+============================================================
+
+Determine whether the relevant MTN Cameroon collection contract supports XAF.
+
+If confirmed, record:
+
+MTN CAMEROON + XAF = CAPABILITY CONFIRMED
+
+within the exact documented product/environment scope.
+
+If only AgendaAlly code declares XAF but official evidence is insufficient:
+
+MTN CAMEROON + XAF =
+INTERNALLY DECLARED / EXTERNALLY UNCONFIRMED.
+
+Do not revert to the old misleading generic:
+
+"XAF unsupported"
+
+unless capability is actually disproven.
+
+============================================================
+7. NO FX IN THIS PHASE
+============================================================
+
+Phase 3B supports only the existing same-currency model.
+
+For the controlled MTN path:
+
+Vendor economic quote = XAF
+Customer payment charge = XAF
+MTN provider amount = XAF
+canonical contribution = XAF.
+
+Do NOT implement:
+
+XAF → USD
+USD → XAF
+EUR → XAF
+or any other FX.
+
+A Customer changing a storefront DISPLAY currency must NOT unlock MTN or any
+other provider unless the actual authoritative checkout/payment contract uses
+a supported payment currency.
+
+Preserve Phase 2C FX fail-closed behavior.
+
+============================================================
+8. PAYMENT CURRENCY VS DISPLAY CURRENCY
+============================================================
+
+Verify the MTN resolver uses the actual authoritative checkout/payment currency,
+not merely:
+
+- browser locale;
+- storefront display currency;
+- Customer preference;
+- country selector.
+
+Document the source of the payment currency.
+
+The provider resolver should conceptually evaluate:
+
+ACTUAL PAYMENT CURRENCY
++
+MARKET/COUNTRY
++
+COLLECTION MODEL
++
+PROVIDER CAPABILITY
++
+CORRECT MERCHANT CONFIGURATION
++
+RUNTIME READINESS
++
+ACTIVATION POLICY.
+
+Do not implement general multi-currency conversion.
+
+============================================================
+9. MTN PRODUCT / API CONTRACT
+============================================================
+
+Identify the exact MTN product/API family the existing AgendaAlly integration
+targets.
+
+Trace the implementation against the authoritative contract for:
+
+- payment/request initiation;
+- merchant/payee identity;
+- payer identity;
+- amount;
+- currency;
+- provider reference;
+- external/reference ID;
+- status lookup;
+- asynchronous processing;
+- callbacks/notifications if applicable;
+- authentication;
+- environment/base URL;
+- timeout/retry behavior;
+- terminal states.
+
+Document any mismatch between AgendaAlly's implementation and the actual MTN
+contract.
+
+============================================================
+10. PLATFORM-MANAGED MTN
+============================================================
+
+Certify the intended:
+
+AgendaAlly Payments + MTN
+
+model.
+
+For platform-managed MTN:
+
+- merchant configuration belongs to AgendaAlly/platform;
+- the provider payment must resolve to the platform merchant context;
+- authoritative verified collection creates a platform-controlled canonical
+  contribution;
+- commission is recognized once;
+- remaining eligible held Vendor entitlement becomes platform Vendor payable.
+
+Do NOT equate internal accounting custody with legal/bank settlement custody.
+
+Explicitly document what is known and unknown about actual MTN settlement.
+
+============================================================
+11. VENDOR-DIRECT MTN
+============================================================
+
+Phase 3A found Vendor-direct MTN configuration foundations.
+
+Determine whether MTN's actual merchant model can support the intended:
+
+Use my own payment gateway + MTN
+
+architecture.
+
+Specifically determine whether an AgendaAlly Vendor/Shop can legitimately have
+its own MTN merchant relationship/credentials and receive Customer collection
+directly while AgendaAlly orchestrates or verifies the payment.
+
+Do NOT assume this merely because Shop-specific credential fields exist.
+
+Classify Vendor-direct MTN as:
+
+SUPPORTED
+PARTIAL
+UNSUPPORTED
+or
+UNKNOWN.
+
+If external merchant/onboarding terms are not established:
+
+leave it UNKNOWN/PARTIAL.
+
+Do NOT enable Vendor-direct checkout.
+
+============================================================
+12. MERCHANT OWNERSHIP
+============================================================
+
+For both collection models establish the exact merchant owner.
+
+PLATFORM-MANAGED:
+AgendaAlly merchant identity.
+
+VENDOR-DIRECT:
+specific Shop/Vendor merchant identity, only if genuinely supported.
+
+Verify merchant identity participates in readiness and payment verification.
+
+Platform credentials must never make Vendor-direct ready.
+
+Vendor credentials must never make platform collection ready.
+
+Vendor A must never satisfy Vendor B's readiness.
+
+============================================================
+13. REQUIRED CONFIGURATION CONTRACT
+============================================================
+
+Enumerate every MTN configuration element required by the existing and
+authoritative contract.
+
+Examples may include, depending on actual MTN contract:
+
+- subscription key;
+- API user;
+- API key;
+- merchant identifier;
+- target environment;
+- callback/notification URL;
+- collection identifier;
+- market/country;
+- currency;
+- provider endpoint.
+
+Do not assume these exact fields are all required.
+
+Derive the authoritative list.
+
+For each field classify:
+
+REQUIRED FOR CAPABILITY?
+REQUIRED FOR CONFIGURATION?
+REQUIRED FOR READINESS?
+SECRET?
+MERCHANT-SCOPED?
+ENVIRONMENT-SCOPED?
+
+Never expose actual secret values.
+
+============================================================
+14. SECRET STORAGE
+============================================================
+
+Phase 3A retained native encryption and did not perform a secret-storage
+migration.
+
+Review only the MTN configuration path.
+
+Verify:
+
+- secrets are encrypted using the accepted application mechanism;
+- API responses do not expose plaintext secrets;
+- Admin/Vendor editing does not erase an existing secret when a blank value
+  means "preserve";
+- logs do not expose secrets;
+- reports do not contain secrets;
+- synthetic tests do not use production secrets.
+
+If safe MTN activation requires a materially different secret-storage
+architecture:
+
+STOP BEFORE IMPLEMENTING IT.
+
+Report:
+
+SECRET STORAGE DESIGN REQUIRED.
+
+============================================================
+15. ENVIRONMENT CONTRACT
+============================================================
+
+Separate:
+
+SANDBOX / TEST
+from
+PRODUCTION.
+
+Determine the MTN environment behavior for:
+
+- endpoints;
+- credentials;
+- merchant identity;
+- callback configuration;
+- supported countries/currencies;
+- provider behavior.
+
+Do not assume sandbox behavior proves production behavior.
+
+If AgendaAlly's environment abstraction can accidentally use sandbox
+configuration in production or vice versa, correct the NON-ACTIVATING
+configuration boundary if that can be done without material schema change.
+
+============================================================
+16. PAYMENT INITIATION
+============================================================
+
+Trace the exact native AgendaAlly MTN initiation path.
+
+Verify it uses:
+
+- server-owned canonical checkout identity;
+- persisted payable/Shop;
+- actual payment currency;
+- exact canonical amount;
+- correct merchant owner;
+- correct collection mode;
+- server-generated or appropriately controlled provider reference.
+
+Customer-controlled request fields must not override:
+
+- amount;
+- currency;
+- Shop;
+- merchant owner;
+- collection mode;
+- canonical checkout identity.
+
+============================================================
+17. AUTHORITATIVE VERIFICATION
+============================================================
+
+MTN currently has the strongest verification path.
+
+Trace exactly what makes an MTN payment authoritative.
+
+Verify that AgendaAlly does NOT treat any of the following as proof of payment:
+
+- provider selected;
+- provider configured;
+- initiation accepted;
+- HTTP success from payment initiation alone;
+- callback hint alone;
+- Customer-submitted reference;
+- frontend redirect;
+- Booking/Order lifecycle status.
+
+Payment must become funded only after the accepted authoritative MTN
+verification/reconciliation boundary.
+
+============================================================
+18. STATUS MAPPING
+============================================================
+
+Compare AgendaAlly's MTN status mapping against the authoritative MTN contract.
+
+Classify each relevant provider state as:
+
+NONFINAL/PENDING
+SUCCESS
+FAILURE
+CANCELED/REJECTED
+UNKNOWN
+
+as supported by the contract.
+
+Unknown/new provider states must fail closed.
+
+Do not treat an unrecognized state as paid.
+
+============================================================
+19. AMOUNT VERIFICATION
+============================================================
+
+Before confirming canonical funding verify authoritative evidence matches the
+frozen payment context for:
+
+- amount;
+- currency;
+- provider;
+- merchant owner;
+- payment/reference identity;
+- Shop/allocation where applicable.
+
+A provider success for the wrong amount must not settle the payment.
+
+============================================================
+20. CURRENCY VERIFICATION
+============================================================
+
+A successful provider response with a currency that does not match the frozen
+XAF payment context must fail closed.
+
+Do not convert it.
+
+Do not use current Shop settings to reinterpret the historical payment.
+
+============================================================
+21. MERCHANT VERIFICATION
+============================================================
+
+Where the provider contract exposes enough merchant identity, verify the
+response belongs to the expected merchant context.
+
+If MTN does NOT return enough merchant evidence to cryptographically or
+authoritatively bind a response to merchant ownership, document exactly what
+the application can and cannot prove.
+
+Do not fabricate merchant verification.
+
+============================================================
+22. CALLBACK / NOTIFICATION MODEL
+============================================================
+
+Determine MTN's actual notification/callback semantics.
+
+Phase 3A concluded that AgendaAlly independently reconciles authenticated MTN
+provider status rather than trusting callback hints.
+
+Preserve that unless authoritative documentation proves a stronger safe model.
+
+A callback/notification may trigger reconciliation.
+
+It must not independently create funded accounting unless it carries and passes
+the required authoritative evidence.
+
+============================================================
+23. POLLING / RECONCILIATION
+============================================================
+
+Trace the MTN reconciliation/status-check path.
+
+Verify:
+
+- correct merchant context;
+- correct reference;
+- authentication;
+- terminal-state handling;
+- retry safety;
+- timeout handling;
+- pending behavior;
+- final success behavior;
+- final failure behavior.
+
+Repeated reconciliation of the same success must remain idempotent.
+
+============================================================
+24. PROVIDER PAYMENT IDENTITY
+============================================================
+
+Document the durable identity for one MTN payment.
+
+At minimum determine how these relate:
+
+- canonical checkout_key;
+- Order/Booking;
+- Transaction;
+- provider external/reference ID;
+- merchant owner;
+- Shop;
+- funding contribution;
+- canonical allocation.
+
+The provider reference alone must not allow a different Shop/merchant/payment
+to claim the same financial event.
+
+============================================================
+25. IDEMPOTENCY
+============================================================
+
+Verify:
+
+same MTN payment
++
+repeated callback/reconciliation
++
+replacement Transaction
++
+repeated status lookup
++
+frontend retry
+
+cannot create:
+
+- another Customer debit;
+- another confirmed contribution;
+- another commission;
+- another Vendor payable;
+- another fee-ledger economic effect.
+
+Preserve Phase 2B/2C canonical identities.
+
+============================================================
+26. RETRY SEMANTICS
+============================================================
+
+Distinguish:
+
+TRANSPORT RETRY
+from
+NEW PAYMENT ATTEMPT.
+
+A network retry for the same MTN request must not become a second economic
+payment.
+
+A genuinely new payment attempt may receive a new provider identity only under
+the accepted checkout/payment retry rules.
+
+Do not reopen a finalized successful contribution.
+
+============================================================
+27. TIMEOUT / UNKNOWN RESULT
+============================================================
+
+Explicitly test the dangerous case:
+
+payment request sent
++
+AgendaAlly times out
++
+provider outcome initially unknown.
+
+AgendaAlly must not automatically:
+
+- retry as a new payment;
+- mark paid;
+- mark definitively failed;
+- create another canonical contribution.
+
+The system should reconcile the existing provider identity where possible.
+
+If the existing implementation cannot safely distinguish unknown outcome from
+failure:
+
+report an ACTIVATION BLOCKER.
+
+============================================================
+28. PLATFORM ACCOUNTING
+============================================================
+
+Using synthetic authoritative MTN evidence, verify again:
+
+gross = 100
+commission = 10
+platform-managed MTN contribution = 100
+
+results in:
+
+confirmed platform-controlled contribution = 100
+commission recognized = 10
+Vendor payable = 90.
+
+Repeated reconciliation must not alter those amounts.
+
+============================================================
+29. MIXED FUNDING
+============================================================
+
+Preserve the Phase 2 verified mixed-funding model.
+
+At minimum retest synthetic:
+
+Wallet 40
++
+platform-managed MTN 60
++
+commission 10
+
+according to the canonical platform-held-funds-first rules.
+
+And where Vendor-direct MTN can be represented synthetically without claiming
+external support:
+
+Wallet 40
++
+Vendor-direct MTN 60
++
+commission 10
+
+must retain:
+
+commission satisfied = 10
+platform Vendor payable = 30
+Vendor-direct principal = 60
+commission receivable = 0.
+
+This does NOT certify live Vendor-direct MTN.
+
+============================================================
+30. PRODUCT JOURNEY
+============================================================
+
+Verify the supported Product path:
+
+XAF Product quote
+→ MTN selected
+→ initiation
+→ authoritative synthetic MTN success
+→ Order binding
+→ Transaction
+→ canonical contribution
+→ commission
+→ Vendor payable.
+
+Do not bypass Phase 2C quote restrictions.
+
+Unsupported tax/tip/delivery/coupon/FX contracts must remain fail closed.
+
+============================================================
+31. BOOKING JOURNEY
+============================================================
+
+Verify the supported Booking path:
+
+XAF Booking quote
+→ MTN selected
+→ initiation
+→ authoritative synthetic MTN success
+→ Booking binding
+→ Transaction
+→ canonical contribution
+→ commission
+→ Vendor payable.
+
+Booking lifecycle must remain separate from payment proof.
+
+============================================================
+32. MULTI-SHOP
+============================================================
+
+Do NOT invent MTN split-merchant checkout.
+
+Determine whether the current native Product multi-Shop path can safely use one
+MTN payment.
+
+If not:
+
+continue to fail closed.
+
+Document the limitation.
+
+Do not create synthetic split-provider semantics merely to certify MTN.
+
+============================================================
+33. REFUNDS / REVERSALS
+============================================================
+
+Do NOT implement real MTN refunds or reversals automatically.
+
+Determine from authoritative MTN documentation and existing code whether MTN
+supports:
+
+- refund;
+- reversal;
+- cancellation;
+- transaction correction;
+
+for the exact collection product being used.
+
+Classify:
+
+IMPLEMENTED?
+DOCUMENTED BY PROVIDER?
+VERIFIED?
+READY?
+
+separately.
+
+If payment collection could be activated while refunds remain unavailable,
+explicitly identify the operational consequence.
+
+Do not hide it.
+
+============================================================
+34. SETTLEMENT
+============================================================
+
+Determine what authoritative evidence exists for where MTN-collected money
+settles.
+
+For platform-managed MTN answer:
+
+Does the provider settle to an AgendaAlly-controlled merchant/wallet/bank
+relationship?
+
+What is proven?
+
+What remains contractual/operationally unknown?
+
+For Vendor-direct MTN answer, if applicable:
+
+Does the provider settle directly to the Vendor merchant relationship?
+
+Do not infer legal custody from internal accounting.
+
+============================================================
+35. PAYOUT IMPLICATION
+============================================================
+
+Internal accounting remains authoritative:
+
+platform-managed verified contribution
+→ may create Vendor payable.
+
+Vendor-direct contribution
+→ does not create platform principal payable.
+
+But external payout readiness remains separate.
+
+Do NOT implement payout rails.
+
+Determine only what must exist operationally before AgendaAlly can settle a
+platform-managed MTN Vendor liability.
+
+============================================================
+36. CAMEROON ONBOARDING
+============================================================
+
+Identify all remaining non-code requirements for live Cameroon MTN operation
+that can be established from authoritative sources.
+
+Examples may include:
+
+- merchant onboarding;
+- business verification;
+- contract approval;
+- account provisioning;
+- production credentials;
+- callback registration;
+- settlement account;
+- market approval.
+
+Do not invent legal or contractual requirements.
+
+Mark anything not established as:
+
+REQUIRES MTN / ACQUIRER CONFIRMATION.
+
+============================================================
+37. CONFIGURATION UI
+============================================================
+
+Review only the MTN Admin/Vendor configuration UI/API necessary for the
+certification.
+
+It must accurately show separate states such as:
+
+CAPABLE
+CONFIGURED / INCOMPLETE
+READY / NOT READY
+ACTIVATED / NOT ACTIVATED.
+
+Do not redesign the payment settings UI.
+
+Do not expose secret values.
+
+Do not turn activation on.
+
+============================================================
+38. CUSTOMER CHECKOUT
+============================================================
+
+MTN must remain unavailable to real Customer checkout during Phase 3B.
+
+Even if all synthetic tests pass.
+
+Do not change the activation gate.
+
+The running Customer payment catalog should remain governed by the existing
+activation policy.
+
+Explicitly verify after implementation that MTN has NOT become live.
+
+============================================================
+39. CONFIGURATION CHANGES
+============================================================
+
+You may make minimum NON-ACTIVATING code/configuration-architecture corrections
+needed to align MTN with its authoritative contract.
+
+Do NOT enter real merchant credentials.
+
+Do NOT alter live environment values.
+
+Do NOT create production merchant configuration.
+
+Use isolated fixtures for configuration mutations.
+
+============================================================
+40. SCHEMA GATE
+============================================================
+
+Prefer no migration.
+
+If correct MTN certification requires a material schema change involving:
+
+- provider payment identity;
+- merchant identity;
+- immutable configuration revision;
+- financial identity;
+- custody;
+- canonical contribution identity;
+
+STOP BEFORE MIGRATION.
+
+Report:
+
+MTN SCHEMA DESIGN REQUIRED.
+
+Explain the minimum change.
+
+Do not hide required immutable identity in mutable JSON/settings.
+
+============================================================
+41. CONFIGURATION REVISION
+============================================================
+
+Phase 3A identified immutable configuration revision as a blocker for the
+legacy global-payload providers.
+
+Determine whether MTN already has sufficient immutable merchant/configuration
+identity for the accepted accounting adapter.
+
+If MTN does not:
+
+do not borrow a mutable current setting at verification time.
+
+STOP if fixing it requires material financial schema change.
+
+============================================================
+42. PRODUCTION DATABASE
+============================================================
+
+Do NOT connect to production.
+
+Do NOT migrate production.
+
+Do NOT run production database certification.
+
+Do NOT use production financial data.
+
+Development SQLite and isolated disposable test databases only.
+
+============================================================
+43. PROTECTED STATE
+============================================================
+
+Capture the post-Phase-3A baseline before editing.
+
+Maintain the protected-state methodology.
+
+At minimum preserve/check:
+
+- all currently protected financial tables;
+- canonical allocation/contribution tables;
+- platform fee ledger;
+- Orders;
+- Bookings;
+- Transactions;
+- Wallets/history;
+- refunds;
+- payouts;
+- provider configuration records.
+
+Existing development financial values must not change.
+
+All 12 legacy Product Orders must remain:
+
+fulfillment_financial_state = unverified.
+
+============================================================
+44. REQUIRED CAPABILITY TESTS
+============================================================
+
+Test at minimum:
+
+1. MTN + XAF + supported market declaration.
+
+2. Missing credentials:
+   CAPABLE but NOT CONFIGURED/NOT READY.
+
+3. Incomplete configuration:
+   CAPABLE but CONFIGURATION INCOMPLETE.
+
+4. Complete synthetic configuration:
+   CONFIGURED.
+
+5. Missing verifier:
+   NOT READY.
+
+6. Verifier present and structural requirements satisfied:
+   structurally READY.
+
+7. Activation disabled:
+   CHECKOUT UNAVAILABLE.
+
+8. Unsupported currency:
+   UNSUPPORTED or unavailable according to actual capability.
+
+9. Display-currency change alone cannot alter payment capability.
+
+============================================================
+45. REQUIRED VERIFICATION TESTS
+============================================================
+
+Test synthetic MTN evidence for:
+
+1. valid success;
+
+2. pending;
+
+3. failure;
+
+4. unknown status;
+
+5. wrong amount;
+
+6. wrong currency;
+
+7. wrong provider;
+
+8. wrong merchant where verifiable;
+
+9. wrong Shop/context;
+
+10. forged Customer reference;
+
+11. duplicate reconciliation;
+
+12. duplicate callback hint;
+
+13. replacement Transaction;
+
+14. stale Transaction;
+
+15. timeout then later success;
+
+16. timeout then later failure;
+
+17. repeated terminal reconciliation.
+
+Only the correct authoritative success may confirm funding.
+
+============================================================
+46. REQUIRED ACCOUNTING TESTS
+============================================================
+
+At minimum verify:
+
+1. Product MTN 100 / commission 10
+   → payable 90.
+
+2. Booking MTN 100 / commission 10
+   → payable 90.
+
+3. duplicate success
+   → no duplicate contribution/fee/payable.
+
+4. replacement Transaction
+   → no duplicate economic event.
+
+5. Wallet + MTN mixed funding.
+
+6. rollback/failure before canonical finalization.
+
+7. authoritative retry after rollback.
+
+8. Shop isolation.
+
+9. no historical reinterpretation after MTN configuration rotation.
+
+============================================================
+47. FAILURE INJECTION
+============================================================
+
+Inject failures where practical:
+
+- after initiation identity creation;
+- after synthetic provider success but before contribution confirmation;
+- after contribution confirmation but before fee effect;
+- after fee effect but before finalization;
+- during reconciliation;
+- during retry after unknown outcome.
+
+Verify:
+
+no duplicate money
+no duplicate commission
+no duplicate payable
+no orphan authoritative debit
+safe reconciliation/retry.
+
+============================================================
+48. CONTENTION
+============================================================
+
+Run controlled two-connection contention around:
+
+- same MTN provider identity;
+- same verified success;
+- same canonical contribution;
+- same fee/payable finalization.
+
+If SQLite is used, report:
+
+SQLITE CONCURRENCY VERIFIED
+
+and separately:
+
+PRODUCTION-ENGINE CONCURRENCY NOT CERTIFIED.
+
+============================================================
+49. SELECTED REGRESSIONS
+============================================================
+
+Run selected accepted regressions including:
+
+- Phase 3A provider-state separation;
+- Phase 2C native integration;
+- Phase 2B canonical accounting;
+- Wallet finality;
+- Cash accounting;
+- payment Shop authorization;
+- refund Shop authorization;
+- Booking payment authority;
+- Product fulfillment finality;
+- payout atomicity;
+- callback/idempotency boundaries.
+
+Do not claim the entire project green unless actually run and passed.
+
+============================================================
+50. NEW P0 STOP RULE
+============================================================
+
+If this work discovers a NEW independent:
+
+SOURCE-CONFIRMED
++
+IMMEDIATELY EXPLOITABLE
++
+FINANCIAL P0
+
+STOP.
+
+Do not automatically remediate.
+
+Report:
+
+- route;
+- actor;
+- MTN/payment path;
+- financial effect;
+- source chain;
+- current reachability;
+- whether exercised;
+- protected-state result.
+
+Do not branch into unrelated security investigation.
+
+============================================================
+51. MATERIAL CONTRACT STOP RULE
+============================================================
+
+If the existing MTN implementation fundamentally disagrees with the
+authoritative MTN contract in a way that could:
+
+- charge the wrong amount;
+- use the wrong currency;
+- use the wrong merchant;
+- falsely recognize payment;
+- lose payment identity;
+- create duplicate collection;
+- create incorrect Vendor liability;
+
+STOP before attempting a broad redesign.
+
+Report:
+
+MTN CONTRACT DEVIATION REQUIRES APPROVAL.
+
+Provide the minimum correction proposal.
+
+============================================================
+52. REPORT
+============================================================
+
+Create/update:
+
+docs/development/payment-phase3b-mtn-cameroon-readiness.md
+
+and update:
+
+docs/development/payment-system-full-audit.md
+
+Include:
+
+- authoritative MTN documentation/source inventory;
+- Cameroon capability;
+- XAF capability;
+- exact MTN API/product;
+- platform-managed merchant model;
+- Vendor-direct merchant model;
+- configuration requirements;
+- secret requirements;
+- environment model;
+- initiation contract;
+- verification contract;
+- status mapping;
+- callback model;
+- reconciliation model;
+- provider payment identity;
+- retry behavior;
+- timeout/unknown-outcome behavior;
+- idempotency;
+- Product journey;
+- Booking journey;
+- mixed funding;
+- multi-Shop limitations;
+- refund/reversal capability;
+- settlement evidence;
+- payout implications;
+- Cameroon onboarding requirements;
+- code changes;
+- schema changes, if any;
+- tests/assertions;
+- contention result;
+- regressions;
+- protected-state result;
+- activation blockers.
+
+Clearly distinguish:
+
+PROVEN FROM AGENDAALLY SOURCE
+
+PROVEN FROM OFFICIAL MTN SOURCE
+
+SYNTHETICALLY VERIFIED
+
+UNKNOWN / REQUIRES EXTERNAL CONFIRMATION.
+
+============================================================
+53. REQUIRED MTN READINESS MATRIX
+============================================================
+
+Produce a matrix with:
+
+Capability
+Merchant configuration
+Secret handling
+Environment separation
+Payment initiation
+Authoritative verification
+Amount verification
+Currency verification
+Merchant verification
+Callback/notification
+Reconciliation
+Idempotency
+Timeout recovery
+Product integration
+Booking integration
+Mixed funding
+Multi-Shop
+Refund/reversal
+External settlement
+Vendor payout dependency
+Cameroon onboarding
+Production concurrency
+
+For each use:
+
+READY
+PARTIAL
+BLOCKED
+UNKNOWN
+NOT APPLICABLE
+
+and give the exact blocker.
+
+============================================================
+54. REQUIRED FINAL DECISION SUMMARY
+============================================================
+
+At completion answer:
+
+1. Is MTN officially confirmed for the relevant Cameroon collection product?
+
+2. Is XAF officially confirmed for that product?
+
+3. What exact MTN product/API does AgendaAlly implement?
+
+4. Does the existing implementation match the authoritative initiation
+   contract?
+
+5. What makes an MTN payment authoritative?
+
+6. Can initiation success alone mark payment paid?
+
+7. Can a callback hint alone mark payment paid?
+
+8. Are amount and currency authoritatively verified?
+
+9. Is merchant ownership authoritatively verified?
+
+10. Is payment identity immutable and replay-safe?
+
+11. What happens after an unknown/timeout outcome?
+
+12. Can reconciliation safely recover a later success?
+
+13. Can duplicate reconciliation create another contribution?
+
+14. Can replacement Transactions duplicate commission/payable?
+
+15. Is platform-managed MTN structurally ready?
+
+16. Is Vendor-direct MTN genuinely supported or only internally scaffolded?
+
+17. Can Vendor MTN configuration remain separate from platform configuration?
+
+18. Is Product XAF + MTN integration verified?
+
+19. Is Booking XAF + MTN integration verified?
+
+20. Is mixed Wallet + MTN verified?
+
+21. Is multi-Shop MTN supported or fail-closed?
+
+22. Are MTN refunds/reversals documented?
+
+23. Are MTN refunds/reversals implemented?
+
+24. Are they activation-ready?
+
+25. Where does platform-managed MTN money actually settle according to
+    authoritative evidence?
+
+26. What external payout capability is still required to pay Vendors?
+
+27. What Cameroon merchant/onboarding requirements remain?
+
+28. Are any real credentials required before the next step?
+
+29. Were any schema changes required?
+
+30. Were any existing financial records changed?
+
+31. Confirm all 12 legacy Orders remain `unverified`.
+
+32. Focused tests/assertions?
+
+33. Selected regressions/assertions?
+
+34. SQLite contention result?
+
+35. Production-engine concurrency status?
+
+36. Is the current MTN implementation ready for CONTROLLED SANDBOX/TEST
+    activation?
+
+37. If not, list the exact blockers in order.
+
+38. Is it ready for LIVE PRODUCTION activation?
+
+39. If not, list the exact blockers separately.
+
+40. What is the single safest next action?
+
+============================================================
+55. SUCCESS CRITERIA
+============================================================
+
+Do NOT declare MTN activation-ready because:
+
+- XAF appears in code;
+- credentials can be entered;
+- the verifier exists;
+- synthetic success passes;
+- provider state says READY.
+
+Phase 3B succeeds when we understand and have verified, to the maximum
+non-transactional extent possible:
+
+EXTERNAL MTN CONTRACT
++
+AGENDAALLY IMPLEMENTATION
++
+MERCHANT OWNERSHIP
++
+PAYMENT IDENTITY
++
+AUTHORITATIVE VERIFICATION
++
+ACCOUNTING
++
+OPERATIONAL BLOCKERS.
+
+A valid result may be:
+
+NOT READY.
+
+That is preferable to unsafe activation.
+
+============================================================
+56. FINAL STOP
+============================================================
+
+After Phase 3B certification, tests and reports:
+
+STOP.
+
+Do NOT:
+
+- activate MTN;
+- make MTN visible to real Customers;
+- configure real credentials;
+- create MTN accounts/keys;
+- call transactional MTN APIs;
+- activate Vendor-direct MTN;
+- implement missing refunds automatically;
+- implement external Vendor payouts;
+- implement FX;
+- activate Stripe/PayPal;
+- work on Orange/Flutterwave/Paystack;
+- access/migrate production;
+- classify/delete legacy Orders;
+- publish;
+- automatically begin the activation phase.
+
+Wait for explicit approval.
+
+If the result supports controlled sandbox/test activation, recommend that as a
+separate next phase.
+
+If external evidence is insufficient, identify exactly what must be obtained
+from MTN before proceeding.

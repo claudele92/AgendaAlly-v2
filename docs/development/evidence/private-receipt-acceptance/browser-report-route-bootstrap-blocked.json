@@ -1,0 +1,116 @@
+{
+  "journey": "resumed isolated native receipt authorization journey; blocked at authorized evidence-link issuance",
+  "historical_blocked_attempt": "report-upload-bridge-blocked.json (preserved unchanged; its failed upload screenshots are not pass evidence)",
+  "isolation": {
+    "disposable_native_backend": "loopback 3138 fixture D",
+    "admin_preview": "127.0.0.1:3003 via native same-origin Vite proxy AGENDAALLY_DEV_API_TARGET=http://127.0.0.1:3138",
+    "customer_preview": "responded HTTP 200 on recovery readiness check; Customer UI journey not run",
+    "normal_backend_provider_email_production": "not started by this run",
+    "selected_business_supervisor_normal_laravel": "not started by this run",
+    "normal_credentials_or_documents": "not used",
+    "auth_tokens_signed_urls_headers": "not retained in report"
+  },
+  "proxy_and_bootstrap": {
+    "prior_finance_interceptions_removed": true,
+    "manual_finance_and_download_interception": "none; real browser requests flowed through same-origin Vite proxy to 3138",
+    "native_finance_list": {
+      "status": 200,
+      "visible_rows": 2
+    },
+    "unrelated_bootstrap_mocks": "narrow GET-only translation, settings, language/currency, navigation-scope and admin shops catalog contracts sourced from admin UI; no finance or download route mocked"
+  },
+  "uploads": [
+    {
+      "workflow": "Refund 6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "file": "receipt.pdf",
+      "status": 200,
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa",
+      "bytes": 614,
+      "sha256": "881d58fc6d63352596ab5be572479afb0b334ed6a6e9315c3294dfb44a026af4",
+      "toast": "Evidence attached.",
+      "screenshot_id": "aexzji"
+    },
+    {
+      "workflow": "Refund 6713761d-5795-4456-98f1-52c4f3ee25e1",
+      "file": "receipt.png",
+      "status": 200,
+      "attachment_id": "24ba0e11-4918-4ca5-93aa-97ac1d320f9a",
+      "bytes": 658,
+      "sha256": "33e79b8e63286ab2bc40a0a3ff81006ddfa6e30752e1991c7ad70178880cf0fd",
+      "toast": "Evidence attached.",
+      "screenshot_id": "yes1kh"
+    },
+    {
+      "workflow": "Payout 60186dc9-2a70-4cda-9dc8-b6bbe8a54d7d",
+      "file": "receipt.jpg",
+      "status": 200,
+      "attachment_id": "93dd97f8-419c-4da6-88f1-8df83ab2afd1",
+      "bytes": 4316,
+      "sha256": "52a409062aadd6b2d308e8e7b32e8ae7aa24228ed4b1a3d2d597201cf936081e",
+      "toast": "Evidence attached.",
+      "screenshot_id": "n7mdws"
+    }
+  ],
+  "native_snapshot_verification": {
+    "snapshot_after_uploads": "phase-after-uploads.json",
+    "snapshot_after_link_failure": "phase-link-failed.json",
+    "attachments": 3,
+    "workflow_bindings": "PDF and PNG bind to refund; JPEG binds to payout",
+    "stored_bytes_and_retained_sha256_match_attachment_metadata_and_synthetic_manifest": true,
+    "effects_count": 37,
+    "evidence_rows": 0,
+    "access_rows_after_attempt": 1
+  },
+  "link_failure": {
+    "action": "Finance3 clicked Refund PDF View evidence",
+    "native_link_issuance_status": 409,
+    "path": "/api/v1/dashboard/manual-finance/6713761d-5795-4456-98f1-52c4f3ee25e1/attachments/255194b8-c401-4057-a0d4-9cb33cdb21fa/link",
+    "response_body_message": "Required financial recording did not commit. Refresh/reconcile the same intent; never repeat external payment.",
+    "response_keys": [
+      "message"
+    ],
+    "signed_url_returned": false,
+    "download_attempted": false,
+    "native_access_row_written_despite_409": {
+      "action": "link",
+      "actor_id": 3,
+      "attachment_id": "255194b8-c401-4057-a0d4-9cb33cdb21fa"
+    },
+    "failure_screenshot_id": "yy50ei",
+    "detail_before_click_screenshot_id": "2h7ysa"
+  },
+  "effects_and_workflow_state": {
+    "refund_and_payout": "remain APPROVED and not completed",
+    "financial_completion_commands_submitted": 0,
+    "money_movement_provider_email": "none",
+    "no_external_effects": true
+  },
+  "not_run_due_link_issuance_failure": {
+    "remaining_PNG_and_JPEG_link_download_headers_binary_hashes": true,
+    "tampered_missing_actor_changed_expiry_expired_signed_urls": true,
+    "cross_workflow_binding_and_wrong_binding_download": true,
+    "Customer_Vendor_foreign_outsider_no-grants authorization matrix": true,
+    "grant_revocation_and_retained_link denial": true,
+    "pre-revocation and post-revocation snapshots": true,
+    "terminal_document_sha256 binding via completing synthetic workflows": true,
+    "Vendor_Customer_outsider native UI projections": true
+  },
+  "signed_bearer_semantics": "No valid URL was returned, so no URL capability behavior, expiry, or session binding was empirically tested. The supplied contract describes a five-minute issuing-actor signed capability; no session-binding claim is made.",
+  "screenshots": {
+    "successful_uploads": {
+      "PDF": "aexzji",
+      "PNG": "yes1kh",
+      "JPEG": "n7mdws"
+    },
+    "refund_detail_before_link": "2h7ysa",
+    "link_409": "yy50ei",
+    "latest_link_failure_observation": "fnvs44",
+    "saved_image_files": "browser tool did not expose screenshot files for placement in D/browser; screenshot IDs retained"
+  },
+  "snapshots": [
+    "phase-initial.json",
+    "phase-after-uploads.json",
+    "phase-link-failed.json"
+  ],
+  "verdict_basis": "Expected authorized native link issuance was 200 with URL; actual was 409 with no URL while a link access row was recorded. This blocks safe continuation and merits application investigation."
+}

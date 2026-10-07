@@ -1,0 +1,910 @@
+AgendaAlly — Phase 3B-1
+Durable MTN Request Identity & Unknown-Outcome Recovery
+
+The Phase 3B MTN Cameroon/XAF certification stopped under its required
+material-contract deviation rule.
+
+The stop finding is accepted.
+
+AUTHORITATIVE FINDING
+=====================
+
+MTN RequestToPay is asynchronous and status reconciliation uses the original
+request reference.
+
+AgendaAlly currently sends RequestToPay BEFORE durably saving that provider
+reference in PaymentProcess.
+
+Therefore this sequence is possible:
+
+1. AgendaAlly generates MTN request reference R1.
+2. AgendaAlly sends RequestToPay(R1).
+3. MTN accepts or may have accepted R1.
+4. AgendaAlly times out OR the subsequent local persistence fails.
+5. AgendaAlly has no durable R1 in its normal reconciliation state.
+6. A later retry may generate R2 instead of reconciling R1.
+
+No duplicate Customer debit was demonstrated.
+
+This is an external-payment-identity / unknown-outcome recovery defect, not
+evidence that duplicate collection has already occurred.
+
+MTN remains disabled.
+
+Official MTN public sandbox documentation currently identified in Phase 3B
+uses EUR. Fixing this identity defect MUST NOT be represented as Cameroon/XAF
+certification.
+
+============================================================
+1. AUTHORIZED OBJECTIVE
+============================================================
+
+Implement and verify the MINIMUM NON-ACTIVATING correction required to ensure:
+
+ONE AGENDAALLY MTN PAYMENT ATTEMPT
+↔
+ONE DURABLE IMMUTABLE MTN REQUEST REFERENCE
+
+and ensure an uncertain RequestToPay outcome is recoverable through that same
+reference.
+
+The required lifecycle should conceptually be:
+
+canonical payment attempt established
+→ MTN reference generated
+→ reference durably persisted
+→ persistence committed
+→ RequestToPay dispatched using exactly that reference
+→ outcome classified
+→ same reference reconciled until authoritative terminal state.
+
+Do not create another provider reference merely because:
+
+- HTTP response timed out;
+- connection failed after dispatch may have occurred;
+- process crashed;
+- frontend retried;
+- Customer refreshed;
+- callback was delayed;
+- provider result is temporarily unknown.
+
+============================================================
+2. SCOPE
+============================================================
+
+This phase is MTN payment-identity containment ONLY.
+
+It may modify:
+
+- MTN initiation identity handling;
+- PaymentProcess lifecycle/state handling necessary for durable identity;
+- retry/reconciliation handling;
+- minimum supporting services;
+- isolated tests;
+- documentation.
+
+It does NOT authorize:
+
+- MTN activation;
+- real MTN API calls;
+- real credentials;
+- Cameroon/XAF activation;
+- Vendor-direct activation;
+- Orange;
+- Flutterwave;
+- Paystack;
+- Stripe;
+- PayPal;
+- refunds;
+- external payouts;
+- FX;
+- production deployment;
+- production database access;
+- legacy classification;
+- unrelated payment/security remediation.
+
+============================================================
+3. TRACE BEFORE EDITING
+============================================================
+
+Before modifying code, document the exact existing sequence for:
+
+- canonical checkout/payment identity;
+- Transaction creation;
+- PaymentProcess creation;
+- MTN reference generation;
+- RequestToPay dispatch;
+- response handling;
+- PaymentProcess persistence;
+- reconciliation/status lookup;
+- retry;
+- replacement Transaction behavior.
+
+Identify exactly which identity currently links:
+
+checkout_key
+Order/Booking
+Transaction
+PaymentProcess
+MTN provider reference
+canonical allocation
+funding contribution.
+
+============================================================
+4. DURABILITY INVARIANT
+============================================================
+
+No MTN RequestToPay may be dispatched unless its provider request reference has
+already been durably persisted.
+
+The durable record must be committed before external dispatch.
+
+Do NOT perform:
+
+database transaction open
+→ external MTN network request
+→ database commit
+
+if doing so leaves the provider call dependent on an uncommitted local
+identity.
+
+External network I/O must not be relied upon as part of database atomicity.
+
+============================================================
+5. IMMUTABLE PROVIDER REFERENCE
+============================================================
+
+Once assigned to an MTN payment attempt, the provider request reference must be
+immutable for that attempt.
+
+Retry must not replace it.
+
+Reconciliation must use it.
+
+Frontend retry must resolve to it.
+
+Replacement Transaction handling must not silently create another MTN payment
+identity for the same existing attempt.
+
+If the current schema cannot safely enforce the necessary identity:
+
+STOP BEFORE MIGRATION.
+
+Report:
+
+MTN PAYMENT IDENTITY SCHEMA CHANGE REQUIRED
+
+with the minimum proposal.
+
+Do not hide immutable identity in mutable settings or request payloads.
+
+============================================================
+6. PRE-DISPATCH STATE
+============================================================
+
+The local lifecycle must distinguish an attempt whose identity exists before
+dispatch.
+
+Use existing states if they can represent this unambiguously.
+
+Do not invent misleading financial meaning.
+
+A durably persisted MTN attempt before RequestToPay does NOT mean:
+
+paid
+funded
+provider accepted
+Customer debited.
+
+It means only that AgendaAlly has reserved the durable external request
+identity required for safe dispatch/recovery.
+
+============================================================
+7. DISPATCH OUTCOME MODEL
+============================================================
+
+After RequestToPay dispatch, distinguish at minimum:
+
+A. DEFINITELY NOT DISPATCHED
+
+Only when the application can prove the provider request was never sent.
+
+B. DISPATCHED / RESPONSE KNOWN
+
+The provider interaction returned enough evidence to classify the next state.
+
+C. DISPATCH OUTCOME UNKNOWN
+
+The request may have reached MTN but AgendaAlly cannot safely know the outcome.
+
+Timeout, connection interruption after possible transmission, process failure,
+or ambiguous transport result must NOT automatically become definitive
+payment failure.
+
+============================================================
+8. UNKNOWN OUTCOME
+============================================================
+
+UNKNOWN is a first-class recovery condition.
+
+For an unknown RequestToPay outcome:
+
+- retain the original MTN reference;
+- do not generate another reference;
+- do not mark paid;
+- do not create confirmed canonical funding;
+- do not create commission/payable;
+- do not assume failure merely to permit another payment attempt;
+- reconcile the original reference.
+
+If reconciliation returns pending:
+
+remain recoverable/pending.
+
+If reconciliation returns authoritative success:
+
+settle exactly once through the accepted canonical accounting path.
+
+If reconciliation returns authoritative failure:
+
+transition according to the accepted failure/finality rules.
+
+If reconciliation itself is unavailable:
+
+remain unresolved/fail closed.
+
+============================================================
+9. SAFE RETRY
+============================================================
+
+Define retry semantics explicitly.
+
+TRANSPORT / UI RETRY OF SAME PAYMENT ATTEMPT:
+
+must reuse the existing durable MTN identity or reconcile it.
+
+It must not create a new RequestToPay merely because the previous HTTP response
+was lost.
+
+A genuinely NEW payment attempt may receive a new MTN reference only after the
+previous attempt is authoritatively terminal in a state that permits another
+attempt under the accepted checkout rules.
+
+Do not invent a new checkout_key merely to escape an unresolved provider
+attempt.
+
+============================================================
+10. CRASH RECOVERY
+============================================================
+
+Verify recovery for:
+
+A.
+reference persisted
+→ crash before dispatch.
+
+B.
+reference persisted
+→ RequestToPay dispatched
+→ crash before response processing.
+
+C.
+reference persisted
+→ MTN accepts
+→ local response handling crashes.
+
+D.
+reference persisted
+→ timeout
+→ later reconciliation success.
+
+E.
+reference persisted
+→ timeout
+→ later reconciliation failure.
+
+The system must preserve enough state to recover without inventing another
+provider identity.
+
+============================================================
+11. UNSENT PERSISTED ATTEMPT
+============================================================
+
+Carefully distinguish:
+
+REFERENCE PERSISTED BUT REQUEST DEFINITELY NEVER DISPATCHED
+
+from:
+
+REQUEST MAY HAVE BEEN DISPATCHED.
+
+If the existing implementation cannot prove this distinction reliably, prefer
+the conservative UNKNOWN/reconciliation path.
+
+Do not resend an ambiguous attempt merely because no success response exists.
+
+============================================================
+12. RECONCILIATION
+============================================================
+
+The normal MTN reconciliation path must be able to start from the durable local
+attempt and recover using the original provider reference.
+
+Verify:
+
+- correct provider;
+- correct merchant owner;
+- correct Shop;
+- correct payable;
+- correct amount;
+- correct currency;
+- correct canonical checkout/payment identity.
+
+Reconciliation must not accept a provider reference supplied only by the
+Customer as authoritative identity.
+
+============================================================
+13. AUTHORITATIVE PAYMENT BOUNDARY
+============================================================
+
+Do not change the accepted MTN authority model.
+
+RequestToPay initiation is NOT payment proof.
+
+A persisted provider reference is NOT payment proof.
+
+Dispatch success is NOT payment proof.
+
+HTTP success alone is NOT payment proof.
+
+Frontend state is NOT payment proof.
+
+Only the accepted authoritative MTN verification/reconciliation boundary may
+confirm funding.
+
+============================================================
+14. CANONICAL ACCOUNTING
+============================================================
+
+Do not redesign Phase 2 accounting.
+
+Before authoritative success:
+
+confirmed contribution = none
+commission effect = none
+Vendor payable effect = none.
+
+After authoritative success:
+
+invoke the existing canonical accounting path exactly once.
+
+Duplicate reconciliation of the same successful MTN payment must remain
+idempotent.
+
+============================================================
+15. PRODUCT AND BOOKING
+============================================================
+
+Apply the identity invariant consistently to both supported MTN paths:
+
+Product
+and
+Booking.
+
+Do not create separate payment-identity semantics for each unless existing
+source requires it.
+
+The same asynchronous-provider safety rule applies to both.
+
+============================================================
+16. MERCHANT OWNERSHIP
+============================================================
+
+Preserve Phase 3A merchant ownership.
+
+Platform-managed MTN attempts must bind to platform merchant configuration.
+
+Vendor-direct MTN remains non-activated and non-certified.
+
+Do not use this phase to complete Vendor-direct MTN.
+
+============================================================
+17. CONFIGURATION REVISION
+============================================================
+
+Verify the durable payment attempt retains the appropriate immutable merchant
+configuration identity/revision required by the accepted accounting/provider
+model.
+
+Do not resolve historical payment meaning from mutable current settings.
+
+If MTN lacks the required immutable configuration identity and fixing that
+requires material schema work:
+
+STOP and report it.
+
+============================================================
+18. IDEMPOTENCY
+============================================================
+
+Prove that the following cannot create a second MTN economic payment for the
+same attempt:
+
+- double click;
+- frontend retry;
+- HTTP retry;
+- timeout;
+- callback hint;
+- reconciliation retry;
+- worker retry;
+- process restart;
+- stale model;
+- replacement Transaction;
+- duplicate authoritative success.
+
+The same external provider identity must resolve to the same canonical payment
+attempt.
+
+============================================================
+19. CONCURRENT INITIATION
+============================================================
+
+Test two concurrent attempts to initiate MTN for the SAME canonical payment
+attempt.
+
+At most one durable MTN provider identity may win.
+
+The losing request must:
+
+- reuse/reconcile the winner;
+or
+- fail safely.
+
+It must not create another RequestToPay identity.
+
+============================================================
+20. FAILURE INJECTION
+============================================================
+
+Inject failures at minimum:
+
+1. before provider-reference persistence;
+
+2. after reference persistence but before dispatch;
+
+3. immediately before dispatch;
+
+4. ambiguous timeout after dispatch;
+
+5. after provider response but before local outcome persistence;
+
+6. during reconciliation;
+
+7. after authoritative success but before canonical accounting completion;
+
+8. during canonical accounting completion;
+
+9. after canonical accounting completion but before response return.
+
+Verify safe retry/recovery for each.
+
+============================================================
+21. REQUIRED FOCUSED TEST MATRIX
+============================================================
+
+Add isolated tests for at least:
+
+1. reference persisted before RequestToPay dispatch;
+
+2. persisted reference is immutable;
+
+3. Product initiation uses durable reference;
+
+4. Booking initiation uses durable reference;
+
+5. crash before dispatch;
+
+6. timeout after possible dispatch;
+
+7. timeout does not generate new reference;
+
+8. timeout does not mark paid;
+
+9. timeout creates no confirmed contribution;
+
+10. reconciliation pending;
+
+11. reconciliation success;
+
+12. reconciliation failure;
+
+13. reconciliation unknown state;
+
+14. repeated reconciliation success;
+
+15. frontend retry;
+
+16. worker retry;
+
+17. replacement Transaction;
+
+18. concurrent initiation;
+
+19. stale model;
+
+20. wrong provider reference/context rejected;
+
+21. wrong amount rejected;
+
+22. wrong currency rejected;
+
+23. wrong Shop rejected;
+
+24. authoritative success creates accounting once;
+
+25. failure creates no funded accounting;
+
+26. rollback followed by safe recovery.
+
+============================================================
+22. CONTENTION
+============================================================
+
+Run controlled two-connection contention for:
+
+- creation/reservation of MTN provider identity;
+- same payment initiation;
+- same reconciliation success;
+- same canonical finalization.
+
+If SQLite is used, report exactly:
+
+SQLITE CONCURRENCY VERIFIED
+
+and separately:
+
+PRODUCTION-ENGINE CONCURRENCY NOT CERTIFIED.
+
+============================================================
+23. NO REAL MTN CALLS
+============================================================
+
+Use a synthetic/fake MTN transport capable of simulating:
+
+- accepted;
+- pending;
+- failure;
+- timeout;
+- ambiguous disconnect;
+- exception;
+- delayed success;
+- delayed failure.
+
+No real MTN endpoint.
+
+No real credentials.
+
+No real money.
+
+============================================================
+24. SCHEMA GATE
+============================================================
+
+First determine whether the existing schema can safely represent:
+
+- durable pre-dispatch provider identity;
+- immutable provider reference;
+- dispatch/recovery state;
+- canonical payment binding;
+- merchant/configuration identity.
+
+If YES:
+
+implement using the minimum existing-schema change to application logic.
+
+If NO:
+
+STOP BEFORE CREATING A MIGRATION.
+
+Report:
+
+MTN PAYMENT IDENTITY SCHEMA CHANGE REQUIRED
+
+and provide:
+
+- exact missing invariant;
+- minimum columns/table/key required;
+- uniqueness requirement;
+- lifecycle;
+- migration treatment of existing records;
+- rollback behavior.
+
+Do not create a migration without separate approval.
+
+============================================================
+25. LEGACY MTN RECORDS
+============================================================
+
+Do not rewrite existing historical MTN PaymentProcess or Transaction records.
+
+Do not infer missing provider references.
+
+Do not classify historical ambiguous attempts.
+
+If legacy MTN records cannot satisfy the new invariant:
+
+retain them as legacy/unverified/fail-closed according to existing policy.
+
+============================================================
+26. PROTECTED STATE
+============================================================
+
+Capture the current Phase 3B-stop baseline before edits.
+
+Maintain the established protected-state methodology.
+
+Existing development financial records must not change.
+
+All 12 legacy Product Orders must remain:
+
+fulfillment_financial_state = unverified.
+
+Provider/configuration records must not be changed except isolated test
+fixtures.
+
+============================================================
+27. SELECTED REGRESSIONS
+============================================================
+
+Run selected regressions covering:
+
+- Phase 3A provider-state separation;
+- Phase 2C native integration;
+- Phase 2B accounting;
+- MTN synthetic verifier;
+- callback/reconciliation idempotency;
+- Wallet;
+- Cash;
+- Booking payment authority;
+- Product/Booking canonical accounting;
+- payout atomicity;
+- accepted financial authorization/finality containments.
+
+Do not claim full-project green unless actually run.
+
+============================================================
+28. MTN SANDBOX EUR FINDING
+============================================================
+
+Preserve the Phase 3B finding:
+
+Official public MTN sandbox documentation identified during certification
+specifies EUR.
+
+This containment phase does NOT resolve Cameroon/XAF sandbox capability.
+
+Do not change capability classification merely because payment identity is
+fixed.
+
+Do not modify the application to use EUR as a substitute for XAF.
+
+Do not implement FX.
+
+============================================================
+29. ACTIVATION STATUS
+============================================================
+
+MTN must remain:
+
+NOT ACTIVATED
+and
+CHECKOUT UNAVAILABLE
+
+throughout this phase.
+
+At completion verify the running Customer payment catalog still does not expose
+MTN unless the existing non-activation architecture already exposes it in a
+non-payable informational state.
+
+Do not change the activation gate.
+
+============================================================
+30. NEW FINANCIAL P0 STOP RULE
+============================================================
+
+If the bounded work discovers another NEW independent:
+
+SOURCE-CONFIRMED
++
+IMMEDIATELY EXPLOITABLE
++
+FINANCIAL P0
+
+STOP.
+
+Do not automatically remediate it.
+
+Do not expand into unrelated security investigation.
+
+============================================================
+31. MATERIAL DEVIATION STOP RULE
+============================================================
+
+STOP if the minimum safe correction requires a material change to:
+
+- Phase 2 canonical economic identity;
+- commission semantics;
+- custody;
+- Vendor liability;
+- checkout_key meaning;
+- collection allocation identity.
+
+Report the conflict and minimum proposal.
+
+============================================================
+32. REPORTS
+============================================================
+
+Create/update:
+
+docs/development/payment-phase3b-mtn-identity-containment.md
+
+Update:
+
+docs/development/payment-phase3b-mtn-cameroon-readiness.md
+
+and:
+
+docs/development/payment-system-full-audit.md
+
+Document:
+
+- original defect;
+- MTN asynchronous contract evidence;
+- old sequence;
+- corrected sequence;
+- durable identity;
+- dispatch states;
+- unknown-outcome semantics;
+- retry behavior;
+- reconciliation;
+- crash recovery;
+- idempotency;
+- Product behavior;
+- Booking behavior;
+- accounting interaction;
+- exact files changed;
+- schema changes or absence thereof;
+- tests/assertions;
+- contention;
+- selected regressions;
+- protected-state comparison;
+- remaining MTN certification blockers.
+
+============================================================
+33. REQUIRED FINAL ANSWERS
+============================================================
+
+At completion answer:
+
+1. Is the MTN provider reference now durably persisted before RequestToPay?
+
+2. Is it committed before external dispatch?
+
+3. Is the provider reference immutable for the payment attempt?
+
+4. Can a timeout generate a new reference for the same attempt?
+
+5. How is UNKNOWN dispatch outcome represented?
+
+6. Does UNKNOWN mark the payment paid?
+
+7. Does UNKNOWN create canonical funded accounting?
+
+8. Can UNKNOWN be reconciled using the original reference?
+
+9. Can later authoritative success settle exactly once?
+
+10. Can later authoritative failure close safely?
+
+11. What happens when the process crashes before dispatch?
+
+12. What happens when it crashes after possible dispatch?
+
+13. Can frontend retry create another RequestToPay identity?
+
+14. Can worker retry create another identity?
+
+15. Can replacement Transaction create another identity?
+
+16. Can two concurrent initiation requests create two identities?
+
+17. Can duplicate reconciliation duplicate contribution?
+
+18. Can duplicate reconciliation duplicate commission?
+
+19. Can duplicate reconciliation duplicate Vendor payable?
+
+20. Are Product and Booking both covered?
+
+21. Is merchant/configuration ownership preserved?
+
+22. Were Phase 2 accounting identities changed?
+
+23. Were any schema changes required?
+
+24. Were any historical MTN records rewritten?
+
+25. Were any existing financial records changed?
+
+26. Confirm all 12 legacy Product Orders remain `unverified`.
+
+27. Focused tests/assertions?
+
+28. Selected regressions/assertions?
+
+29. SQLite contention result?
+
+30. Production-engine concurrency status?
+
+31. Is the original Phase 3B MTN payment-identity blocker contained?
+
+32. What Phase 3B certification blockers remain?
+
+33. Does public MTN sandbox EUR still prevent claiming Cameroon/XAF sandbox
+    certification?
+
+34. Is MTN activated?
+
+35. Is MTN visible as a real Customer payment method?
+
+============================================================
+34. DEFINITION OF SUCCESS
+============================================================
+
+This phase succeeds when:
+
+BEFORE ANY MTN REQUEST CAN EXIST EXTERNALLY,
+AGENDAALLY ALREADY HAS THE DURABLE IDENTITY NEEDED TO RECOVER IT.
+
+A timeout must become a reconciliation problem, not an excuse to invent another
+payment identity.
+
+A successful containment does NOT mean:
+
+Cameroon/XAF certified
+or
+MTN activated.
+
+It means the identified asynchronous payment-identity defect is safely
+contained.
+
+============================================================
+35. FINAL STOP
+============================================================
+
+After implementation, verification and reporting:
+
+STOP.
+
+Do NOT automatically resume Phase 3B certification.
+
+Do NOT activate MTN.
+
+Do NOT configure real credentials.
+
+Do NOT call MTN.
+
+Do NOT implement refunds.
+
+Do NOT implement payouts.
+
+Do NOT implement FX.
+
+Do NOT access production.
+
+Do NOT work on Orange/Flutterwave/Paystack/Stripe/PayPal.
+
+Do NOT publish.
+
+Wait for explicit approval.

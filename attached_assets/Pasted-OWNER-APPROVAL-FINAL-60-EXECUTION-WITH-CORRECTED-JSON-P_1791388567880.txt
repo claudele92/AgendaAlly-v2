@@ -1,0 +1,208 @@
+OWNER APPROVAL — FINAL #60 EXECUTION WITH CORRECTED JSON PROOF
+
+I accept JSON_PROJECTION_PROOF_FIX_READY.
+
+Authorize ONE final fresh first-install execution using the corrected
+versioned private proof.
+
+No additional audit or diagnostic is authorized before this execution.
+
+======================================================================
+FROZEN EXECUTION INPUTS
+======================================================================
+
+Canonical portable baseline:
+f340ed13b0c6b14faf889de76f76fb07ac863146f73f5a4c35de1b887b7c7803
+
+Canonical reference manifest:
+d18e58d07995242f0208d9d96ab85a750e3f5b5297396fc94b9956b446d5e238
+
+229 native migrations:
+37954929be028d7e487a7720f2108d3f300b2862af85f46b724b3c9f63d3f896
+
+Executable application source:
+e90ec7c6cef4fddcca26ea2ea3f446c5e85e4a04b549e99d12080922fe06b2ce
+
+Service provenance:
+fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+Canonical Service package:
+8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e
+
+Corrected private proof:
+bc6304815eaf1b5665d956af8a35d53108ef05a83008f12b3adfe760f97f9fc3
+
+Portable order helper:
+0bb5e2517a6c557e1dcb312b630450b5eeae0ae8a51099571fbd39d53c658cfb
+
+Portable order metadata:
+f1d0eaa80906c85c71edd845fa94848c9cd2742feb083c12e5ad46dea807c3a2
+
+Corrected input freeze:
+be347dfcca3d4e5e2d795fb8cba3a7e7b0054ef68ef5b43476b89969e52d4907
+
+Verify every required hash before initialization.
+
+If any required hash differs, STOP without starting MySQL.
+
+======================================================================
+AUTHORIZED EXECUTION
+======================================================================
+
+Create ONE NEW empty disposable socket-only native MySQL 8.0.42 lab.
+
+Do not resume, modify, repair or reuse any previous lab.
+
+Use the existing validated 1,200-second supervisor, changing only its owned
+run-directory path as required for the new isolated execution.
+
+Use unchanged:
+
+- binary logging ON;
+- trusted function creators OFF;
+- scheduler OFF;
+- foreign-key enforcement ON;
+- temporary bootstrap elevation policy;
+- runtime least privilege;
+- mandatory bootstrap privilege revocation/account lock;
+- deterministic 73-table portable order;
+- corrected Blog native type representation;
+- corrected JSON semantic projection verifier.
+
+Execute the complete existing #60 sequence:
+
+zero-table database
+→ 229/229 migrations
+→ seven reference checkpoints
+→ trigger/native inspection
+→ runtime handover
+→ ordered portable load
+→ synthetic Administrator creation/authentication
+→ Blog/blog_translation insertion
+→ independent synthetic app/recovery authority checks
+→ complete exact counts/integrity verification
+→ complete media-resolution verification
+→ complete financial/external zero-state verification
+→ second-invocation idempotency or approved pre-mutation fail-closed
+  verification.
+
+======================================================================
+REQUIRED FINAL ACCEPTANCE
+======================================================================
+
+Do not report PASS_FIRST_INSTALL unless the ENTIRE contract completes.
+
+This includes:
+
+- 229/229 migrations;
+- all seven reference checkpoints;
+- role IDs:
+  1 = user
+  14 = shop_manager
+  99 = admin;
+- four approved countries;
+- seven approved cities;
+- complete approved portable/reference counts;
+- complete 3,727-row portable intent;
+- all three Blogs stored as native type integer 1;
+- all three Blog translations intact;
+- exactly one synthetic Administrator;
+- Blog author relationships resolve correctly;
+- bcrypt positive/negative checks pass;
+- no unintended Finance grants;
+- 13 Products;
+- 14 Stocks;
+- Product/Stock unresolved media remain NULL;
+- Product local images = 0;
+- Product Gallery rows = 0;
+- 51 Services;
+- 51 Service Gallery relationships;
+- all 15 approved Service JPEGs resolve locally;
+- no network media retrieval;
+- corrected semantic JSON verification passes all applicable projections;
+- independent synthetic app/recovery authorities behave correctly;
+- missing/wrong authorities fail closed;
+- complete financial/external zero-state assertions pass;
+- no provider execution;
+- no SMTP send;
+- no webhook/callback execution;
+- no worker-triggered external action;
+- second invocation satisfies the existing approved idempotency or
+  pre-mutation fail-closed contract;
+- no duplicate Administrator;
+- no duplicate reference/portable effects.
+
+======================================================================
+FAILURE POLICY
+======================================================================
+
+If ANY new failure occurs:
+
+STOP.
+
+Do not:
+
+- patch and continue;
+- alter proof logic;
+- alter data;
+- alter schema;
+- alter migrations;
+- alter application source;
+- alter portable order;
+- weaken foreign keys;
+- relax SQL/security settings;
+- automatically retry;
+- create another lab.
+
+Record the exact phase/assertion/evidence.
+
+On every exit path:
+
+- revoke temporary bootstrap authority;
+- confirm SUPER=N;
+- confirm GRANT OPTION=N;
+- lock bootstrap account;
+- preserve bounded private evidence;
+- shut down the disposable MySQL lab;
+- confirm no owned process/socket remains.
+
+Return exactly one:
+
+PASS_FIRST_INSTALL
+BLOCKED_FIRST_INSTALL_TIMEOUT
+BLOCKED_FIRST_INSTALL
+FAIL_FIRST_INSTALL
+
+======================================================================
+PASS BOUNDARY
+======================================================================
+
+If PASS_FIRST_INSTALL is reached:
+
+STOP.
+
+Task #60 is CLOSED.
+
+The MySQL first-install validation track is CLOSED.
+
+Do NOT run another:
+
+- first-install proof;
+- MySQL bootstrap campaign;
+- migration campaign;
+- media campaign;
+- recovery campaign;
+- JSON diagnostic;
+- financial audit;
+- email campaign.
+
+Do NOT automatically publish to GitHub or access the VPS.
+
+The next separately authorized work is ONLY:
+
+1. provider/Replit-neutral cleanup;
+2. one final clean-clone/build validation;
+3. preparation/publication of the private AgendaAlly-v2 GitHub repository;
+4. Hostinger deployment preparation afterward.
+
+No additional validation campaign should be started after PASS_FIRST_INSTALL.

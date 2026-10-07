@@ -1,0 +1,58 @@
+Approved: implement the minimum schema-backed containment for P0-B only.
+The P0-A authorization containment is accepted as FOUND AND CONTAINED / VERIFIED. Do not revisit or broaden it except where required to integrate P0-B.
+Implement the proposed private, server-owned Order financial-finality state described in docs/development/payment-product-fulfillment-dual-p0-containment.md, using the existing proposal as the baseline:
+fulfillment_financial_state = unverified | pending | settled
+Do not redesign the accounting model. This field exists only to establish durable once-only finality for the existing Product fulfillment financial batch.
+For new eligible Orders, initialize the state through trusted server-side Order creation as pending. The field must not be customer/vendor/admin request-controlled, mass-assignable through generic Order updates, import-controlled, or exposed as a writable API field.
+For existing Orders, use the conservative unverified migration default. Do not automatically classify historical Orders as pending or settled from current status, payment status, WalletHistory, Transaction, fee-ledger records, notes, or other deletable/mutable receipts. Do not rewrite historical financial records.
+At fulfillment, inside the native database transaction:
+1. Reload/lock the persisted Order and recheck the already-implemented actor/target authority.
+2. Only pending may acquire fulfillment financial settlement.
+3. Atomically claim the Order so exactly one execution can perform the financial batch.
+4. The successful claimant performs the existing required fulfillment financial effects.
+5. Every required financial operation must succeed. Treat native false/unsuccessful results as failures, not successful settlement.
+6. On any required-operation failure, roll back the claim and all financial effects together, leaving the Order retryable as pending.
+7. On successful commit, the state remains permanently settled.
+8. A later lifecycle cycle back into delivered for a settled Order may preserve legitimate lifecycle behavior but must perform zero additional fulfillment financial effects.
+9. unverified legacy Orders must fail closed for fulfillment financial settlement. Do not silently convert them to pending.
+Preserve the existing accounting meaning. Do not turn the gross Admin Wallet credit into Vendor entitlement, custody evidence, commission, payout, or another accounting concept.
+Ensure cleanup/deletion of WalletHistory, Transaction replacement, payment replacement, notes changes, lifecycle changes, refunds, and ordinary Order updates cannot reset or erase the Order-level finality state while the Order exists.
+Move the existing fulfillment referral dispatch so that it occurs only after a new successful committed claim. A failed/rolled-back attempt must not leave a referral dispatch, and replay of a settled Order must not dispatch it again. Do not broaden this into a general referral-system redesign.
+Add focused verification for:
+- first legitimate fulfillment produces the existing financial batch exactly once;
+- immediate duplicate delivered request;
+- delivered → another state → delivered;
+- multiple lifecycle cycles;
+- stale Order/model instance;
+- deleted WalletHistory/receipt followed by replay;
+- replacement payment/Transaction followed by replay;
+- zero-fee Order;
+- prepaid/electronic-state fixture where applicable without calling a provider;
+- Cash Order;
+- failure before each required financial effect;
+- native service returning false/unsuccessful result;
+- exception rollback;
+- successful retry after rollback;
+- referral dispatch only after successful first settlement;
+- settled cannot be reset by allowed updates;
+- new Orders initialize correctly;
+- legacy unverified Orders fail closed;
+- all already-approved Seller, granted Staff, Admin/Manager and assigned Driver actors;
+- unauthorized actors remain denied before effects.
+Concurrency is mandatory for this containment. Add a controlled two-connection/database-engine test demonstrating that two legitimate attempts competing for the same pending Order cannot both acquire the financial claim. Exactly one may produce the financial batch. Do not represent SQLite/in-memory serialization as production concurrency proof if it does not exercise equivalent locking/CAS behavior. Clearly state what database engine was tested and what remains uncertified.
+Verify accounting invariants, not only HTTP/status responses. For duplicate/replay/concurrent attempts, confirm no additional:
+- Admin Wallet balance credit;
+- WalletHistory;
+- Transaction;
+- Cash paid transition;
+- cashback/PointHistory;
+- platform fee/payable ledger effect;
+- referral dispatch
+occurs beyond the legitimate first settlement.
+Run the focused P0-B tests plus the previously selected financial/authorization regressions. Do not claim a full-project green suite unless actually run and passing.
+Before the migration, retain the established protected-state receipt. After migration, do not compare the schema-changed orders table as though its hash should remain identical. Report schema/data changes explicitly and distinguish the approved migration/backfill effect from unintended financial mutations. The other protected financial tables, especially Wallets, WalletHistory, Transactions and platform_fee_ledger_entries, must remain unchanged outside isolated test fixtures.
+Update docs/development/payment-product-fulfillment-dual-p0-containment.md and docs/development/payment-system-full-audit.md.
+Mark P0-B FOUND AND CONTAINED / VERIFIED only if durable finality, rollback/retry behavior, replay resistance and the controlled concurrency claim all pass.
+Legacy rollout remains separate. Do not build an Admin override, bulk classifier, historical reconciliation tool, or automatically enable settlement for unverified existing Orders in this phase. Report how many existing Orders are unverified after migration if this can be determined safely, without exposing customer/financial details.
+Do not activate providers, change Vendor-direct, change commissions/payouts/refunds, perform real financial operations, address unrelated backlog findings, or publish.
+STOP after P0-B implementation, migration, focused verification and reporting.

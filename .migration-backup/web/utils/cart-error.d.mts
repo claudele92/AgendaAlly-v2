@@ -1,0 +1,1 @@
+export function isKnownMissingCartError(error: unknown): boolean;

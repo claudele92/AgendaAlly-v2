@@ -1,0 +1,1163 @@
+AgendaAlly — Payment Implementation Phase 2C
+Native Checkout / Quote Integration and Accounting Coverage
+
+Phase 2B is complete and accepted within its documented scope.
+
+Current accepted baseline:
+
+- The canonical collection/allocation accounting core is implemented.
+- The three approved additive migrations are applied to development SQLite.
+- The separately approved `checkout_key` origin-uniqueness correction is implemented.
+- Commission is calculated once per Shop economic allocation.
+- Platform-held funds satisfy commission first.
+- Vendor-direct and Vendor-received Cash principal do not create duplicate
+  platform payout liability.
+- Verified Wallet debit is platform-controlled funding.
+- Unsatisfied commission is represented separately as Vendor commission
+  receivable.
+- Original contribution/custody evidence is retained.
+- Replacement Transactions and duplicate callbacks cannot create another
+  canonical full commission.
+- Product and Booking have bounded adapters into the same canonical accounting
+  core.
+- All 12 legacy Product Orders remain
+  `fulfillment_financial_state = unverified`.
+- Existing financial values were not rewritten by Phase 2B.
+- Production-engine concurrency remains NOT CERTIFIED.
+- Provider activation/configuration remains disabled.
+
+The Phase 2B report explicitly states:
+
+"Product and Booking use the same canonical core through bounded native
+adapters. Blanket native checkout coverage is not certified."
+
+This Phase 2C is authorized specifically to close that native-integration
+coverage gap.
+
+This is NOT Phase 3.
+
+Do NOT activate providers.
+
+Do NOT enable `Use my own payment gateway`.
+
+Do NOT configure merchant credentials.
+
+Do NOT deploy to production.
+
+Do NOT perform real financial operations.
+
+============================================================
+1. PRIMARY OBJECTIVE
+============================================================
+
+Prove that every CURRENT native Product and Service Booking path capable of
+creating or recognizing a Customer economic payment reaches the canonical
+Phase 2 accounting model with a complete, source-proven quote contract.
+
+The goal is:
+
+NATIVE COMMERCE INPUT
+→ TRUSTED QUOTE
+→ VERIFIED FUNDING
+→ CANONICAL SHOP ECONOMIC ALLOCATION
+→ IMMUTABLE FUNDING CONTRIBUTION
+→ COMMISSION ONCE
+→ CORRECT CUSTODY
+→ CORRECT VENDOR LIABILITY / COMMISSION RECEIVABLE
+
+Do not create a second accounting model.
+
+Do not bypass the Phase 2B accounting core.
+
+Do not weaken fail-closed behavior merely to increase coverage.
+
+============================================================
+2. AUTHORITATIVE BASELINE
+============================================================
+
+Use:
+
+docs/development/payment-phase2-collection-allocation.md
+
+docs/development/payment-system-full-audit.md
+
+docs/development/payment-phase1-financial-correctness.md
+
+and all accepted P0/P1 containment reports as the authoritative baseline.
+
+Do NOT restart the payment architecture audit.
+
+Do NOT redesign the Phase 2B schema unless a genuine material correctness
+problem is discovered.
+
+============================================================
+3. TRACE ALL NATIVE PAYMENT ENTRY PATHS FIRST
+============================================================
+
+Before editing application code, enumerate all CURRENT native paths that can:
+
+- quote a Product purchase;
+- create a Product Order;
+- initiate Product payment;
+- recognize Product payment;
+- create a Service Booking;
+- quote a Service Booking;
+- initiate Booking payment;
+- recognize Booking payment;
+- consume Wallet value;
+- accept Cash;
+- process a verified electronic provider result;
+- replace/retry a Transaction;
+- transition an economic payment to authoritative paid state.
+
+For each path document:
+
+- controller/route;
+- service;
+- payable type;
+- Shop identity;
+- Customer identity;
+- currency;
+- gross amount;
+- adjustments;
+- payment method;
+- collection mode;
+- collector ownership;
+- provider where applicable;
+- authoritative payment boundary;
+- Phase 2B adapter invoked;
+- canonical allocation identity;
+- contribution identity.
+
+The trace must identify any native path that can produce financial meaning
+without entering the canonical accounting core.
+
+============================================================
+4. PRODUCT JOURNEY COVERAGE
+============================================================
+
+Trace the actual Product Customer journey end-to-end:
+
+Cart
+→ checkout/quote
+→ Shop split
+→ payment-method selection
+→ payment initiation
+→ payment verification/acceptance
+→ Order creation/binding
+→ Transaction
+→ canonical allocation
+→ contribution
+→ commission
+→ Vendor liability / commission receivable.
+
+Cover at minimum:
+
+- single-Shop Product Cart;
+- multi-Shop Product Cart where currently supported;
+- Cash;
+- Wallet;
+- platform-managed electronic synthetic verification;
+- Vendor-direct classification where architecture supports it, WITHOUT
+  enabling Vendor-direct checkout;
+- rejected/failed payment;
+- retry of same checkout;
+- safely canceled checkout followed by new `checkout_key`;
+- Cart modification after failed/rejected checkout;
+- replacement Transaction;
+- duplicate callback;
+- duplicate paid transition.
+
+A retry of the SAME checkout must not become a new economic allocation.
+
+A genuinely new checkout after authoritative no-collection cancellation may
+receive a new server-owned `checkout_key`.
+
+============================================================
+5. BOOKING JOURNEY COVERAGE
+============================================================
+
+Trace the actual Service Booking journey end-to-end:
+
+Service/branch/master selection
+→ quote
+→ Booking creation
+→ payment-method selection
+→ payment initiation
+→ provider verification / Cash / Wallet authority
+→ Transaction
+→ canonical allocation
+→ contribution
+→ commission
+→ Vendor liability / commission receivable.
+
+Verify that Booking lifecycle remains separate from payment proof.
+
+A Booking becoming:
+
+confirmed
+accepted
+processing
+completed
+ended
+
+or equivalent native lifecycle state must NOT itself prove an electronic
+payment.
+
+Preserve Phase 1 `BookingPaymentAuthority`.
+
+============================================================
+6. QUOTE CONTRACT
+============================================================
+
+Define the exact native quote contract consumed by the Phase 2 accounting
+adapter.
+
+The quote must have source-proven ownership for every monetary component.
+
+At minimum identify:
+
+- base Product/Service amount;
+- quantity where applicable;
+- Shop;
+- currency;
+- commission basis;
+- commission amount/rule;
+- taxes;
+- coupon/discount;
+- tip;
+- delivery fee;
+- service extra;
+- booking extra time;
+- cashback/credit if applicable;
+- Wallet contribution;
+- provider contribution;
+- Cash contribution;
+- any other native adjustment that changes Customer gross or Vendor economics.
+
+Do NOT assume that:
+
+Customer gross
+=
+Vendor entitlement + AgendaAlly commission
+
+until all applicable adjustments have proven economic ownership.
+
+============================================================
+7. ADJUSTMENT BENEFICIARY RULE
+============================================================
+
+Phase 2B intentionally fails closed when the beneficiary/economic owner of an
+adjustment cannot be proven.
+
+Preserve that rule.
+
+For every adjustment type determine from native source:
+
+WHO PAYS IT?
+
+WHO ECONOMICALLY RECEIVES IT?
+
+IS IT INCLUDED IN COMMISSION BASIS?
+
+DOES IT CREATE PLATFORM-HELD VALUE?
+
+DOES IT CREATE VENDOR ENTITLEMENT?
+
+IS IT REFUNDABLE?
+
+If source does not prove those answers:
+
+FAIL CLOSED.
+
+Do not invent a beneficiary.
+
+Do not assign unexplained money to AgendaAlly merely because it appears in
+Customer gross.
+
+Do not assign unexplained money to Vendor merely because it appears on an
+Order.
+
+============================================================
+8. TAX
+============================================================
+
+Trace native tax semantics.
+
+Determine whether tax is:
+
+- included/excluded;
+- Shop/Vendor liability;
+- platform liability;
+- provider-only metadata;
+- currently unsupported.
+
+Do not invent tax-remittance architecture.
+
+If current source cannot prove the economic beneficiary/custodian of tax:
+
+the accounting quote must fail closed for that scenario.
+
+Document the exact limitation.
+
+============================================================
+9. COUPON / DISCOUNT
+============================================================
+
+Trace:
+
+- Shop-funded discounts;
+- platform-funded discounts, if they exist;
+- Product coupon;
+- Booking coupon;
+- promotional credits, if present.
+
+A discount must reduce the correct party's economics.
+
+Do not automatically reduce Vendor entitlement for a platform-funded promotion.
+
+Do not automatically create platform subsidy for a Vendor-funded discount.
+
+If native source does not distinguish sponsorship:
+
+fail closed.
+
+============================================================
+10. TIP
+============================================================
+
+Trace any native tip/gratuity semantics.
+
+Determine the intended beneficiary:
+
+- Vendor;
+- Master/provider;
+- platform;
+- unsupported.
+
+Tip must not silently enter AgendaAlly commission or Vendor principal unless
+source proves that treatment.
+
+If beneficiary cannot be proven:
+
+fail closed.
+
+============================================================
+11. DELIVERY / FULFILLMENT ADJUSTMENTS
+============================================================
+
+Trace Product delivery charges and related adjustments.
+
+Determine whether each amount belongs economically to:
+
+- Vendor;
+- Driver;
+- platform;
+- external delivery provider;
+- unsupported/unknown.
+
+Do NOT expand this into a Driver authorization audit.
+
+Only determine the economic quote contract needed for payment allocation.
+
+If the beneficiary cannot be proven:
+
+fail closed.
+
+============================================================
+12. SERVICE EXTRAS / BOOKING ADJUSTMENTS
+============================================================
+
+Trace:
+
+- Service extras;
+- extra-time pricing;
+- Master-specific pricing if applicable;
+- branch-specific pricing;
+- Booking adjustments.
+
+Ensure the canonical quote receives the final source-proven economic amount.
+
+Do not revisit unrelated Booking authorization work.
+
+============================================================
+13. FX / CURRENCY
+============================================================
+
+Phase 2B lists unproven FX contracts as fail closed.
+
+Preserve that.
+
+Do NOT implement currency conversion in this phase unless a complete existing
+native authoritative conversion contract already exists.
+
+For each payment verify:
+
+- Shop economic currency;
+- Customer charged currency;
+- Transaction currency;
+- allocation currency;
+- contribution currency;
+- provider currency.
+
+If these differ and there is no immutable authoritative FX rate/amount contract:
+
+FAIL CLOSED.
+
+Do not derive historical FX from current rates.
+
+Do not call external FX services.
+
+Do not fabricate conversion rates.
+
+============================================================
+14. CAMEROON / XAF
+============================================================
+
+Use Cameroon/XAF as an important native coverage case because it is a primary
+target market.
+
+This does NOT authorize provider activation.
+
+Verify that a native XAF quote can flow through canonical accounting when all
+required economic inputs are known.
+
+Use integer XAF monetary units according to the frozen scale established in
+Phase 2B.
+
+Do not change why MTN/Orange currently report readiness/currency limitations.
+
+Provider capability/readiness remains Phase 3.
+
+============================================================
+15. CASH NATIVE ADAPTER
+============================================================
+
+Verify the real native Cash path enters canonical accounting correctly.
+
+Where Customer Cash is paid directly to Vendor:
+
+- contribution custody = Vendor/direct;
+- platform-held principal = 0;
+- platform principal payout liability = 0;
+- commission calculated once;
+- commission satisfied from platform-held value only if another contribution
+  provides such value;
+- otherwise commission becomes Vendor receivable.
+
+Cash payment authorization must remain governed by the already accepted
+security boundaries.
+
+Do not make Cash electronic-provider verified.
+
+============================================================
+16. WALLET NATIVE ADAPTER
+============================================================
+
+Verify the real native Wallet payment path.
+
+A verified Customer Wallet debit is platform-controlled funding.
+
+The canonical accounting writer must be invoked only after the Wallet debit is
+authoritative under the accepted Wallet invariants.
+
+Verify:
+
+- no allocation before successful debit;
+- failed debit produces no funded contribution;
+- successful debit records the exact contribution;
+- commission is satisfied first;
+- remaining held entitlement becomes Vendor payable;
+- rollback leaves no partial allocation;
+- replay does not debit or allocate again.
+
+Do NOT redesign Wallet transfers.
+
+============================================================
+17. VERIFIED ELECTRONIC PROVIDER ADAPTER
+============================================================
+
+Verify the existing trusted provider-verification path integrates with
+canonical accounting.
+
+At minimum use the existing synthetic MTN verifier path that Phase 1 already
+proved can settle matching synthetic evidence.
+
+No live provider calls.
+
+No credentials.
+
+No activation.
+
+An electronic contribution must not become confirmed because the method is
+merely:
+
+- supported;
+- enabled;
+- configured;
+- selected;
+- eligible.
+
+It must pass the existing authoritative verification boundary.
+
+============================================================
+18. VENDOR-DIRECT ADAPTER — ACCOUNTING ONLY
+============================================================
+
+Do NOT enable Vendor-direct checkout.
+
+However, verify synthetically that the native adapter can represent a
+source-proven Vendor-direct electronic contribution when given trusted merchant
+ownership context.
+
+It must produce:
+
+Vendor-controlled contribution
++
+zero platform principal payable for that contribution
++
+once-only commission at economic allocation
++
+commission receivable where platform-held funds cannot satisfy commission.
+
+Do not create or configure Vendor merchant credentials.
+
+============================================================
+19. MIXED FUNDING
+============================================================
+
+Exercise native-adapter accounting for representable mixed funding.
+
+At minimum:
+
+- Wallet + Vendor-direct;
+- Wallet + Cash;
+- Wallet + platform-managed electronic;
+
+and any other mixed mode the native system can actually produce.
+
+Preserve:
+
+PLATFORM-HELD-FUNDS-FIRST COMMISSION.
+
+Example remains authoritative:
+
+Gross 100
+Commission 10
+Wallet 40
+Vendor-direct 60
+
+→ commission satisfied = 10
+→ platform Vendor payable = 30
+→ Vendor direct receipt = 60
+→ commission receivable = 0.
+
+Do not invent mixed checkout capability that does not exist natively.
+
+Synthetic adapter tests are sufficient for modes not yet enabled in UI.
+
+============================================================
+20. CHECKOUT_KEY BEHAVIOR
+============================================================
+
+Verify the separately approved checkout-scoped origin rule thoroughly.
+
+The server owns `checkout_key`.
+
+Same checkout retry:
+→ same economic origin.
+
+Duplicate request:
+→ same economic origin.
+
+Replacement Transaction:
+→ same economic origin.
+
+Provider callback retry:
+→ same economic origin.
+
+A fresh checkout key may be created only after authoritative cancellation of
+the previous attempt with:
+
+- no confirmed collection;
+- no platform-held value;
+- no unresolved receipt;
+- no unresolved funding contribution;
+- no remaining financial effect requiring reconciliation.
+
+The old allocation/evidence remains retained and immutable.
+
+Do not reopen or rewrite the old canceled allocation.
+
+============================================================
+21. ORDER / BOOKING BINDING
+============================================================
+
+Once an allocation becomes bound to an Order or Booking, preserve the approved
+once-only payable identity.
+
+A new `checkout_key` must not allow:
+
+- another allocation for the same bound Order;
+- another commission;
+- another Vendor payable;
+- another fee-ledger economic event.
+
+Verify Product and Booking independently.
+
+============================================================
+22. MULTI-SHOP PRODUCT CHECKOUT
+============================================================
+
+Trace actual native behavior.
+
+Do NOT assume split-merchant capability.
+
+For a Cart containing multiple Shops, verify:
+
+- separate Shop economic roots;
+- separate quote contracts;
+- separate commission;
+- separate custody;
+- separate Vendor liabilities;
+- separate contribution membership.
+
+Shop A must never consume:
+
+- Shop B's merchant context;
+- Shop B's Wallet contribution;
+- Shop B's Cash contribution;
+- Shop B's commission;
+- Shop B's payable.
+
+If native electronic multi-Shop checkout currently cannot safely execute,
+continue to fail closed and document it.
+
+Do not invent split-provider orchestration in this phase.
+
+============================================================
+23. PLATFORM FEE LEDGER
+============================================================
+
+Verify actual native paid paths now write/read the fee ledger through the
+canonical economic identity.
+
+Replacement Transaction must not produce another full fee.
+
+Duplicate callback must not produce another full fee.
+
+Lifecycle replay must not produce another full fee.
+
+The ledger must reflect the once-only Shop economic allocation semantics.
+
+Do not rewrite historical ledger records.
+
+============================================================
+24. EXISTING REFUND ROUTINES
+============================================================
+
+Do NOT implement provider refunds.
+
+Trace only enough to verify existing native refund paths cannot bypass the new
+canonical accounting model for NEW Phase 2 accounting records.
+
+If a refund affects a canonical allocation, it must use the durable effect
+identity and original contribution/custody evidence established in Phase 2B.
+
+Legacy refund behavior remains governed by the existing conservative policy.
+
+Do not backfill historical records.
+
+============================================================
+25. EXISTING PAYOUT / SETTLEMENT ROUTINES
+============================================================
+
+Do NOT implement external payout rails.
+
+Verify existing native payout/bookkeeping paths cannot pay Vendor-direct/Cash
+principal merely because a Transaction is paid.
+
+For NEW canonical allocations, payout eligibility must derive from actual
+remaining platform Vendor liability.
+
+Preserve Phase 1 payout atomicity.
+
+Native non-Wallet payout acceptance remains bookkeeping, not proof of external
+remittance, unless already established otherwise.
+
+============================================================
+26. LEGACY RECORDS
+============================================================
+
+Do not classify or delete legacy records.
+
+All 12 existing Product Orders must remain:
+
+fulfillment_financial_state = unverified
+
+Do not create canonical allocations for them by guessing historical custody.
+
+Do not backfill old Transactions merely because current Shop/provider settings
+suggest a collection model.
+
+Do not rewrite historical fee-ledger entries.
+
+Legacy reconciliation remains a future explicit phase.
+
+============================================================
+27. DATABASE / MIGRATION SCOPE
+============================================================
+
+Phase 2B migrations are already applied to development SQLite.
+
+Do not add another migration unless strictly necessary.
+
+If Phase 2C discovers that correct native quote integration requires a
+MATERIAL schema change:
+
+STOP BEFORE CREATING THE MIGRATION.
+
+Report:
+
+SCHEMA DEVIATION REQUIRED
+
+with the minimum proposal.
+
+Do not hide missing quote semantics in JSON notes, mutable metadata, current
+settings or inferred values.
+
+============================================================
+28. PRODUCTION DATABASE — NOT AUTHORIZED
+============================================================
+
+Do NOT run the suggested:
+
+"Confirm production database upgrades preserve financial records"
+
+task.
+
+Do NOT connect to or migrate production.
+
+Do NOT certify production deployment.
+
+Development SQLite and isolated disposable test databases only.
+
+Target production-engine verification is a separate approval.
+
+============================================================
+29. PROTECTED STATE
+============================================================
+
+Capture the current post-Phase-2B development baseline before editing.
+
+Preserve the established protected-state methodology.
+
+Existing financial values must not be recalculated or rewritten.
+
+Explicitly monitor:
+
+- Orders;
+- Bookings;
+- Transactions;
+- Wallets;
+- WalletHistory;
+- refunds;
+- payouts;
+- platform_fee_ledger_entries;
+- the new economic allocation tables;
+- the new funding contribution tables;
+- effect records/links introduced by Phase 2B.
+
+Tests that require financial mutations must use isolated disposable databases.
+
+============================================================
+30. REQUIRED PRODUCT TEST MATRIX
+============================================================
+
+Add focused Product tests for at least:
+
+1. single-Shop Cash quote/accounting;
+
+2. single-Shop Wallet quote/accounting;
+
+3. verified synthetic platform electronic payment;
+
+4. synthetic Vendor-direct accounting;
+
+5. rejected electronic payment creates no confirmed contribution;
+
+6. eligibility alone cannot confirm contribution;
+
+7. duplicate callback;
+
+8. replacement Transaction;
+
+9. duplicate paid transition;
+
+10. same checkout retry;
+
+11. canceled no-collection checkout → new checkout_key;
+
+12. old canceled allocation remains immutable;
+
+13. Cart modification after safe cancellation;
+
+14. multi-Shop isolation;
+
+15. fee ledger once-only behavior;
+
+16. unknown adjustment beneficiary fails closed;
+
+17. unsupported FX fails closed;
+
+18. XAF same-currency quote succeeds when otherwise complete.
+
+============================================================
+31. REQUIRED BOOKING TEST MATRIX
+============================================================
+
+Add focused Booking tests for at least:
+
+1. Cash;
+
+2. Wallet;
+
+3. verified synthetic electronic payment;
+
+4. synthetic Vendor-direct accounting;
+
+5. eligibility alone cannot create confirmed electronic contribution;
+
+6. Booking lifecycle without payment proof;
+
+7. duplicate verified event;
+
+8. replacement Transaction;
+
+9. fee ledger once-only behavior;
+
+10. Service extra;
+
+11. extra-time amount where supported;
+
+12. unknown adjustment beneficiary fails closed;
+
+13. unsupported FX fails closed;
+
+14. XAF same-currency quote succeeds when otherwise complete.
+
+============================================================
+32. REQUIRED ADJUSTMENT TEST MATRIX
+============================================================
+
+For each adjustment type actually supported by native source, prove:
+
+- Customer gross;
+- economic beneficiary;
+- commission basis;
+- platform-held amount;
+- Vendor direct amount;
+- Vendor entitlement;
+- commission satisfied;
+- commission receivable;
+- Vendor payable;
+
+reconcile exactly.
+
+For unsupported/unproven adjustment semantics, prove:
+
+FAIL CLOSED
+
+with no partial financial records.
+
+============================================================
+33. FAILURE INJECTION
+============================================================
+
+Inject failures at meaningful boundaries, including where practical:
+
+- after quote creation;
+- before allocation creation;
+- after allocation creation but before contribution confirmation;
+- after Wallet debit but before canonical contribution finalization;
+- after provider verification but before canonical effect completion;
+- before fee-ledger effect;
+- after fee-ledger effect but before finalization.
+
+Verify transaction rollback or safe retry semantics.
+
+No orphan funded contribution.
+
+No duplicate commission.
+
+No duplicate Vendor payable.
+
+No lost authoritative Customer debit.
+
+============================================================
+34. CONTENTION
+============================================================
+
+Run controlled two-connection contention for native adapter paths where
+appropriate.
+
+At minimum test contention around:
+
+- same checkout allocation;
+- same verified funding contribution;
+- same paid finalization;
+- same fee effect.
+
+If using SQLite report:
+
+SQLITE CONCURRENCY VERIFIED
+
+and separately:
+
+PRODUCTION-ENGINE CONCURRENCY NOT CERTIFIED.
+
+Do not overstate this result.
+
+============================================================
+35. SELECTED REGRESSIONS
+============================================================
+
+Run selected regressions covering accepted containments:
+
+- payment Shop authorization;
+- refund Shop authorization;
+- Booking Staff Shop boundary;
+- Wallet transfer finality;
+- Wallet ownership/amount protection;
+- Booking refund replay containment;
+- Product refund finality;
+- Product fulfillment authorization;
+- Product fulfillment once-only finality;
+- Phase 1 payout atomicity;
+- Phase 1 Booking electronic-payment authority;
+- Phase 2B accounting/idempotency tests.
+
+Do not claim the full project suite green unless it is actually run and passes.
+
+Existing unrelated Driver/Pickup or broad-hardening failures must remain
+reported honestly.
+
+============================================================
+36. NEW P0 STOP RULE
+============================================================
+
+If this bounded work discovers a NEW independent:
+
+SOURCE-CONFIRMED
++
+IMMEDIATELY EXPLOITABLE
++
+FINANCIAL P0
+
+STOP.
+
+Do not automatically remediate it.
+
+Report:
+
+- route/path;
+- actor;
+- financial effect;
+- source chain;
+- reachability;
+- whether exercised;
+- protected-state result.
+
+Do not proactively branch into unrelated security investigations.
+
+============================================================
+37. SCOPE CONTROL
+============================================================
+
+Do NOT use Phase 2C to work on:
+
+- unrelated authorization;
+- Driver permissions;
+- Pickup features;
+- scheduling;
+- notes/time;
+- Shop UI;
+- Customer redesign;
+- Admin redesign;
+- media;
+- favicon;
+- Footer;
+- unrelated Wallet features.
+
+This phase is native payment/quote integration only.
+
+============================================================
+38. REPORTS
+============================================================
+
+Update:
+
+docs/development/payment-phase2-collection-allocation.md
+
+and:
+
+docs/development/payment-system-full-audit.md
+
+Add a clearly labeled:
+
+PHASE 2C — NATIVE CHECKOUT / QUOTE COVERAGE
+
+section.
+
+Document:
+
+- complete native path inventory;
+- Product journey;
+- Booking journey;
+- quote contract;
+- supported adjustment ownership;
+- unsupported/fail-closed adjustments;
+- Cash integration;
+- Wallet integration;
+- verified electronic integration;
+- Vendor-direct synthetic integration;
+- checkout_key behavior;
+- multi-Shop behavior;
+- fee-ledger behavior;
+- refund interaction;
+- payout interaction;
+- failure injection;
+- contention;
+- exact files changed;
+- tests/assertions;
+- selected regressions;
+- protected-state comparison;
+- remaining limitations.
+
+============================================================
+39. REQUIRED FINAL DECISION SUMMARY
+============================================================
+
+At completion answer:
+
+1. Does every current native Product paid path reach canonical accounting?
+
+2. Does every current native Booking paid path reach canonical accounting?
+
+3. Can any native path still create financial meaning outside the canonical
+   allocation model?
+
+4. What is the exact trusted Product quote contract?
+
+5. What is the exact trusted Booking quote contract?
+
+6. Which adjustment types are fully supported?
+
+7. Which adjustment types still fail closed?
+
+8. Is native Cash correctly classified as Vendor-direct custody where
+   applicable?
+
+9. Is native Wallet correctly classified as platform-controlled funding?
+
+10. Can electronic eligibility alone create funded accounting?
+
+11. Does verified electronic evidence create exactly one contribution?
+
+12. Can replacement Transactions duplicate allocation/commission/payable?
+
+13. Can duplicate callbacks duplicate them?
+
+14. Is checkout_key retry/new-checkout behavior verified?
+
+15. Is multi-Shop accounting Shop-isolated?
+
+16. Does Vendor-direct principal remain excluded from platform payout
+    liability?
+
+17. Does Cash principal remain excluded from platform payout liability?
+
+18. Does Wallet/platform-held value create only the correct Vendor payable?
+
+19. Can existing refund paths bypass canonical accounting?
+
+20. Can existing payout paths pay principal the platform never held?
+
+21. Are XAF same-currency native quotes supported?
+
+22. What FX cases remain unsupported?
+
+23. Were any additional migrations required?
+
+24. Confirm all 12 legacy Orders remain `unverified`.
+
+25. What existing development financial values changed?
+
+26. Focused tests/assertions?
+
+27. Selected regressions/assertions?
+
+28. SQLite contention result?
+
+29. Production-engine certification status?
+
+30. Is Phase 2 native integration complete enough to proceed to Phase 3?
+
+============================================================
+40. DEFINITION OF PHASE 2C SUCCESS
+============================================================
+
+Do NOT call Phase 2C complete merely because the accounting-core unit tests
+pass.
+
+Phase 2C succeeds only if:
+
+- all CURRENT supported native Product/Booking paid paths reach canonical
+  accounting;
+
+- unsupported monetary contracts explicitly fail closed;
+
+- no known native path can create duplicate or contradictory financial meaning;
+
+- Cash/Wallet/electronic custody is preserved correctly;
+
+- commission remains once per Shop economic allocation;
+
+- Vendor-direct/Cash principal cannot become duplicate platform payable;
+
+- existing accepted financial containments remain intact;
+
+- development financial data remains protected.
+
+If a CURRENT important native checkout path cannot be integrated because its
+economic contract is unknowable from existing source:
+
+report that clearly.
+
+Do not fabricate semantics merely to mark Phase 2 complete.
+
+============================================================
+41. FINAL STOP
+============================================================
+
+After Phase 2C implementation, verification and reporting:
+
+STOP.
+
+Do NOT automatically start Phase 3.
+
+Do NOT click/start production database certification.
+
+Do NOT activate/configure providers.
+
+Do NOT enable `Use my own payment gateway`.
+
+Do NOT implement provider refunds.
+
+Do NOT implement external payout rails.
+
+Do NOT classify/delete legacy Orders.
+
+Do NOT publish.
+
+Wait for explicit approval.

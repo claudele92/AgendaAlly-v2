@@ -1,0 +1,325 @@
+{
+  "date": "2026-10-06",
+  "auditOnly": true,
+  "previousScore": 16,
+  "finalScore": 16,
+  "denominator": 20,
+  "changedGateScores": [],
+  "mvpVerdict": "CONDITIONAL GO",
+  "productionVerdict": "NO-GO",
+  "campaignsRerun": 0,
+  "buildsRerun": 0,
+  "missingReferencedPrivatePackets": [
+    ".local/manual-finance/ui-acceptance/",
+    ".local/manual-finance/http-identity-fef253716679204e/",
+    ".local/manual-finance/http-identity-256a591f53d48feb/",
+    ".local/staging-mvp/password-reset-phase-b/"
+  ],
+  "files": [
+    {
+      "path": "docs/development/agendaally-mvp-readiness.md",
+      "bytes": 142131,
+      "sha256": "6eb6175290394c4da594edd164dd5e3390a2e2b3680fe9ad9cb9cce8f4c0e56d"
+    },
+    {
+      "path": "docs/development/agendaally-financial-readiness-campaign.md",
+      "bytes": 72816,
+      "sha256": "df8261452142941ab00f46788a71313cd9af506b1cb8314dd43aa5e326f68a83"
+    },
+    {
+      "path": "docs/development/agendaally-calendar-acceptance-closure.md",
+      "bytes": 14663,
+      "sha256": "084a380460198087a729608fc13a3d351d45d6bc1a58da3b71c240bf36c53cd1"
+    },
+    {
+      "path": "docs/development/account-email-live-acceptance.md",
+      "bytes": 8632,
+      "sha256": "2780358a6103fd95dea1b6fba561ec58b6cc2f37be69e0f9d0a7b990484f935c"
+    },
+    {
+      "path": "docs/development/account-email-bounded-recovery.md",
+      "bytes": 15865,
+      "sha256": "a69427b4364cc4a26e31ad7882306cc1288e84b0fade295fa73288e73cebcea5"
+    },
+    {
+      "path": "docs/development/customer-logout-repair.md",
+      "bytes": 4948,
+      "sha256": "58d9a2c07d4bf0d9b8accbae9e6be0c8a6271f50a99e76bb966efeb1cd015747"
+    },
+    {
+      "path": "docs/development/password-reset-phase-b-checkpoint.md",
+      "bytes": 12298,
+      "sha256": "7d21c8db5e6bcb793ec04dfb26480546451bdb34cb55da65f767f72b68150a54"
+    },
+    {
+      "path": "docs/development/agendaally-email-system-audit.md",
+      "bytes": 39878,
+      "sha256": "561599c85ed2fb51245fed236b8d036a849e87a0092c89799e65602d999e14d2"
+    },
+    {
+      "path": "docs/development/admin-email-template-closure.md",
+      "bytes": 15362,
+      "sha256": "429975511a8c559bcbb871e670f3ecb9dc49aa1ee2a5e853cf8cc16a3db98d66"
+    },
+    {
+      "path": "docs/development/smtp-email-presentation-audit.md",
+      "bytes": 6802,
+      "sha256": "05e9f2836da77464d2653d9a1eb5504466be4c9333f48cc52df6656c737a5d69"
+    },
+    {
+      "path": "docs/development/agendaally-manual-finance-implementation.md",
+      "bytes": 45094,
+      "sha256": "95a183e7cf754f65151ac0a5609b4f7447972a4a9cc98d85f3d2fa732e8245ab"
+    },
+    {
+      "path": "docs/development/agendaally-manual-finance-ui-acceptance.md",
+      "bytes": 14309,
+      "sha256": "e6f33c8718cc3a967bd16e9252519a0e1de30b43b480a56556f9d7cbe6163588"
+    },
+    {
+      "path": "docs/development/agendaally-manual-finance-http-identity-acceptance.md",
+      "bytes": 7216,
+      "sha256": "bfb5c1e012a90bc9213f44fc765c46cbda787ce381620388de3c2c70622502c6"
+    },
+    {
+      "path": "docs/development/agendaally-private-receipt-ui-acceptance.md",
+      "bytes": 11849,
+      "sha256": "f31e72841258e84213c265f4d2a83178e42b0e7b7d79f9b99d434d3c83503fb1"
+    },
+    {
+      "path": "docs/development/agendaally-native-build-qualification.md",
+      "bytes": 9256,
+      "sha256": "2d4df9d6304462228d53df01b5b67c08bf484c99cc76fd4e046b311b3888b36d"
+    },
+    {
+      "path": ".local/manual-finance/http-identity-e34acd6a94599cdc/passed.json",
+      "bytes": 101017,
+      "sha256": "cc4a1077967962f1f0b6fabeb5c0f07517e54d3271aab53bc6dc8998d3a82021"
+    },
+    {
+      "path": ".local/manual-finance/http-identity-347e4742ab10d095/passed.json",
+      "bytes": 101017,
+      "sha256": "1783014635e430e1f3b718c02d40a7250667a4cf6820f0b2467c427d6b1ec2e9"
+    },
+    {
+      "path": ".local/staging-mvp/password-reset-phase-b-login-acceptance.json",
+      "bytes": 1209,
+      "sha256": "2e7b99661c1f57940c9449f546a47dce017d44c2b448ee552639ba2763479969"
+    },
+    {
+      "path": ".local/staging-mvp/calendar-responsive-verdict.json",
+      "bytes": 3929,
+      "sha256": "62f1d3d7f42bb5fb52173dff24470489bc7ebbd27c3dac8b661c52731a33c379"
+    },
+    {
+      "path": ".local/staging-mvp/d1-release.json",
+      "bytes": 1289,
+      "sha256": "0cbdbabfb1a64334b6c3aa626e77220ee284922e713550028d88592477ab9d45"
+    },
+    {
+      "path": ".local/staging-mvp/r1-recovery.json",
+      "bytes": 2662,
+      "sha256": "8d762903f13aac7612fc588f72cc3dadbc93ef5f9112841db73cf5703db13110"
+    },
+    {
+      "path": ".local/staging-mvp/o1-rehearsals.json",
+      "bytes": 4016,
+      "sha256": "15b5c139393fa3f45c6aebb7f858b19102e132786a75aaf060bd708527e30286"
+    },
+    {
+      "path": ".local/manual-finance/retained-logs/manual-finance-policy-repair-native.log",
+      "bytes": 355,
+      "sha256": "d1492425e3e558655ce9f61fd0fce01e34511c4c245adac4a85c5a67e54a7777"
+    },
+    {
+      "path": ".local/manual-finance/retained-logs/manual-finance-native-final.log",
+      "bytes": 640,
+      "sha256": "fec98765b2e824e1c6c7c7a7a1e5b47ce137fdc57520cfbee91a0925ac91b194"
+    },
+    {
+      "path": ".local/manual-finance/retained-logs/manual-finance-native-reference-final.log",
+      "bytes": 354,
+      "sha256": "f1394492670ad2de767721ff859d68cdbeec8f73873be9b047760865453b2495"
+    },
+    {
+      "path": ".local/development/build-qualification/2026-10-06T18-51-52-502Z/results.json",
+      "bytes": 7988,
+      "sha256": "86fbb946ddedccfeb8853876fe61d033bf268bdafc3695a3680f2711ef744dac"
+    },
+    {
+      "path": ".local/development/build-qualification/2026-10-06T18-51-52-502Z/original-hardening-restored-mysql.log",
+      "bytes": 1753,
+      "sha256": "626e50143426911fdca8504516055dc9872548a141f16509efa1942fcc7b37f0"
+    },
+    {
+      "path": ".local/development/build-qualification/2026-10-06T18-51-52-502Z/original-hardening-exit-status.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".local/development/build-qualification/2026-10-06T18-51-52-502Z/historical-preservation.log",
+      "bytes": 509,
+      "sha256": "e7c9d60f8f678375ca9f0270e8e199b8cc2ba2ea3bc701dc648634c4fe343f37"
+    },
+    {
+      "path": ".local/development/build-qualification/2026-10-06T18-51-52-502Z/restoration-preservation.json",
+      "bytes": 90,
+      "sha256": "67fb02bd6d891861a022bc98711bc3b13dd3d2ad69d9ba214a6a53486e46f730"
+    },
+    {
+      "path": ".local/development/build-qualification/2026-10-06T18-51-52-502Z/normal-data-comparison.json",
+      "bytes": 248,
+      "sha256": "b4ac5f0cfb3b28a534cee87bad089af324446c13622ccba6991c999eb66d129b"
+    },
+    {
+      "path": "docs/development/agendaally-final-20-gate-audit.md",
+      "bytes": 29894,
+      "sha256": "05a3ab32fbb13fca9f532404f2d17c1283db55681b354d7b8a7f1bf3ae565714"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-diagnostic-download.json",
+      "bytes": 623,
+      "sha256": "3d0cbf1fb80986cdc3548e01c2dc3f39b0017640a672be9fa5301bad94357ce0"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-download-payout-jpg.json",
+      "bytes": 647,
+      "sha256": "d8ffa948d34957838ee37f3e3d9feaade7c3a8df4f2f18e374bf58b855751dc5"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-download-refund-pdf.json",
+      "bytes": 635,
+      "sha256": "2fc87c70e294d8d8fff935de3b59c3a6866d74a01faeb219e4706dd1bcc3328a"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-download-refund-png.json",
+      "bytes": 629,
+      "sha256": "85487826600dcd0332fb6a4054d73b4cf4b29f5623defce92a5c677b15056afb"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-after-browser-timeout.json",
+      "bytes": 27279,
+      "sha256": "c302c61d63d869e25351ad94fa903dffc53e801be4c07155f3eec769cfe63058"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-after-role-denials.json",
+      "bytes": 29967,
+      "sha256": "b9a08f67b1bcba789d94d7bff35d0b59bd39630f11359ad9e08ba71319256e37"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-after-uploads.json",
+      "bytes": 24593,
+      "sha256": "ace602f87d9ef02ee06ff361c8e9ae8b8bb3ba3d32fac3bd269df154c6f2f1d3"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-before-role-denials.json",
+      "bytes": 29967,
+      "sha256": "b9a08f67b1bcba789d94d7bff35d0b59bd39630f11359ad9e08ba71319256e37"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-continuation.json",
+      "bytes": 7924,
+      "sha256": "2f01e5197be1e0cdb1234453668c403d2e6425e0cfdd1cca0841c35ea32f9957"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-download-failed.json",
+      "bytes": 25487,
+      "sha256": "93a08641436c03273957318beb9311ad1b2cc2bd660fa1bbb8dd4acd9a716c9e"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-file-bound-completions.json",
+      "bytes": 45613,
+      "sha256": "5e630b5d5a71d05f911e35a70bc6e4ee7fe63d96c68cca28ea03d74f55d0da04"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-final-two-checks.json",
+      "bytes": 3972,
+      "sha256": "b02134c1e74bffaf78b0c38dda9ec391879efb8c81749483cc920211770d880f"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-initial.json",
+      "bytes": 21774,
+      "sha256": "b02d8bc46cbb4b7e8f0b6e6d989ead238287af2ba3f75169fec240f7ead7c35b"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-link-failed.json",
+      "bytes": 25043,
+      "sha256": "d84605adc417900ee729a7da3bbb27b23c15937fe41e2e7129a5195e616f3494"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-phase-upload-blocked.json",
+      "bytes": 21774,
+      "sha256": "b02d8bc46cbb4b7e8f0b6e6d989ead238287af2ba3f75169fec240f7ead7c35b"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-post-revocation-after-checks.json",
+      "bytes": 30855,
+      "sha256": "d188d79447bb85801b0ef47fd8354807c796730f8e3fcdb47046324b6d52e877"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-post-revocation.json",
+      "bytes": 30855,
+      "sha256": "d188d79447bb85801b0ef47fd8354807c796730f8e3fcdb47046324b6d52e877"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-pre-revocation.json",
+      "bytes": 30855,
+      "sha256": "d188d79447bb85801b0ef47fd8354807c796730f8e3fcdb47046324b6d52e877"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-public-serving-boundary.json",
+      "bytes": 3332,
+      "sha256": "a51f9dd90f96625093eb9a7f6a586498a1055c80a26c4306dbcf9e4b7c19af65"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-report-before-final-two-checks.json",
+      "bytes": 7578,
+      "sha256": "7cc088c7c47bcdf95c31d45f7d28c58d06bfb748280028ba91dfbd24873c3560"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-report-route-bootstrap-blocked.json",
+      "bytes": 5403,
+      "sha256": "a55eb62e14e62fbec19567ecfaf6045d3cb1b19e97f416dd7ca508aeae37bc1e"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-report-signature-bootstrap-blocked.json",
+      "bytes": 5869,
+      "sha256": "cda2fa9f9176dbbdf9864e56816f22fdeb2d9d1aeb28ed7a9162a69bea7b8f9b"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-report-upload-bridge-blocked.json",
+      "bytes": 3631,
+      "sha256": "23ccb9406640a26d9ab2d168f865b624da126446c5e43e3d9959bb504550cce2"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/browser-report.json",
+      "bytes": 12538,
+      "sha256": "28269674ca25bb1c4ef5e15253b0fbeae67125b3ec514cf1e3425b47d2b0dfdb"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/fixture-manifest.json",
+      "bytes": 1950,
+      "sha256": "97226216aa989834464cd0931fab07a2d18d4e3f5ff1b6d062696aad92061fa3"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/native-final.json",
+      "bytes": 45622,
+      "sha256": "64774cbbc6065bbd5d52cb2372b13f0db44a0872eff15021fd72400b737055a6"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/normal-after.json",
+      "bytes": 28920,
+      "sha256": "3b73f0172cdb29ec6395c1138c2b4d9e66a561abcced651fd0a47c4fdb7b7c16"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/normal-before.json",
+      "bytes": 28875,
+      "sha256": "a6c8148ea6ba785635c805343dd952ac306d1a1ba5455eb514cb3b93a6294957"
+    },
+    {
+      "path": "docs/development/evidence/private-receipt-acceptance/synthetic-manifest.json",
+      "bytes": 455,
+      "sha256": "8c955489851bd28a0c683e532532ffe865d12f309c9df39e7cf97b10a8e47862"
+    }
+  ]
+}

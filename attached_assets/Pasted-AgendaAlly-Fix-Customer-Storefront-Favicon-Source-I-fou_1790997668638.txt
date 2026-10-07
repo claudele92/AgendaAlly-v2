@@ -1,0 +1,322 @@
+AgendaAlly — Fix Customer Storefront Favicon Source
+
+I found one remaining branding regression.
+
+The CUSTOMER STOREFRONT favicon is not displaying the intended Storefront
+favicon.
+
+See the attached screenshot.
+
+The favicon currently appearing for the Customer Storefront is the favicon
+used by the Admin portal.
+
+Please audit and correct the favicon architecture so each application surface
+uses the proper AgendaAlly branding asset.
+
+This is a focused branding fix only.
+
+============================================================
+1. AUDIT BEFORE CHANGING
+============================================================
+
+Trace favicon resolution across the full repository, including:
+
+- Customer/Storefront Next.js application;
+- Admin portal;
+- Vendor portal;
+- authentication pages;
+- root layouts;
+- Next.js metadata;
+- metadata icons;
+- app/icon.*;
+- app/favicon.*;
+- public/favicon.*;
+- manifest files;
+- PWA icons if present;
+- HTML head configuration;
+- runtime branding/settings APIs;
+- Laravel-rendered pages if relevant;
+- seeded branding settings;
+- environment-specific branding;
+- browser cache/version behavior.
+
+Search for every reference to:
+
+favicon
+icon
+apple-touch-icon
+manifest
+shortcut icon
+logo
+site icon
+branding.
+
+Determine EXACTLY why the Customer Storefront is resolving the Admin favicon.
+
+Do not simply overwrite a random favicon file until the source of truth is
+understood.
+
+============================================================
+2. REQUIRED BRAND SEPARATION
+============================================================
+
+The applications should not accidentally inherit one another's favicon.
+
+Customer Storefront
+→ use the approved AgendaAlly CUSTOMER/STOREFRONT favicon.
+
+Admin portal
+→ retain the intended Admin favicon behavior.
+
+Vendor portal
+→ retain its intended favicon behavior unless it is explicitly designed to
+  share the Customer AgendaAlly favicon.
+
+Do not change Admin branding merely to make Storefront correct.
+
+============================================================
+3. CUSTOMER STOREFRONT
+============================================================
+
+The Customer-facing application must use the approved AgendaAlly compact
+symbol/favicon asset.
+
+Use the compact AgendaAlly symbol—not the full horizontal wordmark—for browser
+tabs.
+
+The favicon must be readable at small browser-tab sizes.
+
+Preserve the approved:
+
+- AgendaAlly symbol;
+- black/neutral + warm-bronze identity;
+- proportions;
+- transparent/appropriate background treatment.
+
+Do not create a new logo design.
+
+Use the existing approved branding asset already supplied/configured in the
+workspace.
+
+============================================================
+4. AUTHORITATIVE SOURCE
+============================================================
+
+Determine whether Customer favicon is intended to come from:
+
+A. static Next.js metadata;
+
+B. runtime Admin branding settings;
+
+C. seeded branding settings;
+
+D. uploaded branding media;
+
+E. another canonical branding source.
+
+Reuse the existing architecture where appropriate.
+
+Do NOT create another competing branding system.
+
+If Admin branding settings already contain a dedicated favicon field intended
+for the Customer application, make the Storefront consume that authoritative
+field correctly.
+
+If separate application-specific favicon fields already exist, preserve that
+separation.
+
+============================================================
+5. NEXT.JS METADATA
+============================================================
+
+Audit whether Next.js App Router file conventions are overriding dynamic
+metadata.
+
+Check particularly for:
+
+app/favicon.ico
+app/icon.png
+app/icon.svg
+app/apple-icon.*
+public/favicon.ico
+
+and:
+
+export const metadata
+generateMetadata()
+metadata.icons.
+
+A convention-based app/favicon or app/icon can override or compete with the
+runtime branding implementation.
+
+Identify which source actually wins in the Customer application.
+
+Fix the conflict at the authoritative level.
+
+============================================================
+6. DO NOT HARD-CODE A DEVELOPMENT URL
+============================================================
+
+Do not fix this using a Replit-specific absolute URL.
+
+The favicon must work correctly in:
+
+development
+preview
+production.
+
+Use the application's canonical media/static asset resolution.
+
+Do not weaken image/media security configuration.
+
+============================================================
+7. CACHE / BROWSER BEHAVIOR
+============================================================
+
+Favicons are aggressively cached by browsers.
+
+After correcting the source, verify the actual served favicon independently
+of the existing browser cache.
+
+Where appropriate, use the framework's normal asset/version behavior rather
+than introducing random cache-busting query strings throughout the code.
+
+Confirm that a clean browser context/hard reload receives the correct asset.
+
+Do not report the fix as failed solely because an old browser tab retained a
+cached favicon.
+
+Likewise, do not report success merely because one existing tab happened to
+show a cached correct image.
+
+============================================================
+8. VERIFY CUSTOMER ROUTES
+============================================================
+
+Verify the correct Customer favicon on representative Storefront routes:
+
+Homepage
+
+Businesses/discovery
+
+Specialists/discovery
+
+Shop profile
+
+Product browsing
+
+Service booking
+
+Cart/checkout
+
+Customer login/authentication where part of the Customer application.
+
+All Customer routes should resolve the same intended Storefront favicon unless
+the existing architecture explicitly specifies otherwise.
+
+============================================================
+9. VERIFY OTHER APPLICATIONS
+============================================================
+
+Also verify that this correction does NOT unintentionally change:
+
+Admin portal favicon
+
+Vendor portal favicon
+
+or unrelated application branding.
+
+The screenshot suggests the Storefront may currently be consuming the Admin
+asset, so specifically document how that cross-application leakage occurred.
+
+============================================================
+10. RESPONSIVE / VISUAL QUALITY
+============================================================
+
+Inspect the favicon at actual browser-tab scale.
+
+It should not:
+
+- appear extremely tiny;
+- contain excessive transparent padding;
+- be visibly clipped;
+- look blurry;
+- use the full wordmark squeezed into favicon dimensions.
+
+If excessive transparent canvas exists in the approved compact asset, use an
+appropriately cropped favicon derivative while preserving the exact symbol.
+
+Do not redesign the symbol.
+
+============================================================
+11. DO NOT REOPEN COMPLETED BRANDING WORK
+============================================================
+
+Do NOT use this task to redesign:
+
+Customer header;
+wordmark;
+Shop profile;
+Service images;
+Admin navigation;
+Vendor navigation;
+login pages;
+invoice branding.
+
+Only correct favicon resolution where required.
+
+============================================================
+12. VERIFICATION
+============================================================
+
+Report:
+
+1. Root cause.
+
+2. Which favicon source Customer Storefront was using before.
+
+3. Why it resolved to the Admin favicon.
+
+4. Authoritative Customer favicon source after the fix.
+
+5. Exact files changed.
+
+6. Customer routes checked.
+
+7. Admin favicon result.
+
+8. Vendor favicon result.
+
+9. Browser/cache verification performed.
+
+10. Whether static Next.js favicon conventions were involved.
+
+11. Whether runtime branding settings were involved.
+
+12. Whether favicon optical padding/size required correction.
+
+Run focused TypeScript/build/syntax checks appropriate to the files changed.
+
+============================================================
+13. STOP BOUNDARY
+============================================================
+
+After correcting and verifying the Customer Storefront favicon:
+
+STOP.
+
+Do not start:
+
+payment remediation;
+payment provider activation;
+Shop responsive redesign;
+Driver work;
+Maps work;
+Pickup work;
+additional branding redesign;
+or another suggested task.
+
+Do not alter financial behavior.
+
+Return the root cause, fix, verification results and exact changed files,
+then stop.

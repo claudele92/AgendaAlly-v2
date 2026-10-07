@@ -1,0 +1,28 @@
+Approved only for the minimum current-read reservation containment described in the Phase 3C proposal.
+Preserve MySQL/InnoDB REPEATABLE READ, the existing per-allocation exclusive serialization boundary, all financial identities, exact-integer accounting equations, reservation states, idempotency keys, provider behavior, schema, migrations and SQLite financial semantics.
+Implement explicit authoritative/current locking reads inside FinancialOperations::reserve after acquiring the allocation mutex, and the narrowly required opt-in operational AllocationBalances reader under that already-held lock. Apply this only to the three existing reservation branches sharing that implementation:
+refund reservation;
+Vendor-payable reservation;
+commission-receivable reservation.
+The correction must evaluate the existing unchanged capacity and exclusion rules against current committed financial authority. Do not change the equations or monetary meaning to make tests pass.
+Preserve replay processing before new capacity evaluation. Same request identity with matching immutable parameters must resolve to the retained operation; changed amount, actor or context must remain rejected. Preserve existing unique constraints as backstops.
+Use deterministic current locking reads for the required child evidence. Do not rely on ordinary aggregate reads after acquiring the allocation lock. Do not introduce a global mutex, table-wide serialization, global/session isolation change, new schema/index, or broader financial lock unless separately approved.
+Preserve existing SQLite behavior. Do not force SQLite to emulate MySQL scheduling; a legitimate busy/snapshot conflict followed by safe fresh-transaction retry is acceptable, but excessive capacity, swallowed errors or partial financial state are not.
+Required verification before claiming containment:
+Reproduce the existing 10,000 funding / 7,000 + 7,000 stale-snapshot case and prove the second reservation is rejected and committed reserved authority remains 7,000.
+Verify an exact 3,000 remainder succeeds once and total authority becomes exactly 10,000.
+Verify same-key replay and changed amount/actor/context rejection.
+Verify capacity includes concurrently committed refund effects.
+Run equivalent stale-view capacity tests for Vendor-payable and commission-receivable reservations.
+Verify the existing refund/payout/receivable exclusion rules observe newly committed outstanding authority.
+Verify full rollback and savepoint rollback do not leak reservation authority or version changes and valid retry remains possible.
+Verify cancellation/finalization interactions do not prematurely release UNKNOWN or PENDING authority.
+Verify lock-wait/deadlock failure cannot leave partial durable authority and same-key retry remains safe.
+Verify independent allocations can still progress and inspect the relevant MySQL access plans for unintended broad/gap locking.
+Run corresponding SQLite contention/regression coverage.
+Restart the unchanged original 13 MySQL Phase 3C cases from case 1.
+The additional source-level concerns identified in refund finalization, receipt settlement, contribution confirmation/finalization, effect settlement/recovery, allocation cancellation, Wallet debit/transfer, payout, and fulfillment are authorized for focused testing and tracing only, not remediation.
+If testing reproduces a financial invariant failure in any of those additional paths, stop before modifying that path and report the exact failure and minimum proposed containment for separate approval.
+Likewise, stop if the approved reservation correction requires a schema/index/migration change, global isolation change, broader serialization boundary, financial identity/accounting-semantic change, or provider behavior change.
+Maintain and compare the 59 protected tables, 465 schema objects, four evidence tables and 12 legacy Orders remaining unverified. Do not activate providers, use real credentials/provider calls, access production, classify/delete legacy records, or publish.
+After completing the approved reservation containment and authorized testing, update the Phase 3C report and STOP. Do not automatically remediate another discovered financial path.

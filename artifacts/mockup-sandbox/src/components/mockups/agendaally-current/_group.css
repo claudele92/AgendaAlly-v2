@@ -1,0 +1,283 @@
+@font-face {
+  font-family: "AgendaAlly Inter";
+  src: url("/__mockup/images/agendaally-current/InterVariable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "AgendaAlly RemixIcon";
+  src: url("/__mockup/images/agendaally-current/remixicon.woff2") format("woff2");
+  font-style: normal;
+  font-weight: normal;
+  font-display: block;
+}
+
+@theme inline {
+  --font-sans: "AgendaAlly Inter", sans-serif;
+  --color-primary: hsl(var(--primary));
+  --color-dark: #000000;
+  --color-black: #222628;
+  --color-gray-field: #a0a09c;
+  --color-gray-placeholder: #939393;
+  --color-gray-inputBorder: rgba(177, 177, 177, 0.3);
+  --color-gray-link: #eaeaea;
+  --color-gray-segment: #f4f4f4;
+  --color-gray-card: #f6f6f6;
+  --color-gray-layout: #e2e2e2;
+  --color-gray-bg: #f7f7f9;
+  --color-gray-disabledTab: #b3b3b3;
+  --color-red: #ff2640;
+  --color-badge-product: #ff2640;
+  --color-green: #16aa16;
+  --color-footerBg: #080210;
+  --color-giantsOrange: #ff6016;
+  --radius-button: 10px;
+  --background-image-auth-pattern: url("/__mockup/images/agendaally-current/login.png");
+}
+
+.agendaally-current,
+.agendaally-admin-login {
+  --primary: 36.30 37.33% 57.45%;
+  --primary-button-font-color: #ffffff;
+  color: #222628;
+  font-family: "AgendaAlly Inter", sans-serif;
+}
+
+.agendaally-current .bg-primary {
+  background-color: hsl(var(--primary));
+}
+
+.agendaally-current button.bg-primary {
+  color: var(--primary-button-font-color);
+}
+
+.agendaally-current .auth-body {
+  min-height: calc(100vh - 104px);
+  min-height: calc(100svh - 104px);
+  border-radius: 25px;
+}
+
+.agendaally-current .bg-auth-pattern {
+  background-image: url("/__mockup/images/agendaally-current/login.png");
+}
+
+.agendaally-current .ri-mail-fill,
+.agendaally-current .ri-phone-fill,
+.agendaally-current .ri-eye-line,
+.agendaally-current .ri-eye-close-line {
+  display: inline-block;
+  font-family: "AgendaAlly RemixIcon";
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.agendaally-current .ri-mail-fill::before {
+  content: "\eef3";
+}
+
+.agendaally-current .ri-phone-fill::before {
+  content: "\efe9";
+}
+
+.agendaally-current .ri-eye-line::before {
+  content: "\ecb5";
+}
+
+.agendaally-current .ri-eye-close-line::before {
+  content: "\ecb3";
+}
+
+.agendaally-admin-login {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.agendaally-admin-login .container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+@media (min-width: 576px) {
+  .agendaally-admin-login .container { max-width: 540px; }
+}
+
+@media (min-width: 768px) {
+  .agendaally-admin-login .container { max-width: 720px; }
+}
+
+@media (min-width: 992px) {
+  .agendaally-admin-login .container { max-width: 960px; }
+}
+
+@media (min-width: 1200px) {
+  .agendaally-admin-login .container { max-width: 1140px; }
+}
+
+.agendaally-admin-login .d-flex { display: flex; }
+.agendaally-admin-login .flex-column { flex-direction: column; }
+.agendaally-admin-login .justify-content-center { justify-content: center; }
+.agendaally-admin-login .h-100 { height: 100%; }
+.agendaally-admin-login .align-items-end { align-items: flex-end; }
+.agendaally-admin-login .text-center { text-align: center; }
+.agendaally-admin-login .my-4 { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+.agendaally-admin-login .mt-4 { margin-top: 1.5rem; }
+.agendaally-admin-login .pl-4 { padding-left: 1.5rem; }
+.agendaally-admin-login .pr-4 { padding-right: 1.5rem; }
+.agendaally-admin-login .w-100 { width: 100%; }
+
+.agendaally-admin-login .ant-row {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.agendaally-admin-login .ant-row-center { justify-content: center; }
+.agendaally-admin-login .ant-col { position: relative; max-width: 100%; }
+
+.agendaally-admin-login .ant-card {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  color: rgba(0, 0, 0, 0.85);
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 2px;
+}
+
+.agendaally-admin-login .ant-card-body {
+  padding: 24px;
+}
+
+.agendaally-admin-login .ant-typography {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.agendaally-admin-login h1.ant-typography {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1.23;
+}
+
+.agendaally-admin-login .ant-form-item {
+  margin-bottom: 24px;
+  vertical-align: top;
+}
+
+.agendaally-admin-login .ant-form-item-label {
+  padding: 0 0 8px;
+  line-height: 1.5715;
+}
+
+.agendaally-admin-login .ant-form-item-label label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+}
+
+.agendaally-admin-login .ant-form-item-required::before {
+  display: inline-block;
+  margin-right: 4px;
+  color: #ff4d4f;
+  content: "*";
+}
+
+.agendaally-admin-login .ant-input-affix-wrapper {
+  display: inline-flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 32px;
+  padding: 4px 11px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.agendaally-admin-login .ant-input-affix-wrapper:focus-within {
+  border-color: #bb9b6a;
+  box-shadow: 0 0 0 2px rgba(187, 155, 106, 0.2);
+}
+
+.agendaally-admin-login .ant-input-prefix {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 4px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.agendaally-admin-login .ant-input {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+.agendaally-admin-login .ant-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 4px 15px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  white-space: nowrap;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.agendaally-admin-login .ant-btn-primary {
+  color: #ffffff;
+  background: #bb9b6a;
+  border-color: #bb9b6a;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.agendaally-admin-login .ant-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.agendaally-admin-login .ant-btn-loading-icon {
+  width: 13px;
+  height: 13px;
+  margin-right: 8px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: agendaally-spin 0.8s linear infinite;
+}
+
+.agendaally-admin-login .local-preview-message {
+  display: block;
+  margin-top: 12px;
+  color: #707070;
+  font-size: 13px;
+}
+
+@keyframes agendaally-spin {
+  to { transform: rotate(360deg); }
+}

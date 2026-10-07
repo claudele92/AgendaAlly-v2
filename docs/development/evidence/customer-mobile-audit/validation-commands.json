@@ -1,0 +1,50 @@
+{
+  "isolation": {
+    "cwd": "/tmp/agendaally-mobile-audit/customer_app",
+    "environment": {
+      "HOME": "/tmp/agendaally-mobile-audit/home",
+      "PUB_CACHE": "/tmp/agendaally-mobile-audit/pub-cache",
+      "XDG_CONFIG_HOME": "/tmp/agendaally-mobile-audit/config",
+      "CI": "true",
+      "FLUTTER_SUPPRESS_ANALYTICS": "true",
+      "DART_SUPPRESS_ANALYTICS": "true"
+    }
+  },
+  "commands": [
+    {
+      "command": "flutter --version",
+      "result": "Flutter 3.32.0; Dart 3.8.0",
+      "log": "sdk-version.txt"
+    },
+    {
+      "command": "flutter pub get --offline",
+      "exit": 1,
+      "classification": "DEPENDENCY/VERSION ISSUE",
+      "log": "pub-get---offline.txt"
+    },
+    {
+      "command": "flutter analyze --no-pub",
+      "exit": 1,
+      "classification": "STATIC VALIDATION NOT AVAILABLE: dependencies unresolved",
+      "log": "analyze---no-pub.txt.gz"
+    },
+    {
+      "command": "flutter build apk --debug --no-pub",
+      "exit": 1,
+      "classification": "UNSUPPORTED LOCAL BUILD ENVIRONMENT: Android SDK absent",
+      "log": "build-apk---debug---no-pub.txt"
+    }
+  ],
+  "notExecuted": [
+    "online dependency installation",
+    "dependency upgrades",
+    "project regeneration",
+    "iOS native build",
+    "native runtime acceptance",
+    "server boot",
+    "Web acceptance campaigns",
+    "provider calls",
+    "email sends",
+    "financial mutations"
+  ]
+}

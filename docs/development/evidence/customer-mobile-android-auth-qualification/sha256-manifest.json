@@ -1,0 +1,134 @@
+[
+  {
+    "file": "README.md",
+    "sha256": "d701a161085ee00c6feaccf0310f90e3d3067949afd46198a8009ff116501e6c"
+  },
+  {
+    "file": "after.json",
+    "sha256": "6db079a18fbda6672ceb572710a40059bf653c34478bff5e15a124f8213603da"
+  },
+  {
+    "file": "android-build.mjs",
+    "sha256": "cf80651640e1831dd9605d3961ac156c072559cd5cd7af435b9f4dd415051e3d"
+  },
+  {
+    "file": "android-debug-build.exit",
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "file": "android-debug-build.log",
+    "sha256": "51d40ba0ec02c5dc5aecb50320bd99f2374a95d0282de82813ad2dc005f9e460"
+  },
+  {
+    "file": "android-debug-initial.log",
+    "sha256": "e38969b76789c8894b051e6306889621b3fed97c0cc5dc1da81474ef5645c223"
+  },
+  {
+    "file": "android-debug-retry-command.exit",
+    "sha256": "ca2ebdf97d7469496b1f4b78958f9dc8447efdcb623953fee7b6996b762f6fff"
+  },
+  {
+    "file": "before.json",
+    "sha256": "6db079a18fbda6672ceb572710a40059bf653c34478bff5e15a124f8213603da"
+  },
+  {
+    "file": "dependency-resolution.exit",
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "file": "dependency-resolution.log",
+    "sha256": "7bce01c9032323dee97ace5dc0675738b1b283797ff9d96fdb94cef2788a6992"
+  },
+  {
+    "file": "isolated-copy.log",
+    "sha256": "434752d712091bc4603dabe941b8151db4498606bfffd702d14946fb3c4b4612"
+  },
+  {
+    "file": "ndk-fresh-install.exit",
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "file": "ndk-fresh-install.log",
+    "sha256": "1e8ee1034c73b782cb9a68564e409bdc48efc4871b256a80630a0c86f7eb4ebe"
+  },
+  {
+    "file": "ndk-install.log",
+    "sha256": "c91448f2126209873ba708e8ac1c463e436ca0f773814ac9b01bfd379ffd6f8d"
+  },
+  {
+    "file": "package-evidence.mjs",
+    "sha256": "23eddb55a75418bcd8952e125abb5571f273989190dc84410c34c3d76458241e"
+  },
+  {
+    "file": "phase1-regression.exit",
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "file": "phase1-regression.log",
+    "sha256": "0e4f35a8c172269bbe615cb2e9677e41bdd944e16651447b45f9bceceb19fbce"
+  },
+  {
+    "file": "preservation-result.json",
+    "sha256": "e34e90435504c1f7afcbbcf1199d47d5443f9fae749a05ab5315598bb145037d"
+  },
+  {
+    "file": "preservation.log",
+    "sha256": "399a0c7b5ff8d9527b74604b1978308e782d4f3cd6e77b3fe50482ce823c8ad2"
+  },
+  {
+    "file": "preservation.mjs",
+    "sha256": "d8255dad135f402194e3b89cc9577cc51c6be744d100885a9f6d2e6f9811df08"
+  },
+  {
+    "file": "runtime-environment.json",
+    "sha256": "c83c3eb01379580210d6000e00dd77090cef8f515595575982fa48ee40ce3633"
+  },
+  {
+    "file": "sdk-install-retry.exit",
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+  },
+  {
+    "file": "sdk-install-retry.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "sdk-install.exit",
+    "sha256": "e726b440cc164001999e718b51780d80314709efe06e7857282377be9111127b"
+  },
+  {
+    "file": "sdk-install.log",
+    "sha256": "b9be7685e86befd6bfd20bfa38b8377db86886e375c48bd349c08f91aa01171c"
+  },
+  {
+    "file": "sdk-minimal-install.exit",
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "file": "sdk-minimal-install.log",
+    "sha256": "ebe919816d11c4666267ac5d0af071ced2e9ad01564867ae95ee5d0232736ed5"
+  },
+  {
+    "file": "source-checks.json",
+    "sha256": "acde1cfd21c000d7d0bd0fbf56f4b714df1564705b8870288dafcd09555a8756"
+  },
+  {
+    "file": "source-checks.mjs",
+    "sha256": "7246a39097511b9cc96343b65b3e1e1c098040f05e73c54fa3aea751777c655d"
+  },
+  {
+    "file": "static-analysis.exit",
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "file": "static-analysis.log",
+    "sha256": "c8aa83032759ac2b8319715524a2e91f594fb78322bec500e738a1ea9c7659ae"
+  },
+  {
+    "file": "toolchain.log",
+    "sha256": "dc390152ec123f4a99d8fcbcc7884ba8c9ceec79a89aadc288a8d84245325132"
+  },
+  {
+    "file": "validation-results.json",
+    "sha256": "28182b87b7f7866ec449a3d84d325db906b7bbb7fbfc8e194070964d5142740c"
+  }
+]

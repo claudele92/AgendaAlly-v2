@@ -1,0 +1,160 @@
+OWNER APPROVAL — JSON PROJECTION PROOF-ONLY CORRECTION
+
+I accept PROJECTION_HARNESS_MISMATCH.
+
+The failure is classified as a verifier defect, not a proven persisted-data
+defect.
+
+The existing strict predicate:
+
+json_decode($actual[$key], true, 512, JSON_THROW_ON_ERROR) === $value
+
+is not an authoritative semantic JSON comparison because it:
+
+- incorrectly treats JSON object-member order as significant;
+- cannot distinguish expected [] from actual {};
+- can lose exact numeric evidence through PHP float decoding.
+
+The application's existing read-only SemanticJson::equal comparator has been
+shown offline to preserve the required distinctions while ignoring only
+non-semantic object-member ordering/text formatting.
+
+======================================================================
+AUTHORIZED CHANGE
+======================================================================
+
+Create a NEW VERSIONED PRIVATE PROOF only.
+
+Replace only the JSON projection equality predicate with the already-reviewed
+SemanticJson::equal comparison:
+
+SemanticJson::equal(
+    $actual[$key],
+    json_encode(
+        $value,
+        JSON_THROW_ON_ERROR | JSON_PRESERVE_ZERO_FRACTION
+    )
+)
+
+Use the existing fully qualified application class name as appropriate.
+
+Apply this correction to the existing JSON-projection assertion path used by
+both:
+
+- final first-install integrity verification; and
+- second-invocation verification.
+
+Do NOT modify the SemanticJson implementation.
+
+Do NOT introduce any additional normalization.
+
+======================================================================
+MUST REMAIN UNCHANGED
+======================================================================
+
+Do not modify:
+
+- canonical baseline;
+- canonical reference manifest;
+- portable row data;
+- portable dependency order;
+- loader;
+- application source;
+- SemanticJson implementation;
+- migrations;
+- schema;
+- Administrator logic;
+- Blog data/type correction;
+- Product NULL-media policy;
+- Service package/media;
+- counts;
+- scalar comparison logic;
+- privilege/security controls;
+- financial/external zero-state logic;
+- supervisor behavior.
+
+Canonical authorities remain:
+
+Baseline:
+f340ed13b0c6b14faf889de76f76fb07ac863146f73f5a4c35de1b887b7c7803
+
+Reference:
+d18e58d07995242f0208d9d96ab85a750e3f5b5297396fc94b9956b446d5e238
+
+229 migrations:
+37954929be028d7e487a7720f2108d3f300b2862af85f46b724b3c9f63d3f896
+
+Executable application:
+e90ec7c6cef4fddcca26ea2ea3f446c5e85e4a04b549e99d12080922fe06b2ce
+
+Service provenance:
+fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+Service package:
+8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e
+
+======================================================================
+OFFLINE VALIDATION ONLY
+======================================================================
+
+Before stopping:
+
+1. Prove the new proof differs from the currently approved proof ONLY in the
+   JSON comparison implementation and any strictly necessary class reference.
+
+2. Re-run the already-created bounded JSON comparator witnesses offline.
+
+3. Require all 16 existing regression witnesses to pass.
+
+4. Confirm all 15 frozen JSON projection cases are accepted correctly.
+
+5. Specifically prove:
+
+   - reordered shops.delivery_time object => accepted;
+   - changed delivery_time value => rejected;
+   - changed delivery unit => rejected;
+   - pages.buttons [] versus {} => rejected;
+   - numeric string versus number => rejected;
+   - integer versus float => rejected;
+   - changed delivery_points.location fractional value => rejected;
+   - missing/extra/null members => rejected;
+   - malformed JSON => rejected.
+
+6. Confirm the proof continues to fail closed if SemanticJson cannot compare a
+   document.
+
+7. Record:
+
+   - old proof SHA256;
+   - new proof SHA256;
+   - exact proof diff;
+   - updated private input-freeze/proof metadata hashes if required.
+
+======================================================================
+EXECUTION BOUNDARY
+======================================================================
+
+STOP AFTER THE OFFLINE PROOF CORRECTION.
+
+Do NOT:
+
+- start MySQL;
+- create another lab;
+- run migrations;
+- rerun #60;
+- modify the failed lab;
+- change baseline/reference artifacts;
+- perform GitHub/VPS/deployment work.
+
+Return exactly one:
+
+JSON_PROJECTION_PROOF_FIX_READY
+
+or
+
+JSON_PROJECTION_PROOF_FIX_BLOCKED
+
+If READY, provide the exact new proof hash and confirm that all canonical
+application/database/data/media authorities remain unchanged.
+
+No first-install execution is authorized by this instruction.

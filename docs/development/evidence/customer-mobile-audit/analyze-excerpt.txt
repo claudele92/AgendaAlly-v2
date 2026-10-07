@@ -1,0 +1,44 @@
+Analyzing customer_app...                                       
+
+warning • The include file 'package:flutter_lints/flutter.yaml' in '/tmp/agendaally-mobile-audit/customer_app/analysis_options.yaml' can't be found when analyzing '/tmp/agendaally-mobile-audit/customer_app' • analysis_options.yaml:13:10 • include_file_not_found
+  error • Target of URI doesn't exist: 'package:demand/domain/model/request/add_user_address_model.dart' • lib/application/address/address_bloc.dart:1:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:flutter/cupertino.dart' • lib/application/address/address_bloc.dart:2:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:freezed_annotation/freezed_annotation.dart' • lib/application/address/address_bloc.dart:3:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:bloc/bloc.dart' • lib/application/address/address_bloc.dart:4:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:google_place/google_place.dart' • lib/application/address/address_bloc.dart:5:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:demand/domain/di/dependency_manager.dart' • lib/application/address/address_bloc.dart:6:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:demand/domain/model/model/country_model.dart' • lib/application/address/address_bloc.dart:7:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:demand/domain/model/response/city_pagination_response.dart' • lib/application/address/address_bloc.dart:8:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:demand/domain/model/response/user_address_response.dart' • lib/application/address/address_bloc.dart:9:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:demand/infrastructure/service/services.dart' • lib/application/address/address_bloc.dart:10:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:pull_to_refresh/pull_to_refresh.dart' • lib/application/address/address_bloc.dart:11:8 • uri_does_not_exist
+  error • Classes can only extend other classes • lib/application/address/address_bloc.dart:19:27 • extends_non_class
+  error • Too many positional arguments: 0 expected, but 1 found • lib/application/address/address_bloc.dart:23:25 • extra_positional_arguments
+  error • The method 'on' isn't defined for the type 'AddressBloc' • lib/application/address/address_bloc.dart:24:5 • undefined_method
+  error • The method 'on' isn't defined for the type 'AddressBloc' • lib/application/address/address_bloc.dart:26:5 • undefined_method
+  error • The method 'on' isn't defined for the type 'AddressBloc' • lib/application/address/address_bloc.dart:28:5 • undefined_method
+  error • The method 'on' isn't defined for the type 'AddressBloc' • lib/application/address/address_bloc.dart:30:5 • undefined_method
+  error • The method 'on' isn't defined for the type 'AddressBloc' • lib/application/address/address_bloc.dart:32:5 • undefined_method
+  error • The method 'on' isn't defined for the type 'AddressBloc' • lib/application/address/address_bloc.dart:34:5 • undefined_method
+  error • The method 'on' isn't defined for the type 'AddressBloc' • lib/application/address/address_bloc.dart:36:5 • undefined_method
+  error • The method 'on' isn't defined for the type 'AddressBloc' • lib/application/address/address_bloc.dart:38:5 • undefined_method
+  error • The method 'on' isn't defined for the type 'AddressBloc' • lib/application/address/address_bloc.dart:40:5 • undefined_method
+  error • Undefined name 'state' • lib/application/address/address_bloc.dart:44:10 • undefined_identifier
+  error • Undefined name 'state' • lib/application/address/address_bloc.dart:48:10 • undefined_identifier
+  error • Undefined name 'addressRepository' • lib/application/address/address_bloc.dart:49:23 • undefined_identifier
+  error • Undefined name 'AppHelpers' • lib/application/address/address_bloc.dart:55:15 • undefined_identifier
+  error • Undefined name 'state' • lib/application/address/address_bloc.dart:56:10 • undefined_identifier
+
+[Complete unchanged output retained in analyze---no-pub.txt.gz]
+
+  error • Undefined name 'SharedPreferences' • lib/presentation/style/theme/theme_preference.dart:11:30 • undefined_identifier
+  error • Target of URI doesn't exist: 'package:flutter/material.dart' • lib/presentation/style/theme/theme_wrapper.dart:1:8 • uri_does_not_exist
+  error • Target of URI doesn't exist: 'package:provider/provider.dart' • lib/presentation/style/theme/theme_wrapper.dart:2:8 • uri_does_not_exist
+  error • Classes can only extend other classes • lib/presentation/style/theme/theme_wrapper.dart:6:28 • extends_non_class
+  error • No associated named super constructor parameter • lib/presentation/style/theme/theme_wrapper.dart:9:29 • super_formal_parameter_without_associated_named
+  error • Undefined class 'Widget' • lib/presentation/style/theme/theme_wrapper.dart:12:3 • undefined_class
+warning • The method doesn't override an inherited method • lib/presentation/style/theme/theme_wrapper.dart:12:10 • override_on_non_overriding_member
+  error • Undefined class 'BuildContext' • lib/presentation/style/theme/theme_wrapper.dart:12:16 • undefined_class
+  error • The method 'Consumer' isn't defined for the type 'ThemeWrapper' • lib/presentation/style/theme/theme_wrapper.dart:13:12 • undefined_method
+
+42819 issues found. (ran in 22.5s)

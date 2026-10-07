@@ -1,0 +1,994 @@
+AgendaAlly — Final Focused Stage 2 UI/Data Consistency Pass
+
+The approved Stage 2 storefront implementation and cleanup are complete, and I have manually reviewed the new storefront while the preview was available. The overall direction looks good.
+
+Do NOT reopen Stage 1.
+Do NOT redesign the approved Stage 2 direction.
+Do NOT start another broad audit.
+Do NOT rerun the full role matrix.
+Do NOT perform payment-provider testing.
+Do NOT perform Maps testing.
+Do NOT restart broad browser/test loops.
+
+This is a focused correction pass for the remaining visible inconsistencies I identified.
+
+The objectives are:
+
+1. Fix service category/subcategory hierarchy.
+2. Replace generic/missing category icons with a coherent professional system.
+3. Bring remaining discovery/listing cards into the approved Stage 2 UI.
+4. Fix remaining terminology inconsistencies.
+5. Investigate obvious duplicated product presentation.
+6. Reconcile the obsolete Admin UI-type selector with the consolidated storefront.
+7. Replace development-placeholder footer/CMS content with proper seeded AgendaAlly content.
+8. Preserve all accepted backend, authorization, payment and routing behavior.
+9. Perform only bounded verification of what changes.
+10. STOP when this focused pass is complete.
+
+==================================================
+PART 1 — FIX CATEGORY VS SUBCATEGORY HIERARCHY
+==================================================
+
+The current service-category screen visually mixes parent categories and their children at the same level.
+
+For example, it currently presents items such as:
+
+Hair Care
+Haircut
+Hair Coloring
+
+Nail Care
+Manicure
+Pedicure
+
+Spa & Massage
+Massage Therapy
+Facial Treatment
+
+Makeup
+Bridal Makeup
+Everyday Makeup
+
+Tailoring
+Custom Suits
+Alterations & Repairs
+Traditional & Ethnic Wear
+Bridal Wear
+
+Dental Care
+General Checkup
+Teeth Whitening
+Orthodontics
+
+Healthcare
+General Consultation
+Home Nursing
+Physiotherapy
+
+Handyman
+Plumbing
+Electrical Repair
+Furniture Assembly
+
+Laundry & Dry Cleaning
+Wash & Fold
+Dry Cleaning
+Ironing
+
+Home Cleaning
+Standard Cleaning
+Deep Cleaning
+Move-in / Move-out
+
+Education
+Academic Tutoring
+Exam Preparation
+Language Lessons
+Music Lessons
+Computer & Digital Skills
+
+Tattoo & Piercing
+Custom Tattoo
+Tattoo Cover-Up & Touch-Up
+Ear Piercing
+Body Piercing
+
+These should NOT all appear as if they are peer-level marketplace categories if the underlying model defines parent/child relationships.
+
+First inspect the actual category model, parent IDs/relationships, APIs, seeders and existing native behavior.
+
+Do not infer hierarchy from labels alone if the database already defines it.
+
+The customer discovery UI should represent the actual hierarchy.
+
+Preferred behavior:
+
+PRIMARY CATEGORY VIEW
+
+Show only top-level categories such as:
+
+Hair Care
+Nail Care
+Spa & Massage
+Makeup
+Barbershop
+Skin Care
+Tailoring
+Dental Care
+Healthcare
+Handyman
+Laundry & Dry Cleaning
+Home Cleaning
+Education
+Tattoo & Piercing
+
+plus other genuinely supported top-level categories from the existing data.
+
+Then, when a user selects a parent category, expose its child categories/services through an appropriate second-level experience.
+
+Possible treatment:
+
+Hair Care
+→ Haircut
+→ Hair Coloring
+→ other actual children
+
+Education
+→ Academic Tutoring
+→ Exam Preparation
+→ Language Lessons
+→ Music Lessons
+→ Computer & Digital Skills
+
+Do not invent unsupported hierarchy.
+
+Do not flatten parent and child categories merely because the old template did.
+
+The result should make marketplace discovery easier and visually less overwhelming.
+
+==================================================
+PART 2 — CATEGORY UI MUST MATCH STAGE 2
+==================================================
+
+The current category grid still looks like a transitional implementation:
+
+- many generic circle placeholders;
+- excessive empty card space;
+- parent and child categories treated equally;
+- inconsistent icons;
+- little visual distinction between marketplace domains.
+
+Bring it into the approved Stage 2 visual system.
+
+Preserve:
+
+- warm neutral / bronze identity;
+- restrained design;
+- professional appearance;
+- accessible contrast;
+- responsive behavior.
+
+Improve:
+
+- card proportions;
+- icon sizing;
+- spacing;
+- hierarchy;
+- hover/focus states;
+- mobile touch targets;
+- selected state;
+- category/subcategory distinction.
+
+Do not return to the old pastel iBeauty category treatment.
+
+Do not use childish clip art.
+
+Do not add decorative complexity merely to fill empty space.
+
+==================================================
+PART 3 — PROFESSIONAL CATEGORY ICON SYSTEM
+==================================================
+
+The screenshot shows many categories falling back to essentially the same circle icon.
+
+That is not acceptable as the final category system.
+
+Audit:
+
+- category icon fields;
+- existing SVG assets;
+- seeded icon references;
+- missing mappings;
+- parent vs child icon behavior.
+
+Implement a coherent professional category icon system for the actual top-level categories.
+
+The system should use:
+
+- consistent stroke weight;
+- consistent viewBox/proportions;
+- consistent visual size;
+- consistent padding;
+- clear semantic meaning;
+- warm-neutral/bronze-compatible treatment;
+- accessible contrast;
+- scalable SVGs where practical.
+
+Examples should be semantically recognizable:
+
+Hair Care — hair/hair-care concept
+Nail Care — hand/nail concept
+Spa & Massage — wellness/massage concept
+Makeup — cosmetic/makeup concept
+Barbershop — barber/grooming concept
+Skin Care — skincare/face concept
+Tailoring — garment/tailoring concept
+Dental Care — tooth concept
+Healthcare — health/medical concept
+Handyman — tools concept
+Laundry & Dry Cleaning — garment/laundry concept
+Home Cleaning — home/cleaning concept
+Education — book/learning concept
+Tattoo & Piercing — tattoo/piercing concept
+
+Do not simply assign arbitrary icons from a library.
+
+Existing original locally authored Stage 2 semantic SVGs may be reused where appropriate.
+
+Preserve provenance distinctions documented during the Stage 2 proposal.
+
+Do not claim third-party/generated licensing that has not been established.
+
+Child categories do not necessarily require unique elaborate artwork. Use a restrained subordinate treatment if that produces a cleaner hierarchy.
+
+==================================================
+PART 4 — FIX REMAINING LEGACY DISCOVERY CARDS
+==================================================
+
+Some discovery surfaces still appear visually closer to the old application than the approved Stage 2 storefront.
+
+Audit the CURRENT native implementation of:
+
+- Businesses and specialists
+- Recommended businesses
+- Specialists
+- Product catalogs
+- Product brands
+- All shops
+- Deals
+- New businesses
+- Related discovery sections
+
+Do not redesign the entire application.
+
+Bring these remaining cards into the SAME design language already approved and implemented on the new homepage.
+
+Standardize where appropriate:
+
+- image ratio;
+- card radius;
+- spacing;
+- typography;
+- favorite control;
+- logo/avatar placement;
+- metadata;
+- location presentation;
+- truncation;
+- hover state;
+- focus state;
+- mobile behavior.
+
+Do not make every card identical if the underlying entity types require different information.
+
+==================================================
+PART 5 — TERMINOLOGY: SPECIALISTS, NOT “MASTERS”
+==================================================
+
+The customer-facing UI still contains labels such as:
+
+“The best masters”
+
+and footer navigation such as:
+
+“Masters”
+
+For AgendaAlly customer-facing English UI, standardize on:
+
+Specialists
+
+or another already-approved professional term where context requires it.
+
+Examples:
+
+“The best masters”
+→ “Top specialists” or “Featured specialists”
+
+“Masters”
+→ “Specialists”
+
+Do not rename backend models, API fields or database concepts merely for presentation.
+
+This is primarily customer-facing terminology.
+
+Preserve compatibility with existing internal identifiers such as master_id where changing them would create unnecessary backend risk.
+
+==================================================
+PART 6 — BUSINESS DISCOVERY LANGUAGE
+==================================================
+
+The discovery UI currently contains legacy category-specific language such as:
+
+“New salons”
+
+AgendaAlly is not primarily salon software.
+
+Where the dataset represents multiple business categories, use broader language such as:
+
+New businesses
+
+Recently added businesses
+
+or another concise marketplace-appropriate term.
+
+Only retain “salons” when a section is intentionally filtered specifically to salons.
+
+Do not falsely imply that unrelated businesses are salons.
+
+==================================================
+PART 7 — INVESTIGATE DUPLICATED PRODUCT CARDS
+==================================================
+
+The product catalog currently appears to show the same:
+
+MOROCCAN ARGAN OIL HAIR SERUM
+
+multiple times with the same image.
+
+Determine whether these are:
+
+A. genuinely distinct seeded product records;
+B. duplicate seed records;
+C. the same product rendered repeatedly because of frontend mapping/pagination;
+D. variants intentionally represented separately.
+
+Do not delete data merely because cards look similar.
+
+If they are accidental seed duplicates, correct the owned development seed process idempotently.
+
+If they are legitimate separate records, improve the UI sufficiently to explain their distinction.
+
+If it is a rendering bug, fix the rendering bug.
+
+Do not destructively reset the development catalog.
+
+==================================================
+PART 8 — RECONCILE ADMIN → SETTINGS → UI TYPE
+==================================================
+
+The storefront cleanup consolidated the customer experience to one approved AgendaAlly storefront:
+
+/
+
+The old:
+
+/home-2
+/home-3
+/home-4
+
+now redirect to / while preserving query parameters.
+
+However, Admin → Settings → UI type still displays the four old iBeauty storefront choices:
+
+View 1
+View 2
+View 3
+View 4
+
+with old iBeauty screenshots and selectable states.
+
+This is now misleading.
+
+Before changing it, trace:
+
+- ui_type setting/model;
+- Admin read/write path;
+- Laravel settings/config endpoint;
+- Customer middleware/config consumers;
+- seed/default configuration;
+- Flutter/native consumers if any;
+- any remaining legitimate dependency on values 1–4.
+
+Do NOT simply hide the field without tracing its consumers.
+
+If the four-way selection no longer controls legitimate behavior after consolidation, retire the obsolete selector from the Admin UI.
+
+Preferred replacement:
+
+STOREFRONT
+
+AgendaAlly Marketplace
+Active
+
+Book local expertise. Shop local businesses.
+
+The approved AgendaAlly marketplace is the active customer storefront.
+
+Do not display the four old iBeauty screenshots.
+
+Do not let administrators select storefront themes that no longer exist independently.
+
+If ui_type must remain internally for API/backward compatibility:
+
+- keep it internally;
+- normalize/default safely where appropriate;
+- prevent stale values from resurrecting retired themes;
+- preserve clients that still expect the field;
+- do not introduce an unnecessary schema migration.
+
+Verify that:
+
+/
+/home-2
+/home-3
+/home-4
+
+continue behaving as intended.
+
+Also search only the ACTIVE user-facing Admin/customer presentation for obsolete:
+
+iBeauty
+View 1
+View 2
+View 3
+View 4
+
+storefront-selection presentation.
+
+Do NOT start another historical-code cleanup.
+
+==================================================
+PART 9 — FOOTER: REMOVE DEVELOPMENT PLACEHOLDERS
+==================================================
+
+The approved footer layout looks good.
+
+Do NOT redesign it.
+
+However, it currently contains development/testing language such as:
+
+“Development preview with synthetic listings for exploring supported AgendaAlly service and product flows.”
+
+“Official customer app-store links are not available in this development preview.”
+
+“Development preview”
+
+“Synthetic content only”
+
+“Owner review required before production.”
+
+Social links also display:
+
+Instagram (development example)
+Facebook (development example)
+Twitter (development example)
+
+This makes the native storefront look unfinished.
+
+Replace the public-facing placeholders with proper AgendaAlly content through the EXISTING settings/CMS/seed architecture.
+
+Do not merely hard-code replacement strings into Footer.tsx or equivalent if these values are already configurable.
+
+==================================================
+PART 10 — FOOTER BRAND COPY
+==================================================
+
+Seed/configure professional AgendaAlly footer copy.
+
+Preferred direction:
+
+“Discover trusted local businesses, book services, and shop products with AgendaAlly.”
+
+or an equally strong concise version consistent with:
+
+“Book local expertise. Shop local businesses.”
+
+Do not use generic template language.
+
+Keep the current logo treatment.
+
+==================================================
+PART 11 — TERMS & CONDITIONS
+==================================================
+
+Use the application's EXISTING Terms/CMS/static-page capability.
+
+Seed a professional AgendaAlly-specific Terms & Conditions / Terms of Service development document.
+
+Do not copy the purchased iBeauty/template legal text.
+
+The content should reflect the actual marketplace architecture and may include appropriate sections for:
+
+1. Introduction
+2. Acceptance of terms
+3. Eligibility/accounts
+4. Customer accounts
+5. Business/vendor accounts
+6. Marketplace role of AgendaAlly
+7. Service listings
+8. Service bookings
+9. Product listings/orders
+10. Pricing
+11. Payments
+12. Platform-collected vs vendor-collected payments where applicable
+13. Cancellations
+14. Refunds
+15. Vendor responsibilities
+16. Customer responsibilities
+17. Prohibited conduct
+18. Intellectual property
+19. Reviews/content where supported
+20. Account restriction/suspension/termination
+21. Third-party services/payment providers
+22. Appropriate disclaimers
+23. Limitation provisions where appropriate
+24. Changes to terms
+25. Governing/contact placeholders where owner/legal information is still required
+
+IMPORTANT:
+
+This is development/pre-production legal content and requires final owner/legal review.
+
+That status may be represented appropriately INSIDE the legal document or CMS metadata.
+
+Do NOT advertise “development preview” throughout the public footer simply because final legal review remains outstanding.
+
+Do not invent legal entities, addresses, jurisdictions, registrations or contact details that have not been supplied.
+
+==================================================
+PART 12 — PRIVACY POLICY
+==================================================
+
+Use the EXISTING Privacy Policy/CMS/static-page capability.
+
+Seed professional AgendaAlly-specific development content covering only data practices reasonably supported by the actual application.
+
+Audit source/models before making assertions.
+
+Appropriate areas may include:
+
+- Account/profile information
+- Customer information
+- Business/vendor information
+- Booking information
+- Product/order information
+- Country/city/location selection
+- Transaction/payment-provider interactions
+- Communications
+- Device/technical information where actually applicable
+- Cookies/local storage where actually applicable
+- How information is used
+- Service providers/processors
+- Security
+- Data retention
+- User choices/rights
+- International marketplace operation where applicable
+- Children's/minimum-age treatment if relevant
+- Policy updates
+- Contact
+
+Do not claim that AgendaAlly collects, shares, sells, encrypts, retains or deletes data in a particular manner unless the current architecture supports the statement.
+
+Do not invent GDPR/CCPA compliance claims.
+
+Do not invent a privacy officer, company address or legal entity.
+
+Mark the content appropriately as requiring final legal review before production.
+
+==================================================
+PART 13 — SOCIAL LINKS
+==================================================
+
+Trace the existing social/settings model.
+
+The footer should support legitimate AgendaAlly social links for supported networks.
+
+Do NOT invent official AgendaAlly account URLs.
+
+Do NOT keep customer-facing labels such as:
+
+Instagram (development example)
+Facebook (development example)
+Twitter (development example)
+
+Preferred behavior:
+
+If a valid official URL is configured:
+→ show the social network/link.
+
+If no valid official URL is configured:
+→ hide or disable that social destination cleanly.
+
+Do not send customers to fake/example social profiles.
+
+Use current customer-facing naming where safely supported, for example:
+
+Instagram
+Facebook
+X
+
+rather than development-example labels.
+
+Keep configuration available so I can provide official AgendaAlly social URLs later without another UI redesign.
+
+==================================================
+PART 14 — APP DOWNLOAD CONFIGURATION
+==================================================
+
+Audit the application's existing app-download configuration/settings.
+
+The footer/public surfaces should support:
+
+Download the AgendaAlly app
+
+with legitimate:
+
+Apple App Store
+Google Play
+
+destinations when official URLs exist.
+
+Do NOT invent App Store or Google Play URLs.
+
+If official destinations have not been configured yet:
+
+- hide the badges/links cleanly;
+- do not show a development-warning paragraph in their place.
+
+Preserve/configure the underlying setting fields so official links can be added later.
+
+Do not claim that an AgendaAlly mobile app is publicly available until an official destination exists.
+
+==================================================
+PART 15 — COPYRIGHT
+==================================================
+
+Replace the bottom development disclaimer with a normal copyright treatment.
+
+Preferred:
+
+© 2026 AgendaAlly. All rights reserved.
+
+Prefer a dynamic current year if appropriate for the existing frontend implementation.
+
+Terms and Privacy may also be placed near the copyright if consistent with the approved footer design.
+
+Do not invent a corporate legal entity name.
+
+==================================================
+PART 16 — LOCATION IN FOOTER
+==================================================
+
+Keep the useful location context, for example:
+
+Your location: Yaoundé, Cameroon
+
+But it MUST continue to reflect the actual persisted customer country/city selection.
+
+Do not hard-code Yaoundé.
+
+If the customer changes to:
+
+Douala, Cameroon
+
+the footer should reflect that persisted context.
+
+Do not use Google Maps as a dependency for this.
+
+Use the existing accepted country/city system.
+
+==================================================
+PART 17 — FOOTER NAVIGATION
+==================================================
+
+Preserve the approved footer structure:
+
+DISCOVER
+YOUR ACCOUNT
+INFORMATION
+SOCIAL
+
+Reconcile terminology and links.
+
+Potential structure:
+
+DISCOVER
+Services
+Products
+Shops / Businesses
+Specialists
+Cart
+Blog
+
+YOUR ACCOUNT
+My appointments
+Orders
+Favorites
+
+INFORMATION
+For business
+About us
+Contact us
+FAQs
+Terms
+Privacy Policy
+
+SOCIAL
+Only legitimately configured networks
+
+Do not add unsupported pages.
+
+Ensure Services and Products remain distinct discovery paths.
+
+==================================================
+PART 18 — CMS CONTENT SHOULD LOOK PRODUCTION-QUALITY
+==================================================
+
+Terms, Privacy, About, FAQ and Blog should use the approved Stage 2 visual language.
+
+Do not return to legacy template styling.
+
+Do not redesign them broadly if their Stage 2 treatment already exists.
+
+Focus on ensuring the seeded content is complete and professionally presented.
+
+Development/legal review metadata should not visually overwhelm normal customer content.
+
+==================================================
+PART 19 — SEED REPRODUCIBILITY
+==================================================
+
+These changes must use the general-purpose owned AgendaAlly development bootstrap/seed/configuration process.
+
+Requirements:
+
+- fresh development bootstrap reproduces the content;
+- repeat seeding is idempotent;
+- existing unrelated development records are not destructively reset;
+- no migrate:fresh;
+- no production data;
+- no production credentials;
+- no real provider transactions;
+- no real messages;
+- no browser-only hard-coded database fixtures;
+- no fake official social accounts;
+- no fake app-store listings.
+
+Reuse existing models/settings/CMS structures wherever they already exist.
+
+Do NOT create a second CMS/settings system merely because the current seed is incomplete.
+
+==================================================
+PART 20 — PRESERVE PAYMENT BOUNDARIES
+==================================================
+
+This task is NOT authorization to change the payment architecture.
+
+Do not alter:
+
+- payment-method country assignment;
+- currency/provider eligibility;
+- platform collection;
+- vendor-direct collection;
+- vendor payout behavior;
+- callbacks/webhooks;
+- provider credentials;
+- settlement logic;
+- refund logic;
+- accounting;
+- wallet behavior.
+
+The separate payment architecture audit remains separate.
+
+If this UI/data work exposes a payment inconsistency, document it rather than silently changing payment semantics.
+
+==================================================
+PART 21 — PRESERVE ENGINEERING BOUNDARIES
+==================================================
+
+Do not casually change:
+
+- Laravel API contracts;
+- authentication;
+- authorization;
+- Country Manager enforcement;
+- vendor/shop/branch enforcement;
+- booking semantics;
+- product/order semantics;
+- accounting;
+- payment hardening;
+- Flutter REST compatibility;
+- Stage 1 development proxy;
+- Google Maps configuration;
+- production deployment;
+- schema architecture.
+
+Do not publish anything.
+
+==================================================
+PART 22 — RESPONSIVE REQUIREMENTS
+==================================================
+
+Verify the changed public surfaces at:
+
+Desktop
+and
+approximately 390px mobile.
+
+Specifically inspect:
+
+- category hierarchy;
+- category cards;
+- discovery cards;
+- product cards;
+- specialist cards;
+- footer columns;
+- Terms;
+- Privacy;
+- social behavior;
+- app-download behavior;
+- copyright;
+- Admin storefront setting.
+
+No horizontal page overflow.
+
+Internal scrolling is acceptable only where intentionally designed.
+
+Maintain:
+
+- readable text;
+- usable touch targets;
+- keyboard focus;
+- visible focus states;
+- appropriate contrast.
+
+==================================================
+PART 23 — BOUNDED VERIFICATION ONLY
+==================================================
+
+We are intentionally limiting verification to avoid unnecessary repeated work and credit usage.
+
+Run only focused checks affected by these changes.
+
+Required:
+
+1. Category parent/child data relationship check.
+2. Category UI rendering check.
+3. Icon mapping/fallback check.
+4. Product duplicate root-cause check.
+5. ui_type consumer check.
+6. Approved storefront routing check.
+7. Footer settings/CMS check.
+8. Seed once.
+9. Seed again and confirm idempotency.
+10. Terms renders.
+11. Privacy renders.
+12. Footer brand copy renders.
+13. Social links do not use fake destinations.
+14. Missing official social URLs are handled cleanly.
+15. Missing official app-store URLs are handled cleanly.
+16. Copyright renders.
+17. Persisted location renders correctly.
+18. Desktop affected-surface check.
+19. Approximately 390px affected-surface check.
+20. Focused TypeScript/build/regression checks only where the changed code requires them.
+
+Do NOT rerun:
+
+- Stage 1 acceptance;
+- Staff journey;
+- Master journey;
+- Admin role matrix;
+- Country Manager acceptance;
+- Owner acceptance;
+- customer registration acceptance;
+- cart acceptance;
+- connectivity acceptance;
+- payment-provider tests;
+- Maps tests;
+- full native mobile builds;
+- another full application audit;
+- another cleanup pass.
+
+Previously accepted evidence remains valid unless one of these focused source changes directly invalidates it.
+
+==================================================
+PART 24 — COMPLETION REPORT
+==================================================
+
+At completion, give me ONE concise report containing:
+
+A. Category hierarchy
+- root cause;
+- parent categories;
+- child handling;
+- final UI treatment.
+
+B. Category icons
+- source/mapping;
+- missing icon behavior;
+- consistency treatment.
+
+C. Discovery cards
+- which remaining legacy surfaces were reconciled.
+
+D. Terminology
+- customer-facing Masters → Specialists changes;
+- salon-specific wording corrections.
+
+E. Products
+- explanation of repeated product cards;
+- exact correction if needed.
+
+F. UI type
+- whether ui_type still has active consumers;
+- whether it remains internally for compatibility;
+- final Admin treatment.
+
+G. Footer/CMS
+- exact existing models/settings used;
+- footer brand text;
+- Terms seed;
+- Privacy seed;
+- About/FAQ reuse if applicable;
+- social behavior;
+- app-download behavior;
+- copyright behavior;
+- location behavior.
+
+H. Reproducibility
+- seed path;
+- idempotency result.
+
+I. Verification
+- focused checks performed;
+- build/typecheck status;
+- desktop/mobile result.
+
+J. Remaining owner inputs
+List only things I genuinely still need to provide later, such as:
+
+- official AgendaAlly Instagram URL;
+- official Facebook URL;
+- official X URL;
+- Apple App Store URL;
+- Google Play URL;
+- final legal entity/contact information;
+- final owner/legal approval of Terms and Privacy;
+- final production brand assets if still outstanding.
+
+Do not manufacture blockers merely because these owner-provided production values do not exist yet.
+
+==================================================
+FINAL STOP GATE
+==================================================
+
+Once these focused corrections are complete:
+
+STOP.
+
+Do not start another design phase.
+Do not start Stage 3.
+Do not reopen Stage 1.
+Do not begin the payment architecture changes.
+Do not configure Google Maps.
+Do not request credentials.
+Do not publish.
+Do not perform another cleanup.
+Do not continue browser exploration looking for unrelated issues.
+
+Leave both existing development previews running if resources permit:
+
+Customer storefront
+Admin/Vendor Business portal
+
+Then provide the concise completion report and wait for my next instruction.

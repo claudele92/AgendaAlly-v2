@@ -1,0 +1,566 @@
+AGENDAALLY MVP — VENDOR/SHOP CALENDAR SECURITY + BOOKING UX AUDIT + DESIGN PROPOSAL
+
+Continue from the current staging/readiness baseline.
+
+IMPORTANT:
+Do NOT implement the new calendar redesign yet.
+
+This task has two phases:
+
+PHASE 1 — Audit and fix confirmed security/functional defects where safely bounded.
+PHASE 2 — Propose the final modern calendar design for my approval.
+
+STOP after presenting the design proposal. Do not implement the visual redesign until I explicitly approve it.
+
+Preserve all previously certified booking, financial, scheduling, recovery and protected-state behavior.
+
+
+==================================================
+1. CROSS-VENDOR / CROSS-SHOP SPECIALIST SECURITY
+==================================================
+
+I found a potentially serious issue:
+
+In the Shop/Vendor portal calendar, a Vendor can currently see Specialists/Masters belonging to other Vendors/Shops.
+
+Treat this initially as a potential tenant-isolation/security defect, not simply a UI filtering issue.
+
+Audit the complete data path:
+
+- Calendar Specialist/Master filters
+- Add Booking Specialist selection
+- Booking create/edit forms
+- Calendar event queries
+- Specialist lookup/search endpoints
+- Service → Specialist assignment queries
+- Frontend query/cache state
+- Backend controllers/services/repositories
+- Authorization policies/scopes
+- Direct API requests using IDs belonging to another Shop
+- Multi-Shop Specialists with legitimate accepted assignments
+
+Establish the authoritative Shop/Specialist ownership model from source before changing behavior.
+
+A Vendor operating Shop A must NOT be able to enumerate, select, assign or use a Specialist belonging exclusively to Shop B by manipulating the UI, query parameters, request body or IDs.
+
+DO NOT fix this only by hiding Specialists in the frontend.
+
+Backend/API query scoping and authorization must enforce the boundary.
+
+At the same time, preserve legitimate multi-Shop Specialist assignments. If a Specialist has valid accepted assignments to multiple Shops, those relationships must continue working according to the existing authorization model.
+
+Test at minimum:
+
+POSITIVE:
+Shop A can see and use Specialists legitimately assigned to Shop A.
+
+NEGATIVE:
+Shop A cannot enumerate or use a Specialist belonging only to Shop B, including through a crafted direct API request.
+
+If unauthorized cross-Shop access is confirmed, classify it appropriately in the readiness/security report and fix the security defect before considering the calendar production-ready.
+
+
+==================================================
+2. BOOKING CLICK / BOOKING DETAILS
+==================================================
+
+Another current defect:
+
+Clicking an existing booking/event in the Vendor/Shop calendar does not show the expected booking details.
+
+Audit the complete event-click flow.
+
+Determine whether the root cause is:
+
+- missing event ID/context
+- wrong booking ID
+- incorrect fetch/query
+- drawer/modal state
+- authorization
+- routing
+- stale calendar projection
+- responsive behavior
+- or another source-confirmed issue
+
+Clicking a booking should open an appropriate booking-detail experience using the SAVED AUTHORIZED BOOKING RECORD.
+
+Do not recalculate or fabricate appointment information.
+
+Determine which existing authorized fields should be shown, including where applicable:
+
+- Service
+- Customer/client
+- Specialist/Master
+- Shop
+- date
+- start time
+- end time
+- duration
+- status
+- price/total
+- payment/collection state
+- booking reference
+- notes
+- permitted lifecycle actions
+
+Do not expose information that the current role is not authorized to see.
+
+Fix bounded functional defects necessary to make booking details work, but do not change booking/accounting semantics.
+
+
+==================================================
+3. AUDIT CALENDAR "ADD BOOKING"
+==================================================
+
+Audit the complete Vendor/Shop calendar Add Booking workflow.
+
+Pay particular attention to:
+
+ADD NEW CUSTOMER / NEW CLIENT
+
+Trace:
+
+Calendar
+→ Add Booking
+→ Existing Customer OR New Customer
+→ Service
+→ authorized Specialist
+→ date
+→ authoritative availability
+→ time
+→ confirmation
+→ persistence
+→ calendar refresh
+→ booking details
+
+Determine exactly what "Add New Customer" currently creates.
+
+Verify:
+
+- record type created
+- Shop ownership/scope
+- cross-Shop visibility
+- required/optional fields
+- validation
+- authorization
+- email uniqueness
+- phone uniqueness
+- duplicate-customer behavior
+- whether an existing platform Customer can accidentally be duplicated
+- whether a local client automatically receives a platform account
+- whether credentials are created
+- whether an invitation is generated
+- whether Customer PII can leak to another Shop
+- safe future account linking if supported
+- duplicate submissions/retries
+- booking association
+- cancellation behavior
+- rescheduling behavior
+- auditability
+
+Preserve the already accepted financial rule:
+
+A Vendor-created/local-client booking remains UNPAID / UNCOLLECTED unless a real supported collection occurs.
+
+DO NOT:
+
+- fabricate Cash collection
+- debit Wallet
+- invoke a payment provider
+- manufacture financial evidence to make the UI appear complete
+
+Also verify that abandoning Add Booking does NOT create:
+
+- ghost calendar events
+- orphan bookings
+- duplicate Customers
+- financial records
+- consumed capacity
+
+
+==================================================
+4. DIRECT AUTHORIZATION TESTING
+==================================================
+
+Do not trust the UI alone.
+
+Perform safe negative authorization tests proving that a Vendor cannot create or modify a booking using:
+
+- another Shop's Specialist
+- another Shop's Service
+- another Shop's assignment
+- another Shop's local Customer/client where isolation applies
+- another Shop's booking ID
+- unauthorized Shop context supplied directly in a request
+
+The SERVER must fail closed.
+
+Preserve legitimate multi-Shop relationships explicitly supported by existing assignments and policies.
+
+
+==================================================
+5. MOBILE VENDOR/SHOP CALENDAR AUDIT
+==================================================
+
+Audit the complete Vendor scheduling experience at:
+
+1280px
+390px
+320px
+
+Specifically inspect:
+
+- calendar navigation
+- Day view
+- Week view
+- Agenda view
+- appointment cards
+- tapping/clicking an event
+- booking-details modal/drawer
+- Add Booking
+- Add New Customer
+- existing Customer search/selection
+- Service selection
+- Specialist selection
+- date selection
+- time selection
+- validation errors
+- status controls
+- confirmation
+- cancellation/rescheduling controls where authorized
+- filters
+- long Customer/Service/Specialist names
+- keyboard/input behavior
+- modal/drawer sizing
+- fixed/sticky buttons
+- body/page overflow
+- nested horizontal scrolling
+- controls hidden behind fixed elements
+
+Mobile must be intentionally designed.
+
+Do NOT simply squeeze the desktop seven-day calendar into 390px or 320px.
+
+Prefer existing safe bookings/read-only checks for responsive verification.
+
+Do not create unnecessary Cash or Wallet bookings merely to test appearance.
+
+
+==================================================
+6. MODERN CALENDAR REDESIGN — PROPOSAL ONLY
+==================================================
+
+After completing the audit, propose a materially improved modern AgendaAlly calendar.
+
+DO NOT IMPLEMENT THE REDESIGN YET.
+
+The current calendar is still visually too similar to the old dense grid.
+
+Use the modern AgendaAlly calendar mockup previously provided as the DESIGN DIRECTION.
+
+Adapt it to AgendaAlly's actual capabilities and visual identity.
+
+I want a modern appointment-management workspace, not simply different colors around the existing calendar.
+
+
+DESKTOP WEEK VIEW
+
+Propose:
+
+- lighter hourly grid
+- substantially fewer visually dominant horizontal lines
+- working-hours-focused initial viewport
+- clear day/date headers
+- highlighted current day
+- current-time indicator
+- prominent appointment cards
+- blocked-time cards
+- compact date navigation
+- Today control
+- Day / Week / Agenda controls
+- Search
+- authorized Specialist/Master filter
+- Service filter where supported
+- status filter where supported
+- Add Booking
+- useful booking-detail interaction
+
+Appointment cards should become one of the strongest visual elements.
+
+For example:
+
+09:00–10:00
+Haircut
+John Smith
+Specialist: Mary
+Confirmed
+
+Adapt the amount of information to available card height.
+
+Short appointments must use a compact card rather than overflow.
+
+
+==================================================
+7. DAY VIEW
+==================================================
+
+Propose a useful operational Day view.
+
+Do not make Day view simply a huge empty version of the old grid.
+
+Use working hours and existing appointments intelligently.
+
+Where existing data/contracts support Specialist/resource context, show it usefully.
+
+Do not invent unsupported resource scheduling behavior.
+
+
+==================================================
+8. AGENDA VIEW
+==================================================
+
+Agenda must become a first-class operational view.
+
+Propose a chronological appointment list grouped appropriately by date.
+
+Each authorized item may show:
+
+- time
+- Service
+- Customer/client
+- Specialist
+- status
+- blocked time
+
+Existing authorized detail/edit actions should remain accessible.
+
+Agenda should be especially useful on mobile.
+
+
+==================================================
+9. BOOKING DETAILS UX
+==================================================
+
+Propose the best interaction for booking details.
+
+Evaluate:
+
+- right-side drawer
+- modal
+- dedicated detail page
+- another appropriate pattern
+
+Explain your recommendation.
+
+My preference is that clicking an appointment gives the user useful details immediately without unnecessarily leaving the calendar.
+
+Also propose the corresponding mobile interaction.
+
+
+==================================================
+10. ADD BOOKING UX
+==================================================
+
+Propose a modern Add Booking workflow covering:
+
+- Existing Customer
+- New/local Customer
+- Service
+- authorized Specialist
+- date
+- backend-authoritative availability
+- time
+- booking summary
+- explicit UNPAID state where applicable
+- confirmation
+
+Avoid one enormous form if a focused multi-step flow is more usable.
+
+The design must clearly distinguish a local/unpaid booking from collected/payment-confirmed states.
+
+
+==================================================
+11. MOBILE DESIGN
+==================================================
+
+Propose a purpose-built 390px and 320px experience.
+
+Strongly consider Day/Agenda as the primary mobile scheduling modes rather than squeezing seven columns into the screen.
+
+Show how these should work:
+
+- date navigation
+- appointment list
+- appointment detail
+- Add Booking
+- filters
+- Customer search
+- Add New Customer
+- Service selection
+- Specialist selection
+- time selection
+
+Week view may use a bounded horizontal calendar container if useful, but must never cause page/body overflow.
+
+
+==================================================
+12. SHARED VS ROLE-SPECIFIC COMPONENTS
+==================================================
+
+Identify which visual components can be shared across:
+
+- Vendor
+- Specialist
+- Admin
+
+Examples:
+
+- scheduling toolbar
+- date navigation
+- Day/Week/Agenda selector
+- calendar shell
+- time gutter
+- day headers
+- appointment cards
+- blocked-time cards
+- current-time indicator
+- status treatments
+- responsive containers
+- filters
+- empty states
+
+Do NOT merge role-specific authorization/business logic merely to share UI.
+
+Role-specific services, actions, permissions and contracts remain separate.
+
+
+==================================================
+13. CUSTOMER CALENDAR BOUNDARY
+==================================================
+
+Do not turn Customer booking into the Business operational calendar.
+
+Customer availability remains backend-authoritative.
+
+Preserve:
+
+Service
+→ Specialist/assignment
+→ date
+→ backend availability
+→ time
+→ confirmation
+
+The Customer side may inherit appropriate visual language, but its booking workflow remains task-focused.
+
+
+==================================================
+14. PRESERVE CERTIFIED BEHAVIOR
+==================================================
+
+DO NOT change:
+
+- same-slot contention
+- overlap exclusion
+- endpoint adjacency
+- recurrence authority
+- working-hours authority
+- closed dates
+- blocked-time authority
+- Customer backend availability
+- appointment-duration authority
+- atomic rescheduling
+- cancellation capacity release
+- Cash semantics
+- Wallet semantics
+- local-client UNPAID semantics
+- accounting
+- payment/provider behavior
+
+No provider calls.
+No payouts.
+No refunds.
+No production deployment.
+
+Do not reseed or replace the normal demo.
+
+
+==================================================
+15. PROTECTED BASELINE
+==================================================
+
+Preserve and verify:
+
+59 protected fingerprints
+465 schema objects
+12 legacy Orders untouched/unverified
+
+Normal demo remains:
+
+9 Shops
+51 Services
+75 assignment links
+14 Specialists
+
+Existing demo media must remain intact.
+
+
+==================================================
+16. DESIGN PROPOSAL DELIVERABLE
+==================================================
+
+Before any visual redesign implementation, present:
+
+1. Current calendar problems discovered
+2. Security/tenant-isolation findings
+3. Root cause of cross-Shop Specialist visibility
+4. Exact backend/API authorization result
+5. Booking-click/detail root cause
+6. Add Booking audit findings
+7. Add New Customer audit findings
+8. Mobile UX findings
+9. Proposed desktop Week design
+10. Proposed Day design
+11. Proposed Agenda design
+12. Proposed booking-detail experience
+13. Proposed Add Booking experience
+14. Proposed New Customer experience
+15. Proposed 390px design
+16. Proposed 320px design
+17. Shared components
+18. Role-specific components
+19. Exact files/components expected to change
+20. Backend/scheduling behavior that will remain untouched
+21. Expected regression scope after implementation
+
+IMPORTANT:
+
+Produce visual mockups/wireframes/screenshots for the proposed desktop and mobile calendar if the environment supports it.
+
+I want to SEE the proposed design before approving implementation.
+
+
+==================================================
+17. STOP CONDITION
+==================================================
+
+You MAY fix a confirmed security vulnerability or bounded functional defect necessary to safely complete this audit.
+
+You MUST NOT implement the new calendar visual redesign during this task.
+
+Once:
+
+- security audit is complete
+- cross-Shop Specialist issue is understood/fixed as necessary
+- booking-detail issue is understood/fixed as necessary
+- Add Booking/New Customer audit is complete
+- mobile audit is complete
+- modern desktop/mobile design proposal is ready
+
+STOP.
+
+Present the findings and proposed design to me for approval.
+
+DO NOT automatically continue into calendar redesign implementation.
+
+We will approve or modify the proposed design first.

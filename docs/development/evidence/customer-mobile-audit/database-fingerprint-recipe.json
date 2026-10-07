@@ -1,0 +1,13 @@
+{
+    "dsn": "sqlite:file:<workspace>/.migration-backup/backend/database/development/agendaally.sqlite?mode=ro",
+    "pragma": "PRAGMA query_only=ON",
+    "transaction": "read transaction; rolled back",
+    "table_query": "SELECT * FROM \"<escaped-table>\" ORDER BY rowid",
+    "fetch_mode": "PDO::FETCH_ASSOC",
+    "hash": "SHA256(PHP serialize(fetchAll))",
+    "schema_query": "SELECT type,name,tbl_name,sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' ORDER BY type,name",
+    "baseline_tables": 214,
+    "matched_table_hashes": 214,
+    "unmatched_table_names": [],
+    "schema_matched": true
+}

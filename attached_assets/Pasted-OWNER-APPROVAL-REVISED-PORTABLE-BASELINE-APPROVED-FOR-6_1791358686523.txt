@@ -1,0 +1,110 @@
+OWNER APPROVAL — REVISED PORTABLE BASELINE APPROVED FOR #60 EXECUTION
+
+I approve the revised Product-media policy and the resulting executable
+portable baseline for the bounded first-install proof.
+
+Authoritative revised portable-baseline SHA256:
+
+694a41397026c89bbf35b9257ae6d1ccc763eb62a434e39dec4d48b30d9c3daf
+
+The previous portable-baseline SHA256:
+
+7aba06496ffb8efd3aba99bc2599773245c196d453d902c9bcb370a92314335c
+
+is historical evidence only and must not be treated as the current executable
+baseline.
+
+Approved Product-media semantics:
+
+- Products: 13 preserved
+- Stocks: 14 preserved
+- Product/Stock unavailable image fields: NULL
+- Product local images: 0
+- Product Gallery rows depending on unresolved Product media: 0
+- broken Product-media paths: 0
+
+Approved Service-media semantics remain unchanged:
+
+- Services: 51
+- Service Gallery relationships: 51
+- approved Service JPEGs: 15
+
+Accepted Service provenance SHA256:
+
+fae80427b5626b65295e7c5dddb8eee9b405b299b6ffa61395d2894ab52ee2c6
+
+Accepted canonical Service-package SHA256:
+
+8b0c4ff93d5f02df6183319d4656fe7afbf1c200b8d25ec5758df4b27d22d37e
+
+The three conditional blog-author references may resolve only to the separately
+authorized NEW synthetic Administrator created for this disposable first-install
+lab. Do not reuse an existing account.
+
+Proceed with the previously authorized bounded #60 first-install proof.
+
+Run:
+
+NEW empty isolated native MySQL database
+→ all 229 unchanged native migrations
+→ approved reference bootstrap
+→ revised approved portable demo baseline
+→ one NEW synthetic initial Administrator
+→ independent synthetic application/recovery-key validation
+→ financial/external zero-side-effect checks
+→ second-run/idempotency or designed fail-closed verification.
+
+Use the already-approved isolated bootstrap policy:
+- binary logging remains enabled;
+- trusted function creators remains disabled;
+- temporary bootstrap elevation only where already proven necessary for native
+  trigger DDL;
+- revoke temporary elevation afterward;
+- application/runtime account remains least privilege.
+
+Explicitly verify:
+
+- 229/229 migrations;
+- role ID 1 = user;
+- role ID 14 = shop_manager;
+- role ID 99 = admin;
+- no unintended Finance grants;
+- Cameroon, Burkina Faso, Nigeria and Ghana;
+- 7 reviewed cities;
+- exact reference/demo counts from the CURRENT frozen manifests;
+- 13 Products and 14 Stocks with approved NULL Product-media semantics;
+- 51 Services and 51 Service Gallery relationships;
+- all 15 Service assets resolve locally with no network fetch;
+- exactly one synthetic Administrator;
+- conditional blog-author references resolve correctly;
+- no duplicate Administrator on retry;
+- independent synthetic app/recovery authorities work and incorrect/missing
+  authorities fail closed;
+- no unintended Orders, paid Transactions, Wallet credits/top-ups, payouts,
+  refunds, provider activity, callbacks, financial completion evidence,
+  SMTP sends, webhooks or external worker activity;
+- second-run state is exactly idempotent OR safely fails before mutation
+  according to the initializer contract.
+
+Do not modify native migrations or weaken guards to make the test pass.
+
+Do not perform any additional Product-photo work.
+
+Do not use production/staging databases, accounts, credentials or keys.
+
+Do not activate providers, SMTP, workers or external integrations.
+
+Do not perform GitHub, VPS, runtime/public installation, Stories or production
+work.
+
+Return one final status:
+
+PASS_FIRST_INSTALL
+BLOCKED_FIRST_INSTALL
+or
+FAIL_FIRST_INSTALL
+
+with the concise evidence required by the existing #60 task.
+
+If PASS_FIRST_INSTALL is reached, stop. Do not propose or start another audit
+or certification campaign.

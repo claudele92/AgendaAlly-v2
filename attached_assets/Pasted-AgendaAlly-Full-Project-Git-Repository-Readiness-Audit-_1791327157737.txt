@@ -1,0 +1,574 @@
+AgendaAlly — Full Project Git Repository Readiness Audit
+
+I want to establish a proper Git repository/checkpoint for the ENTIRE AgendaAlly project and preserve all of the work completed so far.
+
+This is NOT limited to the Customer mobile app.
+
+The intended repository/checkpoint should preserve the appropriate source code and durable project artifacts for the complete AgendaAlly platform, including where applicable:
+
+- Backend/API
+- Customer Web application
+- Admin application
+- Customer Mobile application
+- database migrations/schema source
+- tests
+- deployment/configuration source
+- shared libraries/components
+- scripts required to build/test the project
+- durable technical documentation
+- accepted audit/implementation reports
+- appropriate non-sensitive evidence needed to understand accepted baselines
+
+DO NOT create a repository, commit, push, modify .gitignore, move files, delete files, or modify application source yet.
+
+This task is READ-ONLY.
+
+==================================================
+1. CURRENT GIT STATE
+==================================================
+
+Inspect the entire Replit workspace.
+
+Report:
+
+- whether a Git repository already exists;
+- repository root;
+- current branch;
+- configured remotes;
+- remote provider if present;
+- tracked/untracked/ignored state;
+- whether any existing history exists;
+- whether the current workspace contains multiple nested Git repositories.
+
+Do not modify Git state.
+
+==================================================
+2. IDENTIFY THE AUTHORITATIVE PROJECT TREE
+==================================================
+
+Map the current AgendaAlly workspace and identify the authoritative source location for:
+
+- Backend/API
+- Customer Web
+- Admin
+- Customer Mobile
+- database migration/schema source
+- shared code
+- automated tests
+- deployment/configuration
+- scripts
+- documentation
+- evidence/audit artifacts.
+
+Pay particular attention to the Customer mobile application currently referenced as:
+
+.migration-backup/customer_app/
+
+Determine why it resides there and whether that directory is now the authoritative current Customer Mobile source.
+
+Do NOT move or rename it yet.
+
+Identify duplicate, historical, migration, backup or abandoned application trees separately.
+
+We must not accidentally publish stale or duplicate source as authoritative code.
+
+==================================================
+3. CLASSIFY EVERYTHING FOR SOURCE CONTROL
+==================================================
+
+Classify important workspace paths into:
+
+A. COMMIT — APPLICATION SOURCE
+
+B. COMMIT — TESTS
+
+C. COMMIT — BUILD/DEPLOYMENT CONFIGURATION
+
+D. COMMIT — DATABASE MIGRATION/SCHEMA SOURCE
+
+E. COMMIT — DURABLE DOCUMENTATION
+
+F. COMMIT — SAFE ACCEPTANCE EVIDENCE
+
+G. DO NOT COMMIT — SECRETS
+
+H. DO NOT COMMIT — NORMAL DATABASE DATA
+
+I. DO NOT COMMIT — PRIVATE FINANCIAL/IDENTITY EVIDENCE
+
+J. DO NOT COMMIT — GENERATED BUILD OUTPUT
+
+K. DO NOT COMMIT — SDK/TOOL CACHE
+
+L. DO NOT COMMIT — TEMPORARY/BACKUP DATA
+
+M. OWNER DECISION REQUIRED
+
+Do not make the classifications merely from filenames.
+
+Inspect enough metadata/content to make a safe determination, but NEVER print secret values.
+
+==================================================
+4. SECRET / CREDENTIAL SAFETY AUDIT
+==================================================
+
+Before any Git publication, inspect the whole project for likely committed or untracked secrets.
+
+Look for categories such as:
+
+- .env files
+- database credentials
+- SMTP credentials
+- Zoho credentials
+- API keys
+- bearer tokens
+- OAuth client secrets
+- Firebase secrets/configuration
+- payment-provider credentials
+- MTN/Orange/payment credentials
+- AWS credentials
+- S3 credentials
+- private keys
+- TLS private keys
+- signing keys
+- Android keystores
+- key.properties
+- *.jks
+- *.keystore
+- service-account files
+- private receipt/evidence files
+- real Customer/Vendor/Admin data
+- passwords or OTP fixtures that are not synthetic
+- production URLs containing embedded credentials.
+
+Do NOT print secret values.
+
+For each concern report only:
+
+PATH
+CATEGORY
+TRACKED/UNTRACKED/IGNORED
+SAFE TO COMMIT: YES/NO/OWNER REVIEW
+RECOMMENDED ACTION
+
+If an actual credential appears exposed, say that credential rotation should be considered, but DO NOT rotate anything during this audit.
+
+==================================================
+5. DATABASE SAFETY
+==================================================
+
+The repository may contain database-related files.
+
+Distinguish carefully between:
+
+SAFE SOURCE:
+- migrations
+- schema definitions
+- seed definitions intended for source control
+- synthetic test fixtures
+
+and:
+
+DO NOT COMMIT:
+- normal application databases
+- production-like data dumps
+- Customer data
+- Vendor data
+- financial workflow records
+- private evidence
+- credentials/tokens
+- local runtime databases.
+
+Do NOT mutate any database.
+
+The current accepted normal database baseline contains 214 tables.
+
+This audit must not alter any table, schema or row.
+
+==================================================
+6. FINANCIAL EVIDENCE SAFETY
+==================================================
+
+AgendaAlly has accumulated substantial payment/refund/payout audit evidence.
+
+Do NOT automatically commit every evidence artifact.
+
+Separate:
+
+SAFE DURABLE TECHNICAL EVIDENCE
+
+from:
+
+PRIVATE/SENSITIVE EVIDENCE
+
+Examples requiring special review include:
+
+- receipt images
+- payout/refund evidence
+- private object-storage paths
+- signed URLs
+- financial references
+- Customer/Vendor identity data
+- raw database captures
+- environment dumps
+- authentication artifacts.
+
+Markdown reports describing synthetic/accepted results may often be appropriate for Git.
+
+Raw private evidence may not be.
+
+Provide an explicit classification.
+
+==================================================
+7. GENERATED / TEMPORARY CONTENT
+==================================================
+
+Identify material that should normally stay outside Git, including:
+
+- node_modules/
+- vendor/ where dependency-managed rather than intentionally vendored
+- build/
+- dist/ where generated
+- Flutter build/
+- .dart_tool/
+- .gradle/
+- Android SDK
+- NDK downloads
+- emulator images
+- temporary Flutter SDKs
+- temporary Gradle caches
+- qualification caches
+- temporary database copies
+- logs
+- coverage artifacts
+- downloaded archives
+- generated APKs
+- generated app bundles
+- Replit temporary files.
+
+Do not delete anything yet.
+
+==================================================
+8. CURRENT .GITIGNORE ASSESSMENT
+==================================================
+
+Inspect the current .gitignore files.
+
+Determine whether they safely cover the entire AgendaAlly repository.
+
+Identify missing rules needed before first publication.
+
+Do NOT edit them yet.
+
+Pay particular attention to:
+
+.env*
+*.sqlite
+*.db
+private keys
+certificates
+keystores
+key.properties
+local.properties
+Android SDK/cache
+Flutter cache/build output
+Node build/cache
+PHP dependency/runtime files as appropriate
+logs
+temporary evidence
+private financial artifacts
+Replit-specific temporary state.
+
+Do not propose ignoring migration/schema SOURCE files merely because they are database-related.
+
+==================================================
+9. REPRODUCIBILITY AUDIT
+==================================================
+
+Determine whether a clean clone of the intended repository onto another development computer would contain enough SOURCE and configuration metadata to reconstruct the applications.
+
+For each major component:
+
+Backend
+Web
+Admin
+Customer Mobile
+
+report:
+
+REPRODUCIBLE FROM CLEAN CLONE:
+YES / PARTIAL / NO
+
+Identify missing prerequisites such as:
+
+- environment variables;
+- runtime versions;
+- package-manager commands;
+- PHP/Composer requirements;
+- Node version;
+- Flutter/Dart version;
+- Android SDK requirements;
+- database setup;
+- build commands;
+- external services.
+
+Do NOT include actual secret values.
+
+For Customer Mobile retain the currently qualified baseline:
+
+Flutter 3.38.5
+Dart 3.10.4
+flutter_secure_storage 9.2.4
+
+==================================================
+10. DURABLE REPORTS / AUDIT HISTORY
+==================================================
+
+Review docs/development and related evidence directories.
+
+Recommend which durable reports should be preserved in Git because they document accepted architecture/security/financial decisions.
+
+This should include consideration of the completed:
+
+- Web MVP/readiness audit
+- payment/financial architecture audit
+- manual refund/payout implementation evidence
+- financial permission-boundary evidence
+- private receipt-access evidence
+- Customer Mobile audit
+- Customer Mobile Phase 1 auth/session report
+- Android native qualification report
+- other accepted implementation/audit reports.
+
+Do NOT assume every raw evidence file should be committed.
+
+Prefer:
+
+durable reports + safe reproducible test/evidence scripts + sanitized summaries
+
+over:
+
+raw sensitive runtime captures.
+
+==================================================
+11. REPOSITORY ARCHITECTURE RECOMMENDATION
+==================================================
+
+Based on the actual codebase, recommend whether AgendaAlly should use:
+
+A. one monorepo for the complete platform;
+
+B. separate repositories for Backend/Web/Admin/Mobile;
+
+or
+
+C. another clearly justified structure.
+
+Consider:
+
+- shared contracts;
+- deployment coordination;
+- current project organization;
+- mobile independence;
+- CI/CD;
+- future Vendor app;
+- future Driver app;
+- future POS desktop/tablet clients;
+- access/security boundaries;
+- release independence.
+
+Do NOT restructure anything yet.
+
+==================================================
+12. PROPOSED REPOSITORY LAYOUT
+==================================================
+
+If restructuring is recommended, show the proposed logical layout.
+
+For example only:
+
+agendaally/
+  backend/
+  web/
+  admin/
+  mobile/
+    customer/
+    vendor/
+    driver/
+  pos/
+  infrastructure/
+  docs/
+
+But derive the recommendation from the actual project.
+
+Do not move files yet.
+
+==================================================
+13. GIT CHECKPOINT STRATEGY
+==================================================
+
+Recommend how to preserve the current accepted milestone.
+
+I want a clear checkpoint representing approximately:
+
+AGENDAALLY PRE-MOBILE-PHASE2 BASELINE
+
+It must preserve the completed work without falsely claiming production readiness.
+
+Remember:
+
+Web MVP:
+16/20
+CONDITIONAL GO
+Production:
+NO-GO
+
+Customer Mobile:
+Phase 1 implementation completed but overall PARTIAL because native secure-storage qualification remains pending.
+
+P0-01:
+CLOSED
+
+P0-02:
+PARTIAL
+
+Android native qualification:
+BLOCKED-ENVIRONMENT
+
+Android-first remaining mobile P0:
+1
+
+iOS:
+NOT NATIVE-QUALIFIED
+
+Phase 2:
+NOT STARTED
+
+Recommend:
+
+- branch strategy;
+- initial/current baseline commit strategy;
+- tag naming;
+- whether a release tag would be misleading;
+- whether an annotated checkpoint tag is preferable.
+
+Do not execute Git actions yet.
+
+==================================================
+14. GITHUB/GITLAB PUBLICATION SAFETY
+==================================================
+
+Determine whether the repository is safe to publish as:
+
+PRIVATE
+
+and separately whether it would be safe as:
+
+PUBLIC.
+
+Assume PRIVATE is preferred unless owner says otherwise.
+
+Identify anything that would make even a private repository inappropriate until cleaned.
+
+Do not create a remote.
+
+==================================================
+15. FUTURE APPLICATION STRATEGY
+==================================================
+
+The platform will eventually include:
+
+- Customer app
+- Vendor app
+- Driver app
+- POS desktop/tablet capability
+
+Recommend how Git organization should accommodate those future clients without forcing us to restructure the entire platform later.
+
+Do NOT create those applications.
+
+==================================================
+16. PRESERVATION
+==================================================
+
+This audit must make ZERO application changes.
+
+Expected:
+
+Application source changes:
+NONE
+
+Dependencies:
+NONE
+
+Database/schema:
+NONE
+
+Normal database rows:
+NONE
+
+Web/Admin/backend:
+NONE
+
+Customer Mobile:
+NONE
+
+Git commits:
+NONE
+
+Git pushes:
+NONE
+
+Remote repositories:
+NONE
+
+==================================================
+17. FINAL OUTPUT
+==================================================
+
+Create a concise durable Git-readiness report if useful, but do not alter application behavior.
+
+End with:
+
+CURRENT GIT REPOSITORY:
+EXISTS / DOES NOT EXIST / PARTIAL
+
+AUTHORITATIVE PROJECT ROOT:
+<path>
+
+RECOMMENDED REPOSITORY MODEL:
+MONOREPO / MULTI-REPO / OTHER
+
+SAFE TO CREATE PRIVATE REMOTE:
+YES / NO / AFTER CLEANUP
+
+SAFE TO CREATE PUBLIC REMOTE:
+YES / NO / AFTER ADDITIONAL REVIEW
+
+SECRET CLEANUP REQUIRED:
+YES / NO
+
+DATABASE/RUNTIME DATA EXCLUSION REQUIRED:
+YES / NO
+
+CUSTOMER MOBILE AUTHORITATIVE SOURCE:
+<path>
+
+CLEAN-CLONE REPRODUCIBILITY:
+YES / PARTIAL / NO
+
+RECOMMENDED CHECKPOINT NAME:
+<name>
+
+READY FOR INITIAL COMMIT:
+YES / NO / AFTER CLEANUP
+
+READY FOR PUSH:
+YES / NO / AFTER CLEANUP
+
+NEXT ACTION:
+one bounded recommendation only
+
+Then STOP for owner review.
+
+Do NOT create the Git repository or push anything yet.

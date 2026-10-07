@@ -1,0 +1,1257 @@
+AgendaAlly — Payment Architecture, Country Availability, Vendor Configuration, Currency Routing & Settlement Audit
+
+The Stage 2 storefront/UI work is complete enough for now.
+
+The next task is a focused PAYMENT ARCHITECTURE AUDIT of the existing AgendaAlly application.
+
+DO NOT redesign payment UI yet.
+DO NOT implement broad payment changes yet.
+DO NOT activate providers.
+DO NOT perform real transactions.
+DO NOT request payment credentials.
+
+First determine exactly how the existing Laravel, Admin/Vendor, Customer Web and Flutter payment architecture works, identify gaps, and propose the safest target architecture.
+
+I specifically suspect that:
+
+1. Country → payment-method assignment is not fully synchronized with the Vendor portal.
+2. Vendors may not be able to configure their own payment methods correctly.
+3. Some payment methods should be controlled at platform level.
+4. Some payment methods should be available only in specific countries.
+5. Checkout should consider BOTH marketplace country and the customer-selected transaction currency.
+6. There appears to be an existing Vendor option allowing Admin/Platform to receive payment on the Vendor's behalf, but I do not know whether the complete backend accounting/settlement/payout flow is still wired correctly.
+
+Audit all of this before changing behavior.
+
+==================================================
+1. CORE PAYMENT MODEL I WANT EVALUATED
+==================================================
+
+The desired high-level model is:
+
+COUNTRY
+→ determines which payment methods are legally/commercially available in that country
+
+VENDOR
+→ may enable/configure only payment methods that are available for the Vendor's country and permitted for Vendor configuration
+
+CURRENCY
+→ further filters methods at checkout according to currencies actually supported by each provider/method
+
+CHECKOUT
+→ displays only methods that satisfy the applicable country + currency + provider/configuration rules
+
+COLLECTION MODEL
+→ determines whether funds are collected directly by the Vendor or by AgendaAlly/platform on behalf of the Vendor
+
+SETTLEMENT
+→ if AgendaAlly collects Vendor funds, the resulting Vendor balance/liability must be accounted for correctly
+
+PAYOUT
+→ Vendor can request payout through the existing supported payout architecture, subject to permissions/status/business rules
+
+This is the TARGET CONCEPT to compare against the existing implementation.
+
+Do not assume the current code already implements it.
+
+==================================================
+2. IMPORTANT COUNTRY MODEL
+==================================================
+
+Payment availability should be country-aware.
+
+Conceptually:
+
+Country
+  ↓
+Allowed payment methods
+  ↓
+Vendor configuration
+  ↓
+Currency compatibility
+  ↓
+Checkout
+
+For example, if a provider is assigned to Cameroon, Cameroon Vendors may be eligible to configure/use it according to provider rules.
+
+If a provider is NOT available for Cameroon, a Cameroon Vendor should not be able to enable it merely because the provider exists globally.
+
+Similarly, when AgendaAlly eventually operates in:
+
+- United States
+- Canada
+- European countries
+- United Kingdom
+- other markets
+
+those countries may have a different permitted provider set.
+
+Audit whether the existing Country ↔ Payment Method relationship actually exists and where/how it is enforced.
+
+==================================================
+3. COUNTRY IS NOT THE SAME AS CURRENCY
+==================================================
+
+Do not treat country and currency as interchangeable.
+
+A Vendor/business has an operating country.
+
+A Customer/storefront may have a selected/display/checkout currency.
+
+A payment provider may support:
+
+- specific countries;
+- specific currencies;
+- both;
+- or additional provider-specific restrictions.
+
+The audit must determine what AgendaAlly currently stores for each of these concepts.
+
+Identify whether currency is currently:
+
+- display-only;
+- conversion-related;
+- order currency;
+- payment currency;
+- provider settlement currency;
+- or some combination.
+
+Do not infer behavior from UI labels alone.
+
+Trace it through persisted data and payment requests.
+
+==================================================
+4. GLOBAL / PLATFORM PAYMENT METHODS
+==================================================
+
+Some methods may reasonably operate as platform-level collection channels.
+
+Examples to investigate include providers such as:
+
+- Stripe
+- PayPal
+
+and any equivalent global provider already present in the source.
+
+The intended concept is that when a Customer checks out using a currency supported by such a platform-level provider—for example:
+
+- USD
+- CAD
+- EUR
+- GBP
+
+and the provider is legitimately available for the applicable market/currency, payment may be collected by AgendaAlly/Admin.
+
+The Vendor's share would then become an amount owed to the Vendor through the platform accounting/settlement/payout model.
+
+DO NOT implement this merely from this description.
+
+Audit whether the current architecture already supports this safely.
+
+==================================================
+5. LOCAL / COUNTRY-SPECIFIC METHODS
+==================================================
+
+Audit country/local methods already present in the application, potentially including:
+
+- MTN MoMo
+- Orange Money
+- Flutterwave
+- Paystack
+- cash
+- offline payment
+- bank payment
+- wallet
+- other existing providers
+
+Do not assume all of these are currently functional.
+
+For each payment method/provider, determine:
+
+- Does code exist?
+- Is configuration implemented?
+- Is checkout integration implemented?
+- Is callback/webhook handling implemented?
+- Is payment-status verification implemented?
+- Is refund handling implemented?
+- Is settlement/accounting implemented?
+- Is Vendor configuration supported?
+- Is it platform-configured?
+- Is it country-scoped?
+- Is currency compatibility enforced?
+- Is it safe to expose?
+- Is it currently development-disabled?
+- Is it legacy/incomplete/dead code?
+
+==================================================
+6. BUILD A PROVIDER CAPABILITY MATRIX
+==================================================
+
+Produce a matrix similar to:
+
+Provider / Method
+| Existing code
+| Customer checkout support
+| Booking support
+| Product-order support
+| Country scoped
+| Currency scoped
+| Platform configured
+| Vendor configurable
+| Vendor-direct collection
+| Platform collection
+| Callback/webhook
+| Status verification
+| Refund
+| Settlement/accounting
+| Payout relationship
+| Current safety state
+| Recommendation
+
+Classify current safety/state using clear terms such as:
+
+FUNCTIONAL
+PARTIAL
+LEGACY
+DISABLED
+UNSAFE TO ENABLE
+CONFIGURATION ONLY
+UNKNOWN / REQUIRES FURTHER VERIFICATION
+
+Do not call something functional merely because its name appears in source or Admin settings.
+
+==================================================
+7. AUDIT COUNTRY → PAYMENT METHOD ASSIGNMENT
+==================================================
+
+Trace the current Country/Payment architecture from:
+
+database/schema
+→ models
+→ repositories/services
+→ APIs
+→ Admin UI
+→ Vendor UI
+→ Customer checkout
+→ Flutter client where applicable.
+
+Determine:
+
+- Can Admin assign payment methods to countries?
+- Where is that relationship persisted?
+- Is the relationship actually consumed?
+- Does Vendor payment configuration honor it?
+- Does checkout honor it?
+- Does Flutter honor it?
+- Can a Vendor currently enable a method outside its country?
+- Can a client-supplied country ID broaden availability?
+- What happens when Vendor country changes?
+- What happens when Customer marketplace country differs from Vendor country?
+- What happens when selected currency differs from Vendor-country currency?
+
+Do not modify these rules during the audit.
+
+==================================================
+8. AUDIT VENDOR PAYMENT CONFIGURATION
+==================================================
+
+I expect Vendors to be able to configure payment methods that are legitimately available to their business.
+
+Audit the existing Vendor portal.
+
+Determine whether Vendors currently have:
+
+- payment settings;
+- provider enable/disable;
+- credentials/configuration;
+- cash/offline controls;
+- bank details;
+- wallet settings;
+- platform-collection option;
+- direct-collection option;
+- payout settings.
+
+For every control found, trace it through:
+
+UI
+→ API
+→ validation
+→ authorization
+→ persisted model/settings
+→ checkout consumption.
+
+Do not trust the presence of a checkbox or form as evidence that the backend is wired.
+
+==================================================
+9. VENDOR MUST NOT SELF-ASSIGN GLOBAL METHODS
+==================================================
+
+Evaluate a target rule where Vendor configuration is constrained by server-resolved country availability.
+
+Conceptually:
+
+Admin defines:
+Country Cameroon
+→ MTN MoMo
+→ Orange Money
+→ Flutterwave
+→ Cash
+→ etc.
+
+Vendor in Cameroon sees only the methods permitted for Cameroon and appropriate to its collection model.
+
+Vendor cannot simply submit:
+
+country_id=US
+payment_method=stripe
+
+to bypass its real server-resolved country.
+
+Country must come from authoritative business context.
+
+Do not rely on hidden UI options for enforcement.
+
+==================================================
+10. PLATFORM COLLECTION VS VENDOR COLLECTION
+==================================================
+
+This is especially important.
+
+I remember seeing a Vendor setting that appears to allow the Vendor to choose for Admin/Platform to receive payment.
+
+Audit this thoroughly.
+
+Find the exact existing setting and determine:
+
+- its database field/model;
+- its UI location;
+- its API;
+- who can change it;
+- whether Vendor can change it;
+- whether Admin can override it;
+- whether checkout consumes it;
+- whether booking checkout consumes it;
+- whether product checkout consumes it;
+- whether Flutter consumes it;
+- whether platform commission is calculated correctly;
+- whether Vendor balance is credited;
+- whether platform balance is credited;
+- whether payout eligibility is created;
+- whether refund reverses balances correctly;
+- whether cancelled orders/bookings reverse balances correctly;
+- whether payment failure prevents balance creation.
+
+Do not assume this feature works merely because the Vendor UI exposes it.
+
+==================================================
+11. DEFINE THE COLLECTION MODES FOUND
+==================================================
+
+Determine whether the current architecture effectively supports any of these modes:
+
+MODE A — Vendor Direct Collection
+
+Customer
+→ Provider/Vendor
+→ Vendor receives funds directly
+
+AgendaAlly may record the transaction and commission obligation depending on existing architecture.
+
+MODE B — Platform Collection
+
+Customer
+→ AgendaAlly payment channel
+→ AgendaAlly/Admin receives funds
+→ Vendor share becomes payable balance
+→ Vendor later requests payout
+
+MODE C — Cash / Offline
+
+Customer
+→ Vendor offline
+→ AgendaAlly records appropriate payment/order state
+
+MODE D — Wallet
+
+Customer wallet
+→ internal balance movement
+→ Vendor/platform accounting
+
+Do not create these modes if they do not exist.
+
+Instead report which ones the current architecture genuinely supports and how completely.
+
+==================================================
+12. CURRENCY-AWARE PAYMENT AVAILABILITY
+==================================================
+
+Audit how storefront currency currently works.
+
+I want to understand whether this target rule is feasible:
+
+available_methods =
+    methods allowed for applicable country
+    ∩ methods compatible with checkout currency
+    ∩ methods enabled by appropriate platform/vendor configuration
+    ∩ methods valid for the collection mode
+
+For example:
+
+If checkout currency = USD
+
+then methods that cannot process USD should not be shown merely because they are assigned to the country.
+
+Likewise:
+
+EUR
+GBP
+CAD
+XAF
+etc.
+
+should expose only legitimate compatible methods.
+
+Do not hard-code assumptions about provider currency support during this audit.
+
+First determine:
+
+- whether supported currencies are modeled today;
+- whether provider currency support is modeled;
+- whether payment requests use selected storefront currency;
+- whether conversion occurs;
+- where exchange rates come from;
+- whether order totals are persisted in base or selected currency;
+- whether Vendor accounting uses original currency, base currency or converted amount.
+
+==================================================
+13. FOREIGN CURRENCY / PLATFORM ROUTING
+==================================================
+
+Evaluate the following intended business concept:
+
+When a Customer chooses a globally supported currency such as:
+
+USD
+CAD
+EUR
+GBP
+
+a suitable platform-level provider may be offered if:
+
+1. the provider supports that currency;
+2. the provider is allowed for the applicable marketplace/business jurisdiction;
+3. platform configuration is valid;
+4. the collection model permits platform collection.
+
+If payment is collected by AgendaAlly:
+
+Customer
+→ Platform provider
+→ AgendaAlly/Admin
+→ Vendor payable balance
+→ Vendor payout
+
+Determine how much of this already exists.
+
+Do not implement automatic routing during this audit.
+
+==================================================
+14. MULTI-COUNTRY FUTURE READINESS
+==================================================
+
+AgendaAlly is Africa-first but should support expansion.
+
+Evaluate the architecture for Vendors operating in:
+
+- Cameroon
+- United States
+- Canada
+- UK
+- EU markets
+- other supported countries
+
+Do NOT seed fake production country/provider relationships simply to demonstrate this.
+
+Instead determine whether the architecture can represent:
+
+Country
+→ allowed methods
+→ supported currencies
+→ collection mode
+→ Vendor configuration.
+
+Recommend the minimum clean extension needed if it cannot.
+
+==================================================
+15. CHECKOUT AUDIT
+==================================================
+
+Trace BOTH:
+
+SERVICE / BOOKING CHECKOUT
+
+and
+
+PRODUCT / ORDER CHECKOUT.
+
+Do not assume they share identical payment logic.
+
+For each determine:
+
+- how payment methods are loaded;
+- what country is used;
+- what currency is used;
+- what shop/vendor context is used;
+- what collection mode is used;
+- how method availability is filtered;
+- how payment is initiated;
+- how success is verified;
+- how payment state is persisted;
+- how commission is calculated;
+- how Vendor balance is calculated;
+- how refund/cancellation behaves.
+
+Also inspect Flutter equivalents.
+
+==================================================
+16. ACCOUNTING / LEDGER AUDIT
+==================================================
+
+Trace the financial consequences of a successful payment.
+
+Identify the actual models/tables for concepts such as:
+
+- transaction;
+- payment;
+- order;
+- booking;
+- wallet;
+- Vendor balance;
+- Admin balance;
+- commission;
+- payout;
+- refund;
+- settlement.
+
+Determine whether AgendaAlly uses:
+
+- explicit ledger entries;
+- mutable balances;
+- transaction rows;
+- derived balances;
+- some combination.
+
+This is critical.
+
+Do not recommend new payment routing until you understand how money ownership is represented.
+
+==================================================
+17. PAYOUT AUDIT
+==================================================
+
+Trace the complete existing Vendor payout flow.
+
+Determine:
+
+Vendor balance
+→ payout request
+→ Admin approval/rejection
+→ payout processing
+→ completion
+→ balance/accounting update.
+
+Check:
+
+- authorization;
+- country scope;
+- shop scope;
+- payout method;
+- payout destination;
+- currency;
+- minimum/maximum rules;
+- pending balance locking;
+- duplicate payout prevention;
+- cancellation/rejection;
+- completed payout accounting.
+
+Remember there is already a known separate concern around legacy payout/subscription country scoping.
+
+Do not silently fix that as part of this audit.
+
+Document it.
+
+==================================================
+18. REFUND / REVERSAL AUDIT
+==================================================
+
+For platform-collected transactions, determine what currently happens when:
+
+- booking is cancelled;
+- order is cancelled;
+- refund is requested;
+- refund succeeds;
+- refund fails;
+- payment is disputed;
+- provider callback arrives twice;
+- payment callback arrives late.
+
+Determine whether Vendor payable balances and Admin/platform amounts are reversed correctly.
+
+Do not run real refunds.
+
+==================================================
+19. SECURITY AUDIT
+==================================================
+
+Inspect payment authorization boundaries.
+
+Check whether client-controlled parameters can improperly select:
+
+- country;
+- shop;
+- Vendor;
+- payment method;
+- currency;
+- collection mode;
+- payout destination;
+- amount;
+- commission;
+- provider.
+
+Server-resolved context must remain authoritative.
+
+Specifically look for IDOR/scope risks in payment and payout reads/writes.
+
+Do not perform destructive security testing.
+
+Use source tracing and safe development-only reads/tests where appropriate.
+
+==================================================
+20. PROVIDER CREDENTIAL OWNERSHIP
+==================================================
+
+Determine who currently owns credentials for each provider:
+
+PLATFORM
+
+or
+
+VENDOR.
+
+This must be explicit.
+
+For each provider identify:
+
+Platform credentials
+Vendor credentials
+Either
+Not implemented
+
+Do not display secret values.
+
+Do not read/log/screenshot real provider secrets unnecessarily.
+
+Report variable/setting names only where useful.
+
+==================================================
+21. COUNTRY + PROVIDER + CURRENCY TARGET MODEL
+==================================================
+
+After auditing the current implementation, propose a target model.
+
+At minimum consider whether AgendaAlly needs concepts equivalent to:
+
+PaymentMethod
+
+CountryPaymentMethod
+
+PaymentMethodCurrency
+
+VendorPaymentMethod
+
+CollectionMode
+
+ProviderConfiguration
+
+Do NOT create these tables yet.
+
+First determine whether equivalent structures already exist.
+
+Prefer extending existing architecture over introducing duplicate models.
+
+==================================================
+22. EXAMPLE TARGET RESOLUTION LOGIC
+==================================================
+
+Evaluate, but do not yet implement, a server-authoritative resolution flow equivalent to:
+
+Vendor
+→ authoritative business country
+
+Country
+→ permitted payment methods
+
+Checkout
+→ authoritative Vendor/shop
+
+Customer
+→ selected checkout currency
+
+Payment resolver
+→ intersection of:
+
+country availability
+currency support
+platform/provider availability
+Vendor enablement where applicable
+collection mode
+transaction type
+
+Result
+→ safe available payment methods
+
+The frontend should render the server-resolved result rather than independently reconstructing security/business rules.
+
+Determine how close the current application is to this architecture.
+
+==================================================
+23. CUSTOMER CURRENCY VS BUSINESS COUNTRY
+==================================================
+
+Explicitly analyze scenarios such as:
+
+Vendor country = Cameroon
+Customer marketplace = Cameroon
+Checkout currency = XAF
+
+Vendor country = Cameroon
+Customer selected currency = USD
+
+Vendor country = United States
+Checkout currency = USD
+
+Vendor country = Canada
+Checkout currency = CAD
+
+Vendor country = France
+Checkout currency = EUR
+
+Vendor country = UK
+Checkout currency = GBP
+
+Do not claim these are currently supported.
+
+Use them to evaluate architecture.
+
+For each explain which layer should decide:
+
+- provider availability;
+- conversion;
+- settlement;
+- Vendor payable currency.
+
+==================================================
+24. DO NOT MIX MARKETPLACE LOCATION WITH AUTHORIZATION
+==================================================
+
+Keep the Stage 1 distinction intact.
+
+Customer marketplace country/city is discovery context.
+
+Business country is authoritative payment/business context.
+
+Country Manager authorization is administrative scope.
+
+These are related concepts but NOT interchangeable.
+
+A Customer selecting another country must never broaden a Vendor's payment configuration or Admin authorization.
+
+==================================================
+25. WEB + ADMIN + FLUTTER COMPATIBILITY
+==================================================
+
+Trace payment contracts used by:
+
+- Laravel backend;
+- Next.js Customer storefront;
+- React/Ant Design Admin/Vendor portal;
+- Flutter customer/business mobile code where applicable.
+
+Do not make a recommendation that silently breaks Flutter.
+
+Identify endpoints/models consumed by multiple clients.
+
+==================================================
+26. EXISTING PAYMENT UI
+==================================================
+
+Inventory the current payment UI surfaces.
+
+Customer:
+
+- booking payment;
+- product checkout;
+- wallet;
+- saved/default payment state if any.
+
+Vendor:
+
+- payment settings;
+- collection setting;
+- payout settings;
+- wallet/balance.
+
+Admin:
+
+- payment methods;
+- country assignment;
+- provider configuration;
+- transactions;
+- payouts;
+- currencies.
+
+Do not redesign these yet.
+
+The purpose is to determine whether the UI reflects actual backend capability.
+
+==================================================
+27. REQUIRED GAP CLASSIFICATION
+==================================================
+
+For each discovered issue classify it:
+
+A — UI-only mismatch
+
+B — Missing API wiring
+
+C — Missing server enforcement
+
+D — Data-model limitation
+
+E — Accounting/settlement gap
+
+F — Provider integration incomplete
+
+G — Security/scope issue
+
+H — Legacy/dead configuration
+
+I — Works correctly
+
+J — Needs provider/business decision
+
+Include severity:
+
+CRITICAL
+HIGH
+MEDIUM
+LOW
+
+==================================================
+28. REQUIRED DELIVERABLE — CURRENT ARCHITECTURE
+==================================================
+
+Produce a clear architecture diagram in text or Mermaid showing the CURRENT implementation.
+
+For example:
+
+Customer
+   ↓
+Checkout
+   ↓
+Payment API
+   ↓
+Method/provider selection
+   ↓
+Provider
+   ↓
+Transaction
+   ↓
+Vendor/Admin accounting
+   ↓
+Payout
+
+But base the actual diagram on the code.
+
+Do not force the application into this example.
+
+==================================================
+29. REQUIRED DELIVERABLE — TARGET ARCHITECTURE
+==================================================
+
+Then produce a second architecture diagram for the recommended TARGET model.
+
+It should clearly show:
+
+Country policy
+↓
+Payment method availability
+
+Vendor country
+↓
+Vendor configuration
+
+Customer currency
+↓
+Currency compatibility
+
+Checkout
+↓
+Server payment resolver
+
+Collection mode
+↙             ↘
+Vendor direct   Platform collection
+                    ↓
+               Vendor payable
+                    ↓
+                  Payout
+
+Adjust this based on actual findings.
+
+==================================================
+30. REQUIRED DELIVERABLE — DATA MODEL
+==================================================
+
+Provide:
+
+CURRENT relevant tables/models/fields
+
+and
+
+RECOMMENDED minimal changes.
+
+Do not create migrations yet.
+
+Highlight which existing structures can be reused.
+
+==================================================
+31. REQUIRED DELIVERABLE — ENDPOINT MATRIX
+==================================================
+
+List relevant existing endpoints grouped by:
+
+Admin
+Vendor
+Customer
+Public/shared
+Payout
+Webhook/callback
+
+For each show:
+
+Purpose
+Authentication
+Scope source
+Country behavior
+Currency behavior
+Main consumer
+Observed gap
+
+Do not expose credentials/tokens.
+
+==================================================
+32. REQUIRED DELIVERABLE — PAYMENT FLOW MATRIX
+==================================================
+
+For each actual provider/method discovered, provide:
+
+Method
+Country availability
+Currency support representation
+Credential owner
+Vendor configurable?
+Platform configurable?
+Booking checkout?
+Product checkout?
+Direct collection?
+Platform collection?
+Settlement implemented?
+Payout relationship?
+Refund support?
+Webhook/status verification?
+Current state
+Recommended disposition
+
+==================================================
+33. REQUIRED DELIVERABLE — BUSINESS RULES
+==================================================
+
+Write the recommended business rules explicitly.
+
+For example:
+
+RULE 1
+Vendor cannot enable a payment method unavailable for its authoritative country.
+
+RULE 2
+Checkout cannot offer a method incompatible with the transaction currency.
+
+RULE 3
+Platform credentials are never exposed to Vendor configuration.
+
+RULE 4
+Vendor-direct credentials belong only to the Vendor/shop authorized to configure them.
+
+RULE 5
+Platform-collected Vendor funds create an auditable payable obligation before payout.
+
+RULE 6
+Client country/currency/provider parameters cannot bypass server resolution.
+
+But adapt the final rules to the real architecture.
+
+==================================================
+34. REQUIRED DELIVERABLE — IMPLEMENTATION PLAN
+==================================================
+
+After the audit, propose an ordered implementation plan.
+
+Prefer phases such as:
+
+Phase 1 — Correct data model/resolver
+
+Phase 2 — Country/Admin payment assignment
+
+Phase 3 — Vendor configuration
+
+Phase 4 — Checkout filtering
+
+Phase 5 — Platform collection/accounting
+
+Phase 6 — Payout hardening
+
+Phase 7 — Refund/reversal
+
+Phase 8 — Web/Admin UI synchronization
+
+Phase 9 — Flutter compatibility
+
+Phase 10 — Development/test fixtures
+
+But reorganize this based on actual dependencies.
+
+For every phase specify:
+
+- affected components;
+- migrations if any;
+- API changes if any;
+- compatibility risks;
+- security tests;
+- accounting tests;
+- UI impact;
+- whether provider credentials/live provider verification would eventually be required.
+
+==================================================
+35. DEVELOPMENT TEST PLAN
+==================================================
+
+Propose development fixtures/tests covering at minimum:
+
+Cameroon Vendor + XAF
+Cameroon Vendor + USD
+US Vendor + USD
+Canada Vendor + CAD
+EU Vendor + EUR
+UK Vendor + GBP
+
+These may be synthetic isolated fixtures.
+
+Do not mutate the current accepted development marketplace merely to manufacture these cases during this audit.
+
+Test conceptually:
+
+country filtering;
+currency filtering;
+Vendor enablement;
+platform collection;
+Vendor direct collection;
+commission;
+balance;
+payout;
+refund/reversal;
+unauthorized cross-country configuration.
+
+==================================================
+36. PRESERVE EXISTING SECURITY HARDENING
+==================================================
+
+Previous payment/provider hardening remains authoritative.
+
+Do not re-enable a provider merely because UI/configuration exists.
+
+Do not weaken:
+
+- callback verification;
+- payment status verification;
+- authentication;
+- authorization;
+- payout restrictions;
+- country/shop scope;
+- amount validation;
+- transaction integrity.
+
+If existing architecture conflicts with hardened behavior, call it out.
+
+==================================================
+37. OUT OF SCOPE FOR THIS AUDIT
+==================================================
+
+Do NOT:
+
+- perform real payments;
+- call live payment providers;
+- request credentials;
+- enable Stripe;
+- enable PayPal;
+- enable Flutterwave;
+- enable Paystack;
+- enable MTN MoMo;
+- enable Orange Money;
+- make payouts;
+- issue refunds;
+- modify balances;
+- modify existing orders;
+- modify existing bookings;
+- create production provider accounts;
+- publish;
+- change production configuration;
+- redesign payment UI;
+- change Stage 2 storefront;
+- change authentication;
+- change authorization;
+- change country/location UX;
+- configure Maps;
+- start preview performance work;
+- run destructive migrations;
+- run migrate:fresh;
+- reset development data.
+
+==================================================
+38. AUDIT EFFICIENCY
+==================================================
+
+This is primarily a SOURCE + ARCHITECTURE audit.
+
+Do not launch large browser-testing loops.
+
+Do not rerun Stage 1 acceptance.
+
+Do not repeat Stage 2 UI testing.
+
+Use:
+
+- source inspection;
+- schema/model inspection;
+- routes;
+- repositories/services;
+- existing tests;
+- existing development documentation;
+- safe read-only database inspection where necessary.
+
+Only use focused non-destructive tests when they answer a specific architectural question.
+
+Do not perform production builds unless absolutely required; they should not be necessary for this audit.
+
+==================================================
+39. DOCUMENTATION
+==================================================
+
+Create a dedicated audit document such as:
+
+docs/development/payment-architecture-audit.md
+
+Include:
+
+1. Executive summary
+2. Current architecture
+3. Provider inventory
+4. Country/payment relationship
+5. Vendor configuration
+6. Currency handling
+7. Checkout flows
+8. Platform vs Vendor collection
+9. Accounting/settlement
+10. Payout
+11. Refund/reversal
+12. Security findings
+13. Web/Admin/Flutter compatibility
+14. Gap matrix
+15. Recommended target architecture
+16. Recommended business rules
+17. Data-model recommendations
+18. Endpoint recommendations
+19. Ordered implementation plan
+20. Development test strategy
+
+==================================================
+40. QUESTIONS THE FINAL REPORT MUST ANSWER
+==================================================
+
+The report must answer these directly:
+
+1. Can Admin currently assign payment methods to countries?
+
+2. Does Vendor configuration currently respect those country assignments?
+
+3. Can Vendors currently configure their own payment methods?
+
+4. Which methods are Vendor-configurable today?
+
+5. Which methods are Platform/Admin-configured today?
+
+6. Is the Vendor option for “Admin receives payment” still present?
+
+7. Is that option actually wired through checkout?
+
+8. If Admin receives Vendor payment, where is the Vendor's money represented?
+
+9. Does it correctly become payout-eligible?
+
+10. Does payout currently work against that balance/accounting model?
+
+11. Are booking and product payments handled consistently?
+
+12. Does checkout currently filter payment methods by country?
+
+13. Does checkout currently filter by currency?
+
+14. What does changing storefront currency actually change today?
+
+15. Are USD/CAD/EUR/GBP payments capable of being routed through platform providers with the existing architecture?
+
+16. What prevents a Cameroon Vendor from enabling a payment method intended for another country?
+
+17. Are payment-country restrictions enforced server-side or only hidden in UI?
+
+18. Are Vendor payment credentials isolated per Vendor/shop?
+
+19. What happens to Vendor balances on refund/cancellation?
+
+20. What are the highest-risk gaps before enabling additional payment providers?
+
+21. What is the minimum clean architecture change needed to implement:
+Country → Payment Methods → Vendor Configuration → Currency Compatibility → Checkout?
+
+==================================================
+FINAL STOP GATE
+==================================================
+
+This task is AUDIT + RECOMMENDATION ONLY.
+
+When the audit is complete:
+
+1. Give me a concise summary of the most important findings.
+2. Give me the provider/payment capability matrix.
+3. Give me the current architecture diagram.
+4. Give me the recommended target architecture diagram.
+5. Give me the prioritized gap/risk matrix.
+6. Give me the ordered implementation plan.
+7. Point me to the complete audit document.
+8. STOP.
+
+Do NOT begin implementing the recommended payment architecture.
+
+I want to review and approve the architecture first.
+
+Do not start another task automatically.

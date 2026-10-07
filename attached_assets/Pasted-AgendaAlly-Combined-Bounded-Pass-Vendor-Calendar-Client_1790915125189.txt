@@ -1,0 +1,758 @@
+AgendaAlly — Combined Bounded Pass: Vendor Calendar Client Workflow + Stories Security + Approved Stories UI Integration
+
+This is ONE bounded implementation pass intended to avoid multiple Replit runs and unnecessary credit usage.
+
+Do not repeat audits, tests, builds, screenshots, or design exploration that already have valid evidence unless a source change from THIS task invalidates that evidence.
+
+There are three related deliverables:
+
+A. Fix the Vendor Calendar manual-booking Customer/Client workflow.
+B. Fix the already-identified Vendor Stories ownership/security boundary.
+C. Implement the already-proposed Stories IMPROVE direction into the approved Stage 2 AgendaAlly design.
+
+Do not turn this into another Stage 1/Stage 2 acceptance cycle.
+
+Do not restart payment architecture work.
+
+==================================================
+PART A — VENDOR CALENDAR CUSTOMER / CLIENT WORKFLOW
+==================================================
+
+I found an incorrect behavior in the Admin/Vendor Business portal.
+
+When a Vendor creates/adds a booking from the business calendar, the Customer field currently discovers records such as Staff and legacy Master/Specialist users.
+
+That is incorrect.
+
+For a business-created appointment:
+
+CUSTOMER / CLIENT
+= the person receiving/purchasing the service.
+
+SPECIALIST / STAFF
+= the business worker performing the service.
+
+These must remain separate concepts.
+
+--------------------------------------------------
+A1. AUDIT ONLY WHAT IS NECESSARY
+--------------------------------------------------
+
+Trace only the existing code required to understand and fix:
+
+- Calendar → Add/Create Booking
+- Customer/client selector
+- Customer search endpoint/query
+- Service selector
+- Specialist/Staff selector
+- Shop/branch context
+- Booking creation endpoint
+- Existing customer/client models
+- Existing customer creation mechanisms
+- Laravel validation/authorization
+- React Admin/Vendor form
+- Shared API contracts if relevant
+
+Do not perform another broad application audit.
+
+Determine the exact cause of Staff/Master/Specialist records appearing in Customer discovery and fix the underlying boundary.
+
+--------------------------------------------------
+A2. CUSTOMER SELECTOR
+--------------------------------------------------
+
+The Customer field must return legitimate customer/client records for the business workflow.
+
+It must NOT return someone merely because that person exists in the general user table.
+
+Exclude inappropriate identities such as:
+
+- Staff
+- Specialists
+- legacy Masters
+- Vendor/business-owner accounts acting only in those roles
+- Admins
+- Country Managers
+- unrelated internal/system accounts
+- unauthorized users from other businesses
+
+Do NOT implement this as:
+
+fetch all users
+→ filter them in React.
+
+The backend customer-search query/endpoint must enforce the correct domain boundary.
+
+Preserve existing shop/branch/tenant/privacy boundaries.
+
+--------------------------------------------------
+A3. EXISTING CLIENT SEARCH
+--------------------------------------------------
+
+The Vendor should be able to search legitimate existing clients naturally.
+
+Where supported by the current model, allow appropriate search using:
+
+- Name
+- Phone
+- Email
+
+Do not expose unnecessary customer information.
+
+The UI should make the intent obvious:
+
+Customer
+
+[ Search existing clients... ]
+
+Search results should contain enough information to distinguish customers without exposing unnecessary account details.
+
+--------------------------------------------------
+A4. ADD NEW CLIENT
+--------------------------------------------------
+
+Add a clear action inside the booking workflow:
+
++ Add new client
+
+or:
+
++ New customer
+
+Use whichever terminology best matches existing AgendaAlly terminology.
+
+The Vendor should not need to leave the calendar, create the customer elsewhere, return to the calendar and restart the booking.
+
+First inspect whether AgendaAlly already has a legitimate customer/client creation mechanism.
+
+REUSE existing architecture where possible.
+
+Do not create a duplicate customer model unnecessarily.
+
+--------------------------------------------------
+A5. REGISTERED USER VS WALK-IN CLIENT
+--------------------------------------------------
+
+This distinction is important.
+
+A business may need to manually book an appointment for someone who does NOT have an AgendaAlly login account.
+
+Determine whether the current architecture supports:
+
+A. registered AgendaAlly customers only;
+
+B. business-local/walk-in client records;
+
+C. both.
+
+Do not guess.
+
+If business-local/walk-in clients are already supported, use that mechanism.
+
+If they are not supported, implement only the smallest clean extension necessary to represent a legitimate manual-booking client.
+
+Do NOT fabricate:
+
+- email addresses
+- passwords
+- OTPs
+- social-login identities
+- fake customer registrations
+- fake verified accounts
+
+just to satisfy a registration model.
+
+Entering a client's information for a business-created appointment must not automatically imply that the person registered for AgendaAlly unless that lifecycle is genuinely supported.
+
+--------------------------------------------------
+A6. NEW CLIENT FORM
+--------------------------------------------------
+
+Use only fields legitimately required by the existing model/workflow.
+
+Likely examples may include:
+
+- First name
+- Last name
+- Phone
+- Email
+
+but inspect actual validation first.
+
+Do not arbitrarily require every field.
+
+If the architecture legitimately supports a walk-in with name + phone, do not force email simply because the public registration screen requires one.
+
+After successful creation, immediately select the new client in the booking form.
+
+Do not require a page reload.
+
+--------------------------------------------------
+A7. DUPLICATE CLIENT HANDLING
+--------------------------------------------------
+
+Audit existing uniqueness rules.
+
+Where safe and supported, normalize phone/email and avoid creating duplicate client records.
+
+If the entered phone/email belongs to an appropriate existing client that this Vendor is authorized to discover, offer/use that client instead.
+
+Do NOT leak the existence of users the Vendor is not authorized to discover.
+
+--------------------------------------------------
+A8. SPECIALIST / STAFF REMAINS SEPARATE
+--------------------------------------------------
+
+Keep Specialist/Staff selection separate from Customer.
+
+The Specialist/Staff selector should return only eligible workers for the selected:
+
+- business/shop
+- branch/location
+- service
+
+according to existing AgendaAlly scheduling and authorization rules.
+
+Do not put customers into this selector.
+
+Do not broaden Staff visibility while fixing Customer discovery.
+
+Use “Specialist” or “Staff” in new UI.
+
+Do not reintroduce legacy “Master” terminology.
+
+--------------------------------------------------
+A9. SERVICE → SPECIALIST RELATIONSHIP
+--------------------------------------------------
+
+If AgendaAlly already models which Specialists/Staff can perform a service, preserve that relationship.
+
+The conceptual manual-booking flow should be:
+
+Customer
+   ↓
+Service
+   ↓
+Eligible Specialist / Staff
+   ↓
+Date / Time
+   ↓
+Create Booking
+
+Do not invent another scheduling engine.
+
+Preserve existing availability behavior.
+
+--------------------------------------------------
+A10. SERVER-SIDE ENFORCEMENT
+--------------------------------------------------
+
+Booking creation must validate server-side that:
+
+- the selected customer/client is legitimate for this workflow;
+- the selected Specialist/Staff is eligible;
+- the actor can manage the selected shop/branch;
+- forged IDs cannot bypass those restrictions.
+
+Specifically verify that changing request IDs cannot:
+
+- use Staff as Customer;
+- use another business's protected client;
+- use another business's Specialist;
+- use an unauthorized branch/shop.
+
+Preserve legitimate Admin behavior separately from Vendor behavior.
+
+==================================================
+PART B — HARDEN VENDOR STORY OWNERSHIP
+==================================================
+
+The previous Stories audit already identified an ownership/tenant-isolation concern.
+
+Do NOT redo the entire Stories audit.
+
+Fix it now before implementing the Stories visual improvement.
+
+A Vendor must never be able to open private management data for, edit, update, delete, publish/unpublish, replace media for, or otherwise manage another business/shop's Story by manipulating:
+
+- ID
+- UUID
+- route
+- request parameter
+- shop ID
+- payload
+- media identifier
+
+--------------------------------------------------
+B1. SERVER-SIDE STORY OWNERSHIP
+--------------------------------------------------
+
+Audit only the relevant existing Story:
+
+- routes
+- controller
+- service
+- repository
+- requests
+- policies/middleware
+- Vendor UI calls
+
+Bind every Vendor Story management operation to the authenticated Vendor's authorized business/shop.
+
+Do not rely on frontend filtering.
+
+--------------------------------------------------
+B2. COVER EXISTING OPERATIONS
+--------------------------------------------------
+
+Apply ownership enforcement wherever applicable to:
+
+- list/paginate
+- show/open/edit
+- create
+- update
+- delete
+- status changes
+- visibility changes
+- publish/unpublish
+- media replacement
+- media removal
+- other existing Story mutations
+
+--------------------------------------------------
+B3. STAFF AND ADMIN
+--------------------------------------------------
+
+If Staff can legitimately manage Stories, preserve the existing permission model but restrict Staff to authorized shop/business scope.
+
+Preserve legitimate Admin/Superadmin behavior where broader access is intentionally authorized.
+
+Do not weaken country/shop/role boundaries.
+
+--------------------------------------------------
+B4. STORY MEDIA OWNERSHIP
+--------------------------------------------------
+
+Check whether Story media can be removed/replaced using a forged Story or media identifier.
+
+A Vendor must not be able to alter another business's Story media independently of Story ownership.
+
+Apply the same server-side ownership boundary.
+
+==================================================
+PART C — IMPLEMENT THE ALREADY-PROPOSED STORIES UI
+==================================================
+
+Stories already exist in the native AgendaAlly application and the previous audit classified them:
+
+ACTIVE → IMPROVE
+
+The previous run already produced the Stories audit/design proposal.
+
+Do NOT perform another design exploration.
+
+Do NOT create another competing Stories system.
+
+Implement the existing Stories capability into the approved Stage 2 AgendaAlly visual language.
+
+--------------------------------------------------
+C1. PRESERVE NATIVE STORY FUNCTIONALITY
+--------------------------------------------------
+
+Reuse existing:
+
+- Story models
+- Story APIs
+- ownership
+- media behavior
+- visibility rules
+- expiry behavior where currently supported
+- business/shop relationships
+
+Do not create fake backend behavior.
+
+Where the previous audit identified unresolved expiry/media-cleanup architectural issues that cannot safely be fixed as a bounded correction, document them instead of silently changing lifecycle semantics.
+
+--------------------------------------------------
+C2. CUSTOMER STOREFRONT INTEGRATION
+--------------------------------------------------
+
+Integrate Stories naturally into the new customer marketplace.
+
+It should feel like part of the same storefront as:
+
+“Book local expertise. Shop local businesses.”
+
+Use the approved Stage 2 visual system:
+
+- black / neutral + warm bronze
+- warm ivory/off-white surfaces
+- modern typography
+- restrained borders
+- subtle radius/elevation
+- clean professional presentation
+- accessible focus/contrast
+- minimal visual noise
+
+Do not restore old iBeauty/template styling.
+
+--------------------------------------------------
+C3. STORY DISCOVERY
+--------------------------------------------------
+
+Where supported by existing Story data, provide a polished customer Story discovery treatment.
+
+Potential presentation can include:
+
+- business identity
+- business logo/avatar where legitimate
+- Story media
+- Story title/context if supported
+- appropriate time/expiry indication if supported
+- clean Story viewer/navigation
+
+Do not invent unsupported:
+
+- likes
+- comments
+- reactions
+- follower counts
+- view counts
+- messaging
+- engagement metrics
+
+unless those capabilities genuinely exist.
+
+--------------------------------------------------
+C4. STORIES SHOULD SUPPORT THE MARKETPLACE
+--------------------------------------------------
+
+Stories should reinforce AgendaAlly as a services + products + businesses marketplace.
+
+Do not make Stories exclusively salon/beauty oriented.
+
+Existing legitimate businesses should be able to use Stories according to the native capability for relevant content such as:
+
+- services
+- products
+- availability/promotions where genuinely supported
+- business updates
+- portfolio/business content
+
+Do not invent transactional Story behavior.
+
+--------------------------------------------------
+C5. VENDOR STORY MANAGEMENT UI
+--------------------------------------------------
+
+Bring the existing Vendor Story management experience into visual consistency with the new AgendaAlly Business portal.
+
+Preserve native functionality.
+
+Improve presentation where necessary for:
+
+- Story listing
+- create
+- edit
+- media preview
+- status/visibility
+- expiry information where supported
+- empty state
+- loading state
+- error state
+
+Do not broadly redesign unrelated Vendor pages.
+
+--------------------------------------------------
+C6. EMPTY STATE
+--------------------------------------------------
+
+If a business has no Stories, provide a professional empty state.
+
+For example:
+
+Share updates from your business
+
+Use Stories to highlight services, products and what's happening at your business.
+
+[ Create Story ]
+
+Only use copy consistent with actual functionality.
+
+Do not seed fake Stories merely to avoid the empty state.
+
+--------------------------------------------------
+C7. STORY MEDIA
+--------------------------------------------------
+
+Reuse legitimate existing Story media behavior.
+
+Do not manufacture Stories or pretend generated proposal imagery belongs to a real Vendor.
+
+If development Story media is genuinely needed for isolated UI verification, use only clearly synthetic owned development fixtures and remove them afterward unless an existing approved seed mechanism already provides representative Stories.
+
+Prefer testing existing data where possible.
+
+==================================================
+PART D — UI CONSISTENCY
+==================================================
+
+Both the Calendar client correction and Stories integration should use the approved AgendaAlly design system.
+
+Preserve:
+
+- black / neutral + warm bronze
+- warm ivory surfaces
+- consistent typography
+- consistent spacing
+- consistent form controls
+- consistent radius/borders/elevation
+- accessible focus states
+- usable touch targets
+
+Do not broadly redesign:
+
+- calendar architecture
+- booking cards
+- Business dashboard
+- marketplace homepage
+- products
+- services
+- payment UI
+- unrelated screens
+
+Only modify surrounding shared components where necessary for visual consistency.
+
+==================================================
+PART E — FLUTTER / SHARED API COMPATIBILITY
+==================================================
+
+Laravel APIs are shared with the customer Flutter application.
+
+Before modifying any shared endpoint, determine whether Flutter consumes it.
+
+Do NOT start a Flutter redesign in this task.
+
+Prefer business-specific Seller/Vendor endpoints for Vendor-only client discovery/creation if that avoids changing customer-mobile contracts.
+
+If a shared Story endpoint requires a security correction, preserve compatible response structures where safely possible.
+
+Report any Flutter impact.
+
+Do not silently break mobile DTOs or routes.
+
+==================================================
+PART F — DO NOT TOUCH PAYMENTS
+==================================================
+
+The previous payment work is at a clean checkpoint.
+
+Do NOT proceed into another payment phase.
+
+Do not change:
+
+- payment providers
+- provider activation
+- country-payment assignments
+- collection mode
+- collect_via_platform
+- payment credentials
+- payment intents
+- payment callbacks
+- payment accounting
+- commissions
+- wallets
+- refunds
+- payouts
+- FX
+- settlement
+- provider availability
+
+No payment tests are necessary unless a changed shared file unexpectedly requires a tiny regression check.
+
+Do not activate or call external providers.
+
+==================================================
+PART G — FOCUSED AUTOMATED TESTS
+==================================================
+
+Run focused tests only.
+
+Do NOT rerun the entire 95-test / 637-assertion payment hardening suite unless a changed shared backend component genuinely invalidates that evidence.
+
+Calendar tests should verify at minimum:
+
+1. Vendor Customer search returns legitimate clients.
+2. Staff does not appear merely because it is a user.
+3. Specialist does not appear as Customer merely because of its role.
+4. Legacy Master identities do not contaminate Customer search.
+5. Admin/internal accounts do not leak into Vendor customer search.
+6. Vendor cannot discover another business's protected clients.
+7. Vendor can select an existing legitimate client.
+8. Vendor can create a supported new/walk-in client.
+9. New client becomes immediately selectable.
+10. Duplicate handling respects existing identity/privacy rules.
+11. Specialist selector remains correct.
+12. Forged Customer ID is rejected.
+13. Forged Specialist ID is rejected.
+14. Forged shop/branch ID is rejected.
+15. Existing manual booking creation still works.
+16. No payment/accounting behavior changes.
+
+Stories tests should verify at minimum:
+
+1. Vendor A can manage Vendor A's Story.
+2. Vendor A cannot open Vendor B's management Story.
+3. Vendor A cannot update Vendor B's Story.
+4. Vendor A cannot delete Vendor B's Story.
+5. Vendor A cannot change Vendor B's Story status/visibility.
+6. Forged shop/business ID cannot bypass ownership.
+7. Vendor A cannot replace/remove Vendor B's Story media.
+8. Authorized Staff behavior remains shop-scoped.
+9. Legitimate Admin/Superadmin behavior remains intact.
+10. Public/customer Story behavior still follows existing visibility rules.
+
+Use synthetic isolated authorization fixtures where needed.
+
+Do not mutate accepted marketplace data simply to manufacture tests.
+
+==================================================
+PART H — BOUNDED UI VERIFICATION
+==================================================
+
+Perform ONE focused UI verification pass after implementation.
+
+Do not repeatedly restart previews/screenshots.
+
+Vendor Calendar:
+- Customer search
+- Existing client selection
+- New Client action/form
+- Customer vs Specialist separation
+- Service/Specialist relationship
+- empty customer state
+- loading/error state
+- successful owned-development manual booking path
+
+Stories:
+- customer Story presentation
+- Story viewer if applicable
+- Vendor Story listing
+- create/edit surface
+- empty state
+- responsive behavior
+
+Check:
+
+- desktop
+- approximately 390px where the surface supports mobile
+- no horizontal overflow
+- keyboard/focus behavior
+- images/media render
+- no new runtime errors caused by this pass
+
+Do not run broad marketplace acceptance.
+
+==================================================
+PART I — CREDIT / EXECUTION DISCIPLINE
+==================================================
+
+Credit use is important.
+
+Therefore:
+
+- Reuse the existing Stories audit.
+- Reuse the existing Stories design proposal.
+- Reuse existing valid Stage 2 evidence.
+- Reuse existing payment hardening evidence.
+- Do not regenerate unchanged screenshots.
+- Do not rerun unrelated browser journeys.
+- Do not rerun broad role matrices.
+- Do not rerun the full payment suite unnecessarily.
+- Do not perform another architecture audit.
+- Do not create unnecessary subagents/workers.
+- Do not repeatedly restart working previews.
+- Use focused source inspection, focused tests and one final affected-surface verification.
+- If an existing test already proves an unchanged requirement, cite/reuse it rather than rerunning it.
+
+Fix problems discovered inside these three authorized scopes when the correction is small and directly necessary.
+
+Do not expand into unrelated cleanup.
+
+==================================================
+PART J — FINAL REPORT
+==================================================
+
+Return ONE concise combined report.
+
+CALENDAR
+
+A. Root cause of Staff/Master/Specialist appearing in Customer discovery.
+B. Existing customer/client model discovered.
+C. Whether walk-in/non-account clients were already supported.
+D. Backend/API correction.
+E. Vendor UI correction.
+F. Add New Client behavior.
+G. Duplicate handling.
+H. Customer vs Specialist enforcement.
+I. Shop/branch authorization.
+J. Flutter/shared API impact.
+
+STORIES SECURITY
+
+K. Root cause of Story ownership gap.
+L. Endpoints/actions hardened.
+M. Vendor/Staff/Admin ownership behavior.
+N. Story media ownership behavior.
+
+STORIES UI
+
+O. Existing Stories functionality reused.
+P. Customer Stage 2 integration implemented.
+Q. Vendor Story UI improvements implemented.
+R. Desktop/mobile behavior.
+S. Any previously identified expiry/media-cleanup limitation intentionally left unresolved.
+
+VERIFICATION
+
+T. Focused automated tests and results.
+U. Focused UI checks and results.
+V. Files/components materially changed.
+W. Any genuine remaining blocker.
+
+==================================================
+FINAL STOP GATE
+==================================================
+
+Once:
+
+1. Vendor Calendar Customer/Client discovery is corrected;
+2. Add New Client works through the legitimate client architecture;
+3. Customer and Specialist/Staff roles are correctly separated;
+4. Vendor Story ownership is enforced server-side;
+5. Story media ownership is protected;
+6. the already-proposed Stories IMPROVE design is integrated into the Stage 2 Customer/Vendor UI;
+7. focused tests pass; and
+8. the affected UI surfaces pass one bounded verification;
+
+restore the existing Customer and Admin/Vendor previews if they were disturbed.
+
+Then STOP.
+
+Do NOT automatically:
+
+- start another payment phase;
+- implement payout architecture;
+- activate payment providers;
+- implement FX;
+- redesign Flutter;
+- redesign the calendar broadly;
+- perform another Stage 1/Stage 2 acceptance cycle;
+- redo Stories design exploration;
+- modify unrelated marketplace sections;
+- publish or deploy to production;
+- start suggested follow-up tasks.
+
+Report any genuinely separate issue as a future recommendation only.
+
+This combined pass is intentionally designed to complete these related outstanding items in ONE run and minimize unnecessary Replit credit usage.

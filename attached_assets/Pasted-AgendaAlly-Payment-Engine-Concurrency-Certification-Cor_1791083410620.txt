@@ -1,0 +1,457 @@
+AgendaAlly — Payment Engine Concurrency Certification Correction
+NARROW REMEDIATION + RE-RUN OF FAILED ENGINE PROOF
+
+The latest MySQL Strategy B / PostgreSQL READ COMMITTED engine proof is
+accepted as:
+
+RECOMMENDATION C — INSUFFICIENT EVIDENCE.
+
+Do NOT certify either engine from the previous run.
+
+The previous evidence established:
+
+- expanded reservation/conservation groups: 13 passed on MySQL;
+- expanded reservation/conservation groups: 13 passed on PostgreSQL;
+- unchanged original MySQL thirteen: 13 tests / 51 assertions passed;
+- exact reservation remainders passed;
+- independent-allocation progress passed;
+- retained replay passed;
+- rollback passed;
+- native deadlock retry passed;
+- no over-credit was observed.
+
+The shared new failure was:
+
+CONCURRENT IDENTICAL-RECEIPT CONTRIBUTION CONFIRMATION.
+
+The owner committed successfully.
+
+The waiting contender then rejected with:
+
+`Terminal allocation/contribution cannot accept funding.`
+
+The contender reused a pending contribution/context object that had been
+hydrated before waiting on the authoritative parent lock.
+
+After the lock wait completed, the database contained the owner's committed
+final state, but the previously hydrated PHP object remained stale.
+
+This phase is authorized ONLY to correct that demonstrated stale-state /
+idempotent-confirmation problem and then rerun the required engine proof.
+
+Do not redesign payment accounting.
+
+============================================================
+1. PRESERVE ACCEPTED ECONOMICS
+============================================================
+
+Do not change:
+
+- allocation economic identity;
+- contribution identity;
+- custody meaning;
+- commission calculation;
+- Vendor payable meaning;
+- commission receivable meaning;
+- original collection evidence;
+- refund economics;
+- payout economics;
+- MTN identity/recovery;
+- provider configuration revisions.
+
+The correction must preserve the accepted canonical accounting model.
+
+============================================================
+2. ROOT-CAUSE CONFIRMATION
+============================================================
+
+Before editing, trace the exact confirmation path that produced:
+
+`Terminal allocation/contribution cannot accept funding.`
+
+Confirm whether the contender:
+
+1. loads allocation/contribution state;
+2. later waits on an authoritative database lock;
+3. continues using the pre-lock hydrated model/state;
+4. therefore evaluates funding against stale state after another transaction
+   has committed finality.
+
+Document the exact source path.
+
+Do not broaden this into another payment audit.
+
+============================================================
+3. REQUIRED INVARIANT
+============================================================
+
+After acquiring the lock that establishes authority for contribution
+confirmation, financial decisions must use state authoritative AFTER that lock
+is acquired.
+
+Do not assume an ORM/model object loaded before a blocking lock reflects the
+current committed database state.
+
+Reload/requery the minimum authoritative records after lock acquisition where
+necessary.
+
+============================================================
+4. IDENTICAL RECEIPT CONVERGENCE
+============================================================
+
+For the demonstrated race:
+
+Worker A:
+confirm contribution using receipt R
+→ commit SUCCESS.
+
+Worker B:
+was concurrently attempting the SAME contribution with the SAME authoritative
+receipt R
+→ waits
+→ obtains authority after A commits.
+
+Worker B must re-read authoritative state.
+
+If it establishes that:
+
+- the same contribution is already terminal-successful;
+- the same authoritative receipt/funding identity is retained;
+- the expected amount/currency/economic identity matches;
+- canonical effects already exist exactly once;
+
+then B must converge idempotently on the existing successful result.
+
+It must NOT:
+
+- add another contribution;
+- add another funded amount;
+- duplicate commission;
+- duplicate Vendor payable;
+- duplicate ledger effects;
+- create a replacement receipt;
+- reopen the terminal contribution.
+
+============================================================
+5. NON-IDENTICAL TERMINAL FUNDING
+============================================================
+
+Do NOT weaken terminal-state protection generally.
+
+If the terminal contribution is presented with:
+
+- a different receipt;
+- different provider identity;
+- different amount;
+- different currency;
+- different configuration identity;
+- different funding identity;
+- incompatible canonical evidence;
+
+it must continue to fail closed.
+
+The fix is specifically:
+
+AUTHORITATIVE RELOAD + PROVEN IDEMPOTENT CONVERGENCE
+
+not:
+
+ALLOW FUNDING OF TERMINAL CONTRIBUTIONS.
+
+============================================================
+6. TRANSACTION BOUNDARY
+============================================================
+
+The authoritative reload and idempotency decision must occur inside the
+appropriate transaction/locking boundary.
+
+Do not fix this by merely calling `refresh()` outside the financial
+transaction.
+
+Do not add arbitrary sleeps.
+
+Do not solve the race with application timing assumptions.
+
+Do not depend on PHP object freshness across lock waits.
+
+============================================================
+7. DATABASE PORTABILITY
+============================================================
+
+The correction must be valid for both:
+
+- MySQL using the tested Strategy B;
+- PostgreSQL READ COMMITTED.
+
+Do not introduce engine-specific financial semantics unless unavoidable.
+
+If the minimum correct solution requires materially different engine behavior,
+STOP and report it before implementing separate accounting paths.
+
+============================================================
+8. STRATEGY G
+============================================================
+
+Do NOT implement Strategy G merely because the prior certification failed.
+
+The previous evidence indicates Strategy G is not required for the
+demonstrated reservation boundary and would not correct this stale-object
+confirmation defect.
+
+Keep Strategy G out of scope unless the corrected proof independently
+demonstrates a problem that specifically requires it.
+
+============================================================
+9. FOCUSED TEST FIRST
+============================================================
+
+Before rerunning the full engine matrix, create/adjust a focused deterministic
+test for this exact race.
+
+Prove:
+
+A. owner confirms receipt R;
+
+B. contender loaded pending state before owner finality;
+
+C. contender waits on the authoritative lock;
+
+D. owner commits;
+
+E. contender proceeds;
+
+F. contender reloads authoritative state;
+
+G. contender recognizes the same receipt/funding identity;
+
+H. contender returns/converges successfully;
+
+I. exactly one canonical contribution exists;
+
+J. funded amount is unchanged;
+
+K. commission is unchanged;
+
+L. Vendor payable/receivable is unchanged;
+
+M. ledger effects exist exactly once;
+
+N. both workers exit outside transactions.
+
+Also test the same race with a DIFFERENT receipt and prove it remains denied.
+
+============================================================
+10. SQLITE REGRESSION
+============================================================
+
+Run the corresponding focused SQLite tests to ensure the correction does not
+break the previously accepted local contention behavior.
+
+SQLite passing does not certify production behavior.
+
+============================================================
+11. MYSQL RE-RUN
+============================================================
+
+After the focused correction passes, rerun the failed MySQL Strategy B
+identical-receipt confirmation case first.
+
+If it passes, rerun the complete approved MySQL certification matrix,
+including:
+
+- the unchanged original thirteen;
+- expanded reservation groups;
+- identical-receipt confirmation;
+- different-receipt rejection;
+- rollback;
+- replay;
+- exact remainder;
+- independent allocation progress;
+- deadlock retry;
+- Wallet compatibility gate;
+- fulfillment compatibility gate;
+- every previously explicitly-not-run compatibility gate applicable to MySQL.
+
+Do not count a skipped gate as passed.
+
+============================================================
+12. POSTGRESQL RE-RUN
+============================================================
+
+Then rerun the failed PostgreSQL READ COMMITTED identical-receipt confirmation
+case first.
+
+If it passes, rerun the complete approved PostgreSQL certification matrix,
+including all previously passed groups and all gates previously explicitly not
+run.
+
+Do not count a skipped gate as passed.
+
+============================================================
+13. ENGINE DECISION
+============================================================
+
+After the complete reruns, classify each engine independently:
+
+CERTIFIED WITHIN TESTED SCOPE
+
+or
+
+NOT CERTIFIED.
+
+Do not force a winner.
+
+If both pass the complete required matrix, report both as certified within the
+tested scope and compare operational tradeoffs separately.
+
+If one fails, do not hide that failure because the other passes.
+
+If either exposes a NEW correctness failure, stop that engine proof and report
+the exact failure without speculative remediation.
+
+============================================================
+14. FINANCIAL CONSERVATION
+============================================================
+
+For all concurrency cases verify:
+
+- no over-credit;
+- no duplicate contribution;
+- no duplicate commission;
+- no duplicate Vendor payable;
+- no duplicate commission receivable;
+- no duplicate refund effect;
+- no duplicate settlement effect;
+- no orphan reservation;
+- no transaction left open.
+
+Where applicable verify exact before/after integer monetary balances.
+
+============================================================
+15. NO SCHEMA CHANGE EXPECTED
+============================================================
+
+This correction should use the already-approved durable identity/accounting
+schema.
+
+No schema migration is authorized by this brief.
+
+If a schema change is actually required:
+
+STOP BEFORE MIGRATION
+
+and explain why the existing durable identities cannot establish idempotent
+confirmation safely.
+
+============================================================
+16. PROTECTED STATE
+============================================================
+
+Use disposable engine databases for concurrency proof.
+
+Do not mutate production.
+
+Do not use real provider credentials.
+
+Do not make provider API calls.
+
+Do not activate electronic checkout.
+
+Preserve the owned development financial data and all 12 legacy Orders.
+
+Do not repeatedly fingerprint unrelated state during every individual test;
+perform the established baseline/final comparison at the appropriate boundary.
+
+============================================================
+17. SOURCE SCOPE
+============================================================
+
+Change only the minimum source/tests required for this demonstrated
+confirmation defect.
+
+Do not opportunistically refactor unrelated payment code.
+
+Do not reopen:
+
+- provider capability architecture;
+- Admin/Vendor configuration;
+- refunds;
+- payouts;
+- MTN onboarding;
+- Orange contract work;
+- general authorization;
+- fulfillment design;
+
+unless the corrected concurrency proof directly demonstrates a regression in
+one of their required compatibility gates.
+
+============================================================
+18. FINAL REPORT
+============================================================
+
+Update the existing engine-proof/completion documentation rather than creating
+another broad audit.
+
+At completion report:
+
+1. Exact root cause.
+2. Exact production files changed.
+3. Whether authoritative state is reloaded after lock acquisition.
+4. Exact idempotent-success criteria.
+5. Whether different-receipt terminal funding remains denied.
+6. Focused test count/assertions.
+7. SQLite result.
+8. MySQL failed-case rerun result.
+9. Complete MySQL matrix result.
+10. PostgreSQL failed-case rerun result.
+11. Complete PostgreSQL matrix result.
+12. Wallet compatibility result.
+13. Fulfillment compatibility result.
+14. Any other previously-not-run gate result.
+15. Conservation result.
+16. Open-transaction result.
+17. Whether Strategy G was needed.
+18. Whether schema changed.
+19. Whether existing financial data changed.
+20. Whether all 12 legacy Orders remain `unverified`.
+21. Final MySQL certification decision.
+22. Final PostgreSQL certification decision.
+23. Recommended production engine based ONLY on demonstrated correctness plus
+    documented operational considerations.
+24. What payment-system work remains after this correction.
+
+============================================================
+19. STOP RULE
+============================================================
+
+If the correction exposes another independent financial correctness failure:
+
+STOP at that new failure.
+
+Do not recursively remediate it under this authorization.
+
+Report the evidence and preserve the disposable databases/logs needed to
+understand it.
+
+============================================================
+20. FINAL STOP
+============================================================
+
+After the narrow correction and complete authorized engine reruns:
+
+STOP.
+
+Do not activate providers.
+
+Do not enter real credentials.
+
+Do not perform real payments/refunds/payouts.
+
+Do not access production.
+
+Do not publish.
+
+The purpose of this phase is only to determine whether the demonstrated
+stale-state confirmation defect can be corrected without changing accepted
+payment economics, and whether MySQL and/or PostgreSQL then satisfy the full
+approved concurrency-certification matrix.

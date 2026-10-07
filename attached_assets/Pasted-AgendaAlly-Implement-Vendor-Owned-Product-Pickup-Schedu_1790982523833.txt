@@ -1,0 +1,1022 @@
+AgendaAlly — Implement Vendor-Owned Product Pickup Scheduling
+
+Implement the next bounded fulfillment phase:
+
+VENDOR-OWNED PRODUCT PICKUP SCHEDULING
+
+This work builds on the Product fulfillment model already implemented:
+
+1. Delivery
+   → Customer delivery location/address.
+
+2. Shop Pickup
+   → Customer collects the Product order directly from the Vendor’s Shop/branch.
+
+3. Collection Point
+   → Customer collects from a separate supported collection location.
+
+IMPORTANT:
+
+Pickup scheduling in this task applies ONLY to:
+
+SHOP PICKUP
+
+Do NOT merge Shop Pickup with Collection Point.
+
+Do NOT turn Collection Points into Vendor branches.
+
+Do NOT apply Vendor Shop Pickup schedules to Collection Points.
+
+Do NOT change Delivery scheduling/dispatch as part of this task.
+
+Credit use is important.
+
+Audit the existing implementation first, but do not repeat the broad Delivery/Pickup audit that was already completed.
+
+Reuse the native fulfillment architecture implemented in the previous phase.
+
+==================================================
+1. GOAL
+==================================================
+
+When a Vendor enables Shop Pickup for Product orders, the Vendor should be able to decide HOW customers may pick up those orders.
+
+Support two primary modes:
+
+A. AS SOON AS READY
+
+The customer does not reserve a specific pickup slot.
+
+Conceptually:
+
+Pickup timing
+
+● As soon as the order is ready
+○ Let customers choose a pickup window
+
+The Vendor prepares the order and later marks it ready through the existing appropriate order workflow.
+
+Customer sees something such as:
+
+Pickup at shop
+
+Wouri Beauty Bar
+Rue Joss, Akwa, Douala
+
+Pickup timing:
+As soon as your order is ready
+
+The customer should NOT have to choose a fake appointment time.
+
+B. SCHEDULED PICKUP
+
+The Vendor allows the customer to choose an available pickup date/time window.
+
+Example:
+
+Pickup at shop
+
+Wouri Beauty Bar
+Rue Joss, Akwa, Douala
+
+Select pickup date
+
+Mon  Oct 5
+Tue  Oct 6
+Wed  Oct 7
+Thu  Oct 8
+
+Available pickup windows
+
+09:00 – 11:00
+11:00 – 13:00
+14:00 – 16:00
+16:00 – 18:00
+
+Customer chooses one valid window before placing the order.
+
+==================================================
+2. DO NOT MODEL PRODUCT PICKUP AS A SERVICE APPOINTMENT
+==================================================
+
+This is critical.
+
+AgendaAlly already has Service booking/calendar functionality.
+
+Do NOT create Product pickup by pretending that:
+
+- an order is a Service;
+- a Driver is a Specialist;
+- a Vendor is a Specialist;
+- a pickup is a booking;
+- Product pickup consumes Specialist availability.
+
+The domains are different.
+
+Conceptually:
+
+SERVICE BOOKING
+
+Service
+→ Specialist
+→ Specialist availability
+→ Date/time
+→ Booking
+
+
+PRODUCT SHOP PICKUP
+
+Product cart/order
+→ Shop/branch
+→ Pickup policy
+→ Preparation constraints
+→ Pickup availability
+→ Optional date/window
+→ Product order
+
+Shared calendar/date/time UI primitives MAY be reused where technically appropriate.
+
+Shared generic scheduling utilities MAY be reused.
+
+But Product Pickup must have its own authoritative availability/persistence semantics.
+
+==================================================
+3. AUDIT EXISTING SHOP / BRANCH MODEL
+==================================================
+
+Before implementing pickup schedules, determine what entity actually represents the physical pickup location.
+
+Audit the existing:
+
+- Shop;
+- branch/location;
+- Shop address;
+- shop opening/business hours;
+- fulfillment settings;
+- Product order;
+- order details;
+- Delivery/Pickup selection;
+- Collection Point model.
+
+Do NOT create another branch/location model if AgendaAlly already has one.
+
+If the current architecture supports only one authoritative Shop pickup location, implement against that safely and report the limitation.
+
+If branches are already authoritative and suitable for fulfillment, pickup availability should be branch/location scoped rather than pretending all branches have identical schedules.
+
+==================================================
+4. VENDOR PICKUP SETTINGS
+==================================================
+
+Extend the existing Vendor Product fulfillment settings.
+
+Only show pickup scheduling configuration when:
+
+Shop Pickup = enabled.
+
+Suggested Vendor UX:
+
+----------------------------------------
+Shop Pickup
+[ON]
+
+Allow customers to collect Product orders
+from your Shop.
+
+Pickup timing
+
+(•) As soon as order is ready
+
+( ) Customers choose a pickup window
+----------------------------------------
+
+When scheduled pickup is selected, expose:
+
+Pickup availability
+
+Monday      [enabled]  09:00 - 18:00
+Tuesday     [enabled]  09:00 - 18:00
+Wednesday   [enabled]  09:00 - 18:00
+Thursday    [enabled]  09:00 - 18:00
+Friday      [enabled]  09:00 - 18:00
+Saturday    [enabled]  09:00 - 16:00
+Sunday      [disabled]
+
+Preparation time
+[ 60 ] minutes
+
+Pickup window
+[ 2 hours ]
+
+Same-day pickup
+[ON]
+
+Same-day cutoff
+[ 3:00 PM ]
+
+Optional:
+Maximum orders per pickup window
+[ No limit ]
+
+Blackout dates
+[ Manage ]
+
+                           [Save]
+----------------------------------------
+
+Adapt this to the existing AgendaAlly Vendor design system.
+
+Do not mechanically copy this layout if native settings components provide a better presentation.
+
+==================================================
+5. DEFAULTS AND BACKWARD COMPATIBILITY
+==================================================
+
+Do NOT suddenly require existing Vendors with Shop Pickup enabled to configure a calendar.
+
+Existing Shop Pickup behavior must remain valid.
+
+Use a safe migration/default such as:
+
+pickup_timing_mode = AS_SOON_AS_READY
+
+for existing Shop Pickup configurations unless the existing data indicates another authoritative behavior.
+
+That means existing Vendors continue accepting Shop Pickup without being unexpectedly blocked.
+
+A Vendor explicitly opting into scheduled pickup can then configure scheduling rules.
+
+Do NOT automatically enable Shop Pickup for Vendors that have not enabled it.
+
+==================================================
+6. PICKUP HOURS
+==================================================
+
+Audit existing Shop/business hours.
+
+Where appropriate, allow pickup availability to start from or reference Shop hours.
+
+However:
+
+Shop business hours and Product pickup hours are NOT necessarily identical.
+
+Example:
+
+Shop open:
+09:00 – 18:00
+
+Pickup:
+11:00 – 17:00
+
+The Vendor may need preparation time before collections begin.
+
+Therefore, preserve separate pickup availability where needed.
+
+If providing a convenience action such as:
+
+“Use business hours”
+
+it should COPY/initialize the pickup schedule.
+
+Do not permanently couple the records unless the existing architecture deliberately supports inheritance.
+
+==================================================
+7. PREPARATION / LEAD TIME
+==================================================
+
+Scheduled pickup must respect preparation time.
+
+Example:
+
+Current time:
+10:20
+
+Preparation time:
+60 minutes
+
+11:00–12:00 cannot be offered if the order cannot realistically be ready.
+
+The earliest offered window must satisfy the configured lead-time rule.
+
+For AS_SOON_AS_READY mode, preparation time may still be useful for customer expectations if the existing order model can support it safely.
+
+Do not promise an exact ready time unless AgendaAlly can actually guarantee it.
+
+==================================================
+8. PICKUP WINDOWS
+==================================================
+
+Use pickup WINDOWS rather than appointment-style point times.
+
+Examples:
+
+09:00–11:00
+11:00–13:00
+14:00–16:00
+16:00–18:00
+
+Vendor configuration may define an appropriate window duration, for example:
+
+30 minutes
+1 hour
+2 hours
+
+Choose reasonable allowed values based on the existing time utilities.
+
+Do not generate a huge unrestricted list of arbitrary minute intervals.
+
+==================================================
+9. SAME-DAY CUTOFF
+==================================================
+
+Support a Vendor rule for same-day pickup where practical.
+
+Example:
+
+Same-day pickup = enabled
+
+Cutoff = 15:00
+
+At 14:00:
+eligible later windows may still be offered.
+
+At 16:00:
+today is no longer available.
+
+The server—not only the frontend—must enforce this.
+
+Do not trust a Customer-supplied pickup timestamp.
+
+==================================================
+10. BLACKOUT DATES
+==================================================
+
+Support Vendor-owned blackout dates for Shop Pickup.
+
+Examples:
+
+- holiday;
+- inventory day;
+- Shop closure;
+- special event;
+- temporary closure.
+
+A blackout date should make scheduled Product Pickup unavailable for that applicable Shop/branch/date.
+
+Do not alter Service Specialist availability.
+
+Do not make the blackout automatically affect Delivery unless there is an existing explicit shared Shop closure mechanism that is authoritative for both.
+
+==================================================
+11. OPTIONAL CAPACITY
+==================================================
+
+Audit whether AgendaAlly already has an appropriate generic capacity mechanism.
+
+If it can be implemented safely within this bounded phase, allow an OPTIONAL maximum number of Product orders per pickup window.
+
+Example:
+
+14:00–16:00
+Maximum pickup orders: 5
+
+Once five non-cancelled/non-terminal applicable orders occupy that window, it should no longer be offered.
+
+However:
+
+Do NOT invent a complex inventory/reservation engine merely for this.
+
+If safe concurrency/capacity cannot be implemented with the current order architecture, leave capacity unlimited and document a concrete follow-up proposal.
+
+Correct scheduling without capacity is preferable to unsafe pseudo-capacity.
+
+==================================================
+12. CUSTOMER PRODUCT CHECKOUT
+==================================================
+
+When Product checkout supports:
+
+Delivery
+Shop Pickup
+Collection Point
+
+present those as distinct fulfillment choices.
+
+Conceptually:
+
+How would you like to receive your order?
+
+○ Delivery
+  Deliver to my address
+
+○ Pickup at Shop
+  Collect directly from the seller
+
+○ Collection Point
+  Collect from an available collection location
+
+Only display options actually enabled/eligible for the order/business.
+
+==================================================
+13. SHOP PICKUP CHECKOUT — AS SOON AS READY
+==================================================
+
+If the Vendor uses:
+
+AS_SOON_AS_READY
+
+Customer selects:
+
+Pickup at Shop
+
+Then display:
+
+Pickup location
+
+Wouri Beauty Bar
+Rue Joss, Akwa, Douala
+
+Pickup timing
+
+As soon as your order is ready.
+
+We’ll show the appropriate existing order status/readiness information through the native order flow.
+
+No calendar should be required.
+
+No fake pickup timestamp should be generated.
+
+==================================================
+14. SHOP PICKUP CHECKOUT — SCHEDULED
+==================================================
+
+If the Vendor uses:
+
+SCHEDULED
+
+Customer selects:
+
+Pickup at Shop
+
+Then show:
+
+Pickup location
+
+[authoritative Shop/branch]
+
+Pickup date
+
+[available dates]
+
+Pickup window
+
+[available windows]
+
+Only valid server-calculated windows should be selectable.
+
+Do NOT allow arbitrary Customer date/time submission.
+
+==================================================
+15. SERVER-SIDE AVAILABILITY
+==================================================
+
+The backend must be authoritative.
+
+Create/reuse an appropriate availability endpoint/service.
+
+Conceptually:
+
+GET available Product pickup windows
+
+Inputs may include:
+
+shop/branch
+date
+cart/order context where necessary
+
+Server evaluates:
+
+- Shop Pickup enabled;
+- pickup timing mode;
+- Vendor ownership/configuration;
+- pickup schedule;
+- timezone;
+- preparation time;
+- same-day rule;
+- cutoff;
+- blackout date;
+- optional capacity;
+- applicable Shop/branch.
+
+Return only valid windows.
+
+Do not put the scheduling rules exclusively in React/Next.js.
+
+==================================================
+16. VALIDATE AGAIN WHEN ORDER IS CREATED
+==================================================
+
+This is critical.
+
+Availability can change between:
+
+Customer loading checkout
+
+and
+
+Customer submitting the order.
+
+Therefore, when creating the Product order:
+
+REVALIDATE the selected pickup window server-side.
+
+Reject a stale/invalid selection safely.
+
+Do not accept it merely because it was previously displayed by the frontend.
+
+==================================================
+17. STORE PICKUP INFORMATION AUTHORITATIVELY
+==================================================
+
+Audit the existing order/fulfillment schema.
+
+Persist the necessary Shop Pickup information using the smallest clean extension.
+
+Likely concepts include:
+
+fulfillment type = SHOP_PICKUP
+
+pickup location/shop/branch
+
+pickup timing mode
+
+pickup window start
+
+pickup window end
+
+timezone
+
+Do NOT store formatted strings such as:
+
+"Monday 2pm to 4pm"
+
+as the authoritative scheduling value.
+
+Store structured timestamps/values and format them for display.
+
+For AS_SOON_AS_READY, do not fabricate window timestamps.
+
+==================================================
+18. TIMEZONE
+==================================================
+
+Pickup scheduling must use the Shop/branch's authoritative timezone where available.
+
+Do not silently use:
+
+- browser timezone;
+- Replit timezone;
+- server timezone;
+- UTC as display time.
+
+Store timestamps consistently according to the application's existing convention, while displaying them in the Shop pickup location's timezone.
+
+Audit existing AgendaAlly timezone handling and reuse it.
+
+==================================================
+19. ORDER DETAILS
+==================================================
+
+Customer order details should clearly show fulfillment.
+
+For scheduled pickup:
+
+Pickup at Shop
+
+Wouri Beauty Bar
+Rue Joss, Akwa, Douala
+
+Tuesday, Oct 6
+2:00 PM – 4:00 PM
+
+For ready-based pickup:
+
+Pickup at Shop
+
+Wouri Beauty Bar
+Rue Joss, Akwa, Douala
+
+Pickup timing:
+As soon as order is ready
+
+Do not display Delivery fields for Shop Pickup.
+
+==================================================
+20. VENDOR ORDER VIEW
+==================================================
+
+Vendor order management must clearly show:
+
+SHOP PICKUP
+
+and, where scheduled:
+
+Pickup:
+Oct 6
+14:00–16:00
+
+or:
+
+Pickup:
+As soon as ready
+
+The Vendor should not have to inspect raw order metadata to understand fulfillment.
+
+Preserve existing order permissions.
+
+==================================================
+21. DELIVERY FIELDS MUST REMAIN CLEAN
+==================================================
+
+The previous phase already established that Shop Pickup strips stale:
+
+- delivery address;
+- tariff;
+- Driver;
+- delivery-specific query/body values.
+
+Preserve that behavior.
+
+Adding pickup scheduling must NOT reintroduce Delivery fields.
+
+A Shop Pickup order must not accidentally receive:
+
+- Delivery Driver assignment;
+- Delivery tariff;
+- Customer delivery address;
+- Collection Point assignment.
+
+==================================================
+22. COLLECTION POINT REMAINS SEPARATE
+==================================================
+
+Do NOT modify Collection Point scheduling in this phase.
+
+Collection Point remains:
+
+Customer
+→ chooses Collection Point
+→ collection location governed by existing Collection Point logic.
+
+Future Collection Point operating/collection windows may be implemented separately.
+
+Do not reuse Vendor Shop Pickup availability for it.
+
+==================================================
+23. MULTI-VENDOR CARTS
+==================================================
+
+Audit existing Product cart/order semantics.
+
+If one cart can contain Products from multiple Vendors/Shops, do NOT pretend one Vendor pickup schedule applies to the entire cart.
+
+Use the existing order-splitting/Shop ownership architecture.
+
+If current checkout already restricts or partitions by Shop, preserve that behavior.
+
+Do not redesign multi-vendor checkout unless strictly required.
+
+Report any limitation.
+
+==================================================
+24. SECURITY / TENANT ISOLATION
+==================================================
+
+Vendor A must never be able to:
+
+- read Vendor B's private pickup settings;
+- edit Vendor B's pickup schedule;
+- create Vendor B's blackout dates;
+- change Vendor B's preparation time;
+- change Vendor B's capacity;
+- manage Vendor B's Shop/branch pickup configuration.
+
+Enforce ownership server-side.
+
+Do not rely on Vendor UI filtering.
+
+Forged:
+
+shop_id
+branch_id
+schedule_id
+blackout_id
+
+must not bypass authorization.
+
+Preserve authorized Admin/Superadmin behavior where intentionally supported.
+
+==================================================
+25. STAFF
+==================================================
+
+Audit the existing Staff permission model.
+
+If Staff already have permission to manage fulfillment/order settings, integrate pickup scheduling into that existing permission boundary.
+
+Do not automatically grant all Staff pickup-configuration authority.
+
+Do not create a new unrelated Staff permission system.
+
+==================================================
+26. CUSTOMER TAMPERING
+==================================================
+
+Customer must not be able to forge:
+
+- Shop pickup eligibility;
+- branch;
+- date;
+- time window;
+- price;
+- delivery fee;
+- capacity;
+- schedule mode.
+
+The backend must derive/validate authoritative fulfillment information.
+
+A manipulated request selecting a disabled Shop Pickup option must fail safely.
+
+==================================================
+27. PRICING
+==================================================
+
+Preserve the previous rule:
+
+SHOP PICKUP DELIVERY FEE = 0
+
+unless AgendaAlly already has a separately approved Pickup fee architecture.
+
+Do NOT invent pickup fees in this phase.
+
+Do NOT modify:
+
+- Product price;
+- tax;
+- Service fee;
+- marketplace commission;
+- payment collection;
+- payout;
+- wallet;
+- FX.
+
+==================================================
+28. NOTIFICATIONS
+==================================================
+
+Audit existing Product-order notification templates/events.
+
+If they already communicate fulfillment details, ensure Shop Pickup information is represented correctly.
+
+Do not build a new notification platform.
+
+At minimum, avoid messages such as:
+
+“Your order will be delivered to…”
+
+for a Shop Pickup order.
+
+If notification changes would materially expand scope, document them as a follow-up rather than redesigning the subsystem.
+
+==================================================
+29. DO NOT IMPLEMENT ORDER-READY OPERATIONS UNLESS ALREADY NATIVE
+==================================================
+
+“As soon as ready” naturally raises the concept of:
+
+READY FOR PICKUP.
+
+Audit whether an appropriate native Product order status already exists.
+
+If it does:
+reuse it correctly.
+
+If it does NOT:
+do not casually add a new global order-state machine during this scheduling task.
+
+Document the smallest follow-up proposal for:
+
+Vendor marks Ready for Pickup
+→ Customer receives notification
+→ Customer collects
+→ Vendor marks Collected/Completed
+
+Do not invent broad fulfillment operations without approval.
+
+==================================================
+30. MIGRATION SAFETY
+==================================================
+
+Any schema change must be additive and backward compatible.
+
+Do NOT:
+
+- reset database;
+- rerun destructive global seeds;
+- recreate existing orders;
+- rewrite historical fulfillment types;
+- assign fake pickup windows to historical orders.
+
+Existing Shop Pickup configurations should safely map to:
+
+AS_SOON_AS_READY
+
+where a default is required.
+
+==================================================
+31. FOCUSED TESTS
+==================================================
+
+Credit use is important.
+
+Do NOT run another broad application suite.
+
+Add focused tests proving at minimum:
+
+A. Vendor can enable Shop Pickup.
+
+B. Existing Shop Pickup defaults safely to As Soon As Ready.
+
+C. Vendor can configure Scheduled Pickup.
+
+D. Vendor can configure pickup hours.
+
+E. Vendor can configure preparation time.
+
+F. Same-day cutoff is enforced.
+
+G. Blackout date removes availability.
+
+H. Closed pickup day returns no windows.
+
+I. Lead time removes windows that are too soon.
+
+J. Customer can retrieve valid pickup windows.
+
+K. Customer cannot submit a forged/unavailable window.
+
+L. Selected window is revalidated during order creation.
+
+M. Vendor A cannot modify Vendor B's pickup settings.
+
+N. Customer cannot force Shop Pickup when Vendor disabled it.
+
+O. Shop Pickup has zero Delivery fee.
+
+P. Shop Pickup does not retain Delivery address/tariff/Driver fields.
+
+Q. Collection Point behavior remains separate.
+
+R. Delivery behavior remains intact.
+
+S. As Soon As Ready requires no fake date/window.
+
+T. Existing historical Product orders remain unchanged.
+
+==================================================
+32. BROWSER VERIFICATION
+==================================================
+
+Perform one focused browser pass.
+
+Vendor:
+
+1. Open Product fulfillment settings.
+2. Confirm Shop Pickup state.
+3. Select As Soon As Ready.
+4. Save.
+5. Reload and confirm persistence.
+6. Select Scheduled Pickup.
+7. Configure a small valid weekly schedule.
+8. Save.
+9. Reload and confirm persistence.
+
+Customer:
+
+10. Open a Product from that Shop.
+11. Proceed to checkout without submitting an order.
+12. Confirm Delivery / Shop Pickup / Collection Point remain distinct where eligible.
+13. Select Shop Pickup.
+14. Confirm scheduled date/window UI appears.
+15. Confirm only server-returned valid windows appear.
+16. Confirm switching back to Delivery removes pickup scheduling state.
+17. Confirm switching to Collection Point does not reuse the Shop schedule.
+
+STOP before submitting an order if real persistence would create commerce records.
+
+Use isolated automated tests for order-creation validation instead.
+
+==================================================
+33. CARRY-FORWARD ACCEPTANCE CHECKS
+==================================================
+
+There were a few verification limitations in the previous six-workstream report.
+
+While the relevant previews/authenticated contexts are available, cheaply verify these without reopening their implementations:
+
+A. Admin Maps:
+confirm the saved Maps ON state renders correctly after authenticated reload.
+
+B. Vendor payment collection:
+confirm an existing Vendor collection preference survives:
+Save → reload.
+
+Do not activate or call a provider.
+
+C. Branding/header:
+confirm the final desktop header spacing has no horizontal overflow after the previous adjustment.
+
+These are verification checks only.
+
+Do NOT reopen those workstreams unless an actual regression directly caused by the completed implementation is observed.
+
+==================================================
+34. DO NOT MODIFY
+==================================================
+
+Do NOT modify:
+
+- Service/Specialist appointment scheduling;
+- Specialist availability;
+- Service booking;
+- Collection Point scheduling;
+- Driver app;
+- Driver assignment;
+- Delivery dispatch;
+- Delivery pricing/tariffs except ensuring Shop Pickup remains fee-free;
+- payment providers;
+- Vendor gateway configuration;
+- payment collection architecture;
+- payouts;
+- refunds;
+- wallets;
+- accounting;
+- FX;
+- Maps architecture;
+- branding architecture;
+- Stories;
+- invoices;
+- Service images;
+- discovery design;
+- authentication architecture.
+
+==================================================
+35. REPORT
+==================================================
+
+When complete, report:
+
+1. existing fulfillment architecture reused;
+2. Shop/branch entity used for pickup;
+3. schema changes;
+4. migration/backward-compatibility behavior;
+5. Vendor configuration UX;
+6. As Soon As Ready behavior;
+7. Scheduled Pickup behavior;
+8. pickup-hours implementation;
+9. preparation-time handling;
+10. same-day/cutoff handling;
+11. blackout-date handling;
+12. capacity implementation or reason deferred;
+13. timezone handling;
+14. availability API/service;
+15. order-creation revalidation;
+16. persisted order pickup fields;
+17. Customer checkout behavior;
+18. Vendor order-view behavior;
+19. Delivery field cleanup;
+20. Collection Point isolation;
+21. multi-Vendor behavior;
+22. Vendor/Staff authorization;
+23. Customer tamper protection;
+24. focused tests and results;
+25. browser verification;
+26. carry-forward Maps/payment/header verification;
+27. exact files/migrations changed;
+28. any remaining pickup-operation limitation, especially Ready for Pickup / Collected state.
+
+Confirm explicitly that:
+
+- no real order was submitted;
+- no real payment was made;
+- no provider was activated;
+- no historical order was rewritten;
+- Collection Point was not merged with Shop Pickup;
+- Service booking availability was not changed;
+- Driver/dispatch logic was not expanded.
+
+Restore Customer, Admin/Vendor and Laravel previews if disturbed.
+
+Then STOP.
+
+Do not automatically begin Delivery scheduling, Collection Point scheduling, Driver mobile work, payment work, Ready-for-Pickup workflow expansion, or another phase.

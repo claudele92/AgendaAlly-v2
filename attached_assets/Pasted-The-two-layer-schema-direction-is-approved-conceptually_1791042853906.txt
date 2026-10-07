@@ -1,0 +1,74 @@
+The two-layer schema direction is approved conceptually, but the migration is NOT yet authorized.
+Preserve the separation between:
+1. Economic payment allocation — the durable, once-only Shop-level economic identity for gross amount, AgendaAlly commission, Vendor economic entitlement/liability and accounting finality.
+2. Funding/collection context — immutable contribution-level evidence describing how portions of that economic allocation were funded/collected, including collection mode, collector ownership, provider where applicable, amount and currency, without storing credentials/secrets.
+Before migration, revise the proposed schema against the following accounting policy:
+Commission is calculated exactly once at the economic Shop-allocation level, not independently per Transaction or funding contribution.
+Funding contributions determine custody and settlement consequences, not duplicate commission calculations.
+For platform-managed electronic collection, AgendaAlly holds/controls the collected principal for accounting purposes; the applicable Vendor economic entitlement may therefore become a platform payable after subtracting the applicable commission/adjustments.
+For Vendor-direct collection, the Vendor already collected that contribution directly. That principal must never become an AgendaAlly Vendor payout liability. AgendaAlly's commission obligation must instead be represented as satisfied commission or a Vendor commission receivable, depending on whether AgendaAlly actually holds sufficient funds from another contribution.
+For Cash received directly by the Vendor, apply the same custody principle: do not create a platform payable for principal AgendaAlly never possessed. Commission may remain receivable.
+For Wallet/platform-held value, determine from the already-traced Wallet architecture whether that contribution represents value controlled by AgendaAlly and therefore can fund Vendor payable/commission.
+For mixed funding, use a platform-held-funds-first commission allocation rule:
+- calculate total commission once at the economic allocation;
+- apply available platform-held funds toward that commission first;
+- remaining platform-held funds may become Vendor payable;
+- Vendor-direct/Cash principal already received by the Vendor creates no duplicate platform payable;
+- if platform-held funds are insufficient to satisfy commission, the unsatisfied remainder becomes Vendor commission receivable;
+- never manufacture a negative Vendor payable;
+- never duplicate gross, commission or Vendor entitlement across contributions.
+Validate this policy with examples covering:
+- 100% platform-managed;
+- 100% Vendor-direct;
+- 100% Cash;
+- 100% Wallet;
+- Wallet + platform-managed;
+- Wallet + Vendor-direct;
+- Wallet + Cash;
+- platform-managed + Vendor-direct if the native checkout can ever represent it;
+- partial refund of each;
+- full refund;
+- replacement Transaction;
+- duplicate callback;
+- multi-Shop checkout.
+Do not implement refunds in this phase, but prove the proposed schema can allocate a future partial refund without consulting current Shop/provider settings or losing the original custody proportions.
+Also prove the schema can answer, for every Shop economic allocation:
+- gross Customer amount;
+- total commission exactly once;
+- amount actually collected/controlled by AgendaAlly;
+- amount collected directly by Vendor;
+- Vendor economic entitlement;
+- Vendor payable currently owed by AgendaAlly;
+- commission already satisfied from platform-held funds;
+- outstanding commission receivable from Vendor;
+- refunded/reversed amount;
+- remaining liability;
+- immutable funding contributions responsible for those values.
+Ensure replacement Transactions cannot create a second economic allocation or second full commission. Transaction IDs may be evidence/funding records, but must not be the sole economic accounting identity.
+Define explicit uniqueness/idempotency keys for the economic allocation and its funding contributions.
+Define the lifecycle/state machine for both tables and explain which transitions are mutable versus terminal.
+Define how Product Orders, Bookings and multi-Shop purchases map to the economic allocation identity.
+Define how the existing platform_fee_ledger_entries will eventually reference the economic allocation without rewriting historical records during migration.
+Define the legacy policy. Do not classify ambiguous historical payments from mutable current state. The 12 existing Product Orders must remain fulfillment_financial_state = unverified.
+Then update docs/development/payment-phase2-collection-allocation.md with the final exact schema proposal, including:
+- table names;
+- columns/types;
+- foreign keys;
+- enums/states;
+- unique constraints;
+- indexes;
+- immutable fields;
+- server-owned fields;
+- lifecycle/state transitions;
+- creation points;
+- allocation formulas;
+- mixed-funding examples;
+- refund implications;
+- payout implications;
+- legacy/backfill policy;
+- migration ordering;
+- rollback strategy;
+- concurrency/idempotency strategy.
+Do not create the migration yet.
+Keep all 53 protected tables unchanged, keep all 12 legacy Orders unverified, do not activate providers, do not enable Vendor-direct, and do not perform financial operations.
+STOP after the finalized schema design and wait for explicit migration approval.

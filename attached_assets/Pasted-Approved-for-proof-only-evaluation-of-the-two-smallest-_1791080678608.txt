@@ -1,0 +1,149 @@
+Approved for proof-only evaluation of the two smallest production-database candidates. Do not make permanent application, schema, migration, configuration, or owned-development-database changes.
+
+The architecture review established that no current application caller requires FinancialOperations::reserve to succeed inside an already-open stale transaction. The current POST endpoint allows reserve() to own its transaction. Therefore, do not implement Strategy G and do not treat the artificial nested stale-snapshot service test as a production requirement.
+
+PART A — MYSQL STRATEGY B PROOF
+
+Using disposable MySQL 8/InnoDB only, prototype and test:
+
+fresh owned REPEATABLE READ transaction
+→ allocation primary-key lock first
+→ existing version/CAS
+→ ordinary nonlocking child authority reads
+→ unchanged capacity/exclusion equations
+→ existing operation insert
+→ commit.
+
+Do not use child FOR SHARE/FOR UPDATE range reads.
+
+Do not add schema, indexes, manifests, counters, financial identities, new accounting semantics, or modified capacity equations.
+
+Prove at minimum:
+
+1. With 10,000 confirmed capacity, concurrent 7,000 + 7,000 reservations cannot exceed 10,000.
+2. After a 7,000 reservation, the exact remaining 3,000 succeeds once.
+3. Allocation B can complete while Allocation A remains open after A performs its authority reads.
+4. Initially empty and populated child sets behave correctly.
+5. Same-key replay returns the retained operation while changed amount, actor, or context remains rejected.
+6. Newly committed refund effects are included in current capacity.
+7. Vendor-payable reservation obeys the same conservation invariant.
+8. Commission-receivable reservation obeys the same conservation invariant.
+9. Existing exclusion rules observe current committed authority.
+10. Rollback leaves no leaked reservation/version authority and retry remains safe.
+11. Deadlock and lock-timeout handling cannot leave partial durable authority.
+12. Own writes remain visible within the owned transaction.
+13. Restart and run the unchanged original 13 Phase 3C MySQL cases.
+
+Explicitly verify again that no real application caller requires reserve() to execute successfully inside a pre-existing transaction. If an indirect production caller contradicting the completed caller trace is discovered, STOP before treating Strategy B as viable.
+
+PART B — POSTGRESQL NATIVE PROOF
+
+Provision only a disposable local PostgreSQL environment.
+
+Do not convert the application or modify committed production migrations. Temporary proof-harness/DDL adaptations are allowed only when necessary to represent the SAME existing financial invariants.
+
+Before testing, document every PostgreSQL adaptation required to bootstrap the current accounting schema.
+
+Preserve financial identity, exact-integer money, uniqueness, foreign keys, retained evidence, capacity equations, commission semantics, custody semantics and accounting meaning.
+
+Test PostgreSQL using:
+
+owned financial transaction
+→ READ COMMITTED
+→ allocation-row mutex
+→ current ordinary authority reads
+→ unchanged financial equations/writes
+→ commit.
+
+Do not assume PostgreSQL automatically fixes the MySQL defect.
+
+Run equivalent native PostgreSQL cases covering:
+
+- 10,000 / 7,000 + 7,000 conservation
+- exact 3,000 remainder
+- independent Allocation A/B progress
+- initially empty and populated evidence
+- same-key replay and changed-parameter rejection
+- newly committed refund effects
+- Vendor-payable reservation
+- commission-receivable reservation
+- exclusion rules
+- rollback/retry
+- deadlock/serialization handling
+- Wallet conservation and overspend
+- contribution confirmation/finalization
+- fulfillment finality
+
+Capture native PostgreSQL SQLSTATE and transaction outcome when behavior differs.
+
+Also assess fresh PostgreSQL bootstrap compatibility for:
+
+- receipt self-anchor CHECK/guard
+- explicit index names
+- JSON semantics
+- identity/auto-increment replacement
+- nullable uniqueness
+- foreign keys
+- Laravel transaction/savepoint behavior
+- raw/database-specific SQL
+- completion guards
+- MTN identity migration
+- accounting DDL
+
+Do not claim PostgreSQL compatibility merely because Laravel supports PostgreSQL.
+
+FINAL COMPARISON
+
+Compare MySQL Strategy B and PostgreSQL READ COMMITTED using the SAME financial invariants.
+
+Report for each:
+
+- passed / failed / not-run cases
+- same-allocation conservation
+- independent-allocation concurrency
+- transaction/isolation semantics
+- replay behavior
+- rollback behavior
+- deadlock/serialization retry requirements
+- required permanent application changes
+- required schema/migration changes
+- conversion/migration complexity
+- operational complexity
+- long-term maintenance risk
+- remaining uncertified areas
+
+Then give one AgendaAlly-specific recommendation:
+
+A. MySQL
+B. PostgreSQL
+C. Insufficient evidence
+
+Do not recommend PostgreSQL merely because it avoids an InnoDB behavior.
+Do not recommend MySQL merely because the original 13 Phase 3C cases passed.
+
+Explicitly state whether Strategy G is still necessary after these proofs.
+
+STOP GATES
+
+This is proof-only.
+
+Do not retain prototype application changes.
+Do not modify the owned development database.
+Do not implement Strategy G.
+Do not activate providers.
+Do not use real credentials or make real provider calls.
+Do not access production.
+Do not perform real financial operations.
+Do not classify/delete legacy records.
+Do not publish.
+
+If either engine reproduces a NEW financial invariant failure, STOP that engine's proof before remediation and report the exact failure. Do not weaken tests to obtain a pass.
+
+Preserve and verify the baseline:
+
+- 59 protected tables
+- 465 schema objects
+- four empty completion evidence tables
+- all 12 legacy Orders remain unverified
+
+At completion, restore all prototype source changes, provide the complete evidence and engine recommendation, and STOP. Do not automatically implement the winning database/transaction architecture.

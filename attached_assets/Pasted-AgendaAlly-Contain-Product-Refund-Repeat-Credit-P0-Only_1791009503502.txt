@@ -1,0 +1,506 @@
+AgendaAlly — Contain Product Refund Repeat-Credit P0 Only, Verify, Then Stop
+
+I approve remediation ONLY for the newly confirmed Product refund repeat-credit
+P0 documented in:
+
+docs/development/payment-system-full-audit.md
+
+The previously accepted Wallet containments remain:
+
+FOUND AND CONTAINED / VERIFIED
+
+Do not reopen, redesign or rerun those Wallet investigations except for focused
+regression coverage required by this refund containment.
+
+Do NOT resume the broader payment architecture audit yet.
+
+============================================================
+1. DEFECT TO CONTAIN
+============================================================
+
+The current Product refund lifecycle permits an authorized Vendor to:
+
+accepted
+→ pending
+→ accepted
+
+and each acceptance can create another positive Customer Wallet credit.
+
+The original Order Transaction remains paid and there is no authoritative
+once-only refund-settlement marker preventing repeated financial settlement.
+
+This means refund STATUS and refund FINANCIAL SETTLEMENT are not currently
+bound strongly enough.
+
+The required invariant is:
+
+ONE REFUND ENTITLEMENT MUST NOT CREATE MORE THAN ONE FINANCIAL REFUND CREDIT.
+
+Changing lifecycle/status state must never make an already financially settled
+refund payable again.
+
+============================================================
+2. TRACE THE NATIVE REFUND MODEL FIRST
+============================================================
+
+Before changing code, trace the complete current Product refund lifecycle.
+
+Inspect at minimum:
+
+- Product Order refund creation/request;
+- Vendor refund status update;
+- pending;
+- accepted;
+- rejected/canceled states if present;
+- Customer Wallet credit;
+- WalletHistory creation;
+- Transaction creation/update;
+- original Order Transaction;
+- Order status;
+- refund amount;
+- commission/service-fee effects;
+- payable/ledger effects;
+- observers/listeners;
+- Admin refund actions if they share the same settlement service.
+
+Identify exactly which operation causes the Customer credit.
+
+Identify whether any existing native field/state already represents:
+
+REFUND FINANCIALLY SETTLED
+
+or equivalent.
+
+Prefer using an existing authoritative terminal state/invariant if one exists.
+
+Do not add schema merely for architectural elegance.
+
+============================================================
+3. MINIMUM CORRECT CONTAINMENT
+============================================================
+
+Implement the smallest correct containment that guarantees:
+
+A refund that has already financially settled cannot financially settle again.
+
+Do NOT solve this merely by hiding a UI action.
+
+The invariant must be server-authoritative.
+
+Prefer preventing an accepted/financially-settled refund from transitioning
+back into a state from which acceptance can create another credit, IF that is
+consistent with the native lifecycle.
+
+If the native architecture legitimately requires status movement after
+financial settlement, then financial settlement itself must have an
+independent once-only authoritative guard.
+
+Determine which model is correct from the existing application before changing
+it.
+
+============================================================
+4. STATUS MACHINE
+============================================================
+
+Define and enforce the valid Product refund transitions.
+
+At minimum establish behavior for:
+
+pending
+accepted
+rejected
+canceled
+
+and any other native states that actually exist.
+
+Explicitly answer:
+
+- Can pending become accepted?
+- Can pending become rejected?
+- Can accepted become pending?
+- Can accepted become rejected/canceled?
+- Can rejected/canceled become pending?
+- Can any state re-enter accepted?
+
+Financially dangerous backward transitions must fail closed unless the
+application has a separate safe reversal model.
+
+Do not invent refund reopening functionality.
+
+============================================================
+5. ONCE-ONLY FINANCIAL SETTLEMENT
+============================================================
+
+Verify that first legitimate acceptance performs the intended financial effects
+exactly once.
+
+Depending on the existing architecture, inspect:
+
+- Customer Wallet credit;
+- WalletHistory;
+- refund Transaction;
+- original Order Transaction;
+- commission reversal;
+- Vendor entitlement adjustment;
+- platform payable/ledger adjustment.
+
+The containment must ensure repeated acceptance, replay or status cycling cannot
+repeat ANY financial effect that should be once-only.
+
+Do not limit verification to Customer Wallet balance alone.
+
+============================================================
+6. ORIGINAL ORDER TRANSACTION
+============================================================
+
+Do not automatically change the original Order Transaction from `paid`.
+
+First determine the intended native relationship between:
+
+Order payment Transaction
+
+and
+
+Refund / refund settlement.
+
+A successfully paid Order may legitimately retain its original payment record
+while a separate refund record represents reversal.
+
+Document the correct model.
+
+Do not redesign transaction history merely to make statuses visually align.
+
+============================================================
+7. REFUND AMOUNT AUTHORITY
+============================================================
+
+Verify that the amount credited on refund acceptance comes from an
+authoritative persisted refund/order value rather than a request-controlled
+amount supplied during status change.
+
+Ensure the repeat-credit containment cannot be bypassed by changing:
+
+- refund amount;
+- Order ID;
+- Customer;
+- Shop;
+- Wallet;
+- status payload;
+- other ownership fields.
+
+Do not broaden this into a general refund audit beyond what is necessary for
+this P0.
+
+============================================================
+8. AUTHORIZATION
+============================================================
+
+Preserve the previously contained Seller refund ownership boundary.
+
+Verify:
+
+- authorized same-Shop Vendor can perform legitimate allowed refund actions;
+- another Shop cannot mutate the refund;
+- ungranted Staff cannot mutate it;
+- forged ownership fields do not affect authorization;
+- Admin authority remains consistent with the native policy;
+- Customer cannot invoke Vendor refund settlement.
+
+Do not reopen unrelated authorization work.
+
+============================================================
+9. IDEMPOTENCY
+============================================================
+
+Test the refund settlement as an idempotent financial operation.
+
+At minimum:
+
+First valid acceptance:
+financial effect occurs once.
+
+Second identical acceptance:
+no second credit.
+
+accepted → pending attempt:
+must not make the refund financially payable again.
+
+accepted → pending → accepted:
+must never produce another credit.
+
+Repeated/replayed requests:
+must not duplicate:
+
+- Wallet credit;
+- WalletHistory;
+- Transaction;
+- commission reversal;
+- Vendor entitlement adjustment;
+- ledger/payable adjustment;
+- observer side effects.
+
+HTTP status alone is insufficient; verify persisted financial state.
+
+============================================================
+10. CONCURRENCY
+============================================================
+
+Within the existing database/test architecture, determine whether two
+simultaneous or near-simultaneous acceptance attempts could both pass the
+once-only check.
+
+Use appropriate transactional locking/atomic state transition behavior if
+needed for the minimum containment.
+
+Do not claim production concurrency certification unless it is actually
+demonstrated.
+
+At minimum ensure the implementation does not use a simple unsafe:
+
+if not settled:
+    credit
+    mark settled
+
+sequence without appropriate transactional protection.
+
+============================================================
+11. FAILURE ATOMICITY
+============================================================
+
+Verify failures at relevant points do not leave partial refund settlement.
+
+Test, where practical:
+
+- failure before Customer credit;
+- failure during Customer credit;
+- failure after Customer credit but before refund finalization;
+- failure during related accounting updates.
+
+The outcome must be either:
+
+complete valid refund settlement
+
+or
+
+no partial financial settlement.
+
+Do not mutate existing application financial data.
+
+============================================================
+12. WALLET REGRESSION
+============================================================
+
+Do not reopen the completed Wallet audit.
+
+Only verify the refund's use of Wallet respects the accepted Wallet invariants:
+
+- positive amount;
+- exactly one credit;
+- no duplicate credit;
+- valid WalletHistory/Transaction state.
+
+The previously accepted Wallet amount/finality architecture remains baseline.
+
+============================================================
+13. NARROW SIBLING REVIEW
+============================================================
+
+Perform ONLY a narrow review for the identical repeat-settlement pattern in
+refund status mutation paths that share this Product refund settlement logic.
+
+Specifically check whether an equivalent Admin/shared Product refund action can
+re-enter settlement.
+
+If the same exact defect exists through the same settlement service, contain it
+using the same invariant.
+
+Do NOT expand into:
+
+- Service Booking refund architecture;
+- provider refund architecture;
+- general Order status;
+- payouts;
+- unrelated Wallet operations;
+- unrelated authorization.
+
+Those remain part of the paused architecture audit.
+
+============================================================
+14. EXISTING DATA
+============================================================
+
+Do not rewrite historical refunds.
+
+Do not infer exploitation.
+
+A read-only aggregate inspection may report, without identities or monetary
+details:
+
+- count of accepted Product refunds;
+- count of refunds whose lifecycle structurally indicates possible repeated
+  settlement, if that can be determined reliably;
+- duplicate settlement-related record counts where an authoritative relation
+  exists.
+
+If historical ambiguity prevents reliable determination, say so.
+
+Do not repair historical records.
+
+============================================================
+15. TESTS
+============================================================
+
+Add focused isolated tests covering at minimum:
+
+1. legitimate pending refund can be accepted;
+
+2. first acceptance credits Customer exactly once;
+
+3. first acceptance creates expected financial records exactly once;
+
+4. repeated accepted request does not credit again;
+
+5. accepted → pending is denied or otherwise cannot reopen settlement;
+
+6. accepted → pending → accepted cannot duplicate settlement;
+
+7. repeated/replayed acceptance does not duplicate WalletHistory;
+
+8. repeated/replayed acceptance does not duplicate Transaction;
+
+9. repeated/replayed acceptance does not duplicate accounting/ledger effects;
+
+10. rejected/canceled lifecycle behaves according to the native state machine;
+
+11. forged amount cannot alter refund settlement amount;
+
+12. forged Customer/Wallet/Shop ownership cannot redirect settlement;
+
+13. cross-Shop Vendor remains denied;
+
+14. legitimate authorized Vendor behavior remains functional;
+
+15. Admin/shared path follows the same once-only invariant where applicable;
+
+16. failure before credit rolls back;
+
+17. failure after credit but before completion rolls back;
+
+18. positive Wallet invariant remains satisfied;
+
+19. existing Wallet finality/ownership behavior required by refund still passes;
+
+20. relevant existing refund/payment authorization regressions remain green.
+
+Use isolated fixtures/databases only.
+
+Do not execute the defect against existing application data.
+
+============================================================
+16. FINANCIAL STATE PROTECTION
+============================================================
+
+Capture the established protected-state snapshot before remediation.
+
+Maintain the same 53 protected tables including:
+
+platform_fee_ledger_entries.
+
+All mutating verification must use isolated fixtures.
+
+After implementation/testing compare the owned development database against
+the pre-change snapshot.
+
+Require:
+
+- identical table set;
+- identical row counts;
+- identical fingerprints;
+- zero unintended financial mutations.
+
+============================================================
+17. DO NOT DO
+============================================================
+
+Do NOT:
+
+- resume the broader payment architecture audit;
+- reopen Wallet amount/finality work;
+- activate providers;
+- configure credentials;
+- implement Vendor-direct;
+- fix "Use my own payment gateway";
+- redesign commission architecture;
+- redesign payout architecture;
+- implement provider refunds;
+- redesign Service Booking refunds;
+- submit real refunds;
+- submit real Orders;
+- submit real Wallet operations;
+- modify historical financial data;
+- publish.
+
+============================================================
+18. REPORT
+============================================================
+
+Create:
+
+docs/development/payment-product-refund-p0-containment.md
+
+and update:
+
+docs/development/payment-system-full-audit.md
+
+Document:
+
+- exact root cause;
+- old refund lifecycle;
+- corrected state machine;
+- financial-settlement invariant;
+- exact settlement side effects;
+- idempotency strategy;
+- transaction/locking strategy;
+- failure atomicity;
+- authorization regression;
+- narrow sibling result;
+- historical aggregate observation if performed;
+- exact files changed;
+- tests/assertions;
+- 53-table fingerprint result;
+- limitations.
+
+Only mark the finding:
+
+FOUND AND CONTAINED / VERIFIED
+
+after focused verification actually passes.
+
+============================================================
+19. FINAL STOP
+============================================================
+
+After containment and verification:
+
+STOP.
+
+Do NOT automatically resume the architecture audit.
+
+Return:
+
+- root cause;
+- corrected refund lifecycle;
+- whether accepted is terminal;
+- how once-only settlement is guaranteed;
+- whether schema changes were required;
+- Wallet-credit result;
+- Transaction/accounting result;
+- concurrency/atomicity result;
+- authorization regression result;
+- narrow sibling result;
+- test/assertion totals;
+- historical aggregate result if checked;
+- 53-table fingerprint result;
+- remaining limitations.
+
+Wait for explicit approval before resuming the architecture audit.

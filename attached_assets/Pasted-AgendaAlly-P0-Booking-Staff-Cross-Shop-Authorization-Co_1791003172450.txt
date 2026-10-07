@@ -1,0 +1,576 @@
+AgendaAlly — P0 Booking Staff Cross-Shop Authorization Containment
+
+Approve ONLY the minimum containment and focused verification for the newly
+confirmed P0 documented in:
+
+docs/development/payment-system-full-audit.md
+
+The broader READ-ONLY payment audit must remain PAUSED.
+
+Do not begin provider/payment architecture remediation.
+
+============================================================
+CONFIRMED P0
+============================================================
+
+Affected route:
+
+POST /api/v1/dashboard/seller/bookings/{id}/status/update
+
+The resumed read-only audit established that an authenticated:
+
+- moderator
+- shop_manager
+
+can satisfy the actor-side Shop middleware and the existing:
+
+bookings.status
+
+grant for Shop A, while the Booking service subsequently loads the requested
+Booking globally by ID.
+
+The shared assignment check has rejection branches for:
+
+- master
+- seller
+- user
+
+but an affected Staff actor that carries moderator/shop_manager without those
+roles can fall through without proving that the target Booking belongs to
+Shop A.
+
+A same-country Booking belonging to Shop B can therefore reach the lifecycle
+mutation path under the documented preconditions.
+
+Do NOT execute this against existing financial data.
+
+============================================================
+1. CONTAIN THE TARGET AUTHORIZATION BOUNDARY
+============================================================
+
+The operational Seller/Staff Booking status path must establish BEFORE
+lifecycle mutation that the requested Booking belongs to a Shop the
+authenticated operational actor is authorized to manage.
+
+Authorization must be TARGET-BOUND.
+
+Actor-side possession of:
+
+bookings.status
+
+for some Shop is not sufficient.
+
+The backend must establish:
+
+authenticated operational actor
+→ persisted authorized Shop relationship
+→ bookings.status grant
+→ requested persisted Booking
+→ Booking's authoritative owning Shop
+→ same authorized Shop
+
+before Booking lifecycle mutation proceeds.
+
+============================================================
+2. USE THE EXISTING NATIVE SHOP MODEL
+============================================================
+
+Reuse existing persisted relationships and permission architecture.
+
+Do NOT create:
+
+- another membership table;
+- another Staff role system;
+- another Booking ownership field;
+- another permission key.
+
+For moderator/shop_manager operational access, use the canonical persisted
+Shop relationship already established by the native application.
+
+Use the Booking's persisted Shop attribution as the authoritative target.
+
+Do not trust request-provided:
+
+shop_id
+seller_id
+vendor_id
+moderator_shop_id
+branch_id
+master_id
+
+as proof that the Booking belongs to the actor's Shop.
+
+============================================================
+3. PRESERVE THE EXISTING GRANT
+============================================================
+
+Retain the existing:
+
+bookings.status
+
+permission requirement.
+
+The correct contract is not:
+
+has bookings.status somewhere
+→ may update any Booking.
+
+It must be:
+
+authorized for THIS Booking's Shop
+AND
+has bookings.status for THIS Shop
+→ may reach the otherwise-valid lifecycle operation.
+
+Do not introduce a new permission merely for this containment.
+
+============================================================
+4. FAIL CLOSED
+============================================================
+
+For affected operational Staff, deny before mutation when:
+
+- Booking does not exist;
+- Booking has no Shop;
+- actor has no authorized Shop;
+- actor's Shop differs from Booking Shop;
+- Staff membership/relationship is invalid;
+- Staff relationship is pending/revoked where applicable;
+- bookings.status is missing/revoked;
+- target ownership is ambiguous/inconsistent.
+
+Use the existing non-disclosing authorization/not-found contract where
+appropriate.
+
+Do not reveal whether a foreign Booking exists.
+
+============================================================
+5. DO NOT BREAK OTHER ACTOR TYPES
+============================================================
+
+The report explicitly found that this shared Booking lifecycle path has
+different semantics for:
+
+- Admin
+- Customer/user
+- Master/Specialist
+- Seller
+- moderator
+- shop_manager.
+
+Do NOT solve this by imposing Seller Shop membership on everybody.
+
+Preserve legitimate existing behavior for:
+
+ADMIN
+
+CUSTOMER
+
+MASTER/SPECIALIST
+
+SELLER
+
+unless a directly related authorization defect must be contained to close
+this exact P0.
+
+The fix should be targeted to the operational Staff/Seller Shop boundary.
+
+============================================================
+6. SELLER BEHAVIOR
+============================================================
+
+Audit the existing Seller branch while making the correction.
+
+Do not weaken it.
+
+If Seller already performs a target-bound Shop/assignment check, preserve it.
+
+If the same target-binding policy can safely be centralized without changing
+native semantics, that is acceptable.
+
+Do not broaden Seller authority.
+
+============================================================
+7. MODERATOR / SHOP_MANAGER
+============================================================
+
+Explicitly test both roles independently.
+
+A moderator for Shop A with bookings.status:
+
+Shop A Booking
+→ may perform an otherwise-authorized status transition.
+
+Shop B Booking
+→ DENY.
+
+A shop_manager for Shop A with bookings.status:
+
+Shop A Booking
+→ may perform an otherwise-authorized status transition.
+
+Shop B Booking
+→ DENY.
+
+Possession of a valid permission in Shop A must never authorize a Booking in
+Shop B.
+
+============================================================
+8. FINANCIAL SIDE-EFFECT BOUNDARY
+============================================================
+
+Authorization must happen BEFORE the lifecycle code can:
+
+- record Booking activity;
+- change Booking status;
+- alter Customer Wallet;
+- alter points/history;
+- reverse payable accounting;
+- create negative payable adjustments;
+- mutate payment/accounting state.
+
+A denied foreign-Shop request must reach NONE of those effects.
+
+Do not merely roll them back later.
+
+Reject before financial lifecycle mutation begins.
+
+============================================================
+9. CANCELLATION
+============================================================
+
+The audit specifically established financial significance through Booking
+cancellation.
+
+Add focused coverage for:
+
+foreign-Shop cancellation
+→ denied before mutation.
+
+Verify that denial leaves unchanged:
+
+Booking status
+Customer Wallet
+points/history
+platform payable ledger
+transaction/payment state
+Vendor liability
+other accounting state.
+
+Preserve legitimate own-Shop cancellation behavior.
+
+Do not change cancellation economics or formulas.
+
+============================================================
+10. OTHER BOOKING STATUS DESTINATIONS
+============================================================
+
+Audit the statuses accepted by the native StatusUpdateRequest.
+
+The ownership boundary must apply consistently to every Staff-accessible
+status mutation, not only `canceled`.
+
+Do not redesign the Booking state machine.
+
+Do not grant new transitions.
+
+Do not remove existing legitimate transitions.
+
+============================================================
+11. BRANCH BEHAVIOR
+============================================================
+
+Audit whether branches participate in the native Booking authorization model.
+
+Do not invent a branch restriction if none is intended.
+
+But do not allow a branch relationship to weaken Shop ownership.
+
+Document whether authorization is:
+
+Shop-wide
+
+or
+
+Shop + branch scoped
+
+under the existing native contract.
+
+Preserve that contract unless it itself creates the confirmed cross-Shop P0.
+
+============================================================
+12. COUNTRY SCOPES
+============================================================
+
+Country restrictions are NOT Shop authorization.
+
+Preserve legitimate existing country scopes, but do not treat:
+
+same country
+
+as equivalent to:
+
+same Shop.
+
+A Shop A Staff actor must still be denied for Shop B even when both Shops are
+in Cameroon or another identical country scope.
+
+============================================================
+13. PERMISSION CASES
+============================================================
+
+Focused tests must include:
+
+own Shop + bookings.status
+→ allowed where lifecycle transition is otherwise valid.
+
+own Shop without bookings.status
+→ denied.
+
+foreign Shop + bookings.status on actor's Shop
+→ denied.
+
+foreign Shop with same country
+→ denied.
+
+pending/revoked relationship where applicable
+→ denied.
+
+forged request ownership fields
+→ cannot bypass target authorization.
+
+============================================================
+14. ROLE COMBINATION CASES
+============================================================
+
+The report carefully limited the confirmed P0 to Staff actors that do not
+also carry roles that enter other service branches.
+
+Preserve that precision.
+
+Test representative combinations so the fix does not create role-order or
+multi-role regressions.
+
+At minimum inspect:
+
+moderator only
+shop_manager only
+seller
+master
+user/customer
+admin
+
+and relevant supported multi-role combinations.
+
+Do not make unsupported assumptions about role precedence.
+
+============================================================
+15. NARROW SIBLING CHECK
+============================================================
+
+Inspect the immediately adjacent Booking mutation paths for the SAME Staff
+fallthrough / missing target-Shop binding pattern.
+
+This is NOT authorization for a broad Booking security refactor.
+
+If another Booking mutation endpoint has the exact same immediately
+exploitable cross-Shop financial authorization defect and can safely use the
+same target-bound policy, include minimum containment.
+
+Otherwise document it for the resumed audit.
+
+Do not repair unrelated P1/P2 findings.
+
+============================================================
+16. PROCESS TOKEN
+============================================================
+
+The previous report separately identified process-token/payable binding as an
+unverified concern.
+
+Do NOT broaden this task into process-token redesign unless the new P0 cannot
+be safely contained without touching it.
+
+Document it for the resumed audit.
+
+============================================================
+17. FOCUSED TESTS
+============================================================
+
+Use isolated fixtures only.
+
+Add focused regression coverage proving at minimum:
+
+1. unauthenticated request denied;
+
+2. moderator Shop A + bookings.status can perform an otherwise-valid Shop A
+   Booking update;
+
+3. moderator Shop A cannot update Shop B Booking;
+
+4. shop_manager Shop A + bookings.status can perform an otherwise-valid Shop
+   A Booking update;
+
+5. shop_manager Shop A cannot update Shop B Booking;
+
+6. same-country foreign Shop remains denied;
+
+7. missing bookings.status denied;
+
+8. revoked/missing relationship denied where applicable;
+
+9. forged ownership fields cannot bypass;
+
+10. missing/unresolvable Booking ownership fails closed;
+
+11. foreign-Shop canceled transition denied;
+
+12. denied cancellation does not alter Wallet;
+
+13. denied cancellation does not alter points/history;
+
+14. denied cancellation does not alter payable ledger;
+
+15. denied request does not alter Booking status;
+
+16. legitimate Seller behavior remains intact;
+
+17. legitimate Master behavior remains intact;
+
+18. legitimate Customer behavior remains intact;
+
+19. legitimate Admin behavior remains intact;
+
+20. accepted native status destinations remain governed by the same
+    target-Shop boundary for affected Staff.
+
+============================================================
+18. ACCOUNTING VERIFICATION
+============================================================
+
+Use the real lifecycle/observer/accounting behavior where practical in
+isolated fixtures.
+
+For an authorized own-Shop cancellation, verify enough real behavior to prove
+the lifecycle path remains reachable.
+
+For a denied foreign-Shop cancellation, verify ZERO lifecycle/accounting
+effects.
+
+Do not certify the entire Booking refund/accounting architecture from these
+focused tests.
+
+============================================================
+19. FINANCIAL FINGERPRINTS
+============================================================
+
+Reuse the established 53-table read-only fingerprint methodology before and
+after this containment verification.
+
+Include:
+
+platform_fee_ledger_entries.
+
+Existing application financial records must remain unchanged.
+
+Use isolated databases for mutation tests.
+
+============================================================
+20. EXISTING P1 FINDINGS
+============================================================
+
+Do NOT remediate during this task:
+
+- refund-detail read boundary;
+- alternate Seller non-cash manual-status channel;
+- process-token binding concern;
+- other unfinished payment audit findings.
+
+Document them as still outstanding.
+
+============================================================
+21. DO NOT TOUCH
+============================================================
+
+Do NOT:
+
+- activate payment providers;
+- configure provider credentials;
+- change MTN/Orange;
+- change Flutterwave/Paystack;
+- fix merchant-direct;
+- fix "Use my own payment gateway";
+- change Cash;
+- change Wallet economics;
+- change commission formulas;
+- change payout architecture;
+- change refund architecture;
+- redesign Booking UI;
+- change Service scheduling;
+- change Driver/Pickup;
+- change Footer;
+- publish.
+
+============================================================
+22. REPORT
+============================================================
+
+Create/update a focused containment report documenting:
+
+1. exact root cause;
+
+2. vulnerable route;
+
+3. affected roles;
+
+4. authorization BEFORE;
+
+5. authorization AFTER;
+
+6. canonical Booking ownership source;
+
+7. canonical Staff Shop relationship;
+
+8. bookings.status enforcement;
+
+9. moderator result;
+
+10. shop_manager result;
+
+11. Seller result;
+
+12. Master result;
+
+13. Customer result;
+
+14. Admin result;
+
+15. branch semantics;
+
+16. country-scope semantics;
+
+17. cancellation financial-side-effect verification;
+
+18. sibling Booking paths inspected;
+
+19. tests/assertions;
+
+20. 53-table fingerprint result;
+
+21. exact files changed;
+
+22. remaining P0/P1 concerns.
+
+============================================================
+23. STOP
+============================================================
+
+After containment and focused verification:
+
+STOP.
+
+Do NOT resume the broader payment audit.
+
+Do NOT begin another security remediation automatically.
+
+Return the report and wait for explicit approval.

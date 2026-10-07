@@ -1,0 +1,556 @@
+AgendaAlly — Audit and Fix Maps Configuration End-to-End Across the Full Native Codebase
+
+The Maps configuration is currently not working correctly.
+
+I configured the Maps API key through the existing Admin panel, but the Customer application still displays:
+
+Address:
+“Maps are unavailable because no API key is configured for this environment.”
+
+Map:
+“Maps are unavailable because no API key is configured or Maps are disabled for this environment. Enable Maps and configure its environment-specific public API key.”
+
+This indicates that the existing Admin Maps configuration is either not being persisted correctly, not exposed through the appropriate runtime/settings contract, not consumed by one or more clients, being overridden by environment-only logic, or being interpreted inconsistently across the codebase.
+
+Audit the complete native Maps configuration path and implement the proper fix throughout the existing AgendaAlly codebase.
+
+This is an end-to-end configuration repair. Do not simply hide the warnings or hard-code the key into a frontend source file.
+
+Credit use is important. Trace the existing architecture first, make the smallest coherent fix, run focused verification, and stop.
+
+# 1. Establish the existing Maps architecture first
+
+Before changing code, trace every existing Maps-related configuration and consumer across:
+
+- Laravel backend
+- Admin/Vendor React application
+- Customer Next.js storefront
+- Customer Flutter/mobile application
+- any shared settings/configuration resources
+- address/location components
+- map components
+- autocomplete/place search
+- geocoding/reverse geocoding
+- Vendor/shop address management
+- Customer address management
+- booking/location flows
+- checkout/delivery address flows where applicable
+- any Delivery/Driver-related contracts already present in the repository
+
+Search for all relevant concepts, including variations of:
+
+- Google Maps
+- Maps API
+- Places API
+- Places Autocomplete
+- Geocoding
+- latitude
+- longitude
+- map key
+- google_map_key
+- map_api_key
+- GOOGLE_MAPS_API_KEY
+- NEXT_PUBLIC_*
+- VITE_*
+- Flutter map configuration
+- map enabled/disabled flags
+- environment policy
+- settings resources
+- global settings
+- AppSetting
+- Settings
+- map provider
+
+Do not assume Google Maps is the only implementation until the existing source confirms it.
+
+Report what the current architecture actually expects.
+
+# 2. Trace Admin → persistence
+
+Find the exact existing Admin screen where the Maps API key was entered.
+
+Determine:
+
+Admin UI
+→ request
+→ Laravel endpoint
+→ validation
+→ service/repository
+→ database/settings persistence.
+
+Verify:
+
+- the field is actually submitted;
+- the backend accepts it;
+- the correct setting/key name is persisted;
+- the value is not silently discarded;
+- update behavior works;
+- blank values do not accidentally erase an existing key unless explicitly intended;
+- the enabled/disabled Maps setting is persisted if such a setting exists;
+- duplicate or obsolete settings are not competing with the active setting.
+
+Do not expose the actual API key in the report, logs, screenshots or tests.
+
+If a secret/public-key distinction already exists, preserve it.
+
+# 3. Determine the authoritative configuration source
+
+The Admin-configured Maps setting should have a clear authoritative runtime path.
+
+Audit whether the current implementation expects Maps configuration from:
+
+A. database/Admin settings;
+B. deployment environment variables;
+C. both;
+D. different sources depending on client.
+
+The current behavior suggests the Admin value may be disconnected from the environment-specific check.
+
+Fix that architecture coherently.
+
+Do NOT merely add the same API key manually to multiple `.env` files.
+
+Do NOT hard-code a production API key in:
+
+- JavaScript/TypeScript source;
+- Flutter source;
+- committed configuration;
+- HTML;
+- seed files;
+- test fixtures.
+
+If a public browser Maps key legitimately must be delivered to a browser/mobile client, expose it through the existing safe public-settings/configuration contract or the architecture already intended for public client keys.
+
+Never expose server-only credentials.
+
+# 4. Public versus server Maps credentials
+
+Explicitly classify every Maps credential/configuration value as one of:
+
+- browser/public key;
+- mobile Android key;
+- mobile iOS key;
+- server-side geocoding key;
+- provider/project identifier;
+- enablement flag;
+- other non-secret configuration.
+
+Do not assume one unrestricted Google key should be reused everywhere.
+
+If the existing Admin model only supports one key but the native applications require environment/platform-specific keys, propose and implement the smallest backward-compatible extension necessary.
+
+For example, if appropriate to the existing architecture:
+
+Maps enabled
+Browser/public Maps key
+Android Maps key
+iOS Maps key
+Server Maps key
+
+But do NOT mechanically create these fields if the existing implementation does not require them.
+
+First trace the actual consumers.
+
+# 5. Fix the Customer Next.js storefront
+
+Trace the components producing these exact messages:
+
+“Maps are unavailable because no API key is configured for this environment.”
+
+and:
+
+“Maps are unavailable because no API key is configured or Maps are disabled for this environment.”
+
+Determine exactly why the Admin-configured value is not reaching them.
+
+Fix the actual configuration path.
+
+Verify relevant Customer surfaces such as:
+
+- Address
+- Map
+- location selector
+- address creation/edit
+- shop/service location display
+- booking location where applicable
+- delivery address where applicable
+- Places/autocomplete if currently implemented.
+
+Do not remove the warning simply to make the page appear functional.
+
+The warning should remain useful when Maps truly is disabled or genuinely lacks configuration.
+
+# 6. Fix Admin/Vendor Maps consumers
+
+Audit all Admin and Vendor components that use Maps or address/location selection.
+
+Examples may include:
+
+- shop/business address
+- service location
+- delivery zone
+- Vendor profile/location
+- country/region/city location configuration
+- map picker
+- address autocomplete
+- latitude/longitude picker.
+
+Ensure they consume the authoritative Maps configuration consistently.
+
+A Vendor must not need to configure AgendaAlly's platform Maps API key independently unless the existing product intentionally supports Vendor-owned Maps credentials.
+
+Do not introduce Vendor-owned Maps credentials without an explicit existing requirement.
+
+# 7. Audit Customer Flutter/mobile Maps configuration
+
+Audit the existing Customer mobile source too.
+
+Determine:
+
+- which Maps SDK/provider it uses;
+- where its API key currently comes from;
+- whether it can consume runtime Admin settings;
+- whether Android/iOS native SDK initialization requires build-time/native configuration;
+- whether Places/geocoding uses a separate key;
+- whether the Admin Maps configuration currently has any effect on Flutter.
+
+Do not pretend a runtime database setting can replace AndroidManifest.xml / Info.plist configuration if the native SDK actually requires build-time keys.
+
+Instead establish the correct architecture.
+
+If mobile requires separate native configuration, preserve that distinction and make Admin accurately represent/configure what can be runtime-configurable.
+
+Do not refactor the Delivery mobile app yet if its source has not been uploaded.
+
+Document its expected future configuration contract instead.
+
+# 8. Maps enablement must be explicit and consistent
+
+Audit all Maps enabled/disabled checks.
+
+There should not be conflicting situations such as:
+
+Admin says Maps enabled
++
+key exists
++
+Customer says Maps disabled.
+
+Define one authoritative effective rule.
+
+Conceptually:
+
+maps_available =
+    maps_enabled
+    AND appropriate_key_for_current_client_exists
+    AND environment/provider policy permits Maps
+
+But adapt this to the actual architecture.
+
+Do not infer Maps availability merely because a key string exists.
+
+Likewise, do not require an environment variable if the supported architecture intentionally stores the public client key in Admin settings.
+
+# 9. Environment-specific behavior
+
+The current warning explicitly says:
+
+“for this environment.”
+
+Audit what “environment” means in the implementation.
+
+Check:
+
+- development
+- preview
+- staging
+- production
+
+and whether Replit preview behavior is intentionally disabled.
+
+If an environment policy currently disables Maps in development/preview regardless of Admin configuration, determine why.
+
+Do not bypass a deliberate security restriction blindly.
+
+If it is obsolete or incorrectly implemented, correct it.
+
+If Maps requires an explicitly enabled development environment, wire that setting correctly and document it.
+
+# 10. API key restrictions
+
+Do not weaken API-key security to make the preview work.
+
+Preserve or recommend appropriate provider-side restrictions.
+
+For a browser key, the architecture should support HTTP referrer restrictions.
+
+For Android/iOS keys, preserve the provider's application/package restrictions where applicable.
+
+For server keys, do not expose them to browser/mobile clients.
+
+Do not print or return complete secret credentials through general settings endpoints.
+
+If the Admin-configured value is intentionally a public browser key, it is acceptable for the browser to receive that public key through the appropriate settings contract. Clearly distinguish that from a server secret.
+
+# 11. Existing location hierarchy must remain separate
+
+Do not confuse:
+
+Country
+Region/State
+City
+Address
+Latitude/Longitude
+Map provider configuration.
+
+The existing AgendaAlly country/city marketplace hierarchy must continue to work even when Maps is unavailable unless Maps is genuinely required for a specific action.
+
+Do not make country/city discovery dependent on Google Maps merely to solve this problem.
+
+The earlier Customer location flow must remain capable of:
+
+Country → City → storefront
+
+according to the existing native product behavior.
+
+Maps should enhance address/geospatial functionality, not silently become the authority for marketplace country/city policy.
+
+# 12. Graceful failure behavior
+
+When Maps is truly unavailable:
+
+- country/city selection should still work where Maps is not required;
+- forms should not crash;
+- pages should not remain permanently loading;
+- existing saved textual addresses should remain visible;
+- map-specific functionality can display a clear unavailable state;
+- no repeated console exception loop;
+- no misleading “API key missing” message if the actual problem is Maps disabled or provider initialization failure.
+
+Differentiate at least where practical:
+
+- Maps disabled;
+- required client key missing;
+- provider script/SDK failed to load;
+- API/provider request rejected;
+- location permission denied;
+- no geocoding result.
+
+Do not expose provider secrets in errors.
+
+# 13. Existing settings and seed behavior
+
+Audit whether Maps settings are seeded.
+
+Do NOT seed my actual API key into source-controlled development seeds.
+
+If default settings need to exist, seed only safe structural/default values, such as:
+
+maps_enabled = false
+
+or empty key placeholders if that matches the existing settings architecture.
+
+My Admin-entered value must remain editable and persistent.
+
+Do not overwrite a configured Maps key during repeated seed runs.
+
+If there are obsolete duplicate map settings, migrate/normalize them carefully rather than deleting configured values blindly.
+
+# 14. Backward compatibility
+
+Preserve existing APIs and settings contracts where practical.
+
+If an additive settings response is required, keep old fields working for:
+
+- Customer Web;
+- Admin/Vendor;
+- Customer Flutter.
+
+Do not perform a broad settings redesign.
+
+Do not rename existing fields without a compatibility path.
+
+# 15. Security and authorization
+
+Verify:
+
+- only authorized Admin/Superadmin roles can change platform Maps credentials/configuration;
+- Vendor users cannot retrieve server-only credentials;
+- Customer/public endpoints expose only values that are intentionally public;
+- server keys are redacted;
+- Admin update responses do not unnecessarily echo secrets;
+- logs do not contain keys;
+- validation does not leak keys.
+
+Do not weaken existing country/shop authorization.
+
+# 16. Focused automated tests
+
+Add focused tests around the actual corrected architecture.
+
+At minimum verify:
+
+1. Authorized Admin can update Maps configuration.
+2. Unauthorized actor cannot update platform Maps configuration.
+3. Stored Admin configuration is read by the authoritative settings resolver.
+4. Public Customer settings receive only the appropriate public Maps configuration.
+5. Server-only key, if one exists, is never returned publicly.
+6. Maps disabled produces the intended unavailable state.
+7. Maps enabled + appropriate key produces an available configuration.
+8. Missing key produces the correct state.
+9. Updating a key does not require reseeding.
+10. Repeated seed execution does not overwrite an existing configured key.
+11. Country/city functionality does not fail merely because Maps is disabled.
+12. Existing address/location records remain readable.
+13. Vendor cannot change the platform key unless explicitly authorized.
+14. Existing settings unrelated to Maps remain unchanged.
+
+Use synthetic keys in tests.
+
+Never use or print my real configured API key.
+
+# 17. Focused browser verification
+
+Credit use is important.
+
+Do NOT run another broad Stage 1/Stage 2 acceptance cycle.
+
+Use the existing previews and verify only relevant surfaces.
+
+Customer desktop:
+- country/city flow still works;
+- Address no longer incorrectly claims no key when properly configured;
+- Map initializes when enabled/configured;
+- address/map interaction works as currently designed.
+
+Customer approximately 390px:
+- location dialog is usable;
+- Map/address UI does not obscure the required controls;
+- no horizontal overflow;
+- country/city can actually be selected and saved;
+- complete storefront loads afterward.
+
+Admin:
+- existing Maps configuration is visible;
+- configured state is represented correctly;
+- updating configuration follows the existing settings workflow.
+
+Vendor:
+- relevant address/map picker consumes the same effective platform configuration.
+
+Do not create real bookings/orders/payments just to test Maps.
+
+# 18. Check the earlier location issue explicitly
+
+The previous run reported:
+
+“The Customer mobile location dialog obscured part of the screenshot; no location was saved.”
+
+Explicitly reproduce this now at approximately 390px.
+
+Determine whether there is a real responsive defect in the location dialog.
+
+If there is, fix only the layout necessary to make the existing country/city/location interaction usable:
+
+- controls visible;
+- dialog fits viewport;
+- scroll works where necessary;
+- save/continue control reachable;
+- no map overlay blocks required controls;
+- no horizontal overflow.
+
+Do not redesign the whole location experience.
+
+Also verify that the earlier transient `useServerCart` HTTP 500 does NOT recur during:
+
+country → city → save → storefront load.
+
+If it does recur, trace and fix the actual backend failure as part of this location/Maps integration because it directly blocks verification.
+
+Do not suppress genuine HTTP 500 responses in `fetcher.ts`.
+
+# 19. Do not change unrelated systems
+
+Do NOT modify:
+
+- payment provider activation;
+- payment country assignments;
+- Vendor payment credentials;
+- payouts;
+- wallets;
+- refunds;
+- settlement/accounting;
+- booking financial semantics;
+- Delivery Driver membership/onboarding;
+- Stories;
+- Car Service taxonomy;
+- specialist visibility;
+- unrelated storefront redesign;
+- authentication architecture except authorization required for Maps settings.
+
+Do not start Driver Phase 3.
+
+# 20. Verification and stop condition
+
+Run only:
+
+- focused Maps/settings backend tests;
+- focused location/address tests;
+- TypeScript checks for affected Web/Admin files;
+- Flutter static checks only if Flutter Maps code actually changes;
+- syntax checks;
+- focused desktop and approximately 390px browser checks.
+
+Do not rerun large payment suites unless Maps changes unexpectedly touch payment code.
+
+Do not call a real external provider unnecessarily during automated tests.
+
+For browser verification, using the configured Maps provider normally is acceptable if required to prove that the Admin-configured public key actually works, but do not expose the key in the report.
+
+# 21. Final report
+
+When complete, report exactly:
+
+A. Existing Maps architecture found.
+
+B. Root cause of why the Admin-configured key was ignored/not activated.
+
+C. Exact Admin setting and persistence path.
+
+D. Authoritative Maps configuration after the fix.
+
+E. Public-browser versus server/native credential handling.
+
+F. Laravel changes.
+
+G. Customer Next.js changes.
+
+H. Admin/Vendor changes.
+
+I. Flutter/mobile findings and any changes.
+
+J. Environment-policy findings.
+
+K. Country/city independence from Maps.
+
+L. 390px location-dialog result.
+
+M. Whether the earlier `useServerCart` 500 recurred.
+
+N. Security/authorization behavior.
+
+O. Tests/checks run and exact results.
+
+P. Exact files/migrations changed.
+
+Q. Any remaining limitation, including provider-side API restrictions or mobile build-time configuration.
+
+Restore the existing Customer, Admin/Vendor and Laravel previews if this work disturbed them.
+
+Then STOP.
+
+Do not publish.
+Do not start another payment phase.
+Do not start Driver Phase 3.
+Do not redesign unrelated UI.
+Do not begin another follow-up task automatically.

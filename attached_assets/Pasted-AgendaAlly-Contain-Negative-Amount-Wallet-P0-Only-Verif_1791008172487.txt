@@ -1,0 +1,471 @@
+AgendaAlly — Contain Negative-Amount Wallet P0 Only, Verify, Then Stop
+
+I approve remediation ONLY for the newly confirmed negative-amount Wallet P0
+documented in:
+
+docs/development/payment-system-full-audit.md
+
+The previously verified Wallet transfer terminal-state containment remains
+accepted and must not be redesigned or reverted.
+
+Do NOT resume the broader payment architecture audit yet.
+
+============================================================
+1. DEFECT TO CONTAIN
+============================================================
+
+The current Wallet monetary amount contract accepts negative numeric values.
+
+This creates two source-confirmed financial defects:
+
+A. Standalone withdrawal
+
+For x > 0, submitting -x reaches the withdrawal debit operation:
+
+balance - (-x) = balance + x
+
+This increases the Customer's spendable Wallet balance without funding.
+
+B. Wallet send
+
+A negative send amount reverses the intended economic direction:
+
+sender is credited;
+recipient is debited.
+
+This can debit another Customer without that Customer authorizing a withdrawal.
+
+The required invariant is therefore stronger than conservation alone:
+
+ALL CUSTOMER-INITIATED WALLET MONEY MOVEMENT AMOUNTS MUST BE STRICTLY POSITIVE
+BEFORE ANY FINANCIAL MUTATION OCCURS.
+
+============================================================
+2. MINIMUM CONTAINMENT
+============================================================
+
+Implement the smallest native-compatible correction.
+
+At minimum, strictly positive server-side validation must apply to:
+
+- Customer Wallet withdrawal;
+- Customer Wallet send.
+
+Reject:
+
+- negative values;
+- zero;
+- signed negative decimal values;
+- numeric strings representing zero or negative values;
+- any other representation accepted by the current request/parser that does
+  not represent a strictly positive monetary amount.
+
+Do not rely solely on frontend validation.
+
+Do not silently convert negative values using abs().
+
+Do not clamp them to zero.
+
+Do not reverse their sign.
+
+Invalid monetary input must be REJECTED before WalletHistory creation,
+Transaction creation or balance mutation.
+
+============================================================
+3. DEFENSE IN DEPTH
+============================================================
+
+Inspect the shared Wallet financial service boundary used by these operations.
+
+Determine whether request-level positive validation alone is sufficient for the
+native architecture or whether the shared service should also reject
+non-positive monetary amounts.
+
+Because this service performs the actual financial mutation, prefer a
+server-authoritative invariant at the financial/service boundary as
+defense-in-depth if it can be introduced without breaking legitimate native
+flows.
+
+Do not indiscriminately apply a new rule to operations whose signed values have
+a legitimate internal meaning.
+
+Trace callers first.
+
+Document exactly where the invariant is enforced and why.
+
+============================================================
+4. DO NOT CONFUSE DIFFERENT INVARIANTS
+============================================================
+
+Preserve the previous Wallet P0 containment.
+
+A valid positive completed transfer must still:
+
+- debit sender exactly once;
+- credit recipient exactly once;
+- finalize both histories and Transactions as `paid`;
+- remain non-cancellable;
+- conserve total Wallet value;
+- roll back both legs on failure.
+
+The new amount validation must additionally establish:
+
+AUTHORIZED DIRECTION OF VALUE MOVEMENT.
+
+For a positive transfer x:
+
+Sender: A -> A - x
+Recipient: B -> B + x
+
+Never:
+
+Sender: A -> A + x
+Recipient: B -> B - x
+
+Conservation alone is not sufficient.
+
+============================================================
+5. WITHDRAWAL INVARIANT
+============================================================
+
+For standalone Customer withdrawal:
+
+Require:
+
+amount > 0
+
+before:
+
+- history creation;
+- Transaction creation;
+- Wallet decrement;
+- any other financial side effect.
+
+Also preserve the existing insufficient-balance check for valid positive
+amounts.
+
+A negative or zero withdrawal must not:
+
+- increase balance;
+- create a pending withdrawal;
+- create a Transaction;
+- create accounting/ledger state;
+- trigger observers with financial effects.
+
+============================================================
+6. SEND INVARIANT
+============================================================
+
+For Customer Wallet send:
+
+Require the ORIGINAL customer-requested amount to be strictly positive before
+currency/rate normalization and before either financial leg begins.
+
+Then verify the normalized amount used for the transfer also remains strictly
+positive.
+
+A negative/zero amount must not:
+
+- credit the sender;
+- debit the recipient;
+- create either history;
+- create either Transaction;
+- trigger financial accounting;
+- enter transfer finalization.
+
+Preserve the accepted atomic rollback behavior.
+
+============================================================
+7. MONEY PRECISION / VALIDATION BOUNDARY
+============================================================
+
+Do not redesign Wallet monetary precision in this task.
+
+However, explicitly test the validation boundary for the native accepted
+numeric format, including at minimum:
+
+- -1
+- -0.01
+- 0
+- 0.00
+- numeric-string equivalents where accepted
+- a valid small positive decimal
+- a normal valid positive amount
+
+If scientific notation or unusual numeric representations are accepted by the
+current Laravel `numeric` contract, determine whether they can bypass the
+strict-positive invariant.
+
+Contain an actual bypass if one exists.
+
+Do not turn this into a general currency/decimal architecture redesign.
+
+============================================================
+8. SHARED SERVICE CALLERS
+============================================================
+
+Perform a bounded caller review of the WalletHistory service method that
+creates/mutates balances.
+
+The purpose is ONLY to ensure that adding defense-in-depth positive-amount
+validation does not break legitimate:
+
+- top-up;
+- withdrawal;
+- send;
+- Admin approval;
+- cancellation/rejection restoration;
+
+or another directly shared WalletHistory operation.
+
+Do not expand into unrelated payment architecture.
+
+If some internal operation legitimately uses a signed amount, do not blindly
+apply the same rule. Document it and enforce positivity at the appropriate
+customer money-movement boundary instead.
+
+============================================================
+9. AUTHORIZATION
+============================================================
+
+Preserve the ownership protection added during the previous Wallet
+containment.
+
+Verify that:
+
+- Customers cannot mutate foreign Wallet histories;
+- send cannot debit a recipient through negative input;
+- no request-controlled owner/user/wallet field bypasses the actor binding;
+- Seller/Staff roles gain no additional Wallet authority;
+- existing legitimate Admin Wallet behavior remains intact.
+
+Do not expand this into a general authorization audit.
+
+============================================================
+10. ATOMICITY AND FINALITY REGRESSION
+============================================================
+
+Re-run the important previous Wallet containment cases.
+
+Verify:
+
+Successful positive transfer:
+A + B == (A - x) + (B + x)
+
+Completed histories:
+sender = paid
+recipient = paid
+
+Completed Transactions:
+sender = paid
+recipient = paid
+
+Subsequent cancellation/rejection:
+no balance change.
+
+Injected failure:
+neither leg persists.
+
+The negative-amount fix must not regress these guarantees.
+
+============================================================
+11. FOCUSED TESTS
+============================================================
+
+Add focused isolated tests proving at minimum:
+
+1. negative standalone withdrawal rejected;
+
+2. zero standalone withdrawal rejected;
+
+3. negative decimal withdrawal rejected;
+
+4. rejected withdrawal creates no WalletHistory;
+
+5. rejected withdrawal creates no Transaction;
+
+6. rejected withdrawal leaves Wallet balance unchanged;
+
+7. negative send rejected;
+
+8. zero send rejected;
+
+9. negative decimal send rejected;
+
+10. rejected send leaves sender unchanged;
+
+11. rejected send leaves recipient unchanged;
+
+12. rejected send creates no sender history;
+
+13. rejected send creates no recipient history;
+
+14. rejected send creates no Transaction;
+
+15. valid positive withdrawal retains intended native behavior;
+
+16. valid positive send debits sender and credits recipient;
+
+17. valid positive send conserves total value;
+
+18. valid positive completed transfer remains terminal/non-cancellable;
+
+19. failed positive transfer still rolls back both legs;
+
+20. legitimate pending non-transfer withdrawal cancellation still restores
+    exactly once;
+
+21. Admin legitimate top-up approval still works once;
+
+22. foreign Wallet history remains inaccessible.
+
+Also test relevant numeric-string/decimal edge cases supported by the native
+request layer.
+
+Use isolated fixtures/databases only.
+
+Do NOT execute the negative-amount defect against existing application data.
+
+============================================================
+12. EXISTING DATA
+============================================================
+
+Do not rewrite historical Wallet histories or balances.
+
+Do not infer historical exploitation.
+
+You may perform a read-only structural count for negative/zero WalletHistory
+amounts if this can be done without exposing Customer identities, balances or
+transaction details.
+
+If records exist, report aggregate counts only.
+
+Do not repair them.
+
+Historical reconciliation requires separate approval.
+
+============================================================
+13. 53-TABLE PROTECTION
+============================================================
+
+Before remediation, capture the established protected-state snapshot.
+
+Maintain the same 53-table set including:
+
+platform_fee_ledger_entries.
+
+All mutation verification must use isolated fixtures/databases.
+
+After implementation/testing, compare the owned development database with the
+pre-change snapshot.
+
+Require:
+
+- identical protected table set;
+- identical row counts;
+- identical fingerprints;
+- zero unintended financial mutations.
+
+============================================================
+14. NARROW SIBLING REVIEW
+============================================================
+
+Perform ONLY a narrow review for another Customer-reachable Wallet money
+creation/movement route that feeds the same financial mutation service with an
+unvalidated non-positive amount.
+
+This is not authorization to resume the complete Wallet/payment audit.
+
+If the identical amount-sign defect exists through another directly equivalent
+Wallet route, contain it with the same invariant and document it.
+
+Do not investigate unrelated P1/P2/P3 issues.
+
+============================================================
+15. DO NOT DO
+============================================================
+
+Do NOT:
+
+- resume the broader payment architecture audit;
+- implement transport-level send idempotency;
+- redesign Wallet concurrency;
+- redesign monetary precision;
+- add transfer pairing merely for this fix;
+- activate payment providers;
+- configure credentials;
+- modify country/currency capability policy;
+- implement Vendor-direct;
+- fix "Use my own payment gateway";
+- change commissions;
+- redesign Vendor entitlement;
+- redesign payouts;
+- issue refunds;
+- execute payouts;
+- submit real Wallet operations;
+- change Booking/Product/Service checkout;
+- investigate unrelated authorization findings;
+- publish.
+
+============================================================
+16. REPORT
+============================================================
+
+Create:
+
+docs/development/payment-wallet-amount-p0-containment.md
+
+and update:
+
+docs/development/payment-system-full-audit.md
+
+Document:
+
+- exact root cause;
+- exact validation gap;
+- containment location(s);
+- request-level validation;
+- service-level invariant, if added;
+- numeric edge cases;
+- positive-transfer regression result;
+- withdrawal behavior;
+- authorization regression;
+- atomicity/finality regression;
+- narrow sibling review;
+- aggregate historical observation, if performed;
+- exact files changed;
+- test/assertion totals;
+- 53-table fingerprint comparison;
+- limitations.
+
+Only mark this finding:
+
+FOUND AND CONTAINED / VERIFIED
+
+after all focused verification passes.
+
+============================================================
+17. FINAL STOP
+============================================================
+
+After containment and focused verification:
+
+STOP.
+
+Do NOT automatically resume the payment architecture audit.
+
+Return a concise summary answering:
+
+- where positivity is now enforced;
+- whether both withdrawal and send are protected;
+- whether the shared financial service has defense-in-depth protection;
+- whether negative/zero values can create histories or Transactions;
+- whether valid positive transfers still work;
+- whether previous transfer finality/atomicity remains intact;
+- tests/assertions passed;
+- narrow sibling result;
+- historical aggregate result, if checked;
+- 53-table fingerprint result;
+- remaining limitations.
+
+Wait for explicit approval before resuming the architecture audit.

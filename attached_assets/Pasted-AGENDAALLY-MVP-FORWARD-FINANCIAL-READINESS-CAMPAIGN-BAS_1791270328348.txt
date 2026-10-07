@@ -1,0 +1,1741 @@
+AGENDAALLY MVP — FORWARD FINANCIAL READINESS CAMPAIGN
+
+BASELINE FREEZE
+→ OUTSTANDING HARDENING CLASSIFICATION
+→ FINANCIAL P0 CLASSIFICATION
+→ MANUAL REFUND/PAYOUT ARCHITECTURE & DESIGN
+→ STOP BEFORE IMPLEMENTATION
+
+
+======================================================================
+0. PURPOSE
+======================================================================
+
+Move AgendaAlly forward from the completed account/email acceptance work into
+the remaining MVP financial-readiness work.
+
+Do NOT reopen completed campaigns.
+
+This campaign has three execution phases:
+
+PHASE 2
+Freeze the current authoritative MVP baseline.
+
+PHASE 3
+Resolve/classify ONLY the previously identified outstanding hardening findings
+using fixture-only corrections and isolated reproductions.
+
+PHASE 4
+If no newly confirmed financial/security P0 requires an approval stop, perform
+the Manual Refund & Payout architecture/state-machine audit and produce an
+implementation-ready design.
+
+STOP AFTER PHASE 4.
+
+This campaign does NOT authorize implementation of the proposed Refund/Payout
+architecture.
+
+
+======================================================================
+1. AUTHORITATIVE CURRENT BASELINE
+======================================================================
+
+The bounded real Password Reset acceptance is COMPLETE.
+
+Preserve the following as authoritative evidence:
+
+- exactly ONE real Password Reset email was sent;
+- owner confirmed Gmail receipt and presentation;
+- owner completed the normal Customer reset journey;
+- new password successfully authenticated the intended Customer;
+- previous password was rejected;
+- native persisted state confirmed the password transition;
+- reset challenge was consumed;
+- Customer remained verified;
+- Customer profile remained unchanged;
+- Customer role remained unchanged;
+- Customer location remained unchanged;
+- no additional Reset delivery occurred;
+- real-send permission is OFF;
+- no pending mail jobs remain;
+- no failed mail jobs remain.
+
+No further:
+
+- login testing;
+- reset requests;
+- reset emails;
+- Verification emails;
+- Admin SMTP tests
+
+are authorized in this campaign.
+
+
+======================================================================
+2. CURRENT C1/O4 RESULT
+======================================================================
+
+Current authoritative MVP score remains:
+
+16/20 = 80%
+
+C1/O4 remain partial under the existing rubric because separate evidence remains
+outstanding around:
+
+- server-logout assurance; and
+- notification operational supervision/recovery.
+
+The completed Password Reset acceptance itself is NOT a failure.
+
+Do NOT reopen Password Reset merely to chase C1/O4 points.
+
+Do NOT create a new readiness rubric.
+
+Do NOT rescore unrelated gates.
+
+Do NOT imply production approval.
+
+Production remains NO-GO unless later evidence under the existing rubric
+explicitly changes that conclusion.
+
+
+======================================================================
+3. OTHER ACCEPTED ACCOUNT/EMAIL EVIDENCE
+======================================================================
+
+Preserve the previously accepted evidence:
+
+- SMTP transport verified;
+- real Gmail mailbox delivery verified;
+- SMTP password encrypted at application level;
+- SMTP password omitted from API responses;
+- blank edit preserves encrypted credential;
+- unreadable/plaintext credential fails closed;
+- TLS peer/hostname verification enabled;
+- self-signed certificates rejected;
+- sanitized SMTP errors/logging;
+- implicit TLS behavior retained for port 465;
+- generic email remains protected from broad real-send behavior;
+- Admin Test Email already verified and must NOT be repeated;
+
+- real Verification email previously received;
+- approved disposable Customer genuinely verified;
+- Verification must NOT be resent;
+
+- account-email outbox exists;
+- selected processing/idempotency evidence exists;
+- Verification/Reset templates render through managed presentation;
+- plain-text MIME exists;
+- CID logo/assets accepted;
+- social/footer presentation accepted;
+- responsive email rendering accepted;
+- Subscription recipient privacy corrected;
+- long unbroken content containment corrected;
+
+- Customer location-selector defect fixed;
+- Customer login/logout UI behavior previously exercised;
+- immediate UI logout without manual browser refresh accepted;
+- focused logout/token-revocation tests exist;
+
+- Admin Email Templates management is exposed in authenticated Admin;
+- built-in managed library currently contains exactly one:
+    Email Verification
+    Password Reset
+    Subscription / Digest
+- provisioning is idempotent/non-destructive;
+- Subscription default is library-only/non-scheduled;
+- remaining optional authenticated Admin CRUD interactions may remain recorded
+  as UNVERIFIED.
+
+Do NOT reopen any of these campaigns unless Phase 3 directly demonstrates a
+regression.
+
+
+======================================================================
+4. GLOBAL BOUNDARIES
+======================================================================
+
+Throughout this campaign DO NOT:
+
+- deploy to production;
+- activate production payments;
+- activate provider payouts;
+- activate provider refunds;
+- enable broad email workers;
+- send any real email;
+- change SMTP configuration;
+- expose SMTP credentials;
+- change Customer passwords;
+- create/reset Customer verification;
+- change accepted booking semantics merely to satisfy stale tests;
+- weaken tenant isolation;
+- weaken authorization;
+- insert fake provider credentials;
+- enable providers merely to make tests pass;
+- change Wallet/accounting semantics without later explicit approval;
+- implement automatic Refund/Payout execution;
+- reseed the database;
+- run destructive migrations;
+- rerun the entire migration chain unnecessarily;
+- mutate external financial systems;
+- fabricate financial/provider transactions;
+- repeatedly rerun the full broad hardening suite.
+
+Use the smallest bounded verification possible.
+
+Preserve accepted evidence.
+
+
+######################################################################
+# PHASE 2 — FREEZE CURRENT MVP BASELINE
+######################################################################
+
+======================================================================
+5. BASELINE FREEZE
+======================================================================
+
+Before further investigation, capture a bounded current baseline.
+
+Record:
+
+- current C1 status;
+- current O4 status;
+- current 20-gate score;
+- current production GO/NO-GO;
+- accepted Verification evidence;
+- accepted Password Reset evidence;
+- accepted logout evidence;
+- Admin Email Template Library state;
+- selected email/outbox state;
+- jobs state;
+- failed_jobs state;
+- current schema fingerprint/object count;
+- relevant protected-table fingerprints/counts;
+- financial configuration state;
+- known deferred/unverified items.
+
+Do not mutate data merely to create baseline evidence.
+
+This becomes the comparison point for Phases 3 and 4.
+
+Once frozen, do not recreate previously accepted acceptance evidence unless a
+later finding proves a direct regression.
+
+
+######################################################################
+# PHASE 3 — OUTSTANDING HARDENING CLASSIFICATION
+######################################################################
+
+======================================================================
+6. PHASE 3 PURPOSE
+======================================================================
+
+Do NOT perform a new broad security audit.
+
+Do NOT immediately rerun the entire ~1000-test suite.
+
+Return ONLY to the previously identified unresolved hardening findings.
+
+Previous investigation established that the same 59 failing broad cases existed
+before the Customer logout repair.
+
+Therefore they must NOT be labeled logout regressions without new evidence.
+
+Use:
+
+- fixture-only corrections for already-classified fixture drift;
+- isolated reproductions for unresolved findings;
+- affected test suites only.
+
+Application code changes are NOT generally authorized by this phase.
+
+If an isolated reproduction confirms a genuine application/security/financial
+defect, follow the stop rules below.
+
+
+======================================================================
+7. KNOWN FIXTURE-DRIFT GROUP
+======================================================================
+
+Previously identified fixture/setup issues included:
+
+A. BookingRefundConcurrencyTest
+B. BookingRefundContainmentTest
+C. BookingStaffAuthorizationTest
+D. BookingPaidAuthorityTest
+E. BookingRefundAuthorizationTest
+
+Observed fixture issue:
+
+current application relationships require service_masters/current assignment
+data that these fixtures did not correctly establish.
+
+Repair fixture/setup only where source evidence confirms this.
+
+Rules:
+
+- preserve current accepted application behavior;
+- do not weaken assertions;
+- do not bypass authorization;
+- do not restore obsolete relationships;
+- create the minimum current-valid assignment/relationship state;
+- rerun only affected suites first.
+
+If failures remain after valid fixture correction:
+
+classify them.
+
+Do not blindly change application code.
+
+
+======================================================================
+8. OTHER KNOWN FIXTURE-DRIFT CASES
+======================================================================
+
+Investigate previously observed:
+
+PaymentCollectionAmendmentTest
+- missing languages table.
+
+PaymentIntentAuthorizationTest
+- missing payment_payloads fixture/table setup.
+
+Correct fixture/setup only if confirmed.
+
+Do NOT modify application behavior merely to satisfy those tests.
+
+
+======================================================================
+9. PRESERVE INTENTIONAL CONTRACT CHANGES
+======================================================================
+
+Do not revert accepted current behavior to satisfy stale expectations.
+
+Two previously identified examples:
+
+A. PaymentEligibilityResolver metadata
+
+Current provider-readiness metadata intentionally contains richer state such as:
+
+- capability;
+- configuration;
+- runtime;
+- checkout/readiness state.
+
+If an exact-key assertion is stale, update the TEST only after confirming the
+current response contract is accepted and does not expose secrets.
+
+Do not remove legitimate readiness metadata simply to satisfy an old exact-key
+assertion.
+
+
+B. Gallery tenant isolation
+
+A previous NativeSixWorkstream expectation appeared to expect a foreign-Shop
+image to remain visible.
+
+Current tenant isolation excludes foreign-Shop content.
+
+Preserve tenant isolation.
+
+If the test is stale, update the test.
+
+Do NOT weaken isolation.
+
+
+======================================================================
+10. DRIVER VERIFICATION / INVITATION REPRODUCTION
+======================================================================
+
+Reproduce the relevant DeliveryDriverPhase2InvitationTest failures in isolation.
+
+Previous observations included:
+
+- fixture users unexpectedly unverified;
+- possible guardable-column/schema capability caching across differing test
+  schemas;
+- teardown may not clear relevant cached state;
+- invitation identity/membership/suspension/vendor isolation is involved.
+
+Determine whether this is:
+
+A. fixture/cache contamination only;
+
+B. genuine application-level cross-request/cache/security defect;
+
+C. mixed.
+
+Inspect:
+
+- verification state creation;
+- schema capability detection;
+- static/process-level cache lifetime;
+- teardown;
+- test schema differences;
+- invitation authorization;
+- identity binding;
+- vendor isolation;
+- suspension handling.
+
+If fixture/cache-only:
+
+make the smallest test-isolation correction and rerun only the affected suite.
+
+If a genuine runtime security/application defect is confirmed:
+
+STOP before fixing application code.
+
+Report:
+
+- exact reproduction;
+- runtime applicability;
+- affected security boundary;
+- proposed bounded repair;
+- tests needed.
+
+Wait for owner approval.
+
+
+======================================================================
+11. PROVIDER ELIGIBILITY REPRODUCTION
+======================================================================
+
+Reproduce only the unresolved provider-readiness/configuration boolean cases.
+
+Previously observed mismatches involved tests expecting configuration or
+eligibility booleans inconsistent with the current environment/provider
+readiness rules.
+
+Determine whether each failure represents:
+
+A. stale test expectation;
+
+B. environment/configuration mismatch;
+
+C. current accepted provider-readiness policy;
+
+D. genuine resolver/application defect.
+
+Preserve the rule that a provider must not become available merely because code
+exists.
+
+Eligibility may legitimately depend on:
+
+- country;
+- currency;
+- provider capability;
+- credential/configuration state;
+- runtime readiness;
+- checkout readiness;
+- environment policy.
+
+Do NOT:
+
+- add fake credentials;
+- enable a disabled provider;
+- relax Cameroon/XAF restrictions;
+- relax environment gates;
+- change payment routing simply to make a test pass.
+
+If current application behavior matches the accepted contract:
+
+update only stale test expectations.
+
+If a genuine payment/provider application defect is confirmed:
+
+STOP before modifying payment behavior.
+
+Report it for approval.
+
+
+======================================================================
+12. PAYOUT FINANCIAL CONTAINMENT REPRODUCTION
+======================================================================
+
+HIGH PRIORITY.
+
+Reproduce in isolation the previously observed:
+
+PayoutFinancialContainmentTest
+
+dataset:
+
+withdraw_no_row
+
+Earlier evidence indicated that an injected funding-Wallet deletion could be
+followed by a reported successful result rather than an expected rollback.
+
+This must NOT be dismissed as fixture drift without evidence.
+
+Trace the actual source/runtime path.
+
+Inspect:
+
+- request entry;
+- authenticated actor;
+- payout/withdraw authorization;
+- Wallet lookup;
+- eligible/funding Wallet;
+- balance validation;
+- row locks;
+- transaction start;
+- mutation ordering;
+- Wallet debit/reservation;
+- withdrawal/payout row creation;
+- history/audit creation;
+- exception handling;
+- rollback behavior;
+- response generation;
+- commit point;
+- retry/idempotency behavior.
+
+Capture isolated:
+
+STATE BEFORE
+
+OPERATION
+
+FAILURE INJECTION
+
+RETURNED RESPONSE
+
+STATE AFTER
+
+
+======================================================================
+13. PAYOUT CLASSIFICATION
+======================================================================
+
+Classify the result as one of:
+
+A. stale/invalid test injection that cannot represent the current runtime path;
+
+B. fixture timing/setup defect;
+
+C. genuine application-level atomicity defect;
+
+D. genuine financial P0.
+
+A genuine financial P0 exists if AgendaAlly can, for example:
+
+- return financial success after a required authoritative mutation failed;
+- partially commit Wallet/payout state;
+- lose rollback atomicity;
+- create inconsistent payout/Wallet records;
+- permit replay/duplicate financial mutation through the affected path.
+
+
+======================================================================
+14. FINANCIAL P0 STOP RULE
+======================================================================
+
+If the payout reproduction confirms a genuine financial P0:
+
+STOP APPLICATION CHANGES.
+
+Do NOT fix it automatically.
+
+Do NOT continue pretending the financial baseline is clean.
+
+Return:
+
+- exact source path;
+- reproduction;
+- state before;
+- operation;
+- injected failure;
+- returned response;
+- state after;
+- violated invariant;
+- transaction boundary;
+- severity;
+- exploitability/runtime applicability;
+- proposed containment;
+- proposed regression tests.
+
+Wait for owner approval before changing financial application code.
+
+
+======================================================================
+15. PRODUCT FULFILLMENT REPEAT-CREDIT P0
+======================================================================
+
+Revisit STATUS only.
+
+Do NOT silently fix it.
+
+Previous source-confirmed finding:
+
+OrderStatusUpdateService::statusUpdate couples entry into delivered with
+adminWalletTopUp.
+
+A lifecycle cycle through another accepted non-canceled state and back into
+delivered could create another paid gross Order-total Admin Wallet top-up
+without another Customer payment.
+
+This was previously classified as an independent financial P0.
+
+Determine its CURRENT status strictly from source/evidence:
+
+- UNCONTAINED;
+- CONTAINED BUT UNVERIFIED;
+- VERIFIED CONTAINED.
+
+Do not infer containment from unrelated changes.
+
+If still UNCONTAINED, explicitly carry it into:
+
+- financial architecture;
+- implementation priorities;
+- production NO-GO;
+- required containment plan.
+
+Do NOT implement containment in this campaign.
+
+
+======================================================================
+16. PHASE 3 REQUIRED MATRIX
+======================================================================
+
+Produce a matrix containing at minimum:
+
+Finding
+Original failure
+Root cause
+Fixture change
+Application change
+Focused verification
+Current classification
+Security/financial impact
+Blocking?
+Recommended next action
+
+Include:
+
+- BookingRefundConcurrencyTest
+- BookingRefundContainmentTest
+- BookingStaffAuthorizationTest
+- BookingPaidAuthorityTest
+- BookingRefundAuthorizationTest
+- DeliveryDriverPhase2InvitationTest
+- PaymentCollectionAmendmentTest
+- PaymentEligibilityResolver relevant cases
+- NativeSixWorkstream gallery isolation case
+- PaymentIntentAuthorizationTest
+- PayoutFinancialContainmentTest withdraw_no_row
+- Product fulfillment repeat-credit P0
+
+Do not use raw test counts alone as security/financial assurance.
+
+
+######################################################################
+# PHASE 4 — MANUAL REFUND & PAYOUT AUDIT / ARCHITECTURE DESIGN
+######################################################################
+
+======================================================================
+17. PHASE 4 ENTRY GATE
+======================================================================
+
+Enter Phase 4 only after Phase 3 classification provides enough evidence to
+understand the relevant financial boundaries.
+
+IMPORTANT:
+
+If Phase 3 discovers a NEW genuine financial/security P0 requiring immediate
+containment approval:
+
+STOP before Phase 4.
+
+However, the previously known Product fulfillment replay P0 may still be
+analyzed architecturally in Phase 4 if it remains an already-known unresolved
+baseline issue.
+
+Do NOT treat architectural analysis as containment.
+
+
+======================================================================
+18. APPROVED MVP FINANCIAL PRODUCT DIRECTION
+======================================================================
+
+The approved MVP direction is:
+
+MANUAL FINANCIAL EXECUTION.
+
+AgendaAlly controls:
+
+- request;
+- authorization;
+- eligibility;
+- workflow state;
+- evidence;
+- audit trail;
+- internal accounting/entitlement boundary;
+- reconciliation state;
+- notifications later.
+
+Actual Refund/Payout money movement is executed externally by an authorized
+Finance/Admin operator.
+
+After external execution, Finance/Admin records authoritative completion
+evidence in AgendaAlly.
+
+AgendaAlly must not claim that money moved merely because an internal request
+was approved.
+
+
+======================================================================
+19. NON-NEGOTIABLE FINANCIAL INVARIANTS
+======================================================================
+
+The architecture MUST preserve:
+
+PAYOUT APPROVED != PAYOUT COMPLETED
+
+REFUND APPROVED != REFUNDED
+
+BOOKING CANCELLED != REFUNDED
+
+PAYMENT SELECTED != PAYMENT COLLECTED
+
+CASH != AUTOMATICALLY COLLECTED
+
+UNPAID / UNCOLLECTED != BOOKING STATUS
+
+A status change alone cannot prove external money movement.
+
+Internal Wallet/accounting records cannot falsely imply provider/bank custody.
+
+Manual completion must require authoritative evidence.
+
+No provider transaction may be fabricated.
+
+
+======================================================================
+20. AUDIT CURRENT REFUND ARCHITECTURE
+======================================================================
+
+Before proposing changes, trace all current Refund-related source paths.
+
+Include where applicable:
+
+- Booking cancellation;
+- Booking paid/refund state;
+- Customer refund request;
+- Vendor action;
+- Specialist/Master action;
+- Admin action;
+- provider refund services;
+- Transaction records;
+- Wallet;
+- cashback;
+- payable/entitlement;
+- status fields;
+- notifications;
+- audit/history;
+- retries;
+- replay behavior.
+
+Determine:
+
+- who can request;
+- who can approve;
+- who can currently mark/refund;
+- what current code considers "refunded";
+- whether provider execution occurs;
+- whether Wallet mutation occurs;
+- whether cancellation currently implies refund anywhere;
+- whether duplicate/reflected/replayed refund actions are possible;
+- whether partial refunds exist;
+- whether amount/currency/payment collector snapshots are immutable;
+- whether provider/reference identity is durable.
+
+
+======================================================================
+21. AUDIT CURRENT PAYOUT/WITHDRAW ARCHITECTURE
+======================================================================
+
+Trace all current Payout/withdrawal paths.
+
+Include:
+
+- Vendor;
+- Specialist/Master;
+- Admin;
+- Wallet;
+- withdrawal/payout records;
+- entitlement;
+- available balance;
+- pending balance;
+- balance checks;
+- locks;
+- status;
+- approval;
+- completion;
+- rejection;
+- payout methods;
+- provider calls;
+- reconciliation;
+- evidence;
+- audit history;
+- retries;
+- replay/idempotency.
+
+Determine whether existing code conflates:
+
+REQUEST
+
+APPROVAL
+
+EXTERNAL MONEY MOVEMENT
+
+COMPLETION.
+
+
+======================================================================
+22. ACTOR / AUTHORIZATION MATRIX
+======================================================================
+
+Produce an explicit proposed authorization matrix.
+
+Consider:
+
+- Customer
+- Vendor / Shop owner
+- Specialist / Master
+- Finance/Admin
+- Super Admin if applicable
+- system/background process
+
+For each Refund/Payout operation specify who can:
+
+- view;
+- request;
+- cancel their pending request;
+- approve;
+- reject;
+- mark completed;
+- attach completion evidence;
+- correct/reconcile;
+- view sensitive financial evidence.
+
+Use least privilege.
+
+Preserve tenant isolation.
+
+Do not give ordinary Vendors/Specialists authority to self-approve external
+money movement.
+
+
+======================================================================
+23. REFUND STATE MACHINE
+======================================================================
+
+Design an explicit Refund state machine.
+
+At minimum distinguish semantically:
+
+REQUESTED
+
+APPROVED
+
+COMPLETED / REFUNDED
+
+REJECTED
+
+Evaluate whether current requirements actually need:
+
+CANCELLED
+
+FAILED
+
+REQUIRES_REVIEW
+
+PARTIALLY_COMPLETED
+
+Do not add complexity without a real business requirement.
+
+For every transition specify:
+
+- source state;
+- destination state;
+- actor;
+- authorization;
+- prerequisites;
+- amount;
+- currency;
+- immutable payment/source reference;
+- required evidence;
+- timestamp;
+- audit event;
+- idempotency boundary;
+- accounting effect;
+- prohibited transitions;
+- whether external money movement has occurred.
+
+APPROVED must NOT mean money was refunded.
+
+Only authoritative COMPLETED/REFUNDED may mean external refund execution has
+occurred.
+
+
+======================================================================
+24. PAYOUT STATE MACHINE
+======================================================================
+
+Design the equivalent manual Payout state machine.
+
+At minimum distinguish:
+
+REQUESTED
+
+APPROVED
+
+COMPLETED
+
+REJECTED
+
+Evaluate only if required:
+
+CANCELLED
+
+FAILED
+
+REQUIRES_REVIEW
+
+For every transition specify:
+
+- actor;
+- eligible entitlement;
+- amount;
+- currency;
+- beneficiary;
+- payout-method snapshot;
+- prerequisites;
+- approval evidence;
+- external execution evidence;
+- completion reference;
+- timestamp;
+- audit event;
+- idempotency;
+- accounting effect;
+- prohibited transitions.
+
+APPROVED must NOT mean the Vendor/Specialist has been paid.
+
+Only authoritative COMPLETED may represent completed external execution.
+
+
+======================================================================
+25. EXTERNAL EXECUTION EVIDENCE
+======================================================================
+
+Design the minimum evidence Finance/Admin must provide before marking a Refund
+or Payout COMPLETED.
+
+Evaluate structured fields such as:
+
+- external execution timestamp;
+- amount;
+- currency;
+- execution method;
+- external/reference ID;
+- beneficiary/payee;
+- bank/mobile-money/provider method classification;
+- evidence attachment/reference;
+- Finance/Admin actor;
+- completion note;
+- immutable completion timestamp.
+
+Avoid unnecessary sensitive information.
+
+Do not store:
+
+- full card numbers;
+- CVV;
+- online banking credentials;
+- provider secrets;
+- passwords.
+
+Do not rely solely on arbitrary free-text if structured evidence is reasonably
+possible.
+
+
+======================================================================
+26. IDEMPOTENCY / REPLAY DESIGN
+======================================================================
+
+Design durable financial event boundaries.
+
+Repeated:
+
+- HTTP request;
+- browser retry;
+- double-click;
+- API retry;
+- worker retry;
+- status toggle;
+- concurrent request
+
+must not create duplicate:
+
+- refund entitlement;
+- refund completion;
+- payout request;
+- payout reservation;
+- payout completion;
+- Wallet debit;
+- Wallet credit;
+- Admin Wallet credit;
+- financial audit event.
+
+Identify durable database uniqueness/idempotency boundaries.
+
+Do not rely solely on frontend button disabling.
+
+
+======================================================================
+27. TRANSACTION / CONCURRENCY DESIGN
+======================================================================
+
+For every financial mutation specify:
+
+- transaction boundary;
+- rows locked;
+- lock ordering;
+- eligibility check;
+- balance check;
+- uniqueness constraint;
+- state-transition condition;
+- failure behavior;
+- rollback behavior;
+- retry behavior;
+- response semantics.
+
+A failed required financial mutation must not return success.
+
+A partial mutation must not survive rollback.
+
+Concurrent completion attempts must not both succeed.
+
+
+======================================================================
+28. WALLET / ACCOUNTING SEMANTICS
+======================================================================
+
+Map proposed states against current accounting behavior.
+
+Explicitly distinguish:
+
+- Customer gross payment;
+- payment collection;
+- platform fee;
+- Vendor entitlement;
+- Specialist entitlement;
+- payable;
+- reserved payout;
+- external payout;
+- refund liability;
+- external refund;
+- cashback;
+- internal Wallet display;
+- provider custody;
+- bank custody;
+- cash/manual collection.
+
+Identify which existing Wallet entries are:
+
+- authoritative accounting;
+- entitlement representation;
+- legacy display/accounting;
+- provider settlement;
+- NOT actual custody.
+
+Do not silently redefine legacy Wallet semantics.
+
+
+======================================================================
+29. PRODUCT FULFILLMENT FINANCIAL BOUNDARY
+======================================================================
+
+Design how the future model prevents Product fulfillment status replay from
+creating duplicate financial credit.
+
+The durable financial boundary must not depend solely on repeatedly entering
+`delivered`.
+
+Propose, without implementing:
+
+- event identity;
+- Order/payment identity;
+- unique financial event boundary;
+- finality;
+- allowed reversal/correction;
+- relation to delivered status;
+- relation to Customer payment;
+- relation to Vendor/Admin entitlement;
+- audit history.
+
+The same Customer payment must not create multiple gross financial credits
+because Order status was toggled.
+
+
+======================================================================
+30. BOOKING CANCELLATION VS REFUND
+======================================================================
+
+Explicitly separate cancellation from money movement.
+
+Design expected behavior for:
+
+A. unpaid Booking;
+
+B. cash Booking;
+
+C. platform-managed provider-paid Booking;
+
+D. Vendor-direct Booking where supported;
+
+E. partially/non-refundable cases only if the current product supports them.
+
+Cancellation may:
+
+- create no refund eligibility;
+- create refund eligibility;
+- create a Refund REQUEST;
+
+depending on accepted business rules.
+
+But:
+
+CANCELLED != REFUNDED.
+
+A cancelled Booking must never be presented as refunded unless authoritative
+Refund completion exists.
+
+
+======================================================================
+31. PAYMENT COLLECTION AUTHORITY
+======================================================================
+
+Preserve the distinction:
+
+PAYMENT METHOD SELECTED
+
+vs
+
+PAYMENT VERIFIED/COLLECTED.
+
+Trace what authoritative evidence currently proves payment for each supported
+collection mode.
+
+The Refund design must bind to an actual collected/verified payment where
+appropriate.
+
+Do not refund money AgendaAlly cannot establish was collected under the relevant
+model.
+
+
+======================================================================
+32. PROVIDER BOUNDARY
+======================================================================
+
+Manual Refund/Payout MVP must NOT depend on provider automation.
+
+Existing providers may continue serving payment collection where already
+supported.
+
+Refund/Payout execution remains external/manual for MVP.
+
+Design the state machine so future automation can later replace ONLY the
+execution adapter.
+
+A future provider adapter may eventually supply authoritative completion
+evidence through:
+
+- verified API response;
+- webhook;
+- reconciliation;
+
+but should not require redefining the business state machine.
+
+Do NOT implement this future automation now.
+
+
+======================================================================
+33. RECONCILIATION DESIGN
+======================================================================
+
+Design minimum viable reconciliation for Finance/Admin.
+
+Finance/Admin should be able to identify:
+
+- requested;
+- approved but outstanding;
+- completed;
+- rejected;
+- stale/aged;
+- amount;
+- currency;
+- beneficiary;
+- related Booking/Order/Transaction;
+- external completion reference;
+- completion date;
+- approving actor;
+- completing actor.
+
+Propose useful filters/status views.
+
+Do not design a full ERP/accounting platform.
+
+
+======================================================================
+34. AUDIT TRAIL
+======================================================================
+
+Every financial state transition must be attributable.
+
+Design immutable/auditable capture of:
+
+- financial object ID;
+- previous state;
+- new state;
+- actor;
+- timestamp;
+- amount;
+- currency;
+- reason where applicable;
+- related Booking/Order/payment;
+- authoritative completion evidence;
+- external reference where applicable.
+
+Avoid destructive history replacement.
+
+
+======================================================================
+35. ADMIN / FINANCE UX
+======================================================================
+
+Propose minimum Admin/Finance management UX.
+
+Refund/Payout queues should consider displaying:
+
+- request ID;
+- type;
+- requester;
+- beneficiary;
+- Shop;
+- related Booking/Order/payment;
+- amount;
+- currency;
+- state;
+- requested timestamp;
+- approved timestamp;
+- completed timestamp;
+- payment/payout method snapshot;
+- evidence/reference;
+- available actions.
+
+Actions must be:
+
+- permission-aware;
+- state-aware;
+- transition-specific.
+
+Do NOT use one unrestricted generic status dropdown that allows arbitrary
+financial state changes.
+
+
+======================================================================
+36. CUSTOMER / VENDOR / SPECIALIST UX
+======================================================================
+
+Propose minimum user-facing financial status visibility.
+
+Users must be able to distinguish:
+
+REQUESTED
+
+APPROVED
+
+COMPLETED / REFUNDED / PAID
+
+REJECTED
+
+Do not display:
+
+"Refunded"
+
+before authoritative Refund completion.
+
+Do not display:
+
+"Paid"
+
+or
+
+"Paid Out"
+
+before authoritative Payout completion.
+
+Do not expose internal Finance-only evidence unnecessarily.
+
+
+======================================================================
+37. FINANCIAL NOTIFICATIONS — DESIGN ONLY
+======================================================================
+
+DO NOT implement financial emails in this campaign.
+
+Define future notification triggers.
+
+Potential events:
+
+Refund Requested
+Refund Approved
+Refund Completed
+Refund Rejected
+
+Payout Requested
+Payout Approved
+Payout Completed
+Payout Rejected
+
+For each proposed notification specify:
+
+- triggering authoritative transition;
+- recipient;
+- safe wording semantics.
+
+"Approved" messaging must not imply money has moved.
+
+"Completed/Refunded/Paid" messaging may only originate from authoritative
+completion state.
+
+Do not create Email Template rows yet.
+
+
+======================================================================
+38. DATA MODEL DELTA — PROPOSAL ONLY
+======================================================================
+
+Using the actual current schema, propose the SMALLEST data-model changes
+required.
+
+For every proposed:
+
+- table;
+- column;
+- state/enum;
+- foreign key;
+- index;
+- uniqueness constraint;
+- immutable snapshot;
+- audit/history structure
+
+explain:
+
+- why it is required;
+- what invariant it enforces;
+- whether an existing structure can safely serve the purpose.
+
+Prefer compatible existing structures where semantics are clear.
+
+Do not force ambiguous legacy fields to carry new financial meaning.
+
+DO NOT CREATE MIGRATIONS IN THIS CAMPAIGN.
+
+
+======================================================================
+39. SERVICE / API DELTA — PROPOSAL ONLY
+======================================================================
+
+Propose the smallest required service/API changes.
+
+For each action specify:
+
+- route/action;
+- actor;
+- authorization;
+- tenant boundary;
+- input;
+- preconditions;
+- transition;
+- transaction boundary;
+- idempotency;
+- audit effect;
+- response;
+- failure semantics.
+
+DO NOT IMPLEMENT THESE CHANGES YET.
+
+
+======================================================================
+40. TEST / ACCEPTANCE PLAN
+======================================================================
+
+Create an implementation acceptance matrix.
+
+REFUND coverage should include:
+
+- request authorization;
+- tenant isolation;
+- valid payment binding;
+- duplicate request;
+- approval;
+- rejection;
+- completion;
+- completion without approval denied;
+- double completion denied;
+- replay denied;
+- invalid amount denied;
+- invalid currency denied;
+- missing completion evidence denied where required;
+- cancellation != refund;
+- rollback;
+- concurrent completion;
+- audit history;
+- unauthorized actor;
+- cross-Shop access.
+
+PAYOUT coverage should include:
+
+- entitlement eligibility;
+- request;
+- insufficient entitlement;
+- tenant isolation;
+- approval;
+- rejection;
+- completion;
+- approval != completion;
+- completion without approval denied;
+- duplicate completion denied;
+- concurrent completion;
+- rollback;
+- immutable payout-method snapshot;
+- completion evidence;
+- audit history;
+- unauthorized actor;
+- cross-Shop access.
+
+PRODUCT coverage must include:
+
+- repeated delivered transition cannot duplicate financial credit;
+- status replay cannot create a second financial event for the same authoritative
+  payment/fulfillment boundary.
+
+GENERAL financial coverage:
+
+- idempotency;
+- authorization;
+- tenant isolation;
+- transaction rollback;
+- concurrency;
+- preservation;
+- no provider execution during manual workflow;
+- no false success response after rollback/failure.
+
+
+======================================================================
+41. MIGRATION / EXISTING DATA PLAN — PROPOSAL ONLY
+======================================================================
+
+Classify existing financial records as:
+
+- safely mappable;
+- migration required;
+- reconciliation required;
+- legacy-only;
+- ambiguous/manual review.
+
+Do not rewrite financial history merely to fit the proposed model.
+
+Propose:
+
+- migration sequence;
+- backfill strategy;
+- reconciliation requirements;
+- deployment ordering;
+- rollback strategy;
+- feature gating.
+
+NO MIGRATION EXECUTION.
+
+
+======================================================================
+42. PRODUCTION READINESS GATES
+======================================================================
+
+Define what must eventually be verified before the manual Refund/Payout model
+could be considered production-ready.
+
+Include:
+
+- migration safety;
+- authorization;
+- tenant isolation;
+- immutable source references;
+- idempotency;
+- concurrency;
+- transaction rollback;
+- Wallet/accounting semantics;
+- completion evidence;
+- audit history;
+- reconciliation;
+- operational procedure;
+- financial notification semantics;
+- Product replay containment;
+- payout atomicity;
+- provider boundary;
+- backup/recovery where relevant.
+
+Do NOT certify these gates during architecture/design.
+
+
+######################################################################
+# FINAL REPORT
+######################################################################
+
+======================================================================
+43. REQUIRED CONSOLIDATED REPORT
+======================================================================
+
+Return ONE consolidated report with these sections:
+
+1. Executive Summary
+
+2. Frozen MVP Baseline
+
+3. Current 20-Gate Score
+
+4. Current Production GO/NO-GO
+
+5. Accepted Account/Email Evidence
+
+6. Password Reset Final Acceptance
+
+7. Remaining C1/O4 Gaps
+
+8. Preservation/Fingerprint Evidence
+
+9. Phase 3 Hardening Matrix
+
+10. Booking Fixture Corrections
+
+11. Driver Verification/Invitation Classification
+
+12. Provider Eligibility Classification
+
+13. Gallery Isolation Classification
+
+14. Payment Fixture Classification
+
+15. Payout Atomicity Reproduction
+
+16. Payout Atomicity Classification
+
+17. Product Fulfillment Repeat-Credit P0 Current Status
+
+18. Newly Confirmed Security/Financial P0s
+
+19. Phase 4 Entry Decision
+
+20. Current Refund Architecture
+
+21. Current Payout Architecture
+
+22. Current Wallet/Accounting Semantics
+
+23. Current Authorization Matrix
+
+24. Proposed Refund State Machine
+
+25. Proposed Payout State Machine
+
+26. Proposed Transition Authorization Matrix
+
+27. Manual External-Execution Evidence Model
+
+28. Idempotency/Replay Design
+
+29. Transaction/Concurrency Design
+
+30. Wallet/Accounting Boundary Design
+
+31. Booking Cancellation/Refund Design
+
+32. Product Fulfillment Financial Boundary
+
+33. Provider/Future Automation Boundary
+
+34. Reconciliation Design
+
+35. Audit-Trail Design
+
+36. Admin/Finance UX Proposal
+
+37. Customer/Vendor/Specialist UX Proposal
+
+38. Proposed Data-Model Delta
+
+39. Proposed Service/API Delta
+
+40. Proposed Financial Notification Matrix
+
+41. Proposed Test/Acceptance Matrix
+
+42. Existing-Data/Migration Proposal
+
+43. Production-Readiness Gates
+
+44. Open Decisions Requiring Owner Approval
+
+45. Recommended Implementation Sequence
+
+46. Explicit List of Things NOT Changed
+
+47. Final Recommendation
+
+
+======================================================================
+44. RECOMMENDED IMPLEMENTATION SEQUENCE
+======================================================================
+
+The report should recommend the safest implementation sequence based on actual
+source evidence.
+
+Evaluate an order such as:
+
+1. contain confirmed financial P0s;
+
+2. establish durable financial-event/idempotency boundaries;
+
+3. establish immutable payment/entitlement snapshots;
+
+4. implement Refund state machine;
+
+5. implement Payout state machine;
+
+6. implement authorization and tenant isolation;
+
+7. implement evidence/audit trail;
+
+8. implement transaction/concurrency containment;
+
+9. implement Admin/Finance reconciliation queues;
+
+10. implement Customer/Vendor/Specialist state visibility;
+
+11. implement financial notification templates tied to authoritative states;
+
+12. run bounded financial acceptance;
+
+13. run migration/preservation verification;
+
+14. perform operational certification.
+
+This is NOT authorization to execute those steps.
+
+Change the recommended ordering if actual source dependencies require it, and
+explain why.
+
+
+======================================================================
+45. HARD STOP BEFORE FINANCIAL IMPLEMENTATION
+======================================================================
+
+THIS CAMPAIGN ENDS WITH AUDIT + DESIGN.
+
+DO NOT proceed from architecture into implementation.
+
+Specifically DO NOT:
+
+- create Refund/Payout migrations;
+- change Refund business logic;
+- change Payout business logic;
+- change Wallet logic;
+- change financial transaction services;
+- change Booking refund semantics;
+- change Product/Order financial semantics;
+- fix the Product repeat-credit P0 without approval;
+- fix a confirmed payout financial P0 without approval;
+- change provider integrations;
+- add Refund/Payout email templates;
+- add financial Admin mutation actions;
+- mutate existing financial records;
+- activate financial workers;
+- execute real refunds;
+- execute real payouts.
+
+The owner must review the architecture and P0 findings first.
+
+
+======================================================================
+46. STOP CONDITIONS
+======================================================================
+
+STOP before further application modification if investigation confirms:
+
+- genuine financial atomicity failure;
+- false financial success response;
+- duplicate financial credit/debit;
+- cross-tenant financial access;
+- authorization bypass;
+- replayable completed financial action;
+- inconsistent Wallet/payout/refund state;
+- credential exposure;
+- new payment verification bypass;
+- any other new financial/security P0.
+
+Do not fix a P0 merely because the likely repair appears obvious.
+
+Document it and request approval.
+
+
+======================================================================
+47. EXECUTION ORDER
+======================================================================
+
+Execute in this order:
+
+STEP 1
+Freeze the current completed baseline.
+
+STEP 2
+Perform ONLY the bounded Phase 3 hardening classification.
+
+STEP 3
+Apply fixture-only/test-only corrections where source evidence proves the
+application behavior is already correct.
+
+STEP 4
+Perform isolated Driver/provider/payout reproductions.
+
+STEP 5
+Determine current Product fulfillment replay-P0 status.
+
+STEP 6
+If a NEW genuine financial/security P0 triggers the stop rule:
+
+STOP and report.
+
+Do not implement its repair.
+
+STEP 7
+Otherwise proceed into the Manual Refund/Payout source audit and architecture
+design.
+
+STEP 8
+Produce the consolidated report.
+
+STEP 9
+STOP.
+
+Do not request another email/reset/login acceptance.
+
+Do not reopen completed account/email work.
+
+Do not broaden into unrelated MVP features.
+
+Do not implement the financial architecture.
+
+BEGIN FROM THE CURRENT ACCEPTED STATE AND MOVE FORWARD.

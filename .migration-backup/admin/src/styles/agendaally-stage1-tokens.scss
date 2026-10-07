@@ -1,0 +1,34 @@
+@font-face {
+  font-family: 'AgendaAllyStage1Inter';
+  src: url('../assets/fonts/inter/InterVariable.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@mixin agendaally-stage1-tokens {
+  --agendaally-stage1-font-family: 'AgendaAllyStage1Inter', Inter, sans-serif;
+  --agendaally-stage1-canvas: #faf8f4;
+  --agendaally-stage1-surface: #fff;
+  --agendaally-stage1-ink: #191a19;
+  --agendaally-stage1-muted: #64665f;
+  --agendaally-stage1-subtle: #85867f;
+  --agendaally-stage1-border: #e5e2dc;
+  --agendaally-stage1-bronze: #916d41;
+  --agendaally-stage1-bronze-ink: #76522e;
+  --agendaally-stage1-bronze-wash: #f0e7d9;
+  --agendaally-stage1-success: #276447;
+  --agendaally-stage1-error: #ac3d36;
+  --agendaally-stage1-focus: #76522e;
+  --agendaally-stage1-radius-sm: 10px;
+  --agendaally-stage1-radius-md: 16px;
+  --agendaally-stage1-radius-lg: 24px;
+  --agendaally-stage1-radius-xl: 30px;
+  --agendaally-stage1-shadow: 0 24px 70px rgba(48, 39, 27, 0.1),
+    0 2px 8px rgba(48, 39, 27, 0.04);
+}
+
+.agendaally-stage1-auth,
+.agendaally-stage1-nav {
+  @include agendaally-stage1-tokens;
+}

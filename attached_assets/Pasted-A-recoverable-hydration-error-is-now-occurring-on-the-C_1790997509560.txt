@@ -1,0 +1,244 @@
+A recoverable hydration error is now occurring on the Customer Shop page.
+
+Please diagnose and fix this before completing the current visual/media pass.
+
+ERROR
+
+Hydration failed because the server-rendered Shop-hours status differs from
+the client's initial render.
+
+The trace shows:
+
+Server:
+"Open based on shop hours"
+
+Client:
+"Closed based on shop hours"
+
+Location:
+
+app/(store)/(booking)/(witout-footer)/(navigation)/shops/[id]/components/
+top-info/top-info.tsx
+
+around:
+
+<span className="aa-s2-chip">
+  {isShopClosed
+    ? "Closed based on shop hours"
+    : "Open based on shop hours"}
+  {today && !today.disabled && ` · ${today.from}–${today.to}`}
+</span>
+
+==================================================
+DIAGNOSE FIRST
+==================================================
+
+Trace exactly how these values are calculated:
+
+- isShopClosed
+- today
+- current weekday
+- current time
+- Shop timezone
+- branch/location timezone if applicable
+- server timezone
+- browser timezone
+
+Determine why SSR and the browser's FIRST hydration render disagree.
+
+Specifically audit for:
+
+- new Date() during render;
+- Date.now();
+- browser-local timezone calculations;
+- server-local timezone calculations;
+- locale-sensitive weekday/date formatting;
+- Intl.DateTimeFormat without an explicit authoritative timezone;
+- typeof window branches;
+- state initialized differently server/client;
+- effects that should occur only after hydration;
+- Shop-hours helpers that implicitly use the runtime machine timezone.
+
+==================================================
+IMPORTANT
+==================================================
+
+Do NOT fix this by:
+
+- suppressHydrationWarning;
+- disabling SSR for TopInfo;
+- making the entire Shop page client-only;
+- hiding React hydration warnings;
+- removing the Open/Closed indicator;
+- hard-coding Open or Closed;
+- weakening Shop-hours logic.
+
+Those would mask the underlying inconsistency.
+
+==================================================
+EXPECTED ARCHITECTURE
+==================================================
+
+The Shop-hours status needs one authoritative timezone/time interpretation.
+
+Audit the existing Shop/location model first and reuse the native timezone
+source if one already exists.
+
+If Shop/branch timezone exists, use it explicitly.
+
+Do not infer business time independently from whichever timezone happens to
+be configured on the Next server or Customer browser.
+
+For example, a Shop in Cameroon should not change from Open → Closed merely
+because:
+
+SSR runs in UTC
+
+while
+
+the Customer browser runs in America/Chicago.
+
+The business status must represent the Shop's local operating time.
+
+==================================================
+SSR / HYDRATION SAFETY
+==================================================
+
+Even with an authoritative Shop timezone, current time itself can cross a
+minute/opening/closing boundary between SSR and hydration.
+
+Therefore make the initial SSR and initial client render deterministic.
+
+Use the smallest architecture consistent with the existing application.
+
+Potentially this means providing the initial render with a stable time
+snapshot and authoritative timezone, then updating live status client-side
+after hydration.
+
+Do NOT blindly implement that suggestion if the application already has a
+native deterministic Shop-hours mechanism.
+
+Audit first and reuse existing architecture where possible.
+
+The fundamental requirement is:
+
+SERVER INITIAL RENDER
+==
+CLIENT FIRST RENDER
+
+After hydration, the browser may legitimately update the status when time
+changes.
+
+==================================================
+BUSINESS-HOURS CORRECTNESS
+==================================================
+
+Verify:
+
+- correct Shop-local weekday;
+- correct Shop-local time;
+- disabled/closed days;
+- opening boundary;
+- closing boundary;
+- overnight hours if supported;
+- missing schedule;
+- malformed/incomplete schedule fallback;
+- timezone behavior;
+- server/client consistency.
+
+Also verify that the displayed hours:
+
+09:00–18:00
+
+refer to the same Shop-local day used to calculate Open/Closed.
+
+Do not display today's hours from one timezone while calculating status from
+another.
+
+==================================================
+TEST THE EXACT FAILURE
+==================================================
+
+Reproduce the affected Shop route shown by the error before fixing it.
+
+After fixing:
+
+1. hard reload;
+2. verify SSR/hydration;
+3. verify no hydration warning;
+4. navigate away and back client-side;
+5. reload again;
+6. verify Open/Closed status is correct for the Shop's local timezone.
+
+Also test at least:
+
+- Le Sawa Beauty Studio
+- AgendaAlly Learning Hub
+- Wouri Beauty Bar
+
+where schedule data is available.
+
+==================================================
+REGRESSION TEST
+==================================================
+
+Add a focused regression test demonstrating that Shop-hours rendering does
+not depend on the runtime/browser machine timezone.
+
+Where practical, test the same Shop schedule using different execution
+timezone contexts and confirm the business status represents the Shop's
+authoritative timezone.
+
+Also test deterministic SSR/initial hydration behavior.
+
+==================================================
+CURRENT TASK BOUNDARY
+==================================================
+
+This is an approved runtime defect discovered during the current browser
+acceptance pass.
+
+Fix it narrowly.
+
+Do NOT use this as authorization to reopen:
+
+- booking;
+- Shop Pickup;
+- Delivery;
+- Collection Point;
+- payment;
+- Maps;
+- Discovery;
+- authentication;
+- Shop gallery architecture;
+- Specialist visibility;
+- Driver features.
+
+After fixing this hydration defect, continue ONLY the already-approved:
+
+1. Customer shared-header/logo correction;
+2. 51 seeded Service-photo Africa-first curation.
+
+==================================================
+REPORT
+==================================================
+
+In the final report include:
+
+- exact hydration root cause;
+- server timezone/time source before fix;
+- client timezone/time source before fix;
+- authoritative Shop timezone source;
+- implementation used to make initial rendering deterministic;
+- files changed;
+- regression tests added;
+- browser verification results.
+
+Do not report this as solved merely because React stopped displaying the
+warning.
+
+Verify that the displayed Open/Closed status itself remains semantically
+correct.
+
+Then continue the already-approved bounded visual/media pass and STOP at its
+existing boundary.

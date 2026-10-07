@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/Hardening/bootstrap.php" colors="true" cacheResult="false">
+    <testsuites>
+        <testsuite name="Isolated hardening">
+            <directory suffix="Test.php">tests/Hardening</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

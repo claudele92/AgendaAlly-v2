@@ -1,0 +1,925 @@
+AgendaAlly — Customer Header Alignment + Africa-First Service Photography Correction
+
+Please perform ONE focused visual/media correction pass covering:
+
+1. Customer header/logo composition
+2. Existing seeded Service photography
+
+Do NOT redesign the Shop page.
+Do NOT modify unrelated application behavior.
+Do NOT start another workstream after this.
+
+I am attaching the APPROVED Customer Shop-page mock.
+
+Treat that attached mock as the visual source of truth for the Customer
+desktop header composition.
+
+The current implementation has two remaining issues:
+
+A. The AgendaAlly logo is not only too small — it is also positioned too far
+   toward the left edge of the viewport, creating excessive empty space
+   between the brand and Search.
+
+B. The recently seeded Service photographs are too heavily represented by
+   white/non-African people. AgendaAlly is Africa-first, and its demo catalog
+   should visually reflect the customers, professionals and businesses of its
+   initial market while keeping every photograph relevant to the Service.
+
+This is a presentation/demo-data correction only.
+
+============================================================
+PART A — CUSTOMER HEADER / LOGO
+============================================================
+
+1. APPROVED MOCK IS THE VISUAL REFERENCE
+
+Compare the CURRENT rendered Customer header against the attached approved
+mock.
+
+The desired desktop composition is approximately:
+
+[ AgendaAlly ] [ Search / Where / Date / Time / Search ]
+                                  [ Cart ] [ For business ] [ Account ]
+
+The important point is the RELATIONSHIP between these elements.
+
+The logo and Search component should feel like part of one centered,
+professional navigation composition.
+
+The logo should NOT appear isolated near the far-left viewport edge.
+
+Do not merely increase the logo width and call this fixed.
+
+============================================================
+2. CURRENT PROBLEM
+============================================================
+
+Audit why the current header differs from the approved mock.
+
+Inspect:
+
+- shared Customer header/navigation component;
+- outer container/max-width;
+- logo container;
+- search container;
+- flex/grid behavior;
+- gaps/margins;
+- responsive breakpoints;
+- Next/Image dimensions;
+- intrinsic logo dimensions;
+- transparent whitespace inside the logo asset;
+- object-fit/object-position;
+- whether the compact symbol is being used where the full wordmark belongs.
+
+Determine the actual root cause before changing CSS.
+
+============================================================
+3. DESKTOP HEADER LAYOUT
+============================================================
+
+The Customer header should use a centered responsive content container.
+
+Its composition should align naturally with the primary Shop-page content
+grid below.
+
+The desired relationship is:
+
+viewport edge
+    ↓
+reasonable page margin
+    ↓
+AgendaAlly wordmark
+    ↓
+moderate intentional gap
+    ↓
+Search component
+    ↓
+responsive/flexible space
+    ↓
+Cart / For business / Account
+    ↓
+reasonable page margin
+
+Do NOT use:
+
+viewport edge
+→ tiny logo
+→ huge dead space
+→ Search.
+
+Do NOT absolutely position the logo to imitate the screenshot.
+
+Use proper responsive primitives:
+
+- max-width;
+- width;
+- flex/grid;
+- gap;
+- flex-grow;
+- min-width;
+- max-width;
+- responsive breakpoints.
+
+============================================================
+4. LOGO VISUAL SIZE
+============================================================
+
+Use the approved FULL AgendaAlly wordmark on normal desktop Customer
+navigation.
+
+It must be clearly readable.
+
+Target approximately:
+
+125–155px visible wordmark width
+
+as a starting range, but OPTICAL size is more important than an arbitrary
+CSS number.
+
+If the image contains substantial transparent padding, account for that.
+
+The visible artwork should determine the apparent size.
+
+Do not make the entire header unnecessarily taller merely to enlarge the
+logo.
+
+============================================================
+5. TRANSPARENT CANVAS / ASSET PADDING
+============================================================
+
+Audit the actual wordmark asset.
+
+If excessive transparent canvas is causing the visible artwork to appear
+smaller than its CSS box:
+
+do NOT compensate with extreme CSS dimensions.
+
+Instead, if necessary, create/use a presentation derivative that tightly
+crops transparent whitespace while preserving the SAME approved artwork.
+
+Do not redesign the logo.
+
+Preserve exactly:
+
+- AgendaAlly symbol;
+- wordmark;
+- proportions;
+- black/neutral + warm-bronze identity;
+- transparency.
+
+============================================================
+6. ALIGNMENT WITH SHOP PAGE
+============================================================
+
+The approved mock establishes the intended hierarchy.
+
+The header should visually align with the centered Customer content below it.
+
+The Shop page should feel like one composition:
+
+Header
+Breadcrumb
+Hero
+Tabs
+Gallery / Location
+Services
+Products
+Specialists
+etc.
+
+The logo should not look detached from that composition.
+
+Do not alter the Shop hero or other Shop-page sections simply to make the
+header line up.
+
+Fix the authoritative header layout.
+
+============================================================
+7. SHARED CUSTOMER HEADER
+============================================================
+
+Make this correction in the authoritative shared Customer header/navigation
+implementation where possible.
+
+Do NOT create Shop-page-only logo positioning hacks.
+
+Verify the result on at least:
+
+- Homepage
+- Businesses/discovery
+- Specialists/discovery
+- Shop profile
+- Product browsing
+- Service/booking flow
+- Cart/checkout
+- Customer authentication surfaces that use this header
+
+The same brand alignment should remain coherent across Customer pages.
+
+============================================================
+8. RESPONSIVE BEHAVIOR
+============================================================
+
+Desktop:
+- full AgendaAlly wordmark;
+- composition closely matches attached mock;
+- logo close enough to Search to read as one navigation group;
+- Search remains the dominant center control;
+- right actions remain balanced.
+
+Tablet:
+- progressively reduce gaps and Search width;
+- preserve readable branding;
+- no overlap;
+- no horizontal overflow.
+
+Mobile:
+- use the existing responsive navigation architecture;
+- use the approved compact symbol if space genuinely requires it;
+- do not squeeze a full unreadable wordmark into a tiny space.
+
+Do not force desktop navigation onto mobile.
+
+============================================================
+9. HEADER ACCEPTANCE CRITERIA
+============================================================
+
+Take an actual desktop browser screenshot and compare it against the attached
+approved mock.
+
+Do not mark this complete simply because logo CSS width increased.
+
+PASS requires:
+
+- full AgendaAlly wordmark clearly readable;
+- logo no longer pinned near far-left viewport edge;
+- excessive logo→Search dead space removed;
+- moderate intentional logo→Search gap;
+- Search remains prominent;
+- Cart/For business/Account fit naturally;
+- overall navigation centered;
+- visual alignment with Shop content;
+- no overlap;
+- no horizontal overflow;
+- tablet remains balanced;
+- mobile remains usable.
+
+============================================================
+PART B — SERVICE PHOTOGRAPHY
+============================================================
+
+10. CURRENT SERVICE MEDIA PROBLEM
+============================================================
+
+The previous Service-media implementation successfully moved seeded demo
+Services away from generic fake icons and into the native Service image
+architecture.
+
+Keep that architecture.
+
+However, audit the actual seeded image set again.
+
+The current demo photography appears disproportionately centered on white or
+non-African people.
+
+AgendaAlly is an AFRICA-FIRST marketplace.
+
+Its development/demo experience should visually represent that positioning.
+
+This is a DEMO CONTENT correction.
+
+Do NOT add race or ethnicity fields to:
+
+- users;
+- specialists;
+- vendors;
+- Services;
+- Shops;
+- search;
+- ranking;
+- booking;
+- permissions.
+
+No application behavior should depend on race.
+
+We are correcting the visual representation of the DEMO photography only.
+
+============================================================
+11. AFRICA-FIRST VISUAL DIRECTION
+============================================================
+
+For people-centered seeded demo Services, prefer professional and contextually
+appropriate photography featuring Black/African people.
+
+The overall seeded Service catalog should feel naturally representative of
+African customers, professionals, specialists and businesses.
+
+This is especially important for:
+
+- Hair Care
+- Hair Styling
+- Hair Braiding
+- Barbershop
+- Beard Trim
+- Makeup
+- Bridal Makeup
+- Nail Care
+- Manicure
+- Pedicure
+- Spa
+- Massage
+- Skincare
+- Beauty services
+- Wellness
+- Fitness
+- Tutoring
+- Education
+- Professional consultations
+- other person-facing Services.
+
+The demo catalog should NOT look like a generic European/North-American stock
+photo marketplace.
+
+============================================================
+12. DO NOT OVERCORRECT INTO UNNATURAL UNIFORMITY
+============================================================
+
+Do NOT interpret Africa-first as:
+
+"every single photograph must contain the same demographic, model, location,
+style or aesthetic."
+
+Natural diversity is acceptable.
+
+Images without people are also appropriate where the Service is better
+represented by:
+
+- tools;
+- treatment environment;
+- finished work;
+- salon interior;
+- equipment;
+- hands;
+- products;
+- educational environment;
+- workspace.
+
+The requirement is that the OVERALL people-centered demo catalog should be
+predominantly and naturally representative of Black/African customers and
+professionals.
+
+Avoid obvious tokenism or repetitive use of the same model.
+
+============================================================
+13. SERVICE RELEVANCE IS MANDATORY
+============================================================
+
+Demographic representation must NOT override Service accuracy.
+
+Every image must first make sense for the Service it represents.
+
+For example:
+
+Beard Trim
+→ Black/African barber performing or receiving beard grooming, or a highly
+   relevant professional beard-grooming image.
+
+Hair Braiding
+→ actual braiding work, preferably Black/African hair and styling context.
+
+Hair Care
+→ relevant hair treatment/styling context.
+
+Bridal Makeup
+→ actual bridal makeup application, preferably featuring a Black/African
+   bride/client or makeup professional.
+
+Makeup
+→ makeup application or professional makeup context.
+
+Manicure
+→ actual nail/manicure treatment.
+
+Pedicure
+→ actual pedicure/foot-care context.
+
+Massage Therapy
+→ legitimate professional massage/wellness environment.
+
+Spa
+→ appropriate treatment/spa environment.
+
+Tutoring
+→ tutor/student or appropriate educational environment, preferably naturally
+   representative of African learners/professionals.
+
+Computer lessons
+→ relevant learner/instructor/computer environment.
+
+Music lessons
+→ actual music instruction.
+
+Language lessons
+→ teaching/learning context.
+
+Do not replace a highly relevant photograph with an unrelated photograph
+merely to change who appears in it.
+
+We need BOTH:
+
+SERVICE RELEVANCE
++
+AFRICA-FIRST REPRESENTATION.
+
+============================================================
+14. AFRICAN CONTEXT WHERE NATURAL
+============================================================
+
+Where suitable reviewed assets exist, prefer imagery that feels credible for
+AgendaAlly's initial markets.
+
+That can include:
+
+- Black/African professionals;
+- Black/African customers;
+- African hair types/styles;
+- appropriate beauty/barbering contexts;
+- modern African salons;
+- African students/teachers;
+- African wellness professionals;
+- contemporary African business environments.
+
+Do NOT add stereotypical or artificial "African" imagery just to signal
+Africa.
+
+AgendaAlly should look modern, professional and premium.
+
+The goal is authentic representation, not visual clichés.
+
+============================================================
+15. IMAGE QUALITY DIRECTION
+============================================================
+
+Prefer images that feel:
+
+- modern;
+- professional;
+- warm;
+- credible;
+- commercially usable;
+- contemporary;
+- clean;
+- premium but accessible;
+- naturally lit where possible.
+
+Avoid:
+
+- obviously outdated stock photography;
+- exaggerated poses;
+- low-resolution assets;
+- visible watermarks;
+- text embedded in photos;
+- logos from unrelated companies;
+- extreme filters;
+- distorted AI-looking hands/faces;
+- inappropriate sexualized imagery;
+- images unrelated to the actual Service.
+
+============================================================
+16. AUDIT EXISTING LOCAL ASSETS FIRST
+============================================================
+
+Before adding anything, inspect the reviewed local media/assets already in the
+repository.
+
+Determine:
+
+- which existing assets remain appropriate;
+- which are relevant but should be replaced for better representation;
+- which are irrelevant;
+- which are duplicates;
+- which categories lack suitable assets.
+
+Reuse good existing assets.
+
+Do NOT replace every image simply for the sake of making changes.
+
+============================================================
+17. DO NOT HOTLINK REMOTE IMAGES
+============================================================
+
+Do NOT solve this by hotlinking arbitrary image URLs from:
+
+Google
+Unsplash
+Pexels
+Pinterest
+or other websites at runtime.
+
+Do not introduce fragile remote dependencies.
+
+Seeded demo media must follow the repository's legitimate local/demo media
+flow.
+
+If additional image assets are required, use appropriately licensed/reviewed
+assets and store them through the existing project media approach.
+
+Document their source/licensing information as appropriate for the repository.
+
+============================================================
+18. PRESERVE NATIVE SERVICE MEDIA ARCHITECTURE
+============================================================
+
+Keep the existing architecture:
+
+Service.img
+→ Gallery ownership
+→ canonical media URL
+→ Customer rendering.
+
+Do NOT introduce:
+
+- another Service image table;
+- a second Gallery system;
+- hard-coded Customer image maps;
+- Service-name→URL hacks;
+- remote runtime hotlinks.
+
+Preserve:
+
+- ownership validation;
+- Vendor media boundaries;
+- local storage support;
+- S3/cloud support;
+- production URLs;
+- development configured image origin;
+- fallback behavior;
+- safe image validation.
+
+Do NOT broadly loosen Next.js image security configuration.
+
+============================================================
+19. REVIEW ALL PREVIOUSLY SEEDED SERVICES
+============================================================
+
+The previous batch reported 51 existing demo Services receiving photographs.
+
+Audit ALL of those seeded Service records.
+
+Do not just inspect the five most visible Services.
+
+For each seeded demo Service determine:
+
+- Shop;
+- Service name;
+- Service category;
+- current seeded image;
+- whether it is contextually accurate;
+- whether it fits the Africa-first visual direction;
+- retain or replace;
+- final image.
+
+Do not alter legitimate Vendor-uploaded media.
+
+============================================================
+20. IMAGE VARIETY
+============================================================
+
+Avoid assigning the exact same photograph to large numbers of unrelated
+Services.
+
+Reasonable reuse is acceptable where Services are closely related.
+
+For example:
+
+Haircut + Hair Styling
+
+may sometimes share a relevant salon image.
+
+But:
+
+Beard Trim
+Massage
+Tutoring
+Manicure
+
+should not all share generic lifestyle imagery.
+
+Maintain enough distinct assets that the catalog feels intentionally curated.
+
+============================================================
+21. GUARDED DEMO SEED
+============================================================
+
+Update the existing guarded Service-image seed rather than creating a second
+competing seed process.
+
+It must distinguish:
+
+known development/demo seeded media
+
+from:
+
+legitimate Vendor-uploaded media.
+
+Never overwrite legitimate Vendor media.
+
+The process must remain idempotent.
+
+Expected behavior:
+
+First applicable run:
+→ replace only demo Service images that need correction.
+
+Second run:
+→ ZERO additions/replacements.
+
+Do not reset the database.
+
+Do not recreate Services.
+
+Do not create fake Services merely to make the image set look complete.
+
+============================================================
+22. DO NOT USE GENERIC ICONS AS SEEDED SERVICE MEDIA
+============================================================
+
+Do not regress to the previous icon-like Service media such as:
+
+- paint roller;
+- gender symbol;
+- generic leaf;
+- generic hand/heart;
+- arbitrary pictograms.
+
+Seeded demo Services that have curated photography should display real
+photographs.
+
+For a genuine Service with no image:
+
+retain the existing neutral fallback.
+
+Do not fabricate photography at runtime.
+
+============================================================
+23. SERVICE CARD CROPPING
+============================================================
+
+Audit the rendering of these images on actual Service cards.
+
+Use consistent image treatment:
+
+- correct aspect ratio;
+- object-fit: cover where appropriate;
+- intentional focal point;
+- no stretching;
+- no squashed faces;
+- no extreme cropping of people's heads;
+- no inconsistent card heights.
+
+Do not allow source image dimensions to determine Service card height.
+
+============================================================
+24. CHECK REPRESENTATIVE BUSINESSES
+============================================================
+
+Browser-check at least:
+
+Le Sawa Beauty Studio
+
+Wouri Beauty Bar
+
+AgendaAlly Learning Hub
+
+plus sufficient additional seeded businesses to cover the major Service
+categories.
+
+Do not assume one Shop page proves the seed is correct.
+
+============================================================
+25. AFRICA-FIRST MEDIA ACCEPTANCE
+============================================================
+
+Review the resulting seeded catalog as a whole.
+
+The final demo experience should clearly communicate:
+
+"This marketplace is designed with African businesses, professionals and
+customers in mind."
+
+without requiring explanatory text.
+
+For people-centered images, Black/African representation should be the clear
+majority across the seeded demo catalog.
+
+Again:
+
+do NOT encode this into business logic.
+
+This requirement applies to the curated DEMO MEDIA SET.
+
+============================================================
+26. SHOP GALLERY VS SERVICE IMAGES
+============================================================
+
+Do not confuse:
+
+Shop gallery media
+
+with:
+
+Service media.
+
+Shop gallery images should continue representing the business/environment.
+
+Service images should represent the individual Service.
+
+Do not replace a useful Shop interior gallery with portraits merely to satisfy
+the Service-photo requirement.
+
+Keep the two media responsibilities distinct.
+
+============================================================
+27. PROTECT COMPLETED FUNCTIONAL WORK
+============================================================
+
+Do NOT reopen or modify unless directly required by a regression caused by
+this work:
+
+- Discovery architecture;
+- Shop hero redesign;
+- Shop Gallery architecture;
+- Shop Pickup scheduling;
+- Delivery;
+- Collection Point;
+- Maps;
+- payment architecture;
+- Driver system;
+- booking logic;
+- invoice logic;
+- Specialist visibility;
+- Service assignment;
+- authentication;
+- currency;
+- geography;
+- tariffs;
+- financial records.
+
+This is a focused:
+
+CUSTOMER HEADER PRESENTATION
++
+DEMO SERVICE MEDIA CURATION
+
+pass.
+
+============================================================
+28. VERIFICATION
+============================================================
+
+Run focused checks appropriate to changed code.
+
+At minimum:
+
+Customer TypeScript
+
+Service-media tests
+
+image-origin tests
+
+Gallery ownership/media validation tests
+
+seed tests
+
+seed idempotency
+
+Customer header desktop
+
+Customer header tablet
+
+Customer header mobile
+
+representative Shop pages
+
+Service image fallback
+
+Service booking/add action unchanged.
+
+Do not create:
+
+- real bookings;
+- real orders;
+- real payments;
+- transactions;
+- payouts;
+- refunds;
+- provider activations.
+
+============================================================
+29. BROWSER ACCEPTANCE
+============================================================
+
+Perform browser acceptance after implementation.
+
+HEADER:
+
+Desktop:
+PASS/FAIL — matches approved composition
+PASS/FAIL — wordmark readable
+PASS/FAIL — no excessive logo→Search gap
+PASS/FAIL — centered content relationship
+PASS/FAIL — right actions fit
+PASS/FAIL — no overflow
+
+Tablet:
+PASS/FAIL — responsive spacing
+PASS/FAIL — branding readable
+PASS/FAIL — Search usable
+PASS/FAIL — no overflow
+
+Mobile:
+PASS/FAIL — correct compact treatment
+PASS/FAIL — no squeezed wordmark
+PASS/FAIL — navigation remains usable
+PASS/FAIL — no overflow
+
+SERVICE MEDIA:
+
+PASS/FAIL — Le Sawa Service photos
+PASS/FAIL — Wouri Service photos
+PASS/FAIL — Learning Hub Service photos
+PASS/FAIL — other representative categories
+PASS/FAIL — image cropping
+PASS/FAIL — no broken seeded images
+PASS/FAIL — neutral fallback
+PASS/FAIL — booking action unchanged
+PASS/FAIL — Africa-first representation across curated demo media
+
+============================================================
+30. FINAL REPORT
+============================================================
+
+At completion report:
+
+HEADER
+
+1. Root cause of the incorrect logo position.
+2. Root cause of the incorrect optical size.
+3. Whether transparent asset padding contributed.
+4. Authoritative shared header component changed.
+5. Final desktop treatment.
+6. Final tablet treatment.
+7. Final mobile treatment.
+8. Screenshot/browser acceptance result versus attached mock.
+
+SERVICE MEDIA
+
+9. Total seeded Services reviewed.
+10. Total images retained.
+11. Total images replaced.
+12. Number of distinct final image assets.
+13. Categories represented.
+14. Number/percentage of people-centered final seeded images featuring
+    Black/African people.
+15. Any Services for which an appropriate asset could not be found.
+16. Confirmation that legitimate Vendor media was not overwritten.
+17. First seed-run change count.
+18. Second seed-run change count — expected 0.
+19. Any additional asset sources/licensing used.
+
+Provide a concise mapping:
+
+Shop
+→ Service
+→ Category
+→ previous asset
+→ final asset
+→ RETAINED/REPLACED
+→ reason.
+
+VERIFICATION
+
+20. Exact files changed.
+21. Tests executed/results.
+22. Browser checks/results.
+23. Remaining limitations or blockers.
+
+============================================================
+31. STOP BOUNDARY
+============================================================
+
+After completing and verifying these two corrections:
+
+STOP.
+
+Do not automatically start:
+
+payment audit;
+pickup capacity;
+Driver Phase 3;
+Maps changes;
+additional Discovery work;
+mobile Delivery app work;
+or another suggested task.
+
+Wait for approval.

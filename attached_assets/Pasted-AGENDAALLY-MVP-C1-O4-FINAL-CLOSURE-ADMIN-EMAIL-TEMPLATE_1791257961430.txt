@@ -1,0 +1,483 @@
+AGENDAALLY MVP — C1/O4 FINAL CLOSURE
+ADMIN EMAIL TEMPLATE MANAGEMENT + REAL VERIFICATION/RESET ACCEPTANCE
+
+This is the final bounded C1/O4 implementation and acceptance campaign.
+
+Do not split Admin email-template management into another later task.
+
+CURRENT CANONICAL BASELINE
+
+C1 = 0.5
+O4 = 0.5
+Total = 16/20 = 80%
+
+Preserve all previously accepted email/outbox/security/recovery work.
+
+Already accepted and not to be redesigned:
+
+- Zoho SMTP transport and Gmail delivery
+- SMTP credential encryption and API omission
+- secure credential edit preservation
+- TLS peer/hostname verification
+- sanitized SMTP errors
+- CID AgendaAlly logo
+- local social icons and approved social URLs
+- shared responsive email layout
+- selected account-email outbox
+- verification/reset workflow security
+- recipient-bound selected processing
+- subscription recipient privacy
+- long-text overflow fixes
+- plain-text MIME support where already implemented
+- body-only reset exchange improvement
+- bounded email recovery/cancellation mechanism
+- accepted location-selector repair
+- accepted logout behavior
+- completed payout-integrity repair
+
+Do not touch payout/refund/Wallet/provider/booking financial behavior in this campaign.
+
+==================================================
+PART A — AUDIT THE EXISTING ADMIN EMAIL TEMPLATE SYSTEM
+==================================================
+
+Before changing anything, inspect the actual source and normal database to determine:
+
+1. Which email template types currently exist in application code.
+2. Which templates currently exist as database records.
+3. Which template types are visible in Admin.
+4. Which can currently be:
+   - listed
+   - viewed
+   - created
+   - edited
+   - previewed
+   - enabled/disabled, if that capability already exists
+5. Which operational emails use Admin-managed templates.
+6. Which still use code-only/fallback templates.
+7. Whether Email Verification and Password Reset are currently code-only defaults, DB templates, partially registered template types, or otherwise missing from Admin.
+8. Whether any other EXISTING non-financial operational email template is supported by the application but unintentionally absent from Admin management.
+
+Produce a short before-state matrix.
+
+Do not expand scope merely because another theoretical email could exist.
+
+The purpose is to expose/manage email types the existing application already supports, not invent a new notification product.
+
+==================================================
+PART B — IMPLEMENT COMPLETE ADMIN VISIBILITY
+==================================================
+
+Email Verification and Password Reset MUST become first-class templates in the existing Admin Email Templates system.
+
+They must appear in the same Admin template-management experience as the application's other managed email templates.
+
+Also repair any source-confirmed registration/listing defect that prevents an EXISTING supported non-financial Admin-managed email template from appearing.
+
+Do NOT add payout/refund financial templates yet.
+
+Do NOT add speculative booking emails merely to fill the Admin list.
+
+Use the existing Admin architecture and visual conventions.
+
+Do not create a second template-management subsystem.
+
+==================================================
+PART C — SAFE DEFAULT MIGRATION / SEEDING
+==================================================
+
+Preserve the currently accepted Verification and Password Reset content as safe defaults.
+
+If these defaults currently exist only in code:
+
+- create/persist the corresponding Admin-manageable template records safely;
+- make the operation idempotent;
+- do not create duplicates;
+- preserve existing customized records if they already exist;
+- do not silently overwrite an Admin customization.
+
+Existing installations must receive the required system template records through an appropriate bounded migration/seeding/bootstrap mechanism consistent with the application's current architecture.
+
+Do not require destructive reseeding.
+
+Report the exact schema/data delta.
+
+Avoid schema changes unless source inspection proves they are necessary.
+
+==================================================
+PART D — TEMPLATE EDITING BOUNDARY
+==================================================
+
+Admin may manage PRESENTATION CONTENT such as:
+
+- subject
+- heading/title
+- explanatory body copy
+- CTA/button label where supported
+- safe footer/support copy where appropriate
+
+Security and workflow semantics remain APPLICATION CONTROLLED.
+
+Admin template editing MUST NOT control or override:
+
+- recipient selection
+- recipient binding
+- verification code generation
+- reset token/code generation
+- challenge lifetime
+- expiration
+- replay protection
+- verification state
+- reset state
+- outbox state
+- queue selection
+- SMTP credentials
+- SMTP transport
+- worker behavior
+- public URL trust rules
+- authorization
+- account identity
+- financial state
+
+Never place actual OTPs, reset tokens or secrets in stored template records.
+
+Use approved placeholders resolved only at render/send time.
+
+==================================================
+PART E — PLACEHOLDER CONTRACT
+==================================================
+
+For each managed template, explicitly define and validate the supported placeholders.
+
+At minimum inspect the actual existing rendering contract for:
+
+EMAIL VERIFICATION
+
+Examples only if supported by current architecture:
+
+{{customer_name}}
+{{verification_code}}
+{{verification_url}}
+{{expiry_minutes}}
+{{app_name}}
+
+PASSWORD RESET
+
+Examples only if supported:
+
+{{customer_name}}
+{{reset_code}}
+{{reset_url}}
+{{expiry_minutes}}
+{{app_name}}
+
+Do not blindly implement these exact names if the application already has a canonical placeholder syntax. Preserve the existing syntax where possible.
+
+The Admin UI should make the allowed placeholders discoverable.
+
+Unknown or forbidden placeholders must fail safely or remain visibly unresolved in preview rather than causing unsafe substitution.
+
+Never allow arbitrary executable template code.
+
+==================================================
+PART F — PREVIEW
+==================================================
+
+Email Verification and Password Reset must be previewable through the existing Admin template workflow.
+
+Preview must:
+
+- use synthetic/sample values only;
+- never generate a live verification challenge;
+- never generate a live reset challenge;
+- never enqueue email;
+- never invoke SMTP;
+- never alter Customer state;
+- never expose a real credential/token/code.
+
+Preview should exercise the same presentation rendering path as closely as safely possible.
+
+Verify responsive rendering at the already-established representative widths:
+
+- 900px
+- 390px
+- 320px
+
+Do not redo unrelated historical visual acceptance.
+
+==================================================
+PART G — EXISTING EMAIL TYPES
+==================================================
+
+After implementation, provide an AFTER matrix containing every existing email type discovered in Part A and classify each as:
+
+- Admin managed
+- intentionally application controlled
+- intentionally not implemented
+- financial/deferred
+
+For each Admin-managed type, report whether it is:
+
+- visible
+- editable
+- previewable
+- actually connected to its runtime sending path
+
+Do not claim "all templates are managed" unless source evidence proves it.
+
+==================================================
+PART H — FINANCIAL EMAILS ARE DEFERRED
+==================================================
+
+Do NOT implement these yet:
+
+- Payout Requested
+- Payout Approved
+- Payout Completed
+- Payout Rejected
+- Refund Requested
+- Refund Approved
+- Refund Completed
+- Refund Rejected
+
+These depend on the upcoming manual Refund/Payout state-machine design.
+
+In particular:
+
+APPROVED must never imply COMPLETED.
+
+COMPLETED/REFUNDED messaging must eventually originate only from authoritative financial completion states.
+
+Leave these deferred and explicitly report them as such.
+
+==================================================
+PART I — REAL C1/O4 VERIFICATION ACCEPTANCE
+==================================================
+
+After Admin template implementation and local isolated verification are complete, continue the bounded real account-email acceptance.
+
+First restore/recheck:
+
+- normal Customer preview
+- normal Laravel backend on port 8000
+- approved normal owned SQLite runtime
+- native verification/code-entry screen
+- zero unrelated active/uncertain outbox records
+- zero unrelated jobs
+- zero failed jobs
+- general delivery suppressed
+- no broad worker/scheduler
+
+Then perform exactly ONE fresh verification journey for the already-approved disposable Customer.
+
+Do not create another Customer unless the existing approved disposable Customer is source-proven unusable. If unusable, STOP.
+
+The real verification email MUST render through the newly Admin-managed Email Verification template.
+
+Exactly:
+
+1. one native verification request
+2. one recipient-bound selected outbox/job
+3. one isolated selected worker invocation
+4. no automatic retry
+5. safe SMTP acknowledgement evidence
+6. persisted SENT state
+7. STOP for owner Gmail receipt confirmation
+8. owner enters newest delivered code in native UI
+9. owner explicitly clicks Verify
+10. capture authoritative persisted verification transition
+
+Never log the actual code.
+
+Do not force verification or update verification state directly in the database.
+
+If verification fails, STOP. Do not automatically resend.
+
+==================================================
+PART J — REAL PASSWORD RESET ACCEPTANCE
+==================================================
+
+Only after authoritative real verification succeeds:
+
+- confirm clean selected outbox/jobs again;
+- confirm Customer is genuinely verified;
+- confirm correct runtime.
+
+Then STOP and request explicit authorization for:
+
+ONE password-reset email to the same approved disposable Customer.
+
+Do not inherit reset authority from verification authority.
+
+After authorization:
+
+1. trigger one native password-reset request;
+2. ensure exactly one recipient-bound reset outbox/job;
+3. process only that selected job;
+4. no automatic retry;
+5. reset email MUST render through the newly Admin-managed Password Reset template;
+6. capture safe SMTP/SENT evidence;
+7. STOP for owner Gmail receipt confirmation;
+8. owner completes native reset UI;
+9. prove authoritative successful password reset;
+10. prove successful challenge consumption/non-replay.
+
+Never log:
+
+- password
+- reset token/code
+- verification code
+- SMTP credential
+- access token
+
+Never directly update the password for acceptance.
+
+==================================================
+PART K — TESTING
+==================================================
+
+Run focused tests for:
+
+- Admin template listing
+- Verification template visibility
+- Reset template visibility
+- safe idempotent default creation
+- preservation of existing customization
+- editing
+- preview
+- placeholder validation
+- preview produces no challenge/outbox/job/send
+- Verification runtime uses managed template
+- Reset runtime uses managed template
+- fallback behavior where intentionally retained
+- recipient binding
+- outbox isolation
+- verification state transition
+- reset transition
+- reset replay protection
+- responsive template rendering
+
+Do not rerun the entire application/hardening suite merely for reassurance.
+
+If unrelated failures appear, classify them and leave them outside this campaign.
+
+==================================================
+PART L — PRESERVATION BOUNDARY
+==================================================
+
+Do not modify:
+
+- payout/refund implementation
+- Wallet accounting
+- provider integrations
+- booking refund logic
+- staff-permission logic
+- provider eligibility
+- accepted logout
+- unrelated Customer flows
+- business/staging workers
+- unrelated schedulers
+- production/published environments
+
+The recently repaired payout-integrity boundary is protected.
+
+Do not select or begin Replit's suggested booking-refund/staff-permission task.
+
+==================================================
+PART M — STOP CONDITIONS
+==================================================
+
+STOP rather than broadening scope if:
+
+- Admin template implementation requires redesigning the notification architecture;
+- a financial template would need undefined financial-state semantics;
+- correct runtime/database identity is uncertain;
+- unrelated pending email/jobs appear;
+- more than one real challenge is generated unexpectedly;
+- selected worker processing cannot be isolated;
+- SMTP result is uncertain;
+- direct DB manipulation would be required to pass acceptance;
+- another application defect outside this bounded template/account-email scope is discovered.
+
+Report the blocker and smallest proposed next action.
+
+==================================================
+PART N — FINAL REPORT
+==================================================
+
+Return:
+
+1. Before-state email-template matrix
+2. Root cause of missing Admin templates
+3. Files changed
+4. Schema changes
+5. Data/default-template changes
+6. Verification template Admin status
+7. Reset template Admin status
+8. Other existing template visibility findings
+9. Supported placeholder contract
+10. Template preview result
+11. Responsive preview result
+12. Runtime-template wiring result
+13. Verification real-send result
+14. Gmail verification receipt status
+15. Native verification completion result
+16. Authoritative verification-state result
+17. Reset authorization status
+18. Reset real-send result
+19. Gmail reset receipt status
+20. Native reset completion result
+21. Reset replay result
+22. Final outbox/jobs/failed_jobs state
+23. Database/schema preservation result
+24. Focused tests/checks
+25. Deferred financial templates
+26. Unexpected findings
+27. C1 rubric decision
+28. O4 rubric decision
+29. Final canonical MVP score
+30. GO/NO-GO status
+
+==================================================
+SCORING
+==================================================
+
+Use only the existing canonical 20-gate MVP rubric.
+
+Starting point:
+
+C1 = 0.5
+O4 = 0.5
+16/20 = 80%
+
+Do not award points merely because Admin templates were added or local tests pass.
+
+Real operational acceptance still controls closure.
+
+If both existing C1 and O4 requirements become fully satisfied:
+
+C1 = 1
+O4 = 1
+17/20 = 85%
+
+If only one closes:
+
+16.5/20 = 82.5%
+
+If neither closes:
+
+16/20 = 80%
+
+Explain the evidence supporting the decision.
+
+FINAL AUTHORITY
+
+You are authorized to implement the bounded Admin Email Templates work described above and locally verify it.
+
+You are also authorized to continue the previously approved single real verification-email acceptance only after implementation/readiness checks pass.
+
+Password-reset sending still requires a separate explicit authorization after successful real verification.
+
+Do not implement financial email templates in this campaign.
+
+Begin with the before-state Admin/email-template inventory, then implement the missing Admin management, verify locally, and proceed to the already-authorized verification acceptance.

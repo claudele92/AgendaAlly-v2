@@ -1,0 +1,28 @@
+Yes. From the received email screenshot, the logo is broken, and the social section is also not production-ready: it shows generic “IG / FB / in” circles rather than properly rendered branded social icons/links. So I would broaden that part of your prompt rather than mentioning only the logo.
+Use this updated version:
+SMTP end-to-end delivery is confirmed PASS.
+I manually used the enabled Admin Test Email control in the normal port-3003 Admin preview and successfully received the test message at cghotsa@gmail.com.
+AgendaAlly displayed “Test email sent successfully”, and the message was delivered to Gmail. The previous failure was caused by an issue with my Zoho account/configuration and is no longer present.
+Record current-build SMTP transport and actual mailbox delivery as VERIFIED.
+Do not repeat the SMTP test and do not send another email.
+The delivered email exposed presentation defects that should be audited:
+- The AgendaAlly logo does not render in the received Gmail message.
+- The social-media area is not rendering correctly as intended; it currently appears as generic/empty-style IG, FB, and in circles rather than proper social icons/links.
+- Audit the email template's logo/image source, social icons, asset URLs, link targets, and email-client-safe rendering.
+- Determine whether these assets depend on localhost, Replit preview URLs, relative paths, inaccessible/private assets, unsupported SVG/CSS/background-image techniques, or another email-client compatibility issue.
+- Any image/assets required by an email recipient must be reachable appropriately from the recipient's email client or embedded using a supported email mechanism.
+- Verify that social links point to the intended AgendaAlly destinations and do not use placeholders or invalid URLs.
+- Check the email template for other externally referenced assets that would similarly fail when received outside AgendaAlly.
+Do not send another email while investigating or fixing these presentation issues. Use source inspection and local/rendered-template verification first.
+Preserve the now-verified SMTP transport behavior and all SMTP security hardening. Do not weaken TLS verification, credential encryption, password-free API responses, sanitized errors, or the scoped Admin SMTP capability.
+Also update the existing MVP/readiness evidence using this successful SMTP result. Reuse all previously accepted evidence and do not rerun unrelated scheduling, financial, security, recovery, or responsive campaigns.
+Report:
+1. the root cause of the broken logo;
+2. the root cause of the social icon/link rendering issue;
+3. the exact bounded template/assets changes required;
+4. whether other email templates share the same problem;
+5. whether the fixes can be verified locally without another real email;
+6. whether successful SMTP delivery closes the outstanding SMTP portion of the readiness gates;
+7. the updated 20-gate MVP score, without awarding credit for anything not actually verified.
+Preserve the normal demo/protected baseline and do not enable payment providers, payouts/refunds, SMS, push, or other deferred integrations.
+Stop after the audit/local correction and report the result. Do not send another real email without my explicit approval.

@@ -1,0 +1,121 @@
+.financial-operations-card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.financial-operations-card .ant-card-head-wrapper {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.financial-operations-panel {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.financial-operations-panel .ant-card,
+.financial-operations-panel .ant-card-body,
+.financial-operations-panel .ant-space,
+.financial-operations-panel .ant-space-item,
+.financial-operations-panel .ant-form,
+.financial-operations-panel .ant-form-item,
+.financial-operations-panel .ant-descriptions,
+.financial-operations-panel .ant-descriptions-view {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.financial-operations-panel .ant-descriptions-view > table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.financial-operations-panel .ant-descriptions-item-label,
+.financial-operations-panel .ant-descriptions-item-content,
+.financial-operations-panel .ant-card-head-title {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.transaction-show-modal,
+.transaction-show-modal .ant-modal-content,
+.transaction-show-modal .ant-modal-body {
+  min-width: 0;
+  max-width: calc(100vw - 24px);
+}
+
+.transaction-show-modal__details .ant-descriptions-view > table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.transaction-show-modal__details .ant-descriptions-item-label,
+.transaction-show-modal__details .ant-descriptions-item-content {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.financial-operations-panel__context-select {
+  max-width: 100%;
+}
+
+@media (max-width: 575px) {
+  .financial-operations-panel .financial-operations-panel__form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .financial-operations-panel .financial-operations-panel__form .ant-form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
+
+  .financial-operations-panel .financial-operations-panel__form .ant-form-item-label,
+  .financial-operations-panel .financial-operations-panel__form .ant-form-item-control,
+  .financial-operations-panel .financial-operations-panel__form .ant-form-item-control-input,
+  .financial-operations-panel .financial-operations-panel__form .ant-form-item-control-input-content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .financial-operations-panel .financial-operations-panel__form .ant-input,
+  .financial-operations-panel .financial-operations-panel__form .ant-input-number,
+  .financial-operations-panel .financial-operations-panel__form .ant-select,
+  .financial-operations-panel .financial-operations-panel__form .ant-picker,
+  .financial-operations-panel .financial-operations-panel__form .ant-btn,
+  .financial-operations-panel .financial-operations-panel__action,
+  .financial-operations-panel .financial-operations-panel__actions .ant-btn,
+  .financial-operations-panel .financial-operations-panel__receipt-form .ant-btn {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  .financial-operations-panel .financial-operations-panel__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .financial-operations-panel .financial-operations-panel__actions .ant-space-item,
+  .financial-operations-panel .financial-operations-panel__receipt-form {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .financial-operations-panel .ant-btn {
+    white-space: normal;
+    height: auto;
+    min-height: 32px;
+  }
+}

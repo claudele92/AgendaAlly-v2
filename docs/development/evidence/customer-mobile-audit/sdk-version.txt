@@ -1,0 +1,18 @@
+Flutter 3.32.0 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision nixpkgs000 (57 years ago) • 1970-01-01 00:00:00
+Engine • revision 1881800949 ()
+Tools • Dart 3.8.0 • DevTools 2.45.1
+The Flutter CLI developer tool uses Google Analytics to report usage and diagnostic
+data along with package dependencies, and crash reporting to send basic crash
+reports. This data is used to help improve the Dart platform, Flutter framework,
+and related tools.
+
+Telemetry is not sent on the very first run. To disable reporting of telemetry,
+run this terminal command:
+
+    flutter --disable-analytics
+
+If you opt out of telemetry, an opt-out event will be sent, and then no further
+information will be sent. This data is collected in accordance with the Google
+Privacy Policy (https://policies.google.com/privacy).
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/Hardening/bootstrap.php" colors="true" cacheResult="false">
+    <testsuites>
+        <testsuite name="Development foundation">
+            <directory suffix="Test.php">tests/Development</directory>
+            <file>tests/Unit/EnvironmentPolicyTest.php</file>
+            <file>tests/Unit/PortableSqlTest.php</file>
+            <file>tests/Unit/PortableSqliteFunctionsTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

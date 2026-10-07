@@ -1,0 +1,15 @@
+{
+  "dependencyGraph": "EXACTLY UNCHANGED — pubspec.yaml and pubspec.lock",
+  "secureAdapter": "SOURCE-CONFIGURED — Android encrypted preferences, dedicated namespace, no reset-on-error",
+  "backupExclusion": "ANDROID BACKUP EXCLUSION CONFIGURATION VERIFIED — SOURCE-CONFIGURED",
+  "deviceTransferExclusion": "CONFIGURATION VERIFIED — SOURCE-CONFIGURED",
+  "cloudBackupBehavior": "NOT EXECUTED",
+  "nativePersistenceAndErasure": "These source checks do not establish Android runtime behavior",
+  "authConfidentiality": "body-only sensitive auth fields; release diagnostic gate retained",
+  "financial": {
+    "booking": "byte-identical to fresh campaign baseline",
+    "payments": "byte-identical to fresh campaign baseline",
+    "order": "byte-identical to fresh campaign baseline",
+    "products": "byte-identical to fresh campaign baseline"
+  }
+}

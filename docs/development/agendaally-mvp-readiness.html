@@ -1,0 +1,2600 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AgendaAlly MVP readiness</title><style>body{margin:0;background:#f5f6f8;color:#17202c;font:16px/1.6 Arial,sans-serif}main{max-width:1100px;margin:24px auto;background:white;padding:32px}h1,h2,h3{line-height:1.25}h2{margin-top:40px}table{border-collapse:collapse;width:100%;display:block;overflow:auto}th,td{border:1px solid #d4d9e0;padding:9px;text-align:left;vertical-align:top}th{background:#eef1f5}a{color:#1759a5}pre{white-space:pre-wrap;background:#eef1f5;padding:12px}code{overflow-wrap:anywhere}@media(max-width:600px){main{margin:0;padding:18px;font-size:14px}}</style></head><body><main><h1>AgendaAlly MVP readiness — MySQL target</h1>
+<p>Current decision: <strong>REMAIN IN STAGING</strong>, limited service-booking MVP only; no production approval or deployment.
+Current same-20-gate score: <strong>16 / 20 = 80%</strong>. Calendar/browser authority is section 20; current SMTP/presentation/email-audit authority is sections 21–22.
+Latest calendar acceptance: <a href="agendaally-calendar-acceptance-closure.md">bounded closure</a>. V3 and O6 are both 1.
+<strong>SMTP transport and actual Gmail delivery VERIFIED by the owner's normal port-3003 Admin test.</strong> No agent retest was performed.
+Only the explicit Admin-test capability is approved. Reset/verification/booking/worker mail remains suppressed; C1 and O4 remain partial.
+<strong>Targeted B1 and bounded calendar/browser acceptance VERIFIED; D1/R1/O1 local drills PASS, overall PARTIAL.</strong>
+The normal demo is restored without reseeding: 9 visible Shops, 51 Services,
+14 assigned Specialists, 75 assignments and 90 existing media files.
+Sections 20–21 are the current conclusion; earlier failure receipts
+and superseded conclusions are retained below as history, not current blockers.
+No production deployment, payment-provider activation, payout or refund occurred.</p>
+<p>Historical prior-run status below is superseded by sections 20–22. Native <strong>B1 VERIFIED</strong>; selected A1/U1 role acceptance
+and bounded N1/S1 application evidence are recorded in section 17. Earlier
+failure receipts remain historical evidence, not current unresolved defects.
+<strong>U1 remains PARTIAL:</strong> the tester's browser runtime closed and could not create
+a new context. Cash post-Vendor history passed; final Wallet recheck and Cash
+reschedule/cancellation UI reflection are explicitly unverified.
+No production-like staging, deployment, restore program or live provider/email
+activation had been performed at that earlier assessment. Later accepted local
+runtime/restore evidence and the owner's SMTP receipt are recorded below.</p>
+<h2>Architecture decision and bounded work order</h2>
+<p>MySQL 8/InnoDB is selected for the MVP, not production-certified. PostgreSQL is
+“evaluated and technically viable for tested financial invariants, but deferred
+because conversion/porting work provides insufficient MVP benefit relative to
+the existing MySQL implementation.” Existing PG receipts are preserved.</p>
+<p>Strategy G/operational_evidence_manifest remain deferred. No real production
+caller requires arbitrary stale nested reservation success.</p>
+<p>Initial production/prototype comparison: the existing reservation body already
+locks the allocation PK and increments the existing version/CAS before ordinary
+child authority reads, with bounded root retry. The prototype additionally
+enforces owned/fresh RR at its entry boundary. The only production caller is
+<code>PaymentOperationsController::create</code>, whose <code>run</code> wrapper does not start a
+transaction. The minimum correction is an explicit owned entry at that caller,
+plus the MySQL connection's RR configuration; preserve the lower-level existing
+body and tests for managed fresh-parent transactions. No child range locks,
+counter/membership schema, equation, identity or custody change is needed.</p>
+<p>The MTN migration initially had an explicit SQLite-only gate. Its existing additive fields,
+no-backfill rule, retained FK and five lifecycle/binding/retention triggers can
+be represented with equivalent MySQL DDL. Review/install/down/reapply tests must
+cover that whole contract, including legacy rows and native implicit DDL commits.
+Only empty disposable MySQL databases may be used here.</p>
+<p>Bounded implementation order:</p>
+<ol>
+<li>Make the owned reservation entry permanent and verify native source behavior.</li>
+<li>Represent the existing MTN DDL contract for MySQL, without changing identities.</li>
+<li>Run one clean MySQL Phase 3C/canonical/Wallet certification batch; preserve all
+failure receipts and stop affected financial work on a new independent P0.</li>
+<li>Finish traced Customer/Vendor/Admin, booking, commerce, security and VPS
+readiness assessment; consolidate one priority matrix and selected MVP scope.</li>
+<li>STOP before a new major phase, production deployment, provider activation,
+destructive migration, new architecture or new financial/security P0 remediation.</li>
+</ol>
+<h2>Decision summary — 2026-10-04</h2>
+<h3>Current forward-execution status: core and recurring-calendar corrections verified; full booking gate PARTIAL</h3>
+<p>The forward service-booking execution phase is now authorized and has started.
+Database selection, payment architecture, Product purchasing and deployment were
+not reopened. The immediate booking gate was investigated first.</p>
+<p><strong>Native reproduction:</strong> unchanged <code>BookingRepository::calculate</code> accepts
+09:30–10:30 over an occupied 09:00–10:00 appointment. It also accepts
+17:30–18:30 when the specialist's working day ends at 18:00. These are calculator
+defects reproduced on MySQL 8.0.42/InnoDB/REPEATABLE READ, not claims that a full
+Customer checkout or two-worker booking creation succeeded.</p>
+<p><strong>Creator-confirmed endpoint contract:</strong> half-open <code>[start,end)</code> per specialist;
+stored end includes processing/pause once; exact endpoint adjacency is allowed;
+the full appointment must fit working hours; distinct specialists remain independent.
+The earlier Phase A adjacency stop is resolved, not a pending decision.</p>
+<p><strong>Implemented:</strong> shared authoritative interval/hour validation, existing-resource
+PK mutexes in fresh-owned transactions, protected mutation and atomic cascade
+planning, intra-request overlap rejection, and server-authorized preview exclusions.
+No new scheduling schema, capacity identity, financial equation or isolation change.</p>
+<p><strong>Native verified, bounded:</strong> eight corrected calculator cases; 17 real-service
+Cash/independent-worker checks; 13 extended Wallet/lifecycle/calendar checks; three
+additional calendar boundary checks. Three independent MySQL connections proved
+one durable same-slot booking and a distinct specialist committing while the first
+transaction remained open. Financial rollback, duplicate rejection and funded
+Wallet rescheduling preserved tested original economics. These are service-level
+receipts with synthetic actors, not Customer/Vendor/Admin browser acceptance.</p>
+<p><strong>Retained reproduction, now corrected:</strong> a native daily/never disabled block originating
+2030-01-07 is omitted when 2030-01-14 is requested: availability offers the
+blocked hour and authoritative validation admits 09:45–10:45 over 09:30–10:30.
+This existing recurring-calendar defect is now corrected in shared discovery/
+interval validation, not a new financial invariant failure.</p>
+<p><strong>Creator-confirmed recurrence contract:</strong> preserve the original monthly day;
+skip months without it, never clamp. Count scheduled calendar occurrences from
+origin, including the first, regardless of working hours/closed dates/query window.
+Missing monthly dates have no occurrence. The existing custom <code>[every, weekdays…]</code>
+payload and native Sunday-based weekly grouping remain; no new schema/identity.</p>
+<p><strong>New recurrence evidence:</strong> <strong>27 tests / 48 assertions PASS</strong> (one existing
+PHPUnit configuration deprecation) and <strong>75 native MySQL calendar checks PASS</strong>.
+Daily/weekly/monthly, custom intervals/weekdays, never/inclusive date/count ends,
+window slicing, missing dates/leap anchors, closed-origin/count behavior and
+authoritative rejection are covered. These calendar-only receipts do not replace
+the guarded Cash/Wallet/service or broader finance baseline.</p>
+<p>The scheduler's approximate <code>origin + count units</code> deletion could remove a live
+custom/count rule, and its date-ended cleanup could erase the inclusive final day.
+It now retains counted metadata rather than guessing expiry, and existing
+date-ended cleanup waits until the final date has passed. Exact counted-rule
+garbage collection is deferred; no owned/production cleanup was executed.</p>
+<p>Cascade races, cross-Shop assignment contention, deadlock/root-retry certification,
+terminal-state races and end-to-end clock interpretation remain unaccepted.
+Downstream role/security/communication gates have not started. The updated final
+source/receipt answers are in section 16. <strong>VPS staging: NO-GO.</strong></p>
+<p><strong>The tested MySQL application-side financial boundary passes. AgendaAlly is not
+production-ready.</strong> The next work should be booking correctness and selected
+Customer/Vendor/Admin acceptance, not another payment redesign.</p>
+<p>The selected MVP is <strong>service-booking-first</strong>: approved Vendor onboarding, Cash,
+Wallet spending from legitimately funded/verified balances, basic in-app and
+transactional email communication, and restricted Admin financial operations.
+The creator explicitly deferred Product purchasing, electronic providers, Vendor-direct/own-gateway
+checkout, external payouts and multi-Shop checkout. Existing Product discovery
+may remain clearly separate; no promise of a launchable purchasing workflow.</p>
+<p>Wallet/Cash can support that scope after the booking and operational gates below.
+Cash does not become platform custody, and disabling electronic top-ups does not
+authorize an Admin to manufacture Wallet balances. A zero-balance Customer must
+have a working Cash alternative.</p>
+<h3>Evidence levels and limitations</h3>
+<ul>
+<li><strong>Native verified:</strong> actual source on disposable MySQL 8.0.42/InnoDB/RR; real
+financial writers/controllers/helpers with synthetic actors/transport.</li>
+<li><strong>Isolated verified:</strong> source domain/auth tests on process-local SQLite; not
+a MySQL contention result and not external delivery UAT.</li>
+<li><strong>Source traced:</strong> caller, service, repository, model, permission and UI chains
+inspected; not proof that the entire browser journey succeeds.</li>
+<li><strong>Browser sampled:</strong> current public customer page/location dialog and business
+sign-in at 1280, 390 and 320 pixels. No horizontal document overflow in the
+final samples. Authenticated calendars, checkout, financial modals and role
+screens are <strong>not accepted across all three widths</strong> in this milestone.</li>
+</ul>
+<p>Historical native acceptance reports remain useful evidence, but are not silently
+relabelled as a fresh MySQL production rehearsal. No live SMTP/SMS/push, payment
+provider, VPS, backup restore, production load test or complete new-account →
+booking → Vendor completion → Customer receipt browser journey was executed.
+Protected development data was not used for destructive lifecycle experiments.</p>
+<h2>1. Permanent MySQL correction and certification</h2>
+<p>Implemented the bounded comparison above:</p>
+<ol>
+<li><code>FinancialOperations::reserveOwned</code> rejects both Laravel- and PDO-owned open
+transactions and incorrect MySQL session isolation. The actual POST caller
+uses it. Existing allocation-PK-first lock/CAS, ordinary child reads,
+equations, native integer money and three-attempt root retry remain unchanged.
+Lower-level managed fresh-parent transaction behavior is preserved.</li>
+<li>Configured MySQL <code>REPEATABLE READ</code>; no range-authority scans or membership/
+counter/manifest schema introduced.</li>
+<li>Installed equivalent MTN source DDL: same six nullable metadata fields,
+unique process/event identities, restrictive retained-context FK and five
+binary/null-safe coherence, immutability, lifecycle and retention triggers.
+Legacy rows remain all-null/unclassified. Colliding legacy IDs stop before
+DDL. Populated evidence refuses destructive down. MySQL implicit commits
+are acknowledged; the helper refuses migration inside an open transaction.</li>
+<li>Native down testing exposed InnoDB replacing an implicit payment FK index
+with the completion unique profile index. <code>CompletionSchema::down</code> now
+restores supporting legacy FK indexing before dropping that unique index.
+No FK/invariant was removed or weakened.</li>
+<li>Updated the reviewed development migration manifest for the authorized
+engine branch, accepting the previous marker without mutating the owned
+SQLite database. Original Laravel/customer/business previews are running.</li>
+</ol>
+<h3>Receipts</h3>
+<p>All current receipts are under <code>.local/mvp-mysql</code> and <code>.local/mvp-wallet</code>.
+The evidence archive preserves final results, responsive samples and relevant
+failure/timeout receipts. Source harnesses remain in the project under those
+directories; historical PG evidence remains separately intact.</p>
+<table>
+<thead>
+<tr>
+<th>Verification</th>
+<th>Result</th>
+<th>Receipt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Original Phase 3C bodies</td>
+<td><strong>13 tests / 51 assertions PASS</strong>, no skips</td>
+<td><code>correction-evidence/matrix/original13-junit.xml</code></td>
+</tr>
+<tr>
+<td>Clean expanded native core</td>
+<td><strong>20 groups PASS</strong></td>
+<td><code>correction-evidence/matrix/mysql-expanded.json</code></td>
+</tr>
+<tr>
+<td>Current native Wallet proof</td>
+<td><strong>28 groups PASS</strong></td>
+<td><code>../mvp-wallet/evidence/mysql/wallet-matrix.json</code></td>
+</tr>
+<tr>
+<td>MTN/owned entry whole-contract boundary</td>
+<td><strong>5 tests / 38 assertions PASS</strong></td>
+<td><code>boundary-junit.xml</code></td>
+</tr>
+<tr>
+<td>MTN retained-anchor FK, lifecycle/down refusal</td>
+<td><strong>1 / 7 PASS</strong></td>
+<td><code>boundary-retained-fk-junit.xml</code></td>
+</tr>
+<tr>
+<td>Completion legacy-FK down/reapply</td>
+<td><strong>1 / 5 PASS</strong></td>
+<td><code>completion-lifecycle-junit.xml</code></td>
+</tr>
+<tr>
+<td>Native stale-model / replacement-Transaction finality</td>
+<td><strong>2 / 37 PASS</strong></td>
+<td><code>fulfillment-replay-junit.xml</code></td>
+</tr>
+<tr>
+<td>Actual complete ordered source migration chain</td>
+<td><strong>224 up migrations PASS; 203 target-schema tables</strong></td>
+<td><code>bootstrap-final.json</code>, <code>bootstrap-final-timeout.txt</code></td>
+</tr>
+<tr>
+<td>Empty financial/fulfillment tail down and reapply</td>
+<td><strong>8 down + 8 up steps PASS</strong></td>
+<td><code>bootstrap-final.json</code>, <code>bootstrap-lifecycle-final.txt</code></td>
+</tr>
+<tr>
+<td>Focused product/auth/security/domain regressions</td>
+<td><strong>98 / 649 PASS</strong>, one deprecation</td>
+<td><code>product-security-checks.txt</code></td>
+</tr>
+<tr>
+<td>Existing SQLite MTN/completion contract</td>
+<td><strong>18 / 86 PASS</strong></td>
+<td><code>sqlite-ddl-regression.txt</code></td>
+</tr>
+<tr>
+<td>Owned protected comparison</td>
+<td><strong>59 unchanged / 465 unchanged / 12 unverified</strong></td>
+<td><code>protected-comparison.json</code></td>
+</tr>
+</tbody>
+</table>
+<p>The core verifies 10,000 authority against competing 7,000 reservations, exact
+3,000 remainder, independent allocation progress with empty/populated evidence,
+same-key replay and changed amount/actor/context rejection, newly committed
+refund effects, payable/receivable conservation, exclusion rules, rollback,
+native lock timeout, native deadlock with whole-root retry, confirmation and
+canonical finalization. Wallet verifies 70+70 from 100 permits one spend, exact
+conservation, debit/transfer ordering, spend/credit interactions, all required
+rollback stages and native Product/Booking funding/replay. Fulfillment core
+gates and additional source tests cover commission/cashback replay, stale
+models, replacement transactions and native claim contention.</p>
+<p>The obsolete negative Wallet-overspend expectation is not counted as a pass;
+the current 28-group conservation proof supersedes it.</p>
+<p>Full ordered source up, source down/reapply, and the native guard cases cover
+integer columns/generated IDs, nullable uniqueness, explicit short index names,
+FK retention, receipt non-self-anchor equivalent protection, exact JSON
+number/type/container/array-order semantics, immutability and native trigger
+behavior/cleanup. This is not certification of every application endpoint or
+every historical destructive <code>down()</code> migration.</p>
+<p>Failures preserved: missing framework fixture aliases/configuration, a native
+snapshot's SQLite-specific enumeration, qualified snapshot keys, the genuine
+legacy-FK index-drop error and an interrupted disposable DDL roundtrip. The
+interrupted <strong>empty</strong> fixture was explicitly normalized, then the complete
+eight-migration lifecycle passed. No failed native state was mistaken for
+economic conservation. A workspace restart removed the transient services;
+completed receipts survived in the project. Only MySQL was restored; no PG
+implementation, adaptation or new certification was performed.</p>
+<p><strong>Scope conclusion:</strong> MySQL Phase 3C application financial requirements listed
+in the work order pass within these receipts. No newly confirmed independent
+financial/security P0 was remediated. Production certification still requires
+selected end-to-end journeys, operator controls and VPS/restore acceptance.</p>
+<h2>2. Payment readiness matrix</h2>
+<p>Statuses below concern each payment feature, not approval to launch AgendaAlly.
+All electronic providers remain disabled; customer checkout remains Wallet/Cash.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Classification</th>
+<th>Verified boundary / remaining requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash</td>
+<td><strong>VERIFIED</strong> — baseline accounting slice; selected journey <strong>PARTIAL</strong></td>
+<td>Preserve offline custody and receivable semantics; require Customer/Vendor collection/completion acceptance and Admin SOP before launch.</td>
+</tr>
+<tr>
+<td>Wallet</td>
+<td><strong>VERIFIED</strong> — baseline financial slice; selected journey <strong>PARTIAL</strong></td>
+<td>Debit, transfer, concurrent spend/credit, native Product/Booking and replay pass. Verified funding/currency, zero-balance Cash fallback and visible history still need selected-role acceptance. No real top-up activation.</td>
+</tr>
+<tr>
+<td>MTN</td>
+<td><strong>DEFERRED</strong>; external UAT dependency</td>
+<td>Baseline MySQL identity/recovery guards retained. Activation, merchant contracts, credentials, calls and UAT are outside this phase.</td>
+</tr>
+<tr>
+<td>Orange</td>
+<td><strong>DEFERRED</strong>; verification remains <strong>BLOCKED</strong></td>
+<td>Authoritative callback/status verification and provider contract remain incomplete; keep initiation disabled.</td>
+</tr>
+<tr>
+<td>Flutterwave</td>
+<td><strong>DEFERRED</strong></td>
+<td>Common identity/reservation/receipt baseline retained; provider-specific UAT and activation outside this phase.</td>
+</tr>
+<tr>
+<td>Paystack</td>
+<td><strong>DEFERRED</strong></td>
+<td>Original identity and common completion baseline retained; provider calls/activation outside this phase.</td>
+</tr>
+<tr>
+<td>Stripe</td>
+<td><strong>DEFERRED</strong></td>
+<td>Captured-payment identity baseline retained; capture/refund callback UAT and activation outside this phase.</td>
+</tr>
+<tr>
+<td>PayPal</td>
+<td><strong>DEFERRED</strong></td>
+<td>Original captured identity retained; external capture/refund/status contracts and activation outside this phase.</td>
+</tr>
+<tr>
+<td>Refunds</td>
+<td><strong>PARTIAL</strong></td>
+<td>Protected native Product/Booking/Wallet refund authorization/replay evidence exists. Electronic reservations are not proof of remote refunds. Launch only supported original-evidence paths with clear Customer state; no real refund executed here.</td>
+</tr>
+<tr>
+<td>Commission receivables</td>
+<td><strong>PARTIAL</strong></td>
+<td>Baseline native conservation verified; operator settlement/reference/visible-history acceptance required. Never classify Cash as platform collection.</td>
+</tr>
+<tr>
+<td>Vendor payable reservations</td>
+<td><strong>PARTIAL</strong></td>
+<td>Baseline owned-entry/conservation verified; selected-role request/cancel/UNKNOWN UX and approval SOP remain unaccepted.</td>
+</tr>
+<tr>
+<td>External Vendor payouts</td>
+<td><strong>DEFERRED</strong></td>
+<td>No bank/mobile-money execution activated; a reservation is not a payment.</td>
+</tr>
+<tr>
+<td>Electronic reconciliation</td>
+<td><strong>DEFERRED</strong></td>
+<td>Retained baseline evidence/recovery paths; do not enable provider reconciliation jobs in this phase.</td>
+</tr>
+</tbody>
+</table>
+<p>Vendor-direct and own-gateway collection are <strong>DEFERRED / disabled</strong>, regardless
+of existing configuration/catalog screens. Neither another gateway nor current
+Shop settings may manufacture original custody or historical refund authority.</p>
+<h2>3. Customer readiness</h2>
+<p>Trace: native auth services/requests → Sanctum/session middleware → profile/
+address and public repositories → ServiceMaster availability/calculation →
+BookingService or Cart/Order services → native accounting/Wallet/Cash →
+resources/history/receipt/notification consumers.</p>
+<table>
+<thead>
+<tr>
+<th>Customer journey</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Registration and verification</td>
+<td>Email/phone initiation exists; identity verification/delivery and complete new-account acceptance remain external/unverified. Do not count a success response as delivered email/SMS.</td>
+</tr>
+<tr>
+<td>Login/logout/password reset</td>
+<td>Existing flows; reset expiry, one-time consumption and hashed challenges have isolated regression coverage. Live delivery and logout/cache clearing on all role surfaces need acceptance.</td>
+</tr>
+<tr>
+<td>Profile, location/address</td>
+<td>Native public/profile restoration evidence exists. Current country/city dialog and no-location state render at all sampled widths. Changing discovery context may clear a local Cart; communicate it.</td>
+</tr>
+<tr>
+<td>Shop/Service discovery, search/filter/details</td>
+<td>Real public shop regression and restored native business/service surfaces; home APIs return real application content. No claim that every filter or empty result combination was retested.</td>
+</tr>
+<tr>
+<td>Availability and booking creation</td>
+<td><strong>Not MVP accepted:</strong> source overlap/concurrency weaknesses below. Payment correctness does not validate resource availability.</td>
+</tr>
+<tr>
+<td>Rescheduling/cancellation</td>
+<td>Source update/status and authorization/refund protections exist; exclusion, stale availability, capacity release and reschedule atomicity need a native lifecycle acceptance. Frozen economics must not be silently repriced.</td>
+</tr>
+<tr>
+<td>Cart/checkout/order creation</td>
+<td>Native Product/Wallet tests available; purchasing deferred for first scope because inventory exclusion is not guaranteed. No multi-merchant electronic checkout.</td>
+</tr>
+<tr>
+<td>Wallet/Cash</td>
+<td>Financial boundary verified; source history/method selection exists. Verify Customer-visible pending/failed/success/retry and a working Cash path without electronic top-up.</td>
+</tr>
+<tr>
+<td>Booking/order status, history, receipts</td>
+<td>Native resources/detail/history and invoice work exist; a complete Customer → Vendor → Customer refreshed state/receipt acceptance remains a launch gate.</td>
+</tr>
+<tr>
+<td>Refund/cancellation visibility</td>
+<td>Authorized domain paths have evidence; UI must distinguish requested/accepted/rejected/unknown, cancellation versus monetary return, and unsupported historical records.</td>
+</tr>
+<tr>
+<td>Notifications, retries and errors</td>
+<td>Native in-app/push hooks and reset guards exist; no reliable live external delivery proof. Financial replay is verified, but ordinary booking submission deduplication is not equivalent to contribution replay.</td>
+</tr>
+</tbody>
+</table>
+<p>No new Customer or booking was created in the protected development database.</p>
+<h2>4. Vendor readiness</h2>
+<p>Trace: native registration/application and Admin approval → owned Shop/
+invitation/branch grants → service, pricing and specialist/resource setup →
+seller booking/calendar or order management → permitted status changes →
+financial projections/operations and notifications.</p>
+<ul>
+<li>Onboarding, Shop creation/configuration, Service creation/pricing, accepted
+staff/invitations and scoped business surfaces exist. Their combined new-Vendor
+journey is not currently accepted end-to-end.</li>
+<li>Country/Shop/branch grants must remain authoritative. Owner access is not a
+global staff grant; do not solve acceptance failures by broadening roles.</li>
+<li>Booking management and staff/ownership matrices have isolated coverage.
+Calendar concurrency, reschedule collision and cancellation release do not.</li>
+<li>Order/fulfillment source and native financial finality are materially verified,
+but Product purchasing/stock is intentionally excluded from first launch.</li>
+<li>Financial history, commission, receivable/payable and payout-request surfaces
+need role-specific native acceptance. Clearly label a reserved request as
+<strong>not paid</strong>; an unavailable external execution action must not imply success.</li>
+<li>Merchant/payment configuration may be inspected/configured only under existing
+ownership, encryption and activation gates. No provider activation by saving
+a profile. Requests cannot attribute creator-level money using unrelated
+invitations or current country settings.</li>
+<li>Notifications are component-supported, not transport-reliability certified.
+Mobile authenticated calendar/history/forms remain P1 acceptance work.</li>
+</ul>
+<h2>5. Admin readiness</h2>
+<p>Trace: auth/role/country gates → user/Vendor/Shop administration and approvals →
+booking/order oversight → canonical allocations/evidence/operations →
+refund/reservation/intervention and provider configuration.</p>
+<p>The actual financial POST permits only Admin-authorized kinds or scoped Vendor
+payout reservation, and now owns its RR transaction. Existing operation/action
+guards remain unchanged. Accounting evidence cannot be edited into a success.</p>
+<p>Outstanding acceptance: approve a fresh Vendor without excessive permissions;
+read correct Customer/Vendor and booking data; inspect original allocation/
+contribution history; create/replay/cancel permitted reservations; see
+UNKNOWN/PENDING without freeing capacity; distinguish external execution from
+reservation; handle unsupported legacy rows; prove audit references and
+notifications remain visible after reload. Generic legacy payout/history screens
+are not silently assumed to be canonical allocation-operation UX.</p>
+<h2>6. Booking correctness — first-launch blocker</h2>
+<p>Original native source reproduced partial overlap, closing-hour and inconsistent
+adjacency defects; those before-correction receipts are retained. Current creation
+owns a fresh transaction, locks known assignment and specialist PKs before ordinary
+availability reads, and shares exact interval validation with protected mutations.
+It rejects overlapping batches, cross-Shop checkout and forged preview exclusions.
+No range-lock, scheduling schema or new capacity identity was introduced.</p>
+<p><strong>Verified service-level evidence:</strong> corrected calculator cases, independent
+same-slot contenders, independent specialist progress, Cash/Wallet rollback/replay,
+supported unfunded cancellation and original-price-preserving reschedule. Details
+and limitations are in section 16; this is not complete role/browser acceptance.</p>
+<p><strong>Recurring-calendar correction:</strong> load recurring rules whose origin precedes the
+query window; derive occurrences from their original anchors and counts before
+applying closed/working dates. Monthly dates do not overflow/clamp; custom daily
+steps, weekly interval/weekday selection and monthly steps preserve native payloads.
+Native discovery and interval validation pass 75 checks; unit/window-slicing
+tests pass 27/48. Cleanup cannot approximate counted expiry or delete the inclusive
+final date's capacity. Counted metadata is conservatively retained.</p>
+<p><strong>Conclusion:</strong> the broader <strong>P0 booking correctness gate remains PARTIAL</strong>.
+Recurrence semantics are confirmed and the reproduced range omission is corrected.
+Complete remaining native contention/lifecycle/cascade and clock/role acceptance,
+including concurrent calendar-setting mutation, before declaring the full gate PASS.
+The accepted finance baseline is not rerun or replaced; no new money/schema/
+permission redesign or downstream acceptance was inferred.</p>
+<p>Acceptance must cover identical/partial/containing/adjacent intervals, independent
+resources, same-key retry/double click, stale availability, service duration and
+pause/buffer, closed dates, recurring/custom disabled times, cancellation release,
+atomic reschedule, and rollback. Current shop-hour timezone tests do <strong>not</strong>
+certify appointment timezone/DST behavior: availability uses server date/time
+operations. Explicitly settle Vendor versus Customer timezone, midnight and
+DST boundaries where relevant. Preserve original currency/custody and frozen
+financial economics; unsupported extra-time/repricing remains fail closed.</p>
+<h2>7. Product and multi-Shop marketplace</h2>
+<p>Actual trace: Stock/Product/Shop → Cart detail per Shop → order/detail creation →
+<code>OrderHelper::actualQuantity</code> and <code>updateStatCount</code> → native payment →
+Vendor fulfillment → locked financial finality/refund boundary.</p>
+<p>Native source helper proof on disposable MySQL:
+two hydrated Stock callers read quantity 10; each accepts 6; each writes an
+absolute remaining 4 from its cached quantity. Final stock is 4 despite accepted
+quantity 12. This reproduces a <strong>lost decrement in the real helpers</strong>, not a
+whole two-Customer checkout. Source Cart/POS uses these hydrated reads and
+updates; no stock admission mutex was found in the traced paths.</p>
+<p>The application has finite quantities and min/max ordering behavior, so it does
+claim more than an unlimited catalog. It cannot currently claim verified
+concurrent stock exclusion. Do not invent warehouse/reservation architecture.
+If purchasing is retained for launch, this becomes a P0 gate with full native
+checkout race/rollback acceptance. Under the recommended service-first scope,
+Product purchasing and its stock correction are deferred.</p>
+<p>Multi-Shop Cart code splits creation into per-Shop Orders. That is not proof of
+all-or-nothing stock admission, cross-Shop currencies, one shared provider
+collection or one merchant profile. Defer multi-Shop checkout; test a single-Shop
+currency/quantity/fulfillment contract before any later Product launch.</p>
+<h2>8. Bounded security findings</h2>
+<p>No destructive exploitation or broad scanner run was performed.</p>
+<ul>
+<li><strong>Authorization evidence:</strong> current reset/staff/seller-booking/story/public-shop
+and native workstream tests pass. Existing financial/refund/fulfillment
+containment receipts remain relevant. This does not certify every endpoint,
+export, configuration action or role combination.</li>
+<li><strong>Sensitive rate limits:</strong> API middleware currently permits 5,000 requests per
+minute. Specific reset/invitation limits exist, but that global ceiling is not
+an adequate login abuse policy. Narrow login/registration/verification limits,
+neutral enumeration behavior and 429/retry UX need P1 acceptance.</li>
+<li><strong>Mass assignment/validation:</strong> typed immutable financial identities and
+server-owned projections/guarded status paths are retained. Review selected
+account/Shop/resource mutations using validated inputs, including cross-Shop
+IDs and forged role/country/resource identifiers, before launch.</li>
+<li><strong>API/CSRF/cookies:</strong> bearer/Sanctum checking exists; stateful API middleware is
+not automatically enabled. Apply CSRF to actual cookie-auth state-changing
+paths; do not treat SameSite as universal CSRF protection. Sessions default to
+database, HttpOnly and Lax; secure-cookie, TLS, proxy and domain configuration
+must be explicitly pinned for production.</li>
+<li><strong>Credentials:</strong> <code>PaymentPayload</code> hides payloads and uses
+<code>EncryptedProviderPayload</code>. Durable revision encryption/retention exists.
+APP_KEY must survive restore. No real credential was requested/read here.
+Earlier imported client-configuration exposure still requires a value-free
+rotation/history/build-artifact review; source deletion does not prove rotation.</li>
+<li><strong>Logging:</strong> require redaction of auth headers, reset/invitation challenges,
+decrypted merchant payloads and provider responses. This was not a full
+historical log/secret scan, and no absence-of-secrets certification is claimed.</li>
+<li><strong>Uploads:</strong> general image gallery handlers validate image MIME/types and 5 MB
+limits; Story upload request only visibly bounds file sizes (20 MB), without
+a MIME allowlist in that request. Review its downstream storage processing,
+ownership and executable-file handling. No executable-upload exploit proven.</li>
+<li><strong>Development exposure:</strong> existing file-serving boundary evidence and guarded
+development commands must be retained; deployment must exclude backups,
+debug routes, source trees, development credentials and build artifacts.
+<code>APP_DEBUG=false</code> is a release configuration requirement, not the local setting.</li>
+</ul>
+<p>No new immediately exploitable financial/security P0 was confirmed. The findings
+above are not permission to widen roles, rotate credentials, rewrite history or
+change production settings automatically.</p>
+<h2>9. Notifications, communication and background work</h2>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>In-app / source hook</th>
+<th>Email</th>
+<th>SMS</th>
+<th>Push</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Booking created / status confirmed / canceled</td>
+<td>BookingService/notification hooks and stored notification paths</td>
+<td>Conditional/template path; delivery not accepted</td>
+<td>No accepted universal event channel</td>
+<td>Native hooks; configured transport/UAT missing</td>
+</tr>
+<tr>
+<td>Booking rescheduled</td>
+<td>Update path exists; prove correct recipients and one visible event</td>
+<td>Not accepted</td>
+<td>Not accepted</td>
+<td>Not accepted</td>
+</tr>
+<tr>
+<td>Appointment reminder</td>
+<td><code>booking:send:notification</code>, minute window 30 minutes ahead</td>
+<td>No accepted guaranteed channel</td>
+<td>Not accepted</td>
+<td>Source dispatch exists; scheduler/delivery not accepted</td>
+</tr>
+<tr>
+<td>Order created / accepted / canceled / delivered</td>
+<td>Native order/status notification hooks</td>
+<td>Conditional; not reliable-delivery certified</td>
+<td>Not accepted</td>
+<td>Native dispatch hooks; UAT outstanding</td>
+</tr>
+<tr>
+<td>Refund state</td>
+<td>Domain paths and native history exist; complete state communication not accepted</td>
+<td>Not accepted</td>
+<td>Not accepted</td>
+<td>Not accepted end-to-end</td>
+</tr>
+<tr>
+<td>Payout request/transition</td>
+<td>Durable operations/history exist; recipient notification acceptance missing</td>
+<td>Not accepted</td>
+<td>Not accepted</td>
+<td>Not accepted</td>
+</tr>
+<tr>
+<td>Account/reset</td>
+<td>Hashed expiring challenges and source email/phone paths</td>
+<td>Live transport/template acceptance required</td>
+<td>Depends on configured account channel, unaccepted</td>
+<td>Not a reset-delivery substitute</td>
+</tr>
+</tbody>
+</table>
+<p>MVP minimum: durable in-app state/history plus transactional account/booking
+email with actual delivery and retry acceptance. SMS/push may wait; do not
+purchase external providers automatically. A reminder must not be the only
+way a Customer can verify booking time or status.</p>
+<p>Actual scheduler inventory: hourly <code>email:send:by:time</code>; minute booking reminders
+and auction updates; daily expired master-disabled-time/closed-date/delivery
+cleanup; minute <code>booking:auto:ended</code>; five-minute MTN pending reconciliation.
+Actual jobs include delivery assignment, exports, file deletion, referral,
+Wallet-currency normalization, activity and filter work.</p>
+<p>Queue defaults to <code>sync</code>; database/Redis definitions have <code>after_commit=false</code>.
+Some notifications use <code>afterResponse</code>. That is not durable processing across
+process/VPS restarts. Email scheduling marks its template status before event
+dispatch; reminder selection is a narrow minute window without demonstrated
+catch-up/idempotence. <code>booking:auto:ended</code> directly bulk-updates status, bypassing
+model/service transition hooks; review financial/notification compatibility
+before scheduling it for live records. No live cleanup/reconciliation job ran.</p>
+<p>Minimum deployment: supervised supported queue worker(s), failed-job visibility,
+one scheduler invocation each minute, only reviewed selected-MVP commands,
+idempotent recipient/event identity and retry/catch-up tests. Do not blindly
+enable auction, electronic-reconciliation or destructive cleanup schedules.
+Retain evidence and UNKNOWN capacity; retries must not post money twice.</p>
+<h2>10. Files/media and minimal VPS architecture</h2>
+<p>Default filesystem is local. Profile/Shop/Product/Service galleries and uploads
+need a persistent <code>storage/app</code>/public-media volume outside release directories,
+correct public symlink, constrained permissions and off-VPS backups. Replacing a
+release or reboot must not lose uploads. Review external/demo URL reliance and
+file-delete jobs; never execute uploaded PHP/scripts. One VPS does not itself
+require S3/object storage; multiple application hosts require a deliberate shared
+media strategy before scaling.</p>
+<p><strong>Proposed architecture, not deployed:</strong></p>
+<ul>
+<li>Nginx with TLS terminates public traffic; expose only intended customer/business
+hosts and API, not development ports. PHP 8.4.x was exercised here; pin a
+maintained compatible version using the lockfile and a production rehearsal.
+Required composer/runtime extensions include cURL, DOM, fileinfo, GD, JSON,
+OpenSSL, SimpleXML, ZIP, PDO MySQL, mbstring/XML and worker-required pcntl.</li>
+<li>Laravel PHP-FPM; production-built Next customer under supervised Node (use the
+tested supported Node/Next combination), static production business bundle.
+No Vite/Next development server or PHP built-in server in production.</li>
+<li>MySQL 8/InnoDB, explicit RR and strict mode, loopback/private access. Separate
+restricted application account and temporary migration account; no root
+application login and no public 3306. Pin charset/collation/timezone and verify
+native ID, money, JSON and FK contracts.</li>
+<li><code>APP_ENV=production</code>, <code>APP_DEBUG=false</code>, stable separately secured APP_KEY,
+secrets outside Git and public bundles, exact trusted proxies/CORS origins,
+secure cookies and HTTPS-only auth. Do not rotate an existing APP_KEY casually.</li>
+<li>systemd/supervision for PHP-FPM, Next and queue worker; reviewed cron/scheduler,
+graceful worker restart and failed-job inspection. Redis is optional if the
+chosen queue/session/cache contracts do not require it.</li>
+<li>Deploy user and runtime user separated; writable Laravel cache/storage only;
+log rotation/retention, upload quota/free-disk alerts, no world-writable source.
+Firewall 80/443; restricted key-based SSH/admin access, no exposed database/
+queue dashboards or development tooling.</li>
+<li>Initial sizing recommendation: 4 vCPU / 8 GB RAM with builds off the serving
+host; not a measured capacity promise. Set worker/PHP/MySQL connection limits
+together and monitor disk, CPU, RSS, connection use and backlog before resizing.</li>
+</ul>
+<p>Before real cutover: approved data-transition plan, staging schema/data integrity
+rehearsal, source/lockfile release, secret injection, config caching, maintenance
+window, backed-up migration plan, health/role checks, gradual resume and a code
+rollback compatible with retained new evidence. MySQL DDL is not transactionally
+undoable as a complete Laravel migration chain. Never automatically reverse
+populated financial migrations or reclassify the 12 legacy Orders.</p>
+<h2>11. Backup, recovery and observability contract</h2>
+<p><strong>Recommended targets requiring approval and demonstration:</strong> financial database
+RPO ≤15 minutes, media RPO ≤1 hour, RTO ≤4 hours. These are targets, not achieved
+service levels.</p>
+<ul>
+<li>Nightly consistent InnoDB full backup including triggers/routines/events and
+exact native data; encrypted binlog/PITR capture shipped off-VPS at least every
+15 minutes. Verify restoration of guards, identities and native integers.</li>
+<li>Encrypted off-VPS copy: 7 daily + 4 weekly + 3 monthly full backups, with
+matching PITR retention sufficient for the daily window. Separate backup
+credentials and restore permissions; alert on failed/missing copies.</li>
+<li>Hourly incremental persistent-media backup, daily retained snapshots aligned
+with DB references; restore checks must include Customer/Shop/Service images.</li>
+<li>APP_KEY and required configuration/secrets backed up separately in restricted
+encrypted recovery storage. Do not mix plaintext secrets or development
+credential sheets into application/media archives.</li>
+<li>Restore to an isolated host/database first; replay to the selected point,
+verify schema/guard inventory, row/value fingerprints, allocation/Wallet
+conservation, history/receipts and decryption, then selected-role journeys.
+Record elapsed time, missing media and achieved RPO/RTO. A backup command is
+not a completed backup service or restore drill.</li>
+</ul>
+<p>Minimum observability: uptime and readiness checks for frontend/API/DB; redacted
+application/HTTP errors; failed queue/retry counts and worker liveness; scheduler
+heartbeat/missed reminders; MySQL connections/locks/storage; free disk/inodes,
+CPU/memory; TLS expiry; failed login/429 abuse; old UNKNOWN/PENDING payments,
+recovery failures, refund failures and intervention-required payout requests.
+Use existing logs plus simple alerts/operator dashboards first, not a new
+enterprise monitoring architecture. Keep immutable financial evidence separate
+from disposable diagnostic logs.</p>
+<h2>12. Performance and responsive acceptance</h2>
+<p>Public repository pagination/search and eager-loading work exist; native booking
+resources previously corrected singular/plural transaction loading. Availability
+constructs a date range per specialist and processes working days/exceptions/
+bookings; bounded range caps and realistic calendar fixtures need measurement.
+Inspect history page limits, per-page validation, branch/Shop filters before
+pagination, query plans/indexes and export memory. No general N+1 certification
+or production load estimate was established.</p>
+<p>Large/demo images, repeated discovery calls, financial history and dashboards
+need production-mode timings, not development compile timings. The observed
+15-second cold Next compile is not a production latency measurement. No speculative
+index/caching redesign was implemented. Optimization becomes P1 only when a
+selected journey demonstrably fails its agreed latency/capacity acceptance.</p>
+<p>Current final public samples at 1280/390/320: customer home/location dialog and
+business login render without horizontal document overflow. An initial blank
+business screenshot was caused by the <strong>test</strong> blocking local Firebase module
+URLs; domain-scoped blocking corrected the sample, not the application.
+An artifact-proxy screenshot returned 404 rather than the native application;
+native-port CDP samples, not that 404, are the UI evidence.</p>
+<p>The public samples above are historical baseline evidence. The authenticated
+selected-role receipts in section 17 supersede them for service booking,
+calendars, finance history and approval screens. Product Cart/checkout remains
+excluded; neither a login screenshot nor compilation alone is UI acceptance.</p>
+<h2>13. One authoritative remaining-work matrix</h2>
+<p>This is the single matrix reconciled against same-run native acceptance below.
+Confirmed contract decisions no longer block B1. Application acceptance and
+external/production readiness are distinct gates.
+<code>Approval</code> specifies residual
+boundaries for semantics, external operations or production actions. No separate
+competing backlog is created in this report.</p>
+<table>
+<thead>
+<tr>
+<th>ID / priority</th>
+<th>Exact issue and affected workflow</th>
+<th>Evidence / severity</th>
+<th>Type and minimum correction</th>
+<th>Acceptance</th>
+<th>Approval</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1 <strong>VERIFIED / closed P0</strong></td>
+<td>Exclusive Service admission, recurrence, cancellation/reschedule and lifecycle contention</td>
+<td>143 native execution checks; 14 terminal/contention checks; 27 recurrence tests/48 assertions and 75 native recurrence checks PASS</td>
+<td>Existing specialist mutex/shared intervals and original economics retained; no resource/custody redesign</td>
+<td>Finite native acceptance closed; failure and financial receipts retained</td>
+<td>No unresolved scheduling decision; not a production certification</td>
+</tr>
+<tr>
+<td>A1 <strong>APPLICATION ACCEPTED / EXTERNAL DEPENDENCY</strong></td>
+<td>Selected account, profile/address, Vendor onboarding and role ownership</td>
+<td>Native auth/reset/email/address/forged-ID acceptance; real fresh Vendor setup and Admin approval UI. Live account email not delivered</td>
+<td>Named auth limiter buckets, neutral responses, challenge binding and Shop-filter correction</td>
+<td>Application paths accepted with local/native fixtures; delivered account mail and full live signup/reset remain external</td>
+<td>No provider credential request or external activation authorized</td>
+</tr>
+<tr>
+<td>U1 <strong>VERIFIED</strong></td>
+<td>Selected Customer/Vendor/Specialist/Admin booking/history and finance UI</td>
+<td>Cash/Wallet creation/reload; reschedule/reflection; unpaid local-client creation/cancel; Customer Cash cancel; Specialist persisted detail/hours/blocks and1280/390/320 PASS</td>
+<td>Ordinary draft/detail/nullable/responsive defects fixed; existing unfunded writer integrated, funded guard preserved; UNKNOWN untouched</td>
+<td>Section18 current actual browser and authoritative release receipts close the former browser gap</td>
+<td>No broad redesign, role widening or external financial action authorized</td>
+</tr>
+<tr>
+<td>N1 <strong>LOCAL APPLICATION VERIFIED / EXTERNAL DEPENDENCY</strong></td>
+<td>Selected operational outbox, queue restart and reminder scheduler</td>
+<td>22 native process/transport/dedup/rollback checks plus four selected-scheduler checks PASS; SMTP not activated</td>
+<td>Encrypted operational evidence; selected queue; in-app status/history and reminder catch-up; UNKNOWN never automatically resent</td>
+<td>Real worker restart/loss tested around acceptance; native schedule selects only MVP tick. Live deliverability and production supervision unverified</td>
+<td>Broad cleanup/auto-ended/provider schedule excluded; live transport/configuration separately approved</td>
+</tr>
+<tr>
+<td>S1 <strong>BOUNDED APPLICATION VERIFIED / RELEASE DEPENDENCIES</strong></td>
+<td>Selected abuse/ownership/session/upload/redaction boundaries</td>
+<td>Native expiry/replay/429, cross-role/Shop, upload/gallery and conditional CSRF/bearer-identity checks PASS</td>
+<td>Narrow named buckets; MIME/ownership/nonexecution and selected SMTP redaction</td>
+<td>Selected application scope accepted; production TLS/secure-cookie/proxy settings and historical key rotation not certified</td>
+<td>No material permission redesign or real credential rotation performed</td>
+</tr>
+<tr>
+<td>D1 <strong>P1</strong></td>
+<td>Production MySQL/data cutover and deployment/rollback are not rehearsed</td>
+<td>Disposable source DDL passes; owned baseline remains SQLite and unchanged; no VPS exercised</td>
+<td>Config/operations/data migration plan; pin native schema, least privilege, stable keys, guarded release and compatible rollback</td>
+<td>Staging native boot/cutover; exact money/IDs/guards, legacy unverified handling, maintenance/health/restart and code rollback without deleting evidence</td>
+<td><strong>Yes</strong>, including data transfer and real VPS deployment</td>
+</tr>
+<tr>
+<td>R1 <strong>P1</strong></td>
+<td>DB/media/key backup and restore service absent from acceptance</td>
+<td>No off-VPS copy/PITR or timed restore proof</td>
+<td>Operations/config; implement approved encrypted retention and restore contract</td>
+<td>Isolated timed restore; guard/fingerprint/conservation/decryption/media and roles checks; demonstrate RPO/RTO; alert on failed archive</td>
+<td><strong>Yes</strong>, production access/storage costs separately</td>
+</tr>
+<tr>
+<td>O1 <strong>P1</strong></td>
+<td>Production error/queue/scheduler/disk/DB/intervention alerts not accepted</td>
+<td>Logs/retained states exist, no continuous monitoring proof</td>
+<td>Config/operations; minimal health checks, redaction and actionable alerts</td>
+<td>Simulated worker/scheduler outage, low disk, HTTP failure, old UNKNOWN/refund failure and intervention request; named operator sees and resolves safely</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>E1 <strong>P2</strong></td>
+<td>Electronic merchant contracts, country/currency profile and provider truth/UAT incomplete</td>
+<td>Synthetic identities/guards are not external readiness; Orange blocked</td>
+<td>External/config/code; select one approved platform provider, exact profile and authenticated callback/status/captured identity contracts</td>
+<td>Sandbox then approved UAT; timeout/duplicate/out-of-order/wrong amount/currency/owner evidence; no capture duplication or false success</td>
+<td><strong>Yes</strong> before credentials, calls or activation</td>
+</tr>
+<tr>
+<td>E2 <strong>P2</strong></td>
+<td>Electronic refunds/reconciliation/payout-side custody intervention not operational</td>
+<td>Reservations conserve authority but remote action/recovery unproven</td>
+<td>Code/config/external SOP; original evidence only, retained UNKNOWN/PENDING, reconciled original-provider outcomes</td>
+<td>Remote refund replay, callback loss, provider unknown, operator recovery; exact original custody and capacity; real actions only separately approved</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>E3 <strong>P2</strong></td>
+<td>Electronic activation safety and selected-provider operational monitoring</td>
+<td>Disabled policy retained; whole live enable/disable rehearsal absent</td>
+<td>Config/operations; explicit per-country/currency/merchant allowlist and kill switch, safe worker policies</td>
+<td>Unsupported profiles fail closed; saving config cannot activate; UAT approval gate, alert and disable/recovery exercise</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>P1 <strong>P3</strong>, becomes <strong>P0 if Product purchasing launches</strong></td>
+<td>Concurrent stock admission is not guaranteed; Product Cart/order/fulfillment</td>
+<td>Native real-helper lost decrement: 10 → two accepted 6 → persisted 4; full checkout race unaccepted</td>
+<td>Code, no invented warehouse schema; existing Stock PK exclusion/conditional decrement with actual checkout rollback contract</td>
+<td>Exactly one/limited quantity sold, different stocks progress, multi-item failure restores stock/money, retries/cancel returns follow actual contract</td>
+<td><strong>Yes</strong>, Product scope and any material stock semantics separately</td>
+</tr>
+<tr>
+<td>P2 <strong>P3</strong></td>
+<td>Multi-Shop purchasing and complex cross-currency/merchant checkout not accepted</td>
+<td>Per-Shop order splitting is not atomic shared collection or stock proof</td>
+<td>Product/code/possible architecture; scope explicitly, single-Shop first</td>
+<td>Defined partial-failure/currency/stock contract; never imply one arbitrary merchant covers all orders</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>P3 <strong>P3</strong></td>
+<td>External Vendor payouts, Vendor-direct/own-gateway and advanced features</td>
+<td>No live execution activated; common architecture retained</td>
+<td>External/architecture; defer without repurposing original custody</td>
+<td>Separately approved original authority, merchant contract, beneficiary/settlement/recovery and UAT</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>P4 <strong>P3</strong></td>
+<td>SMS/push expansion, Delivery app, advanced exports/analytics and speculative performance work</td>
+<td>No essential delivery dependency for service-first MVP; no Product/Delivery launch acceptance</td>
+<td>Feature/external; defer; measure actual production-mode bottlenecks before optimization</td>
+<td>Feature-specific ownership/retry/load acceptance; audit Delivery app after upload before claiming compatibility</td>
+<td><strong>Yes</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The earlier scheduling P0 is <strong>closed at native B1 acceptance</strong> by the retained
+execution/terminal/recurrence receipts below. Selected-role UI acceptance remains
+an independent downstream gate; it does not reopen already-passing native capacity
+proof or certify production.
+Product stock remains excluded/deferred. No new financial accounting equation/
+custody correction is proposed.</p>
+<h2>14. How far from the limited MVP?</h2>
+<p><strong>Evidence-weighted limited-MVP readiness: 14.5 / 20 = 72.5%.</strong> This is not
+a feature/file, engineering-effort or revenue percentage, nor production
+certification. The retained pre-run baseline is 8.5 / 20 = 42.5%.</p>
+<p>Basis: twenty selected journey/operations gates, awarding one only to a completed
+relevant acceptance and half to substantial component/source evidence with the
+end-to-end/operational gate still missing:</p>
+<table>
+<thead>
+<tr>
+<th>Gate set</th>
+<th>Evidence status used for estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Six Customer gates: access/reset, discovery/location/detail, exclusive booking lifecycle, native payment, visible history/receipt, responsive error/retry</td>
+<td>Partial 0.5 (live account email absent), verified 1, verified 1, verified 1, verified 1, partial 0.5 (selected layouts/native errors accepted, not every browser network-failure variation): <strong>5 / 6</strong></td>
+</tr>
+<tr>
+<td>Four Vendor gates: onboarding/Shop, service/staff setup, calendar lifecycle, financial history/operations</td>
+<td>Verified1, verified1, verified1 (creation/reschedule/cancellation, reload, Customer reflection and responsive Vendor/Specialist detail accepted), verified1: <strong>4 / 4</strong>. Reservations/history are accepted, not external payouts.</td>
+</tr>
+<tr>
+<td>Four Admin gates: approval/user oversight, financial boundary authorization, UNKNOWN/provider/intervention visibility, refund/cancellation operation</td>
+<td>Verified 1, verified 1, partial 0.5, partial 0.5: <strong>3 / 4</strong>. UNKNOWN retained and reservation cancellation accepted; real provider intervention/refunds deferred.</td>
+</tr>
+<tr>
+<td>Six operations gates: MySQL DDL/financial integrity, production runtime/TLS/cutover, restore, communications/background reliability, observability, authenticated responsive acceptance</td>
+<td>Verified 1, unverified 0, unverified 0, partial 0.5 (local worker/scheduler verified, live mail/supervision absent), unverified 0, verified 1: <strong>2.5 / 6</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Same twenty gates and weighting: 5 + 4 + 3 + 2.5 = <strong>14.5 / 20 = 72.5%</strong>,
+a0.5-gate-equivalent increase over the current work order's14/20 baseline.
+The older8.5/20 assessment is retained as historical context. Partial credit is retained for
+live account transport, broader error coverage and external financial
+intervention. No credit is awarded for production cutover, restore or monitoring.
+A later approved deployment/restore rehearsal must earn those gates separately.</p>
+<p>Explicit answers:</p>
+<ol>
+<li><strong>Selected P0:</strong> B1's finite native booking gate is closed. Product stock
+becomes P0 only if purchasing is separately included; it remains deferred.</li>
+<li><strong>Remaining P1:</strong> live account-email transport, production TLS/cookie/proxy
+and historical rotation evidence; approved cutover/release, restore,
+worker supervision and monitoring. Selected local application acceptance
+does not certify these operational dependencies.</li>
+<li><strong>Defer payment features:</strong> all electronic activation, Vendor-direct/
+own-gateway, remote refunds/payouts and advanced cross-merchant reconciliation.</li>
+<li><strong>Wallet + Cash:</strong> yes for the limited scope after P0/P1 gates, with actual
+verified Wallet funding/currency and Cash fallback; not unlimited manual credit.</li>
+<li><strong>Product commerce necessary?</strong> No. Its independent stock/cross-Shop work would
+delay booking-first launch; browse-only discovery is not purchasing readiness.</li>
+<li><strong>External Vendor payout necessary?</strong> No. Label retained requests/reservations
+honestly and do not represent deferred execution as paid.</li>
+<li><strong>Electronic providers necessary?</strong> No. Keep disabled until selected-provider
+contracts, external UAT and recovery/activation gates pass.</li>
+<li><strong>Shortest safe limited-MVP path:</strong> B1 → A1/U1 selected Customer/Vendor/Admin
+service/Cash/Wallet journey → N1/S1 reliability/security → D1/R1/O1 isolated
+staging and restore acceptance → separately approved VPS launch.</li>
+<li><strong>Shortest path to electronics:</strong> choose one platform provider for one approved
+country/currency/merchant profile; E1/E2/E3 sandbox/UAT and operational recovery;
+explicit activation approval. Do not finish six providers in parallel or
+reopen PG/Strategy G for parity.</li>
+<li><strong>Before production VPS:</strong> pin/runtime/build/TLS/secrets/APP_KEY/proxy/cookies,
+restricted MySQL RR users and limits, persistent media, supervised reviewed
+worker/scheduler, guarded migration/data plan, backups/PITR and timed restore,
+alerts, selected-role acceptance and rollback rehearsal.</li>
+<li><strong>Next bounded action:</strong> seek separate approval for the prepared isolated
+D1/R1/O1 runtime/restore/observability rehearsal. U1 receipts are now complete.
+No VPS staging, provider activation or public launch is authorized.</li>
+</ol>
+<h2>15. Protected state and stop</h2>
+<p>The final comparison uses the accepted native snapshot serialization contract,
+not counts alone. All <strong>59</strong> protected row/value fingerprints are identical;
+all <strong>465</strong> owned schema objects are identical. Completion evidence tables
+<code>payment_merchant_revisions</code>, <code>electronic_collection_attempts</code>,
+<code>payment_financial_operations</code> and <code>payment_receipt_evidence</code> retain the expected
+empty state. All <strong>12 legacy Orders remain unverified</strong>. No legacy meaning,
+custody or classification was backfilled.</p>
+<p>No real provider credentials/calls/refunds/payouts, electronic or Vendor-direct/
+own-gateway activation, production VPS access/deployment, publishing, PG work,
+Strategy G or new maintained financial membership/counter schema occurred.
+The financial baseline remains accepted. <strong>The forward phase started with
+contract tracing/native probes and is stopped at its explicit unresolved-contract
+gate.</strong> No concurrency correction, downstream acceptance or VPS phase is claimed.</p>
+<h2>16. Forward-phase contract, receipts and explicit answers</h2>
+<h3>Short source-backed contract</h3>
+<ul>
+<li><strong>Resource:</strong> <code>Booking.master_id</code> identifies the specialist <code>User</code>. The
+<code>User::masterBookings</code> relationship and availability query span that master's
+ServiceMaster assignments and Shops; not one independent capacity per
+ServiceMaster or per Shop. No capacity-greater-than-one field/contract was
+established in this path.</li>
+<li><strong>Eligibility/ownership:</strong> an active ServiceMaster links an active specialist,
+accepted Service belonging to its approved Shop, and an accepted <code>master</code>
+invitation to that Shop. Working days/closed dates/disabled times belong to
+the User. Preserve these identities and authorization; no new resource model.</li>
+<li><strong>Interval:</strong> calculate starts from each requested naive <code>Y-m-d H:i</code>; stored
+end is start plus <code>ServiceMaster.interval + pause</code>. Processing time is already
+in that end. Priced extra-time is already fail-closed for frozen allocations.</li>
+<li><strong>Capacity states:</strong> <code>new</code>, <code>booked</code>, <code>progress</code> consume availability;
+<code>canceled</code> and <code>ended</code> are excluded. This is source-established, not a freshly
+accepted cancellation/status race.</li>
+<li><strong>Hours/exceptions:</strong> User working day <code>from/to</code> and <code>disabled</code>, closed dates,
+disabled periods with <code>can_booking=false</code> and existing recurrence settings are
+source inputs. Endpoint/full-hour enforcement is corrected for tested ordinary
+cases; recurring origins outside the request range are now included. Confirmed
+anchor/count rules are implemented; closed dates do not reset counts. Do not
+infer new capacity or role/clock acceptance.</li>
+<li><strong>Reschedule:</strong> <code>update</code>, <code>timesUpdate</code>, plus optional
+<code>can_move_the_reservation_time</code> / <code>next_times_update</code> cascade. Existing cascade
+code now plans forward shifts using stored durations, validates all destinations
+before writes, and rejects cross-Shop/unauthorized affected rows. This is implemented,
+not yet cascade-race certified; no removal of this mode was inferred.</li>
+<li><strong>Clock:</strong> Laravel's configured comparison zone is UTC; requests/persistence
+use naive date-time strings. Customer forms and Vendor moment forms send wall
+clocks, while detail/calendar consumers include UTC formatting. No Shop/
+Customer timezone or DST conversion contract was established. Preserve
+existing clock behavior; timezone acceptance remains open.</li>
+<li><strong>Request identity:</strong> booking PK and optional <code>ids</code> preview/edit inputs are not
+a durable creation request key. No existing creation-idempotency identity was
+found. Do not manufacture one; creation exclusion must hold despite retries
+and cannot rely on client <code>ids</code> to waive it.</li>
+<li><strong>Confirmed endpoint:</strong> half-open <code>[start,end)</code> with processing included once.
+Availability and protected admission now share interval/hour evidence.</li>
+<li><strong>Confirmed recurrence meaning:</strong> skip missing monthly dates without moving the
+anchor; count all actual scheduled occurrences from origin, including the first,
+independently of working/closed dates and the requested availability window.</li>
+</ul>
+<h3>Original unmodified native receipt — retained</h3>
+<p><code>.local/booking-forward/contract-native.json</code>: MySQL <strong>8.0.42</strong>, <strong>RR</strong>, cloned
+source table schema in <code>agendaally_payment_disposable_booking_contract</code>.
+Unchanged real <code>BookingRepository::calculate</code> and <code>MasterRepository::times</code>;
+synthetic actors/assignment/working day/occupied appointment; no provider/network
+calls, payment writer, service creation or HTTP endpoint. Table cloning does
+<strong>not</strong> claim copying/certifying financial triggers. The accepted financial
+baseline was not rerun or replaced.</p>
+<table>
+<thead>
+<tr>
+<th>Native case</th>
+<th>Actual result</th>
+<th>Classification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exact 09:00–10:00 over 09:00–10:00</td>
+<td>Rejected</td>
+<td>EXPECTED EXISTING BEHAVIOR in this case</td>
+</tr>
+<tr>
+<td>Left-partial 08:30–09:30</td>
+<td>Rejected</td>
+<td>EXPECTED EXISTING BEHAVIOR in this case</td>
+</tr>
+<tr>
+<td>Right-partial 09:30–10:30</td>
+<td><strong>Accepted</strong></td>
+<td><strong>REPRODUCED DEFECT</strong>, calculator only</td>
+</tr>
+<tr>
+<td>Contained 09:30–10:00 inside 09:00–11:00</td>
+<td>Rejected</td>
+<td>EXPECTED EXISTING BEHAVIOR in this case</td>
+</tr>
+<tr>
+<td>Containing 09:00–11:00 around 09:30–10:00</td>
+<td>Rejected</td>
+<td>EXPECTED EXISTING BEHAVIOR in this case</td>
+</tr>
+<tr>
+<td>After-adjacent 10:00–11:00</td>
+<td>Calculator accepts; availability omits 10:00</td>
+<td><strong>SOURCE-CONFIRMED RISK</strong> — endpoint contract conflict, natively observed</td>
+</tr>
+<tr>
+<td>Before-adjacent 08:00–09:00</td>
+<td>Calculator rejects; availability omits 08:00</td>
+<td><strong>SOURCE-CONFIRMED RISK</strong> — endpoint contract conflict, natively observed</td>
+</tr>
+<tr>
+<td>17:30–18:30 with working day ending 18:00</td>
+<td><strong>Accepted</strong></td>
+<td><strong>REPRODUCED DEFECT</strong>, calculator only</td>
+</tr>
+</tbody>
+</table>
+<p>Initial fixture failures are preserved separately: missing required synthetic
+UUIDs and using an invitation status string instead of the native integer
+constant. These are <strong>FIXTURE/TEST ISSUES</strong>, not scheduling/financial failures.
+The fixture was resumed explicitly without deleting its database or receipts.
+The source-backed successful complete receipt supersedes those setup failures.</p>
+<p><code>.local/booking-forward/protected-comparison.json</code>: <strong>59/465 unchanged</strong>, all four
+completion evidence tables empty, <strong>12/12 legacy Orders still unverified</strong>.
+No permanent schema change, real APP_KEY access/rotation, production or external action.</p>
+<h3>Corrected service and calendar receipts</h3>
+<ul>
+<li><code>contract-corrected.json</code>: all eight ordinary cases behave under the confirmed
+half-open/full-hour contract. The original unmodified receipt remains intact.</li>
+<li><code>service-certification.json</code>: <strong>17 checks PASS</strong>, MySQL 8.0.42/RR, source-cloned
+tables plus all <strong>17 native source financial guards</strong>, real BookingService,
+independent worker connections. Cash creation, contention, independent specialist,
+stale retry, downstream rollback, rescheduling, overlap batches and closing time.</li>
+<li><code>extended-certification.json</code>: <strong>13 checks PASS</strong> before a mixed-duration fixture
+assertion stopped the pass. Native Wallet creation consumes 100.00 from a
+documented synthetic 500.00 opening Wallet/history authority, leaving 400.00;
+failed native write, replay, overlap and reschedule preserve tested state.
+No live funding/provider call and no unauthorized Admin adjustment. Unfunded
+cancellation/replay, stale RR rejection and closed/disabled dates also pass.
+The failed adjacency assertion used an already occupied destination, not a
+free boundary; it is a <strong>FIXTURE/TEST ISSUE</strong>, not financial/scheduling evidence.</li>
+<li><code>calendar-boundaries.json</code>: <strong>three boundary checks PASS</strong> on calendar-only
+restored native source: a 75-minute future service can start at stored 10:00,
+processing is included once, and midnight outside 08–18 is rejected.
+<strong>REPRODUCED EXISTING DEFECT:</strong> daily/never exception with earlier origin omitted
+for the later requested day in both discovery and authoritative validation.</li>
+<li><code>service-certification-fixture-failure.json</code>: initial rollback test never
+triggered its write hook and correctly committed a normal booking; native
+writer statements bypass that listener. Corrected injection at the native
+allocation point-read verified actual rollback. Preserve both receipts.</li>
+</ul>
+<p>Synthetic notifications/Bus delivery and authentication are isolated; economic
+writers, persisted money and MySQL resource contention are not replaced with mocks.
+Snapshot comparisons cover Wallets, Wallet histories, Transactions, allocations,
+collection contexts, financial operations and platform fee ledger entries (plus
+Bookings in the extended pass). They do not constitute a complete new snapshot of
+every quote/effect/ledger table. Complete that coverage in remaining B1 certification;
+the accepted broader finance baseline is retained, not replaced by these checks.
+Public request fields cannot request internal interval metadata/exclusions; those
+are typed server-only arguments, and creation never honors preview <code>ids</code>.</p>
+<p>An environment restart discarded the ephemeral native data/server after these
+service receipts. Retained JSON/query receipts survive. A separate runtime-recovery
+bootstrap stopped during implicit DDL and is not a new accepted full bootstrap.
+Calendar-only recovery is clearly segregated from guarded financial certification;
+it does not replace the accepted 224-migration/finance baseline.</p>
+<p>Latest source lint and diff checks pass; original Customer and Laravel previews
+restart cleanly and their public/read-only endpoints return HTTP 200.
+No current-role browser acceptance is claimed. Full B1 certification remains
+<strong>PARTIAL</strong>, and downstream gates remain unrun.</p>
+<h3>Recurrence correction receipt — after creator confirmation</h3>
+<p><code>recurrence-unit-junit.xml</code>: <strong>27 tests / 48 assertions PASS</strong>, one existing
+PHPUnit configuration deprecation. Daily/weekly/monthly/custom, inclusive date,
+exact count, no pre-origin occurrence, month skipping/leap anchors, native weekly
+payload and single-day/window-slicing equivalence. Invalid rules fail closed.</p>
+<p><code>recurrence-certification.json</code>: MySQL <strong>8.0.42 / RR</strong>, <strong>75 checks PASS</strong> on
+the restored calendar-only disposable clone. Real MasterRepository discovery and
+BookingCapacity interval validation agree for never/date/count ends, old origins,
+custom intervals/weekdays, monthly skips and closed-date counting. Public starts
+do not overlap the original 09:30–10:30 daily case; 10:30 adjacency remains valid.
+Native cleanup retains a still-live custom counted rule and the inclusive final
+date, while existing expired date-ended cleanup still works. Default-horizon and
+explicit clamped-horizon discovery also preserve old-origin recurrence.</p>
+<p>Fixtures run inside a rolled-back transaction; snapshotted available Bookings/
+money tables are unchanged. This is not a fresh guarded financial or complete
+BookingService creation/race pass. Retained failure/before-correction receipts
+remain intact. No owned or production scheduling rows were changed.</p>
+<p>Counted metadata is deliberately retained rather than deleted with guessed
+expiry. Exact counted-rule garbage collection remains separate bounded maintenance;
+it must not become a new scheduling rule or affect economic identities.</p>
+<p><code>final-boundary-check.txt</code> confirms the final typed internal-evidence signature:
+forged public private/exclusion flags are ignored, and the exact disabled-end
+adjacency remains valid. All four changed PHP files lint cleanly.</p>
+<h3>All requested decision answers</h3>
+<table>
+<thead>
+<tr>
+<th>Brief item</th>
+<th>Answer / current classification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Overlap reproduced?</td>
+<td><strong>VERIFIED:</strong> original right-partial calculator and recurring-range defects retained; corrected native calculator/service and recurring interval cases reject. No whole-gate/role PASS inferred.</td>
+</tr>
+<tr>
+<td>2 Same-slot race reproduced?</td>
+<td><strong>VERIFIED corrected contention:</strong> three independent native connections, one successful durable same-slot Cash booking; loser rejects after the winner commits. No claim of demonstrated dual creation in the old source.</td>
+</tr>
+<tr>
+<td>3 Exact capacity owner?</td>
+<td>Specialist User identified by <code>Booking.master_id</code>, globally across that master's assignments/Shops.</td>
+</tr>
+<tr>
+<td>4 Final exclusion mechanism?</td>
+<td><strong>VERIFIED finite B1:</strong> fresh-owned RR; known assignment PKs and sorted specialist User PK mutexes before first consistent read; shared authoritative intervals/hours. Native cascade/terminal/calendar-setting receipts pass.</td>
+</tr>
+<tr>
+<td>5 Can two Customers receive one slot?</td>
+<td><strong>TESTED pair: no.</strong> One durable admission, no losing financial effects. Not a blanket certification of every scheduling path.</td>
+</tr>
+<tr>
+<td>6 All overlaps correct?</td>
+<td><strong>VERIFIED required finite set:</strong> ordinary/recurring intervals, native contention, lifecycle and midnight boundaries pass. This is not a claim about every hypothetical future scheduling feature.</td>
+</tr>
+<tr>
+<td>7 Legitimate adjacency?</td>
+<td><strong>CONFIRMED and native verified:</strong> half-open endpoints, processing included once; before/after adjacency and mixed-duration boundary offered.</td>
+</tr>
+<tr>
+<td>8 Independent resources progress?</td>
+<td><strong>VERIFIED:</strong> independent specialist progresses; same specialist across applicable Shops/assignments is serialized in native B1.</td>
+</tr>
+<tr>
+<td>9 Stale availability?</td>
+<td>Protected creation recalculates after resource lock; losing request rejects. Existing stale outer RR rejected. No client request flag can supply internal exclusions.</td>
+</tr>
+<tr>
+<td>10 Rollback capacity-safe?</td>
+<td>Native downstream accounting and Wallet-write injection restore tested booking/financial state; same slot succeeds after rollback.</td>
+</tr>
+<tr>
+<td>11 Cancellation release?</td>
+<td><strong>VERIFIED supported native contract:</strong> release/repeat/rollback/terminal contention pass. Unsupported linked original-context cancellation stays fail-closed; no fabricated refund.</td>
+</tr>
+<tr>
+<td>12 Atomic rescheduling?</td>
+<td><strong>VERIFIED finite B1:</strong> native Cash/Wallet and cascade/time-change tests preserve economics; failed destination retains original, old slot releases and destination occupies.</td>
+</tr>
+<tr>
+<td>13 Retry/double click?</td>
+<td>Same-slot Cash/Wallet retry rejects without another booking/debit/contribution. No new request identity; not certified for a replay that intentionally changes slots or for all network retries.</td>
+</tr>
+<tr>
+<td>14 Authoritative timezone?</td>
+<td>UTC/naive baseline retained. Native midnight checks pass; selected Customer/Vendor/Admin display the persisted 09:00 and 11:00 appointments without an observed shift. No Shop-timezone redesign.</td>
+</tr>
+<tr>
+<td>15 Midnight/timezone/DST?</td>
+<td>Midnight outside tested same-day hours rejects. UTC has no DST fold; Customer/Vendor wall-clock interpretation still <strong>PARTIAL/unaccepted</strong>. No invented conversion contract.</td>
+</tr>
+<tr>
+<td>16 Economics changed?</td>
+<td>No intended financial semantics/code change; tested Cash/Wallet rollback/replay/reschedule preserve original financial rows and funding. Scheduling correction does not reprice originals.</td>
+</tr>
+<tr>
+<td>17 Schema changed?</td>
+<td><strong>VERIFIED:</strong> no owned/permanent schema change; separate disposable table clone only.</td>
+</tr>
+<tr>
+<td>18 Existing finance changed?</td>
+<td>No owned financial rows written by this work; isolated synthetic service financial effects are tested. Retained protected-state comparison remains unchanged, not a new live production check.</td>
+</tr>
+<tr>
+<td>19 Fingerprints match?</td>
+<td>Latest retained comparison: 59 protected tables/465 schema objects unchanged, serialization/order/count pinned. No owned schema or source data migration performed.</td>
+</tr>
+<tr>
+<td>20 Legacy Orders unverified?</td>
+<td><strong>VERIFIED:</strong> all 12 remain unverified.</td>
+</tr>
+<tr>
+<td>21 Customer selected journey?</td>
+<td>Native UI Cash/Wallet creation and reload/history accepted; post-Vendor transition and final responsive history receipts are in section 17. Live account email remains external.</td>
+</tr>
+<tr>
+<td>22 Cash booking?</td>
+<td><strong>VERIFIED native/UI:</strong> zero-Wallet Customer108 creates Cash booking1 at 09:00–10:00/100, reload persists. Offline Cash is not falsely marked remotely paid.</td>
+</tr>
+<tr>
+<td>23 Funded Wallet booking?</td>
+<td><strong>VERIFIED native/UI:</strong> Customer101 creates Wallet booking2 at 11:00–12:00/100; balance 5000→4900 from accepted synthetic opening evidence, not Admin adjustment or live top-up.</td>
+</tr>
+<tr>
+<td>24 Wallet replay?</td>
+<td>Baseline 28-group and native admission replay retained; UI reducer prevents lost draft/double submission. Financial reservation same-input retry returns one existing ID; no second debit or remote action.</td>
+</tr>
+<tr>
+<td>25 Vendor selected journey?</td>
+<td><strong>VERIFIED selected UI:</strong> booking1 new→progress→ended; fresh Vendor113 Shop503/service103/invitation/assignment105 setup, with only owned assignment105 displayed.</td>
+</tr>
+<tr>
+<td>26 Vendor isolation?</td>
+<td><strong>VERIFIED bounded:</strong> native forged Shop/service/staff IDs reject; UI foreign assignment104 disappears under Shop503 filter while owned105 remains.</td>
+</tr>
+<tr>
+<td>27 Admin selected journey?</td>
+<td><strong>VERIFIED selected UI:</strong> Admin107 sees bookings/transactions, approves Shop504 and applicant becomes Seller without Admin menus; only identified RESERVED receipts canceled.</td>
+</tr>
+<tr>
+<td>28 1280/390/320 role screens?</td>
+<td>Authenticated selected Customer/Vendor/Admin receipts recorded, with targeted mobile filter/calendar corrections. Final Customer history evidence is in section 17; deferred purchasing is not certified.</td>
+</tr>
+<tr>
+<td>29 Security gates?</td>
+<td><strong>VERIFIED bounded application:</strong> native auth/reset/email/429, cross-role/Shop, uploads/gallery, conditional CSRF, explicit bearer identity and selected SMTP redaction pass. Production TLS/cookies and historical rotation remain dependencies.</td>
+</tr>
+<tr>
+<td>30 Communication/background gates?</td>
+<td><strong>VERIFIED local application:</strong> 22 outbox/process/PHPMailer/reminder checks and four selected-scheduler checks pass; encrypted payload, commit ordering, UNKNOWN/no-resend and failed-job visibility. No live SMTP or broad scheduler.</td>
+</tr>
+<tr>
+<td>31 External services?</td>
+<td>Transactional email/verification delivery remains <strong>EXTERNAL DEPENDENCY</strong>; live transport not tested.</td>
+</tr>
+<tr>
+<td>32 P0 remaining?</td>
+<td>Native B1 closed; no new independent financial P0 demonstrated. Distinct request keys explained earlier reservations; final unchanged-key UI retry passes. Deferred Product stock P0 is not selected MVP scope.</td>
+</tr>
+<tr>
+<td>33 P1 remaining?</td>
+<td>Live account transport, production TLS/cookie/proxy and rotation evidence, D1/R1/O1 release/cutover/restore/supervision/monitoring remain. Application and external readiness are separate in the single matrix.</td>
+</tr>
+<tr>
+<td>34 Deferred?</td>
+<td>Product purchasing/stock/multi-Shop, electronics, Vendor-direct/own gateway, payouts, Delivery expansion, SMS/push expansion, speculative architecture.</td>
+</tr>
+<tr>
+<td>35 Product excluded?</td>
+<td><strong>VERIFIED:</strong> selected MVP excludes purchasing; no stock correction or checkout activation.</td>
+</tr>
+<tr>
+<td>36 Electronics disabled?</td>
+<td><strong>VERIFIED:</strong> no configuration/activation change; Cash/Wallet-only catalogue retained.</td>
+</tr>
+<tr>
+<td>37 External payouts unavailable?</td>
+<td><strong>VERIFIED:</strong> no execution activated; reservation is not payout.</td>
+</tr>
+<tr>
+<td>38 Cash + legitimate Wallet sufficient?</td>
+<td>Yes for selected scope after booking/P1 acceptance; Cash must work at zero Wallet balance. Not a readiness claim today.</td>
+</tr>
+<tr>
+<td>39 VPS staging ready?</td>
+<td><strong>NO-GO / BLOCKED.</strong></td>
+</tr>
+<tr>
+<td>40 Exact staging blockers?</td>
+<td>No separate D1/R1/O1 approval; production data/key/runtime/cookie/proxy/TLS/compatible release/restore/monitoring rehearsal absent. Live account email remains external. Do not reopen closed native B1 defects.</td>
+</tr>
+<tr>
+<td>41 Boundaries permitting staging?</td>
+<td>B1 and bounded selected application evidence support a later isolated staging proposal, not execution or a public launch. Separate approval still required.</td>
+</tr>
+<tr>
+<td>42 Verify in later staging?</td>
+<td>Compatible production builds/runtimes, native MySQL RR/strict guards, TLS/proxy/cookies/least privilege, persistent media, supervised reviewed worker/scheduler, restart and rollback, selected-role journeys.</td>
+</tr>
+<tr>
+<td>43 Backup/restore?</td>
+<td>Section 11: encrypted DB/PITR/media/key recovery, isolated timed restoration, guards/decryption/fingerprints/conservation/roles, achieved RPO/RTO and failure alerts. Not performed.</td>
+</tr>
+<tr>
+<td>44 First-release monitoring?</td>
+<td>Section 11: frontend/API/DB availability, redacted errors, queue/scheduler liveness, locks/connections/disk/memory, auth abuse/TLS expiry, retained UNKNOWN/refund/intervention states.</td>
+</tr>
+<tr>
+<td>45 New readiness range?</td>
+<td><strong>Approximately65–75%, central score70%</strong>, based on native and actual selected-role acceptance, not code/report completion; U1 browser gap retained in section17.</td>
+</tr>
+<tr>
+<td>46 Derivation?</td>
+<td>Same20 gates: Customer5 + Vendor3.5 + Admin3 + operations2.5 =14/20 (70%), versus8.5/20 baseline (42.5%). No production/restore/monitoring credit; no full UI cancellation/reschedule credit.</td>
+</tr>
+<tr>
+<td>47 Coding completion?</td>
+<td>No: evidence-weighted limited-launch readiness only, not effort/time/code percentage.</td>
+</tr>
+<tr>
+<td>48 Safest next bounded work?</td>
+<td>Finish current selected-role receipt, retain protected comparison and stop before separately approved D1/R1/O1. Closed recurrence/B1 semantics are not reopened; deferred features remain excluded.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stop honored:</strong> no speculative scheduling policy was installed to make tests
+pass, and no downstream journey was claimed accepted before booking correctness.</p>
+<h2>17. Limited-MVP same-run forward acceptance — 2026-10-04</h2>
+<p>This is the continuation of the same readiness report/evidence bundle, not a
+competing backlog or a production certificate. The 8.5/20 (42.5%) figure above
+is the retained <strong>pre-run baseline</strong>; the final matrix will use only completed
+selected acceptances, not count fixed files or partial screenshots as gates.</p>
+<h3>Native B1: PASS; downstream work continues</h3>
+<ul>
+<li>Native execution receipt: 143 checks pass; terminal contention: 14 checks pass.</li>
+<li>Recurrence: 27 tests/48 assertions and 75 native calendar checks pass under
+the confirmed half-open/full-hour and origin-based occurrence contracts.</li>
+<li>Owned protected baseline after B1: 59 fingerprints and 465 schema objects
+unchanged. Twelve legacy Orders remain unverified; no reinterpretation.</li>
+<li>Native disposable MySQL is persisted separately from the owned SQLite store.
+No Product/provider/Delivery, electronic activation, production or staging action.</li>
+</ul>
+<h3>Selected account/ownership and Customer receipts</h3>
+<ul>
+<li>Fresh Vendor113/Shop503: native registration/verification, application,
+approval, branch103, Service103 (100/60), accepted invitation10001 to Master102,
+and assignment105 persist. Forged Shop/branch/Service assignments reject.</li>
+<li>Invitation acceptance derives trusted Shop ownership from the recipient's
+invitation. Staff assignment ownership and Shop-scoped withdrawal reject
+unrelated actors and preserve unrelated Shop assignments.</li>
+<li>Protected booking reads reject anonymous/other Customer/unrelated Vendor/
+different specialist actors. Rightful Vendor/specialist/Admin reads pass;
+Customer/Vendor Admin-only route access rejects.</li>
+<li>Customer108 submitted Cash booking1 through UI at zero Wallet availability:
+Oct5 09:00–10:00, assignment101, total100, reloaded receipt/history agree.</li>
+<li>Customer101 submitted Wallet booking2 through UI:
+Oct5 11:00–12:00, total100, reloaded receipt/history agree. Native MySQL confirms
+user101/assignment101 and persisted Wallet4900 from5000.</li>
+<li>Fresh unsubmitted date flow passes at1280/390/320: no horizontal document/body
+overflow; calendar/time/summary/continuation controls reachable and hit-testable.
+Completed selections are cleared; a new booking no longer reuses occupied
+dates. Assignment-specific date restoration and invalidation remain separate.</li>
+<li>Six booking draft/reducer regressions pass. Changed-source JSX syntax passes;
+an interrupted full native typecheck is <strong>not</strong> counted as passing.</li>
+</ul>
+<h3>Selected security receipts to date</h3>
+<ul>
+<li>General email codes are random, recipient-bound, keyed-digest stored,
+ten-minute expiring and single-use. Native expiry/replay/wrong-recipient/
+legacy-global-GET rejection and neutral resend tests pass.
+Dedicated high-entropy Driver verification remains separate.</li>
+<li>Narrow auth verification uses the named path limiter, not the shared numeric
+API/IP bucket. Existing native login/429/reset expiry/replay receipts retained.</li>
+<li>Selected profile/Shop/Service raster uploads reject scripts, active SVG,
+spoofed content and oversize files; native authenticated PNG upload passes
+with actor/UUID filename and content-derived extension. Deferred upload
+categories are unchanged.</li>
+<li>Actual selected profile read/mutation rejects session-cookie-only requests
+with401; explicit bearer read passes. Conditional CSRF protection covers any
+protected dashboard route using a web-session principal without a bearer.
+Production secure-cookie/proxy/domain settings are requirements, not silently
+enabled in local development.</li>
+</ul>
+<h3>Vendor/Admin and same-intent financial UI — PASS</h3>
+<p>Native Vendor103 moved Cash booking1 new→progress→ended through the actual UI.
+Booking status does not falsely change its separate Cash transaction into an
+electronic paid receipt. Admin107 observed the selected bookings/transactions
+and approved Shop504; its applicant became Seller without Admin menus.
+Fresh Vendor113 completed Shop503/service103/invitation10001/assignment105 setup.
+After correcting the Shop filter, its Service master screen contains owned105
+and excludes foreign104. Native forged-ID receipts remain authoritative.</p>
+<p>Authenticated desktop/mobile work covered1280/390/320. Corrected Admin booking
+type controls wrap and their filters operate; tables scroll internally. Vendor
+Day calendar/filter controls fit320 (document/body305), with a minor3px
+left-edge sidebar-toggle bleed, not a calendar overflow. Selected financial
+panels/forms/receipts remain reachable. These are targeted role receipts,
+not a certification of deferred Product screens or every responsive route.</p>
+<p>Four test50-unit reservations were initially distinct within-capacity intents;
+different request keys, not duplicated custody/effects. The correction preserves
+form input and retry identity through same-transaction parent refresh and makes
+new intent explicit. Final Vendor103 test retained input50 and returned the
+same operation c960ced6-33cb-4ec4-85be-73b29955bd85 on repeat, once in history.
+Admin107 canceled only that and the three explicitly identified test receipts.
+After reload: four CANCELED, zero RESERVED; retained UNKNOWN
+7ea12b83-fea2-47af-b645-79b6e1e1b5f1 remains UNKNOWN,25 integer units
+(0.25USD at scale2), with no cancel action. Vendor payable100USD and
+commission0 remain; no external funds dispatched/executed/reconciled.
+Operation IDs and exact scale are exposed; no separate available-capacity figure
+is claimed. A reservation is never represented as a payout.</p>
+<h3>N1 — local selected application PASS; SMTP external</h3>
+<p><code>n1-acceptance.json</code> retains22 native checks: committed outbox/queue ordering,
+rollback, recipient/event dedup, encrypted challenges, real worker loss/restart
+before send and after local transport acceptance, live claim protection,
+UNKNOWN/no resend, visible failed jobs, expiry/superseded-code rejection,
+opt-out-safe late reminders, notification rollback and secret-free status/logs.
+Templates and envelopes were rendered at a local PHPMailer boundary; no real
+recipient, SMTP provider or live delivery was activated.</p>
+<p>One additive <strong>operational</strong> selected-email outbox is applied only in disposable
+native MySQL; it is not financial/capacity/resource authority. Populated delivery
+evidence cannot be removed by routine migration rollback. Selected account work
+uses database queue <code>mvp-notifications</code>. In-app booking state/history survives
+independently of reminder/email availability. Booking email is not an existing
+supported transport here; it is not falsely claimed delivered.</p>
+<p><code>n1-scheduler.json</code> adds four PASS checks for the actual native Laravel scheduler:
+the explicit selected schedule contains only <code>mvp:background-tick</code>, excludes
+reconciliation/provider/cleanup/auction/raw auto-ended commands and safely runs
+without Wallet change or external mail. Native scheduler children use the isolated
+bootstrap, not owned artisan. No general cron or production supervisor was enabled.</p>
+<p>Later approved configuration must select
+<code>AGENDAALLY_SELECTED_MVP_SCHEDULER_ONLY=true</code> <strong>before</strong> running the Laravel
+scheduler, and supervise only the selected notification queue. The legacy broad
+schedule is not a reviewed limited-MVP release instruction. UNKNOWN acknowledgement
+requires intervention, never automatic resend. Live mail delivery, SMTP/TLS
+configuration and production worker/scheduler supervision remain dependencies.</p>
+<h3>S1 and final preservation</h3>
+<p>Native auth/reset/address/email, booking/staff/gallery ownership, upload and
+session/CSRF receipts are retained. After outbox changes, email expiry/replay
+checks and conditional CSRF/explicit-bearer/SMTP-debug checks passed again.
+Six native address CRUD/validation/ownership checks use the real User response
+envelope, required native country/region and no invented map location.
+Seven draft/intent regressions and final changed JSX/PHP syntax checks pass.
+Production HTTPS/proxy/domain/secure-cookie evidence and historical credential
+rotation are <strong>not</strong> inferred from isolated local tests.</p>
+<p>The protected final comparison retains59 row/value fingerprints and465 owned
+schema objects unchanged; all12 legacy Orders remain unverified. Accepted financial
+and historical failure receipts remain in the same evidence bundle.</p>
+<h3>Final Customer lifecycle receipt</h3>
+<p>Customer108 normally signed in and reloaded <code>/appointments</code>: booking1 is Ended,
+05Oct09:00–10:00, total100USD/Cash100USD, zero discount/service fee/extras and
+no falsely paid indicator. At1280×720,390×844 and320×700 the document does not
+overflow horizontally; detail and policy rows remain reachable by vertical scroll.
+Its own profile shows Wallet0; Customer101's Wallet receipt must never be expected
+under Customer108. The earlier separate Customer101 UI booking/reload receipt
+remains valid; native Wallet price4900 and booking2 NEW11:00–12:00 remain unchanged.</p>
+<p>The active browser then closed before another Cash booking was submitted.
+Navigation and DOM access failed with <code>Browser closed</code> despite a stale page
+handle reporting open. Recovery closed unused Business contexts; creating a fresh
+normal Customer101 context failed before page creation with
+<code>browser.newContext … Browser closed</code>. No new tester, API login, extra booking,
+refund/provider/UNKNOWN action or database mutation was used to bypass it.</p>
+<p><strong>Remaining U1 evidence:</strong> final Customer101 Wallet/mobile recheck and real UI
+Cash reschedule/cancellation reflection. Native atomic cancellation/reschedule
+receipts pass, but no missing UI flow is claimed accepted. This is an actual
+browser-tool/runtime blocker, not a new financial/business defect. Resume after
+the browser runtime is relaunched; do not spend more follow-ups calling
+newContext on the same closed browser.</p>
+<p>Temporary <code>AGENDAALLY_DEV_API_TARGET</code> was restored to its original absent state.
+Customer/Business previews are paused rather than silently exposing native test
+identity to the owned8000 baseline. The disposable native database is retained;
+no protected owned money/schema or legacy classification was altered.
+D1/R1/O1, live email and production remain unstarted and separately approval-gated.</p>
+<h2>18. Current limited-MVP forward conclusion — 2026-10-04</h2>
+<p><strong>READY TO ENTER STAGING.</strong> This is permission to propose a separately approved,
+isolated D1/R1/O1 rehearsal, not a production release or approval to execute it.
+The baseline for this work order was14/20=70%; the same gates now total
+<strong>14.5/20=72.5%</strong>. Only the Vendor calendar lifecycle half-gate closed; report,
+tests, screenshots, inventory and design proposals earn no independent credit.
+Sections1–17 and their failures are retained as historical evidence. The prior
+closed-browser blocker and remaining selected U1 UI receipts are superseded by
+the receipts below.</p>
+<h3>Phase 0 — normal demo restored first, no reseed</h3>
+<p>The demo was <strong>not deleted</strong>. A development-scoped API target8008 exposed the
+disposable acceptance database instead of the existing owned SQLite demo on8000.
+The normal8000 preflight also detected the added selected-email migration in the
+source manifest. The reviewed source/predecessor fingerprint was accepted for
+serving; this did <strong>not</strong> approve or apply that migration to the owned database.
+The development/shared API override was removed. Dedicated acceptance frontends
+used per-process targets only; they are paused and normal previews restored.</p>
+<p>No seeder, DatabaseSeeder, migration, reset or media replacement was executed.
+The persisted <strong>DevelopmentDemoSeeder</strong> catalog and reviewed catalog/branch/
+Service/demo seeders were the authoritative existing data source, not a newly
+run restoration fixture.</p>
+<table>
+<thead>
+<tr>
+<th>Owned demo measure</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Approved, visible Shops</td>
+<td>9</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Services</td>
+<td>51</td>
+<td>51</td>
+</tr>
+<tr>
+<td>Service/Specialist assignments</td>
+<td>75</td>
+<td>75</td>
+</tr>
+<tr>
+<td>Distinct assigned Specialists</td>
+<td>14</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Countries / cities</td>
+<td>4 / 7</td>
+<td>4 / 7</td>
+</tr>
+<tr>
+<td>Gallery records / existing media files</td>
+<td>66 / 90</td>
+<td>66 / 90</td>
+</tr>
+</tbody>
+</table>
+<p>Normal Customer storefront, photos, location recommendations, Service detail and
+availability were browser-verified at1280/390/320 before acceptance continued.
+Bridal Service6 / Specialist112 retained Oct5 slots09:00,10:40,12:20,14:30,15:40.
+“Restored” means restored correct routing/serving of preserved records and media,
+not insertion of synthetic rows or replacement photographs.
+Receipts: <code>forward-demo-data.json</code>, <code>forward-demo-browser.json</code>,
+<code>forward-demo-availability-browser.json</code>, <code>protected-demo-restored.json</code>.</p>
+<h3>Phase 1 — U1 VERIFIED for the selected MVP</h3>
+<ul>
+<li>Customer101 Wallet booking2: Oct5 11–12, $100, one debit, balance4900,
+saved receipt/history/reload/no duplicate accepted at1280/390/320.</li>
+<li>Customer108 retained ended Cash booking1, created exactly one new Cash booking5
+at10–11, $100. Vendor rescheduled5 to13–14; saved Customer history/receipt and
+Vendor/Specialist detail reflect13–14 without repricing, new payment or duplicate.</li>
+<li>Vendor created one local client and one UNPAID local booking6 at15–16, $100.
+Existing SellerStoreRequest prohibits local-client payment selection: this is
+<strong>Pending—no collection</strong>, not an invented Cash payment. Draft stays separate
+from confirmed events; no10–10:30 ghost or occupied draft remains.</li>
+<li>Vendor canceled6 once. The missing integration now calls the <strong>existing</strong>
+canonical unfunded allocation writer inside the booking transaction. It still
+rejects held money, finalization and unresolved receipts. Rollback-only checks
+passed6 assertions, including funded Wallet rejection and eight unchanged
+financial fingerprints. No refund or accounting-policy bypass was introduced.</li>
+<li>Customer canceled5 through normal UI once. Success, Canceled history after
+reload, one5 entry, original13–14/60min/$100/Cash receipt accepted at all three
+widths. Wallet108 remains0; no credit or collection was manufactured.</li>
+<li>Public native availability separately confirms13:00 and15:00 released, with
+funded11:00 still disabled. Canceled historical calendar cards may remain
+visible; that does not mean occupied capacity or deleted history.</li>
+<li>Specialist102: own saved Wallet2 and Cash5 detail, status options, assignment,
+weekly08–18 hours/closed-date page and empty blocked-time list read normally.
+Detail fits1280/390/320. No Specialist status/assignment/hours/payment was changed.
+Saved detail now reads persisted records, not a creation quote; optional form
+metadata is handled without a crash. Three accepted Shop invitations keep the
+existing ambiguous-context navigation fail-closed. No Shop/branch selection or
+permission expansion was added.</li>
+<li>Prior accepted Admin approvals, financial history, authorization, same-intent
+reservation retry/cancellation, UNKNOWN visibility and intervention boundary
+receipts remain accepted. They were not repeated or promoted to payout proof.</li>
+</ul>
+<p>Ordinary failures and superseded receipts remain retained: draft event leak,
+edit setter, misleading local-client Cash fallback, fixed-width drawer, linked
+unfunded cancellation, Master missing-start quote and omitted form metadata.
+All fixes preserve B1 capacity, recurrence, timezone and financial contracts.
+Non-blocking Redux Date/Ant Design warnings and a dev-tools overlap remain
+cosmetic follow-up, not a hidden failed journey. Tablet is proposed, not certified.</p>
+<p>Current receipts under <code>.local/booking-forward/</code>:
+<code>forward-customer-wallet-cash-browser.json</code>,
+<code>forward-vendor-master-corrected-browser.json</code>,
+<code>forward-vendor-master-final-browser.json</code>,
+<code>forward-master-final-browser.json</code>,
+<code>forward-customer-cancel-auth-browser.json</code>,
+<code>forward-linked-cancellation-check.json</code>,
+<code>forward-availability-release-check.json</code>,
+<code>forward-final-native-state.json</code>. Earlier failed <code>forward-*failure.json</code> files
+remain in the evidence bundle.</p>
+<h3>Phase 2 — A1, local N1 and selected S1</h3>
+<p><strong>A1 VERIFIED locally:</strong> retained native auth/reset/profile/address CRUD,
+booking/staff/gallery ownership and isolation receipts remain accepted. Customer
+normal UI logout and wrong-password login were exercised; generic, non-enumerating
+errors were visible and the first observed429 showed “Too many attempts. Please
+try again later.” No raw trace or user-existence disclosure was shown. The observed
+block was submission7; six preceding responses were400. Configured named buckets
+remain5/min per account+IP and30/min per IP;12/min was a test expectation error,
+not a business policy. No source limit was changed to satisfy it. UI does not
+display a retry duration; broader network/timeout variations retain partial credit.</p>
+<p><strong>N1 VERIFIED locally:</strong> retained22 native outbox/worker/transport checks and four
+selected-scheduler checks pass. Local PHPMailer boundary, deduplication, claim/
+restart, rollback, expiry, visible failed work and UNKNOWN/no automatic resend are
+accepted. Live SMTP/TLS/delivery and production supervision are external/operational
+dependencies. Booking in-app history is independent; unsupported booking email,
+SMS and push are not claimed delivered.</p>
+<p><strong>S1 VERIFIED for selected local scope:</strong> retained auth/session/CSRF, email
+challenge, address, staff/booking/gallery ownership, upload and sensitive
+logging/response checks remain accepted. No general security re-audit or954-test
+hardening rerun was used as a substitute for selected acceptance. That earlier
+suite failure remains a fixture/stale-test receipt, not a new financial P0.
+Production cookie/proxy/TLS and provider-side historical credential rotation
+remain unverified; this does not authorize reuse of historical credentials.</p>
+<h3>Phase 3 — complete scheduling inventory and assessment only</h3>
+<p>The counting rule is independently owned role-specific surfaces/editors, not
+every import, dependency or ordinary date filter. <strong>17 selected implementation
+units across eight role workflows</strong> exist: five Customer discovery/booking and
+Admin/Vendor/Specialist calendar surfaces; three weekly-hours/closed-date editors;
+six blocked-time editors; three recurrence editors. Selected UI uses four engine
+families: react-day-picker, react-datepicker, react-big-calendar and Ant Design
+date/time inputs. The wider source also uses react-mobile-datepicker in deferred
+Product delivery: five families overall, not five selected-MVP calendar engines.</p>
+<p>Three calendar trees repeat providers, event mappers, detail sheets/cards, status,
+service, block and recurrence forms. Three role-specific availability editors
+repeat controls. Customer Day.js/date-fns and Business Moment are distinct
+formatting stacks. Customer backend slots and operational historical events have
+different meanings. Working-hours, closed dates, blocks and recurrence require
+common presentation, not a shared authority engine.</p>
+<p>Exact selected paths and neighboring non-MVP date controls are inventoried in
+<code>scheduling-inventory.md</code>, included below in the same report. Admin already has
+booking list/detail/status surfaces; list/search/date-range/Shop/Vendor/Specialist/
+status filters and intervention detail are the appropriate default task. No new
+Admin calendar is required for visual consistency.</p>
+<p>Three distinct directions are documented below:</p>
+<ol>
+<li><strong>Task-focused booking and scheduling — recommended AFTER MVP.</strong></li>
+<li>Staff-grid operations workspace — LATER, if parallel staff workload justifies it.</li>
+<li>Compact agenda-first scheduling — AFTER MVP pilot for low-density schedules.</li>
+</ol>
+<p>Share date/time presentation preserving wire values, accessible date/slot controls,
+toolbar, appointment card/status chip, summary/detail sheet and composed hours/
+block/recurrence fields within each frontend first. Keep permissions, role APIs,
+actions, Shop/branch scope, Customer slot selection and Admin intervention distinct.
+No redesign, prototype, component library, new capacity or permission model was
+implemented. Existing unusable controls were fixed; modernization must not delay MVP.</p>
+<h3>Phase 4 — same 20 gates, no new framework</h3>
+<table>
+<thead>
+<tr>
+<th>Existing gate</th>
+<th>Current classification</th>
+<th>Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1 Customer access/reset</td>
+<td>PARTIAL — local A1 accepted, live email absent</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>C2 Discovery/location/detail</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>C3 Exclusive booking lifecycle</td>
+<td>VERIFIED — B1 retained</td>
+<td>1</td>
+</tr>
+<tr>
+<td>C4 Native payment</td>
+<td>VERIFIED — Cash/Wallet only</td>
+<td>1</td>
+</tr>
+<tr>
+<td>C5 Visible history/receipt</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>C6 Responsive error/retry</td>
+<td>PARTIAL — selected widths/errors/retries accepted; broader network failures not claimed</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>V1 Onboarding/Shop</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>V2 Service/staff setup</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>V3 Calendar lifecycle</td>
+<td>VERIFIED — previously0.5; actual UI reflection now accepted</td>
+<td>1</td>
+</tr>
+<tr>
+<td>V4 Financial history/operations</td>
+<td>VERIFIED — reservations/history, not external payout</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A1 Admin approval/user oversight</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A2 Financial boundary authorization</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A3 UNKNOWN/provider/intervention visibility</td>
+<td>PARTIAL — local UNKNOWN accepted, external intervention absent</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>A4 Refund/cancellation operation</td>
+<td>PARTIAL — reservation cancellation accepted, real electronic refund deferred</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>O1 MySQL DDL/financial integrity</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>O2 Production runtime/TLS/cutover</td>
+<td>BLOCKED — no D1 execution</td>
+<td>0</td>
+</tr>
+<tr>
+<td>O3 Restore</td>
+<td>BLOCKED — no R1 execution</td>
+<td>0</td>
+</tr>
+<tr>
+<td>O4 Communications/background reliability</td>
+<td>PARTIAL — local N1, not live delivery/supervision</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>O5 Observability</td>
+<td>BLOCKED — no O1 operational rehearsal</td>
+<td>0</td>
+</tr>
+<tr>
+<td>O6 Authenticated responsive acceptance</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>Total: Customer5 + Vendor4 + Admin3 + operations2.5</strong></td>
+<td><strong>14.5/20 =72.5%</strong></td>
+<td><strong>14.5</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Gate labels are the existing twenty; A1/O1 row shorthand here is not a renamed
+work-order framework. Only V3 materially increased, by0.5. A1 account verification
+and local N1/S1 confirmations do not double-count already earned points.</p>
+<p>Remaining selected P0: <strong>none identified</strong>. Remaining P1: operational runtime/
+TLS/proxy/cookie/secret isolation, historical credential rotation evidence,
+encrypted restore/PITR and measured RPO/RTO, queue/scheduler supervision and
+monitoring; live account-email delivery before an email-dependent public launch.
+Broader network/error variations retain partial credit. No selected U1 defect
+remains a staging-entry blocker.</p>
+<p>External dependencies: approved isolated staging host/runtime/TLS and persistent
+storage, SMTP/TLS/delivery configuration, backup/binlog storage, alerting and
+provider-side historical credential rotation evidence. Do not treat these as
+completed by this report.</p>
+<p>Deferred unchanged: Product purchasing/stock, multi-Shop checkout, all MTN/
+Orange/Flutterwave/Paystack/Stripe/PayPal activation, Vendor-direct/own-gateway,
+external Vendor payout, electronic refund/reconciliation, Delivery/SMS/push
+expansion, PostgreSQL conversion, Strategy G and speculative infrastructure.
+Product browse-only discovery is not purchase readiness.</p>
+<h3>Phase 5 — bounded D1/R1/O1 work order prepared, NOT executed</h3>
+<p>Entry decision: <strong>READY TO ENTER STAGING</strong>. Finite staging-entry blockers: <strong>none
+in the selected local application scope</strong>. Separate approval, an isolated target
+and injected staging-only secrets are prerequisites for beginning the next work
+order, not evidence that it has run. Public production launch is <strong>not approved</strong>.</p>
+<p><strong>Bounded next-phase scope:</strong> one isolated staging release rehearsal using
+sanitized/disposable data, Cash/Wallet test-only scope and local/sandbox mail sink.
+Do not copy the owned financial DB into a writable environment or reuse the
+acceptance bootstrap's public synthetic APP_KEY. Deny external electronic
+activation, real payouts/refunds and unreviewed scheduler jobs.</p>
+<p><strong>D1 runtime rehearsal plan:</strong></p>
+<ul>
+<li>Build Customer Next and Business production bundles once with explicit
+release provenance; build success alone is not runtime acceptance.</li>
+<li>Supported PHP plus reviewed Laravel-required extensions under PHP-FPM;
+supervised Next production runtime and static Business build behind Nginx.</li>
+<li>TLS, <code>APP_ENV=production</code>, <code>APP_DEBUG=false</code>, one stable staging-only APP_KEY,
+injected secrets, trusted proxy/CORS, HTTPS secure/HttpOnly/SameSite cookies.
+Verify forwarded host/protocol, authenticated sessions and no internal debug
+output. Do not reuse imported historical provider credentials.</li>
+<li>MySQL8/InnoDB, REPEATABLE READ and strict mode; least-privilege app/worker users
+separate from reviewed migration authority. Review all source migrations,
+canonical triggers and selected operational outbox on the isolated target.
+Serving the owned224 predecessor never approved an owned migration.</li>
+<li>Persistent media with storage links/permissions, selected queue
+<code>mvp-notifications</code> supervised, explicit selected-only scheduler switch before
+scheduler execution. Exclude reconciliation, broad cleanup, auction and raw
+auto-ended jobs. Verify worker/scheduler restart without duplicate delivery.</li>
+<li>Record release manifest, health probes and bounded release rollback preserving
+media/APP_KEY/DB compatibility. No routine rollback deleting populated evidence.</li>
+</ul>
+<p><strong>R1 restore plan:</strong></p>
+<ul>
+<li>Encrypted MySQL backup plus binlog/PITR policy, media backup and separate safe
+APP_KEY/config recovery. Define the recovery point and retain provenance.</li>
+<li>Restore into a separate isolated target with no outbound delivery/provider
+actions. Verify schema/triggers, protected fingerprint serialization, financial
+conservation, encrypted-data decryption and actual restored media.</li>
+<li>Run role smoke tests against restored data. Measure rather than assume RPO/RTO;
+compare restored evidence with the chosen backup/PITR target. Do not change
+protected/legacy classification to manufacture a passing restoration.</li>
+</ul>
+<p><strong>O1 observability plan:</strong></p>
+<ul>
+<li>Frontend/API/DB health; worker liveness, selected scheduler heartbeat and failed
+jobs; HTTP/application errors; MySQL locks/connections; CPU/memory/disk/inodes.</li>
+<li>TLS expiry and auth abuse/429; UNKNOWN/PENDING operations and refund/intervention
+failure alerts. UNKNOWN acknowledgement requires intervention, never automatic
+money retry or email resend.</li>
+<li>Redact credentials/tokens/request-sensitive payloads; alerts must name an owner,
+threshold, escalation and safe response. Test alert delivery with synthetic
+failures only. Operational acceptance requires observed detection, not config
+files or screenshots alone.</li>
+</ul>
+<p><strong>Exit before any production proposal:</strong> record actual D1 runtime/rollback,
+R1 restore/conservation/decryption/media and measured recovery, O1 detection/
+supervision evidence; live account-email acceptance where required; credential
+rotation evidence. Reassess the same gates. Stop for new financial/security P0,
+custody/resource/permission changes, destructive migration or external action.
+No VPS or production deployment was executed here.</p>
+<h3>Current explicit answers to all 38 requested questions</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Original demo returned?</td>
+<td>Yes; correct normal serving restored and browser-verified.</td>
+</tr>
+<tr>
+<td>2 Why disappeared?</td>
+<td>Development API override pointed to8008 acceptance DB;8000 manifest preflight also needed source/predecessor review.</td>
+</tr>
+<tr>
+<td>3 Deleted/filtered/absent/another DB?</td>
+<td>Not deleted; in preserved owned SQLite, masked by another DB. No synthetic replacement.</td>
+</tr>
+<tr>
+<td>4 Which seeder restored it?</td>
+<td>None was run. Existing authoritative DevelopmentDemoSeeder data was reused after routing/preflight repair.</td>
+</tr>
+<tr>
+<td>5 Visible demo Shops?</td>
+<td>9 approved/visible.</td>
+</tr>
+<tr>
+<td>6 Restored Services?</td>
+<td>51 existing Services.</td>
+</tr>
+<tr>
+<td>7 Restored Specialists?</td>
+<td>14 distinct assigned Specialists,75 assignment links; not a claim about all user accounts.</td>
+</tr>
+<tr>
+<td>8 Media restored?</td>
+<td>Yes;66 gallery rows/90 existing files and storage link retained, actual photos load.</td>
+</tr>
+<tr>
+<td>9 Restoration changed protected finance?</td>
+<td>No.</td>
+</tr>
+<tr>
+<td>10 Start readiness?</td>
+<td>14/20=70%.</td>
+</tr>
+<tr>
+<td>11 Readiness now?</td>
+<td>14.5/20=72.5%, limited scope; not production readiness.</td>
+</tr>
+<tr>
+<td>12 B1 still VERIFIED?</td>
+<td>Yes, accepted immutable native/race/recurrence receipts retained.</td>
+</tr>
+<tr>
+<td>13 U1 VERIFIED?</td>
+<td>Yes for selected Customer/Vendor/Specialist/Admin scope at1280/390/320.</td>
+</tr>
+<tr>
+<td>14 A1 VERIFIED?</td>
+<td>Yes locally; live account-email transport remains external.</td>
+</tr>
+<tr>
+<td>15 N1 VERIFIED locally?</td>
+<td>Yes;22 native and four selected-scheduler checks retained.</td>
+</tr>
+<tr>
+<td>16 Live communication dependency?</td>
+<td>Approved SMTP/TLS/delivery and operational worker/scheduler supervision.</td>
+</tr>
+<tr>
+<td>17 S1 VERIFIED selected MVP?</td>
+<td>Yes locally; production TLS/cookies/proxy and historical rotation proof remain unverified.</td>
+</tr>
+<tr>
+<td>18 Cash semantics changed?</td>
+<td>No; offline Cash remains distinct from collection proof; local-client booking is UNPAID, not Cash.</td>
+</tr>
+<tr>
+<td>19 Wallet semantics changed?</td>
+<td>No; one verified synthetic Wallet debit, currency/authority and funded-cancellation guard preserved.</td>
+</tr>
+<tr>
+<td>20 Protected financial records changed?</td>
+<td>No; only disposable synthetic acceptance lifecycle records changed.</td>
+</tr>
+<tr>
+<td>21 All59 fingerprints match?</td>
+<td>Yes; protected-forward-final.json reports no changed tables.</td>
+</tr>
+<tr>
+<td>22 All465 schema objects match?</td>
+<td>Yes.</td>
+</tr>
+<tr>
+<td>23 All12 legacy Orders unverified?</td>
+<td>Yes.</td>
+</tr>
+<tr>
+<td>24 Real provider call?</td>
+<td>No; isolated HTTP fake/disabled provider configuration.</td>
+</tr>
+<tr>
+<td>25 Real payout/refund?</td>
+<td>No.</td>
+</tr>
+<tr>
+<td>26 Production deployment?</td>
+<td>No; no staging execution either.</td>
+</tr>
+<tr>
+<td>27 Calendar/date/time count?</td>
+<td>17 selected implementation units/eight role workflows; four selected UI engine families, five wider-source families including deferred delivery.</td>
+</tr>
+<tr>
+<td>28 Roles?</td>
+<td>Customer discovery/booking, Admin/Vendor/Specialist calendars, role-specific hours/closed/block/recurrence; Admin list oversight.</td>
+</tr>
+<tr>
+<td>29 Recommended design?</td>
+<td>Task-focused booking and scheduling, not a universal calendar.</td>
+</tr>
+<tr>
+<td>30 Before/after MVP?</td>
+<td>AFTER MVP; only unusable controls were fixed now.</td>
+</tr>
+<tr>
+<td>31 Remaining P0?</td>
+<td>None identified for selected scope. Product purchasing would reopen separate stock risk only if added; it stays deferred.</td>
+</tr>
+<tr>
+<td>32 Remaining P1?</td>
+<td>Runtime/TLS/proxy/cookies/secret and rotation evidence, restore/PITR/RPO/RTO, supervision/monitoring and public account-mail acceptance.</td>
+</tr>
+<tr>
+<td>33 External dependencies?</td>
+<td>Isolated target/TLS/storage, SMTP, backup/binlogs/alert delivery and provider-side historical rotation evidence.</td>
+</tr>
+<tr>
+<td>34 Deferred?</td>
+<td>Product/stock, multi-Shop, all electronic activation/direct gateways/payout/refund/reconciliation, Delivery/SMS/push, PostgreSQL, Strategy G and speculative infrastructure.</td>
+</tr>
+<tr>
+<td>35 READY TO ENTER STAGING?</td>
+<td><strong>READY TO ENTER STAGING</strong>, no execution or production approval.</td>
+</tr>
+<tr>
+<td>36 If NO-GO, finite blockers?</td>
+<td>Not NO-GO: zero selected staging-entry blockers; separate target/secret/approval prerequisites remain before executing the prepared work order.</td>
+</tr>
+<tr>
+<td>37 New same20 score?</td>
+<td>14.5/20=72.5%; only V3 increased0.5.</td>
+</tr>
+<tr>
+<td>38 Single safest next phase?</td>
+<td>Separately approved isolated D1/R1/O1 runtime, restore and observability rehearsal; no live financial action.</td>
+</tr>
+</tbody>
+</table>
+<p>Final receipts: <code>protected-forward-final.json</code> reports59 unchanged/465 schema
+match/12 unverified; <code>forward-final-native-state.json</code> reports Wallet1014900,
+Wallet1080 and all retained financial operations unchanged. Transaction1501
+remains Paid/internal Wallet100/allocation2/context1; external settlement is not
+verified. UNKNOWN25-unit operation and four CANCELED50-unit operations remain
+unchanged. These are not real payout or refund confirmations.</p>
+<h3>Scheduling inventory — exact source-owned units</h3>
+<p>All paths below are relative to <code>.migration-backup/</code>. A numbered family counts
+once even when it has create/edit/list wrappers. Ordinary report filters, birth
+dates and deferred delivery/table-reservation controls are not additional
+selected scheduling units.</p>
+<table>
+<thead>
+<tr>
+<th>Units</th>
+<th>Role</th>
+<th>Exact source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Customer booking date/slots</td>
+<td><code>web/app/(store)/(booking)/(witout-footer)/(navigation)/shops/[id]/components/date-time/date-time.tsx</code>; caller <code>shops/[id]/booking/date/bookingDate.tsx</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Customer discovery date/time pair</td>
+<td><code>web/components/search-field-core/date-select.tsx</code>, <code>time-select.tsx</code>; <code>/search/date</code>, <code>/search/time</code> callers</td>
+</tr>
+<tr>
+<td>3–5</td>
+<td>Admin, Vendor, Specialist operational calendars</td>
+<td><code>admin/src/views/calendar/</code>, <code>views/seller-views/calendar/</code>, <code>views/master-views/calendar/</code>; each <code>components/calendar.jsx</code>, <code>provider.jsx</code>, <code>index.jsx</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Admin hours/closed dates</td>
+<td><code>admin/src/views/user/master-working-and-closed-days.jsx</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Vendor invited-specialist hours/closed dates</td>
+<td><code>admin/src/views/seller-views/master-invitations/working-and-closed-days.jsx</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Specialist own hours/closed dates</td>
+<td><code>admin/src/views/master-views/closed-days/closed-days.jsx</code></td>
+</tr>
+<tr>
+<td>9–11</td>
+<td>Calendar block editors, all three operational roles</td>
+<td><code>forms/blocktime-form.jsx</code> in each of the three calendar trees</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Admin actor blocks</td>
+<td><code>admin/src/views/user/disabled-times/form.jsx</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Vendor invited-specialist blocks</td>
+<td><code>admin/src/views/seller-views/master-invitations/disabled-times/form.jsx</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Specialist own blocks</td>
+<td><code>admin/src/views/master-views/disabled-times/disabled-time-form.jsx</code></td>
+</tr>
+<tr>
+<td>15–17</td>
+<td>Three recurrence editors</td>
+<td><code>forms/repeat-form-option.jsx</code> in each calendar tree</td>
+</tr>
+</tbody>
+</table>
+<p>Neighboring inventory: Admin <code>views/booking/{index,details-modal,status-modal}.jsx</code>,
+Vendor <code>views/seller-views/bookings/</code>, booking/report/financial-operation date
+filters; Product cart <code>components/delivery-time/delivery-time.tsx</code>,
+<code>admin/src/components/forms/{shop-delivery-form,booking-time-form}.jsx</code>,
+<code>views/seller-views/my-shop/shopDelivery.jsx</code>, Delivery/order/parcel/warehouse
+windows, coupon validity, account birth dates and notification scheduling.
+These are not evidence that deferred commerce or delivery is launch-ready.</p>
+<h3>Three coherent scheduling directions — all requested dimensions</h3>
+<p>These are source-informed alternatives, not implemented designs. The full
+supplemental assessment is <code>design-assessment/three-directions.md</code> in the same
+evidence bundle. Device descriptions are proposed layouts; only the current U1
+1280/390/320 interfaces were tested.</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>1 Task-focused — recommended</th>
+<th>2 Staff-grid workspace</th>
+<th>3 Compact agenda-first</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visual/layout concept</td>
+<td>Role task lanes, explicit decision sequence, detail sheet</td>
+<td>Existing-specialist columns and time axis, scoped detail</td>
+<td>Date-led chronological list and progressive detail; grid secondary</td>
+</tr>
+<tr>
+<td>Customer</td>
+<td>Preserve Service/Specialist → date → backend slots → summary → checkout</td>
+<td>Same discrete-slot journey; operational grid is not a customer capacity engine</td>
+<td>Same date/slots; do not infer openings from an agenda</td>
+</tr>
+<tr>
+<td>Vendor</td>
+<td>Existing day/week plus agenda switch and scoped actions</td>
+<td>Parallel existing-specialist comparison; blocks/history explicitly distinguished</td>
+<td>Next appointment/action first; secondary grid for heavy comparisons</td>
+</tr>
+<tr>
+<td>Specialist</td>
+<td>Own day schedule and availability, ambiguity fail-closed</td>
+<td>Own specialist column/day; no peer/global grant</td>
+<td>Personal chronological schedule and own settings</td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Existing list/search/date/Shop/Vendor/Specialist/status/detail/intervention default</td>
+<td>Keep list default; grid optional, no new financial console</td>
+<td>Keep oversight list, not an invented Admin agenda</td>
+</tr>
+<tr>
+<td>Availability/settings</td>
+<td>Composed hours/closed dates/block/recurrence controls with role adapters</td>
+<td>Existing settings in contextual sheets; no new resource model</td>
+<td>Progressive settings panels retaining full accepted rules</td>
+</tr>
+<tr>
+<td>Desktop</td>
+<td>Decision + summary; schedule + detail</td>
+<td>Staff columns and time axis with side detail</td>
+<td>Agenda + contextual detail, grid switch</td>
+</tr>
+<tr>
+<td>Tablet</td>
+<td>Sheet detail, fewer visible calendar columns</td>
+<td>Reduced column set with explicit horizontal navigation</td>
+<td>Agenda primary; optional wide grid</td>
+</tr>
+<tr>
+<td>390px</td>
+<td>Single-column Customer; agenda fallback for operations</td>
+<td>Role-scoped staff selector + single-column day, not a squeezed all-staff grid</td>
+<td>Natural one-column agenda and full-width sheet</td>
+</tr>
+<tr>
+<td>320px</td>
+<td>Stacked controls, no clipped primary actions</td>
+<td>One specialist/day, stacked actions, explicit grid navigation</td>
+<td>Date/status/actions stacked; no mandatory wide grid</td>
+</tr>
+<tr>
+<td>Shared presentation</td>
+<td>Wire-preserving format adapter, date/slots, toolbar, card/chip, summary/sheet, settings fields</td>
+<td>Same core plus scoped staff-header/grid presentation</td>
+<td>Agenda row/card, status/evidence labels, sheet/settings presentation</td>
+</tr>
+<tr>
+<td>Advantages</td>
+<td>Lowest conceptual change, proven Customer flow, clear role boundaries</td>
+<td>Strong parallel workload comparison and operational context</td>
+<td>Low-density daily work and small-screen readability</td>
+</tr>
+<tr>
+<td>Disadvantages</td>
+<td>Multiple role paradigms remain; limited cross-frontend sharing</td>
+<td>Higher density and mobile complexity; easy to imply new capacity semantics</td>
+<td>Weaker at-a-glance overlaps/parallel comparison; extra navigation</td>
+</tr>
+<tr>
+<td>Complexity</td>
+<td>Medium; approximately12–20 person-days</td>
+<td>Medium–high; approximately16–26 person-days</td>
+<td>Medium; approximately10–18 person-days</td>
+</tr>
+<tr>
+<td>Migration risk</td>
+<td>Low–medium; date/status/frozen-price display drift</td>
+<td>Medium–high; wrong grouping/scope and visual capacity inference</td>
+<td>Medium; omitted blocks/history or hidden existing actions</td>
+</tr>
+<tr>
+<td>Exact affected components</td>
+<td>Customer date-time/bookingDate/search pair; three calendar providers/cards/toolbar/drawers; three recurrence/six block/three hours editors listed above</td>
+<td>Three operational <code>components/calendar.jsx</code>, event mapper/filter/toolbar/detail/provider paths; same scoped availability editors. Customer slots structurally unchanged</td>
+<td>Three calendar event/card/detail/toolbar paths and optional secondary grid; same settings editors. Customer structurally unchanged</td>
+</tr>
+<tr>
+<td>Approximate scope</td>
+<td>Incremental presentation extraction within Next and Vite separately, role adapters retained</td>
+<td>New operational grid presentation using existing specialist records, no backend/resource expansion</td>
+<td>Vendor/Specialist agenda default with existing grid retained and independent settings consolidation</td>
+</tr>
+<tr>
+<td>Timing</td>
+<td><strong>AFTER MVP</strong>. BEFORE: only usability fixes, now done. LATER: cross-app compatibility after separate review</td>
+<td><strong>LATER</strong>, only if actual parallel workload justifies complexity; none before MVP</td>
+<td><strong>AFTER MVP</strong> pilot for low density; LATER elevate grid if comparison workload requires it</td>
+</tr>
+</tbody>
+</table>
+<p>Estimates are planning ranges, not commitments; exclude backend/permission/
+custody changes. Shared names are candidate concepts, not approval to create
+all components or a cross-frontend package. Common presentation stays separate
+from role APIs and authority.</p>
+<p>Recommend direction1. Customer needs a reliable booking decision, Vendor needs
+scoped schedule operations, Specialist needs own appointments/availability, and
+Admin needs oversight/intervention. A universal calendar would obscure those
+differences. Direction2 should win only with demonstrated parallel-staff need;
+direction3 only when low-density daily execution dominates comparisons.</p>
+<p>Safe later migration: freeze wire-format round trips and status/evidence
+contracts; extract Customer presentation first; consolidate Business presentation
+behind separate role adapters; compose scoped settings; review cross-app sharing
+separately. Verify B1 half-open/full-hour/specialist exclusion, interval/pause,
+monthly-date skipping and origin-based counts before replacing any surface.
+Preserve backend slots, persisted identity/time/price/currency, Cash/Wallet,
+permissions and ambiguous Shop contexts. No new scheduling model or broad redesign
+is approved by this assessment.</p>
+<h2>19. Current-authority scheduling and isolated staging conclusion — 2026-10-04</h2>
+<p>This section is the current authority. Sections1–18, previous same-file reports/ZIP and failed receipts are preserved as history; their old scores/blockers are not current completion claims.</p>
+<h3>Decision and measured scope</h3>
+<p><strong>REMAIN IN STAGING. Same twenty gates: 15.5/20=77.5%.</strong> Started14.5/20=72.5%. No production deployment, protected mutation, provider activation, payout/refund or legacy completion certification.</p>
+<p>The normal demo was not retargeted. Final read-only preservation and native financial readback passed. Scheduling source is implemented with native role contracts. B1 passes; U1 is PARTIAL with the final verification limits below. D1/R1/O1 local drills PASS but overall remain PARTIAL. Approved SMTP is unavailable and was not configured.</p>
+<h3>Same twenty gates — earned acceptance only</h3>
+<table>
+<thead>
+<tr>
+<th>Existing gate</th>
+<th>Current classification</th>
+<th>Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1 Customer access/reset</td>
+<td>PARTIAL — local A1 accepted, live email absent</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>C2 Discovery/location/detail</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>C3 Exclusive booking lifecycle</td>
+<td>VERIFIED — B1 retained</td>
+<td>1</td>
+</tr>
+<tr>
+<td>C4 Native payment</td>
+<td>VERIFIED — Cash/Wallet only</td>
+<td>1</td>
+</tr>
+<tr>
+<td>C5 Visible history/receipt</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>C6 Responsive error/retry</td>
+<td>PARTIAL — selected widths/errors/retries accepted; broader network failures not claimed</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>V1 Onboarding/Shop</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>V2 Service/staff setup</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>V3 Calendar lifecycle</td>
+<td>VERIFIED — previously0.5; actual UI reflection now accepted</td>
+<td>1</td>
+</tr>
+<tr>
+<td>V4 Financial history/operations</td>
+<td>VERIFIED — reservations/history, not external payout</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A1 Admin approval/user oversight</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A2 Financial boundary authorization</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A3 UNKNOWN/provider/intervention visibility</td>
+<td>PARTIAL — local UNKNOWN accepted, external intervention absent</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>A4 Refund/cancellation operation</td>
+<td>PARTIAL — reservation cancellation accepted, real electronic refund deferred</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>O1 MySQL DDL/financial integrity</td>
+<td>VERIFIED</td>
+<td>1</td>
+</tr>
+<tr>
+<td>O2 Production runtime/TLS/cutover</td>
+<td>PARTIAL — production-built local HTTPS/FPM/MySQL and compatible rollback accepted; public TLS/CAPTCHA/cookie paths pending</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>O3 Restore</td>
+<td>PARTIAL — real encrypted off-instance restore/PITR accepted; off-host retention/independent key custody pending</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>O4 Communications/background reliability</td>
+<td>PARTIAL — selected local worker/scheduler recovery accepted; approved SMTP/live delivery absent</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>O5 Observability</td>
+<td>PARTIAL — local metrics, receiver and failure drills accepted; external alert destination/owner absent</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>O6 Authenticated responsive acceptance</td>
+<td>PARTIAL — selected corrected spots accepted; final read-only populated Specialist390/modal checks not fully accepted</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td><strong>Total: Customer5 + Vendor4 + Admin3 + operations3.5</strong></td>
+<td><strong>15.5/20=77.5%</strong></td>
+<td><strong>15.5</strong></td>
+</tr>
+</tbody>
+</table>
+<p>No points for compilation, scripts or appearance. Operational rows receive only half credit while external acceptance is missing. Existing partial Cash/Wallet/provider/communications boundaries are unchanged. O6 is conservatively reduced until the changed current responsive surfaces are accepted.</p>
+<h3>Failed evidence and corrections retained</h3>
+<ul>
+<li>Original Customer30min-versus60min card, literal-null summary and misleading reschedule copy remain in u1-customer.json; corrected390 text/images are independently checked, not a repeated financial journey.</li>
+<li>Original Business sidebar/modal/narrow-table/navigation findings and452px Vendor390 measurement remain in u1-business/u1-corrected.json. The later diagnostic establishes375px document/body with an825px table inside a303px overflow:auto container; no speculative global overflow hiding was used. It does not prove why the earlier measurement differed.</li>
+<li>Local-client9 draft/no-ghost/persist-once/status/reschedule/cancel/reload receipt is immutable. Canceled records remain historical cards while availability releases. Draft-copy/status-initialization/name bugs were fixed in the final Admin-only production build; Customer build was reused only after source-hash verification.</li>
+<li>Initial fixture-relative image paths and unset Serviceimg caused fallbacks. Only isolated approved synthetic media metadata was corrected to native absolute URLs. Actual Service/Specialist browser images and Shop detached native Image GET200 pass; hidden mobile Shop DOM remains explicitly distinguished.</li>
+<li>First R1 raw-schema FAIL and first O1 HTTP-probe FAIL are archived. R1 all-row evidence matched; strict1735-column and narrow redundant-charset DDL comparison resolved the sole probe-table textual mismatch. O1 initial route fell through to Customer; explicit isolated FPM routing fixed it, and only the failed probe/redaction verification was repeated.</li>
+</ul>
+<h3>Current local runtime and recovery receipts</h3>
+<p>D1: 14 checksPASS. Production/debugfalse Nginx/FPM/restricted native MySQL, exact CORS, compatible rollback/redeploy, persistent90-file media/key/full-native evidence and safe empty scratch failed-DDL containment. Local TLS only; fixture API auth is not CAPTCHA UI/cookie/CSRF acceptance.</p>
+<p>R1: real AES256-GCM encrypted dump/media/binlogs/runtime contract; native isolated second instance; selected post-snapshot marker restored, later change not replayed; source not overwritten; restored reads/media/invariantsPASS. Measured databaseRPO0.039s, mediaRPO0.606s, RTO128.437s. Off-instance yes, off-host no; no continuous production RPO or historical ciphertext/key-custody claim.</p>
+<p>O1: 17 selected checksPASS. Worker/backlog/restart, scheduler/heartbeat/catch-up/dedup, safe failed-job recovery, realHTTP500/429, safe low-disk threshold, UNKNOWN/PENDING visibility and selected log redaction. Financial snapshots unchanged. Local receiver/supervision only; no external delivery/alerts or provider retries.</p>
+<h3>All51 explicit completion answers</h3>
+<p><strong>1. Did the modern calendar/scheduling implementation complete?</strong></p>
+<p>The selected incremental implementation is complete and production-built. End-to-end responsive acceptance is PARTIAL; do not equate source completion or compilation with every requested responsive acceptance.</p>
+<p><strong>2. Which of the 17 scheduling implementation units changed?</strong></p>
+<p>All seventeen selected units received the shared direction: Customer booking date/backend-slot unit; Customer discovery date/time pair; Admin/Vendor/Specialist calendars (3); their weekly-hours/closed-date editors (3); their calendar blocked-time and separate disabled-time editors (6); and their recurrence editors (3). The accompanying implementation inventory names the paths. Existing Customer checkout/history/cancel flows remain native.</p>
+<p><strong>3. Which were consolidated/shared?</strong></p>
+<p>The three Business calendars share ScheduleSurface navigation, day/week/agenda, narrow-screen agenda and loading/error/empty presentation. Three recurrence editors use SchedulingFieldSection; hours and blocked-time editors use shared scheduling-field styling. Role services, validation, authorization, selection, providers and persisted state are not merged. Master option name normalization is shared.</p>
+<p><strong>4. Which legacy calendar implementations remain, and why?</strong></p>
+<p>Native Customer backend-slot selection and date/time picker engines remain, as do role-specific hours/closed-date/blocked-time/recurrence forms and their contracts. Admin list/search/filter/detail/status oversight stays primary; its calendar is secondary. Deferred Delivery source is untouched. No new universal scheduling model, calendar library or framework migration.</p>
+<p><strong>5. Did Customer scheduling pass 1280/390/320?</strong></p>
+<p>The real Cash/Wallet date/slot/confirmation flows fit all three widths (document/body1280,375,305 respectively). Initial 30-versus60min, literal-null and misleading reschedule-copy failures are preserved and corrected. Fresh390 public checks confirm Master105,60min and no literal null; real Service/Specialist image GETs pass. All three assets load; the mobile Shop node is hidden, not visually certified there. The corrected Customer journey was not repeated at every width.</p>
+<p><strong>6. Did Vendor scheduling pass 1280/390/320?</strong></p>
+<p>PARTIAL. Local-client lifecycle passed1280;320 cards and corrected320 navigation passed; settled390 list fits375 with internal table scrolling. The first452px list/modal failures remain historical. Do not claim every final modal width passed without the final receipt.</p>
+<p><strong>7. Did Specialist scheduling pass 1280/390/320?</strong></p>
+<p>PARTIAL. Master1051280/320 reads/cards passed; corrected390 empty calendar visibly fits. The initially420px populated390 calendar is retained; populated corrected390 acceptance remains a gap absent a final PASS receipt.102 remains deliberately fail-closed at all widths.</p>
+<p><strong>8. Did Admin scheduling pass applicable responsive checks?</strong></p>
+<p>PARTIAL. Existing Admin107 list/search and native booking/transaction reads passed. Corrected1280/390 heading/stacked tables are readable. Final320 corrected modal acceptance is not claimed absent the final PASS receipt. Calendar remains optional.</p>
+<p><strong>9. Did targeted B1 regression pass?</strong></p>
+<p>Yes: 20 focused native checks passed in the isolated staging MySQL. Not a historical-suite rerun.</p>
+<p><strong>10. Did targeted U1 regression pass?</strong></p>
+<p>PARTIAL overall: real Customer Cash/Wallet and Vendor local-client journeys passed, including no-ghost/persist-once/reschedule/cancel/reload. Remaining final responsive checks prevent an unqualified U1 PASS. D1 results are local drill evidence, not conditional full staging certification.</p>
+<p><strong>11. Did same-slot native exclusion remain correct?</strong></p>
+<p>Yes. Same-slot contention had exactly one durable winner, with no losing financial effect; cross-Shop shared-Specialist overlap remains excluded.</p>
+<p><strong>12. Did legitimate adjacency remain correct?</strong></p>
+<p>Yes. Native left/right endpoint adjacency passed. In UI, canceling Cash09:00 released that slot while active Wallet10:00 stayed occupied.</p>
+<p><strong>13. Did recurrence remain correct?</strong></p>
+<p>Selected native recurring blocked-time authority passed; the existing half-open/monthly missing-date/origin-occurrence contracts and native form values were retained. This campaign does not certify every new recurrence variation.</p>
+<p><strong>14. Did cancellation release remain correct?</strong></p>
+<p>Yes. Native unfunded cancellation and UI Cash7/local-client9 cancellation released capacity. Local-client14:00 was offered again. Historical canceled calendar cards may remain visible but do not reserve capacity.</p>
+<p><strong>15. Did rescheduling remain atomic?</strong></p>
+<p>Yes. Failed native reschedule preserved original state; successful reschedule retained frozen economics/released the old interval. UI local-client9 moved13:00–14:00 to14:00–15:00, remained$100/60min, then canceled without collection. Customer UI has no reschedule control; copy no longer promises one.</p>
+<p><strong>16. Did Cash semantics remain unchanged?</strong></p>
+<p>Yes. Cash7 remained native offline/progress, not fabricated electronic collection; UI cancellation persisted. Native readback supplies collection evidence because the Customer UI has no explicit collected/uncollected flag.</p>
+<p><strong>17. Did Wallet semantics remain unchanged?</strong></p>
+<p>Yes. Wallet8 double-click emitted one booking POST and one$100 debit,4900→4800; Wallet paid/New persisted. Cancel returned400 and left the booking/capacity intact. No provider/refund/payout was invoked.</p>
+<p><strong>18. Did local-client UNPAID remain uncollected?</strong></p>
+<p>Yes. UI-created client/booking9 stayed unpaid/pending-no-collection with$100/60min, no collection/refund/contribution effect through status, atomic reschedule, cancellation and reload. Discarded drafts caused no booking create or ghost.</p>
+<p><strong>19. Did protected financial state remain unchanged?</strong></p>
+<p>Yes. Final original field-level fingerprints/schema, retained native operations and completion evidence match. O1 financial-table fingerprints/retained UNKNOWN/PENDING/CANCELED states match before/after. Only explicitly isolated synthetic booking/client/payment fixtures and operational markers were exercised.</p>
+<p><strong>20. Did all 59 fingerprints match?</strong></p>
+<p>Yes; final-preservation statusPASS,59/59, changed[].</p>
+<p><strong>21. Did all 465 schema objects match?</strong></p>
+<p>Yes; final-preservation465/465 and schemaMatchtrue. No owned/original schema change.</p>
+<p><strong>22. Do all 12 legacy Orders remain unverified?</strong></p>
+<p>Yes;12 total and12 unverified. No completion evidence was fabricated.</p>
+<p><strong>23. Did the normal demo remain intact?</strong></p>
+<p>Yes:9 Shops,51 Services,75 assignments,14 Specialists and normal API200/9 Shops. Normal previews were temporarily paused only for build-resource isolation and restored; the normal storefront was never retargeted to disposable acceptance data in this work.</p>
+<p><strong>24. Did all expected demo media remain usable?</strong></p>
+<p>All90 copied approved media hashes survived D1 and R1. Browser Service/Specialist GETs and detached native Shop Image GET200/natural dimensions pass; the mobile hidden Shop image is not a visible-slot claim. No placeholder metadata remains in the corrected three synthetic media classes. Normal demo media were not rewritten.</p>
+<p><strong>25. D1 status?</strong></p>
+<p>PARTIAL overall; local compatible code rollback/redeploy, runtime/security/CORS/media/key checksPASS. Public host/TLS, real CAPTCHA UI sign-in and applicable cookie/CSRF acceptance are missing. Not a production deployment or full D1 certification.</p>
+<p><strong>26. Was a production-like staging runtime actually exercised?</strong></p>
+<p>Yes: isolated production-built Customer/Business, loopback HTTPS8443/8444, Nginx/PHP-FPM, production/debugfalse, MySQL8/InnoDB/REPEATABLE READ/strict/utf8mb4/UTC on33309, restricted DML app principal and persistent media outside releases. Local self-signed TLS is not approved public TLS.</p>
+<p><strong>27. Did code rollback/redeploy pass?</strong></p>
+<p>Yes locally. Rolled to foundation-corrected then redeployed calendar-final; restarted Customer/FPM/proxy/DB; full native evidence, key and media remained unchanged. Empty scratch malformed migration failed safely; no populated down migration.</p>
+<p><strong>28. Did persistent media survive?</strong></p>
+<p>Yes:90 files and their hashes match across code rollback/redeploy and independent restore; class-specific original/restored HTTPS bytes match.</p>
+<p><strong>29. Did APP_KEY remain stable?</strong></p>
+<p>Yes through restarts, rollback/redeploy and restored runtime; encrypted selected canary decrypts. Stable local authority is derived from managed SESSION_SECRET. No actual key value is reported; independent production escrow/rotation/retention is not proved.</p>
+<p><strong>30. R1 status?</strong></p>
+<p>PARTIAL overall; real local encrypted off-instance backup/restore/PITRPASS. Approved off-host destination, automated retention/monitoring and independent key custody remain missing.</p>
+<p><strong>31. Was a REAL isolated restore performed?</strong></p>
+<p>Yes. A consistent native dump with binlog coordinates, media and runtime contract were AES256-GCM encrypted, restored into a new MySQL33310/database/runtime/media root, and real row binlogs replayed to a selected post-snapshot marker. The later source update was excluded and source was never overwritten.</p>
+<p><strong>32. Measured RPO?</strong></p>
+<p>Drill loss intervals: database0.039s; media0.606s. Targets15min database/1h media are met in this drill only—not continuous production guarantees.</p>
+<p><strong>33. Measured RTO?</strong></p>
+<p>128.437s measured local restore; below4h target. Production scale, off-host retrieval and human recovery are not measured.</p>
+<p><strong>34. Did restored financial invariants match?</strong></p>
+<p>Yes. Selected-point row fingerprints, financial/booking/wallet/retained operation state, indexes, constraints, triggers and1735 column contracts match. First raw schema hash FAIL is retained: redundant column CHARACTER SET before identical COLLATE differed on the operational probe only. Strict narrow DDL equivalence, not arbitrary hash suppression, resolved it.</p>
+<p><strong>35. Did restored media work?</strong></p>
+<p>Yes:90/90 hashes and Shop/Service/Specialist examples served through isolated HTTPS8445 with matching bytes. Restored real actor/controller reads passed. Recovery endpoints were stopped after the drill.</p>
+<p><strong>36. O1 status?</strong></p>
+<p>PARTIAL overall;17 selected local failure/alert/recovery/redaction checksPASS; independent external alert channel/owner remains unaccepted.</p>
+<p><strong>37. Were worker-failure alerts exercised?</strong></p>
+<p>Yes: worker stopped, PROCESS_WORKER_DOWN and backlog visible; selected notification queue recovered after supervised restart. Without SMTP, delivery remainsBLOCKED—not falsely delivered.</p>
+<p><strong>38. Was scheduler interruption exercised?</strong></p>
+<p>Yes: stopped scheduler/stale heartbeat alerted; selected reminder catch-up/dedup passed; supervised scheduler resumed. Late after-start semantics were not widened.</p>
+<p><strong>39. Was failed-job recovery exercised?</strong></p>
+<p>Yes: isolated safe operational queue job failed visibly, specifically retried and recovered. No payment, provider or financial job was retried.</p>
+<p><strong>40. Was UNKNOWN/PENDING operational visibility exercised without reclassification?</strong></p>
+<p>Yes: FINANCIAL_INTERVENTION_REQUIRED alerted on retained states; native IDs/states/amounts and financial effects remained identical. No reclassification or automatic provider retry.</p>
+<p><strong>41. Did log-redaction checks pass?</strong></p>
+<p>Yes: selected current staging logs scanned for managed/derived authority and authorization/password/reset/invitation/merchant canaries, zero hits. Safe HTTP500/log marker and429 abuse were exercised. No real provider payload exists to certify.</p>
+<p><strong>42. Was live SMTP actually tested?</strong></p>
+<p>No. No approved staging SMTP/TLS/provider credentials or delivery destinations were available. Local transport/recovery acceptance is not live delivery.</p>
+<p><strong>43. If not, what exact external dependency remains?</strong></p>
+<p>An approved staging SMTP service/TLS endpoint/port, authorized sender/domain and safe recipient, provider credentials entered through managed secrets, and delivered-message evidence. Do not enable unauthorized default SMTP or record passwords in reports.</p>
+<p><strong>44. Did any new P0 appear?</strong></p>
+<p>No new selected financial/security P0 identified. Transient/failed UI, media, restore-schema and HTTP-probe receipts remain in history with corrections/verification limits; no production acceptance was implied.</p>
+<p><strong>45. What P1 remains?</strong></p>
+<p>Public staging/TLS, real production CAPTCHA login and applicable cookie/CSRF checks; final responsive acceptance gaps; approved live SMTP; off-host backups/retention/independent key custody; external monitoring owner/channel; provider-side historical credential rotation evidence. Existing Admin numeric-ID/type-filter observations remain unclassified, not certified correct.</p>
+<p><strong>46. What external dependencies remain?</strong></p>
+<p>Approved publicly reachable isolated staging host/domain/TLS and durable storage; CAPTCHA key; SMTP/TLS/sender/recipient; off-host encrypted backup/binlog retention and independent key escrow; external alerts/on-call owner; historical provider credential rotation evidence. No dependency was silently treated as done.</p>
+<p><strong>47. Which features remain deferred?</strong></p>
+<p>Product purchasing/stock, multi-Shop checkout, all MTN/Orange/Flutterwave/Paystack/Stripe/PayPal activation, Vendor-direct/own-gateway collection, external payout, electronic refund/reconciliation, Delivery/SMS/push expansion, PostgreSQL conversion, StrategyG and speculative infrastructure. Product browse-only is not purchase readiness.</p>
+<p><strong>48. Updated same-20-gate score?</strong></p>
+<p>15.5/20=77.5%; same labels/framework, not a new certification. Local acceptance earns partial operational credit only.</p>
+<p><strong>49. Exact score derivation?</strong></p>
+<p>Customer5 + Vendor4 + Admin3 + operations3.5 =15.5. Starting14.5: O2+0.5 for accepted local production runtime/rollback; O3+0.5 for real encrypted restore/PITR; O5+0.5 for exercised local monitoring/recovery. O6 reduced1→0.5 while current responsive correction acceptance is incomplete. O4 remains0.5, not credited twice for existing N1; builds, appearance, scripts and previously earned B1/U1/A1/N1/S1 are not extra points.</p>
+<p><strong>50. Is the decision READY FOR LIMITED PRODUCTION APPROVAL, REMAIN IN STAGING, or NO-GO?</strong></p>
+<p>REMAIN IN STAGING. Local production-like drills do not resolve public/runtime-auth/recovery-custody/live-delivery/alerting dependencies. No production deployment or full production certification.</p>
+<p><strong>51. What is the exact safest next action?</strong></p>
+<p>Keep the isolated release/data unchanged. Close only the explicitly unverified read-only populated Specialist390/final modal responsive spots, then obtain owner-approved public staging/TLS/CAPTCHA and external SMTP/backup/alert/key-custody configuration. Do not repeat financial journeys, broadly redesign, activate providers or deploy production.</p>
+<h3>Evidence and exclusions</h3>
+<p>Current staging receipts are in .local/staging-mvp: b1-bounded, d1-security, d1-release, u1-customer, u1-business, u1-corrected, u1-local-client, u1-overflow-diagnostic, u1-surface-spots, u1-media-corrected, u1-final-readonly, r1-selected-point/r1-restored/r1-schema-equivalence/r1-recovery/r1-restored-role-reads, o1-rehearsals, log-redaction and final-preservation. Calendar implementation inventory accompanies these. Screenshots are real browser receipt IDs; the ZIP does not claim archived pixels. Private auth, keys, dump/binlogs, dotenv, encrypted backup payloads and raw logs are excluded. Normal original previews and Canvas were restored; isolated operations supervision remains running. Restore-only services are stopped. No active mission is created.</p>
+<h2>20. Bounded calendar correction — current authority, 2026-10-05</h2>
+<p>The <a href="agendaally-calendar-acceptance-closure.md">nineteen-result calendar closure report</a>
+supersedes earlier calendar conclusions. Existing-client Cash selection and
+native confirmation/cancellation now pass; local saved-detail 403 handling,
+organic receipt recovery, scoped Specialist selection and preservation pass.</p>
+<p><strong>16/20 = 80%, REMAIN IN STAGING.</strong> V3 remains 1 for functional lifecycle
+acceptance. The authorized responsive-evidence-only follow-up retained 67 current
+states at 1280/390/320 and moves O6 from 0.5 to 1. All other credits remain as in
+the existing twenty-gate model. Calendar browser acceptance is <strong>CLOSED</strong>;
+U1/calendar responsive is <strong>VERIFIED at those browser viewports</strong>. This does not
+certify physical devices or production. No application edit, record creation,
+production/provider activation or broader campaign was done.</p>
+<p>Final preservation: 59 protected fingerprints/465 original schema objects,
+12 unverified legacy Orders, normal API and 9 Shops/51 Services/75 assignments/
+14 Specialists unchanged; sampled media 200. Exact isolated browser changes
+were removed/restored, private snapshot deleted, normal previews restored.</p>
+<p>After responsive follow-up, protected fingerprints/schema, counts, legacy
+Orders, native operations, normal API and three media samples passed again.
+All 206 isolated table counts/schema and 1811 application-source files matched;
+205 table fingerprints matched. Native token-use timestamps changed the
+authentication table fingerprint only (72 existing tokens, no additions);
+the exception is disclosed in <code>calendar-responsive-preservation.json</code>.</p>
+<h2>21. Owner-confirmed SMTP delivery and bounded presentation correction — 2026-10-05</h2>
+<p>This is current SMTP authority; earlier failed attempts and unavailable-SMTP
+statements remain historical evidence, not current transport blockers.</p>
+<p>The owner reports that the normal port-3003 Admin displayed “Test email sent
+successfully” and the test message arrived in their Gmail mailbox. The owner
+attributes the earlier failure to Zoho account/configuration, now corrected.
+Record <strong>SMTP end-to-end transport and actual mailbox delivery VERIFIED</strong> for
+this controlled current-build Admin test. This is owner-confirmed receipt, not
+an agent packet trace or a new send. No password or mailbox address is retained
+in this evidence update.</p>
+<p>The initially received logo used a localhost URL, and social badges were literal IG/FB/in
+text with double-prefixed HTTPS URLs. The shared template and legacy email
+invoice now embed owned PNG/raster files via CID, use explicit dimensions,
+table-based links and normalized allowlisted HTTPS destinations. Invalid social
+destinations are omitted; unavailable logos use a visible text wordmark.
+Gallery attachments now resolve owned public-storage files rather than treating
+an HTTP host as a filesystem path. PHPMailer controls invoice MIME headers.
+See <a href="smtp-email-presentation-audit.md">bounded audit and correction</a>.</p>
+<p>Local acceptance builds real Blade output and MIME without calling send or
+postSend. Network/mail functions are disabled during the focused checks.
+Every HTML CID resolves to an inline PNG MIME part with matching bytes. Browser
+preview uses those same attachment bytes as data URIs. This verifies local
+rendering/MIME structure, not mailbox receipt by themselves. The owner's later
+confirmation in section 22 verifies the corrected Admin presentation in Gmail.</p>
+<h3>Readiness credit — unchanged twenty-gate framework</h3>
+<p><strong>16/20 = 80%, REMAIN IN STAGING.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Credit</th>
+<th>Current relevant limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Customer C1–C6</td>
+<td>5 / 6</td>
+<td>C1 stays 0.5: actual reset/verification mailbox journeys not approved/verified; C6 stays 0.5</td>
+</tr>
+<tr>
+<td>Vendor V1–V4</td>
+<td>4 / 4</td>
+<td>Previously accepted selected lifecycle evidence reused</td>
+</tr>
+<tr>
+<td>Admin A1–A4</td>
+<td>3 / 4</td>
+<td>A3 and A4 remain 0.5; no external provider/refund acceptance</td>
+</tr>
+<tr>
+<td>Operations O1–O6</td>
+<td>4 / 6</td>
+<td>O1/O6 are 1; O2/O3/O4/O5 remain 0.5</td>
+</tr>
+</tbody>
+</table>
+<p>The SMTP/live-mailbox <strong>portion</strong> of the communications gate is closed for the
+approved normal Admin environment. O4 remains 0.5 because operational mail paths
+are still suppressed and their real-delivery/supervision acceptance is not
+established by a Test Email. C1 gains no credit for unrelated test-message receipt.
+No credit is awarded for appearance, asset changes, compilation or previously
+earned worker/scheduler checks.</p>
+<p>SMTP TLS verification, encrypted credentials, password-free API responses,
+sanitized transport errors and scoped Admin capability remain unchanged.
+General email, electronic providers, payouts/refunds, SMS, push and other
+deferred integrations remain suppressed/disabled. No scheduling, financial,
+security, recovery or responsive campaign was rerun. The agent made no SMTP
+connection and sent no email. Stop here; another real email requires explicit
+owner approval.</p>
+<h2>22. Complete email-system audit and corrected Admin receipt — 2026-10-05</h2>
+<p>Current owner authority explicitly confirms <strong>SMTP transport, Gmail mailbox
+delivery and corrected Admin Test Email logo, Instagram/Facebook/LinkedIn icons
+and footer VERIFIED</strong>. No additional agent send or SMTP connection was made.
+The earlier local-only correction qualification in section 21 is historical.</p>
+<p>See the <a href="agendaally-email-system-audit.md">complete 30-section audit</a> and its
+self-contained <a href="agendaally-email-system-audit.html">HTML report</a>, including the
+17-column inventory, actual triggers, rendering/MIME/security findings,
+missing-template analysis and proposal-only architecture.</p>
+<p>The isolated audit passed <strong>5 tests / 198 assertions</strong> with network/mail/process
+functions disabled. Defaults fit 900/390/320px; long unbroken shared/order
+content overflows. Legacy subscription recipient privacy and pre-commit order
+mail are deferred activation issues, not fixes performed in this task.</p>
+<p><strong>C1 = 0.5; O4 = 0.5; current score remains 16/20 = 80%, REMAIN IN STAGING.</strong>
+The protected normal database lacks <code>selected_email_deliveries</code>; the existing
+operational migration has only retained disposable-MySQL application evidence.
+Generic diagnostic receipt does not close real signup/verification/password
+change or selected worker/scheduler supervision. Booking email does not exist
+and is not a hidden new rubric prerequisite.</p>
+<p>The minimum future approved campaign is <strong>two real account messages</strong>—one
+verification and one reset—combined with the selected queue's safe-before-send
+restart/dedup and operational-supervision acceptance. No repeat Admin test is
+needed. Explicit target/schema and purpose/recipient delivery approval is
+required; do not globally enable suppressed marketing/order/Driver transport.
+Reuse accepted UNKNOWN/no-resend proof rather than provoking another uncertain
+live acknowledgement.</p>
+<p>Only after the specified C1 or O4 closure would the score be 16.5/20 = 82.5%;
+both would be 17/20 = 85%, still subject to other open gates. These are not
+earned current points. Optional booking notices and all new financial emails
+remain outside implementation approval.</p>
+<p>Preservation passed: 206 table fingerprints and 467 schema objects unchanged,
+4,683 normal application source files unchanged. The SMTP credential was not
+selected/decrypted or modified. No worker/scheduler, payment/SMS/push behavior,
+workflow configuration or deployment changed. Stop pending explicit approval.</p>
+</main></body></html>

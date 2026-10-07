@@ -1,0 +1,833 @@
+AGENDAALLY — CONTAIN BOOKING REFUND-REPLAY P0, VERIFY IT, THEN AUTOMATICALLY RESUME AND COMPLETE THE READ-ONLY PAYMENT ARCHITECTURE AUDIT
+
+I approve remediation of the newly confirmed Service Booking refund-replay P0.
+
+This approval is intentionally structured in TWO phases:
+
+PHASE 1 — Contain and verify ONLY the confirmed Booking refund-replay P0.
+
+PHASE 2 — If Phase 1 passes, automatically resume the existing READ-ONLY payment architecture audit from its exact stopping point and FINISH it.
+
+Do not stop between Phase 1 and Phase 2 for another approval if the containment passes.
+
+Do not restart the architecture audit from scratch.
+
+The previously accepted containments remain authoritative baselines and must not be reopened except for narrowly necessary regression verification.
+
+======================================================================
+ACCEPTED BASELINES — DO NOT REOPEN
+======================================================================
+
+The following findings are already:
+
+FOUND AND CONTAINED / VERIFIED
+
+1. Seller cross-Shop payment-status authorization P0.
+2. Seller cross-Shop Product refund authorization P0.
+3. Booking Staff cross-Shop financial mutation P0.
+4. Wallet completed-transfer cancellation/repeat-restoration P0.
+5. Wallet negative/zero amount P0.
+6. Product refund repeat-credit / settlement-finality P0.
+
+In particular, treat these Wallet and Product-refund properties as established:
+
+WALLET
+- Wallet monetary amounts must be positive and finite.
+- Withdrawal, send and Wallet-only top-up enforce that invariant.
+- Successful transfers debit sender once and credit recipient once.
+- Completed transfers finalize both histories/Transactions as paid.
+- Completed transfers cannot subsequently be canceled to restore the sender.
+- Transfer failure rolls back both legs.
+- Wallet history ownership protection is enforced.
+- Legitimate pending withdrawal restoration remains once-only.
+- Admin legitimate top-up approval remains once-only.
+- Transport-level send retry idempotency remains a known limitation.
+- Production Wallet concurrency remains uncertified.
+- Monetary precision has not been redesigned.
+
+PRODUCT REFUNDS
+- Native states are pending, accepted and canceled.
+- pending → accepted is allowed.
+- pending → canceled is allowed.
+- accepted is terminal.
+- accepted refunds cannot be reopened to repeat settlement.
+- accepted refunds survive Customer/Vendor/Admin deletion paths.
+- deletion/recreation cannot bypass settled-refund finality.
+- first acceptance credits the Customer exactly once.
+- repeated acceptance cannot repeat financial/accounting effects.
+- the original Order payment Transaction remains paid.
+- settlement and related Wallet/stock/accounting effects are atomic.
+- controlled SQLite contention passed.
+- production concurrency remains uncertified.
+
+Do not spend another architecture iteration re-proving those facts.
+
+======================================================================
+PHASE 1 — BOOKING REFUND-REPLAY P0
+======================================================================
+
+CURRENT CONFIRMED FINDING
+
+During the read-only Service cancellation accounting trace, the audit established:
+
+An authorized same-Shop Vendor can perform:
+
+canceled → booked → canceled
+
+for a Wallet-funded Booking.
+
+Each cancellation can directly credit the Customer Wallet again.
+
+Reopening the Booking does not create another corresponding Customer purchase debit.
+
+The existing payable-ledger adjustment may be idempotent, but that does NOT protect the Customer Wallet credit from being repeated.
+
+The current cancellation service therefore lacks an authoritative once-only refund-settlement boundary.
+
+The development configuration also revealed that the cancellation-percentage setting is absent and the native calculation produces a zero cancellation debit in that condition, allowing the Customer to receive the full Booking total as the cancellation credit.
+
+No exploit was executed.
+
+All 53 protected tables were unchanged at discovery time.
+
+This finding is:
+
+P0 / FOUND / NOT YET CONTAINED
+
+======================================================================
+1. REQUIRED FINANCIAL INVARIANT
+======================================================================
+
+Implement the following server-authoritative invariant:
+
+A SINGLE BOOKING PAYMENT/REFUND ENTITLEMENT MAY FINANCIALLY SETTLE ITS CANCELLATION REFUND AT MOST ONCE UNLESS A NEW, INDEPENDENTLY FUNDED PAYMENT CREATES A NEW REFUND ENTITLEMENT.
+
+Changing Booking lifecycle state must never recreate a previously consumed refund entitlement.
+
+Do not solve this only in the UI.
+
+Do not rely only on the current Booking status.
+
+The financial settlement boundary must be authoritative on the backend.
+
+======================================================================
+2. TRACE THE NATIVE BOOKING CANCELLATION MODEL FIRST
+======================================================================
+
+Before modifying behavior, trace the native Booking cancellation lifecycle sufficiently to identify:
+
+- Booking states involved;
+- who can cancel;
+- who can reopen/change status;
+- Customer cancellation path;
+- Vendor cancellation path;
+- Staff cancellation path;
+- Admin cancellation path;
+- Wallet-funded Booking behavior;
+- electronic-payment Booking behavior where directly shared;
+- Cash behavior where directly shared;
+- cancellation percentage calculation;
+- cancellation debit/fee;
+- Customer refund amount;
+- Wallet credit;
+- WalletHistory;
+- Transaction;
+- Booking payment Transaction;
+- commission/service fee;
+- Vendor entitlement;
+- platform payable/ledger adjustment;
+- stock/capacity/scheduling restoration if applicable;
+- observers/listeners;
+- transactional boundaries.
+
+Identify exactly which operation creates the Customer Wallet credit.
+
+Identify whether an existing native field/state already represents:
+
+CANCELLATION REFUND FINANCIALLY SETTLED
+
+or an equivalent irreversible financial event.
+
+Prefer an existing authoritative native boundary if one exists.
+
+Do not add schema merely for architectural elegance.
+
+If no existing durable boundary can safely express once-only settlement, use the smallest correct native-compatible mechanism necessary and document why.
+
+======================================================================
+3. BOOKING STATE MACHINE
+======================================================================
+
+Determine whether:
+
+canceled → booked
+
+is actually a legitimate native business requirement.
+
+If it is NOT required:
+
+make a financially settled canceled Booking terminal and reject reopening.
+
+If reopening IS legitimately required for nonfinancial reasons:
+
+reopening must NOT restore or recreate the already-consumed cancellation-refund entitlement.
+
+A later cancellation must not refund the original payment again unless there is a new independently funded payment creating a new refund entitlement.
+
+Do not invent a new reopening feature simply to preserve unsafe legacy behavior.
+
+Document the resulting valid Booking transitions relevant to this containment.
+
+======================================================================
+4. ONCE-ONLY REFUND SETTLEMENT
+======================================================================
+
+The first legitimate cancellation of an eligible Wallet-funded Booking should perform the intended refund exactly once.
+
+Determine all financial side effects involved and ensure each applicable once-only effect cannot replay, including:
+
+- Customer Wallet credit;
+- WalletHistory creation;
+- Transaction creation/update;
+- Booking refund/cancellation state;
+- commission reversal;
+- Vendor entitlement adjustment;
+- platform payable adjustment;
+- platform_fee_ledger_entries;
+- other directly related accounting effects.
+
+The existing idempotent payable-ledger adjustment is NOT sufficient if the Customer Wallet can still be credited repeatedly.
+
+Financial idempotency must cover the entire cancellation settlement, not just one ledger component.
+
+======================================================================
+5. CANCELLATION-PERCENTAGE CONFIGURATION
+======================================================================
+
+Investigate the observed missing cancellation-percentage configuration as part of this containment.
+
+The development configuration currently appears to have no cancellation-percentage setting, and the native calculation reportedly produces a zero cancellation debit, resulting in a full Customer credit.
+
+Determine:
+
+- where the cancellation percentage comes from;
+- whether it is global, Shop-specific, Service-specific or otherwise scoped;
+- what happens when it is absent;
+- what happens when it is malformed;
+- whether zero is an intentional business value or merely a fallback;
+- whether full refund is explicitly the native intended policy when configuration is absent;
+- whether the current fallback is financially safe.
+
+Do NOT invent an arbitrary cancellation percentage.
+
+Do NOT silently choose a business policy.
+
+Clearly distinguish:
+
+A. the refund-replay P0;
+
+from
+
+B. cancellation-policy/default configuration behavior.
+
+If missing/malformed configuration currently causes an unintended unsafe financial result, make it fail safely and deterministically using the application's existing policy semantics.
+
+If full refund is intentionally the documented native fallback, preserve it—but it must still settle only once.
+
+Document the conclusion.
+
+======================================================================
+6. REFUND AMOUNT AUTHORITY
+======================================================================
+
+The cancellation/refund amount must be calculated from authoritative persisted Booking/payment/policy data.
+
+Do not trust request-controlled values for:
+
+- Booking total;
+- refund amount;
+- cancellation percentage;
+- Customer;
+- Wallet;
+- Shop;
+- Service;
+- payment method;
+- payment Transaction;
+- collection mode;
+- Vendor entitlement;
+- ledger amount.
+
+Verify forged request values cannot redirect or increase the refund.
+
+Do not broaden this into unrelated Booking CRUD analysis.
+
+======================================================================
+7. ORIGINAL BOOKING PAYMENT
+======================================================================
+
+Do not automatically rewrite the original successful Booking payment Transaction merely to align statuses visually.
+
+Determine the intended accounting relationship between:
+
+ORIGINAL PAYMENT
+
+and
+
+CANCELLATION REFUND.
+
+A successfully paid Booking may legitimately retain its original paid payment record while the refund/cancellation is represented separately.
+
+Preserve financial history correctly.
+
+Document the model.
+
+======================================================================
+8. AUTHORIZATION
+======================================================================
+
+Preserve all previously contained Booking authorization boundaries.
+
+Verify:
+
+- legitimate same-Shop Vendor behavior remains functional;
+- granted Staff behavior remains consistent with existing permissions;
+- ungranted Staff remains denied;
+- cross-Shop Vendor remains denied;
+- cross-Shop Staff remains denied;
+- Customer cannot invoke Vendor/Admin financial settlement actions;
+- Admin authority remains consistent with native policy;
+- forged Shop/Customer/Booking/Wallet fields cannot redirect settlement.
+
+Do NOT reopen the broader Booking authorization audit.
+
+======================================================================
+9. ATOMICITY
+======================================================================
+
+Cancellation refund settlement must be atomic.
+
+The acceptable outcomes are:
+
+A. all legitimate cancellation/refund financial effects commit together;
+
+OR
+
+B. none of them commit.
+
+Test failures at relevant boundaries, where practical:
+
+- before refund claim;
+- after refund claim but before Wallet credit;
+- during Wallet credit;
+- after Wallet credit but before Booking finalization;
+- during accounting/ledger adjustment;
+- during partner/Vendor recovery or directly related financial adjustment;
+- during final settlement state persistence.
+
+A failed settlement must not leave:
+
+- credited Customer Wallet with unsettled Booking;
+- settled Booking without required refund;
+- duplicate histories;
+- duplicate Transactions;
+- partial commission/payable reversal;
+- partial stock/capacity restoration where transactionally coupled.
+
+======================================================================
+10. CONCURRENCY / COMPETING CLAIMS
+======================================================================
+
+Ensure the once-only settlement check is not implemented as an unsafe pattern such as:
+
+if not refunded:
+    credit customer
+    mark refunded
+
+without an appropriate transaction/locking/atomic state boundary.
+
+Use the native database architecture appropriately.
+
+A controlled two-connection/local contention test is acceptable.
+
+Verify that competing cancellation/refund claims cannot both financially settle the same entitlement in the tested environment.
+
+Do NOT claim production concurrency certification unless production-equivalent concurrency has actually been demonstrated.
+
+Clearly state the limitation.
+
+======================================================================
+11. REPLAY CASES
+======================================================================
+
+Using isolated fixtures, verify at minimum:
+
+1. first legitimate Wallet-funded Booking cancellation credits Customer once;
+
+2. first cancellation creates the expected WalletHistory exactly once;
+
+3. first cancellation creates/updates expected Transaction state exactly once;
+
+4. repeated cancellation does not credit again;
+
+5. canceled → booked → canceled cannot credit again;
+
+6. reopening cannot recreate the consumed refund entitlement;
+
+7. repeated/replayed cancellation does not duplicate WalletHistory;
+
+8. repeated/replayed cancellation does not duplicate Transaction;
+
+9. repeated/replayed cancellation does not duplicate commission effects;
+
+10. repeated/replayed cancellation does not duplicate Vendor entitlement effects;
+
+11. repeated/replayed cancellation does not duplicate platform payable/ledger effects;
+
+12. repeated/replayed cancellation does not duplicate stock/capacity restoration where applicable;
+
+13. forged refund amount cannot increase settlement;
+
+14. forged Customer cannot redirect settlement;
+
+15. forged Wallet cannot redirect settlement;
+
+16. forged Shop/Service/Booking ownership cannot bypass authorization;
+
+17. cross-Shop Vendor remains denied;
+
+18. ungranted Staff remains denied;
+
+19. legitimate same-Shop authorized behavior remains functional;
+
+20. Admin legitimate behavior remains functional;
+
+21. failure before Wallet credit rolls back;
+
+22. failure during Wallet credit rolls back;
+
+23. failure after Wallet credit but before finalization rolls back;
+
+24. failure during related accounting adjustment rolls back;
+
+25. positive Wallet amount invariant remains intact;
+
+26. refund credit remains positive and finite;
+
+27. existing Wallet settlement boundary used by this refund remains compatible;
+
+28. controlled contention cannot settle the same entitlement twice.
+
+Do not execute the defect against existing application financial data.
+
+======================================================================
+12. NARROW SIBLING REVIEW
+======================================================================
+
+Perform ONLY a narrow sibling review for the IDENTICAL Booking cancellation/refund settlement path.
+
+Check directly shared:
+
+- Vendor;
+- granted Staff;
+- Admin;
+- Customer cancellation entry point if it reaches the same financial settlement logic.
+
+If the exact same once-only defect exists through a shared entry point, contain it with the same invariant.
+
+Do NOT expand into:
+
+- general Booking CRUD;
+- unrelated status transitions;
+- Driver;
+- Pickup;
+- Product refund internals;
+- Wallet send/withdrawal internals;
+- provider architecture;
+- payout architecture;
+- unrelated authorization.
+
+Those are outside Phase 1.
+
+======================================================================
+13. EXISTING DATA
+======================================================================
+
+Do not rewrite historical Bookings.
+
+Do not repair historical refunds.
+
+Do not infer exploitation.
+
+A read-only aggregate inspection may report, without identities or monetary values:
+
+- number of relevant canceled Wallet-funded Bookings;
+- number structurally indicating repeated cancellation settlement, if reliably determinable;
+- duplicate related refund/WalletHistory/Transaction counts if an authoritative relationship makes that determination reliable.
+
+If the existing schema cannot reliably prove historical replay, explicitly say so.
+
+Do not guess.
+
+======================================================================
+14. 53-TABLE STATE PROTECTION
+======================================================================
+
+Before remediation capture the established protected-state snapshot.
+
+Use the same 53 protected tables, including:
+
+platform_fee_ledger_entries.
+
+All mutating verification must use isolated test databases/fixtures.
+
+After implementation and testing, compare the owned development database with the before snapshot.
+
+Require:
+
+- identical protected table set;
+- identical row counts;
+- identical fingerprints;
+- zero unintended financial mutations.
+
+======================================================================
+15. PHASE 1 REPORT
+======================================================================
+
+Create:
+
+docs/development/payment-booking-refund-replay-p0-containment.md
+
+Update:
+
+docs/development/payment-system-full-audit.md
+
+Document:
+
+- exact root cause;
+- source chain;
+- native Booking lifecycle;
+- corrected Booking lifecycle;
+- once-only refund-settlement invariant;
+- cancellation-percentage findings;
+- authoritative refund calculation;
+- Wallet credit behavior;
+- Transaction behavior;
+- commission behavior;
+- Vendor entitlement behavior;
+- platform payable/ledger behavior;
+- atomicity strategy;
+- concurrency/locking strategy;
+- authorization regression;
+- narrow sibling result;
+- historical aggregate result if performed;
+- exact files changed;
+- test/assertion totals;
+- 53-table fingerprint result;
+- limitations.
+
+Only mark this finding:
+
+FOUND AND CONTAINED / VERIFIED
+
+after focused verification actually passes.
+
+======================================================================
+16. PHASE 1 DO-NOT-DO LIST
+======================================================================
+
+During containment do NOT:
+
+- reopen Wallet transfer finality;
+- reopen Wallet amount validation;
+- redesign Wallet idempotency;
+- redesign Wallet concurrency generally;
+- redesign monetary precision;
+- reopen Product refund state machine;
+- activate providers;
+- configure credentials;
+- enable Vendor-direct;
+- change collection preferences;
+- redesign commission architecture;
+- redesign payout architecture;
+- execute real refunds;
+- execute real payments;
+- execute real Wallet operations;
+- modify historical financial records;
+- publish.
+
+======================================================================
+PHASE 2 — AUTOMATICALLY RESUME THE READ-ONLY ARCHITECTURE AUDIT
+======================================================================
+
+IMPORTANT:
+
+If Phase 1 containment passes focused verification AND all 53 protected tables remain unchanged:
+
+DO NOT STOP FOR ANOTHER APPROVAL.
+
+Automatically continue into Phase 2.
+
+Resume the previously approved READ-ONLY payment architecture audit from the EXACT point where the Booking refund P0 interrupted it.
+
+Do NOT restart the audit.
+
+Do NOT rerun completed containment suites merely to begin Phase 2.
+
+======================================================================
+17. COMPLETED BASELINES FOR PHASE 2
+======================================================================
+
+Once Phase 1 is verified, treat the following as completed baselines:
+
+1. Seller payment-status authorization containment.
+2. Seller Product-refund authorization containment.
+3. Booking Staff cross-Shop containment.
+4. Wallet transfer finality/repeat-restoration containment.
+5. Wallet positive-amount containment.
+6. Product refund repeat-credit/finality containment.
+7. Booking cancellation/refund replay containment.
+
+Do NOT proactively reinvestigate those surfaces.
+
+You may reference their accepted reports as established evidence.
+
+Only inspect one of those areas again if a specific downstream architecture conclusion strictly requires it.
+
+======================================================================
+18. CHANGE TO THE P0 STOP RULE
+======================================================================
+
+For Phase 2 ONLY, which is strictly READ-ONLY:
+
+DISCOVERING ANOTHER P0 IS NO LONGER AN AUTOMATIC STOP CONDITION.
+
+If another source-confirmed P0/P1/P2/P3 is discovered naturally while tracing the remaining payment architecture:
+
+- document it;
+- classify it;
+- preserve exact source evidence;
+- explain its financial consequence;
+- add it to a consolidated remediation backlog;
+- DO NOT exploit it;
+- DO NOT remediate it;
+- CONTINUE the read-only architecture audit.
+
+Stop early ONLY if continuing would require leaving the approved read-only boundary, including:
+
+- executing a potentially destructive financial endpoint;
+- modifying financial/database state;
+- changing provider configuration;
+- changing credentials;
+- activating a provider;
+- executing a real payment;
+- executing a real refund;
+- executing a payout;
+- executing a real Wallet operation;
+- changing collection preferences;
+- implementing another remediation;
+- publishing.
+
+Otherwise continue until the architecture audit is complete.
+
+======================================================================
+19. PLATFORM-MANAGED / AGENDAALLY PAYMENTS
+======================================================================
+
+Complete the end-to-end platform collection trace:
+
+Customer
+→ checkout
+→ payment method
+→ platform merchant credentials
+→ provider initiation
+→ provider
+→ callback/status verification
+→ authoritative Transaction
+→ Product Order or Service Booking
+→ commission/platform fee
+→ Vendor entitlement
+→ platform payable/ledger
+→ payout/refund.
+
+Answer definitively:
+
+- whose merchant credentials are used;
+- where Customer money goes first;
+- whether AgendaAlly actually possesses/controls the principal;
+- what establishes authoritative provider success;
+- how Transaction becomes paid;
+- how commission is recorded;
+- how Vendor entitlement is represented;
+- when AgendaAlly becomes financially liable to the Vendor;
+- how that liability is supposed to be settled.
+
+Do not describe this as money being collected by an individual Admin.
+
+Platform merchant credentials belong to the platform collection model.
+
+======================================================================
+20. "USE MY OWN PAYMENT GATEWAY" / VENDOR-DIRECT
+======================================================================
+
+Determine exactly what this option does TODAY.
+
+Trace:
+
+Vendor
+→ Shop
+→ collection preference
+→ provider
+→ Shop credentials
+→ eligibility
+→ checkout
+→ merchant resolution
+→ provider initiation
+→ callback verification
+→ Transaction
+→ commission
+→ Vendor entitlement
+→ platform payable
+→ refund.
+
+Determine:
+
+- whether Vendor-direct is actually implemented;
+- which providers support it;
+- whether Vendor credentials are Shop-scoped;
+- whether Shop A can ever resolve Shop B credentials;
+- whether checkout actually uses Vendor credentials;
+- whether callback verification uses the same merchant context;
+- where Customer principal settles;
+- whether AgendaAlly possesses that principal;
+- how AgendaAlly is supposed to receive commission;
+- whether Vendor entitlement is still created;
+- whether platform payable is still created;
+- whether payout eligibility is still created.
+
+Classify the implementation as:
+
+FULLY IMPLEMENTED
+PARTIALLY IMPLEMENTED
+CONFIGURATION ONLY
+LEGACY
+NOT IMPLEMENTED
+or
+INCONSISTENT.
+
+======================================================================
+21. EXACT REASON VENDOR-DIRECT IS DISABLED
+======================================================================
+
+Determine the ACTUAL current reason:
+
+Use my own payment gateway
+
+is unavailable/unselectable in the development application.
+
+Trace the current decision through:
+
+global activation
+→ environment permission
+→ provider implementation
+→ provider capability
+→ country policy
+→ currency capability
+→ transaction type
+→ Product context
+→ Service context
+→ Shop-wide compatibility
+→ Vendor configurability
+→ Vendor configured state
+→ credentials
+→ collector configuration
+→ collector currency
+→ collector enabled state
+→ runtime readiness
+→ checkout eligibility.
+
+For every failing gate report:
+
+- current state;
+- authoritative source;
+- failure reason;
+- classification:
+
+CAPABILITY
+POLICY
+CONFIGURATION
+READINESS
+or
+ACCOUNTING SAFETY.
+
+Do not stop at a theoretical list of possible gates.
+
+Identify what is actually blocking it now.
+
+======================================================================
+22. CAPABILITY VS CONFIGURATION VS READINESS
+======================================================================
+
+Explicitly distinguish:
+
+CAPABILITY
+CONFIGURABILITY
+CONFIGURED STATE
+GLOBAL ACTIVATION
+COUNTRY ELIGIBILITY
+CURRENCY ELIGIBILITY
+ENVIRONMENT READINESS
+CHECKOUT READINESS.
+
+Answer:
+
+Can a Vendor configure a provider that AgendaAlly supports BEFORE runtime checkout credentials/readiness exist?
+
+If not, identify exactly what prevents configuration.
+
+Determine whether the application incorrectly conflates:
+
+"this provider could be configured"
+
+with:
+
+"this provider can successfully process a payment right now."
+
+Do not modify the implementation.
+
+======================================================================
+23. CAMEROON / XAF PROVIDER MATRIX
+======================================================================
+
+Complete current implementation/readiness analysis for at least:
+
+MTN
+Orange
+Flutterwave
+Paystack
+
+and any other provider materially relevant to Cameroon/XAF in the native application.
+
+For each determine:
+
+- integration implemented;
+- platform-managed support;
+- Vendor-direct support;
+- Product support;
+- Service support;
+- Cameroon country policy;
+- XAF declared capability;
+- platform configuration available;
+- Vendor configuration available;
+- global activation;
+- environment readiness;
+- collector configuration;
+- collector currency;
+- callback verification;
+- authoritative status verification;
+- refund support;
+- checkout readiness;
+- exact blockers.
+
+Use CURRENT APPLICATION IMPLEMENTATION as the source of truth.
+
+Do not substitute external provider marketing claims for what Agenda

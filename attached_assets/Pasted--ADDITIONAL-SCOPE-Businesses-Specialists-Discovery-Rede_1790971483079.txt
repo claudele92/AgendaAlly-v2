@@ -1,0 +1,486 @@
+# ADDITIONAL SCOPE — Businesses & Specialists Discovery Redesign
+
+Audit and improve the existing Customer storefront section currently titled:
+
+“Businesses and people”
+“Explore businesses and specialists.”
+
+The current implementation is functional but visually inconsistent and does not use the available page width effectively.
+
+This is a UI/UX improvement plus a bounded Specialist-profile data audit.
+
+Do not create a competing marketplace/discovery architecture.
+
+---
+
+## 35. Audit the existing discovery implementation
+
+Trace the native implementation for:
+
+- Recommended businesses;
+- Top specialists;
+- business cards;
+- specialist cards;
+- favorites;
+- “See all” navigation;
+- specialist profile/detail pages;
+- business/shop profile pages;
+- specialist-service relationships;
+- specialist category relationships;
+- specialist pricing;
+- service locations;
+- ratings/reviews if available;
+- public/private specialist visibility from the previously implemented visibility design.
+
+Determine where every currently displayed field originates.
+
+Do not invent frontend-only specialist data.
+
+---
+
+## 36. Redesign the section to fit the storefront properly
+
+The current desktop layout leaves excessive unused horizontal space.
+
+Improve the section so it feels like a polished AgendaAlly marketplace/discovery experience.
+
+Preserve the existing overall storefront visual language.
+
+The section should:
+
+- use the available content width effectively;
+- align with the primary storefront container/grid;
+- have consistent horizontal margins;
+- maintain clear hierarchy between businesses and specialists;
+- work cleanly on large desktop, normal desktop, tablet and approximately 390px mobile;
+- avoid arbitrary fixed widths that create large empty regions;
+- preserve functional “See all” navigation;
+- preserve favorites.
+
+Do not simply stretch cards until they become oversized.
+
+Choose an appropriate responsive grid/carousel treatment based on the existing design system.
+
+---
+
+## 37. Business cards
+
+Improve the Recommended business cards.
+
+Audit the current information and determine the best hierarchy.
+
+Prefer useful information such as:
+
+Business name
+Category/business type
+Short description
+Location
+Rating/review information if authoritative data already exists
+Relevant fulfillment/booking capability if appropriate
+
+Avoid excessive truncation such as:
+
+“AgendaAlly...”
+“Wouri Ink & Pierci...”
+
+when sufficient card width is available.
+
+Use controlled line clamping where necessary.
+
+Cards within the same row should have consistent dimensions.
+
+Images should use a consistent aspect ratio and object-fit behavior.
+
+Do not distort uploaded business images.
+
+---
+
+## 38. Specialist cards — fix inconsistent heights
+
+The existing Specialist cards have inconsistent heights because content such as:
+
+48000 FCFA
+
+wraps differently from:
+
+9000 FCFA
+
+This must be corrected.
+
+All Specialist cards within the same presentation/grid should have consistent dimensions regardless of:
+
+- name length;
+- specialty length;
+- price;
+- currency;
+- service-location text;
+- rating text.
+
+Create a deliberate card structure with stable areas for:
+
+1. image;
+2. identity;
+3. specialty/domain;
+4. optional business association/rating;
+5. starting price;
+6. service availability/location.
+
+Use proper currency formatting.
+
+For example:
+
+9,000 FCFA
+
+rather than:
+
+9000 FCFA
+
+and:
+
+48,000 FCFA
+
+must remain on one sensible price line at normal card widths.
+
+Do not solve this by reducing text to an unreadably small font.
+
+---
+
+## 39. Audit Specialist specialty/domain modeling
+
+The current cards repeatedly display only:
+
+“Specialist”
+
+This is not sufficiently useful for marketplace discovery.
+
+Audit whether AgendaAlly already has enough authoritative information to identify what each Specialist actually does.
+
+Inspect relationships between:
+
+Specialist
+→ Shop/business
+→ Services
+→ Service categories
+→ Categories/subcategories
+→ Specialist service assignments
+
+Determine whether a useful professional domain can already be derived.
+
+Examples conceptually include:
+
+Barber
+Hair Stylist
+Nail Technician
+Massage Therapist
+Tattoo Artist
+Tutor
+Makeup Artist
+Personal Trainer
+
+And more specific specialties could include:
+
+Beard Grooming
+Fades
+Braiding
+Bridal Makeup
+Mathematics
+Exam Preparation
+Portrait Tattooing
+
+These examples are NOT seed instructions.
+
+Do not hard-code them merely to improve screenshots.
+
+---
+
+## 40. Prefer existing taxonomy over duplicate profile fields
+
+Before adding a new `specialty` or `professional_domain` database field, determine whether the information can reliably be derived from existing assigned Services/Categories.
+
+Preferred order:
+
+1. Reuse existing explicit Specialist profession/specialty field if one exists.
+
+2. Otherwise derive professional domain from authoritative service/category relationships if this is reliable.
+
+3. Only propose/add a dedicated Specialist professional-domain field if existing relationships cannot represent the information properly.
+
+Avoid maintaining duplicate taxonomy that can become inconsistent.
+
+For example, a Specialist assigned exclusively to Barbering services should not require unrelated manually duplicated category data merely so the card can say “Barber.”
+
+---
+
+## 41. Multiple specialties
+
+Audit whether one Specialist can legitimately provide services across multiple categories.
+
+If yes, design the display accordingly.
+
+For example:
+
+Armand Fotso
+Barber · Men's Grooming
+
+or a primary specialty plus:
+
++2 specialties
+
+Do not allow an unlimited list to expand card height.
+
+The complete list can appear on the Specialist profile.
+
+---
+
+## 42. Improve Specialist identity
+
+Where authoritative data exists, consider the following hierarchy:
+
+[Professional image]
+
+Armand Fotso
+
+Barber · Men's Grooming
+
+Le Sawa Beauty Studio
+
+★ 4.8 (24)
+
+From 9,000 FCFA
+
+In-store · Online
+
+This is a conceptual hierarchy only.
+
+Do NOT display:
+
+- fabricated ratings;
+- fabricated review counts;
+- fake business relationships;
+- unsupported service modes;
+- fake prices.
+
+Only render information backed by existing data.
+
+Hide unavailable optional rows gracefully while maintaining consistent card height.
+
+---
+
+## 43. Starting-price calculation
+
+Audit exactly how:
+
+“Starting from”
+
+is currently calculated.
+
+It should represent the minimum currently bookable/eligible service price for that Specialist in the applicable storefront context.
+
+Do not simply use an arbitrary service record.
+
+Verify:
+
+- active service;
+- Specialist actually assigned to service;
+- correct business/shop;
+- correct currency;
+- applicable service variant/price architecture;
+- public/bookable status where relevant.
+
+Do not modify payment architecture.
+
+---
+
+## 44. Specialist service-location terminology
+
+Audit the existing:
+
+“Service location — Online”
+
+display.
+
+Determine what the underlying field actually means.
+
+If AgendaAlly supports:
+
+- At business
+- Online
+- At customer location
+- Multiple modes
+
+display those using concise customer-friendly terminology.
+
+Do not label every Specialist “Online” simply because an existing field happens to default to that value.
+
+If multiple modes exist, a compact presentation such as:
+
+In-store · Online
+
+is preferable to adding several vertical rows.
+
+---
+
+## 45. Public/private Specialist visibility
+
+Preserve and verify the previously approved Specialist visibility semantics.
+
+PUBLIC Specialist:
+- may appear on public storefront discovery;
+- may appear in Top Specialists;
+- may have a public profile if supported;
+- remains available during booking according to normal eligibility.
+
+PRIVATE Specialist:
+- must NOT appear in public discovery;
+- must NOT appear in Top Specialists;
+- must NOT expose a public Specialist profile;
+- may still appear at the appropriate booking stage after the Customer chooses a service from the relevant business, according to the approved design.
+
+This must be enforced server-side where public discovery APIs are involved.
+
+Do not rely only on frontend filtering.
+
+---
+
+## 46. Specialist profile audit
+
+Audit the Specialist detail/profile experience too.
+
+If a customer clicks a public Specialist, the profile should eventually provide enough context to make a booking decision.
+
+Audit availability of:
+
+- profile image;
+- full name;
+- professional domain/title;
+- specialties;
+- business/shop association;
+- biography/about;
+- services;
+- prices;
+- service modes/locations;
+- ratings/reviews;
+- portfolio/gallery if already modeled;
+- availability/book action;
+- favorite action.
+
+Do not invent missing features.
+
+If some of these are absent, distinguish:
+
+A. data already exists but UI is missing;
+B. data model exists but is incomplete;
+C. capability does not exist and requires future design.
+
+Implement small missing presentation/wiring where safe.
+
+Propose larger profile architecture changes rather than automatically expanding scope.
+
+---
+
+## 47. Responsive behavior
+
+Verify this discovery section at minimum at:
+
+- large desktop;
+- normal desktop;
+- tablet;
+- approximately 390px mobile.
+
+Desktop should make substantially better use of available width than the current implementation.
+
+Mobile should not simply compress desktop cards until their content wraps badly.
+
+Use the native responsive design system.
+
+Ensure:
+
+- no horizontal page overflow;
+- cards remain readable;
+- card heights remain visually consistent;
+- currency does not wrap unnecessarily;
+- images maintain correct proportions;
+- headings and “See all” remain aligned;
+- favorite controls remain accessible;
+- touch targets remain appropriate.
+
+---
+
+## 48. Do not disturb existing functionality
+
+Preserve:
+
+- existing business navigation;
+- Specialist navigation;
+- favorites;
+- booking;
+- service selection;
+- public/private Specialist rules;
+- authentication;
+- country/city/location context;
+- payments;
+- checkout;
+- delivery;
+- pickup;
+- Stories;
+- Delivery Driver functionality.
+
+Do not seed fake ratings/reviews merely to fill cards.
+
+Do not create fake marketplace records solely for screenshots.
+
+Use existing records for browser verification.
+
+---
+
+## 49. Focused verification
+
+Credit use is important.
+
+Do not run the entire application acceptance suite.
+
+Verify:
+
+1. Recommended businesses render correctly.
+2. Business cards have consistent dimensions.
+3. Long business names do not break the layout.
+4. Top Specialists use consistent card heights.
+5. 9,000 FCFA and 48,000 FCFA-style values remain properly formatted.
+6. Long Specialist names do not break cards.
+7. Long specialties do not change card height.
+8. Public Specialists appear where eligible.
+9. Private Specialists do not appear in public discovery.
+10. Private Specialists remain available in the approved service-first booking context.
+11. Specialist starting price is authoritative.
+12. Specialist domain/specialty comes from authoritative data.
+13. “See all” still works.
+14. Favorites still work.
+15. Desktop uses the available content area appropriately.
+16. Approximately 390px mobile has no horizontal overflow.
+17. Type/syntax checks for affected files pass.
+
+---
+
+## 50. Report and stop
+
+Report:
+
+- current discovery architecture;
+- why the current layout wastes desktop space;
+- cause of inconsistent Specialist card heights;
+- exact design changes;
+- whether Specialist professional domain already existed;
+- whether specialty was derived from Services/Categories or required a new field;
+- how multiple specialties are handled;
+- how starting price is calculated;
+- how service location/mode is determined;
+- public/private Specialist behavior;
+- Specialist profile findings;
+- responsive verification;
+- exact files changed;
+- focused tests/checks performed;
+- any larger Specialist-profile improvement left as a proposal.
+
+Then STOP.
+
+Do not proceed into unrelated marketplace redesign, payments, pickup scheduling, Delivery Driver work or another phase automatically.

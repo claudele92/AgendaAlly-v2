@@ -1,0 +1,3555 @@
+{
+  "files": [
+    {
+      "path": ".migration-backup/customer_app/.gitignore",
+      "bytes": 744
+    },
+    {
+      "path": ".migration-backup/customer_app/.metadata",
+      "bytes": 1706
+    },
+    {
+      "path": ".migration-backup/customer_app/APP_LINKS_CONFIGURATION.md",
+      "bytes": 6796
+    },
+    {
+      "path": ".migration-backup/customer_app/README.md",
+      "bytes": 31157
+    },
+    {
+      "path": ".migration-backup/customer_app/analysis_options.yaml",
+      "bytes": 1509
+    },
+    {
+      "path": ".migration-backup/customer_app/android/.gitignore",
+      "bytes": 293
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/build.gradle",
+      "bytes": 3394
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/debug/AndroidManifest.xml",
+      "bytes": 378
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/AndroidManifest.xml",
+      "bytes": 5407
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/kotlin/com/ibeauty/ibeauty/MainActivity.kt",
+      "bytes": 120
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/drawable/background.png",
+      "bytes": 389593
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/drawable/launch_background.xml",
+      "bytes": 224
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/drawable-hdpi/ic_launcher_foreground.png",
+      "bytes": 3481
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/drawable-mdpi/ic_launcher_foreground.png",
+      "bytes": 2374
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/drawable-v21/background.png",
+      "bytes": 389593
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/drawable-v21/launch_background.xml",
+      "bytes": 224
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/drawable-xhdpi/ic_launcher_foreground.png",
+      "bytes": 4666
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/drawable-xxhdpi/ic_launcher_foreground.png",
+      "bytes": 6673
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/drawable-xxxhdpi/ic_launcher_foreground.png",
+      "bytes": 8165
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-anydpi-v26/launcher_icon.xml",
+      "bytes": 335
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "bytes": 1625
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-hdpi/launcher_icon.png",
+      "bytes": 1613
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "bytes": 1088
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-mdpi/launcher_icon.png",
+      "bytes": 1093
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "bytes": 2150
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-xhdpi/launcher_icon.png",
+      "bytes": 2157
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "bytes": 3102
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-xxhdpi/launcher_icon.png",
+      "bytes": 3094
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "bytes": 4144
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/mipmap-xxxhdpi/launcher_icon.png",
+      "bytes": 4148
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/values/colors.xml",
+      "bytes": 120
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/values/strings.xml",
+      "bytes": 107
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/values/styles.xml",
+      "bytes": 1265
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/values-night/styles.xml",
+      "bytes": 1264
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/values-night-v31/styles.xml",
+      "bytes": 1057
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/main/res/values-v31/styles.xml",
+      "bytes": 1057
+    },
+    {
+      "path": ".migration-backup/customer_app/android/app/src/profile/AndroidManifest.xml",
+      "bytes": 378
+    },
+    {
+      "path": ".migration-backup/customer_app/android/build.gradle",
+      "bytes": 322
+    },
+    {
+      "path": ".migration-backup/customer_app/android/gradle/wrapper/gradle-wrapper.properties",
+      "bytes": 251
+    },
+    {
+      "path": ".migration-backup/customer_app/android/gradle.properties",
+      "bytes": 122
+    },
+    {
+      "path": ".migration-backup/customer_app/android/settings.gradle",
+      "bytes": 860
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/app_logo.png",
+      "bytes": 7990
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/background.png",
+      "bytes": 389593
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/darkBg.jpeg",
+      "bytes": 342383
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/delivery.png",
+      "bytes": 282646
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/emptyCart.png",
+      "bytes": 27575
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/fast.png",
+      "bytes": 260007
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/gift.png",
+      "bytes": 156170
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/kingdom.png",
+      "bytes": 68572
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/lightBg.jpeg",
+      "bytes": 149142
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/masterEmpty.png",
+      "bytes": 6466
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/payment_rejected.png",
+      "bytes": 61696
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/salonEmpty.png",
+      "bytes": 7173
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/save.png",
+      "bytes": 449881
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/search_bg.png",
+      "bytes": 161570
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service1.png",
+      "bytes": 2072
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service10.png",
+      "bytes": 1425
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service11.png",
+      "bytes": 1662
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service12.png",
+      "bytes": 1515
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service2.png",
+      "bytes": 1884
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service3.png",
+      "bytes": 1465
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service4.png",
+      "bytes": 2351
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service5.png",
+      "bytes": 2159
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service6.png",
+      "bytes": 1752
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service7.png",
+      "bytes": 1642
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service8.png",
+      "bytes": 1413
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/service9.png",
+      "bytes": 1641
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/set.png",
+      "bytes": 348734
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/splash.png",
+      "bytes": 389593
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/ui_four.png",
+      "bytes": 1871607
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/ui_one.png",
+      "bytes": 2167905
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/ui_three.png",
+      "bytes": 967259
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/ui_two.png",
+      "bytes": 1845581
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/images/wallet.png",
+      "bytes": 50436
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/lottie/empty_list.json",
+      "bytes": 27375
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/lottie/empty_review.json",
+      "bytes": 30403
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/lottie/noImage.json",
+      "bytes": 26836
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/lottie/noItem.json",
+      "bytes": 56217
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/lottie/notification_empty.json",
+      "bytes": 36733
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/lottie/order_not.json",
+      "bytes": 72651
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/lottie/pin.json",
+      "bytes": 71543
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/lottie/processing.json",
+      "bytes": 68432
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/badge.svg",
+      "bytes": 990
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/bag.svg",
+      "bytes": 682
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/bag1.svg",
+      "bytes": 1124
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/booking1.svg",
+      "bytes": 3207
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/calendar.svg",
+      "bytes": 1397
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/category.svg",
+      "bytes": 750
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/cleanliness.svg",
+      "bytes": 868
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/communication.svg",
+      "bytes": 1527
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/contact.svg",
+      "bytes": 1376
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/discount.svg",
+      "bytes": 1872
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/equipment.svg",
+      "bytes": 1133
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/filter.svg",
+      "bytes": 540
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/home.svg",
+      "bytes": 557
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/home1.svg",
+      "bytes": 546
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/inStock.svg",
+      "bytes": 2875
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/interior.svg",
+      "bytes": 5917
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/like.svg",
+      "bytes": 465
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/likeButtom.svg",
+      "bytes": 678
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/location.svg",
+      "bytes": 2646
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/masters.svg",
+      "bytes": 3274
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/medal.svg",
+      "bytes": 1811
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/menu.svg",
+      "bytes": 535
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/noGift.svg",
+      "bytes": 18969
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/noMembership.svg",
+      "bytes": 12406
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/notification.svg",
+      "bytes": 1145
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/outOfStock.svg",
+      "bytes": 1215
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/price.svg",
+      "bytes": 4243
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/profile1.svg",
+      "bytes": 1869
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/search.svg",
+      "bytes": 426
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/selectBag.svg",
+      "bytes": 2031
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/selectCalendar.svg",
+      "bytes": 3203
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/selectHome.svg",
+      "bytes": 667
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/selectLike.svg",
+      "bytes": 473
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/selectMenu.svg",
+      "bytes": 2551
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/selectSearch.svg",
+      "bytes": 567
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/service1.svg",
+      "bytes": 969
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/service_quality.svg",
+      "bytes": 2717
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/share.svg",
+      "bytes": 888
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/start.svg",
+      "bytes": 793
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/unlike.svg",
+      "bytes": 844
+    },
+    {
+      "path": ".migration-backup/customer_app/assets/svg/verify.svg",
+      "bytes": 1456
+    },
+    {
+      "path": ".migration-backup/customer_app/devtools_options.yaml",
+      "bytes": 12
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/.gitignore",
+      "bytes": 743
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Flutter/AppFrameworkInfo.plist",
+      "bytes": 774
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Flutter/Debug.xcconfig",
+      "bytes": 172
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Flutter/Release.xcconfig",
+      "bytes": 175
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Flutter/inject_native_defines.sh",
+      "bytes": 1121
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Podfile",
+      "bytes": 2449
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Podfile.lock",
+      "bytes": 62418
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/AppDelegate.swift",
+      "bytes": 1069
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "bytes": 2097
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
+      "bytes": 26370
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png",
+      "bytes": 411
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png",
+      "bytes": 833
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png",
+      "bytes": 1277
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png",
+      "bytes": 596
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png",
+      "bytes": 1202
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png",
+      "bytes": 1856
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png",
+      "bytes": 833
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png",
+      "bytes": 1678
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png",
+      "bytes": 2557
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png",
+      "bytes": 1051
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png",
+      "bytes": 2112
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png",
+      "bytes": 1185
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png",
+      "bytes": 2385
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png",
+      "bytes": 2557
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png",
+      "bytes": 3806
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png",
+      "bytes": 1515
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png",
+      "bytes": 2986
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png",
+      "bytes": 1568
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png",
+      "bytes": 3133
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png",
+      "bytes": 3424
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/LaunchBackground.imageset/Contents.json",
+      "bytes": 308
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/LaunchBackground.imageset/background.png",
+      "bytes": 389593
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json",
+      "bytes": 391
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png",
+      "bytes": 69
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png",
+      "bytes": 69
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png",
+      "bytes": 69
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md",
+      "bytes": 336
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Base.lproj/LaunchScreen.storyboard",
+      "bytes": 3487
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Base.lproj/Main.storyboard",
+      "bytes": 1809
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Info.plist",
+      "bytes": 4533
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Runner-Bridging-Header.h",
+      "bytes": 38
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner/Runner.entitlements",
+      "bytes": 497
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner.xcodeproj/project.pbxproj",
+      "bytes": 34591
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+      "bytes": 135
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "bytes": 238
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings",
+      "bytes": 226
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved",
+      "bytes": 396
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme",
+      "bytes": 4648
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner.xcworkspace/contents.xcworkspacedata",
+      "bytes": 224
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "bytes": 238
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings",
+      "bytes": 226
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved",
+      "bytes": 396
+    },
+    {
+      "path": ".migration-backup/customer_app/ios/RunnerTests/RunnerTests.swift",
+      "bytes": 285
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/app_constants.dart",
+      "bytes": 2131
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/address/address_bloc.dart",
+      "bytes": 6161
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/address/address_bloc.freezed.dart",
+      "bytes": 47153
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/address/address_event.dart",
+      "bytes": 1417
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/address/address_state.dart",
+      "bytes": 485
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/auth/auth_bloc.dart",
+      "bytes": 14783
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/auth/auth_bloc.freezed.dart",
+      "bytes": 67668
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/auth/auth_event.dart",
+      "bytes": 2624
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/auth/auth_state.dart",
+      "bytes": 491
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/banner/banner_bloc.dart",
+      "bytes": 6115
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/banner/banner_bloc.freezed.dart",
+      "bytes": 38012
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/banner/banner_event.dart",
+      "bytes": 1019
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/banner/banner_state.dart",
+      "bytes": 488
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/become_seller/become_seller_bloc.dart",
+      "bytes": 3306
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/become_seller/become_seller_bloc.freezed.dart",
+      "bytes": 32413
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/become_seller/become_seller_event.dart",
+      "bytes": 850
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/become_seller/become_seller_state.dart",
+      "bytes": 446
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/blog/blog_bloc.dart",
+      "bytes": 2086
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/blog/blog_bloc.freezed.dart",
+      "bytes": 19490
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/blog/blog_event.dart",
+      "bytes": 354
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/blog/blog_state.dart",
+      "bytes": 277
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/booking/booking_bloc.dart",
+      "bytes": 15975
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/booking/booking_bloc.freezed.dart",
+      "bytes": 90271
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/booking/booking_event.dart",
+      "bytes": 3034
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/booking/booking_state.dart",
+      "bytes": 869
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/brand/brand_bloc.dart",
+      "bytes": 1702
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/brand/brand_bloc.freezed.dart",
+      "bytes": 16517
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/brand/brand_event.dart",
+      "bytes": 246
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/brand/brand_state.dart",
+      "bytes": 210
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/cart/cart_bloc.dart",
+      "bytes": 12591
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/cart/cart_bloc.freezed.dart",
+      "bytes": 53313
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/cart/cart_event.dart",
+      "bytes": 1741
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/cart/cart_state.dart",
+      "bytes": 478
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/category/category_bloc.dart",
+      "bytes": 3481
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/category/category_bloc.freezed.dart",
+      "bytes": 30036
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/category/category_event.dart",
+      "bytes": 707
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/category/category_state.dart",
+      "bytes": 398
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/chat/chat_bloc.dart",
+      "bytes": 3454
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/chat/chat_bloc.freezed.dart",
+      "bytes": 34694
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/chat/chat_event.dart",
+      "bytes": 1146
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/chat/chat_state.dart",
+      "bytes": 289
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/checkout/checkout_bloc.dart",
+      "bytes": 6234
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/checkout/checkout_bloc.freezed.dart",
+      "bytes": 62403
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/checkout/checkout_event.dart",
+      "bytes": 1619
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/checkout/checkout_state.dart",
+      "bytes": 797
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/compare/compare_bloc.dart",
+      "bytes": 3574
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/compare/compare_bloc.freezed.dart",
+      "bytes": 19728
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/compare/compare_event.dart",
+      "bytes": 348
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/compare/compare_state.dart",
+      "bytes": 335
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/drawing_route/drawing_route_bloc.dart",
+      "bytes": 12470
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/drawing_route/drawing_route_bloc.freezed.dart",
+      "bytes": 23892
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/drawing_route/drawing_route_event.dart",
+      "bytes": 543
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/drawing_route/drawing_route_state.dart",
+      "bytes": 371
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/filter/filter_bloc.dart",
+      "bytes": 4661
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/filter/filter_bloc.freezed.dart",
+      "bytes": 50525
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/filter/filter_event.dart",
+      "bytes": 1216
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/filter/filter_state.dart",
+      "bytes": 725
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/form_option/form_bloc.dart",
+      "bytes": 1641
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/form_option/form_bloc.freezed.dart",
+      "bytes": 22960
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/form_option/form_event.dart",
+      "bytes": 491
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/form_option/form_state.dart",
+      "bytes": 296
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/game/game_bloc.dart",
+      "bytes": 11235
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/game/game_bloc.freezed.dart",
+      "bytes": 29076
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/game/game_event.dart",
+      "bytes": 915
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/game/game_state.dart",
+      "bytes": 247
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/gift_cart/gift_cart_bloc.dart",
+      "bytes": 6121
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/gift_cart/gift_cart_bloc.freezed.dart",
+      "bytes": 41828
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/gift_cart/gift_cart_event.dart",
+      "bytes": 1110
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/gift_cart/gift_cart_state.dart",
+      "bytes": 556
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/main/main_bloc.dart",
+      "bytes": 749
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/main/main_bloc.freezed.dart",
+      "bytes": 18258
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/main/main_event.dart",
+      "bytes": 311
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/main/main_state.dart",
+      "bytes": 238
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/maksekeskus/maksekeskus_bloc.dart",
+      "bytes": 1476
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/maksekeskus/maksekeskus_bloc.freezed.dart",
+      "bytes": 19328
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/maksekeskus/maksekeskus_event.dart",
+      "bytes": 429
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/maksekeskus/maksekeskus_state.dart",
+      "bytes": 294
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/map/map_bloc.dart",
+      "bytes": 7437
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/map/map_bloc.freezed.dart",
+      "bytes": 46073
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/map/map_event.dart",
+      "bytes": 1124
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/map/map_state.dart",
+      "bytes": 470
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/master/master_bloc.dart",
+      "bytes": 3232
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/master/master_bloc.freezed.dart",
+      "bytes": 28099
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/master/master_event.dart",
+      "bytes": 703
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/master/master_state.dart",
+      "bytes": 353
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/membership/membership_bloc.dart",
+      "bytes": 6714
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/membership/membership_bloc.freezed.dart",
+      "bytes": 45841
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/membership/membership_event.dart",
+      "bytes": 1276
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/membership/membership_state.dart",
+      "bytes": 574
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/new_ui/new_ui_bloc.dart",
+      "bytes": 429
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/new_ui/new_ui_bloc.freezed.dart",
+      "bytes": 14056
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/new_ui/new_ui_event.dart",
+      "bytes": 196
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/new_ui/new_ui_state.dart",
+      "bytes": 196
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/notification/notification_bloc.dart",
+      "bytes": 4059
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/notification/notification_bloc.freezed.dart",
+      "bytes": 28305
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/notification/notification_event.dart",
+      "bytes": 653
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/notification/notification_state.dart",
+      "bytes": 369
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/order/order_bloc.dart",
+      "bytes": 7073
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/order/order_bloc.freezed.dart",
+      "bytes": 43396
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/order/order_event.dart",
+      "bytes": 1238
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/order/order_state.dart",
+      "bytes": 555
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/parcel/parcel_bloc.dart",
+      "bytes": 6987
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/parcel/parcel_bloc.freezed.dart",
+      "bytes": 54382
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/parcel/parcel_event.dart",
+      "bytes": 1729
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/parcel/parcel_state.dart",
+      "bytes": 733
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/parcels_list/parcels_list_bloc.dart",
+      "bytes": 2951
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/parcels_list/parcels_list_bloc.freezed.dart",
+      "bytes": 23900
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/parcels_list/parcels_list_event.dart",
+      "bytes": 431
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/parcels_list/parcels_list_state.dart",
+      "bytes": 387
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/product_detail/product_detail_bloc.dart",
+      "bytes": 8838
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/product_detail/product_detail_bloc.freezed.dart",
+      "bytes": 52702
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/product_detail/product_detail_event.dart",
+      "bytes": 1436
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/product_detail/product_detail_state.dart",
+      "bytes": 801
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/products/product_bloc.dart",
+      "bytes": 11842
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/products/product_bloc.freezed.dart",
+      "bytes": 62485
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/products/product_event.dart",
+      "bytes": 1739
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/products/product_state.dart",
+      "bytes": 861
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/profile/profile_bloc.dart",
+      "bytes": 7722
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/profile/profile_bloc.freezed.dart",
+      "bytes": 61970
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/profile/profile_event.dart",
+      "bytes": 1642
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/profile/profile_state.dart",
+      "bytes": 911
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/review/review_bloc.dart",
+      "bytes": 7519
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/review/review_bloc.freezed.dart",
+      "bytes": 47002
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/review/review_event.dart",
+      "bytes": 1361
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/review/review_state.dart",
+      "bytes": 514
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/search/search_bloc.dart",
+      "bytes": 3598
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/search/search_bloc.freezed.dart",
+      "bytes": 35121
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/search/search_event.dart",
+      "bytes": 655
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/search/search_state.dart",
+      "bytes": 600
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/service/direct/direct_service_bloc.dart",
+      "bytes": 1434
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/service/direct/direct_service_bloc.freezed.dart",
+      "bytes": 17516
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/service/direct/direct_service_event.dart",
+      "bytes": 326
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/service/direct/direct_service_state.dart",
+      "bytes": 290
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/service/service_bloc.dart",
+      "bytes": 6629
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/service/service_bloc.freezed.dart",
+      "bytes": 44298
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/service/service_event.dart",
+      "bytes": 1373
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/service/service_state.dart",
+      "bytes": 459
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/shop/shop_bloc.dart",
+      "bytes": 8208
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/shop/shop_bloc.freezed.dart",
+      "bytes": 52566
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/shop/shop_event.dart",
+      "bytes": 1541
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/shop/shop_state.dart",
+      "bytes": 656
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/story/story_bloc.dart",
+      "bytes": 1612
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/story/story_bloc.freezed.dart",
+      "bytes": 16024
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/story/story_event.dart",
+      "bytes": 227
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/story/story_state.dart",
+      "bytes": 220
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/wallet/wallet_bloc.dart",
+      "bytes": 5702
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/wallet/wallet_bloc.freezed.dart",
+      "bytes": 36048
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/wallet/wallet_event.dart",
+      "bytes": 1011
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/application/wallet/wallet_state.dart",
+      "bytes": 450
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/di/dependency_manager.dart",
+      "bytes": 5500
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/address.dart",
+      "bytes": 1775
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/auth.dart",
+      "bytes": 1833
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/banner.dart",
+      "bytes": 829
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/blog.dart",
+      "bytes": 386
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/booking.dart",
+      "bytes": 1790
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/brands.dart",
+      "bytes": 424
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/cart.dart",
+      "bytes": 1626
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/category.dart",
+      "bytes": 528
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/chat.dart",
+      "bytes": 1093
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/form.dart",
+      "bytes": 327
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/gallery.dart",
+      "bytes": 518
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/master.dart",
+      "bytes": 654
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/order.dart",
+      "bytes": 1028
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/parcel.dart",
+      "bytes": 1635
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/payments.dart",
+      "bytes": 1518
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/products.dart",
+      "bytes": 2323
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/review.dart",
+      "bytes": 1801
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/service.dart",
+      "bytes": 535
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/settings.dart",
+      "bytes": 998
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/shop.dart",
+      "bytes": 2847
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/interface/user.dart",
+      "bytes": 2357
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/address_info.dart",
+      "bytes": 1164
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/address_model.dart",
+      "bytes": 1571
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/blog_model.dart",
+      "bytes": 2769
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/brand_data.dart",
+      "bytes": 1707
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/chat_model.dart",
+      "bytes": 1232
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/cluster_model.dart",
+      "bytes": 483
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/country_model.dart",
+      "bytes": 1347
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/coupon_model.dart",
+      "bytes": 1801
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/create_order_model.dart",
+      "bytes": 2715
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/currency_model.dart",
+      "bytes": 1843
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/faq_model.dart",
+      "bytes": 2410
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/filter_shop_model.dart",
+      "bytes": 2585
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/local_cart_model.dart",
+      "bytes": 587
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/location_model.dart",
+      "bytes": 777
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/maksekeskus_data.dart",
+      "bytes": 5217
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/master_model.dart",
+      "bytes": 6750
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/message_model.dart",
+      "bytes": 1097
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/meta_model.dart",
+      "bytes": 355
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/notification_data.dart",
+      "bytes": 1193
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/order_model.dart",
+      "bytes": 13818
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/parcel_order_model.dart",
+      "bytes": 7760
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/product_model.dart",
+      "bytes": 22021
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/referral_model.dart",
+      "bytes": 1322
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/review_data.dart",
+      "bytes": 4114
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/review_statistic_model.dart",
+      "bytes": 776
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/service_extra.dart",
+      "bytes": 1837
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/service_model.dart",
+      "bytes": 4264
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/shop_delivery_model.dart",
+      "bytes": 2516
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/shop_filter_model.dart",
+      "bytes": 2525
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/shop_model.dart",
+      "bytes": 13138
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/stepper_steps.dart",
+      "bytes": 887
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/story_model.dart",
+      "bytes": 1941
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/tag_model.dart",
+      "bytes": 1008
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/translation_model.dart",
+      "bytes": 1714
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/typed_extra.dart",
+      "bytes": 644
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/model/user_model.dart",
+      "bytes": 10465
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/models.dart",
+      "bytes": 964
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/request/add_user_address_model.dart",
+      "bytes": 1666
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/request/create_shop_request.dart",
+      "bytes": 3402
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/ads_response.dart",
+      "bytes": 6704
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/banners_paginate_response.dart",
+      "bytes": 3680
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/blog_details_response.dart",
+      "bytes": 1279
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/blogs_paginate_response.dart",
+      "bytes": 718
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/booking_calculate_response.dart",
+      "bytes": 5925
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/booking_response.dart",
+      "bytes": 9092
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/brands_paginate_response.dart",
+      "bytes": 728
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/cart_calculate_response.dart",
+      "bytes": 7604
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/cart_response.dart",
+      "bytes": 9283
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/categories_paginate_response.dart",
+      "bytes": 3729
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/check_time_response.dart",
+      "bytes": 3768
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/city_pagination_response.dart",
+      "bytes": 6528
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/compare_response.dart",
+      "bytes": 878
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/count_of_notifications_data.dart",
+      "bytes": 674
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/country_paginate_response.dart",
+      "bytes": 733
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/currencies_response.dart",
+      "bytes": 1386
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/delivery_point_response.dart",
+      "bytes": 11066
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/digital_list_response.dart",
+      "bytes": 2819
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/draw_routing_response.dart",
+      "bytes": 6641
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/filter_response.dart",
+      "bytes": 3573
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/form_options_response.dart",
+      "bytes": 3945
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/gallary_list_response.dart",
+      "bytes": 1598
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/gallery_upload_response.dart",
+      "bytes": 1243
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/gift_cart_response.dart",
+      "bytes": 2113
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/global_settings_response.dart",
+      "bytes": 2599
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/help_response.dart",
+      "bytes": 3668
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/languages_response.dart",
+      "bytes": 2926
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/login_response.dart",
+      "bytes": 2239
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/maksekeskus_response.dart",
+      "bytes": 1097
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/master_response.dart",
+      "bytes": 722
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/membership_response.dart",
+      "bytes": 3682
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/mobile_translations_response.dart",
+      "bytes": 997
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/my_gift_cart_response.dart",
+      "bytes": 2069
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/my_membership_response.dart",
+      "bytes": 3712
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/notification_response.dart",
+      "bytes": 5980
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/order_pagenation_response.dart",
+      "bytes": 1010
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/parcel_calculate_response.dart",
+      "bytes": 1387
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/parcel_paginate_response.dart",
+      "bytes": 1051
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/parcel_response.dart",
+      "bytes": 7637
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/payments_response.dart",
+      "bytes": 2734
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/product_calculate_response.dart",
+      "bytes": 7308
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/products_paginate_response.dart",
+      "bytes": 1340
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/profile_response.dart",
+      "bytes": 580
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/refund_pagination_response.dart",
+      "bytes": 1502
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/register_response.dart",
+      "bytes": 1858
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/review_check_response.dart",
+      "bytes": 1541
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/review_options_response.dart",
+      "bytes": 2566
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/review_pagination_response.dart",
+      "bytes": 10534
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/search_user_response.dart",
+      "bytes": 1074
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/service_of_master_response.dart",
+      "bytes": 1455
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/services_response.dart",
+      "bytes": 733
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/shop_images_response.dart",
+      "bytes": 2014
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/shops_paginate_response.dart",
+      "bytes": 718
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/single_brand_response.dart",
+      "bytes": 600
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/single_product_response.dart",
+      "bytes": 1307
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/single_service_response.dart",
+      "bytes": 1287
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/single_shop_response.dart",
+      "bytes": 590
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/transaction_histories_response.dart",
+      "bytes": 4740
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/transactions_response.dart",
+      "bytes": 7875
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/user_address_response.dart",
+      "bytes": 3784
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/domain/model/response/verify_phone_response.dart",
+      "bytes": 1977
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/game/components/animated_tile.dart",
+      "bytes": 2302
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/game/components/button.dart",
+      "bytes": 1309
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/game/components/empy_board.dart",
+      "bytes": 1424
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/game/components/score_board.dart",
+      "bytes": 2226
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/game/components/tile_board.dart",
+      "bytes": 3885
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/game/const/colors.dart",
+      "bytes": 944
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/game/game.dart",
+      "bytes": 6284
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/game/models/board.dart",
+      "bytes": 1046
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/game/models/tile.dart",
+      "bytes": 1412
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/app_links/app_links_service.dart",
+      "bytes": 3390
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/app_links/deep_link_utils.dart",
+      "bytes": 1722
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/firebase/firebase_service.dart",
+      "bytes": 4988
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/local_storage/local_storage.dart",
+      "bytes": 16074
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/local_storage/storage_keys.dart",
+      "bytes": 1328
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/address_repository.dart",
+      "bytes": 10089
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/auth_repository.dart",
+      "bytes": 9605
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/banners_repository.dart",
+      "bytes": 6529
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/blogs_repository.dart",
+      "bytes": 2030
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/booking_repository.dart",
+      "bytes": 10438
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/brands_repository.dart",
+      "bytes": 2014
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/cart_repository.dart",
+      "bytes": 14790
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/categories_repository.dart",
+      "bytes": 3615
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/chat_repository.dart",
+      "bytes": 6246
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/form_repository.dart",
+      "bytes": 1710
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/gallery_repository.dart",
+      "bytes": 2745
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/master_repository.dart",
+      "bytes": 5086
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/order_repository.dart",
+      "bytes": 7199
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/parcel_repository.dart",
+      "bytes": 7402
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/payments_repository.dart",
+      "bytes": 7266
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/products_repository.dart",
+      "bytes": 17086
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/review_repository.dart",
+      "bytes": 8073
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/service_repository.dart",
+      "bytes": 3968
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/settings_repository.dart",
+      "bytes": 5918
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/shops_repository.dart",
+      "bytes": 15762
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/repository/user_repository.dart",
+      "bytes": 14463
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/enums.dart",
+      "bytes": 437
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/extensions.dart",
+      "bytes": 278
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/helper.dart",
+      "bytes": 29829
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/http_service.dart",
+      "bytes": 1035
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/img_service.dart",
+      "bytes": 5684
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/language_meneger.dart",
+      "bytes": 807
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/list_constants.dart",
+      "bytes": 3753
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/marker_image_cropper.dart",
+      "bytes": 5326
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/services.dart",
+      "bytes": 295
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/stock_format.dart",
+      "bytes": 3424
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/time_service.dart",
+      "bytes": 5256
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/token_interceptor.dart",
+      "bytes": 534
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/tr_keys.dart",
+      "bytes": 30477
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/typing_delay.dart",
+      "bytes": 392
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/validators.dart",
+      "bytes": 2117
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/infrastructure/service/vibration.dart",
+      "bytes": 1623
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/main.dart",
+      "bytes": 1493
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/app_assets.dart",
+      "bytes": 5528
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/app_widget.dart",
+      "bytes": 4861
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/animations/fade_in_animation.dart",
+      "bytes": 1652
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/auth_tab_bar.dart",
+      "bytes": 2670
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/badge_item.dart",
+      "bytes": 722
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/blog_item.dart",
+      "bytes": 3260
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/bottom_sheets/ads_bottom_sheet.dart",
+      "bytes": 4147
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/bottom_sheets/banner_bottom_sheet.dart",
+      "bytes": 2678
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/bottom_sheets/blog_bottom_sheet.dart",
+      "bytes": 3308
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/bottom_sheets/looks_bottom_sheet.dart",
+      "bytes": 4552
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/button/animation_button_effect.dart",
+      "bytes": 1780
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/button/custom_button.dart",
+      "bytes": 1552
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/button/custom_icon_button.dart",
+      "bytes": 1184
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/button/filter_button.dart",
+      "bytes": 1047
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/button/pop_button.dart",
+      "bytes": 849
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/button/second_button.dart",
+      "bytes": 1262
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/casa_vertical_stepper_view.dart",
+      "bytes": 6390
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/common_app_bar.dart",
+      "bytes": 1363
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/components.dart",
+      "bytes": 1581
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/currency_text_field.dart",
+      "bytes": 3013
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/custom_image.dart",
+      "bytes": 5881
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/custom_network_image.dart",
+      "bytes": 6457
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/custom_phone_field.dart",
+      "bytes": 17222
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/custom_range_slider.dart",
+      "bytes": 3377
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/custom_read_more.dart",
+      "bytes": 1377
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/custom_scaffold.dart",
+      "bytes": 4443
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/custom_tab_bar.dart",
+      "bytes": 1539
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/custom_text_field.dart",
+      "bytes": 4500
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/custom_toggle.dart",
+      "bytes": 3199
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/extras/color_extras.dart",
+      "bytes": 6033
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/extras/color_one_extras.dart",
+      "bytes": 6148
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/extras/color_two_extras.dart",
+      "bytes": 6259
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/extras/image_extras.dart",
+      "bytes": 3065
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/extras/text_extras.dart",
+      "bytes": 3000
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/extras/text_one_extras.dart",
+      "bytes": 2898
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/extras/text_two_extras.dart",
+      "bytes": 2725
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/helpers/blur_wrap.dart",
+      "bytes": 522
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/helpers/modal_drag.dart",
+      "bytes": 858
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/helpers/modal_wrap.dart",
+      "bytes": 1842
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/join_dialog.dart",
+      "bytes": 4595
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/keyboard_dismisser.dart",
+      "bytes": 7123
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/loading.dart",
+      "bytes": 772
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/maps_list.dart",
+      "bytes": 2102
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/master_item/master_item.dart",
+      "bytes": 8673
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/price_item.dart",
+      "bytes": 2040
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/product_items/grid_product_item.dart",
+      "bytes": 3877
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/product_items/new_product_item.dart",
+      "bytes": 5245
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/product_items/one_product_item.dart",
+      "bytes": 14810
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/product_items/product_info.dart",
+      "bytes": 6806
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/product_items/product_info_two.dart",
+      "bytes": 5790
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/product_items/product_item.dart",
+      "bytes": 13590
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/product_items/vertical_product_item.dart",
+      "bytes": 16679
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/red_more_html.dart",
+      "bytes": 1327
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/service_category_item.dart",
+      "bytes": 4025
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/service_item.dart",
+      "bytes": 12717
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/shimmer/banner_shimmer.dart",
+      "bytes": 790
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/shimmer/category_shimmer.dart",
+      "bytes": 1591
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/shimmer/h_product_shimmer.dart",
+      "bytes": 867
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/shimmer/products_shimmer.dart",
+      "bytes": 1029
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/shimmer/shops_shimmer.dart",
+      "bytes": 897
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/shop_items/shop_item.dart",
+      "bytes": 10532
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/sub_category_item.dart",
+      "bytes": 1892
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/title.dart",
+      "bytes": 2931
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/use_wallet_widget.dart",
+      "bytes": 3858
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/video_page.dart",
+      "bytes": 1978
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/wallet_pay_dialog.dart",
+      "bytes": 4322
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/components/web_view.dart",
+      "bytes": 1431
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/address/add_edit_address.dart",
+      "bytes": 12440
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/app_setting/app_setting.dart",
+      "bytes": 5563
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/app_setting/widgets/currency.dart",
+      "bytes": 12239
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/app_setting/widgets/language.dart",
+      "bytes": 12025
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/auth/auth_page.dart",
+      "bytes": 5393
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/auth/confirm_screen.dart",
+      "bytes": 14765
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/auth/forget_password.dart",
+      "bytes": 7419
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/auth/login_screen.dart",
+      "bytes": 13974
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/auth/sign_up_field_screen.dart",
+      "bytes": 13556
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/auth/sign_up_screen.dart",
+      "bytes": 10127
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/auth/update_password.dart",
+      "bytes": 7624
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/auth/widgets/send_again_button.dart",
+      "bytes": 2699
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/auth/widgets/social_button.dart",
+      "bytes": 1012
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/become_seller/become_seller.dart",
+      "bytes": 13943
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/become_seller/widgets/bg_image_screen.dart",
+      "bytes": 4007
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/become_seller/widgets/delivery_info.dart",
+      "bytes": 7946
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/become_seller/widgets/doc_screen.dart",
+      "bytes": 3785
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/become_seller/widgets/logo_screen.dart",
+      "bytes": 4407
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/blog/blog_list_page.dart",
+      "bytes": 3186
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/blog/blog_screen.dart",
+      "bytes": 3026
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/blog/widgets/blog_title.dart",
+      "bytes": 2687
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/add_note_page.dart",
+      "bytes": 27145
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/address_list.dart",
+      "bytes": 7320
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/booking_list.dart",
+      "bytes": 5430
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/booking_payment_page.dart",
+      "bytes": 9492
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/booking_screen.dart",
+      "bytes": 20202
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/confirm_page.dart",
+      "bytes": 2311
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/failure_page.dart",
+      "bytes": 2583
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/form_page.dart",
+      "bytes": 16505
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/notes_page.dart",
+      "bytes": 8731
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/select_book_time.dart",
+      "bytes": 12848
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/select_master.dart",
+      "bytes": 11709
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/select_time_modal.dart",
+      "bytes": 8487
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/widget/add_review_booking.dart",
+      "bytes": 8506
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/widget/booked_service.dart",
+      "bytes": 7894
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/widget/booking_item.dart",
+      "bytes": 7770
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/widget/cancel_screen.dart",
+      "bytes": 3922
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/widget/coupon.dart",
+      "bytes": 1685
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/widget/custom_date_picker.dart",
+      "bytes": 22574
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/widget/select_gift_screen.dart",
+      "bytes": 8865
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/widget/select_master_bottom.dart",
+      "bytes": 9697
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/booking/widget/select_membership_screen.dart",
+      "bytes": 9695
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/cart/cart_page.dart",
+      "bytes": 7472
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/cart/widget/cart_item.dart",
+      "bytes": 17538
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/cart/widget/cheque.dart",
+      "bytes": 14578
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/cart/widget/coupon.dart",
+      "bytes": 1689
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/cart/widget/group_cart.dart",
+      "bytes": 9033
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/cart/widget/my_cart_screen.dart",
+      "bytes": 8666
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/cart/widget/note_product.dart",
+      "bytes": 4505
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/category/category_page.dart",
+      "bytes": 3787
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/category/widgets/shop_item.dart",
+      "bytes": 3130
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/category/widgets/story_item.dart",
+      "bytes": 1726
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/category/widgets/sub_category_list.dart",
+      "bytes": 1992
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/chat/chat_list_page.dart",
+      "bytes": 5172
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/chat/chat_page.dart",
+      "bytes": 11365
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/chat/widget/chat_item.dart",
+      "bytes": 2407
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/chat/widget/focused_custom_menu.dart",
+      "bytes": 15558
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/chat/widget/image_chat_screen.dart",
+      "bytes": 1263
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/chat/widget/message_item.dart",
+      "bytes": 15254
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/chat/widget/send_button.dart",
+      "bytes": 6381
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/checkout_page.dart",
+      "bytes": 16683
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/congrats_page.dart",
+      "bytes": 2831
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/delivered_screen.dart",
+      "bytes": 5433
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/delivery_points.dart",
+      "bytes": 5673
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/delivery_tip_screen.dart",
+      "bytes": 6260
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/maksekeskus_screen.dart",
+      "bytes": 3478
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/payment_screen.dart",
+      "bytes": 2782
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/shipping_screen.dart",
+      "bytes": 2293
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/verify_screen.dart",
+      "bytes": 7317
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/widget/address_item.dart",
+      "bytes": 4245
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/widget/checkout_product_item.dart",
+      "bytes": 11391
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/widget/custom_circular.dart",
+      "bytes": 2792
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/widget/select_date.dart",
+      "bytes": 2526
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/widget/select_delivery_point.dart",
+      "bytes": 5910
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/widget/step_screen.dart",
+      "bytes": 2010
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/checkout/widget/verify_prices.dart",
+      "bytes": 5156
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/compare/compare_list_page.dart",
+      "bytes": 4780
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/compare/compare_product_page.dart",
+      "bytes": 3164
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/compare/widgets/additional_info.dart",
+      "bytes": 2853
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/compare/widgets/main_info.dart",
+      "bytes": 5591
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/compare/widgets/price_compare.dart",
+      "bytes": 1151
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/compare/widgets/review_compare.dart",
+      "bytes": 1393
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/compare/widgets/title_compare.dart",
+      "bytes": 1218
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/country/city_page.dart",
+      "bytes": 5658
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/country/country_page.dart",
+      "bytes": 5931
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/drawer/drawer_page.dart",
+      "bytes": 11326
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/drawer/widgets/change_theme_button.dart",
+      "bytes": 1396
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/drawer/widgets/drawer_item.dart",
+      "bytes": 1480
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/drawer/widgets/logout_button.dart",
+      "bytes": 3995
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/drawer/widgets/wallet_widget.dart",
+      "bytes": 2563
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/filter_page.dart",
+      "bytes": 5614
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/filter_shop_page.dart",
+      "bytes": 24587
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/widgets/brand.dart",
+      "bytes": 3134
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/widgets/category.dart",
+      "bytes": 3343
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/widgets/extras.dart",
+      "bytes": 3269
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/widgets/extras_item.dart",
+      "bytes": 3199
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/widgets/layout.dart",
+      "bytes": 2005
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/widgets/layout_box.dart",
+      "bytes": 724
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/widgets/layout_item.dart",
+      "bytes": 4527
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/widgets/range_price.dart",
+      "bytes": 4834
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/filter/widgets/title.dart",
+      "bytes": 1255
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/gift_cart/gift_cart_payment.dart",
+      "bytes": 9063
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/gift_cart/gift_cart_shop_list.dart",
+      "bytes": 6734
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/gift_cart/my_gift_cart.dart",
+      "bytes": 7322
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/group_order/group_order_page.dart",
+      "bytes": 7638
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/help_policy_term/help_page.dart",
+      "bytes": 5193
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/help_policy_term/policy_page.dart",
+      "bytes": 2216
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/help_policy_term/term_page.dart",
+      "bytes": 2204
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_one/home_one_page.dart",
+      "bytes": 13540
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_one/widgets/ads_one_item.dart",
+      "bytes": 6762
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_one/widgets/all_product_one_list.dart",
+      "bytes": 3675
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_one/widgets/category_one_list.dart",
+      "bytes": 6055
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_one/widgets/for_you_and_discount.dart",
+      "bytes": 6164
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_one/widgets/upcoming_one_list.dart",
+      "bytes": 3686
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_page.dart",
+      "bytes": 9843
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/home_three_page.dart",
+      "bytes": 11998
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/widgets/ads_three_list.dart",
+      "bytes": 3745
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/widgets/app_info_screen.dart",
+      "bytes": 4620
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/widgets/brands_three_list.dart",
+      "bytes": 4208
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/widgets/category_three_list.dart",
+      "bytes": 4818
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/widgets/looks_list_three.dart",
+      "bytes": 3470
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/widgets/most_product_three.dart",
+      "bytes": 3250
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/widgets/new_product_three.dart",
+      "bytes": 2972
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/widgets/story_three_item.dart",
+      "bytes": 1485
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/widgets/story_three_list.dart",
+      "bytes": 3182
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_three/widgets/upcoming_three_list.dart",
+      "bytes": 4518
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_two/home_two_page.dart",
+      "bytes": 10394
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_two/widgets/ads_two_list.dart",
+      "bytes": 2837
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_two/widgets/brands_two_list.dart",
+      "bytes": 5215
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_two/widgets/category_two_list.dart",
+      "bytes": 6648
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_two/widgets/looks_list_two.dart",
+      "bytes": 3509
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_two/widgets/most_product_two.dart",
+      "bytes": 1920
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_two/widgets/new_product_two.dart",
+      "bytes": 2655
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/home_two/widgets/upcoming_two_list.dart",
+      "bytes": 5438
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/ads_list.dart",
+      "bytes": 2802
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/all_shop_list.dart",
+      "bytes": 1468
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/banner_list.dart",
+      "bytes": 6315
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/blog_list.dart",
+      "bytes": 1990
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/brands_list.dart",
+      "bytes": 6089
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/category_list.dart",
+      "bytes": 9905
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/looks_list.dart",
+      "bytes": 4046
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/masters_list.dart",
+      "bytes": 2893
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/near_shops_list.dart",
+      "bytes": 2569
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/new_shop.dart",
+      "bytes": 2344
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/popular_shop.dart",
+      "bytes": 2603
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/story_list.dart",
+      "bytes": 3392
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/sub_category_list.dart",
+      "bytes": 3696
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/home/widgets/upcoming_list.dart",
+      "bytes": 4877
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/initial/splash_screen.dart",
+      "bytes": 1723
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/initial/ui_selection_page.dart",
+      "bytes": 8586
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/like/like_page.dart",
+      "bytes": 8625
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/location/location_permission_page.dart",
+      "bytes": 10551
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/main/main_page.dart",
+      "bytes": 26200
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/main/widgets/bottom_item.dart",
+      "bytes": 2077
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/main/widgets/bottom_one_item.dart",
+      "bytes": 1686
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/main/widgets/bottom_two_item.dart",
+      "bytes": 1319
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/map/map_page.dart",
+      "bytes": 14360
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/map/widgets/main_list_shimmer.dart",
+      "bytes": 1265
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/map/widgets/my_location_button.dart",
+      "bytes": 1040
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/map/widgets/searched_location_item.dart",
+      "bytes": 1846
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/master_page/master_page.dart",
+      "bytes": 8926
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/master_page/widget/master_avatar.dart",
+      "bytes": 5003
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/master_page/widget/master_description.dart",
+      "bytes": 1177
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/membership/membership_bottom_sheet.dart",
+      "bytes": 6924
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/membership/membership_payment.dart",
+      "bytes": 9071
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/membership/membership_shop_list.dart",
+      "bytes": 6025
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/membership/my_memberships.dart",
+      "bytes": 11147
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/my_digital_files/digital_item.dart",
+      "bytes": 4158
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/my_digital_files/my_digital_list.dart",
+      "bytes": 5649
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/no_internet/no_internet.dart",
+      "bytes": 6633
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/notification/notification_page.dart",
+      "bytes": 6096
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/notification/widgets/notification_bottom_sheet.dart",
+      "bytes": 2840
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/notification/widgets/notification_item.dart",
+      "bytes": 8302
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/notification/widgets/notification_shimmer.dart",
+      "bytes": 937
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/order_screen.dart",
+      "bytes": 11555
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/orders_list.dart",
+      "bytes": 6050
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/refund_screen.dart",
+      "bytes": 4199
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/deliveryman_widget.dart",
+      "bytes": 5698
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/location_widget.dart",
+      "bytes": 3623
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/order_bottom.dart",
+      "bytes": 5947
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/order_item.dart",
+      "bytes": 5588
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/order_map_view.dart",
+      "bytes": 6001
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/order_status.dart",
+      "bytes": 6834
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/order_title.dart",
+      "bytes": 3549
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/order_transaction_item.dart",
+      "bytes": 1160
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/price_info.dart",
+      "bytes": 4567
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/send_refund_screen.dart",
+      "bytes": 2904
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/order/widgets/tracking_widget.dart",
+      "bytes": 2666
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/parcel_item.dart",
+      "bytes": 4725
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/parcel_list_page.dart",
+      "bytes": 10485
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/parcel_order_page.dart",
+      "bytes": 4059
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/parcel_page.dart",
+      "bytes": 14601
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/widgets/custom_expanded.dart",
+      "bytes": 1381
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/widgets/info_item.dart",
+      "bytes": 1568
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/widgets/info_screen.dart",
+      "bytes": 2794
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/widgets/parcel_title.dart",
+      "bytes": 3299
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/widgets/recipient_widget.dart",
+      "bytes": 16408
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/widgets/sender_widget.dart",
+      "bytes": 7941
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/widgets/time_and_type.dart",
+      "bytes": 7629
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/parcel/widgets/type_item.dart",
+      "bytes": 5500
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_one/product_one_page.dart",
+      "bytes": 7438
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_one/widgets/image_screen_one.dart",
+      "bytes": 2524
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_one/widgets/images_list_one.dart",
+      "bytes": 1451
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_one/widgets/product_extras_one.dart",
+      "bytes": 4417
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_one/widgets/product_info_one.dart",
+      "bytes": 2838
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_one/widgets/product_title_one.dart",
+      "bytes": 6603
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_one/widgets/related_and_viewed_products_one.dart",
+      "bytes": 2112
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_two/product_two_page.dart",
+      "bytes": 5716
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_two/widgets/description_screen_two.dart",
+      "bytes": 6189
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_two/widgets/image_screen_two.dart",
+      "bytes": 5491
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_two/widgets/images_list_two.dart",
+      "bytes": 1419
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_two/widgets/product_extras_two.dart",
+      "bytes": 5052
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_two/widgets/product_info_two.dart",
+      "bytes": 2054
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_two/widgets/product_title_two.dart",
+      "bytes": 3983
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_detail_two/widgets/related_and_viewed_products_two.dart",
+      "bytes": 1938
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/product_page.dart",
+      "bytes": 6026
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/widgets/addition_information.dart",
+      "bytes": 2837
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/widgets/bottom_widget.dart",
+      "bytes": 13014
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/widgets/description_screen.dart",
+      "bytes": 3013
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/widgets/image_screen.dart",
+      "bytes": 5539
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/widgets/images_list.dart",
+      "bytes": 3127
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/widgets/only_image.dart",
+      "bytes": 8775
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/widgets/product_extras.dart",
+      "bytes": 4559
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/widgets/product_info.dart",
+      "bytes": 3385
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/widgets/product_title.dart",
+      "bytes": 11266
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/product_detail/widgets/related_and_viewed_products.dart",
+      "bytes": 1931
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/products/products_list_page.dart",
+      "bytes": 9226
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/products/widgets/cart_button.dart",
+      "bytes": 2969
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/products/widgets/grid_list_page.dart",
+      "bytes": 1390
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/products/widgets/new_scrollable_ui.dart",
+      "bytes": 2535
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/products/widgets/one_list_page.dart",
+      "bytes": 1119
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/products/widgets/simple_list_page.dart",
+      "bytes": 1531
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/products/widgets/vertical_list_page.dart",
+      "bytes": 1158
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/profile/change_password.dart",
+      "bytes": 6200
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/profile/edit_account.dart",
+      "bytes": 11456
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/profile/my_account.dart",
+      "bytes": 5088
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/profile/referral_page.dart",
+      "bytes": 7437
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/profile/widgets/avatar_edit.dart",
+      "bytes": 3280
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/profile/widgets/button_item.dart",
+      "bytes": 2177
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/review/review_page.dart",
+      "bytes": 5960
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/review/widgets/comment_button.dart",
+      "bytes": 8514
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/review/widgets/rating_bar.dart",
+      "bytes": 2948
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/review/widgets/review_images.dart",
+      "bytes": 2388
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/review/widgets/review_info.dart",
+      "bytes": 3746
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/review/widgets/review_item.dart",
+      "bytes": 4401
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/review/widgets/review_one_item.dart",
+      "bytes": 5080
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/search/main_seach_page.dart",
+      "bytes": 11626
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/search/search_location.dart",
+      "bytes": 4130
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/search/search_map.dart",
+      "bytes": 16463
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/search/search_page.dart",
+      "bytes": 12664
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/search/select_time.dart",
+      "bytes": 4429
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/search/widgets/search_list_item.dart",
+      "bytes": 4898
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/search/widgets/search_widget.dart",
+      "bytes": 5605
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/search/widgets/shimmer_list.dart",
+      "bytes": 908
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/service/direct_service_bottom_sheet.dart",
+      "bytes": 12858
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/service/service_bottom_sheet.dart",
+      "bytes": 14123
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/service/service_list_page.dart",
+      "bytes": 15228
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/service/widget/service_tab_view.dart",
+      "bytes": 3788
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/service/widget/tab_bar_item.dart",
+      "bytes": 1713
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/gallery_list_page.dart",
+      "bytes": 6970
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/gallery_page.dart",
+      "bytes": 2890
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_list/new_shop_list_page.dart",
+      "bytes": 5256
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_list/shop_list_page.dart",
+      "bytes": 5097
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_one/shop_one_page.dart",
+      "bytes": 4579
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_one/widgets/ads_shop_one.dart",
+      "bytes": 1053
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_one/widgets/category_shop_one.dart",
+      "bytes": 7194
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_one/widgets/looks_shop_one.dart",
+      "bytes": 3427
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_one/widgets/most_products_shop_one.dart",
+      "bytes": 3358
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_one/widgets/new_products_shop_one.dart",
+      "bytes": 3961
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_one/widgets/shop_one_avatar.dart",
+      "bytes": 5432
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_page.dart",
+      "bytes": 5013
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_two/shop_two_page.dart",
+      "bytes": 4532
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_two/widgets/category_shop_two.dart",
+      "bytes": 7018
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_two/widgets/looks_shop_two.dart",
+      "bytes": 2236
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_two/widgets/most_products_shop_one.dart",
+      "bytes": 2961
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/shop_two/widgets/shop_two_avatar.dart",
+      "bytes": 5827
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/connect_button.dart",
+      "bytes": 5306
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/most_products_shop.dart",
+      "bytes": 3018
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/near_shops.dart",
+      "bytes": 1912
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/new_products_shop.dart",
+      "bytes": 2956
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/review_shop.dart",
+      "bytes": 7428
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/services_widget.dart",
+      "bytes": 8406
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/share_like_widget.dart",
+      "bytes": 3152
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/shop_appbar.dart",
+      "bytes": 3812
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/shop_avatar.dart",
+      "bytes": 4600
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/shop_galleries.dart",
+      "bytes": 4813
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/shop_location_and_date.dart",
+      "bytes": 7486
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/shop/widgets/shop_name.dart",
+      "bytes": 6469
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/story/story_page.dart",
+      "bytes": 2656
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/story/widgets/story_image.dart",
+      "bytes": 15058
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/transactions/fill_wallet_screen.dart",
+      "bytes": 7043
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/transactions/send_price_screen.dart",
+      "bytes": 8027
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/transactions/transaction_list.dart",
+      "bytes": 6126
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/pages/transactions/widgets/transaction_item.dart",
+      "bytes": 3555
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/route/app_route.dart",
+      "bytes": 33520
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/route/app_route_parcel.dart",
+      "bytes": 2996
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/route/app_route_service.dart",
+      "bytes": 16997
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/route/app_route_setting.dart",
+      "bytes": 14299
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/route/app_route_shop.dart",
+      "bytes": 12321
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/style/style.dart",
+      "bytes": 7054
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/style/theme/color_set.dart",
+      "bytes": 3068
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/style/theme/theme.dart",
+      "bytes": 1294
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/style/theme/theme_preference.dart",
+      "bytes": 1189
+    },
+    {
+      "path": ".migration-backup/customer_app/lib/presentation/style/theme/theme_wrapper.dart",
+      "bytes": 465
+    },
+    {
+      "path": ".migration-backup/customer_app/public/.well-known/apple-app-site-association",
+      "bytes": 355
+    },
+    {
+      "path": ".migration-backup/customer_app/public/.well-known/assetlinks.json",
+      "bytes": 441
+    },
+    {
+      "path": ".migration-backup/customer_app/pubspec.lock",
+      "bytes": 70064
+    },
+    {
+      "path": ".migration-backup/customer_app/pubspec.yaml",
+      "bytes": 3175
+    }
+  ],
+  "dartFiles": 694,
+  "handwrittenDartFiles": 657,
+  "generatedDartFiles": 37,
+  "screenFamilies": [
+    "address",
+    "app_setting",
+    "auth",
+    "become_seller",
+    "blog",
+    "booking",
+    "cart",
+    "category",
+    "chat",
+    "checkout",
+    "compare",
+    "country",
+    "drawer",
+    "filter",
+    "gift_cart",
+    "group_order",
+    "help_policy_term",
+    "home",
+    "initial",
+    "like",
+    "location",
+    "main",
+    "map",
+    "master_page",
+    "membership",
+    "my_digital_files",
+    "no_internet",
+    "notification",
+    "order",
+    "parcel",
+    "product_detail",
+    "products",
+    "profile",
+    "review",
+    "search",
+    "service",
+    "shop",
+    "story",
+    "transactions"
+  ],
+  "repositories": 21,
+  "blocs": 36,
+  "httpCallsites": 172,
+  "tests": [
+    ".migration-backup/customer_app/ios/RunnerTests/RunnerTests.swift"
+  ],
+  "ci": []
+}

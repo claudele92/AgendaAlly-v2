@@ -1,0 +1,185 @@
+modules = ["nodejs-24", "php-8.4", "python-base-3.13"]
+
+[deployment]
+router = "application"
+deploymentTarget = "autoscale"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "original-hardening"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "original-customer-preview"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "original-admin-preview"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "original-laravel-preview"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "native-mvp-acceptance"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "native-acceptance-mysql"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "selected-customer-acceptance"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "selected-business-acceptance"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "mysql-temporal-policy"
+
+[[workflows.workflow]]
+name = "original-hardening"
+author = "agent"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash scripts/verify-original-hardening.sh"
+
+[[workflows.workflow]]
+name = "original-customer-preview"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/development.mjs serve web"
+waitForPort = 3002
+
+[[workflows.workflow]]
+name = "original-admin-preview"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/development.mjs serve admin"
+waitForPort = 3003
+
+[[workflows.workflow]]
+name = "original-laravel-preview"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "AGENDAALLY_NORMAL_ADMIN_SMTP_TEST=true node scripts/development.mjs serve backend"
+waitForPort = 8000
+
+[[workflows.workflow]]
+name = "native-mvp-acceptance"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "php -S 0.0.0.0:8008 .local/booking-forward/native-http.php"
+waitForPort = 8008
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "native-acceptance-mysql"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "mysqld --no-defaults --datadir=\"$PWD/.local/booking-forward/mysql-data\" --socket=\"$PWD/.local/booking-forward/mysql-data/mysql.sock\" --pid-file=\"$PWD/.local/booking-forward/mysql-data/mysql.pid\" --port=33308 --bind-address=127.0.0.1 --mysqlx=OFF --innodb-buffer-pool-size=64M --innodb-redo-log-capacity=32M --transaction-isolation=REPEATABLE-READ"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "selected-customer-acceptance"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=3000 AGENDAALLY_DEV_API_TARGET=http://127.0.0.1:8008 node scripts/development.mjs serve web"
+waitForPort = 3000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "selected-business-acceptance"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/staging/supervise.mjs --operations"
+
+[[workflows.workflow]]
+name = "mysql-temporal-policy"
+author = "agent"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "php -l scripts/database/mysql-temporal-*.php scripts/database/check-mysql-temporal-*.php scripts/database/mysql-recovery-fixtures.php && for f in scripts/database/mysql-temporal-*.sh; do bash -n \"$f\" || exit; done && php scripts/database/check-mysql-temporal-policy.php"
+
+[agent]
+stack = "PNPM_WORKSPACE"
+expertMode = true
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 300000
+
+[nix]
+channel = "stable-25_05"
+packages = ["flutter", "mysql80", "nginx"]
+
+[[ports]]
+localPort = 3002
+externalPort = 3002
+
+[[ports]]
+localPort = 3003
+externalPort = 3003
+
+[[ports]]
+localPort = 8000
+externalPort = 8000
+
+[userenv]
+
+[userenv.development]

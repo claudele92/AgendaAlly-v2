@@ -1,0 +1,804 @@
+AgendaAlly — Payment Implementation Phase 1
+Activation-Critical Financial Correctness
+
+The payment architecture audit is complete.
+
+The previously identified financial P0s have now been contained and verified,
+including the Product fulfillment authorization/finality P0s.
+
+I now approve the FIRST bounded implementation phase from the completed audit's
+ordered remediation backlog.
+
+This is NOT provider activation.
+
+This phase is:
+
+ACTIVATION-CRITICAL FINANCIAL CORRECTNESS
+
+Do not jump ahead to Vendor-direct enablement, provider activation, payment UX,
+refund redesign, payout-provider integration or production certification.
+
+============================================================
+1. AUTHORITATIVE BASELINE
+============================================================
+
+Use as the authoritative architecture baseline:
+
+docs/development/payment-system-full-audit.md
+
+Also preserve all previously accepted containment reports and their invariants.
+
+Do NOT restart the audit.
+
+Do NOT reopen already verified P0 containments unless integration with this
+phase demonstrates a concrete regression.
+
+The completed audit established that:
+
+- no electronic rail is currently checkout-ready;
+- platform-managed collection is incomplete end-to-end;
+- Vendor-direct is partially implemented/accounting-inconsistent;
+- provider refunds are incomplete;
+- payout/settlement/reconciliation is incomplete;
+- activation of a provider row alone would NOT make electronic payments safe.
+
+The audit's remediation order is authoritative:
+
+financial correctness
+→ allocation/custody
+→ immutable collection model
+→ provider/configuration readiness
+→ refunds
+→ payout/reconciliation
+→ production verification
+→ separately approved staged activation.
+
+This task covers ONLY the first step:
+
+FINANCIAL CORRECTNESS.
+
+============================================================
+2. OBJECTIVE
+============================================================
+
+Contain the remaining activation-critical financial correctness defects that
+could make later electronic-payment enablement unsafe.
+
+Focus this phase on TWO source-confirmed P1 boundaries from the completed audit:
+
+A. Payout conservation / atomicity.
+
+B. Alternate Booking electronic paid-authority bypass.
+
+Do NOT expand this phase into the later accounting-allocation, Vendor-direct,
+refund, provider-readiness or payout-provider implementation phases.
+
+============================================================
+3. P1-A — PAYOUT CONSERVATION / ATOMICITY
+============================================================
+
+The audit found that the current Wallet-method payout flow can:
+
+- manipulate an approving Wallet;
+- perform another withdrawal/debit;
+- persist payout status separately from the financial legs;
+- ignore unsuccessful native service results;
+- lack one encompassing financial transaction.
+
+This creates a source-confirmed risk of:
+
+- double debit;
+- partial settlement;
+- payout marked successful while financial effects are incomplete;
+- inconsistent balances after failure.
+
+Trace the CURRENT native payout flow before editing.
+
+At minimum inspect:
+
+- PayoutService;
+- Seller payout controller;
+- Admin payout controller;
+- payout Store/Update requests;
+- Payout model;
+- Wallet services;
+- WalletHistory;
+- Transaction;
+- observers/listeners;
+- Vendor balance/payable sources;
+- payout status transitions.
+
+Do not assume the audit's summary substitutes for tracing the current source.
+
+============================================================
+4. REQUIRED PAYOUT INVARIANT
+============================================================
+
+For any payout operation that changes internal financial state:
+
+THE FINANCIAL OPERATION MUST BE ATOMIC.
+
+A payout must never reach an approved/paid/completed state unless every
+required financial effect succeeded.
+
+A failed payout attempt must not leave:
+
+- payout status advanced;
+- Wallet debit committed;
+- duplicate debit;
+- partial recipient credit;
+- Vendor balance incorrectly reduced;
+- Transaction committed;
+- WalletHistory committed;
+- payable/ledger mutation committed
+
+unless that state is explicitly part of an existing safe pending lifecycle.
+
+Native false/unsuccessful service results must be treated as failures where the
+operation requires success.
+
+Do not treat only thrown exceptions as failures.
+
+============================================================
+5. DO NOT INVENT PAYOUT CAPABILITIES
+============================================================
+
+The completed audit found that the current payout implementation is not yet a
+complete external settlement/reconciliation system.
+
+Do NOT turn this phase into one.
+
+Specifically do NOT implement:
+
+- bank transfer;
+- mobile-money payout;
+- MTN payout;
+- Orange payout;
+- Flutterwave payout;
+- Paystack payout;
+- automatic settlement;
+- beneficiary verification;
+- payout reconciliation;
+- reserve accounting;
+- new payout destinations.
+
+Preserve the existing payout meaning.
+
+This phase only makes the CURRENT reachable payout financial mutation safe and
+atomic.
+
+Later phases will address whether a payout should exist, what liability it
+settles and how external settlement works.
+
+============================================================
+6. PAYOUT IDEMPOTENCY / REPLAY
+============================================================
+
+Determine the native payout lifecycle and ensure an already-completed payout
+cannot execute its financial effects again.
+
+Verify at minimum:
+
+- repeated approval;
+- repeated status request;
+- stale model;
+- retry after successful completion;
+- retry after rolled-back failure;
+- Admin replay;
+- Vendor replay where reachable.
+
+Exactly-once financial behavior is required for the current payout mutation.
+
+Do not create a new generalized payment-idempotency framework unless the
+existing implementation genuinely requires it for this bounded containment.
+
+============================================================
+7. P1-B — ALTERNATE BOOKING ELECTRONIC PAID AUTHORITY
+============================================================
+
+The completed audit identified a separate activation-critical path:
+
+Generic Booking Transaction creation performs eligibility checks but can then
+mark an active eligible NON-WALLET payment method paid without authoritative
+provider verification.
+
+The current disabled electronic-payment environment contains this path today,
+but enabling a configured electronic rail could expose it.
+
+Trace the exact CURRENT path before editing.
+
+Determine:
+
+- route;
+- controller;
+- request;
+- service;
+- actors;
+- Booking ownership;
+- Shop ownership;
+- payment method;
+- collection mode;
+- provider;
+- Transaction creation;
+- status transition;
+- provider verification requirement;
+- downstream Booking settlement/accounting effects.
+
+============================================================
+8. AUTHORITATIVE ELECTRONIC PAYMENT RULE
+============================================================
+
+For an electronic/provider payment:
+
+ELIGIBILITY IS NOT PAYMENT PROOF.
+
+CONFIGURATION IS NOT PAYMENT PROOF.
+
+PROVIDER SELECTION IS NOT PAYMENT PROOF.
+
+TRANSACTION CREATION IS NOT PAYMENT PROOF.
+
+A provider-backed electronic Transaction must not become authoritative `paid`
+merely because:
+
+- the payment method is active;
+- the provider is eligible;
+- configuration exists;
+- environment policy allows the provider;
+- a Customer selected it;
+- a Transaction record was created.
+
+Electronic payment success must require the existing provider-specific trusted
+verification/evidence path.
+
+Do not fabricate verification for providers that do not currently have one.
+
+If a provider lacks authoritative verification, fail closed.
+
+============================================================
+9. PRESERVE NON-ELECTRONIC SEMANTICS
+============================================================
+
+Do not accidentally apply electronic-provider proof requirements to payment
+types whose native meaning differs.
+
+Explicitly preserve and test the intended behavior of:
+
+- Cash;
+- Wallet;
+- already verified provider transactions;
+- any legitimate manual/offline method whose semantics are clearly distinct.
+
+Do not use this task to redesign Cash or Wallet.
+
+The previously completed Wallet and Cash security/accounting containments
+remain authoritative.
+
+============================================================
+10. PAYMENT STATUS VS COMMERCE STATUS
+============================================================
+
+Do not solve P1-B by simply blocking Booking lifecycle operations.
+
+Keep these concepts distinct:
+
+PAYMENT STATUS
+
+and
+
+BOOKING/COMMERCE STATUS.
+
+A Booking may have legitimate lifecycle changes without those changes proving
+that an electronic provider collected money.
+
+Ensure the correction is placed at the authoritative payment boundary rather
+than hiding the problem in frontend state.
+
+============================================================
+11. SERVER AUTHORITY
+============================================================
+
+For the corrected Booking path, ensure server-side authority determines:
+
+- Booking;
+- Shop;
+- Customer;
+- amount;
+- currency;
+- collection mode;
+- provider/payment method;
+- provider transaction/reference;
+- verification result.
+
+Do not trust request fields for financial authority where persisted server
+state already exists.
+
+Do not broaden this into another general Booking authorization audit.
+
+============================================================
+12. CURRENT P0 CONTAINMENTS
+============================================================
+
+Preserve all previously verified containment behavior, including:
+
+- Seller payment-status ownership;
+- Seller refund ownership;
+- Booking Staff Shop boundaries;
+- Wallet transfer finality;
+- Wallet amount protections;
+- Product refund finality;
+- Booking refund finality;
+- Product fulfillment actor authorization;
+- Product fulfillment once-only financial finality.
+
+Do not reopen these designs.
+
+Run appropriate regressions to demonstrate they remain intact.
+
+============================================================
+13. PRODUCT FULFILLMENT FINALITY MIGRATION
+============================================================
+
+Preserve the newly implemented Order-level financial finality state.
+
+Existing 12 legacy Orders remain:
+
+unverified
+
+unless separately approved later.
+
+Do NOT:
+
+- classify them;
+- change them to pending;
+- change them to settled;
+- create an Admin override;
+- create a legacy reconciliation tool;
+- infer historical settlement.
+
+New trusted Orders must continue to initialize according to the verified
+containment.
+
+This phase must not alter that behavior.
+
+============================================================
+14. ACCOUNTING SCOPE BOUNDARY
+============================================================
+
+The audit also identified later accounting problems, including:
+
+- incomplete custody/liability semantics;
+- Product collection snapshot parity;
+- transaction-based partial fee/payable duplication;
+- Vendor-direct commission recovery;
+- payout allocation against earned Vendor liability;
+- provider refund allocation;
+- reconciliation.
+
+DOCUMENT any interaction with those issues.
+
+Do NOT solve them in this phase unless a minimal change is strictly required to
+make P1-A or P1-B safe.
+
+Those belong to subsequent approved phases.
+
+============================================================
+15. CAPABILITY / READINESS MODEL — NOT YET
+============================================================
+
+Do NOT yet implement the canonical:
+
+capability
+→ eligibility
+→ configurability
+→ configured
+→ activation
+→ environment readiness
+→ checkout readiness
+
+model.
+
+Do not fix:
+
+Use my own payment gateway
+
+yet.
+
+Do not change MTN/Orange/Flutterwave/Paystack capability metadata.
+
+Do not activate any provider.
+
+That is a subsequent phase after financial correctness.
+
+============================================================
+16. PROVIDERS
+============================================================
+
+Do NOT activate or configure:
+
+- MTN;
+- Orange;
+- Flutterwave;
+- Paystack;
+- Stripe;
+- PayPal;
+- any other provider.
+
+Do not insert merchant credentials.
+
+Do not alter country/currency support.
+
+Do not make an unavailable provider available merely to test this phase.
+
+Use isolated fixtures/mocks/fakes where provider-state testing is required.
+
+No external charge/refund/payout may occur.
+
+============================================================
+17. CONCURRENCY
+============================================================
+
+Where the Payout correction relies on a database claim/lock/state transition,
+add controlled contention verification.
+
+Prefer the closest available engine semantics to the production implementation.
+
+If only SQLite can be exercised, clearly state:
+
+SQLITE CONCURRENCY VERIFIED
+
+PRODUCTION-ENGINE CONCURRENCY NOT CERTIFIED.
+
+Do not represent SQLite serialization/locking as production certification.
+
+Do not weaken a correct implementation merely because the local test engine is
+SQLite.
+
+============================================================
+18. FAILURE INJECTION
+============================================================
+
+For P1-A, exercise failures at meaningful boundaries, including where
+applicable:
+
+- before financial mutation;
+- after first financial mutation;
+- during second required financial mutation;
+- before payout status finalization;
+- during finalization;
+- native service returns false;
+- exception thrown;
+- duplicate/replay request.
+
+Require rollback to the correct retryable state.
+
+For P1-B, verify:
+
+- eligible electronic method without provider proof;
+- configured electronic method without provider proof;
+- forged paid status;
+- forged provider reference;
+- wrong amount;
+- wrong currency;
+- wrong Booking;
+- legitimate verified provider evidence where an existing provider verifier
+  supports an isolated test.
+
+Do not call a real provider.
+
+============================================================
+19. FINANCIAL INVARIANTS
+============================================================
+
+Do not rely only on HTTP responses.
+
+For P1-A verify the actual financial state before and after each test:
+
+- Wallet balances;
+- WalletHistory;
+- Transactions;
+- payout record/status;
+- Vendor balance/payable where currently touched;
+- platform fee ledger where currently touched.
+
+A denied, failed or replayed payout must not create additional value, remove
+value twice or leave partial financial effects.
+
+For P1-B verify that an unverified electronic payment cannot cause:
+
+- paid Transaction;
+- Booking paid/settled financial state;
+- Vendor entitlement;
+- fee ledger entry;
+- Wallet mutation;
+- payout liability;
+- refund entitlement
+
+solely from eligibility or Transaction creation.
+
+============================================================
+20. EXISTING DEVELOPMENT DATA
+============================================================
+
+Do not use existing application financial records to exercise financial
+mutations.
+
+Use isolated test databases/fixtures.
+
+Before application edits, capture the current protected-state baseline using
+the established methodology.
+
+Remember that the approved Order finality migration already changed the Orders
+schema.
+
+Do not incorrectly compare the migrated Orders table against a pre-migration
+schema fingerprint.
+
+Use the CURRENT post-P0-B state as this phase's baseline.
+
+After verification compare against that baseline.
+
+Existing development financial data must remain unchanged.
+
+============================================================
+21. SCHEMA CHANGES
+============================================================
+
+Prefer no new schema if the existing native lifecycle can safely contain these
+two P1 defects.
+
+If a NEW schema change appears necessary:
+
+STOP BEFORE CREATING THE MIGRATION.
+
+Report:
+
+- why existing state cannot safely represent the invariant;
+- proposed minimal schema;
+- ownership;
+- lifecycle;
+- default/backfill policy;
+- rollback behavior;
+- concurrency behavior;
+- effect on existing data.
+
+Wait for separate approval.
+
+Do not improvise a new financial ledger or allocation schema in this phase.
+
+============================================================
+22. NARROW SIBLING REVIEW
+============================================================
+
+For each corrected defect, inspect only the narrow sibling paths that can invoke
+the SAME financial mutation.
+
+For P1-A:
+
+check alternate payout approval/status entry points that reach the same payout
+financial service.
+
+For P1-B:
+
+check alternate Booking Transaction creation/paid entry points that reach the
+same unverified electronic paid transition.
+
+If an identical bypass exists, contain it through the same authoritative
+boundary.
+
+Do NOT expand this into another general security audit.
+
+Incidental unrelated P1/P2/P3 findings should be documented for later.
+
+============================================================
+23. NEW P0 STOP RULE
+============================================================
+
+If this authorized implementation uncovers a NEW, independent,
+source-confirmed and immediately exploitable financial P0:
+
+STOP before expanding or remediating that new issue.
+
+Report:
+
+- route/path;
+- actor;
+- financial effect;
+- source chain;
+- current reachability;
+- whether exercised;
+- protected-state result.
+
+Do not manufacture additional investigations looking for new P0s.
+
+============================================================
+24. REQUIRED TESTING
+============================================================
+
+Add focused tests for P1-A and P1-B.
+
+At minimum P1-A should cover:
+
+1. legitimate payout mutation succeeds once;
+
+2. repeated approval does not repeat financial effects;
+
+3. repeated status transition does not repeat effects;
+
+4. false native service result rolls back;
+
+5. thrown exception rolls back;
+
+6. failure after first financial leg rolls back;
+
+7. failure before final status rolls back;
+
+8. successful retry after rollback works once;
+
+9. stale model/replay cannot repeat payout;
+
+10. concurrent attempts cannot both settle where applicable;
+
+11. balances conserve value according to current native semantics;
+
+12. payout status cannot say completed while required financial effects failed.
+
+At minimum P1-B should cover:
+
+13. electronic eligibility alone cannot create paid;
+
+14. active method alone cannot create paid;
+
+15. configured method alone cannot create paid;
+
+16. missing verification fails closed;
+
+17. forged provider reference fails;
+
+18. wrong amount fails;
+
+19. wrong currency fails;
+
+20. wrong Booking fails;
+
+21. legitimate existing verified provider evidence succeeds in an isolated
+    supported fixture;
+
+22. Cash semantics remain valid;
+
+23. Wallet semantics remain valid;
+
+24. denied electronic paid attempt creates no downstream accounting.
+
+Also run selected regressions covering all accepted payment P0 containments.
+
+Do not claim full-project green unless the complete suite was actually run and
+passed.
+
+============================================================
+25. PROTECTED STATE
+============================================================
+
+Use the current post-P0-B database as the before-state.
+
+At completion verify that existing development financial state was not mutated.
+
+Report:
+
+- protected table set;
+- counts;
+- fingerprints;
+- any intentionally changed schema;
+- any intentionally changed non-financial configuration;
+- zero unintended financial mutations.
+
+`platform_fee_ledger_entries` must remain explicitly included.
+
+============================================================
+26. REPORTING
+============================================================
+
+Update:
+
+docs/development/payment-system-full-audit.md
+
+and create a bounded implementation report such as:
+
+docs/development/payment-phase1-financial-correctness.md
+
+Document:
+
+- exact root causes;
+- exact routes/services;
+- files changed;
+- old behavior;
+- corrected behavior;
+- financial invariants;
+- transaction boundaries;
+- replay/idempotency behavior;
+- concurrency evidence;
+- failure-injection results;
+- tests/assertions;
+- regression results;
+- protected-state comparison;
+- remaining limitations;
+- issues explicitly deferred to later phases.
+
+Do not rewrite the completed architecture audit as though the earlier findings
+never existed.
+
+Mark these P1 findings CONTAINED / VERIFIED only if the required behavior is
+actually demonstrated.
+
+============================================================
+27. DO NOT DO IN THIS PHASE
+============================================================
+
+Do NOT:
+
+- activate a provider;
+- configure real credentials;
+- enable electronic checkout;
+- fix Vendor-direct;
+- enable "Use my own payment gateway";
+- change provider capability;
+- change country policy;
+- change currency support;
+- implement MTN/Orange/Flutterwave/Paystack readiness;
+- redesign commission;
+- implement direct commission recovery;
+- implement the allocation/custody model;
+- add Product collector snapshots unless strictly required for this phase;
+- redesign refunds;
+- execute provider refunds;
+- implement external payout rails;
+- implement payout reconciliation;
+- classify the 12 legacy Orders;
+- modify unrelated Booking/Staff/Driver/Pickup behavior;
+- redesign payment UI;
+- publish.
+
+============================================================
+28. FINAL STOP
+============================================================
+
+After containing and verifying P1-A and P1-B:
+
+STOP.
+
+Do not automatically begin the next payment phase.
+
+Return a concise summary containing:
+
+1. P1-A root cause and containment;
+
+2. P1-B root cause and containment;
+
+3. exact production files changed;
+
+4. schema changes, if any;
+
+5. financial atomicity result;
+
+6. replay/idempotency result;
+
+7. concurrency scope/result;
+
+8. electronic payment verification boundary;
+
+9. Cash/Wallet regression result;
+
+10. focused tests/assertions;
+
+11. selected regression tests/assertions;
+
+12. protected-state result;
+
+13. remaining limitations;
+
+14. whether either issue can now be marked CONTAINED / VERIFIED;
+
+15. confirmation that no provider was activated and no real financial operation
+    occurred.
+
+Then wait for explicit approval before beginning the next phase.

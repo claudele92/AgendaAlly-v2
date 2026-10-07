@@ -1,0 +1,1168 @@
+AgendaAlly — Resume READ-ONLY Payment Audit, Prioritize Payment Architecture
+
+Resume the previously approved READ-ONLY AgendaAlly payment-system audit from
+the exact point where it stopped.
+
+Do NOT restart the audit from scratch.
+
+The previously completed P0 containments are accepted and verified.
+
+We have spent multiple iterations containing authorization findings. Those
+containments must remain in place, but this pass must now prioritize completing
+the PAYMENT ARCHITECTURE analysis that the original audit was intended to
+answer.
+
+Do not proactively expand into additional Booking, Staff, Driver, scheduling,
+notes/time, or general authorization investigations during this pass.
+
+I now need the original payment architecture questions completed.
+
+============================================================
+1. CURRENT SECURITY BASELINE
+============================================================
+
+Treat the previously contained findings as:
+
+FOUND AND CONTAINED / VERIFIED
+
+including the previously completed cross-Shop payment/refund and Booking Staff
+authorization containments.
+
+Preserve those fixes.
+
+Do not reopen, redesign or refactor those authorization paths unless concrete
+evidence establishes that one of the existing containments is incomplete and
+directly affects the payment architecture being audited.
+
+The latest verified baseline includes:
+
+- 67 focused tests;
+- 633 assertions;
+- all 53 protected-table counts/fingerprints unchanged;
+- `platform_fee_ledger_entries` included and unchanged.
+
+============================================================
+2. PRIMARY OBJECTIVE
+============================================================
+
+The primary objective of THIS pass is to FINISH the payment architecture audit.
+
+Focus on these eight areas:
+
+1. AgendaAlly Payments / platform collection.
+
+2. Use my own payment gateway / Vendor-direct collection.
+
+3. Cameroon/XAF provider implementation and readiness.
+
+4. Capability vs configuration vs readiness.
+
+5. Accounting architecture.
+
+6. Refunds and payouts.
+
+7. Provider callbacks/idempotency.
+
+8. CURRENT ARCHITECTURE vs INTENDED MODEL and provider matrices.
+
+Do not allow unrelated investigations to prevent completion of these questions
+unless the mandatory P0 stop rule below is triggered.
+
+============================================================
+3. AGENDAALLY PAYMENTS — PLATFORM COLLECTION
+============================================================
+
+Determine exactly how platform-managed electronic payment works TODAY.
+
+The intended model to audit against is:
+
+Customer
+→ AgendaAlly checkout
+→ eligible platform-managed provider
+→ AgendaAlly/platform merchant configuration
+→ provider authorization/collection
+→ authoritative AgendaAlly transaction
+→ AgendaAlly commission/accounting
+→ Vendor entitlement/balance
+→ settlement/payout to Vendor.
+
+This is the intended architecture for comparison.
+
+Do NOT assume the current application actually implements it this way.
+
+Establish from the code and configuration:
+
+- whose provider credentials are used;
+- whose merchant account receives Customer funds;
+- where Customer funds technically go first;
+- what creates the authoritative payment transaction;
+- what proves successful payment;
+- whether amount is server-authoritative;
+- whether currency is server-authoritative;
+- whether provider selection is server-authoritative;
+- whether collection mode is server-authoritative;
+- how AgendaAlly commission is calculated/recorded;
+- how Vendor entitlement is calculated/recorded;
+- whether a Vendor balance is created;
+- whether a payable/ledger entry is created;
+- when payout liability is created;
+- how Vendor settlement is expected to occur;
+- how refunds/cancellations affect those records.
+
+Important terminology:
+
+Payment configuration belongs to the PLATFORM.
+
+Admins may manage platform payment configuration, but do not describe funds as
+being collected "by the Admin."
+
+Determine whether AgendaAlly currently has a REAL platform-managed electronic
+collection architecture or only partial/configuration/UI scaffolding.
+
+============================================================
+4. "USE MY OWN PAYMENT GATEWAY" — VENDOR-DIRECT
+============================================================
+
+Determine exactly what:
+
+Use my own payment gateway
+
+means in the CURRENT codebase.
+
+The intended optional model to audit against is:
+
+Vendor explicitly selects Vendor-direct collection
+→ AgendaAlly determines eligible providers for the Shop/country/currency/
+transaction context
+→ Vendor configures their OWN eligible merchant credentials
+→ AgendaAlly validates configuration/readiness
+→ Customer uses that payment method at checkout
+→ provider transaction uses the Vendor's merchant credentials/account
+→ Customer funds flow through the Vendor's merchant relationship
+→ AgendaAlly still records the authoritative commerce/payment relationship
+→ AgendaAlly commission obligation is recorded/collected according to a
+supported Vendor-direct accounting model.
+
+Do NOT implement this model.
+
+Determine how much of it exists today.
+
+Classify Vendor-direct as:
+
+FULLY IMPLEMENTED
+
+PARTIALLY IMPLEMENTED
+
+CONFIGURATION ONLY
+
+LEGACY
+
+NOT IMPLEMENTED
+
+or
+
+INCONSISTENT.
+
+Explicitly establish:
+
+- whether Vendors can actually store their own provider credentials;
+- which providers support Vendor-owned credentials;
+- whether credentials are Shop-scoped;
+- whether Vendor A credentials are isolated from Vendor B;
+- whether checkout can actually resolve Vendor credentials;
+- whether callbacks can resolve the correct Vendor credentials;
+- where Customer funds would go;
+- whether AgendaAlly ever possesses those funds;
+- how AgendaAlly commission would be collected;
+- whether Vendor-direct creates Vendor balance/payable entries;
+- whether Vendor-direct incorrectly creates a platform payout obligation.
+
+============================================================
+5. WHY "USE MY OWN PAYMENT GATEWAY" IS DISABLED
+============================================================
+
+Complete the interrupted investigation into why the Vendor option:
+
+Use my own payment gateway
+
+is currently unavailable/unselectable.
+
+Do NOT stop at:
+
+"No provider is available."
+
+Trace the complete decision:
+
+Vendor collection preference
+→ Shop/business context
+→ Product context
+→ Service context
+→ transaction type
+→ country
+→ currency
+→ provider implementation
+→ provider capability
+→ country policy
+→ currency capability
+→ global activation
+→ environment readiness
+→ platform configuration
+→ Vendor configurability
+→ Vendor credentials
+→ collector configuration
+→ collector enabled state
+→ checkout readiness
+→ frontend selectability.
+
+For each relevant gate determine:
+
+- current value;
+- authoritative source;
+- relevant code;
+- whether it represents capability, policy, configuration, activation or
+  runtime readiness;
+- why it passes or fails.
+
+The objective is to identify the REAL root cause of the disabled option.
+
+Do NOT fix it during this audit.
+
+============================================================
+6. CAPABILITY VS CONFIGURATION VS READINESS
+============================================================
+
+Determine whether the current application incorrectly couples these concepts:
+
+CAPABILITY
+
+ELIGIBILITY
+
+CONFIGURABILITY
+
+CONFIGURED STATE
+
+ACTIVATION
+
+ENVIRONMENT READINESS
+
+CHECKOUT AVAILABILITY.
+
+These are not necessarily the same thing.
+
+For example, a provider could theoretically be:
+
+- implemented by AgendaAlly;
+- permitted for Cameroon;
+- capable of XAF;
+- eligible for Vendor-direct;
+
+while still having:
+
+- no Vendor credentials configured;
+- collector disabled;
+- missing environment configuration.
+
+In that situation the Vendor might reasonably need to be able to select and
+CONFIGURE the provider even though checkout must not expose it yet.
+
+Determine whether the existing application makes that distinction correctly.
+
+Do not change the model during this audit.
+
+============================================================
+7. CAMEROON / XAF
+============================================================
+
+Complete the repository-level implementation/readiness analysis for:
+
+- MTN;
+- Orange;
+- Flutterwave;
+- Paystack;
+
+and any other provider materially relevant to Cameroon/XAF in the current
+codebase.
+
+For each determine:
+
+- implementation exists?
+- payment initiation exists?
+- callback/webhook exists?
+- callback verification exists?
+- refund implementation exists?
+- platform-managed collection supported?
+- Vendor-direct supported?
+- Vendor credentials supported?
+- Product payments supported?
+- Service Booking payments supported?
+- Cameroon permitted?
+- XAF supported by THIS CODEBASE?
+- configuration available?
+- configured?
+- globally active?
+- environment ready?
+- collector configured?
+- collector enabled?
+- checkout ready?
+- current blocker(s)?
+
+Do not use external provider marketing claims as proof.
+
+This audit concerns what AgendaAlly currently implements.
+
+============================================================
+8. MTN AND ORANGE XAF DIAGNOSTICS
+============================================================
+
+Determine exactly why MTN and Orange currently report XAF unsupported in a
+Cameroon/XAF business context.
+
+Trace the authoritative currency capability source.
+
+Also explain the current diagnostic reasons where applicable:
+
+globally_disabled
+
+integration_unavailable
+
+environment_disabled
+
+country_policy_denied
+
+transaction_type_unsupported
+
+collector_not_configured
+
+collector_disabled
+
+currency_unsupported
+
+currency_support_unknown.
+
+Determine whether each diagnostic is:
+
+CORRECT
+
+MISLEADING
+
+DUPLICATED
+
+DERIVED FROM THE WRONG LAYER
+
+or
+
+CONFLATING CONFIGURABILITY WITH READINESS.
+
+Do NOT modify capability metadata.
+
+============================================================
+9. FLUTTERWAVE
+============================================================
+
+Determine Flutterwave's real implementation/readiness state.
+
+Trace:
+
+- provider implementation;
+- payment initiation;
+- platform credentials;
+- Vendor credentials if supported;
+- Product support;
+- Service support;
+- country policy;
+- XAF capability;
+- callback/webhook;
+- callback verification;
+- amount/currency verification;
+- refund support;
+- idempotency;
+- checkout integration;
+- global activation;
+- environment readiness.
+
+Classify it accurately.
+
+Do not activate it.
+
+============================================================
+10. PAYSTACK
+============================================================
+
+Perform the equivalent analysis for Paystack.
+
+Determine whether it is:
+
+implemented but disabled;
+
+implemented but environment-unready;
+
+partially implemented;
+
+platform-managed only;
+
+Vendor-direct capable;
+
+configuration/UI only;
+
+or otherwise incomplete.
+
+Do not activate it.
+
+============================================================
+11. ACCOUNTING ARCHITECTURE
+============================================================
+
+Trace the authoritative accounting flow:
+
+Transaction
+→ payment success
+→ commission/platform fee
+→ Vendor entitlement/balance
+→ payable ledger
+→ payout eligibility
+→ payout.
+
+Perform this analysis separately for:
+
+A. platform-managed electronic payments;
+
+B. Vendor-direct electronic payments;
+
+C. Cash;
+
+D. Wallet.
+
+For each answer:
+
+WHO COLLECTS THE CUSTOMER'S MONEY?
+
+WHO RECEIVES/HOLDS IT FIRST?
+
+DOES AGENDAALLY ACTUALLY RECEIVE THE PRINCIPAL?
+
+IS A VENDOR BALANCE CREDITED?
+
+IS A PLATFORM PAYOUT OBLIGATION CREATED?
+
+HOW IS AGENDAALLY COMMISSION RECORDED?
+
+HOW IS AGENDAALLY COMMISSION ACTUALLY RECOVERED?
+
+WHAT HAPPENS ON CANCELLATION?
+
+WHAT HAPPENS ON REFUND?
+
+WHAT HAPPENS IF PAYMENT FAILS?
+
+Do not infer legal merchant-of-record status if the repository does not
+establish it.
+
+Mark that UNCERTAIN where appropriate.
+
+============================================================
+12. DOUBLE-CREDIT / DOUBLE-PAYOUT RISK
+============================================================
+
+Explicitly determine whether Vendor-direct could result in:
+
+Customer
+→ Vendor merchant account
+
+AND ALSO:
+
+AgendaAlly
+→ Vendor balance/payable/payout obligation
+
+for the same principal amount.
+
+Trace:
+
+provider success
+→ Transaction
+→ observer/listener
+→ commission
+→ Vendor balance
+→ payable ledger
+→ payout eligibility.
+
+A Vendor must not receive Customer funds directly and then also receive a
+platform payout for the same principal unless the architecture explicitly
+proves why that is correct.
+
+Also check the inverse problem:
+
+Could platform-managed collection receive Customer funds but FAIL to create
+the Vendor entitlement/payout obligation that should exist?
+
+Do NOT fix accounting during this audit.
+
+============================================================
+13. CASH
+============================================================
+
+Determine how Cash fits into the accounting model.
+
+Audit:
+
+- who can select Cash;
+- when a Cash Transaction is created;
+- who can mark it paid;
+- what "paid" means for Cash;
+- when commission becomes owed;
+- whether Vendor entitlement is created;
+- whether a platform payout obligation is created;
+- whether AgendaAlly ever actually possessed the Cash;
+- whether Cash can incorrectly produce a Vendor payout for funds already
+  received directly by the Vendor;
+- cancellation/refund behavior.
+
+Preserve the previously completed Cash authorization containment.
+
+Do not disable Cash.
+
+============================================================
+14. WALLET
+============================================================
+
+Determine how Wallet fits into the collection/accounting model.
+
+Audit:
+
+- authoritative balance source;
+- debit/credit records;
+- transaction boundaries;
+- payment use;
+- refund use;
+- Booking cancellation use;
+- idempotency;
+- concurrency protection;
+- negative-balance behavior;
+- relationship to provider payments;
+- relationship to Vendor entitlement;
+- relationship to Vendor payout.
+
+Do not mutate Wallet balances.
+
+============================================================
+15. REFUNDS
+============================================================
+
+Determine how refunds are supposed to work for:
+
+- platform-managed provider payments;
+- Vendor-direct provider payments;
+- Cash;
+- Wallet;
+- Product Orders;
+- Service Bookings.
+
+Trace:
+
+refund request
+→ authorization
+→ provider refund where applicable
+→ Transaction
+→ commerce status
+→ Vendor entitlement
+→ commission reversal
+→ payable ledger
+→ payout consequences
+→ Wallet where applicable.
+
+Determine architectural gaps.
+
+Do not issue a real refund.
+
+============================================================
+16. PAYOUTS
+============================================================
+
+Determine whether AgendaAlly currently has a complete payout implementation.
+
+Trace:
+
+Vendor entitlement
+→ available/pending balance
+→ payout eligibility
+→ payout request/creation
+→ payout destination
+→ provider/bank integration
+→ payout execution
+→ status
+→ failure
+→ retry
+→ reconciliation
+→ reversal.
+
+Determine:
+
+- whether payouts are manual or automatic;
+- Admin authority;
+- Vendor authority;
+- whether payout destination is implemented;
+- whether provider/bank transfer actually exists;
+- whether payout idempotency exists;
+- whether the current implementation is real or only accounting/UI
+  scaffolding.
+
+Do not execute a payout.
+
+============================================================
+17. CALLBACKS / WEBHOOKS
+============================================================
+
+For implemented electronic providers, determine whether callbacks/webhooks
+authoritatively verify:
+
+- signature/authenticity;
+- correct secret;
+- platform vs Vendor credential ownership;
+- Transaction;
+- payable;
+- Customer;
+- Shop;
+- amount;
+- currency;
+- provider reference;
+- collection mode;
+- payment context.
+
+Determine whether callbacks protect against:
+
+- replay;
+- duplicate delivery;
+- out-of-order events;
+- repeated paid transitions;
+- duplicate accounting;
+- duplicate Vendor entitlement;
+- duplicate commission;
+- duplicate ledger entries.
+
+Do not execute destructive callback tests against existing financial data.
+
+============================================================
+18. IDEMPOTENCY / CONCURRENCY
+============================================================
+
+Determine whether payment/accounting operations are safely idempotent for:
+
+- initiation;
+- callback processing;
+- paid transition;
+- commission creation;
+- Vendor entitlement;
+- payable ledger;
+- Wallet;
+- refunds;
+- payouts.
+
+Document duplicate-payment/accounting risks.
+
+Do not turn this into an unrelated general concurrency audit.
+
+============================================================
+19. PRODUCT PAYMENT FLOW
+============================================================
+
+Trace Product payment end-to-end:
+
+Customer/cart
+→ Shop(s)
+→ collection mode
+→ payment method
+→ authoritative amount
+→ authoritative currency
+→ provider resolution
+→ initiation
+→ provider result
+→ callback/verification
+→ Transaction
+→ Order
+→ commission
+→ Vendor entitlement
+→ ledger
+→ payout/refund.
+
+Determine whether multi-Shop/multi-Vendor carts are safely handled.
+
+============================================================
+20. SERVICE BOOKING PAYMENT FLOW
+============================================================
+
+Trace Service Booking payment end-to-end:
+
+Customer
+→ Service
+→ Shop
+→ Specialist/Master where applicable
+→ authoritative price
+→ collection mode
+→ payment method
+→ provider
+→ Transaction
+→ Booking
+→ commission
+→ Vendor entitlement
+→ ledger
+→ payout/refund.
+
+Determine whether Product and Service payments use one coherent architecture
+or divergent/legacy paths.
+
+Do not investigate unrelated Booking authorization surfaces during this pass.
+
+============================================================
+21. PROVIDER / CREDENTIAL ISOLATION
+============================================================
+
+Determine the authoritative sources for:
+
+PLATFORM PROVIDER CONFIGURATION
+
+and
+
+VENDOR PROVIDER CONFIGURATION.
+
+Audit whether secrets/settings are correctly isolated.
+
+Determine:
+
+- storage;
+- encryption;
+- Shop scoping;
+- platform scoping;
+- API serialization;
+- frontend exposure;
+- log exposure;
+- exception exposure;
+- Vendor A vs Vendor B isolation;
+- Seller/Staff access;
+- Customer API exposure.
+
+Never print actual credentials.
+
+Use redacted presence/readiness information only.
+
+============================================================
+22. CURRENT ARCHITECTURE VS INTENDED MODEL
+============================================================
+
+Produce a dedicated matrix comparing CURRENT implementation against the
+intended collection model.
+
+For each major capability classify:
+
+ALREADY CORRECT
+
+PARTIALLY IMPLEMENTED
+
+MISSING
+
+CONFLICTING
+
+UNSAFE
+
+UNCERTAIN.
+
+Include:
+
+- platform collection;
+- platform credentials;
+- Vendor-direct;
+- Vendor credentials;
+- provider capability;
+- provider eligibility;
+- Vendor configurability;
+- configured state;
+- activation;
+- environment readiness;
+- checkout readiness;
+- Product payments;
+- Service payments;
+- Cash;
+- Wallet;
+- commission;
+- Vendor entitlement;
+- accounting;
+- callbacks;
+- idempotency;
+- refunds;
+- payouts;
+- Cameroon/XAF.
+
+============================================================
+23. PROVIDER MATRIX
+============================================================
+
+Produce an authoritative provider matrix.
+
+At minimum include:
+
+Provider
+
+Implementation status
+
+Platform-managed support
+
+Vendor-direct support
+
+Products
+
+Services
+
+Cameroon policy
+
+XAF capability
+
+Vendor configuration available
+
+Platform configuration available
+
+Environment ready
+
+Callback/verification
+
+Refund support
+
+Current activation
+
+Checkout readiness
+
+Key blocker(s).
+
+Explicitly distinguish:
+
+IMPLEMENTED
+
+from
+
+REPRESENTED IN CONFIGURATION/UI.
+
+============================================================
+24. IMPORTANT SCOPE CONTROL
+============================================================
+
+Do NOT proactively branch into unrelated security investigations during this
+pass.
+
+In particular, do not independently expand into:
+
+- Booking notes/time authorization;
+- unrelated Staff authorization;
+- Driver authorization;
+- Pickup authorization;
+- scheduling authorization;
+- general CRUD authorization;
+- unrelated Customer privacy issues;
+- unrelated Shop-management permissions.
+
+If an incidental P1, P2 or P3 issue is discovered:
+
+DOCUMENT IT FOR LATER.
+
+Do NOT stop the architecture audit.
+
+Do NOT expand that finding into a separate investigation during this pass
+unless doing so is STRICTLY NECESSARY to answer one of the payment-architecture
+questions explicitly authorized above.
+
+This restriction is important.
+
+The objective of this pass is to COMPLETE the payment architecture analysis,
+not continually branch into adjacent security work.
+
+============================================================
+25. MANDATORY P0 EXCEPTION
+============================================================
+
+The existing P0 safety boundary remains in effect.
+
+If, while performing the authorized payment architecture analysis, you
+encounter a NEW:
+
+SOURCE-CONFIRMED
+
+IMMEDIATELY EXPLOITABLE
+
+P0
+
+involving payment or financial mutation:
+
+STOP.
+
+Do not remediate it automatically.
+
+Report:
+
+- affected route/path;
+- actors;
+- missing boundary;
+- financial impact;
+- source evidence;
+- whether an exploit was executed;
+- financial fingerprint result.
+
+Do not manufacture additional investigations solely to search for P0s outside
+the payment architecture scope.
+
+============================================================
+26. READ-ONLY BOUNDARY
+============================================================
+
+This remains READ-ONLY.
+
+Do NOT:
+
+- activate MTN;
+- activate Orange;
+- activate Flutterwave;
+- activate Paystack;
+- activate Stripe;
+- activate PayPal;
+- activate any provider;
+- configure provider credentials;
+- modify Vendor credentials;
+- change provider capability;
+- change country policy;
+- change currency support;
+- change collection preferences;
+- fix "Use my own payment gateway";
+- implement Vendor-direct;
+- modify payment settings;
+- modify Cash;
+- modify Wallet balances;
+- modify commissions;
+- modify Vendor balances;
+- modify payables;
+- issue refunds;
+- execute payouts;
+- change Transaction statuses;
+- submit real payments;
+- submit real Product orders;
+- submit real Service bookings;
+- redesign payment UI;
+- modify Booking notes/times;
+- change Driver/Pickup;
+- publish.
+
+============================================================
+27. FINANCIAL STATE PROTECTION
+============================================================
+
+Maintain the established protected-state methodology.
+
+Current baseline:
+
+53 protected tables
+
+including:
+
+`platform_fee_ledger_entries`.
+
+At completion—or at a mandatory P0 stop—compare:
+
+- protected table set;
+- row counts;
+- fingerprints.
+
+Existing application financial data must remain unchanged.
+
+Isolated test databases must not be confused with existing application state.
+
+============================================================
+28. REPORT
+============================================================
+
+Continue/update:
+
+docs/development/payment-system-full-audit.md
+
+Do NOT create a disconnected replacement audit unless needed for supporting
+receipts.
+
+The report should prioritize architecture conclusions over a chronological
+description of every source file inspected.
+
+============================================================
+29. REQUIRED DECISION SUMMARY
+============================================================
+
+At completion give me a concise decision summary answering:
+
+1. What does AgendaAlly Payments actually do today?
+
+2. Does platform electronic collection really work end-to-end?
+
+3. Whose credentials does platform collection use?
+
+4. Where does Customer money go first under platform collection?
+
+5. What creates authoritative payment success?
+
+6. How is AgendaAlly commission recorded?
+
+7. How is Vendor entitlement represented?
+
+8. When and why does AgendaAlly owe a Vendor a payout?
+
+9. What does "Use my own payment gateway" actually do today?
+
+10. Is Vendor-direct actually implemented?
+
+11. Why is "Use my own payment gateway" currently disabled?
+
+12. Can Vendors safely configure their own gateways today?
+
+13. Which providers support Vendor-owned credentials?
+
+14. Where does Customer money go under Vendor-direct?
+
+15. How would AgendaAlly receive/record commission under Vendor-direct?
+
+16. Can Vendor-direct create a duplicate Vendor balance or payout obligation?
+
+17. Which providers actually work for Cameroon/XAF in THIS codebase?
+
+18. Why do MTN/Orange currently report XAF unsupported?
+
+19. What is Flutterwave's actual state?
+
+20. What is Paystack's actual state?
+
+21. Are capability, configurability and checkout readiness properly separated?
+
+22. Are provider callbacks authoritative and idempotent?
+
+23. Are platform and Vendor credentials safely isolated?
+
+24. Are Product and Service payment architectures coherent?
+
+25. Is Cash accounted for correctly?
+
+26. Is Wallet accounted for correctly?
+
+27. Are refunds architecturally correct for both collection models?
+
+28. Is the payout implementation complete and safe?
+
+29. Is there any double-credit/double-payout risk?
+
+30. What is missing before real electronic payments can safely be enabled?
+
+31. What is missing before Vendor-owned gateways can safely be enabled?
+
+32. What is the recommended implementation sequence?
+
+============================================================
+30. REMEDIATION PLAN — PROPOSAL ONLY
+============================================================
+
+After the architecture analysis, propose the implementation/remediation
+sequence.
+
+Do NOT implement it.
+
+Prioritize approximately:
+
+PHASE 0
+Any remaining critical payment-security prerequisite.
+
+PHASE 1
+Canonical capability / eligibility / configurability / readiness model.
+
+PHASE 2
+Platform-managed collection correctness.
+
+PHASE 3
+Vendor-direct / own-gateway architecture.
+
+PHASE 4
+Cameroon/XAF provider implementation and readiness.
+
+PHASE 5
+Callbacks / verification / idempotency.
+
+PHASE 6
+Commission / Vendor entitlement / accounting.
+
+PHASE 7
+Refund architecture.
+
+PHASE 8
+Payout / settlement / reconciliation.
+
+PHASE 9
+Vendor/Admin/Customer payment UX.
+
+PHASE 10
+End-to-end production-readiness verification.
+
+For each phase briefly state:
+
+- objective;
+- dependencies;
+- major risk;
+- likely code areas;
+- migrations if needed;
+- tests required;
+- completion criteria.
+
+Do not implement any phase.
+
+============================================================
+31. FINAL STOP
+============================================================
+
+Finish this architecture audit BEFORE proposing another optional task.
+
+If no new qualifying P0 forces an earlier stop:
+
+complete the architecture report and STOP.
+
+Do NOT automatically:
+
+- investigate another optional security workstream;
+- fix a P1/P2/P3;
+- implement the remediation plan;
+- fix "Use my own payment gateway";
+- activate a provider;
+- configure credentials;
+- enable Vendor-direct;
+- modify payment economics;
+- publish.
+
+Return:
+
+1. executive payment architecture summary;
+
+2. AgendaAlly Payments findings;
+
+3. Vendor-direct findings;
+
+4. "Use my own payment gateway" root cause;
+
+5. Cameroon/XAF provider matrix;
+
+6. current-vs-intended architecture matrix;
+
+7. money-flow/accounting findings;
+
+8. commission/Vendor entitlement findings;
+
+9. callback/idempotency findings;
+
+10. Cash/Wallet findings;
+
+11. refund findings;
+
+12. payout findings;
+
+13. double-credit/double-payout assessment;
+
+14. production-readiness blockers;
+
+15. recommended implementation sequence;
+
+16. final 53-table fingerprint result.
+
+Then wait for explicit approval before implementing anything.
